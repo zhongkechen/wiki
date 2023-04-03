@@ -4,6 +4,6 @@
 @import "{{ site.theme }}";
 
 header h1:before {
-  content: "";
+  content: "&nbsp;&nbsp; ";
   font-size: 24px;
 }
