@@ -9,5 +9,9 @@
 - [去中心化](去中心化.md)： Decentralization，摆脱互联网巨头对互联网的控制，回归互联网的本质
 - [YubiKey](YubiKey.md) ：来自Yubico公司的安全密钥
 
-旧网站
+## 其它
+
+- [乒乓球](乒乓球.md)
+
+## 旧网站
  - [https://wiki.ch3n2k.com/](https://wiki.ch3n2k.com/) 不再更新
