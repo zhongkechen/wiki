@@ -13,8 +13,8 @@
 
 - [乒乓球](乒乓球.md)
 - [围棋](围棋.md)
-- 
-
+- [Tetris](Tetris.md)
 
 ## 旧网站
+
  - [https://wiki.ch3n2k.com/](https://wiki.ch3n2k.com/) 不再更新
