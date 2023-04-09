@@ -12,6 +12,11 @@
    * [捐赠法](https://www.gcores.com/videos/113229)
    * [极简化操作](https://www.gcores.com/articles/113715)
 
+比赛
+
+- [Classic Tetris World Championship](https://en.wikipedia.org/wiki/Classic_Tetris_World_Championship)
+- 
+
 背景故事
 
 - [Tetris电影](https://en.wikipedia.org/wiki/Tetris_(film))
