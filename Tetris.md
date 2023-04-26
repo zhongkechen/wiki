@@ -17,7 +17,15 @@
 - [Classic Tetris World Championship](https://en.wikipedia.org/wiki/Classic_Tetris_World_Championship)
 - [Ecstasy of Order: The Tetris Masters (2011) - IMDb](https://www.imdb.com/title/tt1836974/)
 - 
+开局定式
+- tki
+- mko
+- gamushiro stacking
 
+游戏软件
+
+- four-tris
+- 
 背景故事
 
 - [Tetris电影](https://en.wikipedia.org/wiki/Tetris_(film))
