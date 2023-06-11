@@ -17,20 +17,23 @@
 - [Classic Tetris World Championship](https://en.wikipedia.org/wiki/Classic_Tetris_World_Championship)
 - [Ecstasy of Order: The Tetris Masters (2011) - IMDb](https://www.imdb.com/title/tt1836974/)
 - 
+
 开局定式
 - tki
 - mko
 - gamushiro stacking
 - tst tower 
 - dt cannon 
+
 游戏软件
 
 - four-tris
 - 
+
 背景故事
 
-- [Tetris电影](https://en.wikipedia.org/wiki/Tetris_(film))
-- [Tetris版权之争](https://www.youtube.com/watch?v=_fQtxKmgJC8)
+- [2023年电影《Tetris》](https://en.wikipedia.org/wiki/Tetris_(film))
+- [Youtube视频《The Story of Tetris | Gaming Historian》](https://www.youtube.com/watch?v=_fQtxKmgJC8)
 
 References
 
