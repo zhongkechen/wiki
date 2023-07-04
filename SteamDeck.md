@@ -93,6 +93,13 @@
                      /org/kde/KIOFuse \
                      org.kde.KIOFuse.VFS.mountUrl "string:smb://server/share"
 
+## 12. 双启动
+
+可以用如下方法之一来启动SD卡中的系统：
+
+- 在启动时按住`音量减`键，听到声音后松开，可以选择启动哪个系统
+- 安装 [GitHub - ryanrudolfoba/SteamDeck-Clover-dualboot: Script to install Clover - a graphical boot manager for the Steam Deck.](https://github.com/ryanrudolfoba/SteamDeck-Clover-dualboot) ，然后每次启动时都可以自动弹出系统选单。
+
 ## 参考文档
 
 -   [https://store.steampowered.com/steamdeck](https://store.steampowered.com/steamdeck)
