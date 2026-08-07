@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - old/首页.qmd
+  resources:
+    - CNAME
+
+lang: zh
+
+website:
+  title: "Zhongke's Personal Wiki"
+  site-url: https://gw.ch3n2k.com
+  search: true
+  navbar:
+    left:
+      - href: old/首页.qmd
+        text: 首页
+  page-footer:
+    center: "Zhongke's shared personal notes"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    html-math-method: mathjax
+    link-external-newwindow: true
