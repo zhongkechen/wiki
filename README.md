@@ -17,4 +17,5 @@
 
 ## 旧网站
 
- - [https://wiki.ch3n2k.com/](https://wiki.ch3n2k.com/) 不再更新
+- [旧版首页](old/首页.qmd)
+- [https://wiki.ch3n2k.com/](https://wiki.ch3n2k.com/) 不再更新
