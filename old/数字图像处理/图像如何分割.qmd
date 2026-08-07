@@ -1,0 +1,222 @@
+---
+title: "图像如何分割"
+---
+
+[返回“数字图像处理”](../数字图像处理.qmd)
+
+## 点、线、边缘的检测
+点、线、边缘的检测常用空域滤波的方法进行。
+
+$$
+R = w_1z_1+w_2z_2+\dots +w_9z_9=\sum_{i=1}^{9}w_iz_i
+$$
+
+### 检测孤立点
+检测孤立点采用的滤波模板是
+
+```
+-1 -1 -1
+-1  8 -1
+-1 -1 -1
+```
+
+检测的标准是判断滤波后的绝对值是否大于某一阈值
+
+$$
+|R| \ge T
+$$
+
+在matlab中可以用如下方法实现：
+
+```
+g = abs(imfilter(f, w)) >= T;
+```
+
+另一种检测方法是看一个邻域内的最大值和最小值的差是否超过某个阈值。实现方法是：
+
+```
+g = imsubtract(ordfilt2(f, m*n, ones(m,n)), ordfilt2(f, 1, ones(m,n))) >= T;
+```
+
+![figure1002.png](<assets/图像如何分割/figure1002.png>)
+
+### 线检测
+线检测的模板可以是：
+
+![figure1001.png](<assets/图像如何分割/figure1001.png>)
+
+如果对某一方向的线感兴趣，可以使用相应的模板做滤波后进行阈值处理。
+
+![figure1003.png](<assets/图像如何分割/figure1003.png>)
+
+### 边缘检测
+边缘所满足的条件：
+* 像素值的一阶导数的绝对值大于指定阈值
+* 像素值的二阶导数有零交叉。
+
+![figure1004.png](<assets/图像如何分割/figure1004.png>)
+
+Sobel：
+
+$$
+g = \sqrt{ [(z_7+2z_8+z_9) - (z_1 + 2z_2 + z_3)]^2 + [(z_3+2z_6+z_9)-(z_1+2z_4+z_7))]^2 }
+$$
+
+```
+g = edge(f, 'sobel', T, dir)
+```
+
+f是输入图像，T是一个阈值，dir是方向（'horizontol'或者'vertical'或者'both'）
+
+Prewitt:
+
+```
+g = edge(f, 'prewitt', T, dir)
+```
+
+Roberts:
+
+```
+g = edge(f, 'roberts', T, dir)
+```
+
+Laplacian of Gaussian:
+
+```
+g = edge(f, 'log', T, sigma)
+```
+
+sigma为标准差，默认是2。
+
+检测零交叉：
+
+```
+g = edge(f, 'zerocross', T, H)
+```
+
+H指定卷积的模板。
+
+Canny：
+
+```
+g = edge(f, 'canny', T, sigma)
+```
+
+![figure1005.png](<assets/图像如何分割/figure1005.png>)
+
+![figure1006.png](<assets/图像如何分割/figure1006.png>)
+
+## Hough变换
+给定(xi,yi)点，经过该点的直线参数a和b满足：yi=axi+b，a为斜率，b为截距。将经过该点的所有可能的a和b画在ab构成的参数坐标系内，可以得到一条直线。
+
+![figure1007.png](<assets/图像如何分割/figure1007.png>)
+
+原图像上的直线y = ax+b上所有点在参数空间内对应的直线会交在同一点，这点的坐标就是所求的参数值。
+
+由于a可能为无穷大，所以在计算上不方便。我们将直线方程写成参数形式：
+
+$$
+x\cos\theta + y\sin\theta = \rho
+$$
+
+原始图像上的一个点，对应于参数空间上的一条曲线：
+
+![figure1008.png](<assets/图像如何分割/figure1008.png>)
+
+例子：
+
+![figure1009.png](<assets/图像如何分割/figure1009.png>)
+
+峰值检测：
+1. 找到最大值，记下它的位置
+1. 将上一位置周围邻域中的值设为0
+1. 重复前两个步骤，直到检测到所需数量的直线或者低于某一特定的阈值
+
+线检测和链接
+1. 找到小的裂口，将其合并
+1. 找出比最小阈值长的直线段
+
+```
+[H, theta, rho] = hough(f);
+[r c] = houghpeaks(H, 5);
+lines = houghlines(f, theta, rho, r, c);
+```
+
+例子：
+
+![figure1010.png](<assets/图像如何分割/figure1010.png>)
+
+## 阈值处理
+f(x,y)是原始图像，经过阈值处理后的图像g定义为：
+
+$$
+g(x, y) = \begin{cases}
+1 & if\ f(x,y) \ge T \\
+0 & if\ f(x,y) < T \\
+\end{cases}
+$$
+
+T为阈值。如果T为常数，则称为**全局阈值处理**。如果允许T发生变化，则称为**局部阈值处理**。
+
+### 全局阈值
+
+选取全局阈值的方法之一是目视检查直方图。
+
+![figure1011.png](<assets/图像如何分割/figure1011.png>)
+
+自动选择阈值的方法：
+1. 为T选择一个初始估计值（比如最大亮度和最小亮度的中间值）
+1. 使用T分割图像，产生两组像素：亮度值>=T的G1和亮度值<T的G2
+1. 计算G1和G2内像素的平均值u1和u2
+1. 计算一个新的阈值T = (u1+u2)/2。
+1. 重复2-4，直到两次之间T的差值小于给定参数T0。
+
+![figure1012.png](<assets/图像如何分割/figure1012.png>)
+
+### 局部阈值
+
+略
+
+## 区域分割
+
+将一个区域R分成多个区域Ri，并且满足：
+ *
+
+$$
+\bigcup_{i=1}^{n}R_i = R
+$$
+
+* Ri是一个连续区域
+* $R_i\cap R_j = \phi$
+* $P(R_i) = TRUE$
+* $P(R_i\cup R_j)=FALSE$
+我们称为Ri是R的区域分割。
+
+### 区域生长
+
+以某些种子为起点，向周围生长。生长中，区域要满足一定的准则。若不能满足，则停止生长。
+
+![figure1013.png](<assets/图像如何分割/figure1013.png>)
+
+```
+[g, NR, SI, TI] = regiongrow(f, S, T);
+```
+
+### 区域分裂合并
+
+1. 分裂：若一个区域不满足给定条件，则将它分成四个区域，对每个区域再做同样的操作。
+1. 合并：任何相邻的区域，如果合并了也能满足给定条件，那么就合并它们。
+
+![figure1014.png](<assets/图像如何分割/figure1014.png>)
+
+![figure1015.png](<assets/图像如何分割/figure1015.png>)
+
+## 分水岭算法
+
+![figure1016.png](<assets/图像如何分割/figure1016.png>)
+
+![figure1017.png](<assets/图像如何分割/figure1017.png>)
+
+![figure1018.png](<assets/图像如何分割/figure1018.png>)
+
+![figure1019.png](<assets/图像如何分割/figure1019.png>)

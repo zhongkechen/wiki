@@ -1,0 +1,391 @@
+---
+title: "图像的数学形态学处理"
+---
+
+[返回“数字图像处理”](../数字图像处理.qmd)
+
+## 预备知识
+
+### 集合论
+
+若点w=(x,y)是A的一个元素，记为：
+
+$$
+w\in A
+$$
+
+若点w=(x,y)不是A的一个元素，记为：
+
+$$
+w\notin A
+$$
+
+所有不属于A的坐标的集合，称为A的**补集**，记为$A^c$：
+
+$$
+A^c=\{w|w\notin A\}
+$$
+
+集合A和集合B的**并集**指所有属于集合A或者集合B的元素的集合，记为
+
+$$
+C = A \cup B
+$$
+
+集合A和集合B的**交集**是指同时属于这集合的元素的集合，记为
+
+$$
+C = A \cap B
+$$
+
+集合A和集合B的**差集**记为A-B，指所有属于A但不属于B的元素的集合：
+
+$$
+A-B = \{ w|w\in A, w \notin B \}
+$$
+
+![figure91.png](<assets/图像的数学形态学处理/figure91.png>)
+
+B的**映像**记为$\hat{B}$，定义为
+
+$$
+\hat{B} = \{ w|w=-b, b \in B \}
+$$
+
+对A的**平移**z($z = (z_1, z_2)$)记为$(A)_z$，定义为
+
+$$
+(A)_z=\{ c|c=a+z, a\in A \}
+$$
+
+![figure92.png](<assets/图像的数学形态学处理/figure92.png>)
+
+### 二值图像的集合运算
+点的集合A可以用一幅二值的图像A来表示：
+
+$$
+A(x,y) = \begin{cases}
+1 & if (x,y) \in A \\
+0 & if (x,y) \notin A \\
+\end{cases}
+$$
+
+这样，点的集合运算可以表示为二值图像的逻辑运算，比如：
+
+$$
+C = A \cup B = \{(x,y)|(x,y) \in A or (x,y) \in B \}
+$$
+
+等价于
+
+$$
+C(x,y) = \begin{cases}
+1 & if\ A(x,y) = 1\ or\ B(x,y) = 1 \\
+0 & otherwise \\
+\end{cases}
+$$
+
+![table91.png](<assets/图像的数学形态学处理/table91.png>)
+
+例子：
+
+![figure93.png](<assets/图像的数学形态学处理/figure93.png>)
+
+## 膨胀和腐蚀
+
+### 膨胀
+
+**膨胀**是使二值图像**变粗**的操作。变粗的程度由**结构元素**来控制。膨胀的过程可以由下图来说明：
+
+![figure94.png](<assets/图像的数学形态学处理/figure94.png>)
+
+膨胀操作记为：
+
+$$
+A \oplus B = \{ z|(\hat{B})_z \cap A \neq \phi \}
+$$
+
+非对称的结构元素，需要先将其映射
+
+![figure95.png](<assets/图像的数学形态学处理/figure95.png>)
+
+在matlab中实现:
+
+```
+C = imdilate(A, B);
+```
+
+![figure96.png](<assets/图像的数学形态学处理/figure96.png>)
+
+### 结构元素的分解
+
+膨胀运算满足结合律：
+
+$$
+A\oplus (B \oplus C) = (A \oplus B) \oplus C
+$$
+
+如果一个结构元素B可以分解成两个结构元素B1和B2的膨胀
+
+$$
+B=B_1\oplus B_2
+$$
+
+那么
+
+$$
+A\oplus B = A \oplus (B_1 \oplus B_2) = (A \oplus B_1) \oplus B_2
+$$
+
+计算膨胀所需要的时间正比于结构元素中非零像素的个数。如果分解后非零像素减少，那就可以节省计算时间。例如
+
+$$
+\left[\begin{array}{ccccc}
+1 &1& 1& 1& 1\\
+1 &1& 1& 1& 1\\
+1 &1& \boxed{1}& 1& 1\\
+1 &1& 1& 1& 1\\
+1 &1& 1& 1& 1
+\end{array}\right]
+$$
+
+可以分解为
+
+$$
+[1\ 1\ \boxed{1}\ 1\ 1] \oplus \left[ \begin{array}{c}1\\1\\\boxed{1}\\1\\1\end{array}\right]
+$$
+
+### 常用的结构元素
+
+在matlab中，可以用strel函数，生成一些常用的结构元素。
+
+![table92.png](<assets/图像的数学形态学处理/table92.png>)
+
+strel返回的不是矩阵，而是一个strel对象，它可以直接传给imdilate作为参数。也可以通过getnhood得到对应的矩阵。例如：
+
+```
+se = strel('diamond', 3)
+B = getnhood(se)
+```
+
+### 腐蚀
+
+**腐蚀**操作可以细化二值图像。细化的程度同样由一个结构元素控制。下图说明了腐蚀的过程：
+
+![figure97.png](<assets/图像的数学形态学处理/figure97.png>)
+
+腐蚀定义为：
+
+$$
+A \ominus B = \{ z|(B)_z \cap A^c = \phi \}
+$$
+
+腐蚀可以用膨胀来表示：
+
+$$
+A \ominus B = \{ z|(B)_z \cap A^c = \phi \} = \{ z|(B)_z \cap A^c \neq \phi \}^c = (A^c \oplus \hat{B})^c
+$$
+
+在matlab中实现：
+
+```
+C = imerode(A, B);
+```
+
+![figure98.png](<assets/图像的数学形态学处理/figure98.png>)
+
+## 组合运算
+
+### 开运算和闭运算
+
+A与B的开运算定义为：
+
+$$
+A\circ B = (A \ominus B) \oplus B
+$$
+
+A与B的闭运算定义为：
+
+$$
+A\bullet B = (A \oplus B)\ominus B
+$$
+
+![figure99.png](<assets/图像的数学形态学处理/figure99.png>)
+
+在matlab中实现：
+
+```
+C = imopen(A, B)
+C = imclose(A, B)
+```
+
+![figure910.png](<assets/图像的数学形态学处理/figure910.png>)
+
+![figure911.png](<assets/图像的数学形态学处理/figure911.png>)
+
+### 击中击不中运算
+
+击中击不中运算定义为：
+
+$$
+A \otimes B = (A\ominus B_1) \cap (A^c\ominus B_2)
+$$
+
+![figure912.png](<assets/图像的数学形态学处理/figure912.png>)
+
+在matlab中实现
+
+```
+c = bwhitmiss(A, B1, B2);
+```
+
+![figure913.png](<assets/图像的数学形态学处理/figure913.png>)
+
+### 其他复合操作
+
+在matlab中，使用bwmorph可以实现多种形态学运算
+
+![table93.png](<assets/图像的数学形态学处理/table93.png>)
+
+用法：
+
+```
+g = bwmorph(f, operation, n);
+```
+
+其中，operation是一个指定操作的字符串，n指定操作的重复次数，缺省是1。
+
+例子：
+
+```
+g1 = bwmorph(f, 'thin', 1);
+g2 = bwmorph(f, 'thin', 2);
+ginf = bwmorph(f, 'thin', Inf);
+```
+
+![figure915.png](<assets/图像的数学形态学处理/figure915.png>)
+
+骨骼化（也称为提取骨架）：
+
+```
+fs = bwmorph(f, 'skel', Inf);
+```
+
+![figure916.png](<assets/图像的数学形态学处理/figure916.png>)
+
+骨骼化的结果中会有一些毛刺，我们可以对起进行修剪，使用endpoints函数实现：
+
+```
+fs = fs&~endpoints(fs)
+```
+
+## 标记连通分量
+
+### 标记连通分量
+
+![figure917.png](<assets/图像的数学形态学处理/figure917.png>)
+
+一个像素p的上下左右四个像素称为**4邻接**像素，上下左右再加上四个对角线像素称为**8邻接**像素。
+
+如果两个像素p1和pn之间存在一系列像素p1,p2,...pn，其中每相邻两个之间都是4邻接的，则称p1和pn是**4连通**的；如果每相邻两个像素之间都是8邻接的，则称p1和pn是**8连通**的；如果不存在这样的路径，则称为p1和pn是**不连通**的。p1,p2,...pn称为p1到pn的一条**路径**。与p连通的所有像素的集合称为包含p的**连通分量**。
+
+在matlab中，可以由bwlabel函数来找出连通分量，为不同的连通分量标上不同的标记。
+
+```
+[L num] = bwlabel(f, conn)
+```
+
+conn是4或者8，表示选择4连通或者8连通。
+
+![figure918.png](<assets/图像的数学形态学处理/figure918.png>)
+
+![figure919.png](<assets/图像的数学形态学处理/figure919.png>)
+
+![figure920.png](<assets/图像的数学形态学处理/figure920.png>)
+
+## 形态学重构
+
+### 形态学重构
+
+**重构(reconstruct)**操作需要一个标记(marker)图像f、一个掩模(mask)图像g和一个结构元素B，记为$R_g(f)$。其中标记图像f必须是掩模图像g的子集。
+
+重构操作的计算过程可以表达为：
+1. h1初始化为标记图像，g为掩模，B为结构元素ones(3)；
+1. 重复如下操作
+
+$$
+h_{k+1} = (h_k \oplus B) \cap g
+$$
+
+直到$h_{k+1} = h_k$
+![figure921.png](<assets/图像的数学形态学处理/figure921.png>)
+
+matlab实现：
+
+```
+h = imreconstruct(marker, mask);
+```
+
+### 由重构做开运算
+
+普通的开运算可以去掉较小的对象，操作是先腐蚀，再膨胀。但是开运算在膨胀中会使形状变形。
+
+可以用重构代替膨胀来做开运算，这个运算定义为$R_f(f\ominus B)$
+
+例子：
+
+![figure922.png](<assets/图像的数学形态学处理/figure922.png>)
+
+### 填充空洞
+
+如果有
+
+$$
+f_m(x,y)= \begin{cases}
+1-f(x,y) & if\ (x,y)\ is\ on\ the\ border\ of\ f\\
+0 & otherwise
+\end{cases}
+$$
+
+则下面这个操作的作用就是填充空洞
+
+$$
+g = [R_{f^c}(f_m)]^c
+$$
+
+在matlab中可以用一个函数实现：
+
+```
+g = imfill(f, 'holes');
+```
+
+### 清除边界对象
+
+如果：
+
+$$
+f_m(x,y) = \begin{cases}
+f(x,y) & if\ (x,y)\ is\ on\ the\ border\ of\ f \\
+0 & otherwise
+\end{cases}
+$$
+
+则下面的操作将只保留与图像边缘相连的对象：
+
+$$
+R_f(f_m)
+$$
+
+原图像与它的差集只包含原图像中不与边界接触的对象：
+
+$$
+f - R_f(f_m)
+$$
+
+在matlab中可以使用函数imclearborder实现：
+
+```
+g = imclearborder(f, conn);
+```
+
+conn是4或者8，指定4连通或者8连通。

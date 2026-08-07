@@ -1,0 +1,221 @@
+---
+title: "图像的空域增强"
+---
+
+[返回“数字图像处理”](../数字图像处理.qmd)
+
+## 图像的亮度变换
+亮度变换是指对每一个像素用同一个函数将原像素值进行运算，用运算结果代替原来的值。
+
+亮度变换的函数与像素的位置无关，可以表示为：s = T(r)，其中r为原始图像上像素的值，s是经过变换后的像素的值，T是亮度变换函数。
+
+![figure2.png](<assets/图像的空域增强/figure2.png>)
+
+### imadjust
+在matlab中可以使用imadjust函数实现简单的像素亮度变换
+
+```
+g = imadjust(f, [low_in high_in], [low_out high_out], gamma)
+```
+
+f是要处理的图像。low_in和high_in是输入像素值的范围，low_out和high_out是输出像素值的范围，当范围取[ ]时就是默认[0 1]。gamma是曲线的形状，可以省略，默认是1。
+
+例如
+
+```
+g1 = imadjust(f, [0 1], [1 0]);
+g2 = imadjust(f, [0.5 0.75], [0 1]);
+g3 = imadjust(f, [ ], [ ], 2);
+```
+
+图像翻转还可以用一个专门的函数来完成
+
+```
+g = imcomplement(f);
+```
+
+### 对数和对比度拉伸
+更复杂的变换需要用matlab的矩阵运算来实现。对数变换的公式如下：
+
+```
+g = c * log(1 + double(f));
+```
+
+另外一种变换函数叫作对比度拉伸函数，公式如下：
+
+```
+g = 1 ./ (1 + (m ./ (double(f)+eps) ).^E )
+```
+
+变换函数如下图所示：
+
+![figure4.png](<assets/图像的空域增强/figure4.png>)
+
+例如：
+
+```
+g = im2uint8(mat2gray(log(1+double(f))));
+imshow(g);
+```
+
+### 处理可变数量的参数和返回值
+要处理可变数量的输入输出，用nargin返回调用函数的参数个数，nargout返回值的个数。比如
+
+```
+number = nargin
+number = nargout
+```
+
+函数nargchk用于检查传递参数的个数是否正确
+
+```
+msg = nargchk(low, high, number)
+```
+
+当number小于low时，返回参数太少，当number大于high时返回参数太多，当number介于low和high之间，返回一个空矩阵。比如
+
+```
+error(nargchk(2, 3, nargin))
+```
+
+例子：书上例3.3
+
+例子：gscale
+
+## 直方图
+数字图像在[0, G]之间总共有L个灰度级，其直方图表示为：
+
+```
+h(rk) = nk
+```
+
+其中rk是[0, G]内的第k级亮度，nk是灰度级为rk的图像中的像素数。因为matlab中数组下标从1开始，因此[0, G]各级的像素数分别存在下标1～G+1中。
+
+归一化直方图是指h(rk)除以图像的像素总数n：
+
+```
+p(rk) = h(rk)/n = nk / n
+```
+
+在概率论上，p(rk)就表示灰度级rk出现的概率。
+
+### 绘制直方图
+在matlab中，基本的直方图函数是imhist，
+
+```
+h = imhist(f, b)
+```
+
+其中，f为输入图像，h为其直方图，b是用于形成直方图的灰度级的个数。b可省略，默认值是256。比如
+
+```
+p = imhist(f, b)/numel(f);
+```
+
+例子：
+
+```
+h = imhist(f);
+h1 = h(1:10:256);
+horz = 1:10:256;
+bar(horz, h1);
+axis([0 255 0 15000])
+set(gca, 'xtick', 0:50:255)
+set(gca, 'ytick', 0:2000:15000)
+```
+
+### 直方图均衡化
+原理是让直方图的分布尽可能均匀。算法是让直方图的概率分布函数（CDF）线性增长。
+
+matlab中用histeq函数完成直方图均衡化：
+
+```
+g = histeq(f, nlev)
+```
+
+f为输入图像，nlev为输出图像的灰度级数。
+
+例子
+
+```
+g = histeq(f, 256);
+```
+
+## 空间滤波
+### 背景知识
+空间域处理：g(x, y) = T[f(x, y)]，T定义在(x,y)的邻域内。
+
+![figure31.png](<assets/图像的空域增强/figure31.png>)
+
+[Review_of_Linear_Systems.ppt](<assets/数字图像处理/Review_of_Linear_Systems.ppt>)
+
+### 线性滤波
+一维信号的卷积
+
+![figure33.png](<assets/图像的空域增强/figure33.png>)
+
+二维图像的卷积
+
+![figure32.png](<assets/图像的空域增强/figure32.png>)
+
+![figure34.png](<assets/图像的空域增强/figure34.png>)
+
+在matlab中，使用imfilter来实现二维图像的卷积：
+
+```
+imfilter(f, w, fitering_mode, boundary_options, size_options)
+```
+
+其中，各参数的含义如下：
+
+![figure36.png](<assets/图像的空域增强/figure36.png>)
+
+例如：
+
+```
+w = ones(31);
+gd = imfilter(f, w);
+imshow(gd, [ ]);
+gr = imfilter(f, w, 'replicate');
+imshow(gr, [ ]);
+gs = imfilter(f, w, 'symmetric');
+imshow(gs, [ ]);
+gc = imfilter(f, w, 'circular');
+imshow(gc, [ ]);
+```
+
+常用的卷积核
+
+![figure35.png](<assets/图像的空域增强/figure35.png>)
+
+### 非线性滤波
+卷积操作是计算乘积之和，是一个线性操作。非线性滤波则是对邻域内的像素进行非线性操作。比如
+* 最大值滤波、最小值滤波
+* 中值滤波
+* 几何平均值
+
+在matlab中可以使用ordfilt2函数实现最大值、最小值、中值滤波：
+
+```
+g = ordfilt2(f, order, domain)
+```
+
+对于中值滤波，matlab中有一个简便的函数可以使用：
+
+```
+g = medfilt2(f, [m n], padopt)
+```
+
+例如：
+
+```
+fn = imnoise(f, 'salt & pepper', 0.2);
+gm = medfilt2(fn);
+gms = medfilt2(fn, 'symmetric');
+```
+
+其他的非线性滤波可以用colfilt实现：
+
+```
+g = colfilt(f, [m n], 'sliding', @fun, parameters);
+```
