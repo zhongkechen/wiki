@@ -1,0 +1,39 @@
+---
+title: 首页
+description: Zhongke 的个人 Wiki 旧站首页
+---
+
+新 Wiki 地址：[https://gw.ch3n2k.com/](https://gw.ch3n2k.com/)
+
+## 系统相关
+
+- [Linux](Linux.html)：桌面、服务器、移动等全能的操作系统
+
+## 软件开发
+
+- [程序设计语言](程序设计语言.html)
+  - [Python](Python.html)
+  - [C语言](C.html)
+  - [C++语言](C++.html)
+  - [Matlab](Matlab.html)
+- [算法](算法.html)
+
+## 温州大学计算机专业课程相关
+
+- [高级语言程序设计课程](高级语言程序设计课程.html)
+- [面向对象程序设计课程](面向对象程序设计课程.html)
+- [数据结构](数据结构.html)
+- [数字图像处理](数字图像处理.html)
+- [Python游戏开发基础](Python游戏开发基础.html)
+- [大学生程序设计竞赛](ICPC.html)
+- [毕业设计](毕业设计.html)
+- [计算机科学导论](计算机科学导论.html)（[黄长城](cchuang.html)老师）
+- [离散数学](离散数学.html)（[虞铭财](ymc.html)老师）
+- [计算机图形学](计算机图形学.html)（[李忠月](lzhongyue.html)老师）
+- [算法与数据结构](算法与数据结构.html)（[李忠月](lzhongyue.html)老师）
+- [计算理论](计算理论.html)
+
+## 其它
+
+- [维基简介](维基简介.html)、[浙大考博题](浙大考博题.html)、[计算机体系结构](计算机体系结构.html)、[MSP430](MSP430.html)
+- [English](English.html)、[美食](美食.html)、[有趣的小东东](有趣的小东东.html)、[历史留言](留言.html)、[SICP 的 Python 实现](SICP的Python实现.html)

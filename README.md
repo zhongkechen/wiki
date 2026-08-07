@@ -1,6 +1,11 @@
+---
+title: 首页
+output-file: index.html
+---
+
 ## 系统相关
 
-- [Linux](/Linux.md): 桌面、服务器、移动等全能的操作系统 
+- [Linux](Linux.html): 桌面、服务器、移动等全能的操作系统
 - [SteamDeck](SteamDeck.md): 可作桌面电脑使用的游戏机 
 
 ## 网络与安全
@@ -17,4 +22,5 @@
 
 ## 旧网站
 
- - [https://wiki.ch3n2k.com/](https://wiki.ch3n2k.com/) 不再更新
+- [旧版首页](old/首页.qmd)
+- [https://wiki.ch3n2k.com/](https://wiki.ch3n2k.com/) 不再更新
