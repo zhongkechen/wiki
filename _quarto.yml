@@ -2,6 +2,17 @@ project:
   type: website
   output-dir: _site
   render:
+    - README.md
+    - LICENSE.md
+    - Nostr.md
+    - Raspberry Pi.md
+    - SteamDeck.md
+    - Tetris.md
+    - YubiKey.md
+    - 乒乓球.md
+    - 去中心化.md
+    - 围棋.md
+    - 科学上网.md
     - old/首页.qmd
   resources:
     - CNAME
@@ -11,11 +22,14 @@ lang: zh
 website:
   title: "Zhongke's Personal Wiki"
   site-url: https://gw.ch3n2k.com
+  google-analytics: G-WNLDZWNFJM
   search: true
   navbar:
     left:
-      - href: old/首页.qmd
+      - href: README.md
         text: 首页
+      - href: old/首页.qmd
+        text: 旧版首页
   page-footer:
     center: "Zhongke's shared personal notes"
 
