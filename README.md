@@ -1,26 +1,32 @@
----
-title: 首页
-output-file: index.html
----
+# Zhongke's Personal Wiki
 
-## 系统相关
+本仓库保存个人 Wiki 的内容与构建配置，使用 [Quarto](https://quarto.org/) 生成静态网站，并通过 GitHub Pages 自动部署。
 
-- [Linux](Linux.html): 桌面、服务器、移动等全能的操作系统
-- [SteamDeck](SteamDeck.md): 可作桌面电脑使用的游戏机 
+## 网站入口
 
-## 网络与安全
+[访问 Zhongke's Personal Wiki](https://gw.ch3n2k.com/)
 
-- [科学上网](科学上网.md)： 摆脱防火墙限制
-- [去中心化](去中心化.md)： Decentralization，摆脱互联网巨头对互联网的控制，回归互联网的本质
-- [YubiKey](YubiKey.md) ：来自Yubico公司的安全密钥
+## 仓库内容
 
-## 其它
+- `index.md`：网站首页。
+- `wiki/`：当前维护的 Wiki 页面。
+- `old/`：从旧版 Wiki 迁移的历史页面。
+- `_quarto.yml`：网站结构与 Quarto 构建配置。
+- `.github/workflows/pages.yml`：GitHub Pages 自动构建和部署流程。
 
-- [乒乓球](乒乓球.md)
-- [围棋](围棋.md)
-- [Tetris](Tetris.md)
+在本地安装 Quarto 后，可以使用以下命令预览或构建网站：
 
-## 旧网站
+```bash
+quarto preview
+quarto render
+```
 
-- [旧版首页](old/首页.qmd)
-- [https://wiki.ch3n2k.com/](https://wiki.ch3n2k.com/) 不再更新
+构建产物保存在 `_site/` 目录。
+
+## 版权与许可
+
+除另有说明以及引用的第三方内容外，本仓库的原创内容采用
+[知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](LICENSE.md)
+（CC BY-NC-SA 4.0）发布。
+
+转载或改编时必须注明来源，不得用于商业目的；公开发布改编内容时，必须继续采用相同许可协议。第三方内容的权利仍归其原权利人所有。
