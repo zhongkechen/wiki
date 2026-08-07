@@ -1,0 +1,292 @@
+---
+title: "图像的频域增强"
+---
+
+[返回“数字图像处理”](../数字图像处理.qmd)
+
+## 一维傅里叶变换
+### 傅里叶级数
+任何一个周期函数都可以由一些不同频率的正弦（或余弦）函数线性叠加得到。
+
+![figure41.png](<assets/图像的频域增强/figure41.png>)
+
+表示成数学表达式是这样子的：
+
+$$
+f(x) = \frac{a_0}{2} +\sum_{n=1}^{\infty}[a_n \cos(n \omega x) + b_n \sin(n \omega x)]
+$$
+
+其中
+
+$$
+a_n = \frac{2}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}} f(x) \cos(n \omega x)\, dx
+$$
+
+$$
+b_n = \frac{2}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}} f(x) \sin(n \omega x)\, dx
+$$
+
+$$
+T = \frac{2\pi}{\omega}
+$$
+
+这被称为傅里叶级数。由欧拉公式
+
+$$
+e^{i\theta}=cos\theta + i sin\theta
+$$
+
+可将上述傅里叶级数公式变形为：
+
+$$
+f(x) = \sum_{n=-\infty}^{\infty} c_n e^{in \omega x}
+$$
+
+$$
+c_n = \frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}} f(x) e^{-in \omega x}\, dx
+$$
+
+这里的系数cn经常被表示成函数的形式F(n)，它是一个离散的函数，即
+
+$$
+f(x) = \sum_{n=-\infty}^{\infty} F(n) e^{in \omega x}
+$$
+
+$$
+F(n) = \frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}} f(x) e^{-in \omega x}\, dx
+$$
+
+例子：
+
+http://www.falstad.com/fourier/
+
+### 连续傅里叶变换
+当周期趋向无穷大时，函数f变为非周期函数，其傅里叶级数中的
+
+$$
+\omega
+$$
+
+就趋向于无穷小，离散的求和就变成了连续的积分：
+
+$$
+f(x) = \frac{1}{2\pi} \int _{-\infty}^{\infty} F(\omega)\ e^{ i \omega x }\,d \omega
+$$
+
+其中
+
+$$
+F(\omega) = \int _{-\infty}^\infty f(x)\ e^{- i\omega x}\,dx
+$$
+
+这就是连续傅里叶变换
+
+### 离散时间傅里叶变换
+当f(x)中的x是一个离散的变量时，傅里叶变换就变成了：
+
+$$
+f(n) = \frac{1}{2 \pi}\int_{-\pi}^{\pi} F(\omega)\cdot e^{i \omega n} \, d \omega
+$$
+
+$$
+F(\omega) = \sum_{n=-\infty}^{\infty} f(n) \,e^{-i \omega n}
+$$
+
+F是周期性的
+
+### 离散傅里叶变换
+如何f(x)是离散的且是周期性的，傅里叶变换变成了：
+
+$$
+f(x) = \sum_{u=0}^{M-1}F(u)e^{j2\pi ux/M}
+$$
+
+$$
+F(u) = \frac{1}{M}\sum_{x=0}^{M-1}f(x)e^{-j2\pi ux/M}
+$$
+
+## 傅里叶变换与线性滤波
+
+[Review_of_Linear_Systems.ppt](<assets/数字图像处理/Review_of_Linear_Systems.ppt>)
+
+## 二维傅里叶变换
+
+二维傅里叶变换相当于先在x方向做一维傅里叶变换，然后对结果再做y方向的一维傅里叶变换，就得到了二维傅里叶变换的结果。
+
+$$
+F(u, v) = \int_{\infty}^{\infty}\int_{\infty}^{\infty}f(x,y)e^{-j2\pi (ux+vy)}dxdy
+$$
+
+$$
+f(x, y) = \int_{\infty}^{\infty}\int_{\infty}^{\infty}F(u,v)e^{j2\pi (ux+vy)}dudv
+$$
+
+二维的离散傅里叶变换也是类似的：
+
+$$
+F(u,v)=\frac{1}{MN}\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}f(x,y)e^{-j2\pi (ux/M+vy/N)}
+$$
+
+$$
+f(x,y)=\sum_{u=0}^{M-1}\sum_{v=0}^{N-1}F(u,v)e^{j2\pi (ux/M+vy/N)}
+$$
+
+F(u,v)的幅度和相位分别是：
+
+$$
+|F(u,v)|=[R^2(x,y)+I^2(x,y)]^{1/2}
+$$
+
+$$
+\phi(u,v)=tan^{-1}\left[ \frac{I(u,v)}{R(u,v)} \right]
+$$
+
+频谱能量为
+
+$$
+P(u,v) = |F(u,v)|^2
+$$
+
+性质：
+
+* 关于原点是共轭对称的：
+
+$$
+F(u,v)=F^*(-u,-v)
+$$
+
+* 幅值是原点对称的：
+
+$$
+|F(u,v)|=|F(-u,-v)|
+$$
+
+* 周期性：
+
+$$
+F(u,v) = F(u+M,v) = F(u, v+N) = F(u+M, v+N) \dots
+$$
+
+## 在matlab中计算二维傅里叶变换
+用fft2函数计算图像的傅里叶变换：
+
+```
+F = fft2(f);
+```
+
+查看傅里叶变换的结果，可以发现幅值最大的位置出现在四个角上，它们代表了低频的部分。我们可以对频谱进行平移，使得它们位于中间：
+
+```
+F = fftshift(F);
+```
+
+要将频谱变换回图像，使用傅里叶逆变换：
+
+```
+F = ifftshift(F);
+f = ifft2(F);
+```
+
+## 频域滤波
+
+根据卷积定理
+
+$$
+f(x,y)*h(x,y) \Leftrightarrow H(u,v)F(u,v)
+$$
+
+以及
+
+$$
+f(x,y)h(x,y) \Leftrightarrow H(u,v)*F(u,v)
+$$
+
+因此可以得到：
+
+$$
+g(x, y) = f(x,y)*h(x,y) = \Im ^{-1} [H(u,v)F(u,v)] = \Im ^{-1} [ \Im (h(x,y)) \Im (f(x,y))   ]
+$$
+
+其中，
+
+$$
+\Im
+$$
+
+表示傅里叶变换，
+
+$$
+\Im ^{-1}
+$$
+
+表示傅里叶逆变换
+
+![figure44.png](<assets/图像的频域增强/figure44.png>)
+
+在matlab里面实现：
+
+```
+[M, N] = size(f);
+F = fft2(f);
+h = fspecial('average', [5 5]);
+H = fft2(h, M, N);
+G = F.*H;
+g = real(ifft2(G));
+imshow(g);
+```
+
+## 频域中直接生成滤波器
+### 低通滤波器
+理想低通滤波器
+
+$$
+H(u,v) = \begin{cases}
+1 & D(u,v)\le D_0 \\
+0 & D(u,v)\le D_0 \\
+\end{cases}
+$$
+
+巴特沃滋低通滤波器
+
+$$
+H(u,v) = \frac{1}{1+[D(u,v)/D_0]^{2n}}
+$$
+
+高斯低通滤波器
+
+$$
+H(u,v)=e^{-D^2(u,v)/2\sigma ^2}
+$$
+
+### 高通滤波器
+基本高通滤波：
+
+$$
+H_{hp}(u,v) = 1 - H_{lp}(u,v)
+$$
+
+高频强调滤波：
+
+$$
+H_{hfe}(u,v)=a+bH_{hp}(u,v)
+$$
+
+### 在matlab里面实现
+理想低通：
+
+```
+f = imread('lena_gray.tif');
+[M N] = size(f);
+[R C] = meshgrid(1:M, 1:N);
+D = sqrt((R-M/2).^2 + (C-N/2).^2);
+H = double(D <= 100);
+F = fftshift(fft2(f));
+G = F.*H;
+g = ifft2(ifftshift(G));
+```
+
+## 参考资源
+* https://secure.wikimedia.org/wikipedia/zh/w/index.php?title=%E5%82%85%E7%AB%8B%E5%8F%B6%E5%8F%98%E6%8D%A2&variant=zh-cn
+* http://en.wikipedia.org/wiki/Fourier_analysis
+* http://zh.wikipedia.org/wiki/%E7%A6%BB%E6%95%A3%E4%BD%99%E5%BC%A6%E5%8F%98%E6%8D%A2
+* http://en.wikipedia.org/wiki/Discrete_cosine_transform

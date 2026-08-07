@@ -1,0 +1,756 @@
+---
+title: "熟悉MATLAB环境"
+---
+
+[返回“数字图像处理”](../数字图像处理.qmd)
+
+## 读取图像
+用imread函数读取图像文件，文件格式可以是TIFF、JPEG、GIF、BMP、PNG等。比如
+
+```
+>> f = imread('chestxray.jpg');
+```
+
+读进来的图像数据被保存在变量f中。尾部的分号用来抑制输出。如果图片是彩色的，可以用rgb2gray转换成灰度图：
+
+```
+>> f = rgb2gray(f);
+```
+
+然后可以用size函数看图像的大小
+
+```
+>> size(f)
+```
+
+如果f是灰度图像，则可以用下面的命令把这个图像的大小赋给变量M和N
+
+```
+>> [M, N] = size(f);
+```
+
+用whos命令查看变量的属性
+
+```
+>> whos f
+```
+
+## 显示图像
+用imshow显示图像
+
+```
+imshow(f, G)
+```
+
+其中f是图像矩阵，G是像素的灰度级，G可以省略。比如
+
+```
+>> imshow(f, [100 200])
+```
+
+图像上所有小于等于100的数值都会显示成黑色，所有大于等于200的数值都会显示成白色。pixval命令可以用来查看图像上光标所指位置的像素值。
+
+```
+pixval
+```
+
+例如
+
+```
+>> f = imread('rose_512.tif');
+>> whos f
+>> imshow(f)
+```
+
+如果要同时显示两幅图像，可以用figure命令，比如
+
+```
+>> figure, imshow(g)
+```
+
+用逗号可以分割一行中的多个命令。imshow的第二个参数用一个空的中括号：
+
+```
+>> imshow(h, [])
+```
+
+ 可以使动态范围比较窄的图像显示更清楚。
+
+## 写图像到文件
+用imwrite将图像写到文件中去
+
+```
+imwrite(f, 'filename')
+```
+
+文件名必须包括指明格式的扩展名。也可以增加第三个参数，显式指明文件的格式。比如
+
+```
+>> imwrite(f, 'patient10_run1.tif', 'tif')
+```
+
+也可以写成
+
+```
+>> imwrite(f, 'patient10_run1.tif')
+```
+
+ 还可以有其他参数，比如jpeg图像还有质量参数：
+
+```
+>> imwrite(f, 'filename.jpg', 'quality', q)
+```
+
+q是0到100之间的一个整数。对比不同质量的图像效果。用imfinfo命令可以查看一个图像的格式信息，比如
+
+```
+>> imfinfo bubbles25.jpg
+```
+
+可以把图像信息保存到变量中
+
+```
+>> K = imfinfo('bubbles25.jpg');
+>> image_bytes = K.Width * K.Height * K.BitDepth / 8;
+>> compressed_bytes = K.FileSize;
+>> compression_ratio = image_bytes / compressed_bytes
+```
+
+## Matlab数据类型
+MATLAB的数据类型包括：
+
+```
+double  双精度浮点
+uint8   无符号8位整数
+uint16  无符号16位整数
+uint32  无符号32位整数
+int8    有符号8位整数
+int16   有符号16位整数
+int32   有符号32位整数
+single  单精度
+char    字符
+logical 逻辑型（二值）
+```
+
+数据类型转换
+
+```
+B = data_class_name(A)
+```
+
+比如
+
+```
+>> C = [1.4 1.5]
+>> D = uint8(C)
+```
+
+图像类型分为：
+
+```
+Intensity image 灰度图
+Binary image    二值图
+Indexed image   索引图
+RGB image       彩色图
+```
+
+在灰度图中每个像素可以是整型、浮点型或者逻辑型。图像类型的像素类型可以转换
+| function | to | from |
+| --- | --- | --- |
+| im2uint8 | uint8 | logical,uint8,uint16,double |
+| im2uint16 | uint16 | logical,uint8,uint16,double |
+| mat2gray | double | double |
+| im2double | double | logical,uint8,uint16,double |
+| im2bw | logical | uint8,uint16,double |
+  比如
+
+```
+g = mat2gray(A, [Amin, Amax]);
+g = mat2gray(A);
+g = im2double(h);
+g = im2bw(f, T)
+```
+
+其中A是浮点型的图像，Amin和Amax是浮点数的范围，h和f是任意类型的图像，T是分割的阈值。
+
+## 数组（向量）
+创建向量（数组）：
+
+```
+>> v = [1 3 5 7 9 11 13]
+```
+
+用小括号对向量进行索引（取数组中的某个元素）：
+
+```
+>> v(2)
+```
+
+转置（将行向量通过转置变成列向量）：
+
+```
+>> w = v.'
+```
+
+取向量其中的一部分：
+
+```
+>> v(1:3)   第1个到第3个
+>> v(2:4)
+>> v(3:end) 第3个到最后一个
+>> v(1:end)
+>> v(:)     全部
+>> v(1:2:end)  第1个到最后一个，每次增加2
+>> v(end:-2:1)  最后一个到第1个，每次减2
+```
+
+其中end总是表示最后一个。
+
+```
+>> x = linspace(1, 5, 10)
+>> v([1 4 5])
+```
+
+linspace函数产生一个范围内的平均分布。
+
+## 矩阵
+创建矩阵
+
+```
+>> A = [1 2 3; 4 5 6; 7 8 9]
+```
+
+取矩阵中的一个元素
+
+```
+>> A(2, 3)
+```
+
+取矩阵中的一行或者一列
+
+```
+>> C3 = A(:, 3)
+>> R2 = A(2, :)
+```
+
+取矩阵中某些行某些列
+
+```
+>> T2 = A(1:2, 1:3)
+```
+
+对矩阵中某些元素进行赋值：
+
+```
+>> B = A;
+>> B(:, 3) = 0
+```
+
+用end表示最后一行或者最后一列：
+
+```
+>> A(end, end)   最后一行最后一列
+>> A(end, end-2)  最后一行倒数第三列
+>> A(2:end, end:-2:1)  第2行到最后一行，最后一列到第一列，每次减2
+>> E = A([1 3], [2 3])  第1、3行，第2、3列
+>> D = logical([1 0 0; 0 0 1; 0 0 0])
+>> A(D)  取A中由D指定的位置上的元素
+>> v = T2(:) 把矩阵变成一个向量
+>> s = sum(A(:))  求和
+>> sum(sum(A))
+```
+
+可以把矩阵操作用在图像上
+
+```
+>> f = imread('filename');
+>> fp = f(end:-1:1, :);  矩阵列倒转
+>> imshow(fp)
+>> fc = f(257:768, 257:768);
+>> imshow(fc)
+>> fs = f(1:2:end, 1:2:end);
+>> imshow(fs)
+>> plot(f(512,:))
+```
+
+矩阵可以是多维的，用size看矩阵大小，用ndims命令常看矩阵的维数
+
+```
+>> size(A, 1)
+>> ndims(A)
+```
+
+## 常用的矩阵
+
+```
+zeroes(M, N)
+ones(M, N)
+true(M, N)
+false(M, N)
+magic(M)
+rand(M, N)
+randn(M, N)
+```
+
+其中M、N表示矩阵的行数和列数。比如
+
+```
+>> A = 5 * ones(3, 3)
+>> magic(3)
+>> B = rand(2, 4)
+```
+
+## 函数
+可以把一系列的MATLAB语句或者一个带参数的函数放在扩展名叫做m的文件中。m文件可以用任何文本编辑器创建和编辑，只要用.m扩展名保存在MATLAB可以搜索到的路径里面。另一个创建和编辑函数的方法是在命令行输入edit命令，比如
+
+```
+>> edit sumprod
+```
+
+这命令会编辑已经存在的sumprod.m文件，如果没有则自动在当前目录中创建一个sumprod.m并开始编辑。一个带函数的m文件有一下部分组成
+
+```
+函数定义行
+H1行
+帮助部分
+函数体
+注释
+```
+
+函数定义行的格式是
+
+```
+function [outputs] = name(inputs)
+```
+
+比如要写一个函数计算两个图像的和以及乘积
+
+```
+function [s, p] = sumprod(f, g)
+```
+
+其中f和g是输入的图像，而s是和，p是乘积。返回值用中括号括起来，如果返回值只有一个，可以省略中括号。如果函数没有输出，则中括号和等号都可以省略。函数名字的命名规则和C语言是相同的。定义好的函数可以在命令行调用：
+
+```
+>> [s, p] = sumprod(f, g);
+```
+
+也可以被其它函数调用。如果只有一个返回值，调用时中括号也是可以省略的，比如
+
+```
+>> y = sum(x);
+```
+
+H1行是文本的第一行，是一个单行的注释，紧跟在函数定义行后面，之间不能有空行。比如
+
+```
+% SUMPROD Computes the sum and product of two images.
+```
+
+百分号开始的文字表示注释。当使用帮助命令
+
+```
+>> help function_name
+```
+
+时，这个H1行会被首先显示出来。如果使用lookfor命令，则会在所有H1行中查找指定的关键字。这一行应该提供这个函数功能的一个概述。帮助部分是紧跟在H1后的文本块，中间没有空行，用来提供对这个函数更详细的帮助说明。在使用help命令时会显示所有这部分内容。这部分内容由注释语句构成，全部由%开始。接下来第一个非注释语句表示函数体的开始。函数体包含进行计算的语句和给返回值赋值的语句。函数题中的所有注释（百分号开始的行）被认为是普通的注释，不是H1或者帮助部分。
+
+## 运算符
+运算符可以分为算术运算符，关系运算符和逻辑运算符。算术运算符分为矩阵算术运算符和数组算术运算符。
+
+```
++   矩阵和数组加法   plus(A, B)    a+b, A+B
+-   矩阵和数组减法   minus(A,B)    a-b, A-B
+.*  数组乘法        times(A,B)    C=A.*B, 意味着C(I,J) = A(I,J)*B(I,J)
+*   矩阵乘法        mtimes(A,B)   A*B, 表示线性代数中的矩阵运算,或者a*A
+./  数组右除        rdivide(A,B)  C=A./B, 意味着C(I,J)=A(I,J)/B(I,J)
+.\  数组左除        ldivide(A,B)  C=A.\B, 意味着C(I,J)=B(I,J)/A(I,J)
+/   矩阵右除        mrdivide(A,B) A/B 意味着A*inv(B), inv是矩阵求逆
+\   矩阵左除        mldivide(A,B) A\B 意味着inv(A)*B
+.^  数组指数        power(A, B)   C=A.^B,意味着C(I,J)=A(I,J)^B(I,J)
+^   矩阵指数        mpower(A,B)   请查看帮助
+.'  向量和矩阵转置   transpose(A)  A.'
+'   复数的共轭      ctranspose(A)  A'
++   单目加号        uplus(A)      +A 与0+A相同
+-   单目负号        uminus(A)     -A 与0-A相同
+```
+
+图像处理工具包还提供其他一些算术运算
+
+```
+imadd          两个图像相加，或者一个图像加上一个常量
+imsubstract    两个图像相减，或者一个图像减掉一个常量
+immultiply     两个图像相乘，或者一个图像乘上一个常量
+imdivide       两个图像相除，或者一个图像除以一个常量
+imabsdiff      两个图像的差的绝对值
+imcomplement   求一个图像的反色图
+inlincomb      求一组图像的线性组合
+```
+
+关系运算符包括
+
+```
+<
+<=
+>
+>=
+==
+~=
+```
+
+关系运算符的结果是逻辑型的矩阵，比如
+
+```
+>> A = [1 2 3; 4 5 6; 7 8 9]
+>> B = [0 2 4; 3 5 6; 3 4 9]
+>> A == B
+>> A >= B
+```
+
+如果关系运算符两边都是矩阵，则要求两边的矩阵是同样大小的。或者一边是矩阵一边是常数，或者两边都是常数，那也是可以。
+
+```
+>> A > 3
+>> 3 ~= 4
+```
+
+逻辑运算符包括与、或、非三个运算
+
+```
+&   AND
+|   OR
+~   NOT
+```
+
+在matlab中非0被认为是真，0被认为是假。比如
+
+```
+A = [1 2 0; 0 4 5]
+B = [1 -2 3; 0 1 1]
+>> A & B
+```
+
+MATLAB还有其它一些逻辑运算函数：
+
+```
+xor    异或
+all    如果一整列都是真，则结果是真
+any    如果一整列只要有一个是真，则结果是真
+```
+
+比如
+
+```
+>> xor(A, B)
+>> all(A)
+>> any(A)
+>> all(B)
+>> any(B)
+```
+
+一些重要的常量
+
+```
+ans
+eps
+i(或者j)
+NaN或者nan
+pi
+realmax
+realmin
+computer
+version
+```
+
+MATLAB中一般常量的写法
+
+```
+3
+-99
+0.00001
+9.6397238
+1.60210e-20
+6.02252e23
+1i
+-3.14159j
+3e5j
+```
+
+## 控制流
+包括
+
+```
+if             if和else, elseif组合，条件执行一组语句
+for            指定次数重复执行一组语句
+while          按条件反复执行一组语句
+break          终止for或者while循环
+continue       马上开始下一次for或者while循环
+switch         switch和case,otherwise结合，按照条件值的不同执行不同的语句块
+return         终止当前函数，返回到调用它的地方
+try...catch    捕获异常状况
+```
+
+if语句
+
+```
+if expression1
+    statements1
+elseif expression2
+    statements2
+else
+    statements3
+end
+```
+
+for循环
+
+```
+for index = start:increment:end
+   statements
+end
+```
+
+比如
+
+```
+count = 0;
+for k = 0:0.1:1
+    count = count +1
+end
+```
+
+while循环
+
+```
+while expression
+   statements
+end
+```
+
+比如
+
+```
+a = 10;
+b = 5;
+while a
+   a = a - 1;
+   while b
+      b = b - 1;
+   end
+end
+```
+
+switch语句
+
+```
+switch switch_expression
+   case case_expression
+       statements
+   case {case_expression1, case_expression2}
+       statements
+   otherwise
+       statements
+end
+```
+
+比如
+
+```
+switch newclass
+   case 'uint8'
+       g = im2uint8(f);
+   case 'uint16'
+       g = im2uint16(f);
+   case 'double'
+       g = im2double(f);
+   otherwise
+       error('Unknown or improper image class.')
+end
+```
+
+例子：写一个函数计算一幅灰度图像所有像素的平均值
+
+```
+function av = average(A)
+%AVERAGE Computes the average value of an array
+% AV = AVERAGE(A) computes the average value of input array, A,
+% which must be a 1D or 2D array.
+
+% Check the validity of input.
+if ndims(A) > 2
+    error('The dimensions of the input cannot exceed 2.')
+end
+% Computes the average
+av = sum(A(:))/length(A(:));
+```
+
+例子：比较各种不同的JPEG质量下的图像质量
+
+```
+for q = 0:5:100
+   filename = sprintf('series_%3d.jpg', q);
+   imwrite(f, filename, 'quality', q);
+end
+```
+
+其中sprintf语句和c语言的fprintf语句用法类似。例子：写一个函数从一个图像中取出一个矩形的子图。
+
+```
+function s = subdim(f, m, n, rx, cy)
+%SUBDIM Extracts a subimage, s, from a given image, f.
+% The subimage is of size m-by-n, and the coordinates of its top, left
+% corner are (rx, cy).
+
+s = zeros(m, n);
+rowhigh = rx + m - 1;
+colhigh = cy + n - 1;
+xcount = 0;
+for r = rx:rowhigh
+    xcount = xcount + 1;
+    ycount = 0;
+    for c = cy:colhigh
+        ycount = ycount + 1;
+        s(xcount, ycount) = f(r, c);
+    end
+end
+```
+
+实际上这个功能可以用一个matlab语句就可以实现了。
+
+## 循环优化
+一些循环可以被转换成同样向量计算来代替，比如f(x)=Asin(x/2pi)，生成一个向量包含一组函数的值：
+
+```
+for x = 1:M
+    f(x) = A*sin((x-1)/(2*pi));
+end
+```
+
+可以用下面两个语句来代替
+
+```
+x = 0:M-1;
+f = A*sin(x/2(*pi))
+```
+
+向量运算要比循环快得多。对于二维的情况，MATLAB提供了一个meshgrid函数
+
+```
+[C, R] = meshgrid(c, r)
+```
+
+比如
+
+```
+>> r = [0 1 2];
+>> c = [0 1];
+>> [C, R] = meshgrid(c, r)
+>> h = R.^2 + C.^2
+```
+
+例子：f(x, y) = Asin(ux + vy)，生成一个矩阵，包含这个函数的值：
+
+```
+function [rt, f, g] = twodsin(A, u0, v0, M, N)
+%TWODSIN compare for loops vs vectorization
+% The comparision is based on implementing the function
+% f(x, y) = Asin(u0x+v0y) for x = 0, 1, 2,..., M-1, and
+% y = 0, 1, 2, ..., N-1. The inputs to the function are
+% M and N and the constants in the function.
+
+tic
+for r = 1:M
+   u0x = u0*(r-1);
+   for c = 1:N
+      v0y = v0*(c-1)
+      f(r, c) = A*sin(u0x + v0y);
+   end
+end
+t1 = toc;
+
+tic
+r = 0:M-1;
+c = 0:N-1;
+[C,R] = meshgrid(c, r);
+g = A*sin(u0*R + v0*C)
+t2 = toc;
+
+rt = t1/t2;
+```
+
+运行这个例子可以看出，向量计算至少比循环要快30倍。如果只是针对图像的一部分进行操作，可以简单的提取出来，比如
+
+```
+rowhigh = rx + m - 1;
+colhigh = cy + n - 1;
+s = f(rx:rowhigh, cy:colhigh);
+```
+
+同样功能的程序，这个写法比前面例子看到的写法要快1000倍。
+## 用户交互
+函数disp用来提示用户一些信息。比如
+
+```
+>> A = [1 2; 3 4];
+>> disp(A)
+>> sc = 'Digital Image Processing.';
+>> disp(sc)
+>> disp('This is another way to display text.')
+```
+
+input函数用来提示用户输入某些值：
+
+```
+ t = input('message')
+```
+
+这个函数可以显示message，并等待用户输入一个值，并存到t中。输入的值可以是MATLAB允许的任何类型的值。而如下的格式只接受字符串输入
+
+```
+ t = input('message', 's')
+```
+
+如果字符串中包含的都是数字，则可以用函数str2num进行转换
+
+```
+ n = str2num(t)
+```
+
+比如
+
+```
+>> t = input('Enter your data: ', 's')
+>> class(t)
+>> size(t)
+>> n = str2num(t)
+>> size(n)
+>> class(n)
+```
+
+如果混合输入字符串和数值，可以全部按照字符串读入，再使用字符串处理函数strread，比如：
+
+```
+>> t = '12.6, x2y, z';
+>> [a, b, c] = strread(t, '%f%q%q', 'delimiter', ',')
+>> d = char(b)
+```
+
+其中%f表示浮点数，%q表示字符串。delimiter参数表示分割符。函数strcmp用来比较字符串，如果两个字符串相等返回真，否则返回假。lower函数可以把字符串中的大写字母全部变成小写，upper函数可以把字符串中所有小写字母全部变成大写。
+## Cell数组和结构体
+Cell数组是指数组的元素本身还是一个数组，比如
+
+```
+>> c = {'gause', [1 0; 0 1], 3}
+>> c{1}
+>> c{2}
+>> c{3}
+```
+
+结构体和Cell数组类似，但是其中的元素是用一个名字去访问的，比如
+
+```
+>> S.char_string = 'gause';
+>> S.matrix = [1 0; 0 1];
+>> S.scalar = 3;
+>> S.matrix
+```

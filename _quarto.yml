@@ -14,6 +14,8 @@ project:
     - 围棋.md
     - 科学上网.md
     - old/首页.qmd
+    - old/数字图像处理.qmd
+    - old/数字图像处理/*.qmd
   resources:
     - CNAME
 
@@ -30,6 +32,8 @@ website:
         text: 首页
       - href: old/首页.qmd
         text: 旧版首页
+      - href: old/数字图像处理.qmd
+        text: 数字图像处理
   page-footer:
     center: "Zhongke's shared personal notes"
 

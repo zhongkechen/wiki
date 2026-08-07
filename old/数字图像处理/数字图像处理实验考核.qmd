@@ -1,0 +1,21 @@
+---
+title: "数字图像处理实验考核"
+---
+
+[返回“数字图像处理”](../数字图像处理.qmd)
+
+1. 写一个函数满足下面的规定：
+
+```
+function H = imcircle(R, M, N)
+%IMCIRCLE Generates a circle inside a rectangle.
+%    H = IMCIRCLE(R, M, N) generates a circle of radius R centered
+%    on a rectangle of height M and width N. H is a binary image with
+%    1s on the circle and 0s elsewhere. R must be an integer >= 1.
+```
+
+1. 在显微图像处理的一个应用中，需要将多个重叠的圆形的原子分离开来。如图<br> ![FigProb9.27.jpg](<assets/数学形态学处理实验/FigProb9.27.jpg>)<br> 所示。假定所有原子是同样大小的。使用前面的程序，加上必要的其他一些方法，写程序解决如下问题：
+  1. 提取所有和图像边缘相交的原子
+  1. 提取所有重叠原子
+  1. 提取所有没有重叠的原子
+1. 下载这个图片[Fig10.15(a).jpg](<assets/图像分割实验/Fig10.15(a).jpg>)尝试检测图片中血管的边缘。
