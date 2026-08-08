@@ -1,0 +1,876 @@
+---
+title: "Python语言的数据类型"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## 基本数据类型
+
+### 布尔类型
+
+在Python中表示逻辑上的**真**和**假**使用两个布尔常量**True**和**False**，他们的类型是bool**布尔型**。注意Python中是区分大小的。
+
+关系运算和逻辑运算的结果为bool类型
+
+```
+>>> 2>1
+True
+>>> "hello" == "Hello"
+False
+>>> True and False
+False
+>>> True or False
+True
+```
+
+### 数值类型
+
+**整数**类型分为int型和long型。int的表示范围比较有限。当int型的范围不足以表示一个整数时，它会自动转换为long型。整数的运算：+，-，*，/和大多数语言中的用法一样。除此以外，运算符**表示幂运算。
+```
+>>> a = 1234567890
+>>> type(a)
+<type 'int'>
+>>> a = a*10
+>>> type(a)
+<type 'long'>
+>>> 2+2
+4
+>>> (50-5*6)/4
+5
+>>> 7/3
+2
+>>> 7/-3
+-3
+```
+
+Python完全支持float**浮点数**，不同类型的操作数混在一起时，操作符会把整型转化为浮点数。
+```
+>>> 3 * 3.75 / 1.5
+7.5
+>>> 7.0 / 2
+3.5
+```
+
+Python 也同样支持complex**复数**，虚部由一个后缀"j"或者"J"来表示。带有非零实部的复数记为"(real+imagj)"，或者也可以通过"complex(real, img)"函数创建。
+```
+>>> 1j * 1J
+(-1+0j)
+>>> 1j * complex(0,1)
+(-1+0j)
+>>> 3+1j*3
+(3+3j)
+>>> (3+1j)*3
+(9+3j)
+>>> (1+2j)/(1+1j)
+(1.5+0.5j)
+```
+
+复数总是由实部和虚部两部分浮点数来表示。可以从 z.real 和 z.imag 得到复数z的实部和虚部。
+```
+>>> a=1.5+0.5j
+>>> a.real
+1.5
+>>> a.imag
+0.5
+```
+
+用于向浮点数和整型转化的函数（float(), int() 和 long()）不能对复数起作用－－没有什么方法可以将复数转化为实数。可以使用abs(z)取得它的模，也可以通过z.real得到它的实部。
+```
+>>> a=3.0+4.0j
+>>> float(a)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+TypeError: can't convert complex to float; use abs(z)
+>>> a.real
+3.0
+>>> a.imag
+4.0
+>>> abs(a)  # sqrt(a.real**2 + a.imag**2)
+5.0
+```
+
+交互模式下，最近一次表达式输出保存在 _ 变量中。这意味着把 Python 当做桌面计算器使用时，可以方便的进行连续计算，例如：
+```
+>>> tax = 12.5 / 100
+>>> price = 100.50
+>>> price * tax
+12.5625
+>>> price + _
+113.0625
+>>> round(_, 2)
+113.06
+>>>
+```
+
+### 字符串类型
+
+除了数值， Python 还可以通过几种不同的方法操作**字符串**。字符串用单引号或双引号标识：
+```
+>>> 'spam eggs'
+'spam eggs'
+>>> 'doesn\'t'
+"doesn't"
+>>> "doesn't"
+"doesn't"
+>>> '"Yes," he said.'
+'"Yes," he said.'
+>>> "\"Yes,\" he said."
+'"Yes," he said.'
+>>> '"Isn\'t," she said.'
+'"Isn\'t," she said.'
+```
+
+字符串可以通过几种方式分行。可以在行加反斜杠做为继续符，这表示下一行是当前行的逻辑沿续。
+```python
+hello = "This is a rather long string containing\n\
+several lines of text just as you would do in C.\n\
+    Note that whitespace at the beginning of the line is\
+ significant."
+
+print hello
+```
+
+注意换行用 \n 来表示；反斜杠后面的新行标识（newline，缩写“n”）会转换为换行符，示例会按如下格式打印：
+```
+This is a rather long string containing
+several lines of text just as you would do in C.
+    Note that whitespace at the beginning of the line is significant.
+```
+
+然而，如果我们创建一个“行”("raw")字符串，\ n序列就不会转为换行，源码中的反斜杠和换行符n都会做为字符串中的数据处理。如下所示：
+```
+hello = r"This is a rather long string containing\n\
+several lines of text much as you would do in C."
+
+print hello
+```
+
+```
+This is a rather long string containing\n\
+several lines of text much as you would do in C.
+```
+
+另外，字符串可以用一对三重引号`"""`或`'''`来标识。三重引号中的字符串在行尾不需要换行标记，所有的格式都会包括在字符串中。
+```
+print """
+Usage: thingy [OPTIONS]
+     -h                        Display this usage message
+     -H hostname               Hostname to connect to
+"""
+```
+
+解释器打印出来的字符串与它们输入的形式完全相同：内部的引号，用反斜杠标识的引号和各种怪字符，都精确的显示出来。如果字符串中包含单引号，不包含双引号，可以用双引号引用它，反之可以用单引号。（后面介绍的 print 语句，可以在不使用引号和反斜杠的情况下输出字符串）。
+
+字符串可以用 + 号联接（或者说粘合），也可以用 * 号循环。
+```
+>>> word = 'Help' + 'A'
+>>> word
+'HelpA'
+>>> '<' + word*5 + '>'
+'<HelpAHelpAHelpAHelpAHelpA>'
+```
+
+两个字符串值常量之间会自动联接，上例第一行可以写成“word = 'Help' 'A'”。这种方式只对字符串字面常量有效，任何字符串表达式都不适用这种方法。
+```
+>>> 'str' 'ing'                   #  <-  This is ok
+'string'
+>>> 'str'.strip() + 'ing'   #  <-  This is ok
+'string'
+>>> 'str'.strip() 'ing'     #  <-  This is invalid
+  File "<stdin>", line 1, in ?
+    'str'.strip() 'ing'
+                      ^
+SyntaxError: invalid syntax
+```
+
+字符串可以用下标（索引）查询；就像 C 一样，字符串的第一个字符下标是 0。这里没有独立的字符类型，字符仅仅是大小为一的字符串。就像在 Icon 中那样，字符串的子串可以通过切片标志来表示：两个由冒号隔开的索引。
+```
+>>> word[4]
+'A'
+>>> word[0:2]
+'He'
+>>> word[2:4]
+'lp'
+```
+
+切片索引可以使用默认值；前一个索引默认值为 0，后一个索引默认值为被切片的字符串的长度。
+```
+>>> word[:2]    # The first two characters
+'He'
+>>> word[2:]    # Everything except the first two characters
+'lpA'
+```
+
+和 C 字符串不同， Python 字符串不能改写。按字符串索引赋值会产生错误。
+```
+>>> word[0] = 'x'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+TypeError: object doesn't support item assignment
+>>> word[:1] = 'Splat'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+TypeError: object doesn't support slice assignment
+```
+
+然而，可以通过简单有效的组合方式生成新的字符串：
+```
+>>> 'x' + word[1:]
+'xelpA'
+>>> 'Splat' + word[4]
+'SplatA'
+```
+
+切片操作有一个很有用的不变性：
+```
+>>> word[:2] + word[2:]
+'HelpA'
+>>> word[:3] + word[3:]
+'HelpA'
+```
+
+退化的切片索引处理方式很优美：过大的索引代替为字符串大小，下界比上界大的返回空字符串。
+```
+>>> word[1:100]
+'elpA'
+>>> word[10:]
+''
+>>> word[2:1]
+''
+```
+
+索引可以是负数，计数从右边开始，例如：
+```
+>>> word[-1]     # The last character
+'A'
+>>> word[-2]     # The last-but-one character
+'p'
+>>> word[-2:]    # The last two characters
+'pA'
+>>> word[:-2]    # Everything except the last two characters
+'Hel'
+```
+
+不过需要注意的是-0还是0，它没有从右边计数！
+```
+>>> word[-0]     # (since -0 equals 0)
+'H'
+```
+
+越界的负切片索引会被截断，不过不要尝试在单元素索引（非切片的）中这样做：
+```
+>>> word[-100:]
+'HelpA'
+>>> word[-10]    # error
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+IndexError: string index out of range
+```
+
+理解切片的最好方式是把索引视为两个字符之间的点，第一个字符的左边是0，字符串中第n个字符的右边是索引n，例如：
+```
+ +---+---+---+---+---+
+ | H | e | l | p | A |
+ +---+---+---+---+---+
+ 0   1   2   3   4   5
+-5  -4  -3  -2  -1
+```
+
+第一行是字符串中给定的0到5各个索引的位置，第二行是对应的负索引。从i到j的切片由这两个标志之间的字符组成。
+
+对于非负索引，切片长度就是两索引的差。例如，word[1:3]的长度是2。
+
+内置函数 len() 返回字符串长度：
+```
+>>> s = 'supercalifragilisticexpialidocious'
+>>> len(s)
+34
+```
+
+你是否知道字符串也是对象，同样具有方法。这些方法可以完成包括检验一部分字符串和去除空格在内的各种工作。你在程序中使用的字符串都是str类的对象。这个类的一些有用的方法会在下面这个例子中说明。如果要了解这些方法的完整列表，请参见help(str)。
+```
+>>> name = 'Swaroop' # This is a string object
+>>> name.startswith('Swa')
+True
+>>> 'a' in name
+True
+>>> name.find('war')
+1
+>>> delimiter = '_*_'
+>>> mylist = ['Brazil', 'Russia', 'India', 'China']
+>>> print delimiter.join(mylist)
+Brazil_*_Russia_*_India_*_China
+```
+
+这里，我们看到使用了许多字符串方法。startwith方法是用来测试字符串是否以给定字符串开始。in操作符用来检验一个给定字符串是否为另一个字符串的一部分。find方法用来找出给定字符串在另一个字符串中的位置，或者返回-1以表示找不到子字符串。str类也有以一个作为分隔符的字符串join序列的项目的整洁的方法，它返回一个生成的大字符串。
+
+### unicode字符串
+
+从Python2.0开始，程序员们可以使用一种新的数据类型来存储文本数据：Unicode 对象。它可以用于存储多种Unicode数据（请参阅 http://www.unicode.org/ ），并且，通过必要时的自动转换，它可以与现有的字符串对象良好的结合。
+
+Unicode 针对现代和旧式的文本中所有的字符提供了一个序列。以前，字符只能使用256个序号，文本通常通过绑定代码页来与字符映射。这很容易导致混乱，特别是软件的国际化（ internationalization －－通常写做“i18n”－－“i”+ "i" +“n”）。 Unicode 通过为所有字符定义一个统一的代码页解决了这个问题。
+
+Python 中定义一个 Unicode 字符串和定义一个普通字符串一样简单：
+```
+>>> u'Hello World !'
+u'Hello World !'
+```
+
+要把一个 Unicode 字符串用指定的字符集转化成8位字符串，可以使用 Unicode 对象提供的 encode() 方法，它有一个参数用以指定编码名称。编码名称小写。
+```
+>>> u"你好".encode('utf-8')
+'\xe4\xbd\xa0\xe5\xa5\xbd'
+>>> unicode('你好', 'utf-8')
+u'\u4f60\u597d'
+```
+
+```
+给C/C++程序员的注释
+在Python中没有专门的char数据类型。确实没有需要有这个类型，我相信你不会为此而烦恼。
+```
+
+## 数据结构
+
+数据结构基本上就是——它们是可以处理一些 数据 的 结构 。或者说，它们是用来存储一组相关数据的。
+
+在Python中有三种内建的高级数据结构——列表、元组和字典。我们将会学习如何使用它们，以及它们如何使编程变得简单。
+
+### 列表Lists
+
+**列表**list是处理一组有序项目的数据结构，即你可以在一个列表中存储一个 **序列** 的项目。假想你有一个购物列表，上面记载着你要买的东西，你就容易理解列表了。只不过在你的购物表上，可能每样东西都独自占有一行，而在Python中，你在每个项目之间用逗号分割。
+
+列表中的项目应该包括在方括号中，这样Python就知道你是在指明一个列表。一旦你创建了一个列表，你可以添加、删除或是搜索列表中的项目。由于你可以增加或删除项目，我们说列表是 可变的 数据类型，即这种类型是可以被改变的。
+
+列表是使用对象和类的一个例子。当你使用变量i并给它赋值的时候，比如赋整数5，你可以认为你创建了一个类（类型）int的对象（实例）i。事实上，你可以看一下help(int)以更好地理解这一点。
+
+类也有方法，即仅仅为类而定义地函数。仅仅在你有一个该类的对象的时候，你才可以使用这些功能。例如，Python为list类提供了append方法，这个方法让你在列表尾添加一个项目。例如mylist.append('an item')列表mylist中增加那个字符串。注意，使用点号来使用对象的方法。
+
+一个类也有域，它是仅仅为类而定义的变量。仅仅在你有一个该类的对象的时候，你才可以使用这些变量/名称。类也通过点号使用，例如mylist.field。
+
+```python
+#!/usr/bin/python
+
+# This is my shopping list
+shoplist = ['apple', 'mango', 'carrot', 'banana']
+
+print 'I have', len(shoplist),'items to purchase.'
+
+print '\nI also have to buy rice.'
+shoplist.append('rice')
+print 'My shopping list is now', shoplist
+
+print 'I will sort my list now'
+shoplist.sort()
+print 'Sorted shopping list is', shoplist
+
+print 'The first item I will buy is', shoplist[0]
+olditem = shoplist[0]
+del shoplist[0]
+print 'I bought the', olditem
+print 'My shopping list is now', shoplist
+```
+
+输出
+```
+I have 4 items to purchase.
+I also have to buy rice.
+My shopping list is now ['apple', 'mango', 'carrot', 'banana', 'rice']
+I will sort my list now
+Sorted shopping list is ['apple', 'banana', 'carrot', 'mango', 'rice']
+The first item I will buy is apple
+I bought the apple
+My shopping list is now ['banana', 'carrot', 'mango', 'rice']
+```
+
+变量shoplist是某人的购物列表。在shoplist中，我们只存储购买的东西的名字字符串，但是记住，你可以在列表中添加 任何种类的对象 包括数甚至其他列表。
+
+接下来，我们使用append方法在列表中添加了一个项目，就如前面已经讨论过的一样。然后我们通过打印列表的内容来检验这个项目是否确实被添加进列表了。打印列表只需简单地把列表传递给print语句，我们可以得到一个整洁的输出。
+
+再接下来，我们使用列表的sort方法来对列表排序。需要理解的是，这个方法影响列表本身，而不是返回一个修改后的列表——这与字符串工作的方法不同。这就是我们所说的列表是 可变的 而字符串是 不可变的 。
+
+最后，但我们完成了在市场购买一样东西的时候，我们想要把它从列表中删除。我们使用del语句来完成这个工作。这里，我们指出我们想要删除列表中的哪个项目，而del语句为我们从列表中删除它。我们指明我们想要删除列表中的第一个元素，因此我们使用del shoplist[0]（记住，Python从0开始计数）。del 也可以用于删除整个变量，比如del shoplist。
+
+列表类型还有很多方法，这里是列表类型的所有方法：
+- append(x): 把一个元素添加到链表的结尾，相当于 a[len(a):] = [x]
+- extend(L): 通过添加指定链表的所有元素来扩充链表，相当于 a[len(a):] = L。
+- insert(i, x): 在指定位置插入一个元素。第一个参数是准备插入到其前面的那个元素的索引，例如a.insert(0, x) 会插入到整个链表之前，而a.insert(len(a), x) 相当于 a.append(x)。
+- remove(x): 删除链表中值为x的第一个元素。如果没有这样的元素，就会返回一个错误。
+- pop([i]): 从链表的指定位置删除元素，并将其返回。如果没有指定索引，a.pop()返回最后一个元素。元素随即从链表中被删除。（方法中i两边的方括号表示这个参数是可选的，而不是要求你输入一对方括号，你会经常在Python 库参考手册中遇到这样的标记。）
+- index(x): 返回链表中第一个值为x的元素的索引。如果没有匹配的元素就会返回一个错误。
+- count(x): 返回x在链表中出现的次数。
+- sort(): 对链表中的元素进行适当的排序。
+- reverse(): 倒排链表中的元素。
+
+下面这个示例演示了链表的大部分方法：
+```
+>>> a = [66.6, 333, 333, 1, 1234.5]
+>>> print a.count(333), a.count(66.6), a.count('x')
+2 1 0
+>>> a.insert(2, -1)
+>>> a.append(333)
+>>> a
+[66.6, 333, -1, 333, 1, 1234.5, 333]
+>>> a.index(333)
+1
+>>> a.remove(333)
+>>> a
+[66.6, -1, 333, 1, 1234.5, 333]
+>>> a.reverse()
+>>> a
+[333, 1234.5, 1, 333, -1, 66.6]
+>>> a.sort()
+>>> a
+[-1, 1, 66.6, 333, 333, 1234.5]
+```
+
+列表方法使得列表可以很方便的做为一个堆栈来使用，堆栈作为特定的数据结构，最先进入的元素最后一个被释放（后进先出）。用append() 方法可以把一个元素添加到堆栈顶。用不指定索引的pop() 方法可以把一个元素从堆栈顶释放出来。例如：
+```
+>>> stack = [3, 4, 5]
+>>> stack.append(6)
+>>> stack.append(7)
+>>> stack
+[3, 4, 5, 6, 7]
+>>> stack.pop()
+7
+>>> stack
+[3, 4, 5, 6]
+>>> stack.pop()
+6
+>>> stack.pop()
+5
+>>> stack
+[3, 4]
+```
+
+你也可以把链表当做队列使用，队列作为特定的数据结构，最先进入的元素最先释放（先进先出）。使用 append()方法可以把元素添加到队列最后，以0为参数调用 pop() 方法可以把最先进入的元素释放出来。例如：
+```
+>>> queue = ["Eric", "John", "Michael"]
+>>> queue.append("Terry")           # Terry arrives
+>>> queue.append("Graham")          # Graham arrives
+>>> queue.pop(0)
+'Eric'
+>>> queue.pop(0)
+'John'
+>>> queue
+['Michael', 'Terry', 'Graham']
+```
+
+如果你想要知道列表对象定义的所有方法，可以通过help(list)获得完整的知识。
+
+### 元组Tuples
+
+元组和列表十分类似，只不过元组和字符串一样是 不可变的 即你不能修改元组。元组通过圆括号中用逗号分割的项目定义。元组通常用在使语句或用户定义的函数能够安全地采用一组值的时候，即被使用的元组的值不会改变。
+
+```python
+#!/usr/bin/python
+
+zoo = ('wolf', 'elephant', 'penguin')
+print 'Number of animals in the zoo is', len(zoo)
+
+new_zoo = ('monkey', 'dolphin', zoo)
+print 'Number of animals in the new zoo is', len(new_zoo)
+print 'All animals in new zoo are', new_zoo
+print 'Animals brought from old zoo are', new_zoo[2]
+print 'Last animal brought from old zoo is', new_zoo[2][2]
+```
+
+输出
+```
+Number of animals in the zoo is 3
+Number of animals in the new zoo is 3
+All animals in new zoo are ('monkey', 'dolphin', ('wolf', 'elephant', 'penguin'))
+Animals brought from old zoo are ('wolf', 'elephant', 'penguin')
+Last animal brought from old zoo is penguin
+```
+
+变量zoo是一个元组，我们看到len函数可以用来获取元组的长度。这也表明元组也是一个序列。
+
+由于老动物园关闭了，我们把动物转移到新动物园。因此，new_zoo元组包含了一些已经在那里的动物和从老动物园带过来的动物。回到话题，注意元组之内的元组不会失去它的身份。
+
+我们可以通过一对方括号来指明某个项目的位置从而来访问元组中的项目，就像我们对列表的用法一样。这被称作 索引 运算符。我们使用new_zoo[2]来访问new_zoo中的第三个项目。我们使用new_zoo[2][2]来访问new_zoo元组的第三个项目的第三个项目。
+
+含有0个或1个项目的元组。一个空的元组由一对空的圆括号组成，如myempty = ()。然而，含有单个元素的元组就不那么简单了。你必须在第一个（唯一一个）项目后跟一个逗号，这样Python才能区分元组和表达式中一个带圆括号的对象。即如果你想要的是一个包含项目2的元组的时候，你应该指明singleton = (2 , )。
+
+### 字符串替换
+
+元组最通常的用法是用在字符串替换中，下面是一个例子：
+
+```
+#!/usr/bin/python
+
+age = 22
+name = 'Swaroop'
+
+print '%s is %d years old' % (name, age)
+print 'Why is %s playing with that python?' % name
+```
+
+输出
+```
+Swaroop is 22 years old
+Why is Swaroop playing with that python?
+```
+
+print语句可以使用跟着%符号的项目元组的字符串。这些字符串具备定制的功能。定制让输出满足某种特定的格式。定制可以是%s表示字符串或%d表示整数。元组必须按照相同的顺序来对应这些定制。
+
+观察我们使用的第一个元组，我们首先使用%s，这对应变量name，它是元组中的第一个项目。而第二个定制是%d，它对应元组的第二个项目age。
+
+Python在这里所做的是把元组中的每个项目转换成字符串并且用字符串的值替换定制的位置。因此%s被替换为变量name的值，依此类推。
+
+print的这个用法使得编写输出变得极其简单，它避免了许多字符串操作。它也避免了我们一直以来使用的逗号。
+
+在大多数时候，你可以只使用%s定制，而让Python来提你处理剩余的事情。这种方法对数同样奏效。然而，你可能希望使用正确的定制，从而可以避免多一层的检验程序是否正确。
+
+在第二个print语句中，我们使用了一个定制，后面跟着%符号后的单个项目——没有圆括号。这只在字符串中只有一个定制的时候有效。
+
+### 字典Dictionaries
+
+字典类似于你通过联系人名字查找地址和联系人详细情况的地址簿，即，我们把键（名字）和值（详细情况）联系在一起。注意，键必须是唯一的，就像如果有两个人恰巧同名的话，你无法找到正确的信息。
+
+注意，你只能使用不可变的对象（比如字符串）来作为字典的键，但是你可以把不可变或可变的对象作为字典的值。基本说来就是，你应该只使用简单的对象作为键。
+
+键值对在字典中以这样的方式标记：d = {key1 : value1, key2 : value2 }。注意它们的键/值对用冒号分割，而各个对用逗号分割，所有这些都包括在花括号中。
+
+记住字典中的键/值对是没有顺序的。如果你想要一个特定的顺序，那么你应该在使用前自己对它们排序。
+
+字典是dict类的实例/对象。
+
+```python
+#!/usr/bin/python
+
+# 'ab' is short for 'a'ddress'b'ook
+
+ab = {       'Swaroop'   : 'swaroopch@byteofpython.info',
+             'Larry'     : 'larry@wall.org',
+             'Matsumoto' : 'matz@ruby-lang.org',
+             'Spammer'   : 'spammer@hotmail.com'
+     }
+
+print "Swaroop's address is %s" % ab['Swaroop']
+
+# Adding a key/value pair
+ab['Guido'] = 'guido@python.org'
+
+# Deleting a key/value pair
+del ab['Spammer']
+
+print '\nThere are %d contacts in the address-book\n' % len(ab)
+
+print "\nGuido's address is %s" % ab['Guido']
+
+print "\nAll contacts: "
+print a.keys()
+
+print "\nAll addresses: "
+print ab.values()
+```
+
+输出
+```
+Swaroop's address is swaroopch@byteofpython.info
+
+There are 4 contacts in the address-book
+
+Guido's address is guido@python.org
+
+All contacts:
+['Swaroop', 'Matsumoto', 'Larry', 'Guido']
+
+All addresses:
+['swaroopch@byteofpython.info', 'matz@ruby-lang.org', 'larry@wall.org', 'guido@python.org']
+```
+
+我们使用已经介绍过的标记创建了字典ab。然后我们使用在列表和元组章节中已经讨论过的索引操作符来指定键，从而使用键/值对。我们可以看到字典的语法同样十分简单。
+
+我们可以使用索引操作符来寻址一个键并为它赋值，这样就增加了一个新的键/值对，就像在上面的例子中我们对Guido所做的一样。
+
+我们可以使用我们的老朋友——del语句来删除键/值对。我们只需要指明字典和用索引操作符指明要删除的键，然后把它们传递给del语句就可以了。执行这个操作的时候，我们无需知道那个键所对应的值。
+
+我们可以使用in操作符来检验一个键/值对是否存在，或者使用dict类的has_key方法。你可以使用help(dict)来查看dict类的完整方法列表。
+
+关键字参数与字典。如果换一个角度看待你在函数中使用的关键字参数的话，你已经使用了字典了！只需想一下——你在函数定义的参数列表中使用的键/值对。当你在函数中使用变量的时候，它只不过是使用一个字典的键（这在编译器设计的术语中被称作 符号表 ）。
+
+### 序列
+
+列表、元组和字符串都是序列，但是序列是什么，它们为什么如此特别呢？序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。
+```python
+#!/usr/bin/python
+
+shoplist = ['apple', 'mango', 'carrot', 'banana']
+
+# Indexing or 'Subscription' operation
+print 'Item 0 is', shoplist[0]
+print 'Item 1 is', shoplist[1]
+print 'Item 2 is', shoplist[2]
+print 'Item 3 is', shoplist[3]
+print 'Item -1 is', shoplist[-1]
+print 'Item -2 is', shoplist[-2]
+
+# Slicing on a list
+print 'Item 1 to 3 is', shoplist[1:3]
+print 'Item 2 to end is', shoplist[2:]
+print 'Item 1 to -1 is', shoplist[1:-1]
+print 'Item start to end is', shoplist[:]
+
+# Slicing on a string
+name = 'swaroop'
+print 'characters 1 to 3 is', name[1:3]
+print 'characters 2 to end is', name[2:]
+print 'characters 1 to -1 is', name[1:-1]
+print 'characters start to end is', name[:]
+```
+
+输出
+```
+Item 0 is apple
+Item 1 is mango
+Item 2 is carrot
+Item 3 is banana
+Item -1 is banana
+Item -2 is carrot
+Item 1 to 3 is ['mango', 'carrot']
+Item 2 to end is ['carrot', 'banana']
+Item 1 to -1 is ['mango', 'carrot']
+Item start to end is ['apple', 'mango', 'carrot', 'banana']
+characters 1 to 3 is wa
+characters 2 to end is aroop
+characters 1 to -1 is waroo
+characters start to end is swaroop
+```
+
+首先，我们来学习如何使用索引来取得序列中的单个项目。这也被称作是下标操作。每当你用方括号中的一个数来指定一个序列的时候，Python会为你抓取序列中对应位置的项目。记住，Python从0开始计数。因此，shoplist[0]抓取第一个项目，shoplist[3]抓取shoplist序列中的第四个元素。
+
+索引同样可以是负数，在那样的情况下，位置是从序列尾开始计算的。因此，`shoplist[-1]`表示序列的最后一个元素而`shoplist[-2]`抓取序列的倒数第二个项目。
+
+切片操作符是序列名后跟一个方括号，方括号中有一对可选的数字，并用冒号分割。注意这与你使用的索引操作符十分相似。记住数是可选的，而冒号是必须的。
+
+切片操作符中的第一个数（冒号之前）表示切片开始的位置，第二个数（冒号之后）表示切片到哪里结束。如果不指定第一个数，Python就从序列首开始。如果没有指定第二个数，则Python会停止在序列尾。注意，返回的序列从开始位置 开始 ，刚好在 结束 位置之前结束。即开始位置是包含在序列切片中的，而结束位置被排斥在切片外。
+
+这样，shoplist[1:3]返回从位置1开始，包括位置2，但是停止在位置3的一个序列切片，因此返回一个含有两个项目的切片。类似地，shoplist[:]返回整个序列的拷贝。
+
+你可以用负数做切片。负数用在从序列尾开始计算的位置。例如，`shoplist[:-1]`会返回除了最后一个项目外包含所有项目的序列切片。
+
+使用Python解释器交互地尝试不同切片指定组合，即在提示符下你能够马上看到结果。序列的神奇之处在于你可以用相同的方法访问元组、列表和字符串。
+
+序列类型有一个运算符in，可以用于判断元素是否在一个序列中。比如
+```
+>>> 2 in [1,2,3]
+True
+>>> 'A' in ('a', 'b', 'c')
+False
+>>> 'H' in 'Hello world'
+True
+```
+
+### 引用
+
+当你创建一个对象并给它赋一个变量的时候，这个变量仅仅 引用 那个对象，而不是表示这个对象本身！也就是说，变量名指向你计算机中存储那个对象的内存。这被称作名称到对象的绑定。
+
+一般说来，你不需要担心这个，只是在引用上有些细微的效果需要你注意。这会通过下面这个例子加以说明。
+
+```python
+#!/usr/bin/python
+
+print 'Simple Assignment'
+shoplist = ['apple', 'mango', 'carrot', 'banana']
+mylist = shoplist # mylist is just another name pointing to the same object!
+
+del shoplist[0]
+
+print 'shoplist is', shoplist
+print 'mylist is', mylist
+# notice that both shoplist and mylist both print the same list without
+# the 'apple' confirming that they point to the same object
+
+print 'Copy by making a full slice'
+mylist = shoplist[:] # make a copy by doing a full slice
+del mylist[0] # remove first item
+
+print 'shoplist is', shoplist
+print 'mylist is', mylist
+# notice that now the two lists are different
+```
+
+输出
+```
+Simple Assignment
+shoplist is ['mango', 'carrot', 'banana']
+mylist is ['mango', 'carrot', 'banana']
+Copy by making a full slice
+shoplist is ['mango', 'carrot', 'banana']
+mylist is ['carrot', 'banana']
+```
+
+大多数解释已经在程序的注释中了。你需要记住的只是如果你想要复制一个列表或者类似的序列或者其他复杂的对象（不是如整数那样的简单 对象 ），那么你必须使用切片操作符来取得拷贝。如果你只是想要使用另一个变量名，两个名称都 引用 同一个对象，那么如果你不小心的话，可能会引来各种麻烦。
+
+### 列表推导式 List Comprehensions
+
+通过列表推导式，可以从一个已有的列表导出一个新的列表。例如，你有一个数的列表，而你想要得到一个对应的列表，使其中所有大于2的数都是原来的2倍。对于这种应用，列表综合是最理想的方法。
+```python
+#!/usr/bin/python
+
+listone = [2, 3, 4]
+listtwo = [2*i for i in listone if i > 2]
+print listtwo
+```
+
+输出
+```
+[6, 8]
+```
+
+这里我们为满足条件（if i > 2）的数指定了一个操作（2*i），从而导出一个新的列表。注意原来的列表并没有发生变化。在很多时候，我们都是使用循环来处理列表中的每一个元素，而使用列表推导式可以用一种更加精确、简洁、清楚的方法完成相同的工作。
+
+### 类型转换
+
+使用类型名可以把一个类型的对象转换为另一个类型。比如
+```
+>>> a = False
+>>> str(a)
+'False'
+>>> int(a)
+0
+>>> b = 10.5
+>>> int(b)
+10
+>>> c = [1,2,3,4,5]
+>>> tuple(c)
+(1, 2, 3, 4, 5)
+>>> d = '123.45'
+>>> float(d)
+123.45
+>>> int(d)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+ValueError: invalid literal for int(): 123.45
+
+```
+
+### 文件Files
+
+你可以通过创建一个file类的对象来打开一个文件，分别使用file类的read、readline或write方法来恰当地读写文件。对文件的读写能力依赖于你在打开文件时指定的模式。最后，当你完成对文件的操作的时候，你调用close方法来告诉Python我们完成了对文件的使用。
+```python
+#!/usr/bin/python
+
+poem = '''\
+Programming is fun
+When the work is done
+if you wanna make your work also fun:
+        use Python!
+'''
+
+f = file('poem.txt', 'w') # open for 'w'riting
+f.write(poem) # write text to file
+f.close() # close the file
+
+f = file('poem.txt')
+# if no mode is specified, 'r'ead mode is assumed by default
+while True:
+    line = f.readline()
+    if len(line) == 0: # Zero length indicates EOF
+        break
+    print line,
+    # Notice comma to avoid automatic newline added by Python
+f.close() # close the file
+```
+
+输出
+```
+$ python using_file.py
+Programming is fun
+When the work is done
+if you wanna make your work also fun:
+        use Python!
+```
+
+首先，我们通过指明我们希望打开的文件和模式来创建一个file类的实例。模式可以为读模式（'r'）、写模式（'w'）或追加模式（'a'）。事实上还有多得多的模式可以使用，你可以使用help(file)来了解它们的详情。
+
+我们首先用写模式打开文件，然后使用file类的write方法来写文件，最后我们用close关闭这个文件。
+
+接下来，我们再一次打开同一个文件来读文件。如果我们没有指定模式，读模式会作为默认的模式。在一个循环中，我们使用readline方法读文件的每一行。这个方法返回包括行末换行符的一个完整行。所以，当一个 空的 字符串被返回的时候，即表示文件末已经到达了，于是我们停止循环。
+
+注意，因为从文件读到的内容已经以换行符结尾，所以我们在print语句上使用逗号来消除自动换行。最后，我们用close关闭这个文件。
+
+现在，来看一下poem.txt文件的内容来验证程序确实工作正常了。
+```
+Programming is fun
+When the work is done
+if you wanna make your work also fun:
+        use Python!
+```
+
+## 运算符
+
+### 运算符表
+
+| 运算符 | 名称 | 说明 | 例子 |
+| --- | --- | --- | --- |
+| + | 加 | 两个对象相加 | 3 + 5得到8。'a' + 'b'得到'ab'。 |
+| - | 减 | 得到负数或是一个数减去另一个数 | -5.2得到一个负数。50 - 24得到26。 |
+| * | 乘 | 两个数相乘或是返回一个被重复若干次的字符串 | 2 * 3得到6。'la' * 3得到'lalala'。 |
+| ** | 幂 | 返回x的y次幂 | 3 ** 4得到81（即3 * 3 * 3 * 3） |
+| / | 除 | x除以y | 4/3得到1（整数的除法得到整数结果）。4.0/3或4/3.0得到1.3333333333333333 |
+| // | 取整除 | 返回商的整数部分 | 4 // 3.0得到1.0 |
+| % | 取模 | 返回除法的余数 | 8%3得到2。-25.5%2.25得到1.5 |
+| << | 左移 | 把一个数的比特向左移一定数目（每个数在内存中都表示为比特或二进制数字，即0和1） | 2 << 2得到8。——2按比特表示为10 |
+| >> | 右移 | 把一个数的比特向右移一定数目 | 11 >> 1得到5。——11按比特表示为1011，向右移动1比特后得到101，即十进制的5。 |
+| & | 按位与 | 数的按位与 | 5 & 3得到1。 |
+| \| | 按位或 | 数的按位或 | 5 \| 3得到7。 |
+| `^` | 按位异或 | 数的按位异或 | `5 ^ 3`得到6 |
+| ~ | 按位翻转 | x的按位翻转是-(x+1) | ~5得到-6。 |
+| < | 小于 | 返回x是否小于y。所有比较运算符返回True表示真，返回False表示假。 | 5 < 3返回0（即False）而3 < 5返回1（即True）。比较可以被任意连接：3 < 5 < 7返回True。 |
+| > | 大于 | 返回x是否大于y | 5 > 3返回True。如果两个操作数都是数字，它们首先被转换为一个共同的类型。否则，它总是返回False。 |
+| <= | 小于等于 | 返回x是否小于等于y | x = 3; y = 6; x <= y返回True。 |
+| >= | 大于等于 | 返回x是否大于等于y | x = 4; y = 3; x >= y返回True。 |
+| == | 等于 | 比较对象是否相等 | x = 2; y = 2; x == y返回True。x = 'str'; y = 'stR'; x == y返回False。x = 'str'; y = 'str'; x == y返回True。 |
+| != | 不等于 | 比较两个对象是否不相等 | `x = 2; y = 3; x != y`返回True。 |
+| not | 布尔“非” | 如果x为True，返回False。如果x为False，它返回True。 | x = True; not y返回False。 |
+| and | 布尔“与” | 如果x为False，x and y返回False，否则它返回y的计算值。 | x = False; y = True; x and y，由于x是False，返回False。在这里，Python不会计算y，因为它知道这个表达式的值肯定是False（因为x是False）。这个现象称为短路计算。 |
+| or | 布尔“或” | 如果x是True，它返回True，否则它返回y的计算值。 | x = True; y = False; x or y返回True。短路计算在这里也适用。 |
+
+### 运算符优先级
+
+如果你有一个如2 + 3 * 4那样的表达式，是先做加法呢，还是先做乘法？我们的中学数学告诉我们应当先做乘法——这意味着乘法运算符的优先级高于加法运算符。
+
+下面这个表给出Python的运算符优先级，从最低的优先级（最松散地结合）到最高的优先级（最紧密地结合）。这意味着在一个表达式中，Python会首先计算表中较下面的运算符，然后在计算列在表上部的运算符。
+
+下面这张表（与Python参考手册中的那个表一模一样）已经顾及了完整的需要。事实上，我建议你使用圆括号来分组运算符和操作数，以便能够明确地指出运算的先后顺序，使程序尽可能地易读。例如，2 + (3 * 4)显然比2 + 3 * 4清晰。与此同时，圆括号也应该正确使用，而不应该用得过滥（比如2 + (3 + 4)）。
+
+| 运算符 | 描述 |
+| --- | --- |
+| lambda | Lambda表达式 |
+| or | 布尔“或” |
+| and | 布尔“与” |
+| not x | 布尔“非” |
+| in，not in | 成员测试 |
+| is，is not | 同一性测试 |
+| `<，<=，>，>=，!=，==` | 比较 |
+| \| | 按位或 |
+| `^` | 按位异或 |
+| & | 按位与 |
+| `<<，>>` | 移位 |
+| +，- | 加法与减法 |
+| *，/，% | 乘法、除法与取余 |
+| +x，-x | 正负号 |
+| ~x | 按位翻转 |
+| ** | 指数 |
+| x.attribute | 属性参考 |
+| x[index] | 下标 |
+| x[index:index] | 寻址段 |
+| f(arguments...) | 函数调用 |
+| (experession,...) | 绑定或元组显示 |
+| [expression,...] | 列表显示 |
+| {key:datum,...} | 字典显示 |
+| `expression,...` | 字符串转换 |
+
+默认地，运算符优先级表决定了哪个运算符在别的运算符之前计算。然而，如果你想要改变它们的计算顺序，你得使用圆括号。例如，你想要在一个表达式中让加法在乘法之前计算，那么你就得写成类似(2 + 3) * 4的样子。
+
+运算符通常由左向右结合，即具有相同优先级的运算符按照从左向右的顺序计算。例如，2 + 3 + 4被计算成(2 + 3) + 4。一些如赋值运算符那样的运算符是由右向左结合的，即a = b = c被处理为a = (b = c)。
+
+## end

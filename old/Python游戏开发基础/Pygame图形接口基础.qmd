@@ -1,0 +1,407 @@
+---
+title: "Pygame图形接口基础"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## 图像处理
+
+### 读取和保存
+
+使用pygame.image模块，可以对图像进行读取和保存。
+
+使用pygame.image.load读取图像文件。
+```
+img = pygame.image.load(filename)
+```
+
+可以读取文件名为filename的图像文件，pygame会自动确定文件的类型（比如GIF或者BMP），一般来说支持JPG、PNG、GIF (non animated)、BMP、PCX、TGA (uncompressed)、TIF、LBM (及PBM)、PBM (及PGM, PPM)、XPM等。它返回一个包含图像的Surface，Surface的格式和原来的文件相同（包括颜色格式、透明色和alpha透明）。
+
+使用pygame.image.save可以把图像保存到文件中。
+```
+pygame.image.save(img, filename)
+```
+
+这个函数可以把img这个Surface的内容保存为filename指定的图像文件，文件格式可以是BMP、TGA、PNG或者JPEG。如果文件扩展名不认识，默认保存为TGA格式。TGA和BMP格式都是非压缩的文件。
+
+还有pygame.image.tostring、pygame.image.fromstring、pygame.image.frombuffer函数可以把图像序列化，即把图像保存在字符串中或者从字符串中读取图像。
+
+### 变换
+
+使用pygame.transform模块中的函数，可以对图像进行简单的变换。所有的这些函数都需要一个Surface参数指明要处理的图像，并生成一个新的图像表示处理后的结果，原来的图像不会被改变。
+
+使用pygame.transform.flip可以上下左右颠倒图像，比如
+```
+newimg = pygame.transform.flip(img, True, False)
+```
+
+第一个参数指定要翻转的图像，第二个参数指定是否对图像进行左右颠倒，第三个参数指定是否对图像进行上下颠倒。函数返回颠倒后的图像。
+
+使用pygame.transform.scale可以对图像进行缩放，比如
+```
+newimg = pygame.transform.resize(img, (640, 480))
+```
+
+第一个参数指定要缩放的图像，第二个参数指定缩放后的图像大小，函数返回缩放后的图像。
+
+使用pygame.transform.rotate可以对图像进行旋转，比如
+```
+newimg = pygame.transform.rotate(img, 30.0)
+```
+
+第一个参数指定要旋转的图像，第二个参数指定旋转的角度数，正值为逆时针旋转，负值是顺时针旋转。函数返回旋转后的图像。旋转后的图像可能比原来的图像大，才能够容纳原来的整个图像，空出来的部分会补上透明色或者原来图像的左上角点的颜色。
+
+使用pygame.transform.rotozoom可以对图像进行缩放并旋转，比如
+```
+newimg = pygame.transform.rotozoom(img, 30.0, 2.0)
+```
+
+第一个参数指定要处理的图像，第二个参数指定旋转的角度数，第三个参数指定缩放的比例。返回处理后的图像。这个函数和前面两个函数不一样，这个函数会对图像进行滤波处理，图像效果会更好，但是速度会慢很多。
+
+使用pygame.transform.scale2x可以对图像进行快速的两倍大小的放大，比如
+```
+newimg = pygame.transform.scale2x(img)
+```
+
+使用pygame.transform.chop可以对图像进行裁减，比如
+```
+newimg = pygame.transform.chop(img, (100, 100, 200, 200))
+```
+
+第一个参数指定要裁减的图像，第二个参数指定要保留的图像的区域。返回裁减后留下的图像。
+
+## 对surface的控制
+
+### 像素格式
+
+pygame里的Surface是用来表示图像的对象。Surface有一定的大小和像素格式。在创建的时候，可以指定。
+```
+pygame.Surface((width, height), flags=0, depth=0, masks=None): return Surface
+pygame.Surface((width, height), flags=0, Surface): return Surface
+```
+
+如果是8bit像素格式的Surface，它还会用一个调色板映射到24比特颜色。像素格式可以通过指定像素深度或者已有的Surface来控制。flags标志位参数是其他一些Surface选项的集合，你可以指定如下的标志
+
+   - HWSURFACE, 在视频内存中创建图像
+   - SRCALPHA, 像素格式中会包含一个alpha通道
+
+这些参数都仅仅是一个请求，在实际中可能并不能实现。高级用户可以组合一组颜色屏蔽位，masks是4个整数的集合，表示像素里的哪个位用来表示一种颜色。一般的Surface不需要masks参数。
+
+8bit的Surface有一个调色板，把8bit的整数映射到RGB彩色。通过下面函数可以对调色板进行设置：
+```
+Surface.set_at(index, RGB): return None
+Surface.set_palette([RGB, RGB, RGB, ...]): return None
+```
+
+通过下面的函数可以获得当前的调色板：
+```
+Surface.get_palette(): return [RGB, RGB, RGB, ...]
+Surface.get_palette_at(index): return RGB
+```
+
+不同像素类型的Surface之间的blit操作是很慢的，所以一般在blit之前要先通过Surface.convert对图像进行像素格式的变换。Surface.convert有多种不同的用法
+```
+Surface.convert(Surface): return Surface
+Surface.convert(depth, flags=0): return Surface
+Surface.convert(masks, flags=0): return Surface
+Surface.convert(): return Surface
+```
+
+新的像素格式可以由现存其它Surface确定，也可以由depth，flags或者masks决定。这些参数和pygame.Surface的参数类似。
+
+如果没有参数，新的Surface会和display Surface的像素格式一样。这是画图最快的格式。转换所有需要多次blit的Surface是一个好主意。
+
+转换出来的Surface不会有像素alpha。如果原来的Surface里面有，他们会被去掉。参看Surface.convert_alpha来保留或者创建每像素alpha。
+
+如果Surface是有alpha通道的，并且需要保留这个信息，则需要使用Surface.convert_alpha：
+```
+Surface.convert_alpha(Surface): return Surface
+Surface.convert_alpha(): return Surface
+```
+
+### 块复制
+
+一个图像复制到另一个上面，这是游戏中最常用的操作，由blit函数来实现
+```
+Surface.blit(source, dest, area=None, special_flags = 0): return Rect
+```
+
+画的位置可以由dest参数指定。dest可以是一对坐标值，表示源Surface的左上角在这个Surface上的坐标。dest也可以是一个矩形，矩形的左上角作为blit的位置，而矩形的大小不影响blit。
+
+有一个可选的area矩形参数，可以用来指定只画源Surface的一部分。
+
+一个可选的special_flags参数，可以是BLEND_ADD、BLEND_SUB、BLEND_MULT、BLEND_MIN、BLEND_MAX。将来也可能有其它特殊标记添加进来。
+
+函数返回的矩形表示受影响的像素的区域，不包括目标Surface以外的像素，也不包括剪切区域以外的像素。
+
+### 透明
+
+pygame支持三种类型的透明：透明色(colorkey)，Surface alpha和每像素alpha。Surface alpha可以和透明色(colorkey)混合使用，但是有像素alpha的图像不能够使用其它模式。透明色(colorkey)让一种颜色值透明。任何和这个颜色相同的像素都不会被画出来。Surface alpha值是单独一个值用来改变整个图像的透明度。Surface alpha值是255表示不透明，值是0表示全透明。而每像素alpha是不一样的，它为每个像素保存了一个透明值。这种方法允许精确的控制透明效果，但是这种方法也是最慢的。每像素alpha不能和其它方法混用。
+
+要设置透明色，使用Surface.set_colorkey函数：
+```
+Surface.set_colorkey(Color, flags=0): return None
+Surface.set_colorkey(None): return None
+```
+
+当把这个Surface blit到令一个Surface时候，和这个透明色颜色相同的像素会变成透明。color参数可以是RGB颜色或者是一个映射的整数。如果传送的是None，则Surface会没有透明色。如果是有每像素透明的Surface，透明色会被忽略。透明色可以和Surface alpha混合使用。可选的flags参数可以是pygame.RLEACCEL，用来在没有加速的时候提供更好的性能。设置了RLEACCEL的Surface作为源Surface blit更快，但是修改Surface的内容会更慢。
+
+Surface的当前透明色可以通过Surface.get_colorkey获得：
+```
+Surface.get_colorkey(): return RGB or None
+```
+
+如果没有透明色，则函数返回None。
+
+要设置Surface的alpha值，可以通过Surface.set_alpha来实现：
+```
+Surface.set_alpha(value, flags=0): return None
+Surface.set_alpha(None): return None
+```
+
+透明值value可以取0到255之间的值，0是完全透明，255是完全不透明。如果value是None，则Surface就没有alpha透明了。
+
+Surface当前的alpha值可以通过Surface.get_alpha获得：
+```
+Surface.get_alpha(): return int_value or None
+```
+
+如果没有alpha透明，则这个函数返回None。
+
+每像素在绘图的时侯可以通过颜色元组的第四个参数指定。
+
+### 剪切区域
+
+每个Surface包含一个剪切区域。默认情况下，剪切区域是整个Surface。如果改变了剪切区域，所有的画图操作都会限制在一个比较小的范围之内。
+
+通过Surface.set_clip可以设置剪切区域：
+```
+Surface.set_clip(rect): return None
+Surface.set_clip(None): return None
+```
+
+如果参数是None，则整个Surface都可以修改。剪切区域总是在Surface本身的区域只内的。如果剪切区域比Surface的区域大，则会自动缩小到Surface区域之内。
+
+要获得Surface的当前剪切区域，可以通过Surface.get_clip：
+```
+Surface.get_clip(): return Rect
+```
+
+一个Surface总是返回一个有效的矩形，不会超过图像的边界范围。如果Surface设置了None作为剪切区域，则Surface会返回整个Surface的区域。
+
+### 锁定
+
+对于硬件加速的Surface，它有可能被存在显示内存中。要访问这些Surface上面的像素，就必须先通过Surface.lock对像素进行锁定：
+```
+Surface.lock(): return None
+```
+
+锁定完后，可以对Surface上的像素进行操作，操作完成后，应该及时解锁：
+```
+Surface.unlock(): return None
+```
+
+一个Surface是否要先锁定再操作，可以通过Surface.mustlock来判断：
+```
+Surface.mustlock(): return bool
+```
+
+这个函数返回Ture则需要锁定，否则不需要锁定。一个Surface当前的锁定状态可以通过Surface.get_locked来获得：
+```
+Surface.get_locked(): return bool
+```
+
+这个函数返回True表示已经锁定了，False表示没有锁定。
+
+实际上，pygame中所有需要锁定Surface才能操作的函数都会自动地对Surface锁定和解锁。一般情况下不需要调用lock和unlock函数。但是如果在一段代码中需要反复对Surface上的像素进行操作，则每次都进行锁定和解锁会非常的慢，所以可以在这一串操作开始的时候进行锁定，这一串操作结束后解锁，避免重复的锁定解锁操作。
+
+## 绘图
+
+除了可以把事先画好的图片blit到Surface上以外，还可以在Surface上自行在Surface上绘制一些简单的图形，比如点、线、方、圆等。这个功能主要由pygame.draw模块完成。
+
+首先导入pygame.draw模块。
+```
+import pygame.draw
+```
+
+如果已经用了`import pygame`，则pygame.draw模块也被自动导入了。
+
+然后准备好要在上面绘制图形的Surface，比如
+```
+surface = pygame.display.set_mode((640, 480))
+```
+
+### 画矩形
+
+接下来就可以在surface上面绘制想要的图形了。比如说画矩形可以使用pygame.draw.rect函数：
+```
+pygame.draw.rect(surface, (0,0,255), (100, 200, 100, 100))
+```
+
+第一个参数指定在哪个Surface上画矩形，第二个参数是矩形的颜色，第三个参数是矩形的位置和大小。
+
+颜色的参数一般是一个由红绿蓝三种颜色值构成的三元组，0是最暗的，255是最亮的。比如(0,0,255)是纯蓝色，(255,0,0)是纯红色，(0,0,0)是黑色，(255,255,255)是白色等等。有时候也可以使用RGBA四元组来表示颜色。如果Surface包含alpha，四元组中alpha值会被直接写入到Surface里面，画图函数并不会进行透明的绘画。颜色参数也可以是一个整数，是映射到Surface里的像素值。其他绘图函数里面的颜色参数也是一样的。
+
+矩形参数由四个值构成的元组，分别是矩形左上角的x、y坐标，矩形的宽和高。
+
+默认情况下，画出来的矩形是实心的（中间填充了指定的颜色）。如果要画一个只有边框的矩形，可以指定一个可选的参数width。比如
+```
+pygame.draw.rect(surface, (0,0,255), (100, 200, 100, 100), 2)
+```
+
+可以在屏幕上画一个边框是2个像素粗的矩形，中间是透明的。如果不指定这个width参数，或者width指定为0，则画出来的矩形就是实心的。其他有些绘图函数里面也有类似的参数，功能也是相似的。
+
+pygame.draw.rect函数返回一个矩形，表示屏幕上被修改的像素的区域范围。其它绘图函数也都有这样的返回值。
+
+### 画多边形
+
+用pygame.draw.polygon可以在Surface上画一个多边形。比如
+```
+pygame.draw.polygon(surface, (255,0,0), [(100, 100),(200, 100),(250,186.6),(200,273.2),(100, 273.2),(50,186.6)])
+```
+
+第三个参数pointlist参数是多边形顶点的列表。可选的第四个width参数是多边形的边的粗细。如果width是0或者被忽略，多边形是被填充的。
+```
+pygame.draw.polygon(surface, (0,255,0), [(100, 100),(200, 100),(250,186.6),(200,273.2),(100, 273.2),(50,186.6)],1)
+```
+
+### 画圆
+
+pygame.draw.circle在Surface上画一个圆形。
+```
+pygame.draw.circle(surface, (255,255,0), (100, 100), 50)
+```
+
+第三个参数pos是圆的圆心，第四个参数radius是半径大小。可选的第五个参数width是圆边的粗细，如果width缺省或者是0圆会被填充。
+
+### 画椭圆
+
+pygame.draw.ellipse在矩形区域中画一个椭圆的形状。比如
+```
+pygame.draw.ellipse(surface, (0,255,255), (200, 200, 200, 100))
+```
+
+第三个参数指定的矩形区域是椭圆填充的区域。可选的第四个参数width是边的粗细。如果width缺省或者是0，椭圆会被填充。
+
+### 画弧线
+
+pygame.draw.arc画椭圆的一段。比如
+```
+pygame.draw.arc(surface, (0,255,0), (200, 200, 200, 100), 3.14159/3, 3.14159*2/3)
+```
+
+在Surface上画一个椭圆状的弧线。第三个参数rect指定椭圆填充的矩形。接下来两个角度参数指定起始和终止的角度（以弧度为单位），朝右为0度。可选的第六个参数width是弧线的粗细，默认值是1。
+
+### 画线段
+
+pygame.draw.line函数可以画一条直线段。比如
+```
+pygame.draw.line(surface, (255,0,255), (100, 100), (200, 200))
+```
+
+第三个参数指定起点，第四个参数指定终点。可选的第五个参数width指定线的宽度，默认是1。线段终点没有箭头，宽的线段终点是方形的。
+
+### 画连续的线段
+
+pygame.draw.lines画多条连续的线段。比如
+```
+pygame.draw.lines(surface, (255,255,255), False, [(100, 100), (200, 200), (300, 200), (200, 100)])
+```
+
+第四个参数pointlist是一系列点的列表。如果第三个参数是True，则在最后一点和第一点之间会画一条线段。可选的第五个参数表示线的宽度，默认为1。这个函数不会画终点箭头和中间连接头。线段有尖锐的拐角，粗的线段会有不太好看的拐角。
+
+### 抗锯齿的线段
+
+pygame.draw.aaline画抗锯齿的线段。
+```
+pygame.draw.aaline(surface, (255,255,0), (200, 100), (300, 200))
+```
+
+这个函数的用法和画线段的函数差不多，只是画出来的线段有抗锯齿效果，看上去比较光滑。有一个可选的第五个参数blend，如果blend是True，则阴影部分是和原始像素混合而不是直接覆盖的。这个函数接受浮点数作为点的坐标。
+
+pygame.draw.aalines可以画多条连续的抗锯齿线段。
+```
+pygame.draw.aalines(surface, (0,0, 255), False, [(100, 100), (200, 200), (300, 100), (200, 0)])
+```
+
+如果第三个参数如果是True，则在第一个点和最后一点之间会画一条直线。有一个可选的第五个参数blend，如果blend参数是True，则阴影部分是和原始像素混合而不是直接覆盖的。这个函数接受浮点数作为点的坐标。
+
+### 点操作
+
+画点的方法和其它方法不太一样，用Surface.set_at方法完成画点的操作，比如：
+```
+surface.set_at((100, 100), (255,255,255))
+```
+
+第一个参数是点的坐标，第二个参数是颜色。在游戏和实时模拟中，一次取得和设置一个像素是很慢的。
+
+除了可以在Surface上画点，还可以用Surface.get_at读取Surface上像素的值。比如
+```
+color = surface.get_at((100, 100))
+```
+
+这个函数返回给定点的颜色值。
+
+### 填充区域
+
+Surface.fill方法可以用一种颜色填充一个矩形区域。比如
+```
+surface.fill((255,0,0), (100, 200, 100, 100))
+```
+
+第一个参数指定要填充的颜色，第二个参数指定填充的矩形区域。如果没有给定第二个参数，整个Surface会被填充。第二个参数会限制备填充的区域。这个函数会返回受影响的Surface区域。
+
+## 写字
+
+相对于在Surface上画图，在Surface上写文字要复杂得多。
+
+首先需要导入pygame.font模块并初始化。
+```
+import pygame.font
+pygame.font.init()
+```
+
+### 选择字体
+
+然后用pygame.font.get_fonts获取可用的字体的列表。
+```
+pygame.font.get_fonts()
+```
+
+它返回一个字体名字的列表。
+
+然后再用字体名字列表中的一个名字可以创建一个字体对象。
+```
+font = pygame.font.SysFont("monospace", 12)
+```
+
+第一个参数指定字体的名字，第二个参数指定字体的大小。可选的第三个参数bold指定是否粗体，默认不是粗题。可选的地四个参数italic指定是否斜体，默认不是斜体。
+
+如果是要使用自己给的字体文件，可以这样创建字体对象
+```
+font = pygame.font.Font("/usr/share/fonts/truetype/arphic/uming.ttf", 12)
+```
+
+第一个参数指定要载入的字体文件的完整路径，第二个参数指定字体的大小。
+
+### 创建文字Surface
+
+使用字体对象的Font.render函数可以创建一个Surface，里面包含写出来的文字。比如
+```
+font_surface = font.render("Hello world!", False, (255,0,0))
+```
+
+第一个参数是要写的文字，文字只能包含一行，换行符不会被画出来。第二个参数指定是否使用抗锯齿效果，如果是True字符会有光滑的边缘。第三个参数是字体的颜色。可选的第四个参数background用来指定文字背景的颜色。如果没有指定background，背景是透明的。返回创建的Surface，它上面包含了画出来的文字，它的大小是能容纳这些字的最小的大小。
+
+要在已有的Surface上写字，只能先创建一个只包含文字的Surface，然后把它blit到已有的Surface上。比如：
+```
+surface.blit(font_surface, (100, 100))
+```
+
+## The end

@@ -1,0 +1,15 @@
+---
+title: "游戏设计基础期末课程成绩"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+::: {.callout-note}
+原 MoinMoin 页面暂无正文内容。
+:::

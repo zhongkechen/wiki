@@ -1,0 +1,276 @@
+---
+title: "pygame.display"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+这个模块提供了对pygame display的控制。Pygame有唯一一个以窗口或者全屏幕显示的display Surface。你一旦创建这个display，你可以把它作为普通的Surface一样使用。改变不会马上在屏幕上显示出来，你必须使用两个翻转(flipping)函数之一来更新实际显示出来的东西。
+
+display的起始位置（即x=0和y=0）在屏幕的左上角。两个坐标轴分别往右和往下增加。
+
+pygame的display可以被初始化成多种模式之一。默认情况下，它被初始化成一个软件驱动的帧缓冲。你可以请求硬件加速和OpenGL的支持。这由传给pygame.display.set_mode的参数来控制。
+
+任何时刻pygame都只能有一个活动的display。使用pygame.display.set_mod创建一个新的display会把老的display关闭。如果需要精确控制像素格式和显示的分辨率，使用pygame.display.mode_ok函数来设置显示模式，pygame.display.list_modes来列出所有可用的模式，pygame.display.Info来创建一个显示信息对象来查询display的相关信息。
+
+一旦display Surface创建了以后，这个模块的函数会对这个唯一的display起作用。如果这个模块uninitialized后，这个Surface就不能再使用。如果设置了一个新的显示模式，现有的Surface会自动转到新的display上操作。
+
+如果设置了显示模式，一些事件会放在事件队列当中。在程序退出的时候，pygame.QUIT事件会发生。当窗口获取或者失去输入焦点的时候，pygame.ACTIVEEVENT事件会发生。如果display设置了pygame.RESIZEABLE标记，当用户改变窗口的大小时，pygame.VIDEORESIZE事件会发生。如果使用硬件display图形是直接画在屏幕上的，当窗口的一部分必须重画时，pygame.VIDEOEXPOSE事件会发生。
+
+## pygame.display.init
+
+初始化display模块。
+
+pygame.display.init(): return None
+
+初始化pygame的display模块。display模块在初始化之前不能做任何事情。当你调用高层的pygame.init的时候，这个模块也被自动初始化了。
+
+pygame会从一组内部显示后台中选择一个进行初始化。显示模式的选择依赖于平台和用户的权限。在显示模式被初始化之前，可以设置环境变量SDL_VIDEODRIVER来控制使用哪个后台。系统的选择列在这里：
+- Windows : windib, directx
+- Unix    : x11, dga, fbcon, directfb, ggi, vgl, svgalib, aalib
+
+在某些系统上可以把pygame的display嵌入已经存在的窗口中。如果要这样做，必须设置环境变量SDL_WINDOWID来指定窗口的id或者句柄。当pygame的display被初始化的时候会检查这个变量。要注意的是嵌入的display可能会有很多古怪的副作用。
+
+这个函数多次调用不会有什么坏处，实际上多次调用不会起任何作用。
+
+## pygame.display.quit
+
+uninitialize这个display模块。
+
+pygame.display.quit(): return None
+
+这个函数关闭整个display模块。这意味着任何活动的display会被关闭。这个函数在程序退出的时候会被自动调用。
+
+这个函数多次调用不会有什么坏处，实际上多次调用不会起任何作用。
+
+## pygame.display.get_init
+
+如果display模块已经初始化，它返回True
+
+pygame.display.get_init(): return bool
+
+如果pygame.display函数当前已经初始化，返回True
+
+## pygame.display.set_mode
+
+初始化display的窗口或者屏幕
+
+pygame.display.set_mode(resolution, flags=0, depth=0): return Surface
+
+这个函数会创建一个display Surface。参数用来指定请求display的类型。实际创建的display会是系统支持的类型中与请求的尽可能一致的类型。
+
+resolution（分辨率）参数是一对数表示宽度和高度。flags参数是一组选项的集合。depth参数表示颜色的位数。
+
+返回的Surface和普通的Surface一样使用，但是这个Surface上的东西会最终在显示器上看到。
+
+最好不用使用depth参数，默认情况下会自动选择当前系统最好和最快的颜色深度。如果你的游戏需要特定的颜色格式，你可以使用这个参数来控制颜色深度。pygame会模拟系统不能实现的颜色深度，但这样会很慢。
+
+当请求全屏显示模式时，请求的分辨率有时不能够被精确匹配。在这种情况下，pygame会选择最接近的兼容模式设置显示分辨率。而返回的Surface仍然匹配请求的分辨率。
+
+flags参数可以包含你需要的display的类型。有多种选项可以选择，你可以使用位或运算（"|"）来组合它们。如果传入0或者不指定flags参数，会自动使用默认值。这里是选项的列表：
+- pygame.FULLSCREEN    创建全屏的display
+- pygame.DOUBLEBUF     使用HWSURFACE或OPENGL时建议加上这个标志
+- pygame.HWSURFACE     使用硬件加速，只在FULLSCREEN时有效
+- pygame.OPENGL        创建一个可以使用opengl的display
+- pygame.RESIZABLE     display的窗口可变大小
+- pygame.NOFRAME       display的窗口没有边框和控制条
+
+## pygame.display.get_surface
+
+返回指向当前display Surface的引用
+
+pygame.display.get_surface(): return Surface
+
+返回指向当前display Surface的引用。如果当前的显示模式还没有设置，那么返回None
+
+## pygame.display.flip
+
+把整个display Surface上的东西更新到屏幕上
+
+pygame.display.flip(): return None
+
+这个函数会更新整个display的内容。如果显示模式设置成pygame.HWSURFACE和pygame.DOUBLEBUF，这个操作会等待垂直同步并交换surfaces。如果使用其它的显示模式，这个操作只是简单的更新整个Surface的内容。
+
+当使用pygame.OPENGL显示模式时，这个操作会进行一个gl缓冲交换操作。
+
+## pygame.display.update
+
+更新软件display的部分内容
+
+pygame.display.update(rectangle=None): return None
+
+pygame.display.update(rectangle_list): return None
+
+这个函数好像是为软件display优化的pygame.display.flip。它允许只有屏幕的一部分被更新而不是整个。如果没有指定参数，它和pygame.display.flip一样更新整个窗口。
+
+你可以传给这个函数一个矩形或者一组矩形作为参数。一次传送多个矩形，比多次调用每次一个（或者一部分）矩形更有效率。如果传送一个矩形的列表，则列表中可以含有None，它会被自动跳过。
+
+这个函数不能用在pygame.OPENGL模式上，如果使用会导致一个异常。
+
+## pygame.display.get_driver
+
+获得pygame显示后台的名字
+
+pygame.display.get_driver(): return name
+
+pygame在初始化时从多个可以选择的显示后台中选择一个。这个函数返回选择的显示后台的名字。这为 display的加速能力提供了一些有限的信息。
+
+## pygame.display.Info
+
+创建一个视频显示信息对象
+
+pygame.display.Info(): return VideoInfo
+
+创建一个简单的对象，包含图形环境的一些信息。如果在pygame.display.set_mode之前被调用，有些平台上会提供默认的显示模式的信息。在设置了显示模式后调用这个函数，可以验证特定的显示选项是否满足。VideoInfo包含下列对象：
+- hw:         True if the display is hardware accelerated
+- wm:         True if windowed display modes can be used
+- video_mem:  The megabytes of video memory on the display. This is 0 if unknown
+- bitsize:    Number of bits used to store each pixel
+- bytesize:   Number of bytes used to store each pixel
+- masks:      Four values used to pack RGBA values into pixels
+- shifts:     Four values used to pack RGBA values into pixels
+- losses:     Four values used to pack RGBA values into pixels
+- blit_hw:    True if hardware Surface blitting is accelerated
+- blit_hw_CC: True if hardware Surface colorkey blitting is accelerated
+- blit_hw_A:  True if hardware Surface pixel alpha blitting is accelerated
+- blit_sw:    True if software Surface blitting is accelerated
+- blit_sw_CC: True if software Surface colorkey blitting is accelerated
+- blit_sw_A:  True if software Surface pixel alpha blitting is acclerated
+
+## pygame.display.get_wm_info
+
+获得当前窗口系统的信息
+
+pygame.display.get_wm_info(): return dict
+
+创建一个字典，关键字为字符串类型。关键字和值是由系统任意创建的。某些系统上可能没有任何信息，会返回一个空的字典。大部分系统上都有一个"window"关键字，它的值是当前display的系统id。
+
+## pygame.display.list_modes
+
+获得一个可用的全屏模式列表
+
+pygame.display.list_modes(depth=0, flags=pygame.FULLSCREEN): return list
+
+这个函数返回一个指定颜色深度的所有可用的分辨率的列表。如果给定的参数没有显示模式可用，那么会返回一个空的列表。返回-1表示任何分辨率都可以用（这可能是因为指定的是窗口模式）。列表中的模式按照分辨率从大到小排列。
+
+如果depth是0，SDL会自动选择当前或最好的颜色深度。flags参数默认是pygame.FULLSCREEN，你可以添加额外的选项。
+
+## pygame.display.mode_ok
+
+选择一个最好的颜色深度
+
+pygame.display.mode_ok(size, flags=0, depth=0): return depth
+
+这个函数使用和pygame.display.set_mode相同的参数。它用来确定请求的模式是否可用。指定的模式不能使用它会返回0，否则它会返回一个最佳的颜色深度。
+
+通常depth参数不会被使用。然而某些平台上支持多种颜色深度都同样好，传递这个参数用来指定哪个是更好的。
+
+最有用的flags是pygame.HWSURFACE、pygame.DOUBLEBUF和pygame.FULLSCREEN。如果被请求的flags不能够设置，函数会返回0。
+
+## pygame.display.gl_get_attribute
+
+获得当前display的opengl标志
+
+pygame.display.gl_get_attribute(flag): return value
+
+如果在调用pygame.display.set_mode时使用了pygame.OPENGL标志，最好检查一下请求的OpenGL属性的值。参看pygame.display.get_set_attribute来得到有效的标志列表。
+
+## pygame.display.gl_set_attribute
+
+请求设置display的opengl显示属性
+
+pygame.display.gl_set_attribute(flag, value): return None
+
+当调用pygame.display.set_mode时指定了pygame.OPENGL标志，pygame会自动设置OpenGL的属性比如说颜色和双缓冲。你可能需要控制OpenGL提供的其它一些属性。把这些属性作为flag，它的值作为value调用这个函数。这个函数必须在pygame.display.set_mode之前调用。
+
+OPENGL标志有：
+- GL_ALPHA_SIZE, GL_DEPTH_SIZE, GL_STENCIL_SIZE, GL_ACCUM_RED_SIZE,
+- GL_ACCUM_GREEN_SIZE,  GL_ACCUM_BLUE_SIZE, GL_ACCUM_ALPHA_SIZE,
+- GL_MULTISAMPLEBUFFERS, GL_MULTISAMPLESAMPLES, GL_STEREO
+
+## pygame.display.get_active
+
+当display是活动的时候返回True
+
+pygame.display.get_active(): return bool
+
+在pygame.display.set_mode被调用之后，display Surface会在屏幕上显示出来。大部分窗口的display可以被用户隐藏。如果display Surface被用户隐藏或者最小化，这个函数会返回False。
+
+## pygame.display.iconify
+
+最小化display Surface
+
+pygame.display.iconify(): return bool
+
+让display surface窗口最小化或者隐藏。不是所有系统都支持最小化的。这个函数在成功时会返回True。
+
+当display被最小化，pygame.display.get_active会返回False。窗口最小化时事件队列会收到一个ACTIVEEVENT事件。
+
+## pygame.display.toggle_fullscreen
+
+在窗口和全屏之间切换
+
+pygame.display.toggle_fullscreen(): return bool
+
+在窗口和全屏模式之间切换。这个函数只有在unix x11下才能使用。大部分情况下，使用pygame.display.set_mode重新设置flags标志会更好。
+
+## pygame.display.set_gamma
+
+修改硬件gamma梯度
+
+pygame.display.set_gamma(red, green=None, blue=None): return bool
+
+在显示硬件上设置红绿蓝gamma值。如果green和blue参数没有传，则它们的值和red一样。不是所有的硬件都支持gamma梯度，如果函数调用成功会返回True
+
+gamma值为1.0会创建一个线性的颜色标。低的值会使显示变暗，高的值会使显示变量。
+
+## pygame.display.set_gamma_ramp
+
+指定一个查询表来修改硬件gamma梯度
+
+pygame.display.set_gamma_ramp(red, green, blue): return bool
+
+指定一个查询表来设置red、green、blue三个gamma梯度值。每个参数都应该是256个整数，每个整数都应该在0和0xffff之间。不是所有的硬件都支持这个功能，如果函数调用成功它会返回True。
+
+## pygame.display.set_icon
+
+修改显示窗口的图标
+
+pygame.display.set_icon(Surface): return None
+
+设置运行时系统中代表窗口的图标。所有的窗口都默认使用一个简单的pygame图标。
+
+你可以传任何surface给它，但是多数系统只能使用大约32x32的图像。图像可以有一个colorkey指定透明色。
+
+一些系统在图标显示后就不允许改变图标。这个函数可以在pygame.display.set_mode之前调用来创建图标。
+
+## pygame.display.set_caption
+
+设置当前窗口的标题
+
+pygame.display.set_caption(title, icontitle=None): return None
+
+如果display有一个窗口标题，这个函数可以修改窗口的名字title。一些系统支持用一个可选的更短的名字icontitle用在最小化的窗口上。
+
+## pygame.display.get_caption
+
+取得当前窗口的标题
+
+pygame.display.get_caption(): return (title, icontitle)
+
+返回display窗口的标题和短标题。这两个值通常是一样的。
+
+## pygame.display.set_palette
+
+设置颜色调色板
+
+pygame.display.set_palette(palette=None): return None
+
+这个函数可以修改8位display的颜色调色板。这个函数不会修改实际display Surface的调色板，而只是修改用来显示这个Surface的调色板。如果没有指定palette参数，会恢复系统默认的调色板。调色板是RGB三元组的列表。
+
+## The end

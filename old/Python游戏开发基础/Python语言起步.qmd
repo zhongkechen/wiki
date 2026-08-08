@@ -1,0 +1,278 @@
+---
+title: "Python语言起步"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## Python介绍
+
+Python是一种强大的、通用的、开放的、简单易学的、解释型的编程语言。简而言之，Python简单又强大。它注重的是如何解决问题而不是编程语言的语法和结构。Python官方对Python的介绍是
+
+Python是一种简单易学，功能强大的编程语言，它有高效率的高层数据结构，简单而有效地实现面向对象编程。Python简洁的语法和对动态输入的支持，再加上解释性语言的本质，使得它在大多数平台上的许多领域都是一个理想的脚本语言，特别适用于快速的应用程序开发。
+
+Python语言的创造者Guido van Rossum是根据英国广播公司的节目“蟒蛇飞行马戏”命名这个语言的，并非他本人特别喜欢蛇缠起它们的长身躯碾死动物觅食。
+
+### 解释型的
+
+一个用编译性语言比如C或C++写的程序可以从源文件（即C或C++语言）转换到一个你的计算机使用的语言（二进制代码，即0和1）。这个过程通过编译器和不同的标记、选项完成。当你运行你的程序的时候，连接/转载器软件把你的程序从硬盘复制到内存中并且运行。
+
+而Python语言写的程序不需要编译成二进制代码。你可以直接从源代码运行程序。在计算机内部，Python解释器把源代码转换成称为字节码的中间形式，然后再把它翻译成计算机使用的机器语言并运行。事实上，由于你不再需要担心如何编译程序，如何确保连接转载正确的库等等，所有这一切使得使用Python更加简单。由于你只需要把你的Python程序拷贝到另外一台计算机上，它就可以工作了，这也使得你的Python程序更加易于移植。
+
+在文本编辑器中输入：
+```python
+#!/usr/bin/python
+
+myname = "jack"
+print "hello", myname
+```
+
+这样一个简单的Python程序，保存为扩展名是.py的文件（在Windows可以省略其中的第一行）。这个程序不需要编译就直接可以运行了（在windows可以双击这个文件，在Linux可以给文件加上可执行属性，然后输入文件名）。
+
+Python甚至也可以交互式的执行。比如
+```
+czk@czk-laptop:~$ python
+Python 2.4.3 (#2, Apr 27 2006, 14:43:58)
+[GCC 4.0.3 (Ubuntu 4.0.3-1ubuntu5)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print 'hello world'
+hello world
+>>> print 3.14159*10*10
+314.159
+>>>
+```
+
+在python解释器内部，python源代码先被编译成bytecode中间代码，然后再由虚拟机解释执行。中间代码可以被保存下来，加快代码的加载速度。这个过程类似于Java和.Net程序的执行方式，不同的是Python中这个过程是自动进行的。
+
+Python是跨平台的。在主流的操作系统Windows、Linux和MacOS等上都有完整的Python解释器实现，在很多非主流的操作系统也有实现。因为不需要编译成机器码，所以只要有Python解释器的平台，Python代码就可以在其上运行。不过，有一些库的实现是针对特定平台的，使用这些库的程序不能跨平台运行。
+
+Python的最大缺点是执行速度较慢。不过有办法可以弥补。通过类似Java的JIT技术改善解释执行的速度，通过使用C语言重写性能关键的部分改善整体速度。
+
+### 强大的
+
+Python是多范式的程序设计语言。既支持面向过程的编程也支持面向对象的编程。在 面向过程 的语言中，程序是由过程或仅仅是可重用代码的函数构建起来的。在 面向对象 的语言中，程序是由数据和功能组合而成的对象构建起来的。与其他主要的语言如C++和Java相比，Python以一种非常强大又简单的方式实现面向对象编程。Python还支持函数式编程。
+
+Python使用duck type类型系统。每个对象都有类型，而并不规定变量的类型，变量可以被赋予任何类型的对象。
+
+```python
+a = 10
+print a
+a = 3.14159
+print a
+a = "hello world"
+print a
+
+def max2(a, b):
+    if a>b:
+        return a
+    else:
+        return b
+
+print max2(1.0, 2.0)
+print max2("hello", "world")
+
+```
+
+Python是完全动态的语言，可以在运行时做很多事情。比如使用dir()得到所有对象的列表，使用dir(object)得到某个对象object的所有属性。
+
+Python内置了强大的高级数据结构，list, dictionary, string等。
+
+Python具有功能丰富的标准库。Python标准库确实很庞大。它可以帮助你处理各种工作，包括正则表达式、文档生成、单元测试、线程、数据库、网页浏览器、CGI、 FTP、电子邮件、XML、XML-RPC、HTML、WAV文件、密码系统、GUI（图形用户界面）、Tk和其他与系统有关的操作。记住，只要安装了 Python，所有这些功能都是可用的。这被称作Python的“功能齐全”(Battery Included)理念。除了标准库以外，还有许多其他高质量的库，如wxPython、Twisted和Python图像库等等。
+
+Python具有极高的开发效率。
+
+### 通用的
+
+Python适用于各种领域的编程需要，包括图形界面、网络编程、Web开发、数据库、科学计算、游戏……
+
+图形界面GUI开发：可以使用跨平台库比如wxPython, pyGtk, pyQt, TkInter, PyFltk，也可以通过接口连接到特定平台的库比如Jython到SWT，pythonwin到win32等。
+
+网络编程：内置简单的Socket编程接口，还有高级的异步通信框架twisted可以用
+
+Web开发：Python有非常多的Web开发工具可以使用。有大型的Web开发平台Zope，大型框架django, turbogear等，轻量级框架Quixote等，apache服务器接口mod_python等。
+
+数据库开发：可以连接各种数据库比如mysql、Oracle、PostgreSql、DB2等，也可以通过ODBC再连接到数据库。
+
+科学计算：数值计算NumPy，SciPy等
+
+游戏开发：游戏开发接口pygame、pykyro等，3d图形接口PyOpenGL等，游戏引擎CrystalSpace 3D、RuneBlade、Panda 3D等。
+
+### 开放的
+
+Python是FLOSS（自由/开放源码软件）之一。简单地说，你可以自由地发布这个软件的拷贝、阅读它的源代码、对它做改动、把它的一部分用于新的自由软件中。FLOSS是基于一个团体分享知识的概念。这是为什么Python如此优秀的原因之一——它是由一群希望看到一个更加优秀的Python的人创造并经常改进着的。
+
+Python的多种实现都是开放源代码的。CPython, Jython, IronPython, StacklessPython等
+
+Python有很好的可扩展性，可以与其他语言和开发环境很好的结合。与Java语言、.Net平台很好的交互，与C语言方便的交互，方便的使用各种类库（ wxWidgets, Qt, Gtk, tk, SDL, OpenGL等等）。如果你需要你的一段关键代码运行得更快或者希望某些算法不公开，你可以把你的部分程序用C或C++编写，然后在你的Python程序中使用它们。
+
+Python有很好的可嵌入性，你可以把Python嵌入你的C/C++程序，从而向你的程序用户提供脚本功能。
+
+### 简单易学的
+
+Python是一种高层的语言。当你用Python语言编写程序的时候，你无需考虑诸如如何管理你的程序使用的内存一类的底层细节。
+
+Python是简单易学。语法规则较少，有编程基础的人大概一周可以掌握。
+
+Python代码使用缩进表示语句块，代码容易阅读。比如：
+```python
+a,b = 0,1
+print b
+while b < 100:
+    a,b = b,(a+b)
+    print b,
+```
+
+Python的文档可以在[http://www.python.org/doc/](http://www.python.org/doc/)找到，部分文档的中文翻译可以在[http://wiki.woodpecker.org.cn/moin/WoodpeckerDocuments](http://wiki.woodpecker.org.cn/moin/WoodpeckerDocuments)找到。
+
+Python语言内置了帮助系统，help(object)就可以查看任何对象object的使用帮助。
+
+Python有广泛的社区支持，初学者在网络上可以找到很多资料。国外的社区[http://www.python.org/community/](http://www.python.org/community/)，包括邮件列表、新闻组、网页论坛、IRC、Wiki、Blog等形式。国内的社区[http://www.woodpecker.org.cn/](http://www.woodpecker.org.cn/)，包括邮件列表、wiki、blog、qq群等多种形式。
+
+### 程序员的话
+
+读一下像ESR这样的超级电脑高手谈Python的话，你会感到十分有意思：
+
+   - Eric S. Raymond是《The Cathedral and the Bazaar》的作者、“开放源码”一词的提出人。他说Python已经成为了他最喜爱的编程语言。这篇文章也是促使我第一次接触Python的真正原动力。
+   - Bruce Eckel著名的《Thinking in Java》和《Thinking in C++》的作者。他说没有一种语言比得上Python使他的工作效率如此之高。同时他说Python可能是唯一一种旨在帮助程序员把事情弄得更加简单的语言。请阅读完整的采访以获得更详细的内容。
+   - Peter Norvig是著名的Lisp语言书籍的作者和Google公司的搜索质量主任。他说Python始终是Google的主要部分。事实上你看一下Google招聘的网页就可以验证这一点。在那个网页上，Python知识是对软件工程师的一个必需要求。
+   - Bruce Perens是OpenSource.org和UserLinux项目的一位共同创始人。UserLinux旨在创造一个可以被多家发行商支持标准的Linux发行版。Python击败了其它竞争对手如Perl和Ruby成为UserLinux支持的主要编程语言。
+   - Xiao Lei Wu <xiaoleiw at cn.ibm.com>
+```
+IMO, the best thing about Python is its language reference manual.  It is
+about 90 pages long.  After you read it, you believe that the language is
+fully defined,.  The closest thing to a Perl reference is "Programming
+Perl", which is about 1000 pages.  After you read that you have no idea
+whether what you read fully defines a language.
+```
+
+## Python与游戏开发
+
+Python本身的执行速度比较慢，所以完全使用Python语言来编写游戏达不到游戏实时性的要求。现在Python在游戏开发中的应用方式有两种：
+
+### 用Python作脚本
+
+使用C语言开发游戏引擎，而把Python用作游戏脚本，来对游戏中比较灵活多变的部分作定制，比如KlayGE，Blender GE等。这是开发大型游戏的成功模式，有很多网络游戏使用此模式开发。
+
+### 用Python开发主程序
+
+以C语言开发的库为基础，直接用Python编写游戏。可以利用的C语言库有Pygame(封装SDL)，Pygl(封装Opengl)等
+
+## Python安装运行
+
+### 在Windows上安装运行Python
+
+从 http://www.python.org/download/ 下载适合Windows版本的安装程序，运行它进行安装。
+
+### 在Linux/Unix上安装Python
+
+Python在众多类Unix操作系统上默认情况下是安装好的。命令行下敲入python可以检查是否已经安装，就像这样
+```
+czk@czk-laptop:~$ python
+Python 2.4.3 (#2, Apr 27 2006, 14:43:58)
+[GCC 4.0.3 (Ubuntu 4.0.3-1ubuntu5)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+说明Python已经安装好了。如果不幸没有安装，可以利用你的操作系统附带的包管理软件安装二进制包，比如Fedora Linux的yum、Mandrake Linux的urpmi、Debian Linux的apt-get、FreeBSD的pkg_add等等（注意，使用这种方法的话，你需要连接因特网），查找恰当的安装包来进行安装。比如debian下可以用`apt-get install python`命令来安装Python。当然也可以从 www.python.org 下载源代码，编译安装。
+
+### pygame安装
+
+要使用pygame开发游戏，需要额外安装pygame库。在windows下安装需要从http://www.pygame.org/download.shtml上下载pygame的安装程序进行安装。（注意：pygame的安装程序分为for python2.4和for python2.3两个版本，要安装与系统中的python一致的版本。）在大部分Linux发行版中都有pygame安装程序，比如Debian或者Ubuntu Linux系统中就可以运行`apt-get install python-pygame`来安装。要检查pygame有没有安装好，可以在Python交互式窗口中输入`>>> import pygame`，如果没有提示结束，说明pygame已经安装。如果出现
+```
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+ImportError: No module named pygame
+```
+
+错误信息，则说明pygame还没有安装。
+
+## 第一个Python程序
+
+我们将看一下如何用Python编写运行一个传统的“Hello World”程序。通过它，你将学会如何编写、保存和运行Python程序。
+
+有两种使用Python运行你的程序的方式——使用交互式的带提示符的解释器或使用源文件。我们将学习这两种方法。
+
+### 在交互式环境下执行
+
+在windows下，在开始菜单上找到Python Command line快捷方式点击运行，可以进入交互式运行状态。或者在命令行下输入C:\Python2.4\python运行（假定Python安装在目录C:\Python2.4），也可以进入Python交互式运行状态。把C:\Python2.4加入PATH环境变量可以省略路径。
+
+在Linux/Unix/BSD下，在命令行下输入python可以直接运行Python解释器进入交互式执行状态。
+
+现在输入print 'Hello World'，然后按Enter键。你应该可以看到输出的单词Hello World。注意，>>>是你键入Python语句的提示符。
+
+```
+$ python
+Python 2.3.4 (#1, Oct 26 2004, 16:42:40)
+[GCC 3.4.2 20041017 (Red Hat 3.4.2-6.fc3)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print 'hello world'
+hello world
+>>>
+```
+
+注意，Python会在下一行立即给出你输出！你刚才键入的是一句Python 语句 。我们使用print（不要惊讶）来打印你提供给它的值。这里，我们提供的是文本Hello World，它被迅速地打印在屏幕上。
+
+```
+如何退出Python提示符？
+如果你使用的是Linux/BSD shell，那么按Ctrl-d退出提示符。如果是在Windows命令行中，则按Ctrl-z再按Enter。
+```
+
+### 挑选一个编辑器
+
+在我们开始讲述以源文件方式编写Python程序之前，我们需要一个编辑器来写源文件。挑选一个编辑器确实是极其重要的。你挑选一个编辑器就如同你挑选一辆你将购买的轿车一样。一个好的编辑器会帮助你方便地编写Python程序，使你地编程旅程更加舒适，帮助你更加快捷安全地到达目的地（实现目标）。对于编辑器的基本要求之一是语法加亮功能，利用这一功能，你的Python程序的不同部分被标以不同的颜色，这样你可以更好 看清楚 你的程序，使它的运行显得形象化。
+
+可以使用Emacs的[python-mode](http://sourceforge.net/projects/python-mode/)
+
+可以使用VI
+
+也可以使用Eclipse的[Pydev](http://pydev.sourceforge.net/)插件
+
+其它开发环境还有Python自带的IDLE，以及[DrPython](http://drpython.sourceforge.net/), [SPE](http://stani.be/python/spe/blog/), [BOA](http://boa-constructor.sourceforge.net/), [PIDA](http://pida.berlios.de/), [Pythonwin(Windows专用)](http://pype.sourceforge.net/)等。
+
+### 使用源代码执行
+
+现在让我们重新开始编程。当你学习一种新的编程语言的时候，你编写运行的第一个程序通常都是“Hello World”程序，这已经成为一种传统了。在你运行“Hello World”程序的时候，它所做的事只是说声：“Hello World”。正如提出“Hello World”程序的Simon Cozens所说：“它是编程之神的传统咒语，可以帮助你更好的学习语言。”
+
+在windows下，启动你选择的编辑器，输入下面这段程序，然后把它保存为helloworld.py。
+```python
+print 'Hello World'
+```
+
+在helloworld.py文件上直接双击就可以运行这个Python程序（要能够被双击执行，扩展名必须为.py或者.pyw）。或者在命令行输入`C:\Python2.4\python helloworld.py`也可以运行这个Python程序。也可以使用集成开发环境下的运行命令运行它。
+
+在Linux/Unix/BSD下，将上述Python源代码写入一个helloworld文件（文件扩展名可以任意，不一定要求.py）。在命令行输入`python helloworld`就可以运行这个Python程序。或者要在源代码的开头加上一行特殊注释`#!/usr/bin/env python`，这行告诉你的Linux/Unix系统当你 执行 你的程序的时候，它应该运行哪个解释器。整个代码变成
+```python
+#!/usr/bin/env python
+print 'Hello World'
+```
+
+然后给源代码文件加上可执行属性(`chmod +x helloworld`)，这样就可以直接输入源代码文件的路径来运行：`./helloworld`。
+
+万一你得到一个错误，那么请确保你键入的程序 准确无误 ，然后再运行一下程序。注意Python是大小写敏感的，即print与Print不一样——注意前一个是小写p而后一个是大写P。另外，确保在每一行的开始字符前没有空格或者制表符——这点是非常重要的。
+
+### 获取帮助
+
+如果你需要某个Python函数或语句的快速信息帮助，那么你可以使用内建的help功能。尤其在你使用带提示符的命令行的时候，它十分有用。比如，运行help(str)——这会显示str类的帮助。str类用于保存你的程序使用的各种文本（字符串）。
+
+```
+$ python
+Python 2.3.4 (#1, Oct 26 2004, 16:42:40)
+[GCC 3.4.2 20041017 (Red Hat 3.4.2-6.fc3)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> help(str)
+>>> help('print')
+```
+
+你应该注意到我特意在“print”上使用了引号，那样Python就可以理解我是希望获取关于“print”的帮助而不是想要它打印东西。
+
+按q退出帮助。
+
+类似地，你可以获取Python中几乎所有东西的信息。使用help()去学习更多关于help本身的东西！
+
+## End

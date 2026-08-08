@@ -1,0 +1,211 @@
+---
+title: "pygame.joystick"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+pygame中与摇杆设备交互的模块
+
+joystick模块管理计算机上的摇杆设备（可能多于一个）。摇杆设备包括轨迹球、类似电视游戏机的游戏手柄，模块允许使用多个按钮和'hats'。
+
+## pygame.joystick.init
+
+初始化joystick模块
+```
+pygame.joystick.init(): return None
+```
+
+这个函数会被pygame.init自动调用。
+
+它初始化joystick模块。这个函数会扫描系统的所有摇杆设备。在使用这个模块的其他函数之前，必须先进行初始化。
+
+多次调用这个函数是可以的。
+
+## pygame.joystick.quit
+
+反初始化joystick模块
+```
+pygame.joystick.quit(): return None
+```
+
+反初始化joystick模块。在调用了这个函数后，任何现有的摇杆对象都不能再使用了。
+
+多次调用这个函数是可以的。
+
+## pygame.joystick.get_init
+
+如果joystick模块已经被初始化了返回True
+```
+pygame.joystick.get_init(): return bool
+```
+
+测试pygame.joystick.init是否已经被调用过了。
+
+## pygame.joystick.get_count
+
+系统中摇杆的数量
+```
+pygame.joystick.get_count(): return count
+```
+
+返回系统中摇杆设备的数量。如果系统没有摇杆，数量是0。
+
+当你使用Joystick(id)创建Joystick对象的时候，你需要传一个小于这个数量的整数过去。
+
+## pygame.joystick.Joystick
+
+创建一个新的Joystick对象
+
+创建一个新的摇杆来访问物理设备。id参数必须是从0到pygame.joystick.get_count()-1之间的值。
+
+要访问Joystick的大部分方法之前，首先要对Joystick调用init()。这个初始化和joystick模块的初始化是分开的。当对同一个摇杆创建多个Joystick对象（即它们都有相同的id）时，这些Joystick对象会共享状态和值。
+
+Joystick对象允许你获取摇杆设备上的控制器的类型信息。一旦设备被初始化后，pygame的事件队列会开始收到关于摇杆的事件。
+
+在没有初始化Joystick对象之前，你可以调用Joystick.get_name和Joystick.get_id。
+
+### Joystick.init
+
+初始化Joystick
+```
+Joystick.init(): return None
+```
+
+Joystick必须先初始化，以获得关于这个控制器的大部分信息。当Joystick被初始化后，pygame的事件队列会收到Joystick产生的事件。
+
+这个函数被多次调用是可以的。
+
+### Joystick.quit
+
+反初始化Joystick
+```
+Joystick.quit(): return None
+```
+
+这个函数反初始化Joystick。在调用了这个函数后，pygame的事件队列就不会收到这个设备的事件了。
+
+这个函数被多次调用是可以的。
+
+### Joystick.get_init
+
+检查这个Joystick是不是被初始化了
+```
+Joystick.get_init(): return bool
+```
+
+如果这个Joystick对象的init方法已经被调用了，这个函数返回True。
+
+### Joystick.get_id
+
+得到Joystick的ID
+```
+Joystick.get_id(): return int
+```
+
+返回表示这个设备的整数ID。这和传给Joystick构造函数的值是相同的。这个函数可以在没有初始化的时候被调用。
+
+### Joystick.get_name
+
+获取Joystick的系统名称
+```
+Joystick.get_name(): return string
+```
+
+返回这个摇杆设备的系统名称。系统给这个Joystick取什么名字是未知的，但是它应该是可以标识这个设备的唯一的名字。这个函数可以在Joystick没有初始化的时候被调用。
+
+### Joystick.get_numaxes
+
+返回Joystick的轴数
+```
+Joystick.get_numaxes(): return int
+```
+
+返回Joystick上的轴数。通常有两个用于定位的轴。像方向盘和油门也会被作为轴来看待。
+
+pygame.JOYAXISMOTION事件的值在-1.0和1.0之间。值0.0表示轴在正中间。游戏手柄设备一般只有-1、0、1三个值，而没有中间的值。而老的模拟摇杆并不一定能完全达到-1到1的区间，中间的值也可能是0附近的一个值。模拟手柄通常会有一点噪声，从而会产生很多很小很快的运动事件。
+
+### Joystick.get_axis
+
+获得轴上当前的位置。
+```
+Joystick.get_axis(axis_number): return float
+```
+
+这个函数返回手柄一个轴的当前位置。这个值在-1到1之间，0表示中间。你需要考虑一些偏差来控制抖动的发生，摇杆的漂移可能使摇杆的中间偏离0值，或者不能达到整个取值区域。
+
+axis_number必须在0到get_numaxes()-1之间。
+
+### Joystick.get_numballs
+
+获取摇杆上的轨迹球的数量。
+```
+Joystick.get_numballs(): return int
+```
+
+返回一个Joystick上的轨迹球的数量。这些设备和鼠标类似，但是没有绝对的位置，而只有相对的位移。
+
+当轨迹球滚动时，pygame.JOYBALLMOTION事件会发生。它会报告轨迹球总共滚动了多少距离。
+
+### Joystick.get_ball
+
+获取轨迹球的相对位置
+```
+Joystick.get_ball(ball_number): return x, y
+```
+
+返回一个轨迹球的相对位移。返回值是一个x,y值对，来保存上一次调用这个函数后轨迹球的相对位移。
+
+ball_number必须是一个在0到get_numballs()-1之间的整数。
+
+### Joystick.get_numbuttons
+
+获取Joystick的按键数量
+
+```
+Joystick.get_numbuttons(): return int
+```
+
+返回摇杆上可以按的按钮的数量。这些按钮有一个二值（按下或者没有按下）的状态。
+
+当按钮被按下和释放时，会产生pygame.JOYBUTTONDOWN和pygame.JOYBUTTONUP事件。
+
+### Joystick.get_button
+
+返回按键的当前状态
+```
+Joystick.get_button(button): return bool
+```
+
+返回摇杆按键的当前状态。
+
+### Joystick.get_numhats
+
+返回摇杆上hat控制器的总数。
+```
+Joystick.get_numhats(): return int
+```
+
+返回Joystick上hat的总数。hat设备是摇杆上一种微型的数字摇杆。每个hat有两条轴。
+
+当hat的位置改变时，pygame.JOYHATMOTION事件会产生。事件的位置属性包括一对值，它们是-1或者0或者1。位置(0,0)表示hat在正中间。
+
+### Joystick.get_hat
+
+返回hat的位置。
+```
+Joystick.get_hat(hat_number): return x, y
+```
+
+返回hat的当前位置。位置有两个值表示hat的X和Y的位置。(0,0)表示中间。-1表示下或者左，1表示上或者右。因此(-1,0)表示左，(1,0)表示右，(0,1)表示上，(1,1)表示右上，等等。
+
+这些值是数字的，就是说，它们只有-1、0或者1，没有其他中间的值。
+
+hat_number必须在0和get_numhats()-1之间。
+
+## The end

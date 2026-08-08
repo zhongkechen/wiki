@@ -1,0 +1,68 @@
+---
+title: "Python游戏开发基础"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+## 学习材料
+
+1. 第1讲 [Python语言起步](Python游戏开发基础/Python语言起步.qmd)
+1. 第2讲 [Python语言的基本概念](Python游戏开发基础/Python语言的基本概念.qmd)
+1. 第3讲 [Python语言的数据类型](Python游戏开发基础/Python语言的数据类型.qmd)
+1. 第4讲 [Python语言的控制流](Python游戏开发基础/Python语言的控制流.qmd)
+1. 第5讲 [Python语言的函数](Python游戏开发基础/Python语言的函数.qmd)
+1. 第6讲 [Python语言的类](Python游戏开发基础/Python语言的类.qmd)
+1. 第7讲 [Python语言的异常处理](Python游戏开发基础/Python语言的异常处理.qmd)
+1. 第8讲 [Python语言的包与模块](Python游戏开发基础/Python语言的包与模块.qmd)
+1. 第9讲 [Pygame起步](Python游戏开发基础/Pygame起步.qmd)
+1. 第10讲 [Pygame图形接口基础](Python游戏开发基础/Pygame图形接口基础.qmd)
+1. 第11讲 [Pygame的多媒体](Python游戏开发基础/Pygame的多媒体.qmd)
+1. 第12讲 [Pygame事件与用户交互](Python游戏开发基础/Pygame事件与用户交互.qmd)
+1. 第13讲 [Python网络编程](Python游戏开发基础/Python网络编程.qmd) 与 [Linux_Socket编程](Python游戏开发基础/Linux_Socket编程.qmd)
+1. 第14讲 [Pygame的Sprite动画](Python游戏开发基础/Pygame的Sprite动画.qmd)
+1. 第15讲 [Pygame实例剖析](Python游戏开发基础/Pygame实例剖析.qmd)
+1. [PyOpenGL三维游戏编程](Python游戏开发基础/PyOpenGL三维游戏编程.qmd)
+
+## 游戏设计基础课程
+
+- [游戏设计基础课程](Python游戏开发基础/游戏设计基础课程.qmd)
+
+## Pygame文档
+
+- [pygame.display](Python游戏开发基础/pygame.display.qmd)模块
+- [pygame.image](Python游戏开发基础/pygame.image.qmd)模块
+- [pygame.Surface](Python游戏开发基础/pygame.Surface.qmd)对象
+- [pygame.draw](Python游戏开发基础/pygame.draw.qmd)模块
+- [pygame.font](Python游戏开发基础/pygame.font.qmd)模块
+- [pygame.transform](Python游戏开发基础/pygame.transform.qmd)模块
+- [pygame.sprite](Python游戏开发基础/pygame.sprite.qmd)模块
+- [pygame.event](Python游戏开发基础/pygame.event.qmd)模块
+- [pygame.key](Python游戏开发基础/pygame.key.qmd)模块
+- [pygame.mouse](Python游戏开发基础/pygame.mouse.qmd)模块
+- [pygame.cursors](Python游戏开发基础/pygame.cursors.qmd)模块
+- [pygame.joystick](Python游戏开发基础/pygame.joystick.qmd)模块
+- [pygame.time](Python游戏开发基础/pygame.time.qmd)模块
+- socket模块： http://docs.python.org/lib/module-socket.html
+
+## 实验与作业
+
+- [实验1](Python游戏开发基础/实验1.qmd)Python和Pygame开发环境
+- [实验2](Python游戏开发基础/实验2.qmd)Python数据类型
+- [实验3](Python游戏开发基础/实验3.qmd)Python数据流和函数
+- [实验4](Python游戏开发基础/实验4.qmd)Python类和对象
+- [实验5](Python游戏开发基础/实验5.qmd)Pygame基础
+- [实验6](Python游戏开发基础/实验6.qmd)Pygame绘图
+- [实验7](Python游戏开发基础/实验7.qmd)Pygame多媒体
+
+## 考核办法
+
+采用平时成绩加考查成绩的形式。总评成绩：平时考勤及学习态度（含实验）占 40%；两个大作业(各占30%)。
+
+- [大作业1](Python游戏开发基础/大作业1.qmd)
+- [大作业2](Python游戏开发基础/大作业2.qmd)

@@ -1,0 +1,29 @@
+---
+title: "实验6"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## 实验目的
+
+- 掌握Pygame图形接口的使用
+
+## 实验内容
+
+- 创建各种不同像素类型的Surface，对它们进行操作并显示，比较效果有何不同
+- 设置Surface的透明属性，并将其显示出来，比较不同的透明方式的效果
+- 设置Surface的剪切区域后对Surface进行操作，查看效果
+- 在Surface上画各种不同的矩形、圆形、椭圆、弧线、多边形，查看效果
+- 在Surface上画很多个点，比较使用Lock和不用Lock的效率
+- 在Surface上用不同的字体、大小、位置画同一串字符串，查看效果。试试设置粗体、斜体、下划线的效果。
+-
+
+## 思考题
+
+- 在各种Surface之间进行blit操作，试编程比较其性能，看哪种类型的blit的操作最快。

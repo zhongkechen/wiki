@@ -1,0 +1,429 @@
+---
+title: "Pygame事件与用户交互"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## 事件系统
+
+Pygame通过一个事件系统与用户进行交互，以及处理一些系统发生的事件。事件系统包括一个事件队列，其中每一项都是一个Event对象。所有的用户输入和一些系统事件，都会形成一个Event对象被添加到事件队列中。pygame.event模块提供了很多函数去访问和控制这个队列。
+
+Event对象有各种不同的类型，比如KEYDOWN(键盘键按下)、MOUSEBUTTONDOWN(鼠标键按下)等，通过Event.type属性来区分。不同的类型的Event对象还有不同的其它属性。常用的类型和对应的属性有：
+```
+          QUIT             none
+          ACTIVEEVENT      gain, state
+          KEYDOWN          unicode, key, mod
+          KEYUP            key, mod
+          MOUSEMOTION      pos, rel, buttons
+          MOUSEBUTTONUP    pos, button
+          MOUSEBUTTONDOWN  pos, button
+          JOYAXISMOTION    joy, axis, value
+          JOYBALLMOTION    joy, ball, rel
+          JOYHATMOTION     joy, hat, value
+          JOYBUTTONUP      joy, button
+          JOYBUTTONDOWN    joy, button
+          VIDEORESIZE      size, w, h
+          VIDEOEXPOSE      none
+          USEREVENT        code
+```
+
+要取得事件队列中的事件，pygame提供了一组函数。pygame.event.get函数可以从队列获取所有的消息，并把它们从队列中删除。比如：
+```python
+for e in pygame.event.get():
+    if e.type == QUIT:
+        sys.exit()
+    else if e.type == KEYDOWN:
+        pass  #your process here
+    else if e.type == MOUSEBUTTONDOWN:
+        pass #your process here
+```
+
+如果队列中没有事件，则pygame.event.get函数返回一个空的列表。
+
+除此以外，还可以用pygame.event.poll()提取并删除一个事件，如果队列是空的，这个函数会马上返回一个pygame.NOEVENT。pygame.event.wait()提取一个事件，如果没有事件则会等待直到有事件发生。pygame.event.clear()可以清空整个队列。
+
+如果只关心某些类型的事件，可以用pygame.event.get(type)，只取得队列中某种类型的事件。也可以用一个类型的列表，只取得某些类型的事件。pygame.event.peek(type)函数可以检查列表中是否有某种或者某些类型的事件，如果有就返回True。除此以外还可以用pygame.event.set_blocked阻止某些类型的事件进入事件队列，使用pygame.event.set_allowed来只允许某些类型的事件进入队列。
+
+pygame.event.post函数可以往队列中添加一个事件。这个添加的事件通常都是用户自定义的事件。自定义事件的类型从pygame.USEREVENT开始。使用pygame.event.Event可以创建一个事件，比如：
+```
+e = pygame.event.Event(pygame.USEREVENT)
+```
+
+然后可以通过
+```
+pygame.event.post(e)
+```
+
+把这个事件添加到队列中，等待处理。在创建事件时可以添加自定义的属性。自定义属性可以用关键字参数指定，比如：
+```
+e = pygame.event.Event(pygame.USEREVENT+1, newgame = True, file = '/home/czk/')
+```
+
+或者用一个字典来指定，比如
+```
+e = pygame.event.Event(pygame.USEREVENT+1, {'newgame':True, 'file':'/home/czk'})
+```
+
+在窗口方式下运行，通常只有活动的窗口才能获得用户键盘、鼠标的事件。如果希望在窗口方式下，不是活动状态也能获得事件，可以通过
+```
+pygame.event.set_grab(True)
+```
+
+来捕获所有输入。不过这样会阻止其它程序获得用户输入，使得除了这个游戏以外其它程序都不能正常运行。要解除这样的状态，可以执行
+```
+pygame.event.set_grab(False)
+```
+
+## 键盘
+
+当键盘的按键被按下时，事件队列会得到pygame.KEYDOWN和pygame.KEYUP事件。这两个事件都有一个叫做key的整型属性表示键盘上的键。pygame.KEYDOWN事件还有一个额外的属性unicode，表示键盘输入的转后对应的字符。这个字符会考虑shift键和其它组合键的状态。
+
+有很多键盘相关的常量，他们表示键盘上的键。下面是所有键盘常量的列表：
+```
+            KeyASCII      ASCII   Common Name
+            K_BACKSPACE   \b      backspace
+            K_TAB         \t      tab
+            K_CLEAR               clear
+            K_RETURN      \r      return
+            K_PAUSE               pause
+            K_ESCAPE      ^[      escape
+            K_SPACE               space
+            K_EXCLAIM     !       exclaim
+            K_QUOTEDBL    "       quotedbl
+            K_HASH        #       hash
+            K_DOLLAR      $       dollar
+            K_AMPERSAND   &       ampersand
+            K_QUOTE               quote
+            K_LEFTPAREN   (       left parenthesis
+            K_RIGHTPAREN  )       right parenthesis
+            K_ASTERISK    *       asterisk
+            K_PLUS        +       plus sign
+            K_COMMA       ,       comma
+            K_MINUS       -       minus sign
+            K_PERIOD      .       period
+            K_SLASH       /       forward slash
+            K_0           0       0
+            K_1           1       1
+            K_2           2       2
+            K_3           3       3
+            K_4           4       4
+            K_5           5       5
+            K_6           6       6
+            K_7           7       7
+            K_8           8       8
+            K_9           9       9
+            K_COLON       :       colon
+            K_SEMICOLON   ;       semicolon
+            K_LESS        <       less-than sign
+            K_EQUALS      =       equals sign
+            K_GREATER     >       greater-than sign
+            K_QUESTION    ?       question mark
+            K_AT          @       at
+            K_LEFTBRACKET [       left bracket
+            K_BACKSLASH   \       backslash
+            K_RIGHTBRACKET ]      right bracket
+            K_CARET       ^       caret
+            K_UNDERSCORE  _       underscore
+            K_BACKQUOTE   `       grave
+            K_a           a       a
+            K_b           b       b
+            K_c           c       c
+            K_d           d       d
+            K_e           e       e
+            K_f           f       f
+            K_g           g       g
+            K_h           h       h
+            K_i           i       i
+            K_j           j       j
+            K_k           k       k
+            K_l           l       l
+            K_m           m       m
+            K_n           n       n
+            K_o           o       o
+            K_p           p       p
+            K_q           q       q
+            K_r           r       r
+            K_s           s       s
+            K_t           t       t
+            K_u           u       u
+            K_v           v       v
+            K_w           w       w
+            K_x           x       x
+            K_y           y       y
+            K_z           z       z
+            K_DELETE              delete
+            K_KP0                 keypad 0
+            K_KP1                 keypad 1
+            K_KP2                 keypad 2
+            K_KP3                 keypad 3
+            K_KP4                 keypad 4
+            K_KP5                 keypad 5
+            K_KP6                 keypad 6
+            K_KP7                 keypad 7
+            K_KP8                 keypad 8
+            K_KP9                 keypad 9
+            K_KP_PERIOD   .       keypad period
+            K_KP_DIVIDE   /       keypad divide
+            K_KP_MULTIPLY *       keypad multiply
+            K_KP_MINUS    -       keypad minus
+            K_KP_PLUS     +       keypad plus
+            K_KP_ENTER    \r      keypad enter
+            K_KP_EQUALS   =       keypad equals
+            K_UP                  up arrow
+            K_DOWN                down arrow
+            K_RIGHT               right arrow
+            K_LEFT                left arrow
+            K_INSERT              insert
+            K_HOME                home
+            K_END                 end
+            K_PAGEUP              page up
+            K_PAGEDOWN            page down
+            K_F1                  F1
+            K_F2                  F2
+            K_F3                  F3
+            K_F4                  F4
+            K_F5                  F5
+            K_F6                  F6
+            K_F7                  F7
+            K_F8                  F8
+            K_F9                  F9
+            K_F10                 F10
+            K_F11                 F11
+            K_F12                 F12
+            K_F13                 F13
+            K_F14                 F14
+            K_F15                 F15
+            K_NUMLOCK             numlock
+            K_CAPSLOCK            capslock
+            K_SCROLLOCK           scrollock
+            K_RSHIFT              right shift
+            K_LSHIFT              left shift
+            K_RCTRL               right ctrl
+            K_LCTRL               left ctrl
+            K_RALT                right alt
+            K_LALT                left alt
+            K_RMETA               right meta
+            K_LMETA               left meta
+            K_LSUPER              left windows key
+            K_RSUPER              right windows key
+            K_MODE                mode shift
+            K_HELP                help
+            K_PRINT               print screen
+            K_SYSREQ              sysrq
+            K_BREAK               break
+            K_MENU                menu
+            K_POWER               power
+            K_EURO                euro
+```
+
+还有一个mod属性表示一组修饰键的状态，可以通过位或把它们组合起来：
+```
+            KMOD_NONE, KMOD_LSHIFT, KMOD_RSHIFT, KMOD_SHIFT, KMOD_CAPS,
+            KMOD_LCTRL, KMOD_RCTRL, KMOD_CTRL, KMOD_LALT, KMOD_RALT,
+            KMOD_ALT, KMOD_LMETA, KMOD_RMETA, KMOD_META, KMOD_NUM, KMOD_MODE
+```
+
+除了通过事件得到键盘输入以外，也可以直接访问键盘。通过pygame.key.get_pressed可以获得当前所有键的状态，pygame.key.get_mods可以获得所有修饰键的状态，比如：
+```
+keys = pygame.key.get_pressed()
+mods = pygame.key.get_mods()
+if keys[K_F8] and mods[KMOD_ALT]: #if Alt-F8 is pressed
+    pass
+```
+
+## 鼠标
+
+当显示模式设置后，事件队列就会开始收到鼠标事件。当按下和释放鼠标的按键时，会产生 pygame.MOUSEBUTTONDOWN和pygame.MOUSEBUTTONUP事件。这些事件包含一个button属性表示哪些键被按下。滚动鼠标滚轮会产生pygame.MOUSEBUTTONDOWN事件。当向上滚动滚轮时button的值是4，向下滚动时button的值是5。除此外还有一个pos属性，表示按键按下或释放时鼠标指针的位置。当移动鼠标时，会产生pygame.MOUSEMOTION事件。鼠标移动事件会被分解成一组较小的精确的移动事件。当鼠标移动时，会有很多事件被放在队列中。鼠标移动事件没有被正确的清除，常常是事件队列被填满的主要原因。鼠标移动事件包括一个buttons属性，表示鼠标移动时，鼠标键的状态。还有一个pos属性，表示鼠标指针的位置。还有一个rel属性表示当前位置相对于上一次事件发生时指针位置的偏移量。
+
+除了可以通过事件来接受鼠标输入外，还可以直接调用函数检查鼠标的状态。pygame.mouse.get_pressed可以获得当前所有鼠标按键的状态。pygame.mouse.get_pos获得当前鼠标的位置。pygame.mouse.get_rel获得当前鼠标位置相对于前一个位置的位移。
+
+用pygame.mouse.set_visible可以隐藏鼠标的指针。如果鼠标指针被隐藏，输入被当前的display捕获，鼠标会进入虚拟输入模式，这种模式下鼠标的相对位移不会收到屏幕边界的影响。
+
+通过pygame.mouse.set_cursor可以设置鼠标指针的形状。
+```
+pygame.mouse.set_cursor(size, hotspot, xormasks, andmasks): return None
+```
+
+当鼠标指针可见时，它会显示为给定的位域数组指定的黑白色的位图。size是包含指针高度和宽度的列表。hotspot是表示指针的热点位置的列表。xormasks是序列包含指针异或数据位域的序列，andmask是一组包含指针位域数据的序列。宽度必须是8的倍数，位域数组必须是size给定的正确的大小。
+
+pygame.cursors模块包括了几个内置的指针形状。可以这样使用
+```
+pygame.mouse.set_cursor(*pygame.cursors.arrow)
+```
+
+可以使用的指针形状有：
+```
+ pygame.cursors.arrow
+ pygame.cursors.diamond
+ pygame.cursors.broken_x
+ pygame.cursors.tri_left
+ pygame.cursors.tri_right
+```
+
+除此以外，可以用字符串来表示一个指针形状，比如
+```
+thickarrow_strings = (
+                  "XX                      ",
+                  "XXX                     ",
+                  "XXXX                    ",
+                  "XX.XX                   ",
+                  "XX..XX                  ",
+                  "XX...XX                 ",
+                  "XX....XX                ",
+                  "XX.....XX               ",
+                  "XX......XX              ",
+                  "XX.......XX             ",
+                  "XX........XX            ",
+                  "XX........XXX           ",
+                  "XX......XXXXX           ",
+                  "XX.XXX..XX              ",
+                  "XXXX XX..XX             ",
+                  "XX   XX..XX             ",
+                  "     XX..XX             ",
+                  "      XX..XX            ",
+                  "      XX..XX            ",
+                  "       XXXX             ",
+                  "       XX               ",
+                  "                        ",
+                  "                        ",
+                  "                        ")
+```
+
+其中X是黑色部分，.是白色的部分，o是反色的部分，其它是透明的。然后通过
+```
+cur = pygame.cursor.compile(thickarrow_strings)
+pygame.mouse.set_cursor((24,24), (0,0), *cur)
+```
+
+来设置指针。
+
+pygame.cursors模块内置了几个这样的字符串：
+```
+ pygame.cursors.thickarrow_strings
+ pygame.cursors.sizer_x_strings
+ pygame.cursors.sizer_y_strings
+ pygame.cursors.sizer_xy_strings
+```
+
+## 摇杆
+
+joystick模块管理计算机上的摇杆设备（可能多于一个）。摇杆设备包括轨迹球、类似电视游戏机的游戏手柄，允许使用多个按钮和'hats'。
+
+pygame.joystick.get_count函数可以获得系统中摇杆的个数。比如：
+```
+count = pygame.joystick.get_count()
+```
+
+如果系统没有摇杆，数量是0。
+
+如果系统有摇杆，可以通过pygame.joystick.Joystick来创建摇杆对象：
+```
+j = pygame.joystick.Joystick(0)
+```
+
+其中的整数是摇杆的id，取值范围从0到count-1。
+
+创建对象后，需要先初始化
+```
+j.init()
+```
+
+初始化后，事件队列中就可以收到来自摇杆的事件了。事件类型分为：
+```
+          JOYAXISMOTION    joy, axis, value
+          JOYBALLMOTION    joy, ball, rel
+          JOYHATMOTION     joy, hat, value
+          JOYBUTTONUP      joy, button
+          JOYBUTTONDOWN    joy, button
+```
+
+要注意pygame.JOYAXISMOTION事件的value值在-1.0和1.0之间。值0.0表示轴在正中间。游戏手柄设备一般只有-1、0、1三个值，而没有中间的值。而老的模拟摇杆并不一定能完全达到-1到1的区间，中间的值也可能是0附近的一个值。模拟手柄通常会有一点噪声，从而会产生很多很小很快的运动事件。当轨迹球滚动时，pygame.JOYBALLMOTION事件会发生。它会报告轨迹球总共滚动了多少距离。当按钮被按下和释放时，会产生pygame.JOYBUTTONDOWN和pygame.JOYBUTTONUP事件。当hat的位置改变时，pygame.JOYHATMOTION事件会产生。事件的位置属性包括一对值，它们是-1或者0或者1。位置(0,0)表示hat在正中间。
+
+要获得摇杆的轴数可以使用
+```
+j.get_numaxes()
+```
+
+要获得摇杆上轨迹球的个数，可以使用
+```
+j.get_numballs()
+```
+
+要获得摇杆上的按键数，可以使用
+```
+j.get_numbuttons()
+```
+
+要获得摇杆上hat控制器的个数，可以使用
+```
+j.get_numhats()
+```
+
+除了通过事件获得摇杆的输入外，也可以直接查询摇杆的状态。通过
+```
+j.get_axis(axis_number)
+```
+
+可以获得某个轴的位置。通过
+```
+j.get_ball(ball_number)
+```
+
+可以获得某个轨迹球的相对位置。通过
+```
+j.get_button(button)
+```
+
+可以获得某个按键的状态。通过
+```
+j.get_hat(hat_number)
+```
+
+可以获得hat控制器的当前位置。
+
+## 定时
+
+pygame中的时间是以毫秒（千分之一秒）表示的。大部分平台上的时间精度被限制在10毫秒。
+
+通过pygame.time.get_ticks函数可以获得pygame.init后经过的时间的毫秒数。
+
+pygame.time.wait函数会暂停给定的时间。比如
+```
+pygame.time.wait(1000)
+```
+
+会暂停一秒钟。这个函数会休眠这个进程，使得其他程序可以共享处理器。一个程序即使只有休眠很少的毫秒数，就能够消耗非常少的处理器时间。pygame.time.delay函数也会使程序暂停给定的时间。这个函数会使用处理器（而不是休眠）以使这个等待比pygame.time.wait更加精确。这两个函数返回实际暂停的时间。
+
+pygame.time.set_timer可以反复创建一个事件放在事件队列中。比如
+```
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+```
+
+每隔1秒钟在事件队列中放一个pygame.USEREVENT事件。每一个事件类型可以有一个不同的定时器。要禁止一个事件的定时器，可以把对应的毫秒数设成0。
+
+使用pygame.time.Clock可以更方便的控制游戏执行的速度。先使用
+```
+c = pygame.time.Clock()
+```
+
+创建一个Clock对象。然后可以调用
+```
+c.tick(30)
+```
+
+参数为游戏的帧速。这个函数会暂停一定的时间，保证两次tick调用之间间隔1/30秒。这可以帮助限制游戏运行的速度。通过每帧调用一次Clock.tick(30)，这个程序就永远不会以超过每秒30帧的速度运行。通过调用tick_busy_loop方法也可以达到和tick相似的效果，区别是这个函数使用pygame.time.delay，会使用很多cpu来进行忙等，而定时也更精确一些。
+
+通过
+```
+c.get_fps()
+```
+
+可以获得游戏运行的帧速。
+
+## The End

@@ -1,0 +1,13 @@
+---
+title: "PyOpenGL三维游戏编程"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+在这里详述 PyOpenGL三维游戏编程.

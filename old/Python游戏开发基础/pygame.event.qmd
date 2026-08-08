@@ -1,0 +1,205 @@
+---
+title: "pygame.event"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+pygame中用来与事件和队列进行交互的模块
+
+Pygame通过一个事件队列来处理所有的事件消息。这个模块里面函数可以帮助你管理那个事件队列。输入队列很大程度的依赖于pygame的display模块。如果display没有初始化、视频模式还没有设置，则事件队列不能够工作。
+
+队列是一个Event对象的普通队列，有各种不同的访问队列中的事件的方法。从简单的检查是否存在事件，到直接抓取所有的事件。
+
+所有事件都有一个类型标志。这个事件类型的值在NOEVENT和NUMEVENTS之间。所有用户定义的事件类型的值可以是USEREVENT或者更大的值。强烈建议你的事件类型标志遵循这个系统习惯。
+
+要获取各种输入设备的状态，你可以忽略事件队列，而通过适当的模块（比如mouse、key、joystick）直接访问输入设备。如果你使用这种方法，记住pygame需要和系统的窗口管理器及系统其它部分有某种形式的通讯。要保持pygame和系统的同步，你需要调用pygame.event.pump。通常在每次游戏循环中都要调用一次这个函数。
+
+事件队列提供了简单的过滤的方法。使用pygame.event.set_allowed和pygame.event.set_blocked过滤事件，可以阻止特定类型的事件进入队列而帮助提高性能。默认情况下所有的事件都是允许的。
+
+摇杆在初始化之前，不会发送任何事件。
+
+一个Event对象包含一个事件类型，以及一组只读的数据成员。Event对象没有成员函数，只有数据。Event对象是从pygame的事件队列中获得的。你可以通过pygame.event.Event创建自己的事件。
+
+你的程序必须采取一些必要的步骤防止队列溢出。如果程序没有定期清除队列或者把所有事件从队列中取走，它就可能会溢出。当队列溢出，会抛出一个异常。
+
+所有的Event对象在Event.type中保存事件的类型标志。你也可以从Event.dict方法访问所有的Event的数据成员。所有其它的成员查找都是传给Event的字典值进行的。
+
+当调试和试验的时候，你可以打印Event对象来显示它的类型和成员。系统里传来的事件，会根据类型保证有一组特定的成员。这里是一组Event类型及其对应的成员。
+```
+          QUIT	     none
+          ACTIVEEVENT	     gain, state
+          KEYDOWN	     unicode, key, mod
+          KEYUP	     key, mod
+          MOUSEMOTION	     pos, rel, buttons
+          MOUSEBUTTONUP    pos, button
+          MOUSEBUTTONDOWN  pos, button
+          JOYAXISMOTION    joy, axis, value
+          JOYBALLMOTION    joy, ball, rel
+          JOYHATMOTION     joy, hat, value
+          JOYBUTTONUP      joy, button
+          JOYBUTTONDOWN    joy, button
+          VIDEORESIZE      size, w, h
+          VIDEOEXPOSE      none
+          USEREVENT        code
+```
+
+## pygame.event.pump
+
+内部的pygame事件处理函数
+```
+pygame.event.pump(): return None
+```
+
+对于游戏的每一帧，你都需要以某种方式调用事件队列。这保证你的程序内部可以和操作系统其它部分交互。如果你在游戏不使用其它的事件函数，你应该调用pygame.event.pump来让pygame采取内部默认的行为。
+
+如果你的程序一直通过其它pygame.event函数处理队列中的事件，这个函数调用不是必须的。
+
+事件队列内部有一些重要的事情必须要处理。主窗口可能需要重画和响应系统。如果你太长时间没有调用事件队列，系统可能会认为你的程序已经锁死了。
+
+## pygame.event.get
+
+从队列获取所有的事件
+```
+            pygame.event.get(): return Eventlist
+            pygame.event.get(type): return Eventlist
+            pygame.event.get(typelist): return Eventlist
+```
+
+这个函数从队列获取所有的消息，并把它们从队列中删除。如果指定了类型或者类型的列表，则只有指定类型的消息会被从队列中删除。
+
+如果你只从队列获取特定类型的事件，注意队列可能最终会被你没有提取的事件所填满。
+
+## pygame.event.poll
+
+从队列提取一个事件
+```
+pygame.event.poll(): return Event
+```
+
+返回队列中的一个事件。如果队列是空的，会马上返回一个pygame.NOEVENT事件。返回的事件会被从队列中删除。
+
+## pygame.event.wait
+
+在队列中等待一个事件
+```
+pygame.event.wait(): return Event
+```
+
+返回队列中的一个事件。如果队列是空的，这个函数会等待直到有事件发生。如果程序在等待事件，它会在空闲状态休眠。这对于需要和系统其它程序同时运行的程序是很重要的。
+
+## pygame.event.peek
+
+查看队列中是否有特定类型的事件
+```
+pygame.event.peek(type): return bool
+pygame.event.peek(typelist): return bool
+```
+
+如果队列中有给定类型的事件在等待，则返回True。如果传过去一个事件类型的列表，则只要列表中任何一个事件类型在队列中存在，函数就返回True。
+
+## pygame.event.clear
+
+删除队列中的所有事件
+```
+pygame.event.clear(): return None
+pygame.event.clear(type): return None
+pygame.event.clear(typelist): return None
+```
+
+清除队列中的所有事件，或者所有特定类型的事件。这个函数和pygame.event.get除了返回值不同以外，其它效果一样。当要删除整个事件队列的时候，这个函数可能更有效率一些。
+
+## pygame.event.event_name
+
+从事件的类型获得它的名称
+```
+pygame.event.event_name(type): return string
+```
+
+pygame使用一个整数标志来表示事件的类型。如果你要把这些类型给用户看，最好把它们转换为字符串。这个函数会返回事件类型对应的一个简单名字。字符串是采用WordCap这样的命名风格。
+
+## pygame.event.set_blocked
+
+控制哪些事件不可以放在队列中
+```
+pygame.event.set_blocked(type): return None
+pygame.event.set_blocked(typelist): return None
+pygame.event.set_blocked(None): return None
+```
+
+指定的事件类型不允许放在事件队列中。默认情况下，队列里可以放入任何类型的事件。多次禁止同一个事件类型也是允许的。
+
+如果参数是None，则任何类型的事件都允许出现在队列中。
+
+## pygame.event.set_allowed
+
+控制哪些事件允许出现在队列中
+```
+pygame.event.set_allowed(type): return None
+pygame.event.set_allowed(typelist): return None
+pygame.event.set_allowed(None): return None
+```
+
+指定的事件类型允许出现在队列中。默认情况下，任何事件类型都允许出现在队列中。多次允许同一个事件类型也是可以的。
+
+如果参数是None，则任何类型的事件都不允许出现在队列中。
+
+## pygame.event.get_blocked
+
+测试某种类型的事件是否被阻止了
+```
+pygame.event.get_blocked(type): return bool
+```
+
+如果指定的事件类型被阻止了，则返回True。
+
+## pygame.event.set_grab
+
+控制与其它程序的设备共享
+```
+pygame.event.set_grab(bool): return None
+```
+
+当你的程序在窗口环境下运行时，你的键盘、鼠标会和其它拥有焦点的应用程序共享。如果你把事件捕获的属性设置成True，则所有事件都只会到达你的程序。
+
+最好不要总是捕获输入，因为它阻止用户在系统里面做其它事情。
+
+## pygame.event.get_grab
+
+测试你的程序是否共享输入设备
+```
+pygame.event.get_grab(): return bool
+```
+
+当输入设备被这个应用程序捕获时，返回True。使用pygame.event.set_grab来控制这个状态。
+
+## pygame.event.post
+
+把一个新的事件放在队列中。
+```
+pygame.event.post(Event): return None
+```
+
+这个函数在事件队列的末尾放一个新的事件。这个事件会被以后的其它队列函数所得到。
+
+这个函数通常用来在队列中放置pygame.USEREVENT事件。但是它也可以用来放置任何类型的事件，如果使用系统事件类型，你的程序要保证创建的事件有标准的属性并有适当的值。
+
+## pygame.event.Event
+
+创建一个事件对象
+
+```
+pygame.event.Event(type, dict): return Event
+pygame.event.Event(type, **attributes): return Event
+```
+
+创建一个新的指定类型的事件。这个事件创建出来可以带有指定的属性和值。属性可以用一个字典参数指定，也可以用关键字参数来指定。
+
+指定的属性会成为新创建的对象的只读属性。这些是Event对象仅有的属性，它没有方法。
+
+## The end

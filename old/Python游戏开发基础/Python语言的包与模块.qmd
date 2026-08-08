@@ -1,0 +1,574 @@
+---
+title: "Python语言的包与模块"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## 模块
+
+你已经学习了如何在你的程序中定义一次函数而重用代码。如果你想要在其他程序中重用很多函数，那么你该如何编写程序呢？你可能已经猜到了，答案是使用模块。模块基本上就是一个包含了所有你定义的函数和变量的文件。为了在其他程序中重用模块，模块的文件名必须以.py为扩展名。
+
+模块可以从其他程序 输入 以便利用它的功能。这也是我们使用Python标准库的方法。首先，我们将学习如何使用标准库模块。
+
+```python
+#!/usr/bin/python
+
+import sys
+
+print 'The command line arguments are:'
+for i in sys.argv:
+    print i
+
+print '\n\nThe PYTHONPATH is', sys.path, '\n'
+```
+
+输出
+```
+The command line arguments are:
+using_sys.py
+we
+are
+arguments
+
+The PYTHONPATH is ['/home/swaroop/byte/code', '/usr/lib/python23.zip',
+'/usr/lib/python2.3', '/usr/lib/python2.3/plat-linux2',
+'/usr/lib/python2.3/lib-tk', '/usr/lib/python2.3/lib-dynload',
+'/usr/lib/python2.3/site-packages', '/usr/lib/python2.3/site-packages/gtk-2.0']
+```
+
+首先，我们利用import语句 输入 sys模块。基本上，这句语句告诉Python，我们想要使用这个模块。sys模块包含了与Python解释器和它的环境有关的函数。
+
+当Python执行import sys语句的时候，它在sys.path变量中所列目录中寻找sys.py模块。如果找到了这个文件，这个模块的主块中的语句将被运行，然后这个模块将能够被你 使用 。注意，初始化过程仅在我们 第一次 输入模块的时候进行。另外，“sys”是“system”的缩写。
+
+sys模块中的argv变量通过使用点号指明——sys.argv——这种方法的一个优势是这个名称不会与任何在你的程序中使用的argv变量冲突。另外，它也清晰地表明了这个名称是sys模块的一部分。
+
+sys.argv变量是一个字符串的 列表 （列表会在后面的章节详细解释）。特别地，sys.argv包含了 命令行参数 的列表，即使用命令行传递给你的程序的参数。
+
+如果你使用IDE编写运行这些程序，请在菜单里寻找一个指定程序的命令行参数的方法。
+
+这里，当我们执行python using_sys.py we are arguments的时候，我们使用python命令运行using_sys.py模块，后面跟着的内容被作为参数传递给程序。Python为我们把它存储在sys.argv变量中。
+
+记住，脚本的名称总是sys.argv列表的第一个参数。所以，在这里，'using_sys.py'是sys.argv[0]、'we'是sys.argv[1]、'are'是sys.argv[2]以及'arguments'是sys.argv[3]。注意，Python从0开始计数，而非从1开始。
+
+sys.path包含输入模块的目录名列表。我们可以观察到sys.path的第一个字符串是空的——这个空的字符串表示当前目录也是sys.path的一部分，这与PYTHONPATH环境变量是相同的。这意味着你可以直接输入位于当前目录的模块。否则，你得把你的模块放在sys.path所列的目录之一。
+
+### 字节编译的.pyc文件
+
+输入一个模块相对来说是一个比较费时的事情，所以Python做了一些技巧，以便使输入模块更加快一些。一种方法是创建 字节编译的文件 ，这些文件以.pyc作为扩展名。字节编译的文件与Python变换程序的中间状态有关（是否还记得Python如何工作的介绍？）。当你在下次从别的程序输入这个模块的时候，.pyc文件是十分有用的——它会快得多，因为一部分输入模块所需的处理已经完成了。另外，这些字节编译的文件也是与平台无关的。所以，现在你知道了那些.pyc文件事实上是什么了。
+
+### from..import语句
+
+如果你想要直接输入argv变量到你的程序中（避免在每次使用它时打sys.），那么你可以使用from sys import argv语句。如果你想要输入所有sys模块使用的名字，那么你可以使用from sys import *语句。这对于所有模块都适用。一般说来，应该避免使用from..import而使用import语句，因为这样可以使你的程序更加易读，也可以避免名称的冲突。
+
+### 制造你自己的模块
+
+创建你自己的模块是十分简单的，你一直在这样做！每个Python程序也是一个模块。你已经确保它具有.py扩展名了。下面这个例子将会使它更加清晰。
+```python
+#!/usr/bin/python
+# Filename: mymodule.py
+def sayhi():
+    print 'Hi, this is mymodule speaking.'
+
+version = '0.1'
+```
+
+上面是一个 模块 的例子。你已经看到，它与我们普通的Python程序相比并没有什么特别之处。我们接下来将看看如何在我们别的Python程序中使用这个模块。
+
+记住这个模块应该被放置在我们输入它的程序的同一个目录中，或者在sys.path所列目录之一。
+```python
+#!/usr/bin/python
+
+import mymodule
+
+mymodule.sayhi()
+print 'Version', mymodule.version
+```
+
+输出
+```
+Hi, this is mymodule speaking.
+Version 0.1
+```
+
+注意我们使用了相同的点号来使用模块的成员。Python很好地重用了相同的记号来，使我们这些Python程序员不需要不断地学习新的方法。
+
+下面是一个使用from..import语法的版本。
+```python
+#!/usr/bin/python
+
+from mymodule import sayhi, version
+# Alternative:
+# from mymodule import *
+
+sayhi()
+print 'Version', version
+```
+
+后面一个程序的输出与前一个完全相同。
+
+### 模块的__name__
+
+每个模块都有一个名称，在模块中可以通过语句来找出模块的名称。这在一个场合特别有用——就如前面所提到的，当一个模块被第一次输入的时候，这个模块的主块将被运行。假如我们只想在程序本身被使用的时候运行主块，而在它被别的模块输入的时候不运行主块，我们该怎么做呢？这可以通过模块的 `__name__`属性完成。
+```python
+#!/usr/bin/python
+
+if __name__ == '__main__':
+    print 'This program is being run by itself'
+else:
+    print 'I am being imported from another module'
+```
+
+输出
+```
+$ python using_name.py
+This program is being run by itself
+
+$ python
+>>> import using_name
+I am being imported from another module
+>>>
+```
+
+每个Python模块都有它的__name__，如果它是'__main__'，这说明这个模块被用户单独运行，我们可以进行相应的恰当操作。
+
+### dir()函数
+
+你可以使用内建的dir函数来列出模块定义的标识符。标识符有函数、类和变量。
+
+当你为dir()提供一个模块名的时候，它返回模块定义的名称列表。如果不提供参数，它返回当前模块中定义的名称列表。
+```
+>>> import sys
+>>> dir(sys) # get list of attributes for sys module
+['__displayhook__', '__doc__', '__excepthook__', '__name__', '__stderr__',
+'__stdin__', '__stdout__', '_getframe', 'api_version', 'argv',
+'builtin_module_names', 'byteorder', 'call_tracing', 'callstats',
+'copyright', 'displayhook', 'exc_clear', 'exc_info', 'exc_type',
+'excepthook', 'exec_prefix', 'executable', 'exit', 'getcheckinterval',
+'getdefaultencoding', 'getdlopenflags', 'getfilesystemencoding',
+'getrecursionlimit', 'getrefcount', 'hexversion', 'maxint', 'maxunicode',
+'meta_path','modules', 'path', 'path_hooks', 'path_importer_cache',
+'platform', 'prefix', 'ps1', 'ps2', 'setcheckinterval', 'setdlopenflags',
+'setprofile', 'setrecursionlimit', 'settrace', 'stderr', 'stdin', 'stdout',
+'version', 'version_info', 'warnoptions']
+>>> dir() # get list of attributes for current module
+['__builtins__', '__doc__', '__name__', 'sys']
+>>>
+>>> a = 5 # create a new variable 'a'
+>>> dir()
+['__builtins__', '__doc__', '__name__', 'a', 'sys']
+>>>
+>>> del a # delete/remove a name
+>>>
+>>> dir()
+['__builtins__', '__doc__', '__name__', 'sys']
+>>>
+```
+
+首先，我们来看一下在输入的sys模块上使用dir。我们看到它包含一个庞大的属性列表。
+
+接下来，我们不给dir函数传递参数而使用它——默认地，它返回当前模块的属性列表。注意，输入的模块同样是列表的一部分。
+
+为了观察dir的作用，我们定义一个新的变量a并且给它赋一个值，然后检验dir，我们观察到在列表中增加了以上相同的值。我们使用del语句删除当前模块中的变量/属性，这个变化再一次反映在dir的输出中。
+
+关于del的一点注释——这个语句在运行后被用来 删除 一个变量/名称。在这个例子中，del a，你将无法再使用变量a——它就好像从来没有存在过一样。
+
+## 包 Packages
+
+### 创建包
+
+包通常是使用用“圆点模块名”的结构化模块命名空间。例如，名为 A.B 的模块表示了名为 "A" 的包中名为 "B" 的子模块。正如同用模块来保存不同的模块架构可以避免全局变量之间的相互冲突，使用圆点模块名保存像 NumPy 或 Python Imaging Library 之类的不同类库架构可以避免模块之间的命名冲突。
+
+假设你现在想要设计一个模块集（一个“包”）来统一处理声音文件和声音数据。存在几种不同的声音格式（通常由它们的扩展名来标识，例如：.wav ， .aiff ， .au) ），于是，为了在不同类型的文件格式之间转换，你需要维护一个不断增长的包集合。可能你还想要对声音数据做很多不同的操作（例如混音，添加回声，应用平衡功能，创建一个人造效果），所以你要加入一个无限流模块来执行这些操作。你的包可能会是这个样子（通过分级的文件体系来进行分组）：
+
+```
+Sound/                          Top-level package
+      __init__.py               Initialize the sound package
+      Formats/                  Subpackage for file format conversions
+              __init__.py
+              wavread.py
+              wavwrite.py
+              aiffread.py
+              aiffwrite.py
+              auread.py
+              auwrite.py
+              ...
+      Effects/                  Subpackage for sound effects
+              __init__.py
+              echo.py
+              surround.py
+              reverse.py
+              ...
+      Filters/                  Subpackage for filters
+              __init__.py
+              equalizer.py
+              vocoder.py
+              karaoke.py
+              ...
+
+```
+
+### 导入包中的模块
+
+导入模块时，Python通过 sys.path 中的目录列表来搜索存放包的子目录。
+
+必须要有一个 `__init__.py` 文件的存在，才能使Python视该目录为一个包；这是为了防止某些目录使用了"string" 这样的通用名而无意中在随后的模块搜索路径中覆盖了正确的模块。最简单的情况下，`__init__.py` 可以只是一个空文件，不过它也可能包含了包的初始化代码，或者设置了 `__all__` 变量，后面会有相关介绍。
+
+包用户可以从包中导入合法的模块，例如：
+```
+import Sound.Effects.echo
+```
+
+这样就导入了 Sound.Effects.echo 子模块。它必需通过完整的名称来引用。
+```
+Sound.Effects.echo.echofilter(input, output, delay=0.7, atten=4)
+```
+
+导入包时有一个可以选择的方式：
+```
+from Sound.Effects import echo
+```
+
+这样就加载了 echo 子模块，并且使得它在没有包前缀的情况下也可以使用，所以它可以如下方式调用：
+```
+echo.echofilter(input, output, delay=0.7, atten=4)
+```
+
+还有另一种变体用于直接导入函数或变量：
+```
+from Sound.Effects.echo import echofilter
+```
+
+这样就又一次加载了 echo 子模块，但这样就可以直接调用它的 echofilter() 函数：
+```
+echofilter(input, output, delay=0.7, atten=4)
+```
+
+需要注意的是使用 from package import item 方式导入包时，这个子项（item）既可以是包中的一个子模块（或一个子包），也可以是包中定义的其它命名，像函数、类或变量。import 语句首先核对是否包中有这个子项，如果没有，它假定这是一个模块，并尝试加载它。如果没有找到它，会引发一个 ImportError 异常。
+
+相反，使用类似import item.subitem.subsubitem 这样的语法时，这些子项必须是包，最后的子项可以是包或模块，但不能是前面子项中定义的类、函数或变量。
+
+## 标准库
+
+Python标准库是随Python附带安装的，它包含大量极其有用的模块。熟悉Python标准库是十分重要的，因为如果你熟悉这些库中的模块，那么你的大多数问题都可以简单快捷地使用它们来解决。
+
+我们已经研究了一些这个库中的常用模块。你可以在Python附带安装的文档的“库参考”一节中了解Python标准库中所有模块的完整内容。
+
+### sys模块
+
+sys模块包含系统对应的功能。我们已经学习了sys.argv列表，它包含命令行参数。
+```python
+#!/usr/bin/python
+# Filename: cat.py
+
+import sys
+
+def readfile(filename):
+    '''Print a file to the standard output.'''
+    f = file(filename)
+    while True:
+        line = f.readline()
+        if len(line) == 0:
+            break
+        print line, # notice comma
+    f.close()
+
+# Script starts from here
+if len(sys.argv) < 2:
+    print 'No action specified.'
+    sys.exit()
+
+if sys.argv[1].startswith('--'):
+    option = sys.argv[1][2:]
+    # fetch sys.argv[1] but without the first two characters
+    if option == 'version':
+        print 'Version 1.2'
+    elif option == 'help':
+        print '''\
+This program prints files to the standard output.
+Any number of files can be specified.
+Options include:
+  --version : Prints the version number
+  --help    : Display this help'''
+    else:
+        print 'Unknown option.'
+    sys.exit()
+else:
+    for filename in sys.argv[1:]:
+        readfile(filename)
+```
+
+输出
+```
+$ python cat.py
+No action specified.
+
+$ python cat.py --help
+This program prints files to the standard output.
+Any number of files can be specified.
+Options include:
+  --version : Prints the version number
+  --help    : Display this help
+
+$ python cat.py --version
+Version 1.2
+
+$ python cat.py --nonsense
+Unknown option.
+
+$ python cat.py poem.txt
+Programming is fun
+When the work is done
+if you wanna make your work also fun:
+        use Python!
+```
+
+这个程序用来模仿Linux/Unix用户熟悉的cat命令。你只需要指明某些文本文件的名字，这个程序会把它们打印输出。
+
+在Python程序运行的时候，即不是在交互模式下，在sys.argv列表中总是至少有一个项目。它就是当前运行的程序名称，作为sys.argv[0]（由于Python从0开始计数）。其他的命令行参数在这个项目之后。
+
+为了使这个程序对用户更加友好，我们提供了一些用户可以指定的选项来了解更多程序的内容。我们使用第一个参数来检验我们的程序是否被指定了选项。如果使用了--version选项，程序的版本号将被打印出来。类似地，如果指定了--help选项，我们提供一些关于程序的解释。我们使用sys.exit函数退出正在运行的程序。和以往一样，你可以看一下help(sys.exit)来了解更多详情。
+
+如果没有指定任何选项，而是为程序提供文件名的话，它就简单地打印出每个文件地每一行，按照命令行中的顺序一个文件接着一个文件地打印。
+
+顺便说一下，名称cat是 concatenate 的缩写，它基本上表明了程序的功能——它可以在输出打印一个文件或者把两个或两个以上文件连接/级连在一起打印。
+更多sys的内容
+
+sys.version字符串给你提供安装的Python的版本信息。sys.version_info元组则提供一个更简单的方法来使你的程序具备Python版本要求功能。
+```
+[swaroop@localhost code]$ python
+>>> import sys
+>>> sys.version
+'2.3.4 (#1, Oct 26 2004, 16:42:40) \n[GCC 3.4.2 20041017 (Red Hat 3.4.2-6.fc3)]'
+>>> sys.version_info
+(2, 3, 4, 'final', 0)
+```
+
+对于有经验的程序员，sys模块中其他令人感兴趣的项目有sys.stdin、sys.stdout和sys.stderr它们分别对应你的程序的标准输入、标准输出和标准错误流。
+
+### 操作系统
+
+这个模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。即它允许一个程序在编写后不需要任何改动，也不会发生任何问题，就可以在Linux和Windows下运行。一个例子就是使用os.sep可以取代操作系统特定的路径分割符。
+
+下面列出了一些在os模块中比较有用的部分。它们中的大多数都简单明了。
+
+   - os.name字符串指示你正在使用的平台。比如对于Windows，它是'nt'，而对于Linux/Unix用户，它是'posix'。
+   - os.getcwd()函数得到当前工作目录，即当前Python脚本工作的目录路径。
+   - os.getenv()和os.putenv()函数分别用来读取和设置环境变量。
+   - os.listdir()返回指定目录下的所有文件和目录名。
+   - os.remove()函数用来删除一个文件。
+   - os.system()函数用来运行shell命令。
+   - os.linesep字符串给出当前平台使用的行终止符。例如，Windows使用'\r\n'，Linux使用'\n'而Mac使用'\r'。
+   - os.path.split()函数返回一个路径的目录名和文件名。
+```
+      >>> os.path.split('/home/swaroop/byte/code/poem.txt')
+      ('/home/swaroop/byte/code', 'poem.txt')
+```
+
+   - os.path.isfile()和os.path.isdir()函数分别检验给出的路径是一个文件还是目录。类似地，os.path.exists()函数用来检验给出的路径是否真地存在。
+
+你可以利用Python标准文档去探索更多有关这些函数和变量的详细知识。你也可以使用help(sys)等等。
+
+os 模块提供了不少与操作系统相关联的函数。
+```
+>>> import os
+>>> os.system('time 0:02')
+0
+>>> os.getcwd()      # Return the current working directory
+'C:\\Python24'
+>>> os.chdir('/server/accesslogs')
+```
+
+应该用 "import os" 风格而非 "from os import *"。这样可以保证随操作系统不同而有所变化的 os.open() 不会覆盖内置函数 open()。
+
+在使用一些像 os 这样的大型模块时内置的 dir() 和 help() 函数非常有用。
+```
+>>> import os
+>>> dir(os)
+<returns a list of all module functions>
+>>> help(os)
+<returns an extensive manual page created from the module's docstrings>
+```
+
+针对日常的文件和目录管理任务，shutil 模块提供了一个易于使用的高级接口。
+```
+>>> import shutil
+>>> shutil.copyfile('data.db', 'archive.db')
+>>> shutil.move('/build/executables', 'installdir')
+```
+
+### 文件通配符 File Wildcards
+
+glob 模块提供了一个函数用于从目录通配符搜索中生成文件列表。
+```
+>>> import glob
+>>> glob.glob('*.py')
+['primes.py', 'random.py', 'quote.py']
+```
+
+### 字符串正则匹配 String Pattern Matching
+
+re 模块为高级字符串处理提供了正则表达式工具。对于复杂的匹配和处理，正则表达式提供了简洁、优化的解决方案。
+```
+>>> import re
+>>> re.findall(r'\bf[a-z]*', 'which foot or hand fell fastest')
+['foot', 'fell', 'fastest']
+>>> re.sub(r'(\b[a-z]+) \1', r'\1', 'cat in the the hat')
+'cat in the hat'
+```
+
+如果只需要简单的功能，应该首先考虑字符串方法，因为它们非常简单，易于阅读和调试。
+```
+>>> 'tea for too'.replace('too', 'two')
+'tea for two'
+```
+
+### 数学 Mathematics
+
+math 模块为浮点运算提供了对底层C函数库的访问。
+```
+>>> import math
+>>> math.cos(math.pi / 4.0)
+0.70710678118654757
+>>> math.log(1024, 2)
+10.0
+```
+
+random 提供了生成随机数的工具。
+```
+>>> import random
+>>> random.choice(['apple', 'pear', 'banana'])
+'apple'
+>>> random.sample(xrange(100), 10)   # sampling without replacement
+[30, 83, 16, 4, 8, 81, 41, 50, 18, 33]
+>>> random.random()    # random float
+0.17970987693706186
+>>> random.randrange(6)    # random integer chosen from range(6)
+4
+```
+
+### 互联网访问 Internet Access
+
+有几个模块用于访问互联网以及处理网络通信协议。其中最简单的两个是用于处理从 urls 接收的数据的 urllib2 以及用于发送电子邮件的 smtplib。
+```
+>>> import urllib2
+>>> for line in urllib2.urlopen('http://tycho.usno.navy.mil/cgi-bin/timer.pl'):
+...     if 'EST' in line:      # look for Eastern Standard Time
+...         print line
+
+<BR>Nov. 25, 09:43:32 PM EST
+
+>>> import smtplib
+>>> server = smtplib.SMTP('localhost')
+>>> server.sendmail('soothsayer@tmp.org', 'jceasar@tmp.org',
+"""To: jceasar@tmp.org
+From: soothsayer@tmp.org
+
+Beware the Ides of March.
+""")
+>>> server.quit()
+```
+
+### 日期和时间 Dates and Times
+
+datetime 模块为日期和时间处理同时提供了简单和复杂的方法。支持日期和时间算法的同时，实现的重点放在更有效的处理和格式化输出。该模块还支持时区处理。
+```
+# dates are easily constructed and formatted
+>>> from datetime import date
+>>> now = date.today()
+>>> now
+datetime.date(2003, 12, 2)
+>>> now.strftime("%m-%d-%y or %d%b %Y is a %A on the %d day of %B")
+'12-02-03 or 02Dec 2003 is a Tuesday on the 02 day of December'
+
+# dates support calendar arithmetic
+>>> birthday = date(1964, 7, 31)
+>>> age = now - birthday
+>>> age.days
+14368
+```
+
+### 数据压缩 Data Compression
+
+以下模块直接支持通用的数据打包和压缩格式：zlib， gzip， bz2， zipfile， 以及 tarfile
+
+```
+>>> import zlib
+>>> s = 'witch which has which witches wrist watch'
+>>> len(s)
+41
+>>> t = zlib.compress(s)
+>>> len(t)
+37
+>>> zlib.decompress(t)
+'witch which has which witches wrist watch'
+>>> zlib.crc32(t)
+-1438085031
+```
+
+### 性能度量
+
+有些用户对了解解决同一问题的不同方法之间的性能差异很感兴趣。Python 提供了一个度量工具，为这些问题提供了直接答案。
+
+例如，使用元组封装和拆封来交换元素看起来要比使用传统的方法要诱人的多。timeit 证明了传统的方法更快一些。
+```
+>>> from timeit import Timer
+>>> Timer('t=a; a=b; b=t', 'a=1; b=2').timeit()
+0.60864915603680925
+>>> Timer('a,b = b,a', 'a=1; b=2').timeit()
+0.8625194857439773
+```
+
+相对于 timeit 的细粒度，profile 和 pstats 模块提供了针对更大代码块的时间度量工具。
+
+### 质量控制
+
+开发高质量软件的方法之一是为每一个函数开发测试代码，并且在开发过程中经常进行测试。
+
+doctest 模块提供了一个工具，扫描模块并根据程序中内嵌的文档字符串执行测试。测试构造如同简单的将它的输出结果剪切并粘贴到文档字符串中。通过用户提供的例子，它发展了文档，允许 doctest 模块确认代码的结果是否与文档一致。
+```
+def average(values):
+    """Computes the arithmetic mean of a list of numbers.
+
+    >>> print average([20, 30, 70])
+    40.0
+    """
+    return sum(values, 0.0) / len(values)
+
+import doctest
+doctest.testmod()   # automatically validate the embedded tests
+```
+
+unittest 模块不像 doctest 模块那么容易使用，不过它可以在一个独立的文件里提供一个更全面的测试集。
+```
+import unittest
+
+class TestStatisticalFunctions(unittest.TestCase):
+
+    def test_average(self):
+        self.assertEqual(average([20, 30, 70]), 40.0)
+        self.assertEqual(round(average([1, 5, 7]), 1), 4.3)
+        self.assertRaises(ZeroDivisionError, average, [])
+        self.assertRaises(TypeError, average, 20, 30, 70)
+
+unittest.main() # Calling from the command line invokes all tests
+```
+
+### Batteries Included
+
+Python 体现了“batteries included”哲学。Python 可以通过更大的包的来得到应付各种复杂情况的强大能力，从这一点我们可以看出该思想的应用。例如：
+
+- xmlrpclib 和 SimpleXMLRPCServer 模块实现了在琐碎的任务中调用远程过程。尽管有这样的名字，其实用户不需要直接处理 XML ，也不需要这方面的知识。
+
+- email 包是一个邮件消息管理库，可以处理 MIME 或其它基于 RFC 2822 的消息文档。不同于实际发送和接收消息的 smtplib 和 poplib 模块，email 包有一个用于构建或解析复杂消息结构（包括附件）以及实现互联网编码和头协议的完整工具集。
+
+- xml.dom 和 xml.sax 包为流行的信息交换格式提供了强大的支持。同样， csv 模块支持在通用数据库格式中直接读写。综合起来，这些模块和包大大简化了 Python 应用程序和其它工具之间的数据交换。
+
+- 国际化由 gettext， locale和 codecs 包支持。
+
+## end

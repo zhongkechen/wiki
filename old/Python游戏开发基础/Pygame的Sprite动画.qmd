@@ -1,0 +1,159 @@
+---
+title: "Pygame的Sprite动画"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## Sprite模块介绍
+
+Pygame 1.3版本开始有了一个新的模块pygame.sprite。这个模块由python写成，包括一些高级的管理游戏对象的类。充分利用这个模块，可以简化游戏对象的管理和绘制。sprite类是高度优化的，你的游戏如果用sprite模块很可能比不用还要快。
+
+sprite模块也是非常通用的。你可以用它进行几乎任何类型的游戏开发。灵活性总是要有代价的，要正确使用它需要对它有一些了解。sprite模块的参考文档可以让你把它用起来，但是对于怎么在你的游戏里面使用pygame.sprite还需要更多的解释。
+
+一些pygame的例子（像"chimp"和"aliens"）已经开始使用sprite模块了。你可能要先看一下那些例子，来了解sprite模块是做什么的。chimp模块甚至有他自己每一行代码的解释，这样可以帮助你更好地了解用Python和pygame来编程。
+
+注意，本文假设你已经了解python编程，并且对于创建一个简单游戏的各种部分已经有一点了解。在本文里面，引用这个词很少使用。这代表一个Python的变量。变量在python里面就是引用，因此你可以有好几个变量都指向同一个对象。
+
+### 历史知识
+
+sprite这个词，是从很老的计算机和游戏机上遗留下来的。这些老的机器不能够像游戏里需要的那样很快的画图形和删除图形。对于像游戏里那些变化很快的对象，这些机器需要一个特别的硬件去处理。这些对象叫做sprites，并且对它们有一些特殊的限制，但是可以把它们很快的画出来以及很快的更新它们。它们通常被存在视频里面一个特殊的层的缓存上。现在计算机已经够快，从而不需要特别的硬件去处理sprite了。而sprite这个词仍然被用来表示2D游戏里面任何会动的东西。
+
+### 类
+
+sprite模块有两个主要的类。一个是Sprite，用作所有游戏对象的基类。这个类本身实际上什么事情也不作，它只是包含了一些可以帮助对象管理的函数。另一个类是Group，它是各种不同的Sprite对象的容器。实际上有几种不同类型的group类，比如说有些Group类可以把所有它包含的Sprite画出来。
+
+这就是它所有的东西了。我们首先描述这些类每一个都是做什么的，然后再讨论如何正确的使用它们。
+
+### Sprite类
+
+刚才提过，Sprite类是用作所有游戏对象的基类的。它本身几乎没有什么用处，因为它只包含几个函数来和各种Group类一起工作。Sprite保留了它自己属于哪个Group的信息。类的构造函数`__init__`可以用一个Group（或者多个Group的列表）作为参数，指明这个Sprite属于哪些Group。你还可以通过Sprite的add和remove方法来修改它属于哪些Group。还有一个groups方法，可以返回它现在属于的Group的列表。
+
+当使用你的Sprite类的时候，如果它属于某一个或者多个Group，则它被称为是"有效的"或者说是"活的"。当你把这个Sprite从所有的组里面删除时，pygame会清除这个对象（除非你其他地方还有引用这个对象）。kill方法把这个sprite从所有组里面删掉。这会完全删除这个Sprite对象（译注：这不完全正确）。如果你一些小游戏组合在一起，你有时候很难完全清除一个游戏对象。Sprite对象还有一个alive方法，如果Sprite对象还属于其他某个Group则返回True。
+
+### Group类
+
+Group类只是一个简单的容器。和sprite类似，它也有add和remove方法，用来改变它所包含的Sprites。你可以给它的构造函数传一个Sprite或者一组Sprite作为一开始它所包含的sprite对象。
+
+Group还有其他一些函数，比如empty用来删除group里面的所有对象，copy用来创建一个新的group，包含的Sprite成员和原来的一样。还有一个has方法可以快速判断一个sprite或者一组sprite是否在一个group里面。
+
+其他用的很多的函数还有sprites函数。它返回一个对象，遍历它可以访问Group所包含的所有Sprite对象。现在它返回的这个对象是Sprite的列表，以后可能会变成迭代子以提高性能。
+
+作为一种便捷途径，Group还有一个update方法，它会调用它所包含的所有Sprite的update方法，并且Group的update的参数会传给所有的Sprite的update方法。通常游戏里需要一个函数来更新游戏对象的状态。虽然通过Group.sprites方法调用每一个sprite的方法也是很容易的，但是它经常被用到，所以就被加入进来作为一种便捷方式。还要注意，Sprite基类有一个"dummy"（愚蠢的什么都不会作的）的update方法，可以带任何参数，却什么也不作。
+
+最后，Group类有几个其他方法允许你使用python内置的len函数来获得它包含的Sprite的个数，还有一个bool运算符允许你像"if mygroup:"这样来检查group是否包含sprite。
+
+### 把它们结合起来
+
+到此时，这两个类看来还很简单。没有比一个简单的列表和一个自己的游戏对象类好多少。但是把Sprite和Group用在一起就能有很大的好处了。一个Sprite可以属于你想要的任意多的group。记住一旦一个Sprite不属于任何一个Group，它通常会被自动清除掉（除非你在Group外存在引用引用了那个Sprite对象）
+
+第一个大好处就是可以很简单快速的组织sprites。比如说，我们做一个类似pacman（吃豆）的游戏。我们可以把游戏里面不同类型的对象分开成不同的group：Ghost、Pac、Pellets。当pac吃到一个强力的pellet，我们可以通过改变Ghost Group里面的所有东西来改变所有ghost对象的状态。这样比循环迭代所有游戏对象，并检查每一个对象是不是Ghost要简单和快速得多。
+
+从Group里添加和删除Sprite以及从Sprite里面添加和删除Group都是非常快的操作，比使用list来存储它们还要快。因此，你可以非常高效的改变Group的成员。Group可以作为每一个游戏对象的一个简单属性一样工作。你可以把Sprite添加到各种不同的Group，而不是为对象添加属性（比如为一堆敌人对象添加"close_to_player"属性）。当你要访问靠近玩家的所有敌人对象，你已经有它们的一个列表了，而不是访问所有敌人的列表并检查"close_to_player"标志。如果以后你要添加多个玩家，你不用为敌人对象添加"close_to_player2"、"close_to_player3"属性，而只要简单的把它们加到每个玩家对应的Group里面去。
+
+使用Sprite和Group另一个重要的好处是，Group可以非常清晰的控制游戏对象的清除（或者称作杀死）。在一个游戏里面，很多对象都引用另外很多对象，有时删除对象会成为最困难的事情，因为除非它不再被引用否则它就不会被清除。假设我们有一个对象，它"追逐"另一个对象。追逐者可以保留一个Group，包含它追逐的对象。追逐者可以看到自己的Group是空了，可能要找一个新的目标。
+
+再重申一次，要记住从Group里面删除和添加Sprite是非常快速廉价的操作。你可以添加很多Group来包含和管理你的游戏对象。有一些Group甚至可以是空的，这样没有任何坏处。
+
+### 众多的Group类型
+
+前面使用Sprite和Group的例子和原因还只是冰山一角。它们的另一个好处是sprite模块里面还有好几个不同的Group类型。这些Group都能像普通的Group一样工作，但它们还增加了其他一些功能（或者略微有点不同）。这里列举了sprite模块里面所有的Group类。
+
+- Group 这个是前面说明的最普通的Group。其他大部分Group都是从这个类继承的，但不是全部。
+
+- GroupSingle 这个Group和普通的Group一样工作，但是它只能包含最近添加的一个sprite。因此当你把一个sprite添加到这个组里面，它会自动忘记前一个sprite。因此它只能包含一个或者零个sprite。
+
+- RenderPlain 这是个从Group继承的标准group。它有一个draw方法可以把它包含的所有sprites画到屏幕（或者其他任何Surface）上。为了达到这个目的，它需要所有的sprite包含image和rect属性，由它们来决定画什么以及画在哪里。
+
+- RenderClear 这是个继承自RenderPlain的group，并添加了clear方法。它会把原来画的所有sprite清除。它使用一个背景图片来覆盖sprite所在的区域。它可以非常聪明的处理删除的sprite，当clear被调用时能把它们正确的清除。
+
+- RenderUpdates 这是绘图Group里面的凯迪拉克。它从RenderClear继承，并修改了draw方法，使它返回一个Rect的列表，表示屏幕上被修改过的所有区域。
+
+这是各种可用的Group的列表。我们会在下一节详细讨论这些绘图group。pygame并没有阻止你创建自己的group类。它们只是Python代码，因此你可以从任何一个group继承，添加或者删除任何你想要的东西。将来我希望我们可以内置更多的Group类。GroupMulti和GroupSingle类似，但是可以容纳指定数量的sprite（使用某种形式的循环缓存？）。还可以有一个超级绘图group，可以不用背景图片就可以清除老的sprite（通过在blit前先备份老的屏幕实现）。谁知道实际会怎样呢，但是将来我们肯定会内置更多有用的类。
+
+### 绘图Groups
+
+从前面我们知道，有三种不同类型的绘图group。我们通常可以忽略RenderUpdates，它增加了额外的负担却在卷轴游戏中并没有用处。因此我们有很多工具，选择合适的工具作合适的工作。
+
+对于卷轴游戏，背景时刻都在变换，我们不需要关心调用display.update时的更新区域。你应该使用RenderPlain group来进行绘图。
+
+对于背景通常比较固定的游戏，你不应该更新整个游戏屏幕（因为不必要）。这种类型的游戏的每一帧一般都包括擦除老位置上的每个对象，然后在新的位置上再把它画出来。通过这种方法，我们只需要修改必要的东西。这种情况下你需要使用RenderUpdates类。因为你也需要把改变的区域的列表传给display.update函数。
+
+RenderUpdates类会尽量减少需要更新区域中的重叠的区域。如果一个对象的前一个位置和当前位置重叠，它会被合并成一个区域。除此以外，它还可以正确的处理删除的对象，所以它是一个相当强大的Group。如果你写过一个游戏，并管理游戏对象改变的区域，你会知道这是游戏中产生大量繁琐代码的原因。特别是当你把一些可能在任何时候被删除的对象放进来的时候。所有这些工作被简化到这个怪兽级的类的一个clear和draw方法。加上重叠区域检查，它很可能比你自己写一个还要来得快。
+
+还要注意，pygame并不阻止你把这些绘图group在你的游戏中组合和匹配。当你要对你的sprite进行分层的时候，你肯定会使用多种绘图group。如果屏幕被分成多个部分，可能每个部分的都应该使用适当的绘图group？
+
+### 碰撞检测
+
+sprite模块也带了两个非常通用的碰撞检测函数。对于更复杂的游戏，这些函数并不适合你，但是你可以轻松得到它们的代码，并根据需要修改它们。这里是一个这些函数的列表，说明它们是什么，它们能做什么。
+
+```
+spritecollide(sprite, group, dokill) -> list
+```
+
+这个函数检查一个Sprite和一个group里面的sprites的碰撞。它需要每个sprites都有一个rect参数。它返回group里和另一个sprite有重叠的所有sprite的列表。dokill参数是布尔类型的。如果它是True，这个函数会对返回的所有sprite调用kill函数。这意味着，对于这些sprite最后的引用可能只存在于返回的列表中。一旦这个列表没有了，这些Sprite也没了。这里是一个在循环中使用这个函数的例子：
+```
+>>> for bomb in sprite.spritecollide(player, bombs, 1):
+...     boom_sound.play()
+...     Explosion(bomb, 0)
+```
+
+这个代码在bomb group里面找到所有和玩家碰撞的sprite。因为有dokill参数，所以它会删除爆炸的bomb。对于每一个碰到的bomb，它播放一个bomb声效，并在bomb的位置上创建一个Explosion。（注意，这里的Explosion类知道把每个对象添加到适当的类，因此我们不用在变量里面保存它。最后一行代码可能让你这个Python程序员觉得有点搞笑。）
+
+```
+groupcollide(group1, group2, dokill1, dokill2) -> dictionary
+```
+
+这个函数和spritecollide函数类似，但是更复杂一点。它检查一个group里面的所有sprite和另一个group里面的所有sprite是否相撞。每一个sprite列表都有一个dokill参数。当dokill1是真的，在group1里面碰撞的sprite会被kill()掉。当dokill2是真的，group2里面的sprite也会有同样结果。它返回的字典是这样的：字典里面的每一个关键字是group1里面的发生碰撞的每一个sprite；这个关键字对应的值是group2里面和这个sprite碰撞的所有sprite的列表。可能下面的代码可以更好的解释这个函数：
+```
+>>> for alien in sprite.groupcollide(aliens, shots, 1, 1).keys()
+...     boom_sound.play()
+...     Explosion(alien, 0)
+...     kills += 1
+```
+
+这个代码检查玩家的子弹和所有aliens之间可能的碰撞。这种情况下，我们可以只循环遍历所有的字典关键字，但是如果需要对碰撞的shots作一些特别的事情，我们也可以遍历所有的values()或者items()。如果我们遍历所有的values，我们可以循环包含sprite的列表。同一个sprite可能在多个循环里面出现，因为同一个shot可以和多个aliens碰撞。
+
+这些就是pygame自带的基本的碰撞函数。你可以很容易写出使用除rect外的属性来进行碰撞检测的代码。或者可以尝试直接对碰撞的对象操作而不是创建一个碰撞对象的列表，来更加优化你的代码。sprite碰撞检测函数的代码是非常优化的，但是你还是可以通过去除一些你不需要的功能对它作出一点点加速。
+
+### 常见问题
+
+现在有一个主要的问题常常困然新用户。当你从Sprite基类派生出你的类时，你必须在你自己类的`__init__()`方法中调用`Sprite.__init__()`方法。如果你忘记调用`Sprite.__init__()`方法，你会得到一个难懂的错误，比如：`AttributeError: 'mysprite' instance has no attribute '_Sprite__g'`。
+
+### 扩展你自己的类（高级）
+
+因为速度非常重要，现在的Group类努力只做他们需要做的事情，而不处理很多一般的情况。如果你确定你需要更多的特性，你可能需要创建你自己的Group类。
+
+Sprite和Group类设计成可以被扩展，因此你可以尽情创建你自己的Group类去做特别的事情。最好的起点很可能是在sprite模块的实际代码中。查看现在Sprite group的电码就是写自己的group的例子。
+
+比如说，这里是绘图Group的代码，对每个sprite调用render方法，而不是简单的blit image变量。因为我们要处理更新的区域，我们会从一个原始RenderUpdates group的拷贝开始，这是代码：
+```python
+class RenderUpdatesDraw(RenderClear):
+    """call sprite.draw(screen) to render sprites"""
+    def draw(self, surface):
+        dirty = self.lostsprites
+        self.lostsprites = []
+        for s, r in self.spritedict.items():
+            newrect = s.draw(screen) #Here's the big change
+            if r is 0:
+                dirty.append(newrect)
+            else:
+                dirty.append(newrect.union(r))
+            self.spritedict[s] = newrect
+        return dirty
+```
+
+接下来是更多有关你如何从头创建自己的Sprite和Group类的信息。
+
+Sprite对象只有两个必须的方法：add_internal和remove_internal。add_internal和remove_internal都只有一个参数，是一个group。你的Sprite需要一个记录它所属于的group的方法。你很可能会在实际的Sprite类中添加其他的方法和参数，但是如果你不打算使用那些方法，你也可以不添加他们。
+
+创建你自己的Group也是同样的需求。实际上，如果你查看代码，你会发现GroupSingle不是继承自Group类的，它只是实现了相同的方法，而你不能区分它们。同样你需要一个add_internal和remove_internal方法供sprite在把自己添加到Group或从group中删除时调用。add_internal和remove_internal方法只有一个参数，它是sprite。Group类的另一个需求是它们有一个_spritegroup属性。这个值是什么并不重要，只要这个属性存在就可以了。Sprite类可以查找这个属性来区分Group和其它一般的Python容器。（这很重要，因为一些sprite方法可以用一个group作为参数，或者一组group。因为他们看起来很象，这也是区别它们的最灵活的方法。）
+
+你应该仔细查看Sprite模块的代码。虽然它有点tuned（调整得速度更快但更晦涩难懂），但是它有足够的注释来帮助你看懂它。如果你愿意贡献，代码中还有一些todo部分。
+
+## The end

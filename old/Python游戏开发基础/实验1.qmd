@@ -1,0 +1,112 @@
+---
+title: "实验1"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+实验目的与要求：
+- Python运行环境的安装
+- 交互式运行Python
+- Python编辑器安装
+- 编辑、运行Python程序
+
+实验步骤：
+
+- 在 http://www.python.org/ 上下载python安装程序安装Python
+- 在 http://www.pygame.org/ 上下载pygame安装程序安装pygame
+- 运行Python解释器，输入一些Python语句并查看运行结果。比如：
+```
+>>> 1+1
+>>> 2**10
+>>> r = 5
+>>> pi = 3.14159
+>>> pi*r*r
+>>>
+>>> "hello world"
+>>> print "hello world"
+>>> "hello " + "world\n"
+>>> print "hello " + "world\n"
+>>>
+>>> x = 54
+>>> y = 36
+>>> if x>y:
+        print x
+    else:
+        print y
+>>>
+>>> while y != 0:
+        y, x = x%y, y
+>>> print x
+>>>
+>>> import sys
+>>> sys.version
+>>> sys.platform
+>>>
+
+>>> shoplist = ['apple', 'mango', 'carrot', 'banana']
+
+>>> print 'I have', len(shoplist),'items to purchase.'
+
+>>> print 'These items are:', # Notice the comma at end of the line
+>>> for item in shoplist:
+>>>     print item,
+
+>>> print '\nI also have to buy rice.'
+>>> shoplist.append('rice')
+>>> print 'My shopping list is now', shoplist
+
+>>> print 'I will sort my list now'
+>>> shoplist.sort()
+>>> print 'Sorted shopping list is', shoplist
+
+>>> print 'The first item I will buy is', shoplist[0]
+>>> olditem = shoplist[0]
+>>> del shoplist[0]
+>>> print 'I bought the', olditem
+>>> print 'My shopping list is now', shoplist
+
+>>> help()
+>>> help(sys)
+>>> dir(sys)
+>>> (Ctrl+d或者ctrl+z)
+```
+
+- 下载安装一种Python编辑器，并熟悉它的使用。（比如SPE - Stani's Python Editor, IDLE, DrPython, Eclipse+PyDev, Boa Constructor,Emacs, VIM等）
+- 运行编辑器，编辑一段Python代码，并运行它。比如
+```python
+def GCD(x,y):
+    while y != 0:
+        y, x = x%y, y
+    return x
+
+print GCD(36, 54)
+```
+
+或者
+```python
+def buildConnectionString(params):
+    """Build a connection string from a dictionary of parameters.
+
+    Returns string."""
+    return ";".join(["%s=%s" % (k, v) for k, v in params.items()])
+
+if __name__ == "__main__":
+    myParams = {"server":"mpilgrim", \
+                "database":"master", \
+                "uid":"sa", \
+                "pwd":"secret" \
+                }
+    print buildConnectionString(myParams)
+```
+
+- 在 http://www.pygame.org/projects/6 下载一个Python游戏并运行它。
+
+思考题：
+- 在一个python语句的最前面或者最后面增加或者减少空格，对程序有没有影响？
+- 除了在主流的操作系统（Windows, Linux等）上运行Python程序，还可以在什么平台上运行Python程序？尝试一下。
