@@ -126,6 +126,14 @@ def normalize_latex(content)
   formula
 end
 
+def markdown_code_span(content)
+  code = content.strip
+  longest_run = code.scan(/`+/).map(&:length).max || 0
+  delimiter = "`" * (longest_run + 1)
+  padding = code.start_with?("`") || code.end_with?("`") ? " " : ""
+  "#{delimiter}#{padding}#{code}#{padding}#{delimiter}"
+end
+
 def convert_blocks(text)
   blocks = []
   converted = text.gsub(/\{\{\{(?:#!([^\n]+))?\s*\n(.*?)\}\}\}/m) do
@@ -146,7 +154,7 @@ def convert_blocks(text)
   inline = []
   converted.gsub!(/\{\{\{([^\n]*?)\}\}\}/) do
     token = "@@MOIN_INLINE_#{inline.length}@@"
-    inline << "`#{Regexp.last_match(1).strip.gsub('`', '\\`')}`"
+    inline << markdown_code_span(Regexp.last_match(1))
     token
   end
 

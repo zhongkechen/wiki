@@ -2,6 +2,7 @@ project:
   type: website
   output-dir: _site
   render:
+    - 404.qmd
     - index.md
     - LICENSE.md
     - wiki/Nostr.md

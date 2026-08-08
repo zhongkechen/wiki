@@ -13,6 +13,7 @@
 - `old/`：从旧版 Wiki 迁移的历史页面。
 - `_quarto.yml`：网站结构与 Quarto 构建配置。
 - `.github/workflows/pages.yml`：GitHub Pages 自动构建和部署流程。
+- `NOTICE.md`：历史资料和第三方内容说明。
 
 在本地安装 Quarto 后，可以使用以下命令预览或构建网站：
 
@@ -30,3 +31,9 @@ quarto render
 （CC BY-NC-SA 4.0）发布。
 
 转载或改编时必须注明来源，不得用于商业目的；公开发布改编内容时，必须继续采用相同许可协议。第三方内容的权利仍归其原权利人所有。
+
+第三方资料的适用范围和权利说明见 [NOTICE.md](NOTICE.md)。
+
+## 安全问题
+
+请按照 [SECURITY.md](SECURITY.md) 中的方式私下报告安全问题。
