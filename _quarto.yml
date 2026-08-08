@@ -21,6 +21,8 @@ project:
     - old/数字图像处理/*.qmd
     - old/Python游戏开发基础.qmd
     - old/Python游戏开发基础/*.qmd
+    - old/高级语言程序设计课程.qmd
+    - old/高级语言程序设计课程/*.qmd
   resources:
     - CNAME
 

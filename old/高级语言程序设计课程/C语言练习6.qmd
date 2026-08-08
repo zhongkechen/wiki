@@ -1,0 +1,263 @@
+---
+title: "C语言练习6"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”目录](<../高级语言程序设计课程.qmd>)
+
+### 选择题
+1. 能正确表示整型变量a和b同时为正或同时为负的逻辑表达式是（  ）。
+A. (a>0 || b>0) && (a<0 || b<0)
+B. (a>0 && b>0) && (a<0 && b<0)
+C. (a+b > 0) && (a+b < 0)
+D. a>0 && b>0 || a < 0 && b < 0
+
+1. 语句while(!x)中的条件!x等价于（   ）。
+A. x == 0     B. x!=1     C. x!=0      D. ~x
+
+1. 若有以下定义: double w[5];则访问数组w中的元素可以使用的下标范围是（   ）。
+A. 从0到4     B. 从1到5     C. 从0到5     D. 从1到4
+
+1. 若有如下定义float *a[10];则表达式*(a+5)的类型是（    ）。
+A. float  B. float*  C. float *[]   D. float []
+
+1. 有如下结构体定义
+struct student{
+ char name[20];
+}stud, *pstud = &stud;
+则以下访问结构体成员的表达式正确的是（     ）。
+A. student.name   B. stud.name
+C. pstud.name  D. student->name
+
+1. 有如下定义
+struct {
+ unsigned key : 1;
+ unsigned status : 2;
+} flag;
+则以下关于其中的成员的取值范围，正确是（    ）。
+A. status成员可以取从-2到1的值
+B. status成员可以取从0到3的值
+C. key成员只能取1或者2
+D. status成员只能取0或者1
+
+1. 有如下定义
+union {
+ int ival;
+ float fval;
+ char *sval;
+}u = {15};
+则以下表达式语法正确并且有确定的值的是（     ）。
+A. u.ival  B. u.fval  C. u.sval  D. *u.sval
+
+1. 有如下变量定义int i; float f; double d; char s[10];则以下scanf函数的用法，正确的是（    ）。
+A. scanf("%i", i);
+B. scanf("%f", &f);
+C. scanf("%d", &d);
+D. scanf("%s", &s);
+
+1. 有函数tolower，其声明形式为int tolower(int);则以下函数指针的定义和初始化，正确的是（   ）。
+A. int pf(int) = &tolower;
+B. int (*pf)(int) = tolower;
+C. int (*pf)(void) = tolower;
+D. int pf(void) = &tolower;
+
+1. 设用C语言编写的程序在编译后可执行程序的名字为prog，以如下命令运行prog：
+prog hello world
+则程序中argc的值为（    ）。
+A. 0    B. 1     C.2     D.3
+### 程序填空题
+1. 以下qsort函数完成字符串的快速排序功能，请补充完整。每空限填一个语句或表达式。
+```
+void swap(char *v[], int i, int j) {
+   ①
+   temp = v[i];
+   v[i] = v[j];
+   v[j] = temp;
+}
+void qsort(char *v[], int left, int right) {
+   int i, last;
+   if(②              )
+      return;
+   swap(v, left, (left+right)/2);
+   last = left;
+   for(i = left+1;③             ; i++)
+      if(④                   )
+         swap(v, ++last, i);
+   ⑤
+   ⑥
+   qsort(v, last+1, right);
+}
+```
+
+1. 以下函数search完成单链表的查找功能，head为指向单链表的第一个结点的指针，word为所要查找的值。如果找到了，返回找到的结点的地址，如果找不到返回空指针。请补充完整，每空限填一个语句或表达式。
+```
+struct node {
+   char *word;
+   int count;
+   ⑦
+};
+struct node *search(struct node *head, char *word) {
+   while(head != NULL) {
+      if(⑧                               )
+         return head;
+      ⑨
+   }
+   ⑩
+}
+```
+### 读程序题，写出运行结果
+1. 程序1
+```
+#include <stdio.h>
+int main() {
+   int v[4][4] = {{1,2,3,4},{5,6,7},{8,9}};
+   int *p;
+   for(p = *v; *p != 0 ;p++)
+      printf("%3d", *p);
+}
+```
+
+1. 程序2
+```
+#include <stdio.h>
+int main() {
+   char *days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", NULL};
+   char **p = days;
+   while(*p != NULL) {
+      puts(*p);
+      p++;
+   }
+   return 0;
+}
+```
+
+1. 程序3
+```
+#include <stdarg.h>
+#include <stdio.h>
+double va_fun(int n, ...) {
+    double r = 0.0;
+    double v;
+    va_list ap;
+    va_start(ap, n);
+    while(n-- > 0) {
+        v = va_arg(ap, double);
+        r += v*v;
+    }
+    va_end(ap);
+    return r/n;
+}
+int main() {
+    printf("%f", va_fun(5, 1.0, 2.0, 3.0, 4.0, 5.0));
+}
+```
+
+1. 程序4（标示空格的地方）
+```
+#include <stdio.h>
+int main() {
+   printf("%x%3d\n", 30, 50);
+   printf("%5.2f\n", 3.14159);
+   printf("%15.5s\n", "hello world");
+   return 0;
+}
+```
+
+1. 程序5（以下源代码保存在toupper.c中，即toupper.c的文件内容如下）
+```
+#include <stdio.h>
+#include <ctype.h>
+int main(){
+   int c;
+   FILE *fp = fopen("toupper.c", "r");
+   while((c=getc(fp))!=EOF)
+      putchar(toupper(c));
+   fclose(fp);
+}
+```
+
+### 程序改错题
+1. 程序1：输入一个点计算它与原点构成的矩形的面积
+```
+#include <stdio.h>
+#include <stdlib.h>
+struct point {
+   int x, y;
+}
+int area(struct point *p1, struct point *p2) {
+   return abs(p1->x - p2->x)*abs(p1->y - p2->y);
+}
+int main() {
+   point a, b = {0,0};
+   scanf("%d", &a);
+   printf("%d", area(a, b));
+   return 0;
+}
+```
+
+1. 程序2：函数strstr在字符串s中查找另一个字符串t出现的位置
+```
+char *strstr(char *s, char *t) {
+   while(s!=NULL) {
+      char *p1 = s, p2 = t;
+      while(p2 != NULL && *p1 == *p2)
+         p1++, p2++;
+      if(p2 != NULL)
+         return s;
+   }
+}
+```
+
+1. 程序3：连接多个文件并把它输出到标准输出
+```
+#include <stdio.h>
+void filecopy(FILE *in, FILE *out) {
+   int c;
+   while((c=getc(in))!=EOF)
+      putchar(c, out);
+}
+main (int argc, int *argv[]) {
+   FILE *fp;
+   while(--argc > 0) {
+      if(fp = fopen(*++argv, "r") == NULL)
+         return 1;
+      else {
+         filecopy(fp, stdout);
+      }
+   }
+   return 0;
+}
+```
+
+
+
+### 写程序题
+1. 编写函数trim(s)，如果字符串s最前面和最后面有空格的话，将这些空格去掉。
+
+1. 编写一个程序，读取两个文件，找出两个文件中相同的行，显示在屏幕上。两个文件的文件名由命令行参数指定。比如程序编译后名字为diff，则运行
+diff in1.txt in2.txt
+程序将读取in1.txt和in2.txt的内容。假设这两个文件的内容如下：
+in1.txt:
+```
+hello jack
+hello rose
+hello titanic
+hello world
+```
+in2.txt:
+```
+hello jack
+hello joan
+hello island
+hello world
+```
+则程序将输出结果：
+```
+hello jack
+hello world
+```

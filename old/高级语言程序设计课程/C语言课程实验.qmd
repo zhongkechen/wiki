@@ -1,0 +1,845 @@
+---
+title: "C语言课程实验"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”目录](<../高级语言程序设计课程.qmd>)
+
+## 实验课基本要求
+- 实验课前对实验内容做好预习
+- 有效利用实验课时间，不做与实验无关的活动
+- 独立完成实验内容
+- 按时提交实验报告，发送到 czk19790827@gmail.com
+- 实验报告模板：[高级语言程序设计.doc](<assets/C语言课程实验/高级语言程序设计.doc>)
+
+## 实验运行环境简介
+[C++集成开发环境](<../C++集成开发环境.html>)
+
+如果机房电脑速度太慢参看[温大机房优化脚本](<../温大机房优化脚本.html>)
+
+## 实验1-1
+
+### 实验目的
+熟悉C语言开发环境，学会
+
+- 创建工程
+- 编辑代码
+- 编译连接，生成可执行程序
+- 调试代码
+
+### 实验内容
+编译运行以下程序，观察程序运行的结果
+完成课后作业1-1
+
+```c
+#include <stdio.h>
+main()
+{
+        printf("hello, world\n");
+}
+```
+
+```c
+#include <stdio.h>
+/* print Fahrenheit-Celsius table for fahr = 0, 20, ..., 300 */
+main ()
+{
+    int fahr,  celsius;
+    int lower, upper, step;
+    lower = 0;
+    upper = 300;
+    step = 20;
+    fahr = lower;
+    while ( fahr <= upper) {
+        celsius = 5 * (fahr - 32) / 9;
+        printf( "%d\t%d\n", fahr, celsius);
+        fahr = fahr + step;
+    }
+}
+```
+```c
+#include <stdio.h>
+/* print Fahrenheit-Celsius table*/
+main()
+{
+    int fahr;
+
+    for (fahr = 0; fahr <= 300; fahr = fahr + 20)
+        printf("%3d %6.1f\n", fahr, (5.0/9.0)*(fahr-32));
+}
+```
+
+```
+1-1 Run the "hello, world" program on your system. Experiment with leaving out parts of the program, to see what error messages you get.
+```
+
+## 实验1-2
+### 实验目的
+- 掌握C语言变量、循环的基本概念
+- 掌握基本的算术运算
+
+### 实验内容
+完成课后作业1-4，1-5
+
+- Write a program to print the corresponding Celsius to Fahrenheit table.
+- Modify the temperature conversion program to print the table in reverse order, that is, from 300 degrees to 0.
+
+## 实验1-3
+### 实验名称
+函数的编写
+### 实验目的
+- 掌握C语言函数的基本概念
+- 掌握C语言函数的定义和调用方法
+- 理解C语言字符串和字符数组的使用方法
+
+### 实验内容
+
+完成课后作业1-17: Write a program to print all lines that are longer than 80 characters.
+
+## 实验1-4
+### 实验目的
+
+掌握位运算符的基本用法
+
+### 实验内容
+
+完成课后习题2-8: Write a function rightrot(x,n) that returns the value of the integer x rotated to the right by n positions.
+
+## 实验1-5
+### 实验目的
+
+- 掌握关系表达式和IF语句
+- 掌握循环的使用方法
+- 巩固C语言数组、字符串的使用方法
+
+### 实验内容
+
+练习1-19
+
+Write a function reverse(s) that reverses the character string s. Use it to write a program that reverses its input a line at a time.
+
+## 实验1-6
+### 实验目的
+
+### 实验内容
+Write a version of itoa that accepts three arguments instead of two. The third argument is a minimum field width; the converted number must be padded with banks on the left if necessary to make it wide enough.
+
+## 实验1-7
+### 实验目的
+- 掌握全局变量使用方法
+- 掌握多文件的组织方法
+### 实验内容
+Exercise 4-3. Given the basic framework, it's straightforward to extend the calculator. Add the modulus (%) operator.
+
+## 实验1-8
+### 实验目的
+掌握递归函数的编写方法
+
+### 实验内容
+Write a recursive version of the function reverse(s), which reverses the string s in place.
+
+## 实验1-9
+
+### 实验内容
+书中给定了栈的数据结构和两个操作函数（push,pop），请在此基础上添加
+```
+top函数：取栈顶元素
+empty函数：判断栈是否为空，栈非空返回0，栈为空返回非零
+size函数：返回栈中元素的个数
+clear函数：清空栈
+print函数：打印栈中每一个元素
+```
+添加这些函数后，使以下main函数能够正确运行：
+```c
+main()
+{
+    push(1);
+    push(2);
+    push(3);
+    printf("size:%d\n", size() );
+    printf("top:%f\n", top() );
+    printf("stack is%s empty\n", (empty() ?"":" not" ));
+    printf("content: ");
+    print();
+    printf("\n");
+    clear();
+    printf("size:%d\n", size());
+    printf("stack is%s empty\n", (empty() ?"":" not" ));
+}
+```
+正确的输出应该为：
+```
+size:3
+top:3
+stack is not empty
+content: 1 2 3
+size:0
+stack is empty
+```
+
+## 实验1-10
+
+### 实验内容
+
+写一个程序，输入一组整数，计算它们的平均值。
+例如：输入
+```
+100
+80
+60
+40
+```
+输出
+```
+70
+```
+提示：调用getint实现
+
+## 实验1-11
+### 实验名称
+函数的编写
+### 实验目的
+- 掌握简单函数的声明和定义
+- 掌握函数的调用方法
+### 实验内容
+
+用指针的方式实现课后练习4-1: Write the function strrindex(s,t), which returns the position of the rightmost occurrence of t in s, or -1 if there is none.
+
+## 实验2-1
+### 实验目的
+### 实验内容
+写一个函数strinsert(s, n, t)在字符串s的第n个字符后面插入字符串t。比如：
+```c
+char s[100] = "write everywhere";
+char t[] = "once, run ";
+strinsert(s, 6, t);
+printf("%s", s);
+```
+输出：
+```
+write once, run everywhere
+```
+### 参考程序
+```c
+void strinsert(char *s, int i, char *t) {
+   int tlen = strlen(t);
+   int slen = strlen(s);
+   int j;
+
+   for(j = slen; j >= i; j--)
+      s[j+tlen] = s[j];
+   for(j = 0; j < tlen; j++)
+      s[j+i] = t[j];
+}
+```
+
+## 实验2-2
+### 实验目的
+### 实验内容
+写两个函数
+
+- strcrop(s, i, j) 取字符串s中第i个到第j个字符
+- strdel(s, i, j) 将字符串s中第i个到第j个字符删除
+for example:
+```c
+char s[20]="hello world";
+char t[20]="hello world";
+strcrop(s, 1, 8);
+strdel(t, 1, 8);
+printf("%s\n%s\n", s, t);
+```
+output:
+```
+ello wor
+hld
+```
+
+### 参考程序
+```c
+void strcrop(char *s, int i, int j) {
+    int k;
+    for(k = i; k <=j; k++)
+        s[k-i] = s[k];
+    s[k] = '\0';
+}
+void strdel(char *s, int i, int j) {
+    j++;
+    while(s[j] != '\0')
+        s[i++] = s[j++]
+    s[i] = '\0';
+}
+```
+
+## 实验2-3
+### 实验目的
+熟悉指针数组的使用
+### 实验内容
+写一个函数weekday(y,m,d)，求取y年m月d日是星期几，返回星期几的名字。例如：
+```c
+printf("%s", weekday(2006,3,6));
+```
+输出
+```
+Monday
+```
+
+## 实验2-4
+### 实验目的
+掌握多维数组的使用
+### 实验内容
+写一个函数
+```
+void inverse(int matrix[N][N])
+```
+，将矩阵matrix转置。比如
+```c
+#define N 3
+int m[N][N] = {
+  {1, 2, 3},
+  {4, 5, 6},
+  {7, 8, 9}
+};
+inverse(m);
+```
+得到结果：
+```
+m =
+1 4 7
+2 5 8
+3 6 9
+```
+### 参考程序
+```c
+void inverse(int matrix[N][N]) {
+    int i, j;
+    for(i = 0; i < N; i++) {
+        for(j = 0; j < i; j++) {
+            int temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
+        }
+    }
+}
+```
+
+## 实验2-5
+### 实验目的
+掌握命令行参数的获取和使用
+
+### 实验内容
+
+修改1-20题的程序，使其可以使用命令行参数来指定tab终止位的宽度。比如
+```
+detab -10
+```
+指定tab终止位为每10个字符一个。（这里，detab为程序的名字，-10为参数。）
+
+## 实验2-6
+### 实验目的
+练习函数指针的使用方法
+
+### 实验内容
+写一个函数strfilter，删除字符串中的满足一定条件的字符
+```c
+void strfilter(char s[], int (*fun)(int) );
+int filter (int c){
+   return !islower(c) && !isuper(c);
+}
+main() {
+   char str1[]="Hello, world";
+   char str2[]="Hello, world";
+   char str3[]="Hello, world";
+   strfilter(str1, isupper);/*ello, world*/
+   strfilter(str2, islower);/*H, */
+   strfilter(str3, filter);/*Helloworld*/
+   printf("%s\n%s\n%s\n", str1, str2, str3);
+}
+```
+### 参考程序
+```c
+void strfilter(char *s, int (*fun)(int c)) {
+    char *t = s;
+    while(*s !='\0') {
+        if(!(*fun)(c)) {
+            *t = *s;
+            t++;
+        }
+        s++;
+    }
+}
+```
+
+## 实验2-7
+
+### 实验目的
+练习结构体的简单使用
+
+### 实验内容
+- write a function to calculate distance between two points.
+- write a function to calculate the area of a rect.
+
+### 参考程序
+```c
+struct point {
+    int x, y;
+};
+struct rect {
+    struct point p1, p2;
+};
+double distance(struct point p1, struct point p2) {
+    return sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y));
+}
+int area(struct rect r) {
+    return (r.p1.x - r.p2.x) * (r.p1.y - r.p2.y);
+}
+```
+
+## 实验2-8
+### 实验目的
+
+掌握结构体的进一步使用
+
+### 实验内容
+
+Write a program that prints the distinct words in its input sorted into increasing order of frequency of occurrence. The words with frequency lower than 3 are omitted. Make 3 a parameter that can be set from the command line.
+
+### 参考程序
+
+```c
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAXWORD 100
+#define MAX 1000
+
+struct key {
+   char word[MAXWORD];
+   int count;
+} keytab[MAX];
+int size = 0;
+
+int getword(char *, int);
+int binsearch(char *, struct key *, int);
+int comp(struct key w1, struct key w2);
+void qsort2(struct key v[], int left, int right,
+          int (*comp)(struct key, struct key));
+void swap(struct key v[], int i, int j);
+
+/* count C keywords */
+main(int argc, char *argv[])
+{
+    int n;
+    char word[MAXWORD];
+
+    int least_count = 3;
+
+    /*read parameter from command line*/
+    if(argc>1) {
+        least_count = atoi(argv[1]);
+    }
+
+    /*read and count words*/
+    while (getword(word, MAXWORD) != EOF)
+        if (isalpha(word[0]))
+            if ((n = binsearch(word, keytab, size)) >= 0)
+                keytab[n].count++;
+            else {
+                strcpy(keytab[size].word, word);
+                keytab[size].count = 1;
+                size++;
+            }
+    /*sort*/
+    qsort2(keytab, 0, size-1, &comp);
+
+    /*output*/
+    for (n = 0; n < size; n++)
+       if (keytab[n].count >=least_count )
+           printf("%4d %s\n", keytab[n].count, keytab[n].word);
+    system("pause");
+    return 0;
+}
+
+/* qsort:  sort v[left]...v[right] into increasing order */
+void qsort2(struct key v[], int left, int right,
+          int (*comp)(struct key, struct key))
+{
+   int i, last;
+
+   if (left >= right)    /* do  nothing if array contains */
+       return;           /* fewer than two elements */
+   swap(v, left, (left + right)/2);
+   last = left;
+   for (i = left+1; i <= right;  i++)
+       if ((*comp)(v[i], v[left]) < 0)
+           swap(v, ++last, i);
+   swap(v, left, last);
+   qsort2(v, left, last-1, comp);
+   qsort2(v, last+1, right, comp);
+}
+
+int comp(struct key w1, struct key w2) {
+    return w1.count - w2.count;
+}
+
+void swap(struct key v[], int i, int j) {
+    struct key temp;
+    temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+
+/* binsearch:  find word in tab[0]...tab[n-1] */
+int binsearch(char *word, struct key tab[], int n)
+{
+    int i;
+    for(i = 0; i < n; i++)
+        if( strcmp( word,  tab[i].word)==0)
+            return i;
+    return -1;
+}
+
+#define BUFSIZE 100
+
+char buf[BUFSIZE]; /* buffer for ungetch */
+int bufp = 0; /* next free position in buf */
+int getch(void) /* get a (possibly pushed-back) character */
+{
+      return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c) /* push character back on input */ {
+      if (bufp >= BUFSIZE)
+            printf("ungetch: too many characters\n");
+      else
+            buf[bufp++] = c;
+}
+
+/* getword:  get next word or character from input */
+int getword(char *word, int lim)
+{
+   int c;
+   char *w = word;
+
+   while (isspace(c = getch()))
+       ;
+   if (c != EOF)
+       *w++ = c;
+   if (!isalpha(c)) {
+       *w = '\0';
+       return c;
+   }
+   for ( ; --lim > 0; w++)
+       if (!isalnum(*w = getch())) {
+           ungetch(*w);
+           break;
+       }
+   *w = '\0';
+   return word[0];
+}
+
+```
+
+
+## 实验2-9
+
+### 实验目的
+
+掌握结构体数组的使用
+
+### 实验内容
+
+按要求完成ZJU Online Judge第2104题：http://acm.zju.edu.cn/show_problem.php?pid=2104
+
+
+### 参考程序
+```c
+#include <stdio.h>
+
+struct balloon {
+    char color[16];
+    int count;
+};
+
+int main() {
+    while(1) {
+        int n, i;
+        int found;
+        struct balloon balloons[1000];
+        int size = 0;
+        char color[16];
+        int max, max_i;
+
+        getint(&n);
+        if(n==0) break;
+        for(i = 0; i < n; i++) {
+            getword(color, 16);
+            if((found = search(color, balloons, size)) >=0)
+                balloons[found].count++;
+            else {
+                strcpy(balloons[size].color, color);
+                balloons[size].count = 1;
+                size++;
+            }
+        }
+
+        max_i = -1;
+        max = 0;
+        for(i = 0; i < size; i++) {
+            if(balloons[i].count > max) {
+                max = balloons[i].count;
+                max_i = i;
+            }
+        }
+        printf("%s\n", balloons[max_i].color);
+    }
+    return 0;
+}
+
+/* search:  find word in tab[0]...tab[n-1] */
+int search(char *word, struct balloon tab[], int n)
+{
+    int i;
+    for(i = 0; i < n; i++)
+        if(strcmp(tab[i].color, word)==0)
+            return i;
+    return -1;
+}
+
+#define BUFSIZE 100
+
+char buf[BUFSIZE]; /* buffer for ungetch */
+int bufp = 0; /* next free position in buf */
+int getch(void) /* get a (possibly pushed-back) character */
+{
+      return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c) /* push character back on input */ {
+      if (bufp >= BUFSIZE)
+            printf("ungetch: too many characters\n");
+      else
+            buf[bufp++] = c;
+}
+
+/* getword:  get next word or character from input */
+int getword(char *word, int lim)
+{
+   int c;
+   char *w = word;
+
+   while (isspace(c = getch()))
+       ;
+   if (c != EOF)
+       *w++ = c;
+   for ( ; --lim > 0; w++)
+       if (isspace(*w = getch())) {
+           ungetch(*w);
+           break;
+       }
+   *w = '\0';
+   return word[0];
+}
+
+
+int getint(int *pn)
+{
+   int c, sign;
+
+   while (isspace(c = getch()))   /* skip white space */
+       ;
+   if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
+       ungetch(c);  /* it is not a number */
+       return 0;
+   }
+   sign = (c == '-') ? -1 : 1;
+   if (c == '+' || c == '-')
+       c = getch();
+   for (*pn = 0; isdigit(c); c = getch())
+       *pn = 10 * *pn + (c - '0');
+   *pn *= sign;
+   if (c != EOF)
+       ungetch(c);
+   return c;
+}
+
+```
+
+
+## 实验2-10
+
+### 实验目的
+
+掌握自引用结构体的使用
+
+### 实验内容
+
+统计输入中不同单词的个数。使用链表实现。
+
+
+### 参考程序
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAXWORD 1000
+struct node {
+    char *word;
+    int count;
+    struct node *next;
+};
+struct node*addlist(struct node *head, char *w);
+char *strdup(char *s);
+void listprint(struct node *p);
+
+main() {
+    struct node *head = NULL;
+    char word[MAXWORD];
+    while(getword(word, MAXWORD)!=EOF)
+        if(isalpha(word[0]))
+            head = addlist(head, word);
+    listprint(head);
+    system("pause");
+}
+
+void listprint(struct node *p) {
+    while(p!=NULL) {
+        printf("%4d %s\n", p->count, p->word);
+        p = p->next;
+    }
+}
+
+struct node*addlist(struct node *head, char *w){
+    int cond;
+    struct node *p = head, *pre = NULL;
+    while(p!=NULL) {
+        cond=strcmp(w,p->word);
+        if(cond == 0) {
+            p->count ++;
+            return head;
+        } else if(cond > 0) {
+            pre = p; p = p->next;
+        } else
+            break;
+    }
+    p =(struct node*)malloc(sizeof(struct node));
+    p->word = strdup(w);
+    p->count = 1;
+    if(pre == NULL) {
+        p->next = head;
+        head = p;
+    } else {
+        p->next = pre->next;
+        pre->next = p;
+    }
+    return head;
+}
+
+char *strdup(char *s) {
+    char *p = (char *)malloc(strlen(s)+1);
+    strcpy(p, s);
+    return p;
+}
+
+#define BUFSIZE 100
+
+char buf[BUFSIZE]; /* buffer for ungetch */
+int bufp = 0; /* next free position in buf */
+int getch(void) /* get a (possibly pushed-back) character */
+{
+    return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c) /* push character back on input */ {
+    if (bufp >= BUFSIZE)
+        printf("ungetch: too many characters\n");
+    else
+        buf[bufp++] = c;
+}
+
+int getword(char *word, int lim)
+{
+    int c;
+    char *w = word;
+
+    while (isspace(c = getch()))
+        ;
+    if (c != EOF)
+        *w++ = c;
+    if (!isalpha(c)) {
+        *w = '\0';
+        return c;
+    }
+    for ( ; --lim > 0; w++)
+        if (!isalnum(*w = getch())) {
+            ungetch(*w);
+            break;
+        }
+    *w = '\0';
+    return word[0];
+}
+
+```
+
+## 实验2-11
+
+### 实验目的
+
+掌握C语言的输入输出
+
+### 实验内容
+
+Exercise 7-1. Write a program that converts upper case to lower or lower case to upper, depending on the name it is invoked with, as found in argv[0].
+
+### 参考程序
+
+```c
+#include <stdio.h>
+#include <ctype.h>
+main(int argc, char * argv[]) {
+    int c;
+    int (*convert)(int);
+
+    convert = (strstr(argv[0],"tolower")!=NULL) ? tolower : toupper;
+    while((c=getchar())!=EOF)
+        putchar(convert(c));
+}
+```
+
+## 实验2-12
+### 实验目的
+
+掌握带变长参数列表的函数
+
+### 实验内容
+
+编写一个函数max(n, s1,s2,s3,...,sn)，计算求字符串s1,s2,s3...sn中最大的一个，n为参数个数
+
+### 参考程序
+
+```c
+#include <stdarg.h>
+
+char *max(int n, ...) {
+    char *maxstring = NULL;
+    char * curr;
+    va_list ap;
+
+    va_start(ap, n);
+    while(n-- > 0) {
+        curr = va_arg(ap, char *);
+        if(maxstring == NULL || strcmp(curr, maxstring) >0)
+            maxstring = curr;
+    }
+    return maxstring;
+}
+```
+
+## 实验考试
