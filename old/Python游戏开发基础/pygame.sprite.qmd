@@ -1,0 +1,305 @@
+---
+title: "pygame.sprite"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+这个模块包含几个游戏中使用的简单类。最主要的是Sprite类，还有几个容纳Sprite的Group类。是否使用这些类在Pygame中是可选的。这些类是轻量级的，仅仅提供了一个大部分游戏所共同需要的代码的起点。
+
+Sprite类是用作游戏中各种类型对象的基类。还有一个Group基类用来简单的容纳sprites。一个游戏可以创建新的Group类用来操作它们包含的特殊的Sprite对象。
+
+基本的Sprite类可以把它包含的Sprite画到Surface上。Group.draw方法需要每个Sprite都有一个Sprite.image属性和一个Sprite.rect属性。Group.clear方法需要相同的属性，可以用于删除所有的Sprite。还有更高级的Group：pygame.sprite.RenderUpdates可以跟踪图像脏的部分（需要更新的部分），pygame.sprite.OrderedUpdates可以以叠加顺序画Sprites。
+
+最后，这个模块还包含几个碰撞检测函数。这些函数帮助我们找到多个Group里面的Sprite有哪些是相交的。要找到碰撞，Sprite必须有一个rect属性。
+
+Group被设计成可以高效率的在里面添加和删除Sprite。它们允许快速测试一个sprite是否已经在一个group里面了。一个Sprite可以被包含在任意多个group里面。一个游戏可以使用一些Group来控制对象的显示，另外一些完全分开的group来控制交叉或者玩家运动。不用在Sprite的派生类中添加类型属性，可以把Sprites组织起来放在不同的group里面。这可以使以后查找Sprite更加容易。
+
+Sprite和Group的关系用add和remove方法管理起来。这些方法可以带一个或者多个对象。这些类的默认的初始化函数带一个或者多个对象作为成员。可以在group里反复添加或者删除同一个Sprite对象。
+
+虽然可以不需要从Sprite和AbstractGroup类继承而设计自己的sprite和group类，但是强烈建议你应该从它们继承。
+
+Sprite类不是线程安全的。使用多线程时必须自己锁定它们。
+
+## pygame.sprite.Sprite
+
+表示可见的游戏对象的简单基类
+```
+pygame.sprite.Sprite(*groups): return Sprite
+    Sprite.update - 控制sprite的行为
+    Sprite.add - 把sprite添加到group里
+    Sprite.remove - 把sprite从group里面删除
+    Sprite.kill - 把srpite从所有group里面删除
+    Sprite.alive - 判断是否有个Group包含这个sprite
+    Sprite.groups - 列出所有包含这个Sprite的Group
+```
+
+表示可见的游戏对象的简单基类。它的派生类需要覆盖Sprite.update方法，并给Sprite.image和Sprite.rect属性赋值。初始化函数可以带任意个Group对象作为它们的成员。
+
+当从Sprite派生时，记得在把Sprite添加到组中之前一定要调用基类的初始化函数。
+
+### Sprite.update
+
+控制sprite行为的方法
+```
+Sprite.update(*args):
+```
+
+这个函数的默认实现什么都不做，它只是作为一个"钩子"让你可以去覆盖的。这个方法被Group.update调用，参数可以是你给的任意参数。
+
+如果不使用Group的update方法，那么就没有必要实现这个方法。
+
+### Sprite.add
+
+把sprite添加到group里面
+```
+Sprite.add(*groups): return None
+```
+
+参数可以给定任意多个Group对象。Sprite会被添加到不包含它的Group里面去。
+
+### Sprite.remove
+
+把sprite从groups里面删除
+```
+Sprite.remove(*groups): return None
+```
+
+可以指定任意多个Group作为参数。Sprite会从包含它的group里面删除。
+
+### Sprite.kill
+
+把Sprite从所有的group里面删除
+```
+Sprite.kill(): return None
+```
+
+Sprite会从所有包含它的Group里面删除。这个函数不会改变Sprite本身的任何状态。这个函数用了以后还可以继续使用这个Sprite对象，包括把它添加到Group里面。
+
+### Sprite.alive
+
+判断是否有某个Group包含这个Sprite
+```
+Sprite.alive(): return bool
+```
+
+如果这个Sprite属于某个组或者多个组，这个函数返回True。
+
+### Sprite.groups
+
+列出包含这个Sprite的所有Group
+```
+Sprite.groups(): return group_list
+```
+
+返回所有包含这个Sprite的Group
+
+## pygame.sprite.Group
+
+包含多个Sprite的容器类
+```
+pygame.sprite.Group(*sprites): return Group
+    Group.sprites - 列出这个Group包含的所有Sprites
+    Group.copy - 复制这个group
+    Group.add - 把Sprite添加到这个group
+    Group.remove - 把Sprite从group里面删除
+    Group.has - 判断这个Group是否包含一些Sprites
+    Group.update - 调用所有包含的Sprite的update方法
+    Group.draw - 把Sprite图像画到Surface上
+    Group.clear - 用背景覆盖掉Sprite
+    Group.empty - 删除Group包含的所有Sprite
+```
+
+Sprite对象的简单容器。这个类可以派生出包含更多特殊功能的类。构造函数可以带任意多个Sprite作为添加到Group里面的对象。Group支持下列标准的Python操作：
+```
+          in      判断一个Sprite是否在里面
+          len     获取包含的Sprite的个数
+          bool    判断这个Group是否包含了Sprite（或者是空的）
+          iter    迭代包含的所有的Sprite
+```
+
+Group包含的Sprite没有排序，所以画Sprites或者迭代它们是没有一个确定的顺序的。
+
+### Group.sprites
+
+列出这个Group包含的Sprites
+```
+Group.sprites(): return sprite_list
+```
+
+返回这个Group包含的所有Sprites的列表。你可以从这个group获得一个迭代子，但是你不能够迭代一个Group的同时并修改它。
+
+### Group.copy
+
+复制Group
+```
+Group.copy(): return Group
+```
+
+创建一个新的Group，包含和原来的group完全相同的Sprites。如果有一个派生的Group类，新对象也会和原来的对象一样有相同的子类。这只能在派生累得构造函数和基类想同时实现。
+
+### Group.add
+
+把Sprites添加到这个Group里面
+```
+Group.add(*sprites): return None
+```
+
+添加任意多个Sprite到这个Group中。这个函数只会添加Group里面原来没有的Sprite进来。
+
+每个Sprite参数也可以是一个迭代Sprite的迭代子。
+
+### Group.remove
+
+从group中删除Sprites
+```
+Group.remove(*sprites): return None
+```
+
+从Group中删除任意多个Sprites。这个操作只对Group里面存在的Sprite进行。
+
+每个Sprite参数也可以是一个迭代Sprite的迭代子。
+
+### Group.has
+
+判断这个Group是否包含一些Sprites
+```
+Group.has(*sprites): return None
+```
+
+如果Group包含所有给定的Sprites，则函数返回True。这个操作和in运算符差不多，但in只是判断一个Sprite是否在Group中。
+
+每个Sprite参数也可以是一个迭代Sprite的迭代子。
+
+### Group.update
+
+在包含的Sprites上调用update
+```
+Group.update(*args): return None
+```
+
+在包含的所有Sprites上调用update。Sprite基类有一个可以带任何参数并不作任何事情的update函数。传给Group.update的参数会每一个Sprite对象。
+
+没有办法获得Sprite.update的返回值。
+
+### Group.draw
+
+把Sprite图像复制到Surface上
+```
+Group.draw(Surface): return None
+```
+
+把包含的Sprites画到Surface上去。这个函数用到Sprite.image作为源Surface，并且用到Sprite.rect作为位置。
+
+Group不保存Sprite的顺序信息，所以Sprite会以任意的顺序画出来。
+
+### Group.clear
+
+用背景来覆盖Sprites
+```
+Group.clear(Surface_dest, background): return None
+```
+
+把Group.draw所画的Sprites擦掉。目标Surface上Sprite的区域会被backgroup上的所填充。
+
+background通常是一个Surface图像，具有和目标Surface同样的大小。它也可以是回调函数，带两个参数：目标Surface和清除的区域。background回调函数在一次clear的过程中会被调用多次。
+
+这是一个回调函数的例子，把Sprites清除为红色：
+```python
+def clear_callback(surf, rect):
+    color = 255, 0, 0
+    surf.fill(color, rect)
+```
+
+### Group.empty
+
+去除所有的Sprite
+```
+Group.empty(): return None
+```
+
+去除这个Group包含的所有Sprites。
+
+## pygame.sprite.RenderUpdates
+
+能够跟踪脏的区域（需要更新的区域）的Group类
+
+```
+pygame.sprite.RenderUpdates(*sprites): return RenderUpdates
+    RenderUpdates.draw - 块复制Sprite图像，并跟踪改变的区域
+```
+
+这个类从pygame.sprite.Group继承。它包含一个扩展的draw函数，能够跟踪屏幕上改变的区域。
+
+### RenderUpdates.draw
+
+块复制Sprite图像，并跟踪改变的区域
+```
+RenderUpdates.draw(surface): return Rect_list
+```
+
+把所有的Sprite画到surface上，和Group.draw一样。这个函数返回一组矩形，表示屏幕上被改变的区域。返回的改变区域也包括之前被Group.clear影响的区域。
+
+返回的Rect列表应该传给pygame.display.update函数。这有助于提高软件显示模式下的游戏性能。这种更新的方法只在背景不会动的时候有效。
+
+## pygame.sprite.OrderedUpdates
+
+可以按照叠加的顺序画图的RenderUpdates类
+```
+pygame.sprite.OrderedUpdates(*spites): return OrderedUpdates
+```
+
+这个类从pygame.sprite.RenderUpdates类继承。它按照Sprite添加的顺序，维护一个有序的Sprites列表。这使得从Group里添加和删除Sprites操作比普通的Group慢一点。
+
+## pygame.sprite.GroupSingle
+
+仅包含一个Sprite的Group类
+```
+pygame.sprite.GroupSingle(sprite=None): return GroupSingle
+```
+
+GroupSingle仅包含一个Sprite。当一个新的Sprite添加进去，老的就被删除了。
+
+有一个特殊的属性GroupSingle.sprite，可以访问这个类包含的Sprite。如果Group是空的，那么它可能是None。也可以通过给这个属性被赋值而添加Sprite。
+
+## pygame.sprite.spritecollide
+
+在一个Group里面找和另一个Sprite相交的Sprites
+```
+pygame.sprite.spritecollide(sprite, group, dokill): return Sprite_list
+```
+
+返回一个列表，包括Group里面所有和另一个Sprite相交的Sprites。是否相交通过比较Sprite.rect属性来确定。
+
+dokill参数是一个布尔型的。如果设置成True，则所有相交的Sprite会从Group里面删除。
+
+## pygame.sprite.groupcollide
+
+找到两个Group里面所有相交的Sprites
+```
+pygame.sprite.groupcollide(group1, group2, dokill1, dokill2): return Sprite_dict
+```
+
+这个函数会找到两个group里面所有相交的Sprites。是否相交通过比较Sprite.rect属性来确定。
+
+group1里面的每一个Sprite会被添加到返回的字典里面，每一项的值是group2中相交的Sprites的列表。
+
+两个dokill参数，哪一个是True，则对应的Group里面相交的Sprites会被删除。
+
+## pygame.sprite.spritecollideany
+
+简单的测试一个Sprite是否和Group里面的任意一个Sprite相交
+```
+      pygame.sprite.spritecollideany(sprite, group): return bool
+```
+
+如果给定的Sprite和Group里面的某个Sprite相交，则返回True。是否相交通过比较Sprite.rect属性来确定。
+
+这个碰撞检测比pygame.sprite.spritecollide更快，因为它要作的事情少一点。
+
+## The end

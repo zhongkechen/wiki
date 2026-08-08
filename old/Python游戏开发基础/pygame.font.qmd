@@ -1,0 +1,212 @@
+---
+title: "pygame.font"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+font模块允许允许在新创建的Surface上画TrueType字体。这个模块是可选的，并依赖于SDL_ttf。你应该测试pygame.font是否可用，并在尝试使用前初始化它。
+
+字体的大部分工作使用Font对象来实现。这个模块它自己仅有初始化函数和pygame.font.Font函数用来创建Font对象。
+
+你可以使用pygame.font.SysFont从系统载入字体。有一些其它的函数用来帮助查找系统字体。
+
+pygame自带一个默认的字体。这个字体总是可以用None作为字体名字被使用。
+
+## pygame.font.init
+
+初始化font模块
+
+pygame.font.init(): return None
+
+这个方法会在pygame.init时自动调用。它初始化font模块。在使用这个模块的其他函数之前必须先初始化。
+
+多次调用这个函数也不会有副作用。
+
+## pygame.font.quit
+
+uninitialize font模块
+
+pygame.font.quit(): return None
+
+手动uninitialize SDL_ttf的字体系统。这个函数会被pygame.quit自动调用。
+
+如果font模块没有被初始化，调用这个函数也不会有问题。
+
+## pygame.font.get_init
+
+返回True如果font模块被初始化了
+
+pygame.font.get_init(): return bool
+
+测试font模块是否被初始化了。
+
+## pygame.font.get_default_font
+
+得到默认字体的文件名
+
+pygame.font.get_default_font(): return string
+
+返回系统字体的文件名。这个不是文件的完整路径。这个文件通常可以在和font模块相同的目录中找到，但是它也可能在其它文档中。
+
+## pygame.font.get_fonts
+
+获得所有可用的字体
+
+pygame.font.get_fonts(): return list of strings
+
+返回一个系统所有可用字体的列表。字体的名字会用小写，所有的空格和其它字符都被去掉了。这在大部分系统都可以用，但是某些系统找不到字体会返回一个空的列表。
+
+## pygame.font.match_font
+
+在系统中查找一个特定的字体
+
+pygame.font.match_font(name, bold=False, italic=False): return path
+
+返回一个系统中字体文件的完整路径。如果bold或者italic参数是True，函数会尝试去查找正确的字体族。
+
+字体的名字可以是逗号隔开的字体的列表。如果没有一个给定字体找到，函数返回None。
+
+比如：
+```
+print pygame.font.match_font('bitstreamverasans')
+# output is: /usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf
+# (but only if you have Vera on your system)
+```
+
+## pygame.font.SysFont
+
+从系统字体创建一个Font对象
+
+pygame.font.SysFont(name, size, bold=False, italic=False): return Font
+
+返回一个新建的从系统字体装载的Font对象。字体会对应请求的bold和italic标志。如果不能找到合适的系统字体，这个函数会载入缺省的pygame字体。字体名字可以是逗号隔开的字体名字的列表。
+
+## pygame.font.Font
+
+从文件创建一个Font对象
+
+pygame.font.Font(filename, size): return Font
+
+pygame.font.Font(object, size): return Font
+
+从给定的文件名或者python文件对象载入新的字体。size是字体的高度。如果文件名是None，pygame的默认字体会被载入。如果参数指定的字体不能载入，会引发一个异常。一旦字体创建后，字体的大小不能被改变。
+
+Font对象主要用来把文字画成新的Surface对象。画的过程可以模拟黑体和斜体的效果，但是最好使用真正的斜体和黑体字体。被画文字可以使普通字符串，也可以是unicode串。
+
+### Font.render
+
+在新的Surface上画出文字。
+
+Font.render(text, antialias, color, background=None): return Surface
+
+这个函数创建一个新Surface对象，它上面包含了画出来的文字。pygame没有提供直接在存在的Surface上画文字的方法，而必须采用Font.render来创建一个新的Surface，然后把它blit到其他Surface上。
+
+文字只能包含一行，换行符不会被画出来。antialias抗锯齿参数如果是真的，字符会有光滑的边缘。color参数指定了文字的颜色（比如(0,0,255)为蓝色）。可选的background参数用来指定文字背景的颜色。如果没有指定background，背景是透明的。
+
+返回的Surface的大小是包含文字的必须的大小。（和Font.size()一样。）如果text是空字符串，会返回一个空白的Surface，只有一个像素宽和一个字符的高度。
+
+返回的Surface的类型依赖于background和antialias的类型。因为性能的原因，最好要知道图像是哪种类型的。如果没有使用antialias，返回的图像是带两个调色板的8位的图像。如果background是透明的，会设置一个透明色colorkey。抗锯齿的图像会使用24位RGB图像。如果背景是透明的，会使用像素alpha。
+
+优化：如果你知道最后文字的背景是单一的颜色，并且文字是抗锯齿的，那么你可以通过指定背景色来改进性能。这使得图像通过透明色colorkey而不是alpha（这个要慢得多）来指定透明信息。
+
+如果你画'\n'字符，一个未知的字符会被画出来，通常是一个矩形。你应该自己去处理多行字符串。
+
+画字体不是线程安全的：一个时刻只能有一个线程在画文字。
+
+### Font.size
+
+确定画文字需要的大小
+
+Font.size(text): return (width, height)
+
+返回画文字需要的大小。这个函数可以帮助确定文字的位置，也可以用来确定文字换行和其他布局效果。
+
+注意，大部分字体都会对特定的字符使用字据调整。比如说字符串“ae”的宽度不总是和"a"+"e"的宽度一致。
+
+### Font.set_underline
+
+控制文字是否有下划线
+
+Font.set_underline(bool): return None
+
+当开启这个选项， 所有的文字都会有下划线。不管字体多大，下划线总是只有一个像素的宽度。这个选项可以和粗体、斜体混合使用。
+
+### Font.get_underline
+
+检查画出来的文字是否有下划线。
+
+Font.get_underline(): return bool
+
+当字体设置有下划线，这个函数返回真。
+
+### Font.set_bold
+
+开启文字的伪粗体
+
+Font.set_bold(bool): return None
+
+开启伪粗体。这是对字体进行伸展而得到的伪粗体，用在很多字体上不好看。如果可能的话，应该载入一个真正的粗体。当这个选项开启后，字符会有不同的宽度。这个选项可以和斜体和下划线混合使用。
+
+### Font.get_bold
+
+检查字体设置是否用粗体。
+
+Font.get_bold(): return bool
+
+如果字体设置了粗体，返回真。
+
+### Font.set_italic
+
+设置字体的伪斜体
+
+Font.set_bold(bool): return None
+
+开启字体的伪斜体。这是对字体进行倾斜而得到的伪斜体，用在很多字体上不好看。如果可能的话，应该载入真正的斜体。当开启了斜体后，字符的宽度可能会不同。这个选项可以和粗体、下划线混合使用。
+
+### Font.get_italic
+
+检查字体设置是否为斜体
+
+Font.get_italic(): return bool
+
+如果字体设置了斜体，则返回真。
+
+### Font.get_linesize
+
+获得行的高度。
+
+Font.get_linesize(): return int
+
+返回一行文字的像素高度。当画很多行字符的时候，这个高度是两行间的间隔的推荐值。
+
+### Font.get_height
+
+获取字体的高度。
+
+Font.get_height(): return int
+
+返回文字的实际像素高度。这是这种这种字体里的字符的平均高度。
+
+### Font.get_ascent
+
+获得字体的ascent高度。
+
+Font.get_ascent(): return int
+
+返回字体的ascent像素高度。ascent是从字体的基线到字体顶部的像素高度。
+
+### Font.get_descent
+
+获得字体的descent高度
+
+Font.get_descent(): return int
+
+返回字体的descent高度。descent是指从字体基线到字体底部的像素高度。
+
+## The end

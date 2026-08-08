@@ -1,0 +1,364 @@
+---
+title: "Pygame起步"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## 概述
+
+### 介绍
+
+pygame是主要构筑在SDL库基础上的一组Python模块的集合，它使我们能够用Python语言来创建功能完整的游戏和多媒体程序。pygame是高度括平台可移植的，在任何SDL支持的平台上都可以运行（几乎可以在任何平台和操作系统上运行）。
+
+注：SDL(Simple DirectMedia Layer)是一个跨平台的多媒体库，可以用来访问底层的音频、键盘、鼠标、摇杆、3D硬件（通过OpenGL）以及2D视频缓冲。它被用在MPEG播放软件、模拟器和很多流行的游戏中，包括获得大奖的Linux版的"Civilization: Call To Power"。
+
+pygame是自由、免费的，以GNU LGPL 2.1协议发布，完整的协议可以在 http://www.gnu.org/copyleft/lesser.html 找到。这协议基本上就让你可以在你的任何项目中使用pygame。你可以用它来创建开源、自由、免费、共享或者商业游戏。但是如果你要增加和改变pygame本身的功能，你必须以一种LGPL兼容的协议来发布这种修改。
+
+而examples子目录中的程序属于公共域软件。
+
+### 安装
+
+pygame安装的简单方法是下载对应于你的系统的二进制pygame安装包。二进制安装包通常包括了依赖信息。从 http://www.pygame.org/download.shtml 可以找到你的系统和python版本对应的pygame安装包。
+
+从源代码安装pygame也是相当自动的过程。主要的工作就是要安装pygame所依赖的软件包。一旦它所依赖的东西就绪，那么只要简单的运行setup.py就可以完成pygame的自动配置、编译和安装。
+
+pygame非常强的依赖于SDL和Pygame。同时它也连接或者嵌入了几个其他的小程序库。font模块依赖于SDL_tff（它又依赖于freetype），mixer和mixer.music模块依赖于SDL_mixer，imag模块依赖于SDL_image（它又依赖于libjpeg和libpng），transform模块为了rotozoom函数而内嵌了SDL_rotozoom，surfarray模块需要python的Numeric包来提供多维数组。
+
+在 http://www.pygame.org/install.html 有更多关于安装的信息。
+
+### 文档
+
+作为起步，pygame有很多tutorial和介绍文章（在 http://www.pygame.org/wiki/tutorials 可以找到）。然后在examples目录中，有很多可以运行的小程序，可以从这些程序的代码开始动手。
+
+而完整的pygame参考手册在 http://www.pygame.org/docs/index.html 可以找到。
+
+如果需要帮助，可以在IRC的pygame频道找到可以提供帮助的人：irc.freenode.net 6667 #pygame
+
+pygame维护了一个活跃的邮件列表。你可以发信到pygame-users@seul.org来发信到邮件列表。发送特定内容的信到majordomo@seul.org可以实现一些特别功能，比如订阅、取消订阅和获取帮助可以分别用如下内容（写在信的内容而不是标题中）的信件实现：
+   - subscribe pygame-users
+   - unsubscribe pygame-users
+   - help
+
+### 参考资料
+
+- 官方主页 http://www.pygame.org/
+- pygame下载 http://www.pygame.org/download.shtml
+- pygame入门 http://www.pygame.org/wiki/tutorials
+- pygame文档 http://www.pygame.org/docs/
+- 获取pygame帮助 http://www.pygame.org/wiki/info
+- pygame游戏下载 http://www.pygame.org/projects/6
+- 视频教程 [1](http://www.scriptedfun.com/screencasts/screencast01.htm) [2](http://www.scriptedfun.com/screencasts/screencast02.htm) [3](http://www.scriptedfun.com/screencasts/screencast03.htm) [4](http://www.scriptedfun.com/screencasts/screencast04.htm)
+
+## 起步
+
+### 初始化
+
+pygame的import和初始化是非常简单的。首先我们必须先导入（import）pygame这个包。
+
+```python
+import pygame
+from pygame.locals import *
+```
+
+第一行是必须的，它导入了pygame包中所有可用的模块。第二行是可选的，它把一些常量和函数放在global名字空间中。
+
+必需注意的是，有些pygame模块是可选的，比如font模块。当你import pygame时，pygame会检查font模块是否存在。如果font模块存在，那么它会自动被导入为pygame.font。如果它不存在，pygame.font会被设置成None。
+
+在用pygame前，必须先初始化。一般只要一句话就可以完成：
+```python
+pygame.init()
+```
+
+执行这个语句，它会试着去初始化所有的pygame模块。并不是所有的模块都是需要初始化的，这个语句会自动去初始化那些需要初始化的模块。你也可以手动的去初始化各个模块，比如说要单独初始化font模块可以这样做：
+```python
+pygame.font.init()
+```
+
+注意，如果执行pygame.init()初始化有错误，它不会给出异常。如果手动初始化单个模块，错误会导致抛出异常。任何必须初始化的模块都包含一个get_init()函数，来判断这个模块是否已经被初始化。
+
+可以对任何模块多次调用init()函数而不会出错。
+
+已经初始化的模块通常会有一个quit()函数来完成清理工作。没有必要显式的调用这个函数，因为pygame会在python退出的时候自动清理所有已经初始化的模块。
+
+### surface和屏幕
+
+pygame最重要的部分就是surface。我们可以把surface看作是一张白纸。你可以对surface作很多操作，比如在surface上画线、用某种颜色填充surface上的部分区域、把图片拷贝到surface上去，把图片从surface上复制下来、设置或者读取surface上某个点的颜色。一个surface可以是任何大小，一个游戏可以有任意多surface。其中有一个surface是特别的，就是用pygame.display.set_mode()创建的display surface。它代表了屏幕，对它的任何操作会出现在用户的屏幕上。一个游戏只能有一个这样的surface，这是SDL的限制。
+
+怎样创建surface？刚才提到，用pygame.display.set_mode()可以创建特殊的display surface。此外，还可以用image.load()创建一个包含图片的surface，还可以用font.render()创建一个包含文字的surface。你甚至可以用Surface()创建一个不包含任何东西的surface。
+
+surface的大部分方法都不重要，只要学习其中的blit(), fill(), set_at()和get_at()就够用了。
+
+display surface的初始化操作是这样的：
+```python
+screen = pygame.display.set_mode((1024, 768))
+```
+
+或者
+```
+screen = pygame.display.set_mode((1024, 768), pygame.FULLSCREEN)
+```
+
+你可以用set_mode把原来窗口的游戏变成全屏。其它的俄显式模式（可以用|连接）有
+- DOUBLEBUF： 对于平滑的动画所必须
+- OPENGL： 让你可以用PyOpenGL，但是不能用pygame的绘图函数
+还有一个可选的depth参数，用来控制颜色显示的深度。一般情况下不用指定这个参数，只要用默认值就可以了。
+
+如果使用DOUBLEBUF，你需要用flip函数来把绘制的内容显示到屏幕上。
+```
+>>> pygame.display.flip()
+```
+
+### 画图
+
+接下来，我们在屏幕上画一幅图像。我们通过最重要的画图原语BLIT(BLock Image Transfer)来实现，它可以把图像从一个地方（比如源图像）拷贝到另一个地方（比如屏幕上的某个位置）。
+```
+>>> car = pygame.image.load('car.png')
+>>> screen.blit(car, (50, 100))
+>>> pygame.display.flip()
+```
+
+这时，图片car.png中的内容会显示在屏幕上，图片的左上角在屏幕上的坐标是(50, 100)。屏幕坐标的X轴从作往右的，Y轴是从上往下的。然后我们可以用如下语句来旋转图片：
+```
+>>> rotated = pygame.transform.rotate(car, 90)
+>>> screen.blit(car, (50, 100))
+>>> pygame.display.flip()
+```
+
+要让屏幕上的任何东西动起来，需要一个这样的过程：画一个场景，然后把它擦掉，然后再画一幅稍微不同的场景，然后再擦掉……如此反复。比如：
+```python
+for i in range(100):
+    screen.fill((0, 0, 0))
+    screen.blit(rotated, (i*10, 0))
+    pygame.display.flip()
+```
+
+注意：这里我们把整个屏幕清楚然后重新绘制不是很好的方法。最好是只把屏幕上变化的部分擦掉重画，其它部分不变。Sprite模块可以帮助我们做这个事情。
+
+### 定时事件
+
+pygame有多种方法获得用户的输入事件，最常见的方法有：
+```python
+pygame.event.wait()
+pygame.event.poll()
+pygame.event.get()
+```
+
+wait函数会阻塞游戏的执行直到有用户事件发生。这对于游戏不是很有用，因为我们希望在等待输入的同时还要产生动画。poll函数会查看是否有事件等待处理，并返回等待处理的一个事件，如果没有事件它就返回NOEVENT。get函数和poll类似，只是它会返回所有在等待处理的事件，没有事件它会返回空列表。
+
+这里还要提一下非常重要的时间控制，如果没有它你的游戏会在计算机上能跑多快就跑多快，这往往不是我们希望的。时间控制很容易：
+```python
+clock = pygame.time.Clock()
+FRAMES_PER_SECOND = 30
+deltat = clock.tick(FRAMES_PER_SECOND)
+```
+
+tick函数会暂停一定的时间，使得上次调用tick的时间到此次调用tick的时间满1/30秒。这样有效的限制了调用tick的次数只有每秒30次。两次tick调用之间的实际时间差由tick函数返回（以毫秒为单位），在比较慢的计算机上，可能不能达到每秒30次。
+
+非常重要的是每秒30帧的速度也决定了游戏响应用户输入的速度，因为它只在每次画图的时候检查用户的输入。以慢于每秒30次的速度检测输入会使用户觉得明显的延时。以每秒30次的帧速显示是因为30帧以上的速度对于人眼是没有用的。如果你的游戏是动作型的，那么你可能要把帧速提高一倍，这样使用户觉得他们的输入能够被更快地得到响应。
+
+### 结合在一起
+
+把前面所讲的各个部分结合在一起，我们可以构成一个完整pygame程序：
+```python
+# INTIALISATION
+import pygame, math, sys
+from pygame.locals import *
+screen = pygame.display.set_mode((640, 480))
+car = pygame.image.load('car.png')
+clock = pygame.time.Clock()
+k_up = k_down = k_left = k_right = 0
+speed = direction = 0
+position = (100, 100)
+TURN_SPEED = 5
+ACCELERATION = 2
+MAX_FORWARD_SPEED = 10
+MAX_REVERSE_SPEED = 5
+BLACK = (0,0,0)
+while 1:
+    # USER INPUT
+    clock.tick(30)
+    for event in pygame.event.get():
+        if not hasattr(event, 'key'): continue
+        down = event.type == KEYDOWN     # key down or up?
+        if event.key == K_RIGHT: k_right = down * TURN_SPEED
+        elif event.key == K_LEFT: k_left = down * TURN_SPEED
+        elif event.key == K_UP: k_up = down * ACCELERATION
+        elif event.key == K_DOWN: k_down = down * ACCELERATION
+        elif event.key == K_ESCAPE: sys.exit(0)     # quit the game
+    screen.fill(BLACK)
+    # SIMULATION
+    # .. new speed and direction based on acceleration and turn
+    speed += (k_up - k_down)
+    if speed > MAX_FORWARD_SPEED: speed = MAX_FORWARD_SPEED
+    if speed < MAX_REVERSE_SPEED: speed = MAX_REVERSE_SPEED
+    direction += (k_left - k_right)
+    # .. new position based on current position, speed and direction
+    x, y = position
+    rad = math.radians(direction)
+    x += speed*math.sin(rad)
+    y += speed*math.cos(rad)
+    position = (x, y)
+    # RENDERING
+    # .. rotate the car image for direction
+    rotated = pygame.transform.rotate(car, direction)
+    # .. position the car on screen
+    rect = rotated.get_rect()
+    rect.center = position
+    # .. render the car to screen
+    screen.blit(rotated, rect)
+    pygame.display.flip()
+
+```
+
+### sprite
+
+上面的代码有点混乱，我们需要更好的组织一下，以更好的适应更大的游戏开发。为此我们需要使用sprite。一个sprite就是一个图像（比如说一辆车）和有关这个图像被显示在屏幕上什么地方的信息（即位置）。这些信息分别储存在sprite的image属性和rect属性里。
+
+sprite总是被一组一组的处理而不是单个处理，甚至一组只有一个sprite也是这样。sprite组有一个叫做draw的方法，可以把这组里面的sprite画在给定的surface上。sprite组还有一个clear方法可以把sprite从surface上清除。上面的代码可以用sprite重写为：
+```python
+# INTIALISATION
+import pygame, math, sys
+from pygame.locals import *
+screen = pygame.display.set_mode((640, 480))
+clock = pygame.time.Clock()
+class CarSprite(pygame.sprite.Sprite):
+    MAX_FORWARD_SPEED = 10
+    MAX_REVERSE_SPEED = 5
+    ACCELERATION = 2
+    TURN_SPEED = 5
+    def __init__(self, image, position):
+        pygame.sprite.Sprite.__init__(self)
+        self.src_image = pygame.image.load(image)
+        self.position = position
+        self.speed = self.direction = 0
+        self.k_left = self.k_right = self.k_down = self.k_up = 0
+    def update(self, deltat):
+        # SIMULATION
+        self.speed += (self.k_up - self.k_down)
+        if self.speed > self.MAX_FORWARD_SPEED:
+            self.speed = self.MAX_FORWARD_SPEED
+        if self.speed < self.MAX_REVERSE_SPEED:
+            self.speed = self.MAX_REVERSE_SPEED
+        self.direction += (self.k_left - self.k_right)
+        x, y = self.position
+        rad = math.radians(self.direction)
+        x += self.speed*math.sin(rad)
+        y += self.speed*math.cos(rad)
+        self.position = (x, y)
+        self.image = pygame.transform.rotate(self.src_image, self.direction)
+        self.rect = self.image.get_rect()
+        self.rect.center = self.position
+
+# CREATE A CAR AND RUN
+rect = screen.get_rect()
+car = CarSprite('car.png', rect.center)
+car_group = pygame.sprite.RenderPlain(car)
+while 1:
+    # USER INPUT
+    deltat = clock.tick(30)
+    for event in pygame.event.get():
+        if not hasattr(event, 'key'): continue
+        down = event.type == KEYDOWN
+        if event.key == K_RIGHT: car.k_right = down * car.TURN_SPEED
+        elif event.key == K_LEFT: car.k_left = down * car.TURN_SPEED
+        elif event.key == K_UP: car.k_up = down * car.ACCELERATION
+        elif event.key == K_DOWN: car.k_down = down * car.ACCELERATION
+        elif event.key == K_ESCAPE: sys.exit(0)
+    # RENDERING
+    screen.fill((0,0,0))
+    car_group.update(deltat)
+    car_group.draw(screen)
+    pygame.display.flip()
+```
+
+这里我们并没有发现sprite带来的多大好处，sprite的真正好处是在屏幕上有很多很多图像要画的时候。sprite有一些功能可以帮助我们来检测碰撞，使得碰撞检测变得容易。Let's put some pads to drive over into the simulation:
+```python
+class PadSprite(pygame.sprite.Sprite):
+    normal = pygame.image.load('pad_normal.png')
+    hit = pygame.image.load('pad_hit.png')
+    def __init__(self, position):
+        pygame.sprite.Sprite.__init__(self)
+        self.rect = pygame.Rect(self.normal.get_rect())
+        self.rect.center = position
+    def update(self, hit_list):
+        if self in hit_list: self.image = self.hit
+        else: self.image = self.normal
+pads = [
+    PadSprite((100, 100)),
+    PadSprite((400, 100)),
+    PadSprite((100, 300)),
+    PadSprite((400, 300)),
+]
+pad_group = pygame.sprite.RenderPlain(*pads)
+```
+
+现在，当进行动画的时候，在画车之前，我们检查车的sprite是否和任意一个pad的sprite相撞了，并把这个信息传给pad.update()，使得每个pad知道自己是否被撞到（hit）了：
+```python
+collisions = pygame.sprite.spritecollide(car, pad_group, False)
+pad_group.update(collisions)
+pad_group.draw(screen)
+```
+
+现在，我们有一个可以由玩家控制在屏幕上移动的汽车，并且能够检测汽车是否碰到了屏幕上的其他东西。
+
+### 背景
+
+接下来我们给汽车构造一个赛道。
+It'd be nice if we could determine whether the car has made a "lap" of the "circuit" we've constructed. We'll
+keep information indicating which order the pads must be visited:
+```python
+class PadSprite(pygame.sprite.Sprite):
+    normal = pygame.image.load('pad_normal.png')
+    hit = pygame.image.load('pad_hit.png')
+    def __init__(self, number, position):
+        pygame.sprite.Sprite.__init__(self)
+        self.number = number
+        self.rect = pygame.Rect(self.normal.get_rect())
+        self.rect.center = position
+        self.image = self.normal
+pads = [
+    PadSprite(1, (100, 100)),
+    PadSprite(2, (400, 100)),
+    PadSprite(3, (400, 300)),
+    PadSprite(4, (100, 300)),
+]
+current_pad_number = 0
+pad_group = pygame.sprite.RenderPlain(*pads)
+```
+
+我们把检测碰撞代码改成这样（用来保证汽车与pad碰撞的正确的顺序）：
+```python
+pads = pygame.sprite.spritecollide(car, pad_group, False)
+if pads:
+    pad = pads[0]
+    if pad.number == current_pad_number + 1:
+        pad.image = pad.hit
+        current_pad_number += 1
+elif current_pad_number == 4:
+    for pad in pad_group.sprites():
+        pad.image = pad.normal
+    current_pad_number = 0
+pad_group.draw(screen)
+```
+
+现在我们在画每一帧之前都把整个屏幕清空screen.fill((0,0,0))。这是相当慢的，不过这也是容易改进的。首先我们载入一张背景图片，把它画在屏幕上。
+```python
+background = pygame.image.load('track.png')
+screen.blit(background, (0,0))
+```
+
+然后在循环中，在update之前，我们把汽车sprite从屏幕上清除掉，也把pad清除掉。
+```python
+pad_group.clear(screen, background)
+car_group.clear(screen, background)
+```
+
+现在我们每画一帧只用更新屏幕的一小部分。还可以更进一步的优化改进，因为pad很少情况下才需要更新，我们不需要每一帧都清除然后重画它们，除非他们的状态确实改变了。这个优化暂时不需要，一个简单的规则就是除非真的有必要，否则不需要优化，没有必要的优化只会增加代码的复杂度。
+
+## End

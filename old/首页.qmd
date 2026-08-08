@@ -24,7 +24,7 @@ description: Zhongke 的个人 Wiki 旧站首页
 - [面向对象程序设计课程](面向对象程序设计课程.html)
 - [数据结构](数据结构.qmd)
 - [数字图像处理](数字图像处理.qmd)
-- [Python游戏开发基础](Python游戏开发基础.html)
+- [Python游戏开发基础](Python游戏开发基础.qmd)
 - [大学生程序设计竞赛](ICPC.html)
 - [毕业设计](毕业设计.html)
 - [计算机科学导论](计算机科学导论.html)（[黄长城](cchuang.html)老师）

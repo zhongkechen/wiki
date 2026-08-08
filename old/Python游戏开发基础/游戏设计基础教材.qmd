@@ -1,0 +1,15 @@
+---
+title: "游戏设计基础教材"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+在这里详述 游戏设计基础教材.
+
+《Learning Python》　 Mark Lutz, David Ascher著 O'Reilly出版社 ISBN 0-596-00281-5  http://www.china-pub.com/computers/common/info.asp?id=25523

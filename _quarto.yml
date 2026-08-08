@@ -19,6 +19,8 @@ project:
     - old/数据结构/**/*.qmd
     - old/数字图像处理.qmd
     - old/数字图像处理/*.qmd
+    - old/Python游戏开发基础.qmd
+    - old/Python游戏开发基础/*.qmd
   resources:
     - CNAME
 

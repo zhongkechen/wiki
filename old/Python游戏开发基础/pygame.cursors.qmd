@@ -1,0 +1,97 @@
+---
+title: "pygame.cursors"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+pygame中控制鼠标指针资源的模块
+
+pygame提供了对系统硬件鼠标指针的控制。pygame只支持系统中黑白色的指针。你可以通过pygame.mouse模块控制指针。
+
+这个cursors模块包含载入和解码各种不同格式指针的函数。这些函数允许你把指针很容易的保存在外部文件中，也很容易直接编码为字符串。
+
+模块包括几个标准的鼠标指针。pygame.mouse.set_cursor需要好几个参数。所有那些参数都已经保存在一个元组中，可以这样调用
+```
+>>> pygame.mouse.set_cursor(*pygame.cursors.arrow)
+```
+
+这个模块还包含几个以格式化的字符串表示的指针。在你使用它们之前，需要把这些指针先传给pygame.cursors.compile函数。使用的例子是这样的：
+```
+>>> cursor = pygame.cursors.compile(pygame.cursors.textmarker_strings)
+>>> pygame.mouse.set_cursor(*cursor)
+```
+
+以下变量是指针位图，可以作为指针使用。
+- pygame.cursors.arrow
+- pygame.cursors.diamond
+- pygame.cursors.broken_x
+- pygame.cursors.tri_left
+- pygame.cursors.tri_right
+以下这些字符串可以通过pygame.cursors.compile转换为指针位图：
+- pygame.cursors.thickarrow_strings
+- pygame.cursors.sizer_x_strings
+- pygame.cursors.sizer_y_strings
+- pygame.cursors.sizer_xy_strings
+
+## pygame.cursors.compile
+
+从字符串创建二进制指针数据
+```
+pygame.cursor.compile(strings, black='X', white='.', xor='o'): return data, mask
+```
+
+使用一个字符串的序列可以用来创建二进制的系统指针数据。返回值和pygame.mouse.set_cursor需要的参数格式一致。
+
+如果你要创建自己的指针字符串，你可以使用表示黑白像素的值。有些系统允许你设置特殊反色颜色，这也被叫做xor颜色。如果系统不支持xor颜色，那么这些颜色就是黑色的。
+
+字符串的宽度必须能够被8整除。一个指针字符串的例子是这样的：
+```
+                thickarrow_strings = (               #sized 24x24
+                  "XX                      ",
+                  "XXX                     ",
+                  "XXXX                    ",
+                  "XX.XX                   ",
+                  "XX..XX                  ",
+                  "XX...XX                 ",
+                  "XX....XX                ",
+                  "XX.....XX               ",
+                  "XX......XX              ",
+                  "XX.......XX             ",
+                  "XX........XX            ",
+                  "XX........XXX           ",
+                  "XX......XXXXX           ",
+                  "XX.XXX..XX              ",
+                  "XXXX XX..XX             ",
+                  "XX   XX..XX             ",
+                  "     XX..XX             ",
+                  "      XX..XX            ",
+                  "      XX..XX            ",
+                  "       XXXX             ",
+                  "       XX               ",
+                  "                        ",
+                  "                        ",
+                  "                        ")
+```
+
+## pygame.cursors.load_xbm
+
+从xbm文件里面加载指针数据
+```
+pygame.cursors.load_xbm(cursorfile, maskfile=None): return cursor_args
+```
+
+这个函数从XBM文件的简单的子集加载指针。XBM文件是unix系统上传统的存储指针的文件，它们用ascii格式来表示简单的图形。
+
+有时黑色和白色可以会分开不同的XMB文件。你可以传第二个maskfile参数去加载第二个图像来构成一个指针。
+
+cursorfile和maskfile参数可以是一个文件名，或者是一个包含readlines方法的类似文件的对象。
+
+返回值cursor_args可以直接传给pygame.mouse.set_cursor。
+
+## The end

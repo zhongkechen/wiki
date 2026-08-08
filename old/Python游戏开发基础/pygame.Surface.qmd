@@ -1,0 +1,196 @@
+---
+title: "pygame.Surface"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## Surface
+
+表示图像的pygame对象
+
+```
+pygame.Surface((width, height), flags=0, depth=0, masks=None): return Surface
+pygame.Surface((width, height), flags=0, Surface): return Surface
+```
+
+pygame里的Surface是用来表示图像的对象。Surface有一定的大小和像素格式。如果是8bit像素格式的Surface，它还会用一个调色板映射到24比特颜色。
+
+调用pygame.Surface可以创建表示图像的新对象。Surface会整个全是黑的。唯一需要指定的参数是大小。如果不指定其他参数，Surface的像素格式会与display Surface的像素格式尽量一致。
+
+像素格式可以通过指定像素深度或者已有的Surface来控制。flags标志位参数是其他一些Surface选项的集合，你可以指定如下的标志
+
+- HWSURFACE, 在视频内存中创建图像
+- SRCALPHA, 像素格式中会包含一个alpha通道
+
+这些参数都仅仅是一个请求，在实际中可能并不能实现。
+
+高级用户可以组合一组颜色屏蔽位，masks是4个整数的集合，表示像素里的哪个位用来表示一种颜色。一般的Surface不需要masks参数。
+
+Surface可以有一些额外的属性，比如alpha平面、透明色、源矩形剪切。这些功能主要影响一个Surface如何被blit到其它的Surface。如果可能的话，blit函数会尝试使用硬件加速，否则就会使用优化的软件blit方法。
+
+pygame支持三种类型的透明：透明色(colorkey)，Surface alpha和每像素alpha。Surface alpha可以和透明色(colorkey)混合使用，但是有像素alpha的图像不能够使用其它模式。透明色(colorkey)让一种颜色值透明。任何和这个颜色相同的像素都不会被画出来。Surface alpha值是单独一个值用来改变整个图像的透明度。Surface alpha值是255表示不透明，值是0表示全透明。
+
+而每像素alpha是不一样的，它为每个像素保存了一个透明值。这种方法允许精确的控制透明效果，但是这种方法也是最慢的。每像素alpha不能和其它方法混用。
+
+Surface支持对单个像素的访问。访问硬件surface的像素是比较慢的，推荐不要这样做。像素可以由get_at()和set_at()函数访问。用这些函数做一些简单的操作是很好的，但是做比较复杂的像素操作就比较慢了。如果你打算做很多像素级的工作，你最好使用pygame.surfarray模块，它可以把surface像多维数组一样使用（而且比较快）。
+
+任何直接访问Surface的像素数据的函数都要求先锁定（lock()）。这些函数可以自动调用lock()和unlock()完成加锁和解锁。但是如果一个函数被调用很多次，那么就会有很多多余的加锁和解锁操作。最好是在多次使用这个函数之前，手动锁定Surface，并在结束时手动解锁。所有的需要解锁的函数的文档里面都会这样说。记住，只在需要的时候才锁住Surface。
+
+Surface的数据在内部是表示成一个数字，包含所有的颜色。使用Surface.map_rgb和Surface.unmap_rgb来在独立的红绿蓝值和Surface的内部表示值之间的转换。
+
+一个Surface可以引用另一个Surface的一部分。这通过Surface.subsurface函数创建。改变任何一个Surface都会影响其它的Surface。
+
+每个Surface包含一个剪切区域。默认情况下，剪切区域是整个Surface。如果改变了剪切区域，所有的画图操作都会限制在一个比较小的范围之内。
+
+### Surface.blit
+
+把一个图像画到另一个上面
+```
+Surface.blit(source, dest, area=None, special_flags = 0): return Rect
+```
+
+把源Surface画到这个Surface上。画的位置可以由dest参数指定。dest可以是一对坐标值，表示源Surface的左上角在这个Surface上的坐标。dest也可以是一个矩形，矩形的左上角作为blit的位置，而矩形的大小不影响blit。
+
+有一个可选的area矩形参数，可以用来指定只画源Surface的一部分。
+
+一个可选的special_flags参数，可以是BLEND_ADD、BLEND_SUB、BLEND_MULT、BLEND_MIN、BLEND_MAX。将来也可能有其它特殊标记添加进来。
+
+返回的矩形表示受影响的像素的区域，不包括目标Surface以外的像素，也不包括剪切区域以外的像素。
+
+如果blit到一个8位的Surface上，像素的alpha值会被忽略。
+
+special_flags是在pygame 1.8中新增的。
+
+### Surface.convert
+
+改变图像的像素格式
+```
+Surface.convert(Surface): return Surface
+Surface.convert(depth, flags=0): return Surface
+Surface.convert(masks, flags=0): return Surface
+Surface.convert(): return Surface
+```
+
+创建一个像素格式不一样的新的Surface。新的像素格式可以由现存其它Surface确定，也可以由depth，flags或者masks决定。这些参数和pygame.Surface的参数类似。
+
+如果没有参数，新的Surface会和display Surface的像素格式一样。这是画图最快的格式。转换所有需要多次blit的Surface是一个好主意。
+
+转换出来的Surface不会有像素alpha。如果原来的Surface里面有，他们会被去掉。参看Surface.convert_alpha来保留或者创建每像素alpha。
+
+### Surface.copy
+
+创建一个Surface的拷贝
+```
+Surface.copy(): return Surface
+```
+
+创建一个Surface的复制品。新创建的Surface和原来的Surface有相同的像素格式、调色板和透明设置。
+
+### Surface.fill
+
+用一个颜色填充Surface
+```
+Surface.fill(color, rect=None): return Rect
+```
+
+用一种颜色填充Surface。如果没有给定rect参数，整个Surface会被填充。rect参数会限制备填充的区域。填充区域同样受到Surface的剪切区域的影响。
+
+颜色参数可以是RGB序列或者是颜色索引值。
+
+这个函数会返回受影响的Surface区域。
+
+### Surface.set_colorkey
+
+设置透明色colorkey
+```
+Surface.set_colorkey(Color, flags=0): return None
+Surface.set_colorkey(None): return None
+```
+
+设置Surface的透明色。当把这个Surface blit到令一个Surface时候，和这个透明色颜色相同的像素会变成透明。color参数可以是RGB颜色或者是一个映射的整数。如果传送的是None，则Surface会没有透明色。
+
+如果是有每像素透明的Surface，透明色会被忽略。透明色可以和Surface alpha混合使用。
+
+可选的flags参数可以是pygame.RLEACCEL，用来在没有加速的时候提供更好的性能。设置了RLEACCEL的Surface作为源Surface blit更快，但是修改Surface的内容会更慢。
+
+### Surface.get_at
+
+获得特定像素点的颜色值
+```
+Surface.get_at((x, y)): return Color
+```
+
+返回指定像素的RGBA颜色值。如果Surface没有每像素alpha，alpha值总是255（不透明）。如果像素位置在Surface的区域以外，会引发一个IndexError异常。
+
+在游戏和实时模拟中，一次取得和设置一个像素是很慢的。
+
+这个函数会根据需要临时加锁和解锁Surface。
+
+### Surface.set_at
+
+设置特定像素点的颜色值
+```
+Surface.set_at((x, y), Color): return None
+```
+
+为一个像素设置RGBA或者映射的整数颜色值。如果Surface没有每像素alpha，alpha值会被忽略。对Surface区域之外或者剪切区域之外的像素设置颜色不会有任何效果。
+
+在游戏和实时模拟中，一次取得和设置一个像素是很慢的。
+
+这个函数会根据需要临时加锁和解锁Surface。
+
+### Surface.set_clip
+
+设置Surface的剪切区域
+```
+Surface.set_clip(rect): return None
+Surface.set_clip(None): return None
+```
+
+每个Surface都有一个剪切区域。这个区域是个矩形，表示只有在这个矩形内的像素可以被修改。如果指定None作为矩形区域，则整个Surface都可以修改。
+
+剪切区域总是在Surface本身的区域只内的。如果剪切区域比Surface的区域大，则会自动缩小到Surface区域之内。
+
+### Surface.get_clip
+
+获得Surface的当前剪切区域
+```
+Surface.get_clip(): return Rect
+```
+
+返回Surface的当前剪切区域。一个Surface总是返回一个有效的矩形，不会超过图像的边界范围。如果Surface设置了None作为剪切区域，则Surface会返回整个Surface的区域。
+
+### Surface.get_size
+
+获得Surface的大小
+```
+Surface.get_size(): return (width, height)
+```
+
+返回Surface的像素高度和宽度
+
+### Surface.get_width
+
+获得Surface的宽度
+```
+Surface.get_width(): return width
+```
+
+返回Surface的像素宽度
+
+### Surface.get_height
+
+获得Surface的高度
+```
+Surface.get_height(): return height
+```
+
+返回Surface的像素高度
+
+## The end

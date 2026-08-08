@@ -1,0 +1,99 @@
+---
+title: "pygame.draw"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+在Surface上画一些简单的图形。这些函数可以在任何格式的Surface上使用。在硬件Surface上使用会比普通的软件Surface上慢。
+
+大部分的函数都包括一个width参数来表示画笔的大小（即形状的边缘的宽度）。如果width是0则整个图形会被颜色填充。
+
+所有的函数都有Surface剪切区域，它的操作会被限制在这个区域里面。这些函数返回一个矩形区域表示被改动的像素的范围。
+
+大部分表示颜色的参数是一个RGB三元组，也可以使用RGBA四元组。如果Surface包含alpha，四元组中alpha值会被直接写入到Surface里面，画图函数并不会进行透明的绘画。颜色参数也可以是一个整数，可以映射到Surface的像素格式。
+
+这些函数在操作时必须临时锁定Surface。如果有很多一系列的绘图操作，可以使用Surface的锁定和解锁操作来加速。
+
+## pygame.draw.rect
+
+画一个矩形
+
+pygame.draw.rect(Surface, color, Rect, width=0): return Rect
+
+在Surface上画一个矩形。指定的Rect是矩形的区域。width参数是矩形框的粗细。如果width是0，整个矩形会被填充。
+
+要记住的是，Surface.fill也可以画一个填充的矩形。实际上，Surface.fill在某些平台上可以用硬件加速。
+
+## pygame.draw.polygon
+
+画一个有任意条边的图形
+
+pygame.draw.polygon(Surface, color, pointlist, width=0): return Rect
+
+在Surface上画一个多边形。pointlist参数是多边形顶点的列表。width参数是多边形的边的粗细。如果width是0，多边形是被填充的。
+
+对于aapolygon，使用带closed参数的aalines。
+
+## pygame.draw.circle
+
+围绕一个点画一个圆
+
+pygame.draw.circle(Surface, color, pos, radius, width=0): return Rect
+
+在Surface上画一个圆形。pos参数是圆的圆心，radius是半径大小。width参数是圆边的粗细，如果width是0圆会被填充。
+
+## pygame.draw.ellipse
+
+在矩形区域中画一个椭圆的形状
+
+pygame.draw.ellipse(Surface, color, Rect, width=0): return Rect
+
+在Surface上画一个椭圆。给定的矩形区域是椭圆填充的区域。width是边的粗细。如果width是0，椭圆会被填充。
+
+## pygame.draw.arc
+
+画椭圆的一部分
+
+pygame.draw.arc(Surface, color, Rect, start_angle, stop_angle, width=1): return Rect
+
+在Surface上画一个椭圆状的弧线。rect参数指定椭圆填充的矩形。两个角度参数指定起始和终止的角度（以弧度为单位），朝右为0度。width参数是弧线的粗细。
+
+## pygame.draw.line
+
+画一条直线段
+
+pygame.draw.line(Surface, color, start_pos, end_pos, width=1): return Rect
+
+在Surface上画一条直线段。线段终点没有箭头，宽的线段终点是方形的。
+
+## pygame.draw.lines
+
+画多条连续的线段
+
+pygame.draw.lines(Surface, color, closed, pointlist, width=1): return Rect
+
+在Surface上画一系列的直线。pointlist是一系列点的列表。如果closed参数是True，则在最后一点和第一点之间会画一条线段。
+
+这个函数不会画终点箭头和中间连接头。线段有尖锐的拐角，粗的线段会有看上去不正确的拐角。
+
+## pygame.draw.aaline
+
+画抗锯齿的线段
+
+pygame.draw.aaline(Surface, color, startpos, endpos, blend=1): return Rect
+
+在Surface上画一条抗锯齿的直线段。如果blend是True，则阴影部分是和原始像素混合而不是直接覆盖的。这个函数接受浮点数作为点的坐标。
+
+## pygame.draw.aalines
+
+pygame.draw.aalines(Surface, color, closed, pointlist, blend=1): return Rect
+
+画多条连续的线段，每个线段都是抗锯齿的。pointlist里面至少要两个点。closed参数如果是True，则在第一个点和最后一点之间会画一条直线。如果blend参数是True，则阴影部分是和原始像素混合而不是直接覆盖的。这个函数接受浮点数作为点的坐标。
+
+## The end

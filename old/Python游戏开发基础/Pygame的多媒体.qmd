@@ -1,0 +1,350 @@
+---
+title: "Pygame的多媒体"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+## 音乐
+
+要在游戏中播放背景音乐，可以使用pygame.mixer.music模块。
+
+- 使用
+```
+pygame.init()
+```
+
+进行全部模块的初始化，或者只初始化音频部分：
+```
+pygame.mixer.init()
+```
+
+- 使用文件名作为参数载入音乐
+```
+pygame.mixer.music.load('/usr/share/example-content/ubuntu Sax.ogg')
+```
+
+音乐可以是ogg、mp3等格式。载入的音乐不会全部放到内容中，而是以流的形式播放的，即在播放的时候才会一点点从文件中读取。
+
+- 使用
+```
+pygame.mixer.music.play();
+```
+
+播放载入的音乐。该函数立即返回，音乐播放在后台进行。play方法还可以使用两个参数
+```
+pygame.mixer.music.play(loops=0, start=0.0)
+```
+
+loops和start分别代表重复的次数和开始播放的位置。
+
+- 播放到一半可以使用
+```
+pygame.mixer.music.stop()
+```
+
+停止播放，还可以用
+```
+pygame.mixer.music.pause()
+```
+
+暂停播放。暂停播放的音乐可以用
+```
+pygame.mixer.music.unpause()
+```
+
+来继续播放。使用
+```
+pygame.mixer.music.fadeout(time)
+```
+
+来进行淡出，在time毫秒的时间内音量由初始值渐变为0，最后停止播放。
+
+- 可以用
+```
+pygame.mixer.music.set_volume(value)
+```
+
+来设置播放的音量，音量value的范围为0.0到1.0。
+
+- 要判断是否在播放音乐，可以使用
+```
+pygame.mixer.music.get_busy()
+```
+
+，返回1为正在播放。在音乐播放完成时，可以用事件的方式通知用户程序。使用
+```
+pygame.mixer.music.set_endevent(pygame.USEREVENT + 1)
+```
+
+，来设置当音乐播放完成时发送pygame.USEREVENT+1事件给用户程序。当前正有音乐在播放时，可以使用
+```
+pygame.mixer.music.queue(filename)
+```
+
+来指定下一个要播放的音乐文件，当前的音乐播放完成后自动开始播放指定的下一个。一次只能指定一个等待播放的音乐文件。
+
+注意：同时只能播放一个音乐文件。音乐文件可以很大，系统以流的形式播放。
+
+## 音效
+
+要在游戏中播放碰撞、爆炸、语音等音效，需要使用pygame.mixer模块。这个模块支持同时播放多个音效文件，多个文件在多个不同的通道Channel中播放，一个通道一次只能播放一个音效文件。
+
+- 使用
+```
+pygame.init()
+```
+
+进行全部模块初始化，或者只初始化音频部分
+```
+pygame.mixer.init()
+```
+
+- 可以这样查看总共有多少个通道
+```
+pygame.mixer.get_num_channels()
+```
+
+可以使用
+```
+channel = pygame.mixer.Channel(i)
+```
+
+取得第i个通道。或者使用
+```
+channel = pygame.mixer.find_channel()
+```
+
+自动取得一个空闲的通道（没有音效正在播放的通道）。
+
+- 使用
+```
+sound = pygame.mixer.Sound('/usr/share/sounds/KDE_Startup_2.ogg)
+```
+
+指定文件名载入一个音频文件，并创建一个Sound对象。音频文件可以是wav,ogg等格式。音频文件的内容会被全部载入到内存中。
+
+- 使用
+```
+channel.play(sound)
+```
+
+在一个通道中播放一个音效。或者使用
+```
+sound.play()
+```
+
+自动找一个空闲的通道播放音效。
+
+- 正在播放的音效可以使用
+```
+sound.stop()
+```
+
+停止音效sound的播放。或者用
+```
+channel.stop()
+```
+
+停止在通道channel中播放的音效。正在播放音效的通道还可以用
+```
+channel.pause()
+```
+
+暂停通道中的音效。暂停的音效还可以用
+```
+channel.unpause()
+```
+
+继续播放。使用
+```
+channel.fadeout(time)
+```
+
+来进行淡出，在time毫秒的时间内音量由初始值渐变为0，最后停止播放。
+
+- 对于一个通道可以用
+```
+channel.get_busy()
+```
+
+检查它是否正在播放音效。当一个通道中的音效播放完成时，可以通过事件通知给用户程序。使用
+```
+channel.set_endevent(pygame.USEREVENT + 1)
+```
+
+来设置当音乐播放完成时发送pygame.USEREVENT+1事件给用户程序。使用
+```
+channel.queue(sound)
+```
+
+为正在播放音效的通道指定下一个要播放的音效。当前的音效播放完成后，下一个音效会自动播放。一个通道只能有一个等待播放的音效。
+
+- 使用
+```
+channel.set_volume(value)
+```
+
+来设置通道中播放的音效的音量。使用
+```
+sound.set_volume(value)
+```
+
+来设置单个音效的音量。两者的取值范围都是0.0到1.0。音效播放的实际音量是通道音量和音效音量的乘积，比如通道音量0.5，音效音量0.6，则实际播放的音量为0.3。
+
+注意：音效和音乐的区别是：音效要整个文件载入到Sound对象中才能播放，而音乐不用完全载入，而以流的方式播放。
+
+## 视频
+
+要在游戏中播放片头动画、过场动画等视频画面，可以使用pygame.movie模块。
+
+- 要播放视频中的音乐，pygame.movie模块需要对音频接口的完全控制，不能初始化mixer模块。因此要这样完成初始化
+```
+pygame.init()
+pygame.mixer.quit()
+```
+
+或者只初始化
+```
+pygame.display.init()
+```
+
+- 用
+```
+movie = pygame.movie.Movie('filename')
+```
+
+指定文件名载入视频。视频的格式可以为mpeg1。视频文件不会马上全部载入内存，而是在播放的时候一点一点的载入内存。
+
+- 用
+```
+movie.set_display(pygame.display.set_mode((640,480)))
+```
+
+指定播放的surface。
+
+- 用
+```
+movie.set_volume(value)
+```
+
+指定播放的音量。音量的值value的取值范围为0.0到1.0。
+
+- 用
+```
+movie.play()
+```
+
+播放视频。这个函数会立即返回，视频在后台播放。这个函数可以带一个参数loops，指定重复次数。
+
+- 正在播放的视频可以用
+```
+movie.stop()
+```
+
+停止播放。还可以用
+```
+movie.pause()
+```
+
+暂停播放。可以使用
+```
+movie.skip(seconds)
+```
+
+使视频前进seconds秒钟。
+
+注：在某些XWindow下，可能需要配置环境变量：
+```
+export SDL_VIDEO_YUV_HWACCEL=0
+```
+
+## CD
+
+如果要在游戏中用音频CD作为背景音乐，则需要用到pygame.cdrom模块。
+
+- 用
+```
+pygame.cdrom.init()
+```
+
+初始化cdrom模块。
+
+- 用
+```
+pygame.cdrom.get_count()
+```
+
+查看系统中的光驱数量。用
+```
+cd = pygame.cdrom.CD(id)
+```
+
+得到指定的光驱对象。id为光驱的编号。
+
+- 用
+```
+cd.init()
+```
+
+对光驱对象进行初始化。光驱对象必须先初始化才能够使用。
+
+- 用
+```
+cd.get_numtracks()
+```
+
+查看光驱里的光盘上有多少条音轨。用
+```
+cd.get_track_length(track)
+```
+
+可以获得指定音轨的时间长度。指定音轨的编号从0开始。
+
+- 用
+```
+cd.play(track)
+```
+
+播放光盘上指定编号的音轨。音轨从0开始编号。用
+```
+cd.stop()
+```
+
+停止播放。用
+```
+cd.pause()
+```
+
+暂停播放。暂停的音轨用
+```
+cd.resume()
+```
+
+继续播放。
+
+- 用
+```
+cd.get_current()
+```
+
+得到当前正在播放的音轨。用
+```
+cd.get_busy()
+```
+
+判断光盘是否正在播放。
+
+- 用
+```
+cd.eject()
+```
+
+来弹出光盘。
+
+## end

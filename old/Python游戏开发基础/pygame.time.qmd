@@ -1,0 +1,128 @@
+---
+title: "pygame.time"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+pygame中监测时间的模块
+
+pygame中的时间是以毫秒（千分之一秒）表示的。大部分平台上的时间精度被限制在10毫秒。
+
+## pygame.time.get_ticks
+
+获得以毫秒表示的时间。
+```
+pygame.time.get_ticks(): return milliseconds
+```
+
+返回pygame.init后经过的时间的毫秒数。在pygame被初始化前，这个值总是0。
+
+## pygame.time.wait
+
+暂停程序等待特定的时间
+
+```
+pygame.time.wait(milliseconds): return time
+```
+
+这个函数会暂停给定的时间。这个函数会休眠这个进程，使得其他程序可以共享处理器。一个程序即使只有休眠很少的毫秒数，就能够消耗非常少的处理器时间。这个函数比pygame.time.delay的精度要稍微差一点。
+
+这个函数返回实际经过的时间。
+
+## pygame.time.delay
+
+暂停程序给定的时间
+```
+pygame.time.delay(milliseconds): return time
+```
+
+这个函数暂停给定的毫秒数。这个函数会使用处理器（而不是休眠）以使这个等待比pygame.time.wait更加精确。
+
+这个函数返回实际经过的时间毫秒数。
+
+## pygame.time.set_timer
+
+反复创建一个事件放在事件队列中
+```
+pygame.time.set_timer(eventid, milliseconds): return None
+```
+
+每隔给定的毫秒数，指定事件类型的事件就会在事件队列中出现一次。第一次事件会在给定时间到了以后才会出现。
+
+每一个事件类型可以有一个不同的定时器。最好使用在pygame.USEREVENT和pygame.NUMEVENTS之间的值。
+
+要禁止一个事件的定时器，可以把对应的毫秒数设成0。
+
+## pygame.time.Clock
+
+创建一个跟踪时间的对象
+```
+pygame.time.Clock(): return Clock
+```
+
+创建一个新的Clock对象，可以用来跟踪总共的时间。它也提供了几个方法帮助控制游戏的帧速。
+
+### Clock.tick
+
+更新时钟
+```
+Clock.tick(framerate=0): return milliseconds
+```
+
+控制定时器事件
+
+这个方法应该每一帧都调用一次。它会计算前一次调用至今过了多少毫秒。
+
+如果你传一个可选的帧速参数，这个函数会保持游戏以不超过给定的速度运行。这可以帮助限制游戏运行的速度。通过每帧调用一次Clock.tick(40)，这个程序就永远不会以超过每秒40帧的速度运行。
+
+注意这个函数使用SDL_Delay函数，它不是在每个平台上都很精确的，但是它不会耗很多CPU。如果要使用更精确的定时器并不在乎占用CPU，可以使用tick_busy_loop。
+
+### Clock.tick_busy_loop
+
+更新时钟
+```
+Clock.tick_busy_loop(framerate=0): return milliseconds
+```
+
+控制定时器事件
+
+这个方法应该每一帧调用一次。它会计算前一次调用至今过了多少毫秒。
+
+如果你传一个可选的帧速的参数，这个函数会让游戏以不超过给定的速度运行。这个函数可以用来帮助限制游戏运行的速度。通过每一帧调用一次Clock.tick(40)，这个程序永远不会以超过每秒40帧的速度运行。
+
+注意这个函数使用pygame.time.delay，会使用很多cpu来进行忙等，而定时也更精确一些。
+
+### Clock.get_time
+
+前一次tick所使用的时间
+```
+Clock.get_time(): return milliseconds
+```
+
+返回前一次传给Clock.tick的参数。它是前两次tick()调用之间经过的毫秒数。
+
+### Clock.get_rawtime
+
+前一次tick使用的实际时间
+```
+Clock.get_rawtime(): return milliseconds
+```
+
+和Clock.get_time类似，只是这个函数不包括Clock.tick延时的时间。
+
+### Clock.get_fps
+
+计算时钟的帧速
+```
+Clock.get_fps(): return float
+```
+
+计算游戏的帧速（每秒的帧数）。它通过计算最后几次的Clock.tick的平均来实现。
+
+## The End

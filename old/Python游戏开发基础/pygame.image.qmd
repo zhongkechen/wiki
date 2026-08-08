@@ -1,0 +1,108 @@
+---
+title: "pygame.image"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
+
+image模块包含读取和保存图片的函数，也包括把Surfaces变成其它包可以使用的格式的函数。
+
+注意，没有Image类。图片是作为Surface对象读入的。Surface类允许画线、设置像素、捕捉区域等操作。
+
+image模块是pygame必须的一个模块，但是对于扩展部分的文件格式的支持是可选的。默认情况下，它只支持不压缩的BMP图像。当编译成完整的图像格式支持后，pygame.image.load函数可以支持如下类型：
+
+   - JPG
+   - PNG
+   - GIF (non animated)
+   - BMP
+   - PCX
+   - TGA (uncompressed)
+   - TIF
+   - LBM (and PBM)
+   - PBM (and PGM, PPM)
+   - XPM
+
+保存图像只支持有限的格式。你可以保存为下列格式：
+
+   - BMP
+   - TGA
+   - PNG
+   - JPEG
+
+存为PNG, JPEG格式在pygame 1.8中支持。
+
+## pygame.image.load
+
+从文件中读取一个图像。
+```
+pygame.image.load(filename): return Surface
+pygame.image.load(fileobj, namehint=""): return Surface
+```
+
+从文件中读取一个图片。你可以传过去一个文件名，或者一个Python的文件对象。
+
+pygame会自动确定文件的类型（比如GIF或者BMP），并创建一个新的Surface对象。某些情况下，需要知道文件的扩展名（比如GIF图像文件以.gif扩展名命名）。如果传递一个文件对象，你可能要把原来的文件名作为namehint参数传过去。
+
+返回的Surface对象包含和文件中相同的颜色格式、透明色和alpha透明。你常常要调用Surface.convert函数来创建一个拷贝，使得图像在屏幕上画得更快。
+
+对于alpha透明，比如.png图像，在读入后使用convert_alpha()方法来保留每个像素透明信息。
+
+pygame并不是支持所有的图像格式。但是至少它支持不压缩的BMP格式。如果pygame.image.get_extended返回True，则你可以使用大部分的图像格式（包括png、jpg和gif）。
+
+你应该使用os.path.join来保证兼容性。比如asurf = pygame.image.load(os.path.join('data', 'bla.png'))
+
+## pygame.image.save
+
+把图像保存到文件中
+```
+pygame.image.save(Surface, filename): return None
+```
+
+这个函数可以把Surface保存为BMP、TGA、PNG或者JPEG图像文件。如果文件扩展名不认识，默认保存为TGA格式。TGA和BMP格式都是非压缩的文件。
+
+保存为PNG、JPEG格式在pygame1.8种支持。
+
+## pygame.image.tostring
+
+把图像转换为字符串。
+```
+pygame.image.tostring(Surface, format, flipped=False): return string
+```
+
+创建一个字符串，这个字符串可以在其它包中用fromstring方法转换回图像。某些Python图像包希望使用自底向上的图像格式（比如PyOpenGL）。如果你给flipped传送True，则字符串中表示的图像会上下翻转。
+
+format参数可以是以下这些值。注意并不是只有8位的Surface才能使用P格式。其它的格式也能被所有Surface使用。同时也要注意，其它的图像包支持比pygame更多的图像格式。
+- P, 8bit palettized Surfaces
+- RGB, 24bit image
+- RGBX, 32bit image with unused space
+- RGBA, 32bit image with an alpha channel
+- ARGB, 32bit image with alpha channel first
+
+## pygame.image.fromstring
+
+从字符串创建一个新的Surface。
+
+pygame.image.fromstring(string, size, format, flipped=False): return Surface
+
+这个函数和pygame.image.tostring有类似的参数。size参数包括一对数字用来指定图像的高度和宽度。一旦新的Surface创建后，你就可以释放你的字符串了。
+
+根据图像的大小和格式计算出来的大小必须和传过来的字符串大小一样。 否则，会导致一个异常。
+
+参看pygame.image.frombuffer方法来更快的创建一个图像的方法。
+
+## pygame.image.frombuffer
+
+创建一个新的Surface，它的数据空间和一个字符串共享。
+
+pygame.image.frombuffer(string, size, format): return Surface
+
+插件一个新的Surface，它的像素数据直接从字符串中得到。这个方法和pygame.image.fromstring一样，但是不能够上下翻转原始数据。
+
+这个函数比pygame.image.fromstring快很多，因为没有像素数据需要分配和拷贝。
+
+## The End
