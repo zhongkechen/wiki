@@ -1,0 +1,36 @@
+---
+title: "数据结构专业术语中英文对照"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+- abstract data type: 抽象数据类型
+- algorithm: 算法
+- array: 数组
+- binary search tree: 二叉搜索树
+- complexity: 复杂度
+- element: 元素
+- forest: 森林
+- graph: 图
+- hash function: 哈希函数
+- hash table: 哈希表
+- hashing: 哈希
+- heap: 堆
+- heap sort: 堆排序
+- matrix: 矩阵
+- node: 节点
+- pointer: 指针
+- queue: 队列
+- quick sort: 快速排序
+- sorting: 排序
+- spanning tree: 生成树
+- stack: 栈
+- string: 字符串
+- struct: 结构体
+- tree: 树

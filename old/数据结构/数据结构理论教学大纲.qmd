@@ -1,0 +1,15 @@
+---
+title: "数据结构理论教学大纲"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+在这里详述 数据结构理论教学大纲.
+
+- [数据结构教学大纲专升本(200707).doc](<assets/数据结构理论教学大纲/数据结构教学大纲专升本(200707).doc>)

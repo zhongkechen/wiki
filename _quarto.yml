@@ -14,6 +14,8 @@ project:
     - 围棋.md
     - 科学上网.md
     - old/首页.qmd
+    - old/数据结构.qmd
+    - old/数据结构/**/*.qmd
     - old/数字图像处理.qmd
     - old/数字图像处理/*.qmd
   resources:

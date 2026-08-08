@@ -1,0 +1,42 @@
+---
+title: "数据结构"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+## 课件
+- [数据结构概述](<数据结构/数据结构概述.qmd>) Introduction
+- [线性表](<数据结构/线性表.qmd>) Linear List
+- [栈](<数据结构/栈.qmd>) Stack
+- [队列](<数据结构/队列.qmd>) Queue
+- [字符串](<数据结构/字符串.qmd>) String
+- [数组](<数据结构/数组(数据结构).qmd>) Array
+- [广义表](<数据结构/广义表.qmd>) List
+- [树和二叉树](<数据结构/树和二叉树.qmd>) Tree and Binary Tree
+- [图](<数据结构/图.qmd>) Graph
+- [查找](<数据结构/查找.qmd>) Search
+- [排序](<数据结构/排序.qmd>) Sort
+
+## 其他材料
+- [数据结构课程作业](<数据结构/数据结构课程作业.qmd>)
+- [数据结构课程](<数据结构/数据结构课程.qmd>) 课程建设材料
+- [数据结构课程实验](<数据结构/数据结构课程实验.qmd>)
+- [数据结构练习](<数据结构/数据结构练习.qmd>)
+- [数据结构——C语言描述（耿国华）](<数据结构/数据结构——C语言描述（耿国华）.qmd>)中的练习和参考解答
+- [数据结构课程复习题](<数据结构/数据结构课程复习题.qmd>)
+- [数据结构专业术语中英文对照](<数据结构/数据结构专业术语中英文对照.qmd>)
+- [栈的说课教案](<数据结构/栈的说课教案.qmd>)
+- 算法与数据结构 (李忠月的数据结构课程，内容与数据结构课程没有差别)
+
+- 课程讨论： http://groups.google.com/group/study-cs
+## 参考资料
+
+- [Fundamentals of Data Structures in C](http://www.amazon.com/Fundamentals-Data-Structures-Ellis-Horowitz/dp/0929306406/ref=pd_bbs_sr_1?ie=UTF8&s=books&qid=1215473945&sr=1-1), Ellis Horowitz, Sartaj Sahni, W. H. Freeman
+- [Wikipedia:数据结构](https://secure.wikimedia.org/wikipedia/zh/wiki/資料結構)
+- 严蔚敏，吴伟民，数据结构（C语言版），清华大学出版社

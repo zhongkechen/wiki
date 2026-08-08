@@ -1,0 +1,62 @@
+---
+title: "数据结构课程实验"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+
+如果机房电脑速度太慢参看温大机房优化脚本
+
+## 07专升本实验
+在 http://wzuacm.3322.org/ 上完成题目，并完成如下实验报告，并将实验报告发到 czk.data.structures@gmail.com
+- [数据结构实验1.doc](<assets/数据结构课程实验/数据结构实验1.doc>)
+- [数据结构实验2.doc](<assets/数据结构课程实验/数据结构实验2.doc>)
+- [数据结构实验3.doc](<assets/数据结构课程实验/数据结构实验3.doc>)
+- [数据结构实验4.doc](<assets/数据结构课程实验/数据结构实验4.doc>)
+- [数据结构实验5.doc](<assets/数据结构课程实验/数据结构实验5.doc>)
+- [数据结构实验6.doc](<assets/数据结构课程实验/数据结构实验6.doc>)
+- [数据结构实验7.doc](<assets/数据结构课程实验/数据结构实验7.doc>)
+- [数据结构实验8.doc](<assets/数据结构课程实验/数据结构实验8.doc>)
+
+实验二程序模板
+```cpp
+#include <stdio.h>
+#include <string.h>
+int main() {
+    int n;
+    char command[20];
+    scanf("%d", &n);
+    // read n numbers
+    while(scanf("%s", command)!=EOF) {
+        if(strcmp(command, "delete") == 0) {
+
+        } else if(strcmp(command, "insert") == 0) {
+
+        } else if(strcmp(command, "display") == 0) {
+
+        } else if(strcmp(command, "length") == 0) {
+
+        }
+    }
+}
+
+```
+
+## 04级实验
+
+- [熟悉开发环境](<数据结构课程实验/熟悉开发环境.qmd>)
+- [顺序表](<数据结构课程实验/顺序表.qmd>)
+- [链表](<数据结构课程实验/链表.qmd>)
+- [栈](<数据结构课程实验/栈.qmd>)
+- [队列](<数据结构课程实验/队列.qmd>)
+- [稀疏矩阵](<数据结构课程实验/稀疏矩阵.qmd>)
+- [二叉树](<数据结构课程实验/二叉树.qmd>)
+- [图](<数据结构课程实验/图.qmd>)
+- [查找](<数据结构课程实验/查找.qmd>)
+- [排序](<数据结构课程实验/排序.qmd>)

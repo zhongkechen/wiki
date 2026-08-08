@@ -1,0 +1,18 @@
+---
+title: "数据结构教学体会"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+在这里详述 数据结构教学体会.
+
+- 本数据结构课程以C语言为描述语言，不需要以C++语言为基础，因此可以适当提前在教学计划中的时间，让它紧接着C语言课程安排。
+- 国内缺乏优秀的数据结构教材，建议引进这本国外教材：Ellis Horowitz, Sartaj Sahni, Fundamentals of Data Structures in C, W. H. Freeman
+- 串、数组和广义表可以考虑从大纲中删去，补充更多图和查找的算法。
+- 专升本学生没有离散数学基础，学习数据结构有困难，应将数据结构调整到离散数学之后开课。

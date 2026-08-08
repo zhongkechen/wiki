@@ -1,0 +1,962 @@
+---
+title: "树和二叉树"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+
+## 树
+
+树形结构是一种**非线性**结构。
+
+树形结构是结点之间有分支，并具有层次关系的结构。它非常类似于自然界中的树。
+
+树结构在客观世界中是大量存在的，例如家谱、行政组织机构都可用树形象地表示。
+
+树在计算机领域中也有着广泛的应用，例如在编译程序中，用树来表示源程序的语法结构；在数据库系统中，可用树来组织信息；在分析算法的行为时，可用树来描述其执行过程。
+
+## 树的实例
+家族树：在现实生活中，有入如下血统关系的家族可用树形图表示：
+- 张源有三个孩子张明、张丽和张亮；
+- 张明有两个孩子张林和张维；
+- 张亮有三个孩子张平、张华和张群；
+- 张平有两个孩子张晶和张磊。
+
+![tree](<assets/树和二叉树/tree.jpg>)
+
+## 树的定义
+
+树是由n (n≥0)个结点构成的有限集合；n=0的树称为空树；当n≠0时，树中的结点应该满足以下两个条件：
+- 有且仅有一个特定的结点称之为根，它没有前驱结点；
+- 其余结点分成m(m≥0)个互不相交的有限集合T~1~、T~2~ ... T~m~，其中每一个集合又都是一棵树，称T~1~、T~2~ ... T~m~为根结点的子树。
+
+## 树的图示
+1. 倒置的树形图表示 <br>![tree2](<assets/树和二叉树/tree2.jpg>)
+1. 凹入表示 <br>![indenttree](<assets/树和二叉树/indenttree.jpg>)
+1. 嵌套集合表示（文氏图表示） <br>
+![treeset](<assets/树和二叉树/treeset.jpg>)
+1. 嵌套括号表示（广义表表示） (A(B(E,F),C,D(G,H(J,K),I)))
+
+## 树的相关术语
+- 子结点：树中某个结点的子树之根称为该结点的孩子(Child)或子结点
+- 父结点：该结点称为孩子的双亲(Parents)或父亲或父结点。
+- 兄弟结点：同一个双亲的孩子称为兄弟(Sibling)结点。
+- 结点的度：树中的一个结点拥有的子树数称为该结点的度(Degree)。
+- 树的度：一棵树的度是指该树中结点的最大度数。：
+- 叶结点：度为零的结点称为叶子(Leaf)或终端结点。
+- 分支节点：度不为零的结点称分支结点或非终端结点。
+- 路径：若树中存在一个结点序列k1，k2，…，kj，使得ki是ki+1的双亲(1≤i<j)，则称该结点序列是从kl到kj的一条路径(Path)或道路。
+- 路径的长度：路径的长度指路径所经过的边(即连接两个结点的线段)的数目，等于j-1。
+- 祖先和子孙：若树中结点k到ks存在一条路径，则称k是ks的祖先(Ancestor)，ks是k的子孙(Descendant)。一个结点的祖先是从根结点到该结点路径上所经过的所有结点，而一个结点的子孙则是以该结点为根的子树中的所有结点。（结点k的祖先和子孙不包含结点k本身。）
+- 结点的层次：根结点的层次为1（也有将根的层次定义为0的），其余结点的层次为父结点的层次加1。即从根结点到该结点的路径长度加1。
+- 树的高度：树中结点的最大层数称为树的高度(Height)或深度(Depth)。
+- 堂兄弟：双亲在同一层的结点互为堂兄弟。
+- 有序树和无序树：若将树中每个结点的各子树看成是从左到右有次序的(即不能互换)，则称该树为有序树(Ordered Tree)；否则称为无序树(Unodered Tree)。（若不特别指明，一般讨论的树都是有序树。）
+- 森林：森林(Forest)是m(m≥0)棵互不相交的树的集合。
+- 同构：
+
+## 树形结构的特点
+- 树中任一结点都可以有零个或多个直接后继(即孩子)结点，但至多只能有一个直接前趋(即双亲)结点。
+- 树中只有根结点无前趋，它是开始结点；叶结点无后继，它们是终端结点。
+- 祖先与子孙的关系是对父子关系的延拓，它定义了树中结点之间的纵向次序。
+- 有序树中，同一组兄弟结点从左到右有长幼之分。对这一关系加以延拓，规定若k1和k2是兄弟，且k1在k2的左边，则k1的任一子孙都在k2的任一子孙的左边，那么就定义了树中结点之间的横向次序。
+- 将一棵树的根结点去掉，它的子树的集合即为一个森林。而在森林中的每棵树之上加一个共同的根，森林就成为了一棵树。
+- 从树的根结点到树中其余结点均存在一条唯一的路径。
+
+## 树的基本操作
+- init_tree(t)初始化
+- destroy_tree(t)销毁树
+- create_tree(t)创建树
+- tree_empty(t)判断空树
+- root(t)返回树根
+- parent(t, node)返回树t中node结点的父结点
+- first_child(t, node)返回树t中node结点的第一个子结点
+- next_sibling(t, node)返回树t中node结点的下一个兄弟结点
+- insert_child(t, parent, child)在树t中插入子child结点作为parent结点的子结点
+- delete_child(t, parent, child)删除树t中parent结点的子结点child
+- tranverse_tree(t, visit)遍历树t，对t的每个结点做一次visit操作且仅作一次。
+
+## 二叉树
+
+## 二叉树的定义
+
+**二叉树**(Binary Tree)是n(n≥0)个结点的有限集，它或者是空集(n=0)，或者由一个根结点及两棵互不相交的、分别称作这个根的左子树和右子树的二叉树组成。
+
+二叉树与度为2的有序树不同：在有序树中，虽然一个结点的孩子之间是有左右次序的，但是若该结点只有一个孩子，就无须区分其左右次序。而在二叉树中，即使是一个孩子也有左右之分。
+
+## 二叉树的相关术语
+- 左孩子
+- 右孩子
+
+## 二叉树五种基本形态
+
+![binarytree](<assets/树和二叉树/binarytree.jpg>)
+
+二叉树可以是空集；根可以有空的左子树或右子树；或者左、右子树皆为空。
+
+## 二叉树的特殊形态
+
+### 满二叉树
+
+一棵深度为k且有2^k^-1个结点的二又树称为**满二叉树**(Full Binary Tree) 。
+
+满二叉树的特点：
+- 每一层上的结点数都达到最大值。即对给定的高度，它是具有最多结点数的二叉树。
+- 满二叉树中不存在度数为1的结点，每个分支结点均有两棵高度相同的子树，且树叶都在最下一层上。
+
+### 完全二叉树
+
+若一棵二叉树至多只有最下面的两层上结点的度数可以小于2，并且最下一层上的结点都集中在该层最左边的若干位置上，则此二叉树称为**完全二叉树**(Complete Binary Tree)。
+
+![completetree](<assets/树和二叉树/completetree.jpg>)
+
+完全二叉树的特点：
+- 满二叉树是完全二叉树，完全二叉树不一定是满二叉树。
+- 在满二叉树的最下一层上，从最右边开始连续删去若干结点后得到的二叉树仍然是一棵完全二叉树。
+- 在完全二叉树中，若某个结点没有左孩子，则它一定没有右孩子，即该结点必是叶结点。
+- 完全二叉树中除最下面一层外，各层都充满了结点，每一层的结点个数恰好是上一层结点个数的2倍。
+
+
+结点的编号：在一棵n个结点的完全二叉树中，从树根起，自上层到下层，每层从左至右，给所有结点编号，能得到一个反映整个二叉树结构的线性序列。
+
+从一个结点的编号就可推得其双亲，左、右孩子，兄弟等结点的编号。假设编号为i的结点是ki(1≤i≤n)，则有：
+- 若i>1，则ki的双亲编号为[i/2]；若i=1，则Ki是根结点，无双亲。
+- 若2i≤n，则Ki的左孩子的编号是2i；否则，Ki无左孩子，即Ki必定是叶子。因此完全二叉树中编号 的结点必定是叶结点。
+- 若2i+1≤n，则Ki的右孩子的编号是2i+1；否则，Ki无右孩子。
+- 若i为奇数且不为1，则Ki的左兄弟的编号是i-1；否则，Ki无左兄弟。
+- 若i为偶数且小于n，则Ki的右兄弟的编号是i+1；否则，Ki无右兄弟。
+
+## 二叉树的重要性质
+
+### 性质1
+性质1  二叉树第i层上的结点数目最多为2^i-1^(i≥1)。
+
+证明：使用数学归纳法证明。
+- 归纳基础：当i=1时，整个二叉树只有一个根结点，此时2^i-1^=2^0^=1，结论成立。
+- 归纳假设：假设i=k时，结论成立，即第k层上结点总数最多为2^k-1^。
+那么，因为二叉树中每个节点的度最大为2，则第k+1层的结点总数最多为第k层上结点最大数的两倍，即2 * 2^i-1^=2^k^，故结论成立。证毕。
+
+### 性质2
+性质2 深度为k的二叉树至多有2^k^-1个结点(k>= 1)。
+
+证明：最大总结点数等于每层最大结点数之和 = 1+2+4+...+2^k-1^ = 2^k^-1
+
+### 性质3
+性质3 在任意-棵二叉树中，若终端结点的个数为n0，度为2的结点数为n2，则n0=n2+1。
+
+证明：设度为1的结点数为n1。则二叉树的总边数等于n0+n1+n2-1（除了根结点外，其余结点都有一条边连接其父结点），也等于n0*0+n1*1+n2*2（每个n1结点有一条边连接子结点，每个n2结点有2条边连接2个子结点）。因此n0+n1+n2-1 = n1+2n2，即n0=n2+1。
+
+### 性质4
+性质4  具有n个结点的完全二叉树的深度为 floor(log~2~n)+1。其中，floor为舍去小数取整。
+
+证明：假设层数为k，则k层的完全二叉树至多有2^k^-1个结点，至少有2^k-1^-1 +1（比k-1层的满二叉树多一个结点）个结点。因此2^k-1^-1+1≤n≤2^k^-1，即2^k-1^≤n<2^k^，两边取对数k-1≤log~2~n<k（log~2~n为介于[k-1,k)之间的一个整数），因此k=floor(log~2~n)+1。
+
+## 二叉树的存储结构
+
+### 顺序存储
+
+完全二叉树的顺序存储
+
+将完全二叉树中所有结点按编号顺序依次存储在一个数组bt[0..n]中。其中：
+- bt[1...n]用来存储结点
+- bt[0]不用或用来存储结点数目
+
+![completetree](<assets/树和二叉树/completetree.jpg>)
+
+![treearray](<assets/树和二叉树/treearray.jpg>)
+
+非完全二叉树的顺序存储
+
+将一般二叉树添上一些 "虚结点"，成为"完全二叉树"
+
+![noncompletetree](<assets/树和二叉树/noncompletetree.jpg>)
+
+![treearray2](<assets/树和二叉树/treearray2.jpg>)
+
+顺序存储的特点：
+- 对完全二叉树而言，顺序存储结构既简单又节省存储空间。
+- 一般的二叉树采用顺序存储结构时，易造成存储空间的浪费。
+思考：最坏情况下顺序存储的存储密度是多少？答案：最坏的情况下，一个深度为k且只有k个结点的右单支树需要2^k-1^个结点的存储空间，存储密度为k/2^k-1^。
+
+顺序存储结构的定义
+```cpp
+#define MAXSIZE 100
+typedef char ElemType;
+typedef char BOOL;
+struct sequence_bin_tree {
+   ElemType elem[MAXSIZE+1]; /* 元素的值 */
+   BOOL used[MAXSIZE+1]; /* 对应完全二叉树的编号上是否有元素 */
+   int size; /*最大结点编号*/
+}
+typedef struct sequence_bin_tree sequence_bin_tree;
+```
+
+### 链式存储
+
+**二叉链表**：二叉树的每个结点最多有两个孩子，可以用链接方式存储二叉树。每个结点除了存储结点本身的数据外，还应设置两个指针域lchild和rchild，分别指向该结点的左孩子和右孩子。结点bintree_node的结构为：
+
+![bintreenode](<assets/树和二叉树/bintreenode.jpg>)
+
+![linkedbintree](<assets/树和二叉树/linkedbintree.jpg>)
+
+一棵二叉树中，所有类型为bintree_node的结点，再加上一个指向开始结点(即根结点)的bintree_node型指针root，就构成了二叉树的链式存储结构，并将其称为二叉链表。
+
+```cpp
+typedef char ElemType;
+struct bintree_node{
+   ElemType data; /*元素的值*/
+   struct bintree_node *lchild; /*左孩子结点的地址*/
+   struct bintree_node *rchild; /*右孩子结点的地址*/
+};
+typedef struct bintree_node bintree_node;
+typedef struct bintree_node *bintree;
+```
+
+二叉链表的特点：
+- 一个二叉链表由根指针root唯一确定。若二叉树为空，则root=NULL；若结点的某个孩子不存在，则相应的指针为空。
+- 具有n个结点的二叉链表中，共有2n个指针域。其中只有n-1个用来指示结点的左、右孩子，其余的n+1个指针域为空。
+- 找给定节点的父节点非常困难
+
+带父节点指针的链式表示：经常要在二叉树中寻找某结点的父节点时，可在每个结点上再加一个指向其父节点的指针parent，形成一个带双亲指针的二叉链表，称作三叉链表。
+
+![link3tree](<assets/树和二叉树/link3tree.jpg>)
+
+```cpp
+typedef char ElemType;
+struct tritree_node{
+   ElemType data; /*元素的值*/
+   struct tritree_node *lchild; /*左孩子结点的地址*/
+   struct tritree_node *rchild; /*右孩子结点的地址*/
+   struct tritree_node *parent; /*父结点的地址*/
+};
+typedef struct tritree_node tritree_node;
+typedef struct tritree_node *tritree;
+```
+
+
+## 二叉树的操作
+此处所列操作均以二叉链表为例
+
+### 遍历
+遍历(Traversal)是指沿着某条搜索路线，依次对树中每个结点均做一次且仅做一次访问。
+
+访问结点所做的操作依赖于具体的应用问题，比如打印节点的数据，或者修改节点的数据等。
+
+遍历是二叉树上最重要的运算之一，是二叉树上进行其它运算之基础。
+
+三种遍历的顺序：从二叉树的递归定义可知，一棵非空的二叉树由根结点及左、右子树这三个基本部分组成。因此，在任一给定结点上，可以按某种次序执行三个操作：
+- 访问结点本身(V)，
+- 遍历该结点的左子树(L)，
+- 遍历该结点的右子树(R)。
+以上三种操作有六种执行次序：
+```
+VLR、LVR、LRV、VRL、RVL、RLV
+```
+前三种次序与后三种次序对称，故只讨论先左后右的前三种次序：
+- VLR：前(先)序遍历(Preorder Traversal):先访问结点，然后前序遍历左子树，最后前序遍历右子树。
+- LVR：中序遍历(Inorder Traversal):先中序遍历左子树，再访问结点，最后中序遍历右子树。
+- LRV：后序遍历(Postorder Traversal):先后序遍历左子树，再后序遍历右子树，最后访问结点。
+
+例：如图
+![linkedbintree](<assets/树和二叉树/linkedbintree.jpg>)
+- 其前序遍历次序为：ABDFEGHC
+- 其中序遍历次序为：DFBGEHAC
+- 其后序遍历次序为：FDGHEBCA
+
+遍历次序的另一种理解
+
+![traverse](<assets/树和二叉树/traverse.jpg>)
+
+- 在搜索路线中，若访问结点均是第一次经过结点时进行的，则是前序遍历；若访问结点均是在第二次(或第三次)经过结点时进行的，则是中序遍历(或后序遍历)。只要将搜索路线上所有在第一次、第二次和第三次经过的结点分别列表，即可分别得到该二叉树的前序序列、中序序列和后序序列。
+- 上述三种序列都是线性序列，有且仅有一个开始结点和一个终端结点，其余结点都有且仅有一个前趋结点和一个后继结点。为了区别于树形结构中前趋(即双亲)结点和后继(即孩子)结点的概念，对上述三种线性序列，要在某结点的前趋和后继之前冠以其遍历次序名称。
+- 前页所示的二叉树中结点C，其前序前趋结点是D，前序后继结点是E；中序前趋结点是E，中序后继结点是F；后序前趋结点是F，后序后继结点是A。但是就该树的逻辑结构而言，C的前趋结点是A，后继结点是E和F。
+
+给定一棵二叉树的前序遍历序列和中序遍历序列，能够唯一确定一棵二叉树。
+
+例：前序遍历序列为：ABDFGCEH，中序遍历序列为：FDGBACHE，则可以唯一确定这棵二叉树为：
+![bintree3](<assets/树和二叉树/bintree3.jpg>)
+
+
+同样给定一棵二叉树的中序遍历序列和后序遍历序列，也能够唯一确定一棵二叉树。
+
+递归实现
+```cpp
+/*前序遍历*/
+void preorder(bintree t) {
+   if (t)  {
+      printf("%c", t->data); /*假定元素类型为char，访问操作为打印元素的值*/
+      preorder(t->lchild);   /*递归的遍历左子树*/
+      preorder(t->rchild);   /*递归的遍历右子树*/
+   }
+}
+
+/*中序遍历*/
+void inorder(bintree t) {
+   if (t)  {
+      inorder(t->lchild);    /*递归的遍历左子树*/
+      printf("%c", t->data); /*假定元素类型为char，访问操作为打印元素的值*/
+      inorder(t->rchild);    /*递归的遍历右子树*/
+   }
+}
+
+/*后序遍历*/
+void postorder(bintree t) {
+   if (t)  {
+      postorder(t->lchild);  /*递归的遍历左子树*/
+      postorder(t->rchild);  /*递归的遍历右子树*/
+      printf("%c", t->data); /*假定元素类型为char，访问操作为打印元素的值*/
+   }
+}
+```
+
+采用函数指针实现可以将访问与遍历分开
+```cpp
+/*前序遍历，visit参数指出了访问所作的操作是什么*/
+void preorder(bintree t, void (*visit)(ElemType)) {
+   if (t)  {
+      visit(t->data);
+      preorder(t->lchild, visit);
+      preorder(t->rchild, visit);
+   }
+}
+
+/*中序遍历*/
+void inorder(bintree t, void (*visit)(ElemType)) {
+   if (t)  {
+      inorder(t->lchild, visit);
+      visit(t->data);
+      inorder(t->rchild, visit);
+   }
+}
+
+/*后序遍历*/
+void postorder(bintree t, void (*visit)(ElemType)) {
+   if (t)  {
+      postorder(t->lchild, visit);
+      postorder(t->rchild, visit);
+      visit(t->data);
+   }
+}
+```
+
+遍历的非递归实现
+
+非递归实现需要借助栈的帮助
+```cpp
+/*先序非递归遍历*/
+void preorder(bintree t) {
+   seq_stack st;
+   init_stack(&st);
+   while(t != NULL) {
+      while(t != NULL) {
+         printf("%c", t->data);
+         if(t->rchild != NULL)
+             push(&st, t->rchild);
+         t = t->lchild;
+      }
+      if(!empty(&st))
+         t = pop(&st);
+   }
+}
+
+/*中序非递归遍历*/
+void inorder(bintree t) {
+   seq_stack st;
+   init_stack(&st);
+   while(t != NULL || !empty(&st)) {
+      while(t != NULL) {
+         push(&st, t);
+         t = t->lchild;
+      }
+      if(!empty(&st)) {
+         t = pop(&st);
+         printf("%c", t->data);
+         t = t->rchild;
+      }
+   }
+}
+
+/*后序非递归遍历*/
+void postorder(bintree t) {
+   seq_stack st;
+   init_stack(&st);
+   bintree_node *last = NULL;
+   while(t != NULL || !empty(&st)) {
+      while(t != NULL) {
+         push(&st, t);
+         t = t->lchild;
+      }
+      if(!empty(&st)) {
+         t = get_top(&st);
+         if(t->rchild == NULL || t->rchild == last) {
+            printf("%c", t->data);
+            last = t;
+            pop(&st);
+            t = NULL;
+         } else {
+            t = t->rchild;
+         }
+      }
+   }
+}
+
+```
+
+### 创建
+基于先序遍历的构造，即以二叉树的先序序列为输入构造。
+
+先序序列中必须加入虚结点以示空指针的位置。
+
+建立下图所示二叉树，其输入的先序序列是：ABD ### CE## F##。
+
+![traverse](<assets/树和二叉树/traverse.jpg>)
+
+假设结点的元素类型为char，空二叉树以#字符表示，相应的构造算法为：
+```cpp
+bintree create_bintree() {
+   bintree T;
+   char ch = getchar();
+   if (ch == '#') /*创建空二叉树*/
+      T = NULL;  /*读入空格，将相应指针置空 */
+   else { /* 非空二叉树 */
+      T=(bintree_node *)malloc(sizeof(bintree_node)); /*生成结点*/
+      T->data = ch;
+      T->lchild = create_bintree(); /*构造左子树*/
+      T->rchild = create_bintree(); /*构造右子树*/
+   }
+   return T;
+}
+```
+
+```cpp
+bintree create(ElemType data, bintree left, bintree right) {
+   bintree T = (bintree_node *)malloc(sizeof(bintree_node));
+   T->data = data;
+   T->lchild = left;
+   T->rchild = right;
+   return T;
+}
+
+```
+
+### 输出叶子结点
+输出二叉树中所有叶子结点的值
+```cpp
+void traverse_leaf(bintree t) {
+   if (t)  {
+      if(t->lchild == NULL && t->rchild == NULL)
+         printf("%c", t->data); /*假定元素类型为char*/
+      preorder(t->lchild);
+      preorder(t->rchild);
+   }
+}
+```
+
+### 查找结点
+在二叉树t中查找值为x的结点，找到了返回指向元素值为x的结点的指针，找不到返回NULL
+```cpp
+bintree locate(bintree t, ElemType x) {
+   bintree p;
+   if (t == NULL)
+      return NULL;
+   else if( t->data == x)
+      return t;
+   else {
+      p = locate(t->lchild, x);
+      if (p)
+         return p;
+      else
+         return locate(t->rchild, x);
+   }
+}
+```
+
+### 计算结点个数
+计算二叉树t中的节点个数
+```cpp
+int node_count(bintree t) {
+   if( t == NULL)
+      return 0;
+   else
+      return node_count(t->lchild) + node_count(t->rchild) + 1;
+}
+```
+
+计算二叉树t中的叶子结点个数
+```cpp
+int leaf_count(bintree t) {
+   if( t == NULL )
+      return 0;
+   else if(t->lchild == NULL && t->rchild == NULL)
+      return 1;
+   else
+      return leaf_count(t->lchild) + leaf_count(t->rchild);
+}
+```
+
+### 判断相等
+判断两个二叉树t1和t2是否完全相同。
+```cpp
+int isequal( bintree t1, bintree t2) {
+   if( t1 == NULL && t2 == NULL)
+      return 1;
+   else if( t1 != NULL && t2 != NULL)
+      return t1->data == t2 -> data &&
+         isequal( t1->lchild, t2 -> lchild) &&
+         isequal(t1->rchild, t2->rchild);
+   else
+      return 0;
+}
+```
+
+### 计算高度
+计算二叉树t的高度
+```cpp
+int max(int a, int b) {
+   return a > b ? a : b;
+}
+int depth(bintree t) {
+   if( t == NULL)
+      return 0;
+   else
+      return max( depth(t->lchild), depth(t->rchild) ) +1;
+}
+```
+
+### 交换左右子树
+交换二叉树上所有左右子树的顺序
+```cpp
+void swap(bintree t) {
+   if( t != NULL) {
+      bintree temp = t->lchild;
+      t->lchild = t->rchild;
+      t->rchild = temp;
+      swap(t->lchild);
+      swap(t->rchild);
+   }
+}
+```
+
+## 练习
+- 试画出三个结点的树和三个节点的二叉树的所有不同形态。
+- 已知一棵高度为k的树中有n1个度为1的结点，n2个度为2的结点，则该树有多少个叶子节点？给出证明。
+- 已知一棵二叉树有50个结点，则该二叉树的总节点数至少有多少个？
+- 已知一棵二叉树按顺序存储方式存储在A[1...n]中。设计算法求出下标分别为i和j的两个结点的最近公共祖先节点的编号。
+
+## 线索二叉树
+
+## 定义
+
+n个结点的二叉链表中含有n+1个空指针域。利用二叉链表中的空指针域，存放指向结点在某种遍历次序下的前趋和后继结点的指针（这种附加的指针称为"线索"）。
+
+这种加上了线索的二叉链表称为线索链表，相应的二叉树称为线索二叉树(Threaded   BinaryTree)。根据线索性质的不同，线索二叉树可分为前序线索二叉树、中序线索二叉树和后序线索二叉树三种。
+
+线索链表解决了二叉链表找左、右孩子困难的问题，出现了无法直接找到该结点在某种遍历序列中的前趋和后继结点的问题。
+
+## 线索链表的结点结构
+
+线索链表中的结点结构为：
+
+![threadbintreenode](<assets/树和二叉树/threadbintreenode.jpg>)
+
+ltag和rtag是增加的两个标志域，用来区分结点的左、右指针域是指向其左、右孩子的指针(tag=0)，还是指向其前趋或后继的线索(tag=1)。
+
+```cpp
+enum pointer_tag{LINK, THREAD};
+struct threaded_binnode{
+    ElemType data;
+    pointer_tag ltag，rtag;
+    struct threaded_binnode *lchild，*rchild;
+} threaded_binnode;
+typedef struct threaded_binnode *threaded_bintree;
+```
+
+## 线索二叉树的表示
+
+【例】下面(a)图所示的中序线索二叉树，其线索链表如下面(b)图所示。
+
+![threadbintree](<assets/树和二叉树/threadbintree.jpg>)
+
+图中的实线表示指针，虚线表示线索。结点C的左线索为空，表示C是中序序列的开始结点，无前趋；结点E的右线索为空，表示E是中序序列的终端结点，无后继。线索二叉树中，一个结点是叶结点的充要条件为：左、右标志均是1。
+
+## 二叉树线索化
+
+将二叉树变为线索二叉树的过程称为线索化。按某种次序将二叉树线索化的实质是：按该次序遍历二叉树，在遍历过程中用线索取代空指针。
+
+例：二叉树的中序线索化
+
+算法与中序遍历算法类似。只需要将遍历算法中访问结点的操作具体化为建立正在访问的结点与其非空中序前趋结点间线索。
+
+该算法应附设一个指针pre始终指向刚刚访问过的结点（pre的初值应为NULL），而指针p指示当前正在访问的结点。结点*pre是结点*p的前趋，而*p是*pre的后继。
+
+```cpp
+threaded_binnode *pre=NULL;
+
+void InorderThreading(threaded_bintree p){
+    if(p) {
+        InorderThreading(p->lchild);
+        p->ltag=(p->lchild)?LINK:THREAD;
+        p->rtag=(p->rchild)?LINK:THREAD;
+        if(pre){
+            if(pre->rtag==THREAD)
+                pre->rchild=p;
+            if(p->ltag==THREAD)
+                p->lchild=pre;
+        }
+        pre=p;
+        InorderThreeding(p->rehild);
+    }
+}
+```
+
+## 线索二叉树的运算
+
+在中序线索二叉树中，查找结点*p的中序后继结点
+
+在中序线索二叉树中，查找结点p的中序后继结点分两种情形：
+
+- 若p的右子树空(即p->rtag为thread)，则p->rchild为右线索，直接指向*p的中序后继。
+- 若p的右子树非空(即p->rtag为Link)，则p的中序后继必是其右子树中第一个中序遍历到的结点。也就是从p的右孩子开始，沿该孩子的左链往下查找，直至找到一个没有左孩子的结点为止，该结点是p的右子树中"最左下"的结点，即p的中序后继结点。
+
+```cpp
+threaded_binnode *InorderSuccessor(threaded_binnode *p) {
+    threaded_binnode *q;
+    if (p->rtag==THREAD)
+        return p->rchild;
+    else{
+        q=p->rchild;
+        while (q->ltag==LINK)
+            q=q->lchild;
+        return q;
+    }
+}
+```
+
+在中序线索二叉树中查找结点*p的中序前趋结点
+
+中序是一种对称序，故在中序线索二叉树中查找结点*p的中序前趋结点与找中序后继结点的方法完全对称。具体情形如下：
+
+- 若p的左子树为空，则p->1child为左线索，直接指向p的中序前趋结点；
+- 若p的左子树非空，则从p的左孩子出发，沿右指针链往下查找，直到找到一个没有右孩子的结点为止。该结点是p的左子树中"最右下"的结点，它是p的左子树中最后一个中序遍历到的结点，即p的中序前趋结点。
+```cpp
+threaded_binnode *Inorderpre(threaded_binnode *p) {
+    threaded_binnode *q；
+    if (p->ltag==THREAD)
+        return p->lchild；
+    else{
+        q=p->lchild；
+        while (q->rtag==LINK)
+            q=q->rchild；
+        return q；
+    }
+}
+```
+
+
+在后序线索二叉树中，查找指定结点*p的后序前趋结点
+
+在后序线索二叉树中，查找指定结点*p的后序前趋结点的具体规律是：
+- 若*p的左子树为空，则p->lchild是前趋线索，指示其后序前趋结点。
+- 若*p的左子树非空，则p->lchild不是前趋线索。由于后序遍历时，根是在遍历其左右子树之后被访问的，故*p的后序前趋必是两子树中最后一个遍历结点。
+   - 当*p的右子树非空时，*p的右孩子必是其后序前趋
+   - 当*p无右子树时，*p的后序前趋必是其左孩子
+
+在后序线索二叉树中，查找指定结点*p的后序后继结点
+- 若*p是根，则*p是该二叉树后序遍历过程中最后一个访问到的结点。*p的后序后继为空
+- 若*p是其双亲的右孩子，则*p的后序后继结点就是其双亲结点
+- 若*p是其双亲的左孩子，但*p无右兄弟，*p的后序后继结点是其双亲结点
+- 若*p是其双亲的左孩子，但*p有右兄弟，则*p的后序后继是其双亲的右子树中第一个后序遍历到的结点，它是该子树中"最左下的叶结点"
+
+## 遍历线索二叉树
+
+遍历某种次序的线索二叉树，只要从该次序下的开始结点开发，反复找到结点在该次序下的后继，直至终端结点。
+
+遍历中序线索二叉树算法：
+```cpp
+void TraverseInorderThrTree(threaded_bintree p){
+    if(p){
+        while(p->ltag==LINK)
+            p = p->lchild;
+        do{
+            printf("%c", p->data);
+            p=InorderSuccessor(p);
+        }while(p)
+    }
+}
+```
+- 中序序列的终端结点的右线索为空，所以do语句的终止条件是p==NULL。
+- 该算法的时间复杂性为O(n)。因为是非递归算法，常数因子上小于递归的遍历算法。因此，若对一棵二叉树要经常遍历，或查找结点在指定次序下的前趋和后继，则应采用线索链表作为存储结构为宜。
+- 以上介绍的线索二叉树是一种全线索树（即左右线索均要建立）。许多应用中只要建立左右线索中的一种。
+- 若在线索链表中增加一个头结点，令头结点的左指针指向根，右指针指向其遍历序列的开始或终端结点会更方便。
+
+## 树和森林
+
+## 树、森林和二叉树的关系
+
+树或森林与二叉树之间有一个自然的一一对应关系。任何一个森林或一棵树可惟一地对应到一棵二叉树；反之，任何一棵二叉树也能惟一地对应到一个森林或一棵树。
+
+将树转换为二叉树
+
+树中每个结点最多只有一个最左边的孩子(长子)和一个右邻的兄弟。按照这种关系很自然地就能将树转换成相应的二叉树：
+- 在所有兄弟结点之间加一连线；
+- 对每个结点，除了保留与其长子的连线外，去掉该结点与其它孩子的连线。
+
+![tree2bintree](<assets/树和二叉树/tree2bintree.jpg>)
+
+将一个森林转换为二叉树
+- 将森林中的每棵树变为二叉树
+- 因为转换所得的二叉树的根结点的右子树均为空，故可将各二叉树的根结点视为兄弟从左至右连在一起，就形成了一棵二叉树。
+
+![forest2bintree](<assets/树和二叉树/forest2bintree.jpg>)
+
+二叉树到树、森林的转换
+
+若结点x是双亲y的左孩子，则把x的右孩子，右孩子的右孩子，…，都与y用连线连起来，最后去掉所有双亲到右孩子的连线。
+
+![bintree2tree](<assets/树和二叉树/bintree2tree.jpg>)
+
+## 树的存储结构
+
+### 双亲表示法
+
+双亲表示法利用树中每个结点的双亲唯一性，在存储结点信息的同时，为每个结点附设一个指向其双亲的指针parent，惟一地表示任何一棵树。
+
+
+链式：
+```cpp
+struct treenode{
+    ElemType data; //结点数据
+    struct treenode  parent; //双亲指针，指示结点的双亲的位置
+};
+```
+
+向量式：
+```cpp
+#define MaxTreeSize 100 //向量空间的大小，由用户定义
+struct treenode{
+    ElemType data; //结点数据
+    int parent; //双亲指针，指示结点的双亲在向量中的位置
+};
+struct tree{
+    struct treenode nodes[MaxTreeSize];
+    int size; //结点总数
+};
+```
+![parenttree](<assets/树和二叉树/parenttree.jpg>)
+
+![parenttree2](<assets/树和二叉树/parenttree2.jpg>)
+
+- 根无双亲，其parent域为-1。
+- 双亲链表表示法中指针parent向上链接，适合求指定结点的双亲或祖先(包括根)；求指定结点的孩子或其它后代时，可能要遍历整个数组。
+
+### 孩子链表表示法
+
+孩子链表表示法是为树中每个结点设置一个孩子链表，并将这些结点及相应的孩子链表的头指针存放在一个向量中。
+
+```cpp
+struct childnode{ //子链表结点
+    int child; //孩子结点在向量中对应的序号
+    struct childnode *next;
+};
+
+struct node{
+    ElemType data; //存放树中结点数据
+    struct childnode *firstchild; //孩子链表的头指针
+};
+
+struct tree{
+    node nodes[MaxTreeSize];
+    int n, root; //n为结点总数，root指出根在向量中的位置
+};
+```
+
+![parenttree](<assets/树和二叉树/parenttree.jpg>)
+
+- 孩子结点的数据域仅存放了它们在向量空间的序号。
+- 与双亲链表表示法相反，孩子链表表示便于实现涉及孩子及其子孙的运算，但不便于实现与双亲有关的运算。
+
+![childtree1](<assets/树和二叉树/childtree1.jpg>)
+
+将双亲链表表示法和孩子链表表示法结合起来，可形成双亲孩子链表表示法。
+
+![childtree2](<assets/树和二叉树/childtree2.jpg>)
+
+### 孩子兄弟表示法
+
+在存储结点信息的同时，附加两个分别指向该结点最左孩子和右邻兄弟的指针域leftmostchild和rightsibling，即可得树的孩子兄弟链表表示。
+
+这种存储结构的最大优点是：它和二叉树的二叉链表表示完全一样。可利用二叉树的算法来实现对树的操作。
+
+![childsiblingtree](<assets/树和二叉树/childsiblingtree.jpg>)
+
+## 树和森林的遍历
+
+树的前序遍历
+- 若树T非空，则：
+   - 访问根结点R；
+   - 依次前序遍历根R的各子树T1，T2，…，Tk。
+
+树的后序遍历定义：
+- 若树T非空，则：
+   - 依次后序遍历根T的各子树Tl，T2，…，Tk；
+   - 访问根结点R。
+
+注意：
+- 前序遍历一棵树恰好等价于前序遍历该树对应的二叉树
+- 后序遍历树恰好等价于中序遍历该树对应的二叉树。
+
+森林的前序遍历：
+- 若森林非空，则：
+   - 访问森林中第一棵树的根结点；
+   - 前序遍历第一棵树中根结点的各子树所构成的森林
+   - 前序遍历除第一棵树外其它树构成的森林。
+
+森林的后序遍历：
+- 若森林非空，则:
+   - 后序遍历森林中第一棵树的根结点的各子树所构成的森林；
+   - 访问第一棵树的根结点；
+   - 后序遍历除第一棵树外其它树构成的森林。
+
+注意：
+- 前序遍历森林等同于前序遍历该森林对应的二叉树
+- 后序遍历森林等同于中序遍历该森林对应的二叉树
+
+例：对下面(a)图中所示的森林进行前序遍历和后序遍历，则得到该森林的前序序列和后序序列分别为ABCDEFICJH和BDCAIFJGHE。而(b)图所示二叉树的前序序列和中序序列也分别为ABCDEFICJH和BDCAIFJGHE。
+
+![treetraverse](<assets/树和二叉树/treetraverse.jpg>)
+
+## 哈夫曼树和哈夫曼编码
+
+## 基本概念
+- 树的路径长度：树的路径长度是从树根到树中每一结点的路径长度之和。在结点数目相同的二叉树中，完全二叉树的路径长度最短。
+- 结点的权：在一些应用中，赋予树中结点的一个有某种意义的实数。
+- 结点的带权路径长度：结点到树根之间的路径长度与该结点上权的乘积。
+- 树的带权路径长度(Weighted Path Length of Tree，简记为WPL)：定义为树中所有叶结点的带权路径长度之和，通常记为：WPL=w~1~*l~1~+w~2~*l~2~+...+w~n~*l~n~，其中n表示叶子结点的数目，wi和li分别表示叶结点ki的权值和根到结点ki之间的路径长度。树的带权路径长度亦称为树的代价。
+- 最优二叉树或哈夫曼树：在权为wl，w2，…，wn的n个叶子所构成的所有二叉树中，带权路径长度最小(即代价最小)的二叉树称为最优二叉树或哈夫曼树。
+
+例：给定4个叶子结点a，b，c和d，分别带权7，5，2和4。构造如下图所示的三棵二叉树(还有许多棵)，它们的带权路径长度分别为
+ a. WPL=7*2+5*2+2*2+4*2=36
+ a. WPL=7*3+5*3+2*1+4*2=46
+ a. WPL=7*1+5*2+2*3+4*3=35
+其中(c)树的WPL较小。所有可能的形态中，WPL最小的树就是哈夫曼树了。
+
+![wplexample](<assets/树和二叉树/wplexample.jpg>)
+
+最优二叉树的特点：
+1. 最优二叉树中，权越大的叶子离根越近。即：如果wi<wj则li>=lj。
+1. 最优二叉树的形态不唯一。
+1. 最优二叉树中，没有度为1的结点。
+
+## 哈夫曼算法
+
+哈夫曼算法是构造最优二叉树的算法，其基本思想是：
+1. 根据给定的n个权值wl，w2，…，wn构成n棵二叉树的森林F={T1，T2，…，Tn}，其中每棵二叉树Ti中都只有一个权值为wi的根结点，其左右子树均空。
+1. 在森林F中选出两棵根结点权值最小的树(当这样的树不止两棵树时，可以从中任选两棵)，将这两棵树合并成一棵新树，为了保证新树仍是二叉树，需要增加一个新结点作为新树的根，并将所选的两棵树的根分别作为新根的左右孩子(谁左，谁右无关紧要)，将这两个孩子的权值之和作为新树根的权值。
+1. 对新的森林F重复(2)，直到森林F中只剩下一棵树为止。这棵树便是哈夫曼树。
+
+注意：
+1. 初始森林中的n棵二叉树，每棵树有一个孤立的结点，它们既是根，又是叶子
+1. n个叶子的哈夫曼树要经过n-1次合并，产生n-1个新结点。最终求得的哈夫曼树中共有2n-1个结点。
+
+
+
+哈夫曼树的存储结构
+
+用一个大小为2n-1的向量来存储哈夫曼树中的结点，其存储结构为：
+```cpp
+struct huffman_node{ //结点类型
+    float weight; //权值，不妨设权值均大于零
+    int lchild, rchild, parent; //左右孩子及双亲指针
+};
+typedef huffman_node huffman_tree[MAXNODE]; //HuffmanTree是向量类型
+```
+
+注意：
+- 因为C语言数组的下界为0，故用-1表示空指针。树中某结点的lchild、rchild和parent不等于-1时，它们分别是该结点的左、右孩子和双亲结点在向量中的下标。
+- 这里设置parent域有两个作用：其一是使查找某结点的双亲变得简单；其二是可通过判定parent的值是否为-1来区分根与非根结点。
+
+```cpp
+//构造哈夫曼树，T[m-1]为其根结点,n个叶子
+void create_huffman_tree(int weights[], int n, huffman_tree T){
+    int i, p1, p2;
+    for(i = 0; i < n; i++) {
+        T[i].weight = weights[i];
+        T[i].lchild=T[i].rchild=t[i].parent=-1;
+    }
+    for(i=n; i< 2*n-1; i++){
+        selectmin(T, i-1, &p1, &p2); //在T[0．．i-1]中选择两个权最小的根结点，其序号分别为p1和p2
+        T[p1].parent = T[p2].parent = i;
+        T[i].1child = p1;
+        T[j].rchild = p2;
+        T[i].weight = T[p1].weight + T[p2].weight;
+        T[i].parent = -1;
+    }
+}
+```
+
+例：以7个权值：7，5，1，4，8，10，20为例，写出用上述算法求最优二叉树的过程
+
+## 哈夫曼编码
+
+- 编码：将文件中的每个字符均转换为一个惟一的二进制位串。
+- 解码：即将二进制位串转换为对应的字符。
+
+给定的字符集C，可能存在多种编码方案。
+- 等长编码方案:等长编码方案将给定字符集C中每个字符的码长定为[lg|C|]，|C|表示字符集的大小。
+- 变长编码方案:变长编码方案将频度高的字符编码设置短，将频度低的字符编码设置较长。
+
+例:设待压缩的数据文件共有100000个字符，这些字符均取自字符集C={a，b，c，d，e，f}，等长编码需要三位二进制数字来表示六个字符，因此，整个文件的编码长度为300000位。每个字符在文件中出现的次数(简称频度)见表
+| 字符 | a | b | c | d | e | f |
+| --- | --- | --- | --- | --- | --- | --- |
+| 频度（单位：千次） | 45 | 13 | 12 | 16 | 9 | 5 |
+| 定长编码 | 000 | 001 | 010 | 011 | 100 | 101 |
+| 变长编码 | 0 | 101 | 100 | 111 | 1101 | 1100 |
+使用变长编码：(45*1+13*3+12*3+16*3+9*4+584)*1000=224000
+整个文件被编码为224000位，比定长编码方式节约了约25%的存储空间。
+
+变长编码可能使解码产生二义性。产生该问题的原因是某些字符的编码可能与其他字符的编码开始部分(称为前缀)相同。
+
+- 前缀码：对字符集进行编码时，要求字符集中任一字符的编码都不是其它字符的编码的前缀，这种编码称为前缀(编)码。
+- 最优前缀码(哈夫曼编码)：平均码长或文件总长最小的前缀编码称为最优的前缀码。最优的前缀码对文件的压缩效果亦最佳。平均码长=p~1~*l~1~+p~2~*l~2~+...+p~n~*l~n~。其中：pi为第i个字符得概率，li为码长。
+
+例：若将表中所示的文件作为统计的样本，则a至f六个字符的概率分别为0.45，0.13，0.12，0.16，0.09，0.05，对变长编码求得的平均码长为2.24，优于定长编码(平均码长为3)。
+
+## 根据最优二叉树构造哈夫曼编码
+
+1. 用字符ci作为叶子，pi或fi做为叶子ci的权，构造一棵哈夫曼树，并将树中左分支和右分支分别标记为0和1；
+1. 将从根到叶子的路径上的标号依次相连，作为该叶子所表示字符的编码。该编码即为最优前缀码（也称哈夫曼编码）。
+
+```cpp
+/*根据哈夫曼树T求哈夫曼编码表H,n为叶子结点个数*/
+void huffman_encoding(huffman_tree T, int n, char* H[])
+{
+    int i;
+    char *code =(char*)malloc(n);
+    code[n-1]='\0';
+
+    for(i=0; i<n; i++){
+        int start = n-1;
+        int current = i;
+        int parent;
+        while((parent = T[current].parent)!=-1){ //直至上溯到T[c]是树根为止
+            code[--start] = (T[parent].1child==current) ? '0' : '1';
+            current = parent;
+        }
+        H[i] = (char*)malloc(sizeof(n-start));
+        strcpy(H[i], &code[start]);
+    }
+}
+
+```
+
+编码与解码
+
+有了字符集的哈夫曼编码表之后，对数据文件的编码过程是：依次读人文件中的字符c，在哈夫曼编码表H中找到此字符，若H[i].ch=c，则将字符c转换为H[i].bits中存放的编码串。
+
+对压缩后的数据文件进行解码则必须借助于哈夫曼树T，其过程是：依次读人文件的二进制码，从哈夫曼树的根结点(即T[m-1])出发，若当前读人0，则走向左孩子，否则走向右孩子。一旦到达某一叶子T[i]时便译出相应的字符H[i].ch。然后重新从根出发继续译码，直至文件结束。

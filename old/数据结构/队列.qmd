@@ -1,0 +1,161 @@
+---
+title: "队列"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+
+
+## 逻辑结构
+队列(Queue)是一种线性的逻辑结构，但是：
+- 它只允许在一端插入元素，在另一端删除元素
+- 插入的一端称作队尾，删除的一端称为队头。
+- 队列具有先进先出(First In Fist Out, FIFO)的特性。
+
+## 操作
+- init_queue 初始化
+- is_empty 判断空
+- is_full 判断满
+- enter_queue 入队列
+- delete_queue 出队列
+- get_head 取队列头部元素
+
+## 顺序实现(循环队列)
+
+### 存储结构
+```cpp
+#define MAXSIZE 100
+typedef int elem_type;
+struct seq_queue{
+    elem_type elem[MAXSIZE]; //元素的存储空间
+    int front; //第一个元素位置
+    int rear; //最后一个元素的下一个位置
+};
+typedef struct seq_queue seq_queue;
+
+```
+
+### 操作实现
+初始化
+```cpp
+void init(seq_queue *q)
+{
+   q->rear = 0;
+   q->front = 0;
+}
+```
+
+入队操作
+```cpp
+void push(seq_queue *q, elem_type e)
+{
+   q->elem[q->rear] = e;
+   q->rear = (q->rear+1) % MAXSIZE;
+}
+```
+
+出队操作
+```cpp
+elem_type pop(seq_queue *q)
+{
+   int pos = q->front;
+   q->front = (q->front + 1) % MAXSIZE;
+   return q->elem[pos];
+}
+```
+
+取队首
+```cpp
+elem_type get_head() {
+   return q->elem[q->front];
+}
+```
+
+判断是否为空
+```cpp
+bool is_empty(seq_queue *q)
+{
+   return q->rear == q->front;
+}
+```
+
+判断是否满
+```cpp
+bool is_full(seq_queue *q)
+{
+   return (q->rear+1)%MAXSIZE == q->front;
+}
+```
+
+
+## 链式实现(单循环链表实现)
+### 存储结构定义
+数据结构定义同带头结点的循环单链表。
+```cpp
+typedef int elem_type;
+struct node {
+   elem_type data;
+   struct node *next;
+};
+typedef struct node node;
+typedef struct node *link_list
+struct link_queue {
+   node *front;
+   node *rear;
+};
+typedef struct link_queue link_queue;
+```
+
+### 操作实现
+初始化
+```cpp
+void init(link_queue *q){
+   q->front = (node*)malloc(sizeof(node));
+   q->front->next = NULL;
+   q->rear = q->front;
+}
+```
+
+入队
+```cpp
+void push(link_queue *q, elem_type e){
+   node *p = (node *)malloc(sizeof(node));
+   p->data = e;
+   p->next = NULL;
+   q->rear->next = p;
+   q->rear = p;
+}
+```
+
+出队
+```cpp
+elem_type pop(link_queue *q){
+   node *p = q->front->next;
+   elem_type e = p->data;
+   q->front->next = p->next;
+   if( q->rear == p)
+      q->rear = q->front;
+   free(p);
+   return e;
+}
+```
+
+判断空
+```cpp
+int is_empty(link_queue *q) {
+   return q->front == q->rear;
+}
+```
+
+取队首
+```cpp
+elem_type get_top(link_queue *q) {
+   return q->front->next->data;
+}
+```

@@ -1,0 +1,48 @@
+---
+title: "熟悉开发环境"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../../数据结构.qmd>)
+
+## 实验一 熟悉开发环境
+## 实验目的
+熟悉VC环境，巩固C语言结构体的使用方法。
+
+## 实验内容
+某一个班级有若干同学（假设不超过20人），每个同学有学号，姓名，语文，数学、物理三门功课成绩有总分及名次等信息。请写程序输入学生学号，姓名及三门功课成绩，输出各学生的总成绩及名次。程序的结构如下所示。完成该程序并在上机运行测试。
+
+程序的大致结构如下
+```cpp
+#include<stdio.h>
+const int MaxNum = 20;
+typedef struct {
+   int number;
+   char name[20];
+   int chinese;
+   int math;
+   int physics;
+   int total_score;
+   int order;
+}StudentInfo;
+
+int main() {
+   int Num;	//实际人数
+   StudentInfo stud[MaxNum];
+   int i;
+   /*  1.输入 Num个同学的各门功课的成绩 */
+   /*  2.求各同学的总分*/
+   /*  3. 求名次     */
+   /*  4.把数据输出 */
+}
+```
+
+## 思考题
+1. 当输入学生人数大于MaxNum时，会出现错误，如何处理这个错误？
+1. 有时事先不知道实际人数(不知道Num的值)，在操作过程中才知道人数。怎么办？
+1. 如果1，2，3，4都用函数实现，如何实现？

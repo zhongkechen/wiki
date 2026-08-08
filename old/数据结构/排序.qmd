@@ -1,0 +1,217 @@
+---
+title: "排序"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+
+## 排序sort
+
+所谓排序，就是要整理文件中的记录，使之按关键字递增(或递减)次序排列起来。其确切定义如下：
+- 输入：n个记录R1，R2，…，Rn，其相应的关键字分别为K1，K2，…，Kn。
+- 输出：Ril，Ri2，…，Rin，使得Ki1≤Ki2≤…≤Kin。(或Ki1≥Ki2≥…≥Kin)。
+
+在排序过程中，若整个文件都是放在内存中处理，排序时不涉及数据的内、外存交换，则称之为内部排序(简称内排序)；反之，若排序过程中要进行数据的内、外存交换，则称之为外部排序。
+
+当待排序记录的关键字均不相同时，排序结果是惟一的，否则排序结果不唯一。
+
+在待排序的文件中，若存在多个关键字相同的记录，经过排序后这些具有相同关键字的记录之间的相对次序保持不变，该排序方法是稳定的；若具有相同关键字的记录之间的相对次序发生变化，则称这种排序方法是不稳定的。
+
+排序算法性能评价
+- 所需的辅助空间:若排序算法所需的辅助空间并不依赖于问题的规模n，即辅助空间是O(1).
+- 执行时间:关键字之间的比较次数和记录的移动次数。执行时间依赖于问题的规模，还可能依赖输入实例中数据的状态。
+
+```cpp
+typedef int key_type;
+typedef struct{
+    key_type key;
+    info_type otherinfo;
+}record_type;
+typedef record_type elem_type;
+typedef struct  {
+    elem_type  elem[MAXSIZE];
+    int size;
+}seq_list;
+
+```
+
+## 插入排序
+
+### 直接插入排序
+
+假设待排序的记录存放在数组R[0..n-1]中。初始时，R[0]自成1个有序区，无序区为R[1..n-1]。从i=1起直至i=n-1为止，依次将R[i]插入当前的有序区R[0..i-1]中，生成含n个记录的有序区。
+```cpp
+void insert_sort(seq_list *r) {
+    int i, j;
+    for(i = 1; i<=r->size; i++) {
+        elem_type e = r->elem[i];
+        for( j = i-1; j >= 0; j--) {
+            if(r->elem[j].key < e)
+                break;
+            r->elem[j+1] = r->elem[j];
+        }
+        r->elem[j+1] = e;
+    }
+}
+```
+
+例：49，38，65，97，76，13，27，49
+
+时间复杂度：最好情况（正序）O(n)，最坏情况（逆序）O(n^2^)，平均情况O(n^2^)
+
+空间复杂度O(1)
+
+稳定性：稳定
+
+### 希尔排序
+
+## 交换排序
+基本思想是：两两比较待排序记录的关键字，发现两个记录的次序相反时即进行交换，直到没有反序的记录为止。
+
+### 冒泡排序
+
+将被排序的记录数组R[0..n-1]垂直排列，每个记录R[i]看作是重量为R[i].key的气泡。根据轻气泡不能在重气泡之下的原则，从下往上扫描数组 R：凡扫描到违反本原则的轻气泡，就使其向上"飘浮"。如此反复进行，直到最后任何两个气泡都是轻者在上，重者在下为止。
+
+例：49 38 65 97 76 13 27
+
+```cpp
+void swap(seq_list *r, int i, int j) {
+   elem_type t = r->elem[i];
+   r->elem[i] = r->elem[j];
+   r->elem[j] = t;
+}
+
+void bubble_sort(seq_list *r) {
+    int i, j;
+    int swap_flag;
+    for(i = r->size; i > 1; i--) {
+        swap_flag = 0;
+        for(j = 0; j < i-1; j++)
+            if(r->elem[j].key > r->elem[j+1].key){
+                swap(r, j, j+1);
+                swap_flag = 1;
+            }
+        if(swap_flag == 0)
+            return;
+    }
+}
+```
+
+
+时间复杂度：最好情况（正序）O(n)，最坏情况逆序O(n^2^)，平均情况O(n^2^)
+
+空间复杂度：O(1)
+
+稳定性：稳定
+
+### 快速排序
+
+```cpp
+void QuickSort(seq_list *s, int left, int right) {
+   if(left < right) {
+      int i = left + 1;
+      int j = right;
+      while(i <= j) {
+         while(i <= j && s->elem[left].key <= s->elem[j].key) j--;
+         while(i <= j && s->elem[i].key <= s->elem[left].key) i++;
+         if(i<j)
+            swap(s, i, j);
+      }
+      swap(s, left, j);
+      QuickSort(s, left, j-1);
+      QuickSort(s, j+1, right);
+   }
+}
+```
+
+## 选择排序
+
+选择排序(Selection Sort)的基本思想是：每一趟从待排序的记录中选出关键字最小的记录，顺序放在已排好序的子文件的最后，直到全部记录排序完毕。
+
+### 简单选择排序
+```cpp
+void SelectSort(seq_list *r) {
+   int i, j, k;
+   for(i=0; i < r->size-1; i++){
+      k = i;
+      for(j = i+1; j<r->size;j++)
+         if(r->elem[j].key < r->elem[k].key)
+            k = j;
+      if(k!=i) {
+         elem_type temp = r->elem[i];
+         r->elem[i] = r->elem[k];
+         r->elem[k] = temp;
+      }
+   }
+}
+```
+例子：49、38、65、97、76、13、27
+
+时间复杂度：比较次数0(n^2^)；移动次数最好情况0，最坏情况3(n-1)；平均时间复杂度0(n^2^)。
+
+空间复杂度：O(1)
+
+稳定性：不稳定
+
+### 堆排序
+```cpp
+void shift(elem_type elem[], int start, int end) {
+   elem_type root = elem[start];
+   while( 1 ) {
+      int child = 2 * (start+1) - 1;
+      if(child + 1 <= end && elem[child].key < elem[child+1].key)
+         child ++;
+      if(child > end || root.key >= elem[child].key)
+         break;
+      elem[start] = elem[child];
+      start = child;
+   }
+   elem[start] = root;
+}
+
+void heapsort(seq_list *r) {
+   int i;
+   for( i = r->size/2; i >= 0; i--) {
+      shift(r->elem, i, r->size-1);
+   }
+   for( i = r->size-1; i >= 1; i--) {
+      swap(r, 0, i);
+      shift(r->elem, 0, i-1);
+   }
+}
+```
+## 归并排序
+```cpp
+void merge(seq_list *s, int left, int mid, int right) {
+   int i = left, j = mid, k = 0;
+   seq_list r;
+   while(i < mid && j <= right) {
+      if(s->elem[i].key <= s->elem[j].key)
+         r->elem[k++] = s->elem[i++];
+      else
+         r->elem[k++] = s->elem[j++];
+   }
+   while(i < mid)
+      r->elem[k++] = s->elem[i++];
+   while(j <= right)
+      r->elem[k++] = s->elem[j++];
+   r->size = k;
+   for(k = 0; k < r->size; k++)
+      s->elem[left+k] = r->elem[k];
+}
+
+void merge_sort(seq_list *s, int left, int right) {
+   int mid = (left+right)/2;
+   if(left >= right) return;
+   merge_sort(s, left, mid);
+   merge_sort(s, mid, right);
+   merge(s, left, mid, right);
+}
+
+```

@@ -1,0 +1,13 @@
+---
+title: "数据结构作业"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+作业参见：http://wzuacm.3322.org/ （该网站暂时只能在校网内访问）

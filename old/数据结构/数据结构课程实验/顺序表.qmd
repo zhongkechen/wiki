@@ -1,0 +1,75 @@
+---
+title: "顺序表"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../../数据结构.qmd>)
+
+## 实验二 性线表的插入与删除操作 ——数组实现
+## 实验目的
+巩固线性表的概念和基本操作，学会用数组实现线性表。
+## 实验内容
+数据结构及定义与实验一一样。要求有以下的功能都用单独一个函数实现：
+1. 插入某一个同学的数据
+1. 删除某一个同学的数据
+1. 输入学号查找某一个同学
+1. 输出整个表格。
+
+实验二程序框架
+```cpp
+#include<stdio.h>
+const int MAXSIZE= 100;
+typedef struct{
+    int number;
+    char name[20];
+    int chinese;
+    int math;
+    int physics;
+    int totalScore;
+    int order;
+}datatype;
+typedef struct {
+  datatype a[MAXSIZE];
+  int size;
+} sequence_list;
+int main() {
+    int i;
+    int pos;
+    int select;
+    sequence_list  stud;
+    init_sequence_list(&stud);
+    while(1) {
+       printf(" 请选择 ： 0（退出）  1(插入)，2（删除） 3（查找）4(打印):");
+       scanf("%d",&select);
+       switch(select) {
+       case 1:
+           printf("输入要插入的位置");
+           scanf("%d",&pos);
+           /* todo:输入一个同学的数据：学号，姓名，成绩等*/
+           /* todo:写一个函数实现插入算法 ，并在此处调用*/
+       break;
+       case 2:
+           /* todo:输入要删除的同学的学号*/
+           /* todo:写一个函数实现删除算法 ，并在此处调用*/
+       break;
+       case 3:
+           /* todo:输入要查找的同学的学号*/
+           /* todo:写一个函数实现查找算法 ，并在此处调用*/
+       break;
+       case 4:
+           /*todo: 写一个函数，打印出所有学生的相关信息。*/
+       break;
+       case 0:
+            printf("程序正常结束，下次再见\n");
+            return 0;
+       }
+    }
+}
+```
+## 思考题
+1. 如果要求按学号排序，同时计算出每个学生的总成绩和名次，应该如何实现？
