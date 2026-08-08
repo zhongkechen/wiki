@@ -1,0 +1,22 @@
+---
+title: "数据结构实验指导书"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+在这里详述 数据结构实验指导书.
+
+- 实验1 开发环境基础 [第3题](http://wzuacm.3322.org/oj/problem/3/) [第7题](http://wzuacm.3322.org/oj/problem/7/)
+- 实验2 顺序表 [第8题](http://wzuacm.3322.org/oj/problem/8/)
+- 实验3 链表 [第8题](http://wzuacm.3322.org/oj/problem/8/)
+- 实验4 栈 [第9题](http://wzuacm.3322.org/oj/problem/9/)
+- 实验5 二叉树 [第17题](http://wzuacm.3322.org/oj/problem/17/)
+- 实验6 哈夫曼 [第19题](http://wzuacm.3322.org/oj/problem/19/)
+- 实验7 排序 [第21题](http://wzuacm.3322.org/oj/problem/21/)
+- 实验8 查找 [第25题](http://wzuacm.3322.org/oj/problem/25/)

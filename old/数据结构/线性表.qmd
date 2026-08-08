@@ -1,0 +1,507 @@
+---
+title: "线性表"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+
+
+## 线性表逻辑结构
+
+线性表是一种典型的线性结构，是最简单且最常用的逻辑结构。
+
+- 线性表是由n（n≥0）个数据元素（结点）a1，a2，…，an组成的有限序列。
+- 数据元素的个数n定义为表的长度（n=0时称为空表）。
+- 将非空的线性表（n＞0）记作：（a1，a2，…，an）
+
+对于非空的线性表:
+- 有且仅有一个开始结点a1，没有直接前趋；
+- 有且仅有一个终结结点an，没有直接后继；
+- 其余的内部结点ai（2≤i≤n-1）都有且仅有一个直接前趋a~i-1~和一个a~i+1~。
+
+例子
+- 学生成绩表中，每个学生及其成绩是一个数据元素，其中数据元素由学号、姓名、各科成绩及平均成绩等数据项组成。
+- 英文字母表（A，B，…，Z）是线性表，表中每个字母是一个数据元素（结点）
+- 一副扑克牌也是一个线性表，其中数据元素是每张牌的花色和点数
+
+## 线性表的基本运算
+- init(L)：构造一个空的线性表L，即表的初始化，使得L成为一个可以使用的空的线性表。
+- destroy(L)：销毁线性表L，之后L不可以再使用。
+- clear(L)：将线性表L清空，变成空表。
+- is_empty(L)：判断线性表L是否为空表。
+- length(L)：求线性表L中的元素个数，即求表长。
+- get_elem(L, i)：取线性表L中的第i个结点，这里要求1 ≤ i ≤ length_list(L)
+- find(L, x)：在L中查找值为x 的结点，并返回该结点在L中的位置。若L中有多个结点的值和x 相同，则返回首次找到的结点位置；若L中没有结点的值为x ，则返回一个特殊值表示查找失败。
+- insert(L,i,x)：在线性表L的第i个位置上插入一个值为x 的新结点，使得原编号为i，i+1，…，n的结点变为编号为i+1，i+2，…，n+1的结点。这里1≤i≤length(L)+1，而length(L)是原表L的长度。插入后，表L的长度加1。
+- remove(L,i)：删除线性表L的第i个结点，使得原编号为i+1，i+2，…，n的结点变成编号为i，i+1，…，n-1的结点。这里1 ≤ i ≤ length(L)，而length(L)是原表L的长度。删除后表L的长度减1。
+对于实际问题中涉及的其它更为复杂的运算，可以用基本运算的组合来实现。例如删除值为x的结点等。
+
+## 线性表的顺序存储（顺序表 Sequential List）
+
+### 顺序表的存储结构
+采用顺序存储方式存储的线性表就称为顺序表。即把线性表的结点按逻辑次序依次存放在一组地址连续的存储单元里的方法。线性表中所有结点的类型相同，每个结点所占用存储空间大小亦相同。如下图所示：
+
+![seqlist](<assets/线性表/seqlist.png>)
+
+假设表中每个结点占用len个存储单元，其中第一个单元的存储地址则是该结点的存储地址，并设表中开始结点a~1~的存储地址（简称为基地址）是loc（a~1~），那么结点a~i~的存储地址loc（a~i~）可通过下式计算：loc(a~i~)=loc(a~1~)+(i-1)*len,1 ≤ i ≤ n
+
+在顺序表中，每个结点的存储地址是该结点在表中的位置i的线性函数。只要知道基地址和每个结点的大小，就可在相同时间内求出任一结点的存储地址，是一种可以**随机访问**的数据结构。
+
+顺序表用固定长度的数组实现：
+```cpp
+#define MAXSIZE 100
+typedef int elem_type;
+typedef struct{
+    elem_type  elem[MAXSIZE];
+    int size; //表示数组中元素个数
+}seq_list;
+```
+其中，elem_type是为了描述统一而自定义的，实际使用中，可以定义为需要的类型。
+
+由于C语言中数组的下标从0开始，所以线性表的开始结点a~1~在线性表中的序号为1，对应的数组下标为0，a~i~在线性表中的序号为i，对应的数组下标为i-1。
+
+除了用数组存储线性表的元素外，顺序表还需要用一个变量来表示线性表的长度属性或者最后一个元素的位置，因此用结构类型来定义顺序表类型。
+
+存放线性表结点的数组空间的大小MAXSIZE应仔细选值，使其既能满足表结点的数目动态增加的需求，又不致于预先定义过大而浪费存储空间。可动态变化空间大小的实现，在后面给出。
+
+### 初始化
+```cpp
+void init( seq_list * slt) {
+    slt->size=0;
+}
+```
+
+### 遍历
+```cpp
+void print(seq_list  *slt)
+{
+   int i;
+   for( i=0; i < slt->size; i++)
+        printf("%5d", slt->elem[i]);
+}
+```
+
+### 判断是否为空
+```cpp
+int is_empty( seq_list  *slt ) {
+     return  slt->size==0;
+}
+```
+### 查找值为x的结点位置
+```cpp
+int find(seq_list *slt, elem_type x)
+{
+    int i=0;
+    while(i < slt->size && slt->elem[i]!=x)
+        i++;
+    return i<=slt->last? i+1:-1;
+}
+```
+
+### 取得第i个结点的值
+```cpp
+elem_type get_elem(seq_list *slt, int position) {
+    return slt->elem[position-1];
+}
+```
+
+### 任意位置插入
+```cpp
+void insert(seq_list *slt, int position, elem_type x) {
+    int i;
+    position--;
+    for(i = slt->size; i > position; i--)
+        slt->elem[i] = slt->elem[i-1];
+    slt->elem[position]=x;
+    slt->size++;
+}
+```
+
+分析插入算法时间性能分析
+
+### 任意位置元素删除
+```
+void remove(seq_list *slt, int position) {
+    int i;
+    position--;
+    for(i=position; i<slt->size-1; i++)
+        slt->elem[i]=slt->elem[i+1];
+    slt->size--;
+}
+```
+
+分析删除算法时间效率
+
+### 顺序表的用法举例
+```
+int main() {
+    seq_list  sqlist;
+    init_list(&sqlist);
+    insert_list(&sqlist, 1, 1);
+    print_list(&sqlist);
+    printf("%d", locate_list(&sqlist, 10));
+    printf("%d", locate_list(&sqlist, 11));
+    while(!empty_list(&sqlist))
+        delete_list(&sqlist, sqlist.size);
+    print_list(&sqlist);
+}
+```
+
+### 练习
+
+1. 设计一个算法，求顺序表中值为x的元素的个数。
+1. 设计一个算法，将顺序表倒置。
+1. 已知一个顺序表中的各结点的值是从小到大有序的，设计一个算法，插入一个值为x的结点，使顺序表中的结点仍然是从小到大有序的。
+
+## 顺序表可变长度的实现
+```cpp
+typedef int elem_type;
+typedef struct{
+    elem_type *elem;
+    int size; //表示数组中元素个数
+    int capacity;
+}seq_list;
+```
+元素所使用的内存由malloc分配，当空间用完时，自动扩展。
+
+```cpp
+#define INIT_SIZE 100
+void init( seq_list * slt) {
+    slt->size=0;
+    slt->capacity = INIT_SIZE;
+    slt->elem = (elem_type *) malloc(sizeof(elem_type) * INIT_SIZE);
+}
+```
+
+```cpp
+void destroy( seq_list *slt) {
+    free(slt-elem);
+    slt->size = slt-capacity = 0;
+}
+```
+
+```cpp
+void insert( seq_list *slt, int pos, elem_type x) {
+    if(slt->size == slt->capacity) {
+        slt->capacity *= 2;
+        elem_type *p = malloc(sizeof(elem_type) * slt->capacity);
+        for(int i = 0; i < slt->size; i++)
+            p[i] = slt->elem[i];
+        free(slt->elem);
+        slt->elem = p;
+    }
+    /* .... */
+    /* normal insert, same as above*/
+}
+```
+
+## 线性表的链式存储（带头结点的单链表）
+
+### 链表的存储结构
+
+数据结构的存储方式必须体现它的逻辑关系。在链式存储方式下，除存放一个结点的信息外，还需附设指针，用指针体现结点之间的逻辑关系。如果一个结点有多个后继或多个前驱，那么可以附设相应个数的指针，一个结点附设的指针指向的是这个结点的某个前驱或后继。
+
+线性结构的链式存储被称为链表。链表中可以只附设一个指针指向它的后继结点的存放位置；也可以设两个指针，一个指向前驱一个指向后继。
+
+单链表是线性表链式存储的一种形式。其中的结点一般含有两个域，一个是存放数据信息的域，另一个是存放该结点的后继结点的地址的指针域。一个单链表必须有一个首指针指向单链表中的第一个结点。
+
+单链表存储结构实现
+```cpp
+typedef int elem_type;
+struct node{
+   elem_type data;
+   struct node *next;
+};
+typedef struct node node;
+typedef struct node *link_list;
+```
+
+普通单链表的缺点：特殊情况太多，处理起来太麻烦。改进办法：增设头结点，头结点不存放任何数据，称为带头结点的单链表。
+
+### 初始化
+带头结点单链表的初始化
+
+```cpp
+void init(link_list *list) {
+   *list = (link_list)malloc(sizeof(node));
+   (*list)->next = NULL;
+}
+```
+
+### 插入
+基本插入算法：在给定的结点后面插入一个元素
+```cpp
+void insert(node *q, elem_type x)
+{
+   p = (node*)malloc(sizeof(node));
+   p->data = x;
+   p->next = q->next;
+   q->next = p;
+}
+```
+
+插入特定位置：在给定链表的第pos个位置插入一个元素
+```cpp
+void insert_pos(link_list node, int pos, elem_type x)
+{
+   while(pos > 1) {
+        node = node->next;
+        pos--;
+   }
+   insert(node, x);
+}
+```
+### 删除
+基本删除算法：删除指定结点后面的一个元素
+```cpp
+void remove(node *pre)
+{
+   node *p = pre->next;
+   pre->next=p->next;
+   free(p);
+}
+```
+删除特定位置元素算法：删除指定链表第pos个位置上的元素
+```cpp
+void remove_pos(Node *node, int pos)
+{
+   while(pos > 1) {
+      node = node->next;
+      pos--;
+   }
+   remove(head);
+}
+```
+删除特定值的元素算法：删除给定单链表中值为x的元素
+```cpp
+void remove_x(node *head, elem_type x)
+{
+   node *pre = head;
+   while(pre->next!= NULL &&
+      pre->next->data != x)
+   {
+      pre=pre->next;
+   }
+   remove(pre);
+}
+```
+### 查找算法
+查找单链表中第pos位置上的元素
+```cpp
+node *get_elem(node *head, int pos)
+{
+   while(pos > 0) {
+      head = head->next;
+      pos--;
+   }
+   return head;
+}
+```
+
+查找值为x的元素：
+```cpp
+node *find_x(node *head, elem_type x)
+{
+   head = head->next;
+   while(head!=NULL && head->data != x)
+   {
+      head=head->next;
+   }
+   return head;
+}
+```
+### 思考
+如何实现：
+- 打印链表的每一个元素的值
+- 求链表的长度
+- 合并两个有序的单链表，使他们依然有序
+- 单链表就地逆置
+
+## 不带头结点的单链表
+
+不设开始的头结点，head指针直接指向第一个元素。
+
+由于head指针的值可能会发生变化，所以插入、删除操作比较繁琐
+```cpp
+void insert(node **head, int pos, elem_type x) {
+    node *p = malloc(sizeof(node));
+    p->data = x;
+    if(pos > 1) {
+        while(pos-- > 2) {
+            *head = (*head)->next;
+        }
+        p->next = (*head)->next;
+        (*head)->next = p;
+    } else if(pos == 1) {
+        p->next = *head;
+        *head = p;
+    }
+}
+```
+## 循环单链表
+
+如果希望从表中的任意一个结点开始，都能访问到表中的所有其它结点，可以设置表中最后一个结点的指针域指向表中的第一个结点，这种链表称为循环单链表（或单循环链表）
+
+### 循环单链表与单链表的不同
+
+- 单链表中某个结点p是表中最后一个结点的特征是p->next==NULL。
+- 对于循环单链表，若首指针为head，表中的某个结点p是最后一个结点的特征应该是p->next==head。
+- 判断单链表为空的条件是head->next==NULL
+- 判断循环单链表为空的条件是head->next == head
+
+
+### 循环单链表插入
+带头结点的循环链表的插入算法，与不带头结点的相同。
+
+### 循环单链表的删除
+带头结点的循环链表的删除算法，与不带头结点的相同。
+
+
+### 只设尾指针的循环单链表
+
+在循环单链表中，常常只设一个尾指针不设头指针。
+
+### 例子：合并两个循环单链表
+带头结点的，使用头结点指针
+```cpp
+node *merge(node *head1, node *head2) {
+    node *p1, *p2;
+    for(p1 = head1; p1->next != head1; p1 = p1->next);
+    for(p2 = head2; p2->next != head2; p2 = p2->next);
+    p2->next = head1;
+    p1->next = head2->next;
+    free(head2);
+    return head1;
+}
+```
+带头结点的，使用尾结点指针
+
+```cpp
+node *merge(node *tail1, node *tail2) {
+    if(tail2->next != tail2) {
+        node *p = tail1->next;
+        tail1->next = tail2->next->next;
+        free(tail2->next);
+        tail2->next = p;
+        return tail2;
+    } else {
+        free(tail2);
+        return tail1;
+    }
+}
+```
+## 双链表
+
+### 逻辑结构
+前面的各种链式表中，一个结点的指针域是指向它的后继结点的，如果需要找一个结点p的前驱结点，则必须从表首指针开始查找，当某个结点pre的指针域指向的是结点p时，即pre->next==p时，则说明pre是p的前驱结点。
+
+如果常常需要知道一个结点的前驱和后继结点，上述的链式表是不适合的。既然单链表中每个结点有一个指针域指向它的后继结点，那自然地想到再增设一个指针域指向它的前驱结点，这就构成了双链表。
+
+### 双链表存储结构
+```cpp
+struct dnode{
+   elem_type data;
+   struct dnode *next;
+   struct dnode *prior;
+};
+typedef struct dnode dnode;
+typedef struct dnode *dlist;
+```
+
+双链表的结点包括三个域，一个是存放数据信息的data域，另外两个是指针域，这里用next和prior表示，prior指向它的前驱结点，next指向它的后继结点。
+
+### 双链表的插入
+```cpp
+void insert(dnode *pre, elemtype x) {
+    dnode *p = malloc(sizeof(dnode));
+    p->data = x;
+    p->prior = pre;
+    p->next = pre->next;
+    pre->next = p;
+    p->next->prior = p;
+}
+```
+
+### 双链表的删除
+```cpp
+void remove(dnode *p) {
+    p->next->prior = p->prior;
+    p->prior->next = p->next;
+    free(p);
+}
+```
+
+## 线性表应用举例：一元多项式
+一元多项式的表示
+P~n~(x) = p~0~+p~1~x+p~2~x^2^+...+p~n~x^n^
+
+### 数据结构表示
+```cpp
+typedef struct {
+   double coef;
+   int exp;
+}elem_type;
+```
+
+运算：两个多项式相加、相乘
+### 相加
+```cpp
+node *add(node *p1, node *p2) {
+    node *p, *tail;
+
+    tail = p = malloc(sizeof(node));
+    p->next = NULL;
+    p1 = p1->next;
+    p2 = p2->next;
+    while(p1 && p2) {
+        if(p1->data.exp == p2->data.exp) {
+             elem_type t;
+             t.exp = p1->data.exp;
+             t.coef = p1->data.coef + p2->data.coef;
+             if(t.coef) {
+                 insert(tail, t);
+                 tail = tail->next;
+             }
+             p1 = p1->next;
+             p2 = p2->next;
+        } else if(p1->data.exp < p2->data.exp) {
+             insert(tail, p1->data);
+             tail = tail->next;
+             p1 = p1->next;
+        } else {
+             insert(tail, p2->data;
+             tail = tail->next;
+             p2 = p2->next;
+        }
+    }
+    while(p1) {
+        insert(tail, p1->data);
+        tail = tail->next;
+        p1 = p1->next;
+    }
+    while(p2) {
+        insert(tail, p2->data);
+        tail = tail->next;
+        p2 = p2->next;
+    }
+    return p;
+}
+```
+
+## 线性表总结
+顺序表与链表比较
+- 存储空间效率(顺序表≈1，链表<1)
+- 时间效率
+  - 插入、删除：顺序表插入删除需要移动元素，链表不需要移动
+  - 访问：顺序表是随机访问，链表是顺序访问
+  - 查找：顺序表排序后可以二分查找，链表只能顺序查找
+链表的比较
+- 带头结点，不带头结点：带头结点的链表操作简便
+- 循环，不循环：循环的链表可以只存尾指针，两端插入效率高
+- 单链表，双链表：单链表只能单向遍历，双链表可以双向遍历

@@ -1,0 +1,15 @@
+---
+title: "字符串"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+字符串
+
+---

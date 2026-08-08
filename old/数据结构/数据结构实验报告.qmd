@@ -1,0 +1,14 @@
+---
+title: "数据结构实验报告"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+数据结构实验报告 参见电子邮箱 czk.data.structures@gmail.com
+批改记录参见回复的邮件和[在线判题系统](http://wzuacm.3322.org/)。

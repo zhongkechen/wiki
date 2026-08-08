@@ -1,0 +1,17 @@
+---
+title: "数据结构期末课程成绩"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+::: {.callout-note}
+## 页面已重定向
+
+课程成绩
+:::

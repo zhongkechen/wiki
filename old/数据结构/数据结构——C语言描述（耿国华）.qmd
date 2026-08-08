@@ -1,0 +1,189 @@
+---
+title: "数据结构——C语言描述（耿国华）"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“数据结构”目录](<../数据结构.qmd>)
+
+## 练习参考答案
+
+## 第一章
+
+1. 编写算法，求一元多项式的值$$P_n(x)=a_0+a_1x+a_2x^2+\ldots+a_nx^n$$
+
+```cpp
+/*数组a指定多项式的各个系数，n指定多项式的最高次数，x指定自变量的值，返回多项式的值*/
+double p(double x, double a[], int n) {
+   double result = 0.0;
+   int i = 0;
+   for(i = n; i >= 0; i--) {  //n+2次
+      result *= x;            //n+1次
+      result += a[i];         //n+1次
+   }
+}
+```
+总计 = 3n+4次
+
+
+## 第二章
+
+1. 已知顺序表L递增有序，写一个算法将X插入到线性表适当位置上，使顺序表仍然递增有序。
+```cpp
+/*顺序表list递增有序，insert_order将x插入到list当中使list仍然递增有序*/
+void insert_order(seq_list *list, ElemType x){
+   int i, pos;
+   for(i = 0; i < list->size; i++)
+      if(list->elem[i] >= x)
+         break;
+   pos = i;
+   for(i = list->size-1; i >= pos; i--)
+      list->elem[i+1] = list->elem[i];
+   list->elem[pos] = x;
+}
+```
+
+1. 编写一个算法，从顺序表中删除自第i个元素开始的k个元素
+```cpp
+/*删除顺序表list中从pos开始的num个元素*/
+void delete_from_ith(seq_list *list, int pos, int num){
+   int i;
+   pos--; /*把元素的逻辑位置变成数组中的存放位置。逻辑位置从1开始，存放物理位置从0开始，两者差1*/
+   for(i = pos+num; i < list->size; i++)
+      list->elem[i-num] = list->elem[i];
+}
+```
+
+1. 已知单链表中的元素递增排列，编写一个算法，删除链表内所有大于min小于max的元素。
+```cpp
+/*list指向带头结点单链表的头结点，元素递增有序排列，算法删除其中大于min小于max的所有元素*/
+void delete_between_min_and_max(linklist list, int min, int max) {
+   node *p, *q, *nextq;
+   for(p = list; p->next->data <= min; p = p->next)
+      ;
+   q = p->next;
+   while(q!=NULL && q->data < max) {
+      nextq = q->next;
+      free(q);
+      q=nextq;
+   }
+   p->next = q;
+}
+```
+
+1. 线性表逆置
+```cpp
+/*将顺序表list中所有元素的顺序倒过来*/
+void reverse(seq_list *list) {
+   int i;
+   for(i = 0; i < list->size /2; i++) {
+      ElemType temp = list->elem[i];
+      list->elem[i] = list->elem[list->size - i -1];
+      list->elem[list->size-i-1] = temp;
+   }
+}
+```
+
+```cpp
+/*将头结点为list的带头结点单链表中所有的元素的顺序倒过来*/
+void reverse(linklist list) {
+   node *p = list->next;
+   list->next = NULL;
+   while(p != NULL) {
+      node *q = p->next;
+      p->next = list->next;
+      list->next = p;
+      p = q;
+   }
+}
+```
+
+
+1. 有两个按照元素递增顺序排列的单链表A和B，编写算法将A和B合并成单链表C，并要求C中的元素是递减排列的。
+```cpp
+/*A和B为两个按照元素递增顺序排列的带头结点的单链表，将A和B合并成带头结点的单链表C，C中的元素是递减排列的，C中的节点空间为原来的A和B中的节点空间，返回单链表C*/
+linklist merge(linklist A, linklist B) {
+   linklist C;
+   node *pa = A->next;
+   node *pb = B->next;
+   C = A;
+   C->next = NULL;
+   free(B);
+   while(pa && pb) {
+      if(pa->data < pb->data) {
+         node *temp = pa->next;
+         pa->next = C->next;
+         C->next = pa;
+         pa = temp;
+      } else {
+         node *temp = pb->next;
+         pb->next = C->next;
+         C->next = pb;
+         pb = temp;
+      }
+   }
+   while(pa) {
+      node *temp = pa->next;
+      pa->next = C->next;
+      C->next = pa;
+      pa = temp;
+   }
+   while(pb) {
+      node *temp = pa->next;
+      pa->next = C->next;
+      C->next = pa;
+      pa = temp;
+   }
+   return C;
+}
+```
+
+1. 假设有一个无头节点的循环单链表的长度大于1，s为指向链表中间某个（非第一个）节点的指针。写一个算法删除s的前驱节点。
+```cpp
+void remove_pre(node *s) {
+   node *p;
+   for(p = s; p->next->next != s; p = p->next)
+      ;
+   free(p->next)
+   p->next = s;
+}
+```
+
+## 第三章
+
+1. 用带头结点的单循环链表表示队列，并只设尾指针，写出初始化、入队、出队算法。
+```cpp
+struct node {
+   struct node *next;
+   ElemType data;
+};
+
+/*初始化*/
+void init(struct node **tail) {
+   *tail = (struct node *)malloc(sizeof(struct node));
+   (*tail)->next = *tail;
+}
+
+/*入队*/
+void push(struct node **tail, ElemType x) {
+   struct node *p = (struct node *)malloc(sizeof(struct node));
+   p->data = x;
+   p->next = (*tail)->next;
+   (*tail)->next = p;
+   *tail = p;
+}
+
+/*出队*/
+ElemType pop(struct node **tail) {
+   struct node *p = (*tail)->next->next;
+   ElemType data = p->data;
+   (*tail)->next->next = p->next;
+   if(p==tail) tail = tail->next;/*如果最后一个节点被删除，则要修改tail指针*/
+   free(p);
+   return data;
+}
+```
