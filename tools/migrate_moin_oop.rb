@@ -84,12 +84,12 @@ end
 
 def prepare_course_source(source)
   headings = {
-    "学习资料：" => "== 学习资料 ==",
-    "面向对象程序设计课程" => "== 理论课程 ==",
-    "面向对象程序设计实验" => "== 实验课程 ==",
-    "面向对象程序设计课程设计课程" => "== 课程设计 ==",
-    "其它" => "== 其它 ==",
-    "课程练习：" => "== 课程练习 =="
+    "学习资料：" => "= 学习资料 =",
+    "面向对象程序设计课程" => "= 理论课程 =",
+    "面向对象程序设计实验" => "= 实验课程 =",
+    "面向对象程序设计课程设计课程" => "= 课程设计 =",
+    "其它" => "= 其它 =",
+    "课程练习：" => "= 课程练习 ="
   }
 
   source.lines.map do |line|
@@ -268,7 +268,7 @@ def include_unlisted_attachments(source, owner)
   return source if names.empty?
   return source if source.include?("<<AttachList>>") || source.include?("attachment:")
 
-  [source.rstrip, "", "== 附件 ==", render_attach_list(owner), ""].join("\n")
+  [source.rstrip, "", "= 附件 =", render_attach_list(owner), ""].join("\n")
 end
 
 def external_image_markup(url, label)
@@ -357,6 +357,7 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   result = []
   in_table = false
   list_indents = []
+  previous_line_was_list_item = false
 
   source.each_line do |raw_line|
     line = raw_line.rstrip
@@ -365,11 +366,12 @@ def convert_moin(text, owner:, context:, expand_includes: false)
       next
     elsif (heading = line.match(/^\s*(=+)\s*(.*?)\s*\1\s*$/))
       append_blank_line(result)
-      level = [heading[1].length, 2].max
+      level = [heading[1].length + 1, 6].min
       result << "#{'#' * level} #{heading[2]}"
       result << ""
       in_table = false
       list_indents.clear
+      previous_line_was_list_item = false
       next
     elsif line.match?(/^\s*\|\|.*\|\|\s*$/)
       append_blank_line(result) unless in_table
@@ -380,6 +382,7 @@ def convert_moin(text, owner:, context:, expand_includes: false)
       end
       in_table = true
       list_indents.clear
+      previous_line_was_list_item = false
       next
     end
 
@@ -400,7 +403,7 @@ def convert_moin(text, owner:, context:, expand_includes: false)
 
       depth = list_indents.index(source_indent) || list_indents.length - 1
       indent = " " * (depth * 4)
-      marker = list[2] == "*" ? "*" : "1."
+      marker = list[2]
       prefix = "#{indent}#{marker} "
       continuation = " " * prefix.length
       result.concat(
@@ -411,18 +414,35 @@ def convert_moin(text, owner:, context:, expand_includes: false)
           continuation_prefix: continuation
         )
       )
+      previous_line_was_list_item = true
     elsif (definition = line.match(/^\s+(.+?)::\s*(.*)$/))
       append_blank_line(result) unless list_indents.empty?
       list_indents.clear
       result << "**#{definition[1]}**: #{definition[2]}"
+      previous_line_was_list_item = false
     else
       if line.empty?
         append_blank_line(result)
+      elsif !list_indents.empty? &&
+            (indented = line.match(/^(\s+)(.*)$/)) &&
+            (parent_depth = list_indents.rindex { |indent| indent < indented[1].length })
+        list_indents = list_indents.take(parent_depth + 1)
+        append_blank_line(result) if previous_line_was_list_item
+        prefix = " " * ((parent_depth + 1) * 4)
+        result.concat(
+          render_content_with_blocks(
+            indented[2],
+            blocks,
+            first_prefix: prefix,
+            continuation_prefix: prefix
+          )
+        )
       else
         append_blank_line(result) unless list_indents.empty?
         list_indents.clear
         result.concat(render_content_with_blocks(line, blocks))
       end
+      previous_line_was_list_item = false
     end
   end
 
