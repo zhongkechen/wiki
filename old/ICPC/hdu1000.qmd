@@ -1,0 +1,38 @@
+---
+title: "hdu1000"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## A + B Problem
+
+http://acm.hdu.edu.cn/showproblem.php?pid=1000
+
+```cpp
+/*written by czk*/
+#include <stdio.h>
+
+int main() {
+    int a, b;
+    while(scanf("%d%d", &a, &b) != EOF)
+        printf("%d\n", a+b);
+}
+```
+
+```cpp
+//written by czk
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a, b;
+    while(cin >> a >> b)
+        cout << a+b << endl;
+}
+```

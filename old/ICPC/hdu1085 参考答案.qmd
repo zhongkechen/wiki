@@ -1,0 +1,121 @@
+---
+title: "hdu1085 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+
+hdu1085
+ymc 2008/09/25
+题目大意：
+面值为1,2,5的硬币分别有num1,num2,num3个，
+求由这些硬币不能得到的最小面值。
+解题思路：
+
+*/
+#include <iostream>
+using namespace std;
+int n1,n2,n5;
+int Init()
+{
+    scanf("%d %d %d",&n1,&n2,&n5);
+    if(n1+n2+n5==0)
+        return 0;
+   return 1;
+}
+void Solve()
+{
+    if(n1==0)
+    {
+        printf("1\n");
+        return;
+    }
+    int n=n1+n2+n2;
+    if(n<4)
+    {
+        printf("%d\n",n+1);
+        return;
+    }
+    printf("%d\n",5*n5+n+1);
+}
+int main()
+{
+    while(Init())
+    {
+        Solve();
+    }
+}
+```
+```cpp
+/*
+母函数
+hdu1085
+ymc 2008/09/25
+题目大意：
+面值为1,2,5的硬币分别有num1,num2,num3个，
+求由这些硬币不能得到的最小面值。
+解题思路：
+f(x)=(1+x+x^2+...x^num1)(1+x^2+x^4+...+x^2num2)(1+x^5+...x^5num3)
+其中x^n次方的系数就是构成总值为n的方法总数。
+具体参考 生成函数,也叫母函数。
+*/
+#include <iostream>
+using namespace std;
+const int N=8010;
+int num[3];
+int a[N];
+int b[N];
+int c[N];
+int Init()
+{
+    scanf("%d %d %d",&num[0],&num[1],&num[2]);
+    if(num[1]+num[2]+num[3]==0)
+        return 0;
+    memset(a,0,sizeof(a));
+    memset(b,0,sizeof(b));
+    memset(c,0,sizeof(c));
+    for(int i=0;i<=num[0];i++)
+        a[i]=1;
+    int n=num[1]+num[1];
+    for(int i=0;i<=n;i+=2)
+        b[i]=1;
+    for(int i=0;i<=num[0];i++)
+        for(int j=0;j<=n;j=j+2)
+            c[i+j]+=a[i]*b[j];
+
+    n=5*num[2];
+    memset(b,0,sizeof(b));
+    for(int i=0;i<=n;i+=5)
+        b[i]=1;
+    memset(a,0,sizeof(a));
+    int n1=num[0]+num[1]+num[1];
+    for(int i=0;i<=n1;i++)
+        for(int j=0;j<=n;j+=5)
+            a[i+j]+=c[i]*b[j];
+    return 1;
+}
+int main()
+{
+    while(Init())
+    {
+        int k=0;
+        while(1)
+        {
+            if(a[k]==0)
+            {
+                printf("%d\n",k);
+                break;
+            }
+            k++;
+        }
+    }
+}
+```

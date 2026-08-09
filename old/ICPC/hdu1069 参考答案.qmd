@@ -1,0 +1,101 @@
+---
+title: "hdu1069 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+DP
+zju 1093,hdu1069,Monkey and Banana
+ymc 2008/9/23
+题目大意：
+用n个尺寸为(x,y,z)的立方体，可以叠出最高的高度。
+同一尺寸的立方体无限量供应。
+叠加条件：立方体b1可以放在b2上的条件是b2的向上的面的
+二维尺寸严格大于b1的向下面的二维尺寸。
+分析与解题思路：
+因为立方体可以旋转，从而得到不同的基面和高。并且立方体是
+无限量供应的，而且叠加是尺寸严格减小的。因而同一个立方体
+同样的角度最多只放一次。从而可以把初始的立方体所能得到的
+六个旋转后的立方体全部加入初始立方体。下面就无需考虑旋转
+与多次使用的条件。
+先对立方体从大到小排序，关键字为x,y,z。
+令ans[i]为第i个立方体放在最上面时的最大高度。
+则ans[i]=Max{ans[j]:b[i]可以放在b[j]上}+b[i].z;
+由排序条件，0<=j<i。
+
+*/
+#include <iostream>
+#include <algorithm>
+using namespace std;
+const int N=200;
+int dir[6][3]={{0,1,2},{0,2,1},{1,0,2},{1,2,0},
+               {2,0,1},{2,1,0}};//六个旋转方向
+struct Block
+{
+    int x,y,z;
+    bool operator < (const Block &b) const
+    {  return x>b.x||x==b.x&&y>b.y||x==b.x&&y==b.y&&z>b.z;  }
+};
+Block b[N];
+int ans[N];
+int num;
+bool Init()
+{
+    int n;
+    int a[3];
+    num=0;
+    scanf("%d",&n);
+    if(n==0)
+        return false;
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d %d %d",&a[0],&a[1],&a[2]);
+        for(int k=0;k<6;k++)
+        {
+            b[num].x=a[dir[k][0]];
+            b[num].y=a[dir[k][1]];
+            b[num].z=a[dir[k][2]];
+            num++;
+        }
+    }
+    return true;
+}
+int DP()
+{
+    sort(b,b+num);
+    memset(ans,0,sizeof(ans));
+    ans[0]=b[0].z;
+    int Max;
+    for(int i=1;i<num;i++)
+    {
+        Max=0;
+        for(int j=0;j<i;j++)//b[i]能放在b[j]上，并且ans[j]最大
+        {
+            if(b[j].x>b[i].x&&b[j].y>b[i].y&&Max<ans[j])
+                Max=ans[j];
+        }
+        ans[i]=Max+b[i].z;
+    }
+    Max=0;
+    for(int i=0;i<num;i++)
+        if(ans[i]>Max)
+            Max=ans[i];
+    return Max;
+}
+int main()
+{
+    int t=1;
+    while(Init())
+    {
+        printf("Case %d: maximum height = %d\n",t++,DP());
+    }
+}
+```

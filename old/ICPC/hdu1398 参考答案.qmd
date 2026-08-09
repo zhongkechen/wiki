@@ -1,0 +1,69 @@
+---
+title: "hdu1398 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+母函数
+hdu1398
+ymc 2008/09/25
+题目大意：
+由面值为1,4,9,16，..289的硬币，构成总值为
+n，总共有多少种方法？
+解题思路：
+f(x)=(1+x+x^2+...)(1+x^4+x^8+...)..(1+x^289+...)
+其中x^n次方的系数就是构成总值为n的方法数。
+具体参考 生成函数,也叫母函数。
+*/
+#include <iostream>
+using namespace std;
+const int N=310;
+int a[N];
+int b[N];
+int c[N];
+void Poly()
+{
+    memset(c,0,sizeof(c));
+    for(int i=0;i<N;i++)
+        for(int j=0;j<N-i;j++)
+        {
+            c[i+j]+=a[i]*b[j];
+        }
+}
+void Init()
+{
+    memset(a,0,sizeof(a));
+    memset(c,0,sizeof(c));
+    int step;
+    for(int i=0;i<N;i++)
+        a[i]=1;
+    for(int k=2;k<18;k++)
+    {
+        memset(b,0,sizeof(b));
+        step=k*k;
+        for(int i=0;i<N;i=i+step)
+        {
+            b[i]=1;
+        }
+        Poly();
+        memcpy(a,c,sizeof(c));
+    }
+}
+int main()
+{
+    int n;
+    Init();
+    while(scanf("%d",&n),n)
+    {
+        printf("%d\n",a[n]);
+    }
+}
+```

@@ -1,0 +1,321 @@
+---
+title: "2008年春培训计划"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+地点：南校区5B207室
+
+### 第一次
+
+* 时间：2008年3月16日
+* 指导教师：虞铭财
+* 题目
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1000 参考解答：[hdu1000](<hdu1000.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1001 参考解答：[hdu1001](<hdu1001.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1008 参考解答：[hdu1008](<hdu1008.qmd>)
+
+### 第二次
+
+* 时间：2008年3月23日
+* 指导教师：陈忠克
+* 题目
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1076 参考解答：[hdu1076](<hdu1076.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1003 参考解答：[hdu1003](<hdu1003.qmd>)
+    * http://acm.timus.ru/problem.aspx?space=1&num=1180 参考解答：[timus1180](<timus1180.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=1954 参考解答：[zju1954](<zju1954.qmd>)
+
+### 第三次
+
+* 时间：2008年4月6日
+* 指导教师：虞铭财
+* 题目
+    * http://acm.zju.edu.cn/show_problem.php?pid=1045 参考解答：[zju1045](<zju1045.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=1049 参考解答：[zju1049](<zju1049.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=1067 参考解答：[zju1067](<zju1067.qmd>)
+
+### 第四次
+
+* 时间：2008年4月13日
+* 指导教师：陈忠克
+* 题目
+    * http://acm.zju.edu.cn/show_problem.php?pid=1151 参考解答：[zju1151](<zju1151.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=2099 参考解答：[zju2099](<zju2099.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=2104 参考解答：[zju2104](<zju2104.qmd>)
+
+### 第五次
+
+* 时间：2008年4月20日
+* 指导教师：虞铭财
+* 题目
+    * http://acm.zju.edu.cn/show_problem.php?pid=1115 参考解答：[zju1115](<zju1115.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=1180 参考解答：[zju1180](<zju1180.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=1152 参考解答：[zju1152](<zju1152.qmd>)
+
+### 第六次
+
+* 时间：2008年4月27日
+* 指导教师：陈忠克
+* 题目：字符串处理专题
+    * http://acm.hdu.edu.cn/diy/contest_login.php?cid=534
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1020 参考解答：[hdu1020](<hdu1020.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1039 参考解答：[hdu1039](<hdu1039.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1048 参考解答：[hdu1048](<hdu1048.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1062 参考解答：[hdu1062](<hdu1062.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1073 参考解答：[hdu1073](<hdu1073.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1088 参考解答：[hdu1088](<hdu1088.qmd>)
+
+### 第七次
+
+* http://acm.hdu.edu.cn/diy/contest_show.php?cid=576
+
+### 第八次
+
+* 时间：2008年5月11日
+* http://acm.hdu.edu.cn/showproblem.php?pid=1009 参考解答：[hdu1009](<hdu1009.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1052 参考解答：[hdu1052](<hdu1052.qmd>)
+* http://acm.zju.edu.cn/show_problem.php?pid=1307 参考解答：[zju1307](<zju1307.qmd>)
+* http://acm.zju.edu.cn/show_problem.php?pid=1025 参考解答：[zju1025](<zju1025.qmd>)
+* http://acm.zju.edu.cn/show_problem.php?pid=1161 参考解答：[zju1161](<zju1161.qmd>)
+
+### 第九次
+
+* 时间：2008年5月12日
+* http://acm.hdu.edu.cn/diy/contest_show.php?cid=612
+* http://acm.hdu.edu.cn/showproblem.php?pid=2037 参考解答：[hdu2037](<hdu2037.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2018 参考解答：[hdu2018](<hdu2018.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1128 参考解答：[hdu1128](<hdu1128.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1754 参考解答：[hdu1754](<hdu1754.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1161 参考解答：[hdu1161](<hdu1161.qmd>)
+
+### 第十次
+
+* 时间：2008年5月17日
+* 指导老师：虞铭财
+* C语言练习专题
+* 参加学生：`徐洁   章苏演  王文朝  陈钱    施宗举  朱波   方文其  卢江林  徐建波  蘧孝泼`
+* 题目：
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2000 参考解答：[hdu2000](<hdu2000.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2001 参考解答：[hdu2001](<hdu2001.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2002 参考解答：[hdu2002](<hdu2002.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2003 参考解答：[hdu2003](<hdu2003.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2004 参考解答：[hdu2004](<hdu2004.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2005 参考解答：[hdu2005](<hdu2005.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2006 参考解答：[hdu2006](<hdu2006.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2007 参考解答：[hdu2007](<hdu2007.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2008 参考解答：[hdu2008](<hdu2008.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2009 参考解答：[hdu2009](<hdu2009.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2010 参考解答：[hdu2010](<hdu2010.qmd>)
+
+地点：南校区5B421室
+
+### 第十一次
+
+* 时间：2008年9月10日
+* 指导老师：
+* 内容：BFS专题
+    * 1. 队列的定义与应用
+    * STL中的队列
+    * BFS介绍
+    * zju 1091算法介绍
+* [http://zh.wikipedia.org/w/index.php?title=%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2&variant=zh-cn BFS及其应用]
+* [http://student.zjzk.cn/course_ware/data_structure/web/zhanhuoduilie/zhanhuoduilie3.2.1.htm 队列的定义与及基本操作]
+* [http://zh.wikipedia.org/wiki/%E9%98%9F%E5%88%97 队列]
+* [http://www.sinrain.cn/2008/05/07/stackqueue/ STL中的堆栈与队列]
+* 参加学生
+
+```
+徐洁  王约毕 王丽娜 孙建  方文其   朱佳墩 徐建波  郑志昌 蘧孝泼 卢江林 陈仲寅
+```
+
+* 题目
+    * http://acm.zju.edu.cn/show_problem.php?pid=1091 参考解答： [1091 参考答案](<1091 参考答案.qmd>)
+
+### 第十二次
+
+* 时间：2008年9月17日
+* 指导老师：
+* 内容：BFS专题
+    1. zju 1438 Asteroids! (hdu 1240) BFS算法介绍
+    * zju 2416 Open the Lock
+* 参加学生
+
+```
+徐   洁     翁文可    王承淼     田理光    王约毕
+王丽娜    孙    健    方文其     施宗举    陈   钱
+周青睐    邱灵青     朱   波     朱佳墩    陈   帅
+徐建波    郑志昌     蘧孝波    卢江林    吴建章
+王   康    陈仲寅
+```
+
+* 题目
+    1. http://acm.hdu.edu.cn/showproblem.php?pid=1241 参考解答： [hdu1241 参考答案](<hdu1241 参考答案.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=1438 参考解答： [1438 参考答案](<1438 参考答案.qmd>)  [hdu1240 参考答案](<hdu1240 参考答案.qmd>)
+    * http://acm.zju.edu.cn/show_problem.php?pid=2416 参考解答： [2416 参考答案](<2416 参考答案.qmd>)
+
+### 第十三次
+
+* 时间：2008年9月24日
+* 地点：5B412
+* 指导老师：虞铭财
+* 内容：递推求解专题
+    1. http://acm.hdu.edu.cn/showproblem.php?pid=1465 不容易系列之一 [hdu1465 参考答案](<hdu1465 参考答案.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2050 折线分割平面 [hdu2050 参考答案](<hdu2050 参考答案.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1290 献给杭电五十周年校庆的礼物 [hdu1290 参考答案](<hdu1290 参考答案.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1297  Children’s Queue [hdu1297 参考答案](<hdu1297 参考答案.qmd>)大整数
+
+* 参加学生
+
+```
+徐   洁     翁文可    -王承淼     -田理光    王约毕
+－王丽娜    孙    健    方文其     -施宗举    -陈   钱
+-周青睐    -邱灵青     朱   波     朱佳墩    -陈   帅
+徐建波    -郑志昌     蘧孝泼    卢江林    吴建章
+－王   康    －陈仲寅       －郑   琳   沈 悦
+```
+
+### 第十四次
+
+* 时间：2008年10月8日
+* 地点：5B412
+* 指导老师：虞铭财
+* 内容：母函数及其应用
+    1. http://acm.hdu.edu.cn/showproblem.php?pid=1028  [hdu1028 参考答案](<hdu1028 参考答案.qmd>) [hdu1028 另一个参考答案](<hdu1028 另一个参考答案.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1085  [hdu1085 参考答案](<hdu1085 参考答案.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1398  [hdu1398 参考答案](<hdu1398 参考答案.qmd>)
+
+* 参加学生
+
+```
+徐   洁     翁文可    -王承淼     -田理光    王约毕
+－王丽娜    孙    健    方文其     -施宗举    -陈   钱
+-周青睐    -邱灵青     朱   波     朱佳墩    -陈   帅
+徐建波    -郑志昌     蘧孝泼    卢江林    吴建章
+－王   康    －陈仲寅       －郑   琳    沈 悦
+```
+
+### 第十五次
+
+* 时间：2008年10月22日
+* 地点：5B412
+* 指导老师：虞铭财
+* 基础知识
+    * http://www.nocow.cn/index.php/并查集
+    * 并查集课件 [unionset.ppt](<assets/2008年春培训计划/unionset.ppt>)
+* 内容：并查集
+    1. http://acm.hdu.edu.cn/showproblem.php?pid=1198  [hdu1198 参考答案](<hdu1198 参考答案.qmd>) [参考答案（并查集）](<参考答案（并查集）.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1232 [hdu1232 参考答案](<hdu1232 参考答案.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1272 [hdu1272 参考答案](<hdu1272 参考答案.qmd>) [1272参考答案2](<1272参考答案2.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1558 [hdu1558 参考答案](<hdu1558 参考答案.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1811 [hdu1811 参考答案](<hdu1811 参考答案.qmd>)
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1829 [hdu1829 参考答案](<hdu1829 参考答案.qmd>)
+    * zju [1141 参考答案](<1141 参考答案.qmd>) ** Closest Common Ancestors**  最近公共祖先 并查集
+
+### 第十六次
+
+* 时间：2008年11月5日
+* 地点：5B412
+* 指导老师：虞铭财
+* 基础知识
+* 内容：动态规划 (1)
+    1. http://acm.hdu.edu.cn/showproblem.php?pid=1003 [hdu1003 参考答案](<hdu1003 参考答案.qmd>)  ** 最大子段和**  经典DP
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1248 [hdu1248 参考答案](<hdu1248 参考答案.qmd>) **寒冰王座**
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2084 [hdu2084 参考答案](<hdu2084 参考答案.qmd>) ** 数塔**  DP
+
+### 第十七次
+
+* 时间：2008年11月12日
+* 地点：5B412
+* 指导老师：虞铭财
+* 基础知识
+* 内容：动态规划 (2)
+    1. http://acm.hdu.edu.cn/showproblem.php?pid=1159 [hdu1159 参考答案](<hdu1159 参考答案.qmd>) **Common Subsequence** 经典DP：LCS，最长公共子列
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1160 [hdu1160 参考答案](<hdu1160 参考答案.qmd>) ** FatMouse's Speed**  经典DP:最长严格递增子列
+
+### 第十八次
+
+* 时间：2008年11月19日
+* 地点：5B412
+* 指导老师：虞铭财
+* 基础知识
+
+    1. http://acm.hdu.edu.cn/showproblem.php?pid=1058 [hdu1058 参考答案](<hdu1058 参考答案.qmd>) ** Humble Numbers**  DP
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1069 [hdu1069 参考答案](<hdu1069 参考答案.qmd>) ** Monkey and Banana**  DP
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1074 [hdu1074 参考答案](<hdu1074 参考答案.qmd>) ** Doing Homework**  DP+状态压缩
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1087 [hdu1087 参考答案](<hdu1087 参考答案.qmd>) ** Super Jumping! Jumping! Jumping!**  经典DP:严格递增子列最大和
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1176 [hdu1176 参考答案](<hdu1176 参考答案.qmd>) ** 免费馅饼**  DP
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1171 [hdu1171 参考答案](<hdu1171 参考答案.qmd>) ** Big Event in HDU**  DP：集合划分
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1421 [hdu1421 参考答案](<hdu1421 参考答案.qmd>) ** 搬寝室**  DP
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1466 [hdu1466 参考答案](<hdu1466 参考答案.qmd>) ** 计算直线的交点数**  DP
+    * http://acm.hdu.edu.cn/showproblem.php?pid=2059 [hdu2059 参考答案](<hdu2059 参考答案.qmd>) ** 龟兔赛跑**  DP
+
+### 结题报告
+
+* 要求
+    1. 3000字以上，word文档或者pdf文档
+    * 可以是某一题的解题报告(不要太简单了)，也可以是某一类题型的总结。
+    * 标题下面注明 姓名，专业，班级，学号
+* 提交方法：mail：mingcaiyu@gmail.com，结题报告做为附近发送，文件名为 姓名＋学号
+* 截止时间：2008年12月15日
+* 具体格式与样列请参考群共享
+
+### 通讯录
+
+```
+徐洁   章苏演  王文朝  陈钱    施宗举
+朱波   方文其  卢江林  徐建波  蘧孝泼
+```
+07
+
+* 徐 洁  13857727263  07114003136  计算机学院  07电气信息一班
+* 章苏演 15869689565  07114003145  计算机学院  07电气信息一班
+* 王文朝 15869688225  07114003131  计算机学院  07电气信息一班
+* 陈钱   15869689267  07114003206  计算机学院  07电气信息二班
+* 施宗举 13968893451  07114003222  计算机学院  07电气信息二班
+* 朱波   13676515182  07114003243  计算机学院  07电气信息二班
+* 方文其 15869689377  07114003209  计算机学院  07电气信息二班
+* 沈 悦  15858808722  07114003220  计算机学院  07电气信息二班
+* 卢江林 13616617626  07110003115  物电学院    07电子信息工程
+* 徐建波 15869689691  07110003122  物电学院    07电子信息工程
+* 蘧孝泼 15858833037  07110003118  物电学院    07电子信息工程
+
+06计本
+
+* 叶龙   13757721722 495199007
+* 王康   15958730625 547671777
+* 徐君   15968752933 295175327
+* 熊建   15958736182 121020187
+* 金鑫   80105684 242299325
+* 邱江辰 13758703397 381537326
+* 章津楠 15958738757 676673749
+* 徐飞锋 15958732150 723652941
+* 翁秀青 13757720962 541502268
+* 张造慧 15958738696 153738645
+* 仲丽萍 15958731383 546132319
+* 李炳霖 15968752939 576655569
+* 吴建章 13736716592 158906011
+
+物理
+
+* 李虹静 15858832027 823438613
+* 周金星 15858832585  415929796
+* 蘧孝泼 15858833037  342860342
+* 朱胜杰 15869689862 359354174
+* 徐建波 15869689691 339351945
+* 卢江林 13616617626 542582951
+* 楼国强 15858832251 812305915
+* 郑志昌 15858833095 642263785
+* 胡冰   15858833269 512533068
+* 黄茜   15858833239 329908329
+* 詹建   15858832987 171962762
+
+## 附件
+
+* [package.zip](<assets/2008年春培训计划/package.zip>)
+* [老少皆宜数学题.ppt](<assets/2008年春培训计划/老少皆宜数学题.ppt>)

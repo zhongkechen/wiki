@@ -1,0 +1,93 @@
+---
+title: "zju1239"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Hanoi Tower Troubles Again!
+
+http://acm.zju.edu.cn/show_problem.php?pid=1239
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+People stopped moving discs from peg to peg after they know the number of steps needed to complete the entire task. But on the other hand, they didn't not stopped thinking about similar puzzles with the Hanoi Tower. Mr.S invented a little game on it. The game consists of N pegs and a LOT of balls. The balls are numbered 1,2,3... The balls look ordinary, but they are actually magic. If the sum of the numbers on two balls is NOT a square number, they will push each other with a great force when they're too closed, so they can NEVER be put together touching each other.
+
+![1239.jpg](<assets/zju1239/1239.jpg>)
+
+The player should place one ball on the top of a peg at a time. He should first try ball 1, then ball 2, then ball 3... If he fails to do so, the game ends. Help the player to place as many balls as possible. You may take a look at the picture above, since it shows us a best result for 4 pegs.
+
+### Input
+
+The first line of the input contains a single integer T, indicating the number of test cases. (1<=T<=50) Each test case contains a single integer N(1<=N<=50), indicating the number of pegs available.
+
+### Output
+
+For each test case in the input print a line containing an integer indicating the maximal number of balls that can be placed. Print -1 if an infinite number of balls can be placed.
+
+### Sample Input
+
+```
+2
+4
+25
+```
+
+### Sample Output
+
+```
+11
+337
+```
+Problem Source: OIBH Reminiscence Programming Contest
+
+------
+```cpp
+//2007-01-21 17:58:29 Accepted 1239 C++ 00:00.00 396K
+//模拟并记录前50项
+#include <stdio.h>
+#include <math.h>
+
+int res[52];
+int top[52];
+
+int main(){
+	int cur = 1;			//当前数
+	int n = 1;			//已经知道的最大结果+1
+	int i;
+	bool bb;			//是否在前n-1列找到合适位置
+	double tem;
+	while( n<52 ){
+		bb = false;
+		for(i=1; i<n; i++){
+			if( (tem=sqrt(1.0*top[i]+cur))==(int)tem ){
+				bb = true;
+				top[i] = cur;
+				break;
+			}
+		}
+		if( !bb ){
+			//没有合适的地方，新增第n列，
+			//并记录前n-1列最多能放的球数目
+			top[n] = cur;
+			res[n-1] = cur-1;
+			n ++;
+		}
+		cur ++;
+	}
+	//input and output
+	scanf("%d", &n);
+	while( n-- ){
+		scanf("%d", &i);
+		printf("%d\n", res[i]);
+	}
+	return 1;
+}
+```

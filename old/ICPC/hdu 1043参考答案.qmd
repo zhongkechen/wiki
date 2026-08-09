@@ -1,0 +1,226 @@
+---
+title: "hdu 1043参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+zju 1217
+HDu 1043
+ymc 2008/5/28
+解题思路：
+把x看作0，则每种状态对应012345678的一个排列。终止状态为123456780。
+012345678总共有有9！种排列，按照字典顺序给所有的排列排序，012345678在最前面，876543210在最后面。
+ptonum() 求出一个排列的序号
+numtop() 给出给定序号的排列
+从开始状态到终止状态BFS搜索 TLE
+反过来思BFS终止状态到所有状态的最短路径，对每次查询只要生成输出就可以
+*/
+#include <iostream>
+#include <queue>
+using namespace std;
+const int Max=362880; //9!
+const int N=9;
+int f[N];
+int map[N]={1,2,3,4,5,6,7,8,0};
+int Trans[Max][4]; //记录各种状态间的转移，每种状态最多转移到四种状态。上下左右
+char Transop[Max][4];//各种状态转移的操作
+int start,end;
+struct Operator
+{
+	int next;
+	char op;
+};
+Operator OP[Max];  //其实状态到终止状态的最短路径以及操作（逆序）
+
+int ptonum(int a[])  //012345678的所有排列按照字典顺序排列，任意给出一个排列，计算在排列中的序号。
+{
+	bool used[N];
+	memset(used,0,sizeof(used));
+	int ans=0;
+	int num;
+	for(int i=0;i<N;i++)
+	{
+		num=0;
+		for(int j=0;j<a[i];j++)
+		{
+			if(!used[j])
+				num++;
+		}
+		ans+=num*f[N-1-i];
+		used[a[i]]=true;
+	}
+	return ans;
+}
+void numtop(int a[],int num)//求给定序号的排列
+{
+	bool used[N];
+	memset(used,0,sizeof(used));
+	int k;
+	for(int i=0;i<N;i++)
+	{
+		if(i!=N-1)
+		{
+			k=num/f[N-1-i];
+			num=num%f[N-1-i];
+		}
+		else
+			k=num;
+		int id=0;
+		int j;
+		for(j=0;j<N;j++)
+		{
+			if(!used[j])
+			{
+				if(id==k)
+					break;
+				id++;
+			}
+		}
+		a[i]=j;
+		used[j]=true;
+	}
+}
+void init() //主要求出所有的状态转移，以及对应的操作。
+{
+	f[0]=0;
+	f[1]=1;
+	for(int i=2;i<N;i++)
+		f[i]=f[i-1]*i;
+	end=ptonum(map);
+	memset(Transop,'d',sizeof(Transop));
+	int num,tmp,k,v;
+	int b[N];
+	for(int u=0;u<Max;u++)
+	{
+		num=0;
+		numtop(b,u);
+		for(k=0;k<N;k++)
+			if(b[k]==0) break;
+		if(k>=3)  //x上移
+		{
+			tmp=b[k];b[k]=b[k-3];b[k-3]=tmp;
+			v=ptonum(b);
+			Trans[u][num]=v;
+			Transop[u][num]='d';
+			num++;
+			tmp=b[k];b[k]=b[k-3];b[k-3]=tmp;
+		}
+		if(k<6)  //x下移
+		{
+			tmp=b[k];b[k]=b[k+3];b[k+3]=tmp;
+			v=ptonum(b);
+			Trans[u][num]=v;
+			Transop[u][num]='u';
+			num++;
+			tmp=b[k];b[k]=b[k+3];b[k+3]=tmp;
+		}
+		if(k%3!=0)  //x左移
+		{
+			tmp=b[k];b[k]=b[k-1];b[k-1]=tmp;
+			v=ptonum(b);
+			Trans[u][num]=v;
+			Transop[u][num]='r';
+			num++;
+			tmp=b[k];b[k]=b[k-1];b[k-1]=tmp;
+		}
+		if(k%3!=2)  //x右移
+		{
+			tmp=b[k];b[k]=b[k+1];b[k+1]=tmp;
+			v=ptonum(b);
+			Trans[u][num]=v;
+			Transop[u][num]='l';
+			num++;
+			tmp=b[k];b[k]=b[k+1];b[k+1]=tmp;
+		}
+
+	}
+}
+int Reverse(int a[N])
+{
+	int sum=0;
+	int b[N];
+	memset(b,0,sizeof(b));
+	for(int i=0;i<N;i++)
+	{
+		for(int j=0;j<i;j++)
+			if(a[j]>a[i])
+				b[a[i]]++;
+		sum+=b[a[i]];
+	}
+	return sum-b[0];
+}
+void PreBFS()
+{
+	bool used[Max];
+	memset(used,0,sizeof(used));
+//	start=ptonum(map);
+	queue<int> q;
+	q.push(end);
+	used[end]=true;
+	int u,v;
+	while(!q.empty())
+	{
+		u=q.front();
+		for(int i=0;Trans[u][i]!=0&&i<4;i++)
+		{
+			v=Trans[u][i];
+			if(!used[v])
+			{
+				used[v]=true;
+				OP[v].next=u;
+				OP[v].op=Transop[u][i];
+				q.push(v);
+			}
+		}
+		q.pop();
+	}
+}
+void output()
+{
+	int st=start;
+	while(st!=end)
+	{
+		cout<<OP[st].op;
+		st=OP[st].next;
+	}
+    cout<<endl;
+}
+
+int main()
+{
+	init();
+	PreBFS();
+	char ch;
+	while(cin>>ch)
+	{
+		if(ch!='x')
+			map[0]=ch-'0';
+		else
+			map[0]=0;
+		for(int i=1;i<N;i++)
+		{
+			cin>>ch;
+			if(ch!='x')
+				map[i]=ch-'0';
+			else
+				map[i]=0;
+		}
+		int tmp=Reverse(map);
+		if(tmp%2!=0)
+		{
+			cout<<"unsolvable\n";
+			continue;
+		}
+		start=ptonum(map);
+		output();
+	}
+}
+```

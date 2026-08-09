@@ -1,0 +1,26 @@
+---
+title: "程序设计竞赛Quotes"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+* 很多题目都是英文的，这是和国际ACM大学生程序设计竞赛接轨的。所以首先要学会看懂题目。
+* 很多题目都有在线判题系统（Online Judge）。将你所做的程序，在对应的判题系统中提交以后，系统会自动给出结果。结果有几类：Accepted(正确)，Compile Error(编译错误)，Runtime Error(运行时错误)，Wrong Answer(答案错误)，Time Limit Exceed(超时)，Memory Limit Exceed(超过内存)等。
+* 每个题目的输入输出都有严格的格式要求，如果你的程序的输出格式不符合要求，将会被认为是错误（Wrong Answer）的。
+* 每个题目都有严格的时间和空间要求。在线判题系统会用很多苛刻的输入来测试程序，你的程序要在所有测试数据中都能够按时完成才能够获得成功（Accepted）。
+* 在线判题系统要求提交的程序使用Ansi/ISO标准书写，所以不标准的语法将会得到Compile Error，比如：void main(){}。
+* 浙江大学在线判题系统的FAQ要看清楚：http://acm.zju.edu.cn/faq.php
+* 程序设计竞赛排名办法：参赛队伍首先根据解题数目进行排名。在决定获奖队伍时，如果多支队伍解题数量相同，则根据总用时加上惩罚时间进行排名。总用时和惩罚时间由每道解答正确的试题的用时加上惩罚时间而成。每道试题用时将从竞赛开始到试题解答被判定为正确为止，其间每一次错误的运行将被加罚20分钟时间，未正确解答的试题不记时。
+* 浙江大学在线判题系统： http://acm.zju.edu.cn/
+* 北京大学在线判题系统： http://acm.pku.edu.cn/
+* 西班牙Valladolid大学在线判题系统： http://acm.uva.es/ 这是全世界最早的在线判题系统，也是目前题目最多的
+* 俄罗斯Saratov State University大学在线判题系统： http://acm.sgu.ru/
+* 俄罗斯Ural State University大学在线判题系统： http://acm.timus.ru/
+* http://acm.hdu.edu.cn/
+* http://ace.delos.com/usacogate

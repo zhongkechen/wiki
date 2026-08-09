@@ -1,0 +1,100 @@
+---
+title: "ACM题目参考解答"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+### ZOJ
+
+这是浙江大学判题系统：http://acm.zju.edu.cn/ 上的一些题目和它们的参考解答：
+
+* [zju1001](<zju1001.qmd>) A + B Problem (AC)
+* [zju1002](<zju1002.qmd>) Fire Net (AC)
+* [zju1003](<zju1003.qmd>) Crashing Balloon
+* [zju1006](<zju1006.qmd>) Do the Untwist (AC)
+* [zju1094](<zju1094.qmd>) Matrix Chain Multiplication (AC)
+* [zju1099](<zju1099.qmd>) HTML
+* [zju1108](<zju1108.qmd>) FatMouse's Speed
+* [zju1113](<zju1113.qmd>) u Calculate e (AC)
+* [zju1115](<zju1115.qmd>) Digital Roots
+* [zju1119](<zju1119.qmd>) SPF [图论] (AC)
+* [zju1157](<zju1157.qmd>) A Plug for UNIX [图论] (AC)
+* [zju1168](<zju1168.qmd>) Function Run Fun (AC)
+* [zju1171](<zju1171.qmd>) Sorting the Photos (AC)
+* [zju1221](<zju1221.qmd>) Risk [图论] (AC)
+* [zju1235](<zju1235.qmd>) DDR King
+* [zju1239](<zju1239.qmd>) Hanoi Tower Troubles Again! (AC)
+* [zju1268](<zju1268.qmd>) Is It A Tree? [图论] (AC)
+* [zju1347](<zju1347.qmd>) Determine the Price
+* [zju1394](<zju1394.qmd>) Polar Explorer
+* [zju1575](<zju1575.qmd>) Koch Curve (AC)
+* [zju1798](<zju1798.qmd>) Granny's Bike ［图论］(AC)
+* [zju1904](<zju1904.qmd>) Beavergnaw
+* [zju1949](<zju1949.qmd>) Error Correction (AC)
+* [zju1954](<zju1954.qmd>) Bee Maja (AC)
+* [zju2104](<zju2104.qmd>) Let the Balloon Rise (AC)
+* [zju2105](<zju2105.qmd>) Number Sequence (AC)
+* [zju2106](<zju2106.qmd>) Tick and Tick
+* [zju2107](<zju2107.qmd>) Quoit Design
+* [zju2108](<zju2108.qmd>) Elevator (AC)
+* [zju2109](<zju2109.qmd>) FatMouse' Trade (AC)
+* [zju2110](<zju2110.qmd>) Tempter of the Bone
+* [zju2111](<zju2111.qmd>) Starship Troopers
+* [zju2290](<zju2290.qmd>) Game (AC)
+* [zju2305](<zju2305.qmd>) C Looooops
+* [zju2329](<zju2329.qmd>) AB Circle (AC)
+* [zju2391](<zju2391.qmd>) Link and Pop -- the Block Game
+* [zju2475](<zju2475.qmd>) Benny's Compiler (AC) ［图论］
+* [zju2476](<zju2476.qmd>) Total Amount
+* [zju2478](<zju2478.qmd>) Encoding
+* [zju2480](<zju2480.qmd>) Simplest Task in Windows
+* [zju2481](<zju2481.qmd>) Unique Ascending Array (AC)
+* [zju2535](<zju2535.qmd>) Ancient Relics
+* [zju2536](<zju2536.qmd>) Best Balance
+* [zju2537](<zju2537.qmd>) Collect More Jewels
+* [zju2538](<zju2538.qmd>) Dimensional Lookup
+* [zju2539](<zju2539.qmd>) Energy Minimization
+* [zju2540](<zju2540.qmd>) Form a Square
+* [zju2541](<zju2541.qmd>) Goods Transportation (AC)
+* [zju2542](<zju2542.qmd>) Html Link Resolver
+* [zju2543](<zju2543.qmd>) Image Deskew
+* [zju2722](<zju2722.qmd>) Head-to-Head Match (AC)
+* [zju2723](<zju2723.qmd>) Semi-Prime (AC)
+* [zju2724](<zju2724.qmd>) Windows Message Queue (AC)
+* [zju2725](<zju2725.qmd>) Digital Deletions
+* [zju2726](<zju2726.qmd>) Constellation
+* [zju2727](<zju2727.qmd>) List the Books (AC)
+
+### timus
+
+以下是 http://acm.timus.ru/ 判题系统上的一些题目和参考解答
+
+* [timus1005](<timus1005.qmd>) Stone Pile (AC)
+* [timus1009](<timus1009.qmd>) K-Based Numbers
+* [timus1012](<timus1012.qmd>) K-Based Numbers. Version 2
+* [timus1028](<timus1028.qmd>) Stars (AC)
+* [timus1052](<timus1052.qmd>) Rabbit hunt
+* [timus1068](<timus1068.qmd>) Sum (AC)
+* [timus1084](<timus1084.qmd>) A goat in a kitchen garden (AC)
+* [timus1098](<timus1098.qmd>) Questions (AC)
+* [timus1106](<timus1106.qmd>) Two Teams
+* [timus1110](<timus1110.qmd>) Power
+* [timus1180](<timus1180.qmd>) A Stone Game (AC)
+* [timus1200](<timus1200.qmd>) Horns and Hoofs
+* [timus1206](<timus1206.qmd>) Sum of digits
+* [timus1209](<timus1209.qmd>) 1, 10, 100, 1000... (AC)
+* [timus1220](<timus1220.qmd>) Stacks
+* [timus1225](<timus1225.qmd>) Flags
+* [timus1302](<timus1302.qmd>) Delta-wave
+* [timus1313](<timus1313.qmd>) Some words about sport
+* [timus1385](<timus1385.qmd>) Interesting Number
+
+#### HDU
+
+以下是杭州电子科技大学判题系统 http://acm.hdu.edu.cn/ 上的一些题目和它们的参考解答

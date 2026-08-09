@@ -1,0 +1,49 @@
+---
+title: "timus1225"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Flags
+
+http://acm.timus.ru/problem.aspx?space=1&num=1225
+
+Time Limit: 1.0 second
+
+Memory Limit: 1 000 KB
+
+On the Day of the Flag of Russia a shop-owner decided to decorate the show-window of his shop with textile stripes of white, blue and red colors. He wants to satisfy the following conditions:
+
+1. Stripes of the same color cannot be placed next to each other.
+1. A blue stripe must always be placed between a white and a red or between a red and a white one.
+
+Determine the number of the ways to fulfill his wish.
+
+Example. For n=3 result is following:
+
+![1225.gif](<assets/timus1225/1225.gif>)
+
+### Input
+
+n – the number of the stripes, 1 <= n <= 45.
+
+### Output
+
+m – the number of the ways to decorate the shop-window.
+
+### Sample Input
+
+3
+
+### Sample Output
+
+4
+
+Problem Source: 2002-2003 ACM Central Region of Russia Quarterfinal Programming Contest, Rybinsk, October 2002
+------

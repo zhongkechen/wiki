@@ -1,0 +1,93 @@
+---
+title: "hdu1297 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu1297  递推求解 大整数
+ymc 2008/9/24
+
+题目大意：
+有n个人站成一列，但是含单个女的队列是不合法的。总共有多少种
+合法的队列。F表示男的，M表示女的。
+分析与解题思路
+设：F(n)表示n个人的合法队列，则：
+按照最后一个人的性别分析，他要么是男，要么是女，
+所以可以分两大类讨论：
+1、如果n个人的合法队列的最后一个人是男，
+则对前面n-1个人的队列没有任何限制，他只要站在最后即可，
+所以，这种情况一共有F(n-1);
+2、如果n个人的合法队列的最后一个人是女，
+则要求队列的第n-1个人务必也是女生，
+这就是说，限定了最后两个人必须都是女生，这又可以分两种情况：
+1)去掉最后两个女的后，剩下的队列是合法队列，则有F(n-2)种
+2) 去掉最后两个女的后，剩下的队列是不合法的，则该不合法队列
+最后两个肯定是FM，有F(n-4)种。
+注意：大整数
+*/
+#include <iostream>
+using namespace std;
+const int N=1001;
+const int M=100;
+const int Max=100000000;//每一段存8位
+struct Big
+{
+    int s[M];
+    int len;
+};
+Big f[N];
+void Add(Big &a,Big &b,Big &c,Big &d)
+{
+    d.len=a.len;
+    int t=0;
+    for(int i=0;i<d.len;i++)
+    {
+        t+=a.s[i]+b.s[i]+c.s[i];
+        d.s[i]=t%Max;
+        t=t/Max;
+    }
+    if(t>0)
+    {
+        d.s[d.len]=t;
+        d.len++;
+    }
+}
+void OutPut(Big &a)
+{
+    int i=a.len-1;
+    printf("%d",a.s[i]);
+    for(i=a.len-2;i>=0;i--)
+        printf("%08d",a.s[i]);
+    printf("\n");
+}
+void Init()
+{
+    f[0].s[0]=1;f[0].len=1;
+    f[1].s[0]=1;f[1].len=1;
+    f[2].s[0]=2;f[2].len=1;
+    f[3].s[0]=4;f[3].len=1;
+    for(int i=4;i<N;i++)
+    {
+        Add(f[i-1],f[i-2],f[i-4],f[i]);
+    }
+
+}
+
+int main()
+{
+    int n;
+    Init();
+    while(scanf("%d",&n)!=EOF)
+    {
+        OutPut(f[n]);
+    }
+}
+```

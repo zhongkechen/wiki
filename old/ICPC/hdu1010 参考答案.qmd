@@ -1,0 +1,118 @@
+---
+title: "hdu1010 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1010  DFS+剪枝
+ymc 2008/09/16
+
+题目大意：
+在n×m的地图上，一直从位置S出发，是否能恰好在t时刻到D。
+X代表墙，.代表空地。所有空地只能走一次。
+分析与解题思路：
+从S出发，DFS搜索D。但是容易TLE
+剪枝条件：
+1.奇偶性：给地图上黑白色，相邻的上不同颜色。没走一步颜色变化一次。
+所以S与D的坐标距离（x之差＋y之差）与t的奇偶性不一致是，必定无解。
+2.所有能走的格子个数如果小于t，必定无解。
+3.DFS(x,y,k)，为当前位置为(x,y),时间为k时的状态。
+则(x,y)与D的坐标距离大于t-k或者奇偶性步一致时，剪枝。
+*/
+#include <iostream>
+#include <queue>
+#include <cmath>
+using namespace std;
+const int N=10;
+char map[N][N];
+int n,m,t;
+int step[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
+int sx,sy,ex,ey;
+bool ans;
+int num;
+int dist[N][N];
+void Init()
+{
+    num=0;
+    for(int i=0;i<n;i++)
+        for(int j=0;j<m;j++)
+        {
+            if(map[i][j]=='S')
+            {
+                sx=i;sy=j;
+                map[i][j]='.';
+            }
+            else if(map[i][j]=='D')
+            {
+                ex=i;ey=j;
+                map[i][j]='.';
+            }
+            else if(map[i][j]=='X')
+                num++;
+        }
+    num=n*m-num-1;
+    ans=false;
+}
+
+void DFS(int x,int y,int k)
+{
+    if(k>t) return;
+    if(k==t&&x==ex&&y==ey)
+    {
+        ans=true;
+        return;
+    }
+    if(ans==true)
+        return;
+    int tmp=t-k-abs(ex-x)-abs(ey-y);
+    if(tmp<0||tmp%2==1) //剪枝，关键，距离与奇偶性
+        return;
+    int x1,y1;
+    for(int i=0;i<4;i++)
+    {
+        x1=x+step[i][0];
+        y1=y+step[i][1];
+        if(x1<0||x1>=n||y1<0||y1>=m||map[x1][y1]=='X')
+            continue;
+        map[x][y]='X';
+        DFS(x1,y1,k+1);
+        map[x][y]='.';
+
+    }
+}
+void Solve()
+{
+    int dx,dy;
+    dx=abs(sx-ex);
+    dy=abs(sy-ey);
+    if((dx+dy-t)%2==1)
+        return;
+    if(num<t)
+        return;
+    DFS(sx,sy,0);
+}
+int main()
+{
+    while(scanf("%d %d %d",&n,&m,&t))
+    {
+        if(n==0&&m==0&&t==0) break;
+        memset(map,'X',sizeof(map));
+        for(int i=0;i<n;i++)
+            scanf("%s",map[i]);
+        Init();
+        Solve();
+        if(ans==true)
+            printf("YES\n");
+        else
+            printf("NO\n");
+    }
+}
+```

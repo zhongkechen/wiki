@@ -1,0 +1,27 @@
+---
+title: "hdu2002"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## 计算球体积
+
+http://acm.hdu.edu.cn/showproblem.php?pid=2002
+
+```cpp
+#include <stdio.h>
+
+int main() {
+    double r;
+    while(scanf("%lf", &r) != EOF)
+        printf("%.3f\n", 4.0/3.0*3.1415927*r*r*r);
+}
+```
+
+注：此题有bug，PI不能取得太精确，否则会WA。

@@ -1,0 +1,179 @@
+---
+title: "zju1094"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Matrix Chain Multiplication
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Matrix multiplication problem is a typical example of dynamical programming.
+Suppose you have to evaluate an expression like A*B*C*D*E where A,B,C,D and E are matrices. Since matrix multiplication is associative, the order in which multiplications are performed is arbitrary. However, the number of elementary multiplications needed strongly depends on the evaluation order you choose.
+
+For example, let A be a 50*10 matrix, B a 10*20 matrix and C a 20*5 matrix.
+There are two different strategies to compute A*B*C, namely (A*B)*C and A*(B*C).
+The first one takes 15000 elementary multiplications, but the second one only 3500.
+Your job is to write a program that determines the number of elementary multiplications needed for a given evaluation strategy.
+
+### Input
+
+Input consists of two parts: a list of matrices and a list of expressions.
+
+The first line of the input file contains one integer n (1 &lt;= n &lt;= 26), representing the number of matrices in the first part. The next n lines each contain one capital letter, specifying the name of the matrix, and two integers, specifying the number of rows and columns of the matrix.
+
+The second part of the input file strictly adheres to the following syntax (given in EBNF):
+
+* Second``Part= Line { Line } <EOF>
+* Line       = Expression <CR>
+* Expression = Matrix | "(" Expression Expression ")"
+* Matrix     = "A" | "B" | "C" | ... | "X" | "Y" | "Z"
+
+### Output
+
+For each expression found in the second part of the input file, print one line containing the word "error" if evaluation of the expression leads to an error due to non-matching matrices. Otherwise print one line containing the number of elementary multiplications needed to evaluate the expression in the way specified by the parentheses.
+
+### Sample Input
+
+```
+9
+A 50 10
+B 10 20
+C 20 5
+D 30 35
+E 35 15
+F 15 5
+G 5 10
+H 10 20
+I 20 25
+A
+B
+C
+(AA)
+(AB)
+(AC)
+(A(BC))
+((AB)C)
+(((((DE)F)G)H)I)
+(D(E(F(G(HI)))))
+((D(EF))((GH)I))
+```
+
+### Sample Output
+
+```
+0
+0
+0
+error
+10000
+error
+3500
+15000
+40500
+47500
+15125
+```
+
+http://acm.zju.edu.cn/show_problem.php?pid=1094
+------
+```cpp
+//2007-01-18 00:18:27 Accepted 1094 C++ 00:00.00 432K
+//writen by 曹高挺
+#include <stdio.h>
+#include <string.h>
+
+struct Mat{
+	int m_x, m_y;
+	Mat operator *(Mat mt){
+		Mat ret;
+		ret.m_x = m_x;
+		ret.m_y = mt.m_y;
+		return ret;
+	}
+};
+
+Mat mat[26];
+char expr[100];
+int len;
+int result;
+
+void GetInfo(){
+	int n;
+	char c;
+	int x, y;
+	scanf("%d", &n);
+	while( n-- ){
+		getchar();
+		scanf("%c %d %d", &c, &x, &y);
+		mat[c-'A'].m_x = x;
+		mat[c-'A'].m_y = y;
+	}
+}
+
+Mat F(int& pos){
+	if( expr[pos]>='A' && expr[pos]<='Z' ){
+		return mat[expr[pos++]-'A'];
+	}
+	pos ++;
+	Mat ret, tem;
+	ret = F(pos);
+	while( expr[pos]!=')' ){
+		tem = F(pos);
+		result += ret.m_x*ret.m_y*tem.m_y;
+		ret = ret*tem;
+	}
+	pos ++;
+	return ret;
+}
+
+bool Check(){
+	Mat* pm;
+	Mat* nextm;
+	int i=0;
+	while(i<len && (expr[i]=='(' || expr[i]==')'))
+		i++;
+
+	pm = &mat[expr[i]-'A'];
+	i++;
+	while( i<len ){
+		while(i<len && (expr[i]=='(' || expr[i]==')')){
+			i++;
+		}
+		if(i<len){
+			nextm = &mat[expr[i]-'A'];
+			i++;
+			if( pm->m_y != nextm->m_x ){
+				return false;
+			}
+			pm = nextm;
+		}
+	}
+	return true;
+}
+
+int main(){
+	int pos;
+	GetInfo();
+	while( scanf("%s", expr)!=EOF ){
+		len = (int)strlen(expr);
+		if( !Check() ){
+			printf("error\n");
+			continue;
+		}
+		pos = 0;
+		result = 0;
+		F(pos);
+		printf("%d\n", result);
+	}
+	return 1;
+}
+```

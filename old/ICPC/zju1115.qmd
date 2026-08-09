@@ -1,0 +1,42 @@
+---
+title: "zju1115"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Digital Roots
+
+http://acm.zju.edu.cn/show_problem.php?pid=1115
+```cpp
+/*written by czk*/
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    while(1) {
+        int sum = 0;
+        char c;
+        while(!isdigit(c=getchar()));
+        if(c=='0') break;
+        while(isdigit(c)) {
+            sum+= (c-'0');
+            c = getchar();
+        }
+        while(sum >= 10) {
+            int temp = sum;
+            sum = 0;
+            while(temp>0) {
+                sum += temp %10;
+                temp /= 10;
+            }
+        }
+        printf("%d\n", sum);
+    }
+}
+```

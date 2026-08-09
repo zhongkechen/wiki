@@ -1,0 +1,41 @@
+---
+title: "hdu2046 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 2046 骨牌铺方格
+ymc 2008/9/23
+
+*/
+#include <iostream>
+using namespace std;
+const int N=61;
+long long F[N];
+
+void Init()
+{
+    F[1]=1;
+    F[2]=2;
+    for(int i=3;i<N;i++)
+        F[i]=F[i-1]+F[i-2];
+}
+
+int main()
+{
+    int n;
+    Init();
+    while(cin>>n)
+    {
+        cout<<F[n]<<endl;
+    }
+}
+```

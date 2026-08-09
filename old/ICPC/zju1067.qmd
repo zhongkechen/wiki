@@ -1,0 +1,17 @@
+---
+title: "zju1067"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+::: {.callout-warning}
+**源页面不可用**
+
+MoinMoin 备份中保留了这个页面名，但没有可读取的当前版本。
+:::

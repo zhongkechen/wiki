@@ -1,0 +1,80 @@
+---
+title: "hdu1558 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1158
+ymc 2008/10/30
+题目大意：
+有一个项目需要n(n<=12)个月完成，每个月需要的人数已经知道。
+另外，雇佣一个人，解雇一个人需要费用，如果雇佣了一个人，
+但是没解雇就要付工资。求完成这个项目的最小费用。
+分析与解题思路：
+题目没有给出人数上限，最不爽这种题目。
+其实人数不超过1k(我用1002过的)。
+f[i][k]表示第i个月有k个人的时候，项目进行到第i个月的最小费用。
+则f[i][k]=min{f[i-1][j]+T+k*salary}
+其中T为从第i-1个月的j个人到第i个月的k个人的雇佣或者解雇费用。
+*/
+#include <iostream>
+#include <limits>
+using namespace std;
+const int N=1002;
+int f[12][N];
+int m[12];
+int hire,salary,fire;
+int n;
+int Max;
+void DP()
+{
+    int t;
+    memset(f,0,sizeof(f));
+    for(int k=m[0];k<=Max;k++)
+        f[0][k]=k*(hire+salary);
+    for(int i=1;i<n;i++)
+    {
+        for(int k=m[i];k<=Max;k++)
+        {
+            f[i][k]=INT_MAX;
+            for(int j=m[i-1];j<=Max;j++)
+            {
+                if(j<k)
+                    t=k*salary+f[i-1][j]+(k-j)*hire;
+                else
+                    t=k*salary+f[i-1][j]+(j-k)*fire;
+                if(f[i][k]>t)
+                    f[i][k]=t;
+            }
+        }
+    }
+    int ans=INT_MAX;
+    for(int k=m[n-1];k<=Max;k++)
+        if(ans>f[n-1][k])
+            ans=f[n-1][k];
+    printf("%d\n",ans);
+}
+int main()
+{
+    while(scanf("%d",&n),n)
+    {
+        scanf("%d %d %d",&hire,&salary,&fire);
+        Max=0;
+        for(int i=0;i<n;i++)
+        {
+            scanf("%d",&m[i]);
+            if(m[i]>Max)
+                Max=m[i];
+        }
+        DP();
+    }
+}
+```

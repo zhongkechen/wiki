@@ -1,0 +1,109 @@
+---
+title: "hdu1238 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+zju1374 hdu1238 暴力搜索
+ymc 2008/6/19
+题目大意：
+给定n个字符串，求长度最长的一个串s，
+使得s或者s的逆串是所有串的子串。
+注意：子串与子序列的区别。
+解题思路：
+找n个字符串中最短的字符串，然后暴力搜索
+*/
+#include <iostream>
+#include <string>
+using namespace std;
+const int N=101;
+char s[N][N];
+int n;
+int id,len;//保存n个字符串中，最短字符串的索引号与长度
+
+//最短串从start开始，长度为len的子串，第k个字符串中，是否能与这个子串匹配
+bool Match1(int start,int len,int begin,int k)
+{
+    int i=0;
+    while(i<len)//顺序匹配
+    {
+        if(s[id][start+i]!=s[k][begin+i])
+            break;
+        i++;
+    }
+    if(i>=len)
+        return true;
+    i=0;
+    int end=begin+len-1;
+    while(i<len) //逆序匹配
+    {
+        if(s[id][start+i]!=s[k][end-i])
+            break;
+        i++;
+    }
+    if(i>=len)
+        return true;
+    return false;
+}
+
+//其它所有串中，是否能与最短串从start开始，长度为len的子串匹配
+bool Match(int start,int len)
+{
+    int tmp;
+    bool find;
+    for(int k=0;k<n;k++)
+    {
+        find=false;
+        tmp=strlen(s[k]);
+        for(int i=0;i<=tmp-k;i++)
+        {
+            if(Match1(start,len,i,k))
+            {
+                find=true;
+                break;
+            }
+        }
+        if(find==false)
+            return false;
+    }
+    return true;
+}
+int Solve()
+{
+    id=0;len=100;
+    for(int i=0;i<n;i++)//找最短串
+        if(strlen(s[i])<len)
+        {
+            len=strlen(s[i]);
+            id=i;
+        }
+    for(int k=len;k>=1;k--)//是否有长度为k的公共串
+        for(int i=0;i<=len-k;i++)
+            if(Match(i,k))
+                return k;
+    return 0;
+}
+int main()
+{
+    int test;
+    scanf("%d",&test);
+    while(test-->0)
+    {
+        scanf("%d",&n);
+        for(int i=0;i<n;i++)
+        {
+            scanf("%s",s[i]);
+        }
+        int ans=Solve();
+        printf("%d\n",ans);
+    }
+}
+```

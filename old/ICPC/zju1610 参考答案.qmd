@@ -1,0 +1,190 @@
+---
+title: "zju1610 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+ymc 2009/4/8 线段树
+zju 1610
+题目大意：
+在x轴上，每次在某一个区间画一种颜色，求最后每种颜色的
+选段要多少条。
+l[i],r[i],c[i]表示在区间[l[i],r[i]]上画颜色c[i]
+（颜色保存的时候保存c[i]+1，因为会出现0号颜色，但是
+线段树中用0表示背景色）
+用Left,Right记录最左边的左边和最右边的坐标
+用Left_c,Right_c记录最小的颜色和最大的颜色
+flag[i]记录第i号颜色的线段数。
+*/
+
+#include <iostream>
+#include <limits>
+using namespace std;
+const int N=20000;
+int tree[N];
+int l[N],r[N],c[N];
+int flag[N];
+int n;
+int Left,Right,Left_c,Right_c;;
+void Init()
+{
+    Left=INT_MAX;
+    Right=INT_MIN;
+    Left_c=INT_MAX;
+    Right_c=INT_MIN;
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d %d %d",&l[i],&r[i],&c[i]);
+        if(l[i]<Left)
+            Left=l[i];
+        if(r[i]>Right)
+            Right=r[i];
+        c[i]++;
+        if(c[i]<Left_c)
+            Left_c=c[i];
+        if(c[i]>Right_c)
+            Right_c=c[i];
+    }
+    for(int k=1;k<=2*(Right-Left);k++)
+        tree[k]=0;//0为初始颜色即背景颜色
+    for(int k=Left_c;k<=Right_c;k++)
+        flag[k]=0;//所有颜色的线段数初始为0
+}
+
+/*
+在以tree[k]为树根的线段树(代表的区间为[l,r])上
+在区间[a,b]颜色c
+*/
+void Insert(int k,int l,int r,int a,int b,int c)
+{
+    if(tree[k]==c)//已经有的颜色要要画的颜色相同
+        return;
+    if(l==a&&r==b)//正好画满整个线段树
+    {
+        tree[k]=c;
+        return;
+    }
+    if(tree[k]>=0)//[l,r]上已有一种颜色，则上色后有多种颜色
+    {
+        tree[2*k]=tree[k];
+        tree[2*k+1]=tree[k];
+        tree[k]=-1;//-1表示该区间有多种颜色
+    }
+    int m=(l+r)/2;
+    if(b<=m)//左儿子上色
+        Insert(2*k,l,m,a,b,c);
+    else if(m<=a)//右儿子上色
+        Insert(2*k+1,m,r,a,b,c);
+    else//左右儿子均上色
+    {
+        Insert(2*k,l,m,a,m,c);
+        Insert(2*k+1,m,r,m,b,c);
+    }
+}
+/*
+在以tree[k]为树根的线段树[l,r]上统计不同颜色的线段数
+lc，rc为[l,r]上左右端点的颜色
+*/
+void Count(int k,int l,int r,int &lc,int &rc)
+{
+    if(tree[k]>=0)//[l,r]上颜色单一
+    {
+        lc=tree[k];//父节点需要知道
+        rc=tree[k];
+        flag[tree[k]]++;
+        return ;
+    }
+    if(l>=r)    return;
+    int tl,tr;
+    Count(2*k,l,(l+r)/2,lc,tl);//统计左儿子
+    Count(2*k+1,(l+r)/2,r,tr,rc);//统计右儿子
+    if(tl==tr)//左儿子的最右线段与右儿子的最左线段同色
+        flag[tl]--;
+}
+void Solve()
+{
+    for(int i=0;i<n;i++)
+        Insert(1,Left,Right,l[i],r[i],c[i]);
+    int lc,rc;
+    Count(1,Left,Right,lc,rc);
+}
+void OutPut()
+{
+    for(int k=Left_c;k<=Right_c;k++)
+        if(flag[k]>0)
+            printf("%d %d\n",k-1,flag[k]);
+}
+int main()
+{
+   while(scanf("%d",&n)!=EOF)
+   {
+        Init();
+        Solve();
+        OutPut();
+        printf("\n");
+   }
+}
+```
+```cpp
+/*
+1610 Count the Colors
+ymc
+*/
+
+#include <iostream>
+using namespace std;
+const int N=8010;
+struct Point
+{
+    int e;
+    int s;
+};
+Point a[N];
+int b[N];
+int n;
+
+int main()
+{
+    int c,d,color;
+    while( scanf("%d",&n)!=EOF )
+    {
+        for(int i=0;i<N;i++)
+        {
+            a[i].s=a[i].e=-1;
+            b[i]=0;
+        }
+        for(int i=0;i<n;i++)
+        {
+            scanf("%d %d %d",&c,&d,&color);
+            a[c].s=color;
+            a[d].e=color;
+            for(int k=c+1;k<d;k++)
+                a[k].s=a[k].e=color;
+        }
+        int k;
+        for(int i=0;i<N-1;)
+        {
+            while(a[i].s==-1)
+              i++;
+            k=i;
+            while(k<N&&a[k].s==a[i].s)
+                k++;
+            if(k>=N) break;
+            b[a[i].s]++;
+            i=k;
+        }
+        for(int i=0;i<N;i++)
+            if(b[i]>0)
+                printf("%d %d\n",i,b[i]);
+			printf("\n");
+    }
+}
+```

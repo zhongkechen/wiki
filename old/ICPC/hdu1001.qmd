@@ -1,0 +1,29 @@
+---
+title: "hdu1001"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Sum Problem
+
+http://acm.hdu.edu.cn/showproblem.php?pid=1001
+
+```cpp
+/*written by czk*/
+#include <stdio.h>
+
+int main() {
+    int n;
+    while(scanf("%d", &n) != EOF)
+        if(n%2)
+            printf("%d\n\n", (n+1)/2*n);
+        else
+            printf("%d\n\n", n/2*(n+1));
+}
+```

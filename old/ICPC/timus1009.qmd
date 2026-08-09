@@ -1,0 +1,55 @@
+---
+title: "timus1009"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## K-based numbers
+
+http://acm.timus.ru/problem.aspx?space=1&num=1009
+
+Time Limit: 1.0 second
+
+Memory Limit: 1 000 KB
+
+Let's consider K-based numbers, containing exactly N digits. We define a number to be valid if its K-based notation doesn't contain two successful zeroes.
+
+Example:
+
+```
+1010230 is a valid 7-digit number
+1000198 is not a valid number
+0001235 is not a 7-digit number, it is a 4-digit number.
+```
+Given two numbers N and K, you are to calculate an amount of valid K based numbers, contaning N digits.
+
+You may assume that 2 <= K <= 10; 2 <= N; 4 <= N+K <= 18.
+
+### Input
+
+two decimal numbers N and K
+
+### Output
+
+The result in decimal notation.
+
+### Sample Input
+
+```
+2
+10
+```
+
+### Sample Output
+
+```
+90
+```
+
+------

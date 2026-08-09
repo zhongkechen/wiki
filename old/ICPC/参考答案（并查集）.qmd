@@ -1,0 +1,103 @@
+---
+title: "参考答案（并查集）"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+//hdu 1198 并查集
+//2009年5月20日16:50:13
+//题目大意：一块地需要浇水，而每块的都又16种不同的土地浇灌系统中的多块组成
+//          求不同种组合的浇灌系统组成的地需要多少个浇水机才能浇灌完成
+//解题思路：我使用的是并查集的方法，首先用一个一维数组begning[]来存储输入进来的farm样式
+//          再用farm[i][4]来表示这块地左上右下的联通情况，根据这和思想来判断这两块地是否连通
+//          最后用并查集思想来判断整块地被分成了几块！
+//自己出现的问题：我刚开始把begning和map的数组开得太小了
+//by zjd
+
+#include<stdio.h>
+#include<string>
+using namespace std;
+
+int farm[11][4]=
+{//左中右下
+{1,1,0,0},
+{0,1,1,0},
+{1,0,0,1},
+{0,0,1,1},
+{0,1,0,1},
+{1,0,1,0},
+{1,1,1,0},
+{1,1,0,1},
+{1,0,1,1},
+{0,1,1,1},
+{1,1,1,1}
+};
+
+int map[5000];
+int m,n;
+char c;
+int begning[5000];
+
+void Merge(int x,int y){
+	int xx=x;
+	int yy=y;
+	while(map[xx]!=-1){
+		xx=map[xx];
+	}
+	while(map[yy]!=-1){
+		yy=map[yy];
+	}
+
+	int t;
+	int i=x;
+	while(map[i]!=-1){
+		t=map[i];
+		map[i]=xx;
+		i=t;
+	}
+	int j=y;
+	while(map[j]!=-1){
+		t=map[j];
+		map[j]=yy;
+		j=t;
+	}
+	if(yy!=xx){
+		map[yy]=xx;
+	}
+}
+
+int main(){
+	int i,j;
+	while(scanf("%d%d",&m,&n)!=EOF&&(m!=-1&&n!=-1)){
+		getchar();
+		memset(map,-1,sizeof(map));
+		for(i=0;i<m;i++){
+			for(j=0;j<n+1;j++){
+				c=getchar();
+				if(c!='\n')
+					begning[i*n+j]=c-'A';
+			}
+		}
+	for(i=0;i<m*n;i++){
+		if(((i%n)+1)<n&&farm[begning[i]][2]==farm[begning[i+1]][0]&&farm[begning[i]][2]==1)//当这块土地可以和右边那块土地合并时
+			Merge(i,i+1);
+		if((i+n<m*n)&&farm[begning[i]][3]==farm[begning[i+n]][1]&&farm[begning[i]][3]==1)//当这块土地可以和下边那块土地合并时
+			Merge(i,i+n);
+	}
+	int sum=0;
+	for(i=0;i<m*n;i++){
+		if(map[i]==-1)
+		sum++;
+	}
+	printf("%d\n",sum);
+	}
+	return 0;
+}
+```

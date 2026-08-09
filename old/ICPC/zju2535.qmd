@@ -1,0 +1,78 @@
+---
+title: "zju2535"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Ancient Relics
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+An expedition team traveled around the world to find ancient relics. This time they found a mysterious ruin deep in a forest in Africa. There must be treasure in the ruin, but a locked door stopped them. To make their way, they tried to break the door, but obviously it was sealed by ancient spells and immune to physical damages. They were just about to give up when some one in the team found several lines of ancient writings carved on the ground in front of the door. They were sure that the key to the door was encrypted in those lines. Now they are asking for your help.
+
+The first line will be referred to as a query, and words in the query are referred to as keywords. The remaining lines are referred to as the document. The door shall open once you find the "best" set of lines in the document.
+
+Comparing two sets of lines, namely A and B, the following rules apply.
+
+* If A contains more keywords than B, A is better than B;
+* If A and B contain the same number of keywords, we compare the keywords they contain. If A contains a keyword that B does not contain, and this keyword appears earlier in the query than any other keywords B contains while A doesn't, it makes A better;
+* If A and B contain exactly the same set of keywords, the set with less lines is better;
+* If the tie remains, we compare the lines they contain. If A contains a line that B does not contain, and this line appears earlier in the document than any other lines B contain while A doesn't, A is the better one.
+
+### Input
+
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+
+The first line of each test case is a single integer L (1 <= L <= 31), which is the number of lines carved on the ground. The following L lines are translated into English alphabets for you. Each line has zero or more words consisting of letters only (case sensitive) and separated with spaces.
+
+The query will contain no more than 10 keywords. Keywords within a query are unique.
+
+### Output
+
+Results should be directed to standard output. Start each case with "Case #:" on a single line, where # is the case number starting from 1. Two consecutive cases should be separated by a single blank line. No blank line should be produced after the last test case.
+
+Let S be the best set of lines. If S contains at least one line, print all the keywords contained in S on the first line, in their original order in the query. Separate two keywords with a single space, and leave no space at the end of the line. Print all the line numbers S contains on the second line, in ascending order. Separate two line numbers with a single space, and leave no space at the end of the line. The first line number in the document (excluding the query) is 0.
+
+If S contains 0 lines, print the sentence "No keyword is found!" on a single line.
+
+### Sample Input
+
+```
+3
+
+2
+Hello World
+the very first demo in various programming language courses
+
+4
+ACM ICPC
+you are welcome
+you are attending ACM ICPC regional context held by Zhejiang University
+good luck
+
+3
+We are in a good place
+We are in China
+China is a good place
+```
+Sample Output
+```
+Case 1:
+No keyword is found!
+
+Case 2:
+ACM ICPC
+1
+
+Case 3:
+We are in a good place
+0 1
+```

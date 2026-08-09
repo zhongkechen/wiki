@@ -1,0 +1,160 @@
+---
+title: "zju2727"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## List the Books
+
+http://acm.zju.edu.cn/show_problem.php?pid=2727
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Jim is fond of reading books, and he has so many books that sometimes it's hard for him to manage them. So he is asking for your help to solve this problem.
+
+Only interest in the name, press year and price of the book, Jim wants to get a sorted list of his books, according to the sorting criteria.
+
+### Input
+
+The problem consists of multiple test cases.
+
+In the first line of each test case, there's an integer n that specifies the number of books Jim has. n will be a positive integer less than 100. The next n lines give the information of the books in the format Name Year Price. Name will be a string consisting of at most 80 characters from alphabet, Year and Price will be positive integers. Then comes the sorting criteria, which could be Name, Year or Price.
+
+Your task is to give out the book list in ascending order according to the sorting criteria in non-ascendent order.
+
+Note: That Name is the first criteria, Year is the second, and Price the third. It means that if the sorting criteria is Year and you got two books with the same Year, you'd sort them according to their Name. If they equals again, according to their Price. No two books will be same in all the three parameters.
+
+Input will be terminated by a case with n = 0.
+
+### Output
+
+For each test case, output the book list, each book in a line. In each line you should output in the format Name Year Price, the three parameters should be seperated by just ONE space.
+
+You should output a blank line between two test cases.
+
+### Sample Input
+
+```
+3
+LearningGNUEmacs 2003 68
+TheC++StandardLibrary 2002 108
+ArtificialIntelligence 2005 75
+Year
+4
+GhostStory 2001 1
+WuXiaStory 2000 2
+SFStory 1999 10
+WeekEnd 1998 5
+Price
+0
+```
+
+### Sample Output
+
+```
+TheC++StandardLibrary 2002 108
+LearningGNUEmacs 2003 68
+ArtificialIntelligence 2005 75
+
+GhostStory 2001 1
+WuXiaStory 2000 2
+WeekEnd 1998 5
+SFStory 1999 10
+```
+
+Author: DAI, Wenbin
+Problem Source: Zhejiang University Local Contest 2006, Preliminary
+------
+
+```cpp
+/*C version
+Written by czk*/
+#include <stdio.h>
+
+struct book {
+    char name[81];
+    int year;
+    int price;
+} books[100];
+
+int comp_price(struct book w1, struct book w2) {
+    if( w1.price - w2.price !=0)
+        return w1.price-w2.price;
+    else if(strcmp(w1.name, w2.name)!=0)
+        return strcmp(w1.name, w2.name);
+    else
+        return w1.year- w2.year;
+}
+int comp_name(struct book w1, struct book w2) {
+    if(strcmp(w1.name, w2.name)!=0)
+        return strcmp(w1.name, w2.name);
+    else if(w1.year != w2.year)
+        return w1.year- w2.year;
+    else
+        return w1.price - w2.price;
+}
+
+int comp_year(struct book w1, struct book w2) {
+    if(w1.year != w2.year)
+        return w1.year - w2.year;
+    else if(strcmp(w1.name, w2.name)!=0)
+        return strcmp(w1.name, w2.name);
+    else
+        return w1.price - w2.price;
+}
+
+void swap(struct book v[], int i, int j) {
+    struct book temp;
+    temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+
+void qsort2(struct book v[], int left, int right,
+          int (*comp)(struct book, struct book))
+{
+   int i, last;
+
+   if (left >= right)    /* do  nothing if array contains */
+       return;           /* fewer than two elements */
+   swap(v, left, (left + right)/2);
+   last = left;
+   for (i = left+1; i <= right;  i++)
+       if ((*comp)(v[i], v[left]) < 0)
+           swap(v, ++last, i);
+   swap(v, left, last);
+   qsort2(v, left, last-1, comp);
+   qsort2(v, last+1, right, comp);
+}
+int main() {
+    int n;
+    int i;
+    char criteria[10];
+    scanf("%d", &n);
+    while(n!=0) {
+        for(i = 0; i < n; i++)
+            scanf("%s%d%d",books[i].name, &books[i].year, &books[i].price);
+        scanf("%s", criteria);
+        if(strcmp(criteria, "Price")==0)
+            qsort2(books, 0, n-1, comp_price);
+        else if(strcmp(criteria, "Year") == 0)
+            qsort2(books, 0, n-1, comp_year);
+        else if(strcmp(criteria, "Name") == 0)
+            qsort2(books, 0, n-1, comp_name);
+        for(i = 0; i < n; i++)
+            printf("%s %d %d\n", books[i].name,
+                books[i].year, books[i].price);
+        scanf("%d", &n);
+        if(n!=0)
+            printf("\n");
+    }
+}
+```

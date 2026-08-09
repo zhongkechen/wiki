@@ -1,0 +1,103 @@
+---
+title: "zju2105"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Number Sequence
+
+http://acm.zju.edu.cn/show_problem.php?pid=2105
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+A number sequence is defined as follows:
+`f(1) = 1, f(2) = 1, f(n) = (A * f(n - 1) + B * f(n - 2)) mod 7.`
+Given A, B, and n, you are to calculate the value of f(n).
+
+### Input
+
+The input consists of multiple test cases. Each test case contains 3 integers A, B and n on a single line (1 &lt;= A, B &lt;= 1000, 1 &lt;= n &lt;= 100,000,000). Three zeros signal the end of input and this test case is not to be processed.
+
+### Output
+
+For each test case, print the value of f(n) on a single line.
+
+### Sample Input
+
+```
+1 1 3
+1 2 10
+0 0 0
+```
+
+### Sample Output
+
+```
+2
+5
+```
+------
+```cpp
+/*written by proby*/
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+//336 is the LCM of all cases
+vector<int> temList;
+
+int Calc(int a, int b, int n){
+	if(temList[n] >= 0){
+		return temList[n];
+	}
+	if(n==1 || n==2){
+		temList[n]=1;
+		return temList[n];
+	}
+	temList[n] = (a*Calc(a, b, n-1) + b*Calc(a, b, n-2))%7 ;
+	return temList[n];
+}
+
+int MyMod(double n){
+	while(n > 340){
+		n-=336;
+	}
+
+	return int(n);
+}
+
+void MyClear(int& n){
+	n=-1;
+}
+
+void MyPrint(int n){
+	cout<<n<<" ";
+}
+int main(){
+	int a, b, res;
+	double n;
+	cin>>a>>b>>n;
+	while(a!=0){
+		res=MyMod(n);
+		if(temList.capacity() < res+1){
+			//temList.reserve(res+1);
+			temList.resize(res+1);
+		}
+		for_each(temList.begin(), temList.begin()+res+1, MyClear); //"+1" is very necessary
+		cout<<Calc(a, b, res)<<endl;
+		//for_each(temList.begin(), temList.begin()+res+1, MyPrint); cout<<endl;
+		cin>>a>>b>>n;
+	}
+	return 1;
+}
+```
+
+------

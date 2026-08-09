@@ -1,0 +1,135 @@
+---
+title: "zju1516参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+zoj 1516 DFS
+ymc 2008/09/13
+题目大意：
+n*m的地图上，有k个黑的单元格。两个连续的白色格子(1×2或者2×1)称为有效的。
+求最多有能得到多少个有效的格子。
+分析与解题思路：
+超出地图边界的一圈全部设为黑色(这样不用考虑越界)。
+有效的格子不是横着的就是竖着的。所有孤立的白色单元格是无效的。直接设置为黑色。
+对每一个白色的单元格，可能有三种情况：
+1）成为有效格子的左边一个
+2）成为有效格子的上边一个
+3）不在任何有效格子中
+注意：右边和下边的情况不用考虑，因为上边和左边对应的另外一个格子就是。
+用DFS搜索
+*/
+#include <iostream>
+using namespace std;
+const int N=102;
+bool map[N][N];
+int n,m;
+int num;
+int step[4][2]={{0,1},{1,0},{0,-1},{-1,0}};
+int ans;
+int Init()
+{
+    scanf("%d %d",&n,&m);
+    if(n==0&&m==0) return 0;
+    memset(map,1,sizeof(map));
+    for(int i=0;i<=n+1;i++)//边界设置
+        map[i][0]=map[i][m+1]=false;
+    for(int j=0;j<=m+1;j++)
+        map[0][j]=map[n+1][j]=false;
+    int x,y;
+    scanf("%d",&num);
+    for(int i=0;i<num;i++)
+    {
+        scanf("%d %d",&x,&y);
+        map[x][y]=false;
+    }
+    bool flag;
+    for(int i=1;i<=n;i++)//孤立白色单元格直接设置为黑色
+        for(int j=1;j<=m;j++)
+        {
+            if(map[i][j]==false)
+                continue;
+            flag=false;
+            for(int k=0;k<4;k++)
+            {
+                x=i+step[k][0];
+                y=j+step[k][1];
+                if(map[x][y]==true)
+                {
+                    flag=true;
+                    break;
+                }
+            }
+            if(flag==false)
+            {
+                map[x][y]=false;
+                num++;
+            }
+        }
+    num=n*m-num;//num为白色单元格个数
+    ans=0;
+    return 1;
+}
+void DFS(int d)//寻找第d+1个有效格子,即一级成功找到d个有效格子的情况下，寻找下一个
+{
+    if(d>ans)
+        ans=d;
+    if(d+num/2<=ans)//剪枝
+        return;
+    int x=-1,y;
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=m;j++)
+        {
+            if(map[i][j]&&(map[i+1][j]||map[i][j+1]))
+            {
+                x=i;
+                y=j;
+                i=n+1;
+                j=m+1;
+            }
+        }
+        if(x==-1)//没有有效格子了
+            return;
+        if(map[x][y]&&map[x+1][y])//竖着放
+        {
+            map[x][y]=false;
+            map[x+1][y]=false;
+            num-=2;
+            DFS(d+1);
+            num+=2;
+            map[x][y]=true;
+            map[x+1][y]=true;;
+        }
+        if(map[x][y]&&map[x][y+1])//横着放
+        {
+            map[x][y]=false;
+            map[x][y+1]=false;
+            num-=2;
+            DFS(d+1);
+            num+=2;
+            map[x][y]=true;
+            map[x][y+1]=true;;
+        }
+        map[x][y]=false;//当前的白色单元格不属于任何有效格子
+        num--;
+        DFS(d);
+        map[x][y]=true;
+        num++;
+}
+int main()
+{
+    while(Init())
+    {
+        DFS(0);
+        printf("%d\n",ans);
+    }
+}
+```

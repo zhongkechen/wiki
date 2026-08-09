@@ -34,6 +34,8 @@ project:
     - old/面向对象程序设计课程/*.qmd
     - old/Linux.qmd
     - old/Linux/*.qmd
+    - old/ICPC.qmd
+    - old/ICPC/*.qmd
   resources:
     - CNAME
 

@@ -1,0 +1,122 @@
+---
+title: "timus1098"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Questions
+
+http://acm.timus.ru/problem.aspx?space=1&num=1098
+
+Time Limit: 1.0 second
+
+Memory Limit: 1 000 КБ
+
+Holding a collegiate programming contest is a very exhausting work. There is a well-known proverb that one fool can ask so many questions that a hundred clever men will not answer. And during a collegiate programming contest questions are asked by one hundred clever people.
+
+The jury of the Third Urals Collegiate Programming Contest being clever enough has found a simple way to make its work easier. We have invented a simple algorithm that will help us answer ALL your numerous questions! Moreover, this algorithm guarantees that the same questions will have the same answers (this would be hardly possible, if we would undertook such a task ourselves). According to this algorithm a member of the jury starts to delete characters of the question in the following order:
+
+1. Starting from the first character he or she counts out N-1 characters (spaces, punctuation marks etc. are considered to be characters too) and deletes the Nth character.
+1. If a string ends the count continues from the beginning of the string.
+1. After deleting a character the count restarts from the character that would be the (N+1)-st in the previous count.
+1. If the last remaining character is a question-mark ("?") then the answer to the question is "Yes". If it is a space then the answer is "No". Any other character will lead to "No comments" answer.
+
+You should help the jury and write a program that will do a hard work of answering your questions tomorrow. The number N is secret and will not be announced even after the end of the contest. Your program should use N=1999.
+For example, taking a string "Is it a good question?" (its length is 22) the characters will be counted in the following way: "Is it a good question?Is it ... quest" and "i" will be deleted. Then the count restarts from "on?Is it..." etc., until "s" will be left (thus the answer is "No comments", as usual).
+
+### Input
+
+The input is a question, that is any text file containing at least one character (end of line is not a character). Each character of the input (excepting the ends of lines) is a part of the question. You should read question from input.
+
+The size of the input is not more than 30000.
+
+### Output
+
+The answer.
+
+### Sample Input
+
+#### Sample input #1
+
+```
+Does the jury of this programming contest use the
+algorithm described in this problem to answer my questions?
+```
+
+#### Sample input #2
+
+```
+At least, will anybody READ my question?
+```
+
+#### Sample input #3
+
+```
+This is
+UNFAIR!
+```
+
+### Sample Output
+
+#### Sample output #1
+
+```
+Yes
+```
+
+#### Sample output #2
+
+No
+
+#### Sample output #3
+
+No comments
+Hint
+
+There are no spaces in the sample inputs except for those between words in one line. Thus the first question contain 108 characters, the second - 40 and the third - 14.
+
+Problem Author: Vasiljev S.
+
+Problem Source: This problem was offered to participants of the Third Urals Collegaite Programming Contest at the trial tour, the day before main contest
+
+------
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <string>
+#include <stack>
+using namespace std;
+
+int main() {
+	string question;
+	while(!cin.eof()) {
+		string temp;
+		getline(cin, temp);
+		question += temp;
+	}
+	stack<int> del_position;
+	int last_position = 0;
+	for(int length = question.length(); length > 1; --length) {
+		last_position = (last_position + 1998) % length;
+		del_position.push(last_position);
+	}
+	last_position = 0;
+	while(!del_position.empty()) {
+		if(del_position.top() <= last_position)
+			last_position++;
+		del_position.pop();
+	}
+	if(question[last_position] == '?')
+		cout <<"Yes";
+	else if(question[last_position] == ' ')
+		cout << "No";
+	else
+		cout <<"No comments";
+}
+```

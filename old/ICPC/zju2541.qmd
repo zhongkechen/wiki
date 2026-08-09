@@ -1,0 +1,162 @@
+---
+title: "zju2541"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Goods Transportation
+
+http://acm.zju.edu.cn/show_problem.php?pid=2541
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+The transportation problem is to minimize the cost of transporting good from m source nodes to n destination nodes through arcs. Arcs are directed routes from source to destination which have no capacity limitation, but there is a cost associated with each arc for each unit of goods transported through. Each source has a supply amount, and each destination has a demand amount.
+
+In this problem, the source nodes are numbered from 1 to m, and the destination nodes are numbered from 1 to n. There is one arc between each pair of the source node and the destination node. The cost of the arc originated from source node a (1 <= a <= m) to destination node b (1 <= b <= n) is a + b. The supply for each source nodes and the demand for each destination node are also given. You are going to calculate the maximal possible amount of goods that can be transported from source to destination, and also the minimized cost to achieve that goal.
+
+### Input
+
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+
+For each case, the numbers of source and destination nodes, m (1 <= m <= 10,000) and n (1 <= n <= 10,000), are given in the first line. The next line contains m integers, which are the supply amounts for each source, and the next line n integers, which are the demand amounts of each destination. All supply and demand amounts are non-negative numbers less than or equal to 10,000.
+
+### Output
+
+Results should be directed to standard output. Start each case with "Case #:" on a single line, where # is the case number starting from 1. Two consecutive cases should be separated by a single blank line. No blank line should be produced after the last test case.
+
+For each test case print in one line the two integers - the maximal amount of goods that can be transported to destination, and the minimized cost for transporting those goods. Separate them with a single space.
+
+### Sample Input
+
+```
+3
+
+3 4
+2 5 6
+4 3 1 5
+
+1 1
+3
+7
+
+3 2
+1 1 1
+1 1
+```
+
+### Sample Output
+
+```
+Case 1:
+13 63
+
+Case 2:
+3 6
+
+Case 3:
+2 6
+```
+
+------
+```cpp
+//2007-01-10 21:41:40 Accepted 2541 C++ 00:00.05 920K
+//writen by 曹高挺
+//尽量从ID小的源发货，尽量运往ID小的目的地
+#include <iostream>
+using namespace std;
+
+int src[10000];
+int dest[10000];
+
+int main(){
+	int T, k;
+	int nSource, nDest;
+	long long nTotal;
+	long long nCost;
+	int i, j, tem;
+	bool bb = false;
+	scanf("%d", &T);
+	for(k=1; k<=T; k++){
+		if(bb==false)	bb=true;
+		else			printf("\n");
+
+		scanf("%d %d", &nSource, &nDest);
+		for(i=0; i<nSource; i++){
+			scanf("%d", &tem);
+			src[i] = tem;
+		}
+		for(i=0; i<nDest; i++){
+			scanf("%d", &tem);
+			dest[i] = tem;
+		}
+
+		nTotal = 0;
+		nCost = 0;
+		i = j = 0;
+		while(i<nSource && j<nDest){
+			tem = src[i]<dest[j]?src[i]:dest[j];
+			src[i] -= tem;
+			dest[j] -= tem;
+			nTotal += tem;
+			nCost += (i+j+2)*tem;
+			while( i<nSource && !src[i] )		i++;
+			while( j<nDest && !dest[j] )		j++;
+		}
+		printf("Case %d:\n", k);
+
+		//听说printf输出64位整型会有问题，果然如此
+		//改成cout就AC了
+		cout<<nTotal<<" "<<nCost<<endl;
+	}
+	return 1;
+}
+```
+
+```cpp
+/*贪婪法，Time Limit Exceeded
+written by czk*/
+#include <stdio.h>
+
+int main() {
+    int t;
+    scanf("%d", &t);
+    int src[10000];
+    int dst[10000];
+    for(int j = 0; j < t; j++) {
+        int m, n;
+        scanf("%d%d", &m, &n);
+        for(int i = 0; i < m; i++)
+            scanf("%d", &src[i]);
+        for(int i = 0; i < n; i++)
+            scanf("%d", &dst[i]);
+        int total_good = 0;
+        int total_cost = 0;
+        int upper_i = m+n;
+        for(int i = 2; i <= upper_i; i++) {
+            int total_i = 0;
+            int upper_k = (m < i-1)?m:i-1;
+            for(int k = (i-n>1)?i-n:1; k <= upper_k; k++) {
+                int goods  = (src[k-1]<dst[i-k-1])?src[k-1]:dst[i-k-1];
+                if(goods == 0) continue;
+                src[k-1] -= goods;
+                dst[i-k-1] -= goods;
+                total_i += goods;
+            }
+            total_good += total_i;
+            total_cost += total_i * i;
+        }
+        printf("Case %d:\n", j+1);
+        printf("%d %d\n", total_good, total_cost);
+        if(j != t-1)
+            putchar('\n');
+    }
+}
+```

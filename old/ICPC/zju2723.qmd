@@ -1,0 +1,90 @@
+---
+title: "zju2723"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Semi-Prime
+
+http://acm.zju.edu.cn/show_problem.php?pid=2723
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+**Prime Number Definition**:
+An integer greater than one is called a prime number if its only positive divisors (factors) are one and itself. For instance, 2, 11, 67, 89 are prime numbers but 8, 20, 27 are not.
+
+**Semi-Prime Number Definition**:
+An integer greater than one is called a semi-prime number if it can be decompounded to TWO prime numbers. For example, 6 is a semi-prime number but 12 is not.
+
+Your task is just to determinate whether a given number is a semi-prime number.
+
+### Input
+
+There are several test cases in the input. Each case contains a single integer N (2 <= N <= 1,000,000)
+
+### Output
+
+One line with a single integer for each case. If the number is a semi-prime number, then output "Yes", otherwise "No".
+
+### Sample Input
+
+```
+3
+4
+6
+12
+```
+
+### Sample Output
+
+```
+No
+Yes
+Yes
+No
+```
+
+Author: LIU, Yaoting
+
+Problem Source: Zhejiang University Local Contest 2006, Preliminary
+------
+
+### 参考程序
+
+```cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+bool semiprime(int n)
+{
+     int N=sqrt(float(n));
+     int k=0;
+     for(int i=2;i<=N;i++)
+     {
+             if(n%i==0) k++;
+     }
+     if(k==1) return true;
+     else return false;
+
+ }
+int main()
+{
+    int n;
+
+    while(cin>>n)
+    {
+        if(semiprime(n))
+            cout<<"Yes\n";
+        else
+            cout<<"No\n";
+    }
+}
+```

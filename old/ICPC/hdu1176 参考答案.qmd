@@ -1,0 +1,87 @@
+---
+title: "hdu1176 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu1176 DP：免费馅饼
+ymc 2008/09/22
+题目大意：
+人在一个[0,10]的小径上,天上会掉馅饼。
+总共有n个馅饼，每个馅饼在t时刻掉到x位置。
+初始位置人在x=5位置,人一秒中最多左右移动1的距离。
+求最多能接住多少个馅饼。
+分析与解题思路
+用map[t][x]记录在t时刻掉在x位置的馅饼个数。
+用ans[t][x]记录在t时刻人在x位置的时候最多能接住多少
+个馅饼。
+则在|x-5|<=t时
+ans[t][x]=Max{ans[t-1][x-1],ans[t-1][x],ans[t-1][x+1]}+map[t][x];
+注意：N＝100000时会WA，晕死。
+*/
+#include <iostream>
+#include <cmath>
+using namespace std;
+const int N=100005;
+const int M=11;
+int map[N][M];
+int n;
+int ans[N][M];
+int step[2]={1,-1};
+int mt;
+void DP()
+{
+    int Max;
+    int x1;
+    int MaxOut=0;
+    memset(ans,0,sizeof(ans));
+//    ans[0][5]=map[0][5];
+    for(int t=1;t<=mt;t++)
+    {
+        for(int x=0;x<=10;x++)
+        {
+            if(abs(x-5)>t)
+                continue;
+            Max=ans[t-1][x];
+            for(int k=0;k<2;k++)
+            {
+                x1=x+step[k];
+                if(x1<0||x1>10)
+                    continue;
+                if(Max<ans[t-1][x1])
+                    Max=ans[t-1][x1];
+            }
+            ans[t][x]=Max+map[t][x];
+            if(ans[t][x]>MaxOut)
+                MaxOut=ans[t][x];
+        }
+    }
+
+    printf("%d\n",MaxOut);
+}
+int main()
+{
+    int x,t;
+    while(scanf("%d",&n),n)
+    {
+        memset(map,0,sizeof(map));
+        mt=0;
+        for(int i=0;i<n;i++)
+        {
+            scanf("%d %d",&x,&t);
+            map[t][x]++;
+            if(t>mt)
+                mt=t;
+        }
+        DP();
+    }
+}
+```

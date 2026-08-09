@@ -1,0 +1,63 @@
+---
+title: "timus1084"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## A goat in a kitchen garden
+
+http://acm.timus.ru/problem.aspx?space=1&num=1084
+
+Time Limit: 2.0 second
+
+Memory Limit: 1 000 K
+
+Someone has let a goat in a square kitchen-garden and had bound it to a stake. The stake is driven into the ground in the very midst of the square. The goat is hungry as a hunter and very voracious, and eats everything that can be reached without leaving the square and tearing the roap. What area of the kitchen-garden will be ate round?
+
+### Input
+
+contains lengths of the garden sides and a cord length in meters (natural numbers not exceeding 100, located in one line and separated with a space).
+
+### Output
+
+should contain an area of the kitchen-garden (in square meters to within 3 symbols after a decimal point), ate round by the goat.
+
+### Sample Input
+
+```
+10 6
+```
+
+### Sample Output
+
+```
+95.091
+```
+------
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+
+int main()
+{
+  int n, r;
+  cin >> n >> r;
+  if(n >= 2*r) {
+    cout << fixed <<showpoint << setprecision(3) << 3.14159266*r*r << endl;
+  } else if(n < r *1.41421356237){
+    cout << fixed <<showpoint << setprecision(3) << 1.0*n*n << endl;
+  } else {
+    double theta = acos(n/2.0/r);
+    cout << fixed << showpoint <<setprecision(3) << sin(theta)*r*n*2+r*r*(3.14159266-theta*4) << endl;
+  }
+}
+```

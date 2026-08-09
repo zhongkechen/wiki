@@ -1,0 +1,148 @@
+---
+title: "hdu2059 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+DP
+hdu2059 龟兔赛跑
+ymc 2008/9/23
+题目大意：
+乌龟与兔子赛跑，起点为0，终点为len。
+兔子以恒定的速度vr跑。乌龟骑着电动车。
+电动车的速度为vt1，满电能跑c的距离，一次充电需要t的时间。
+起始状态电动车满电，路上有n个充电点，分别距离起点p1,p2,..,pn。
+求兔子在比赛中能否获胜。
+分析与解题思路：
+重点在于求解乌龟到终点的最短时间。
+把起点和终点作为两个充电点。
+令Time[i]为乌龟到代第i个充电点的最短时间。
+Cap[i]为乌龟最早到代第i个充电点时电动车的最大余量。
+Time[0]=0;Cap[0]=c;
+则Time[i]=Min{Time[j]+Go(j,i)},0<=j<i;
+其中Go(j,i)表示从j个充电点直接到i个充电点的最短时间，
+如果有多个解，要求电动车余量最大。
+
+*/
+#include <iostream>
+#include <limits>
+using namespace std;
+const int N=110;
+double p[N];
+int n;
+double len,c,t;
+double vr,vt1,vt2;
+double Time[N];
+double Cap[N];
+void Init()//把起点和终点看作充电点
+{
+    scanf("%d %lf %lf",&n,&c,&t);
+    scanf("%lf %lf %lf",&vr,&vt1,&vt2);
+    p[0]=0;
+    for(int i=1;i<=n;i++)
+        scanf("%lf",&p[i]);
+    n++;
+    p[n]=len;
+    n++;
+}
+/*
+从第x个充电点直接到第y个充电点，到第y个充电点时的最短时间。
+如果时间相同，电动车余量最大。
+*/
+void Go(int x,int y,double &tt,double &tc)
+{
+    double t1=Time[x];
+    double t2=Time[x];
+    double c1=Cap[x];
+    double c2=Cap[x];
+    double len=p[y]-p[x];
+    //在第x个点不充电直接走
+    if(len<=c1)
+    {
+        t1+=len/vt1;
+        c1-=len;
+    }
+    else
+    {
+        t1+=c1/vt1;
+        len-=c1;
+        t1+=len/vt2;
+        c1=0;
+    }
+
+    //在第x个点充电后再走。
+    t2+=t;
+    c2=c;
+    len=p[y]-p[x];
+    if(len<=c2)
+    {
+        t2+=len/vt1;
+        c2-=len;
+    }
+    else
+    {
+        t2+=c2/vt1;
+        len-=c2;
+        c2=0;
+        t2+=len/vt2;
+    }
+    if(t1<t2||t1==t2&&c1>c2)
+    {
+        tt=t1;
+        tc=c1;
+    }
+    else
+    {
+        tt=t2;
+        tc=c2;
+    }
+}
+
+void DP()
+{
+    memset(Time,0,sizeof(Time));
+    memset(Cap,0,sizeof(Cap));
+    Time[0]=0;
+    Cap[0]=c;
+    double Min,Maxc;
+    double tt,tc;
+    for(int i=1;i<n;i++)
+    {
+        Min=INT_MAX;
+        Maxc=INT_MIN;
+        for(int j=0;j<i;j++)
+        {
+            Go(j,i,tt,tc);
+            if(tt<Min||tt==Min&&tc>Maxc)
+            {
+                Min=tt;
+                Maxc=tc;
+            }
+        }
+        Time[i]=Min;
+        Cap[i]=Maxc;
+    }
+    double t1=len/vr;
+    if(t1<Time[n-1])
+        printf("Good job,rabbit!\n");
+    else
+        printf("What a pity rabbit!\n");
+}
+
+int main()
+{
+    while(scanf("%lf",&len)!=EOF)
+    {
+        Init();
+        DP();
+    }
+}
+```

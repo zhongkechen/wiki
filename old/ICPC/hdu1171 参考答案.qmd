@@ -1,0 +1,71 @@
+---
+title: "hdu1171 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu1171 经典DP:集合划分成两个子集，总和相差最小
+ymc 2008/9/25
+题目大意：
+给定n种设备，每种设备有数量num[i],价值v[i]。
+把这n种设备分成两部分，使得这两部分的价值相差最小。
+差最小。
+分析与解题思路
+参考zju1366。
+令ans[i][j]表示用前i种设备中选若干个设备，总价值不超过j的最大价值。
+则ans[i][j]可能含有k个第i种设备，其中0<=k<=num[i],并且k*v[i]<=j。
+有状态转移方程
+ans[i][j]=max{ans[i-1][j-k*v[i]]+k*v[i]}。
+实现的时候从低向上求。
+*/
+#include <iostream>
+using namespace std;
+const int N=51;
+const int Max=100000;
+int v[N];
+int num[N];
+int n;
+int ans[N][Max];
+void DP(int value)
+{
+    memset(ans,0,sizeof(ans));
+    int t;
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=value;j++)
+            for(int k=0;k<=num[i];k++)
+            {
+                t=j-k*v[i];
+                if(t<0)
+                    break;
+                if(ans[i-1][t]+k*v[i]>ans[i][j])
+                    ans[i][j]=ans[i-1][t]+k*v[i];
+            }
+
+}
+int main()
+{
+    int sum;
+    while(1)
+    {
+        scanf("%d",&n);
+        if(n<0)
+            break;
+        sum=0;
+        for(int i=1;i<=n;i++)
+        {
+            scanf("%d %d",&v[i],&num[i]);
+            sum+=v[i]*num[i];
+        }
+        DP(sum/2);
+        printf("%d %d\n",sum-ans[n][sum/2],ans[n][sum/2]);
+    }
+}
+```

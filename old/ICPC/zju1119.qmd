@@ -1,0 +1,215 @@
+---
+title: "zju1119"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## SPF
+
+http://acm.zju.edu.cn/show_problem.php?pid=1119
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+### Background
+
+Consider the two networks shown below. Assuming that data moves around these networks only between directly connected nodes on a peer-to-peer basis, a failure of a single node, 3, in the network on the left would prevent some of the still available nodes from communicating with each other. Nodes 1 and 2 could still communicate with each other as could nodes 4 and 5, but communication between any other pairs of nodes would no longer be possible.
+
+Node 3 is therefore a Single Point of Failure (SPF) for this network. Strictly, an SPF will be defined as any node that, if unavailable, would prevent at least one pair of available nodes from being able to communicate on what was previously a fully connected network. Note that the network on the right has no such node; there is no SPF in the network. At least two machines must fail before there are any pairs of available nodes which cannot communicate.
+
+![1119.gif](<assets/zju1119/1119.gif>)
+
+### Input
+
+The input will contain the description of several networks. A network description will consist of pairs of integers, one pair per line, that identify connected nodes. Ordering of the pairs is irrelevant; 1 2 and 2 1 specify the same connection. All node numbers will range from 1 to 1000. A line containing a single zero ends the list of connected nodes. An empty network description flags the end of the input. Blank lines in the input file should be ignored.
+
+### Output
+
+For each network in the input, you will output its number in the file, followed by a list of any SPF nodes that exist.
+
+The first network in the file should be identified as “Network #1”, the second as “Network #2”, etc. For each SPF node, output a line, formatted as shown in the examples below, that identifies the node and the number of fully connected subnets that remain when that node fails. If the network has no SPF nodes, simply output the text “No SPF nodes” instead of a list of SPF nodes.
+
+### Sample Input
+
+```
+1 2
+5 4
+3 1
+3 2
+3 4
+3 5
+0
+
+1 2
+2 3
+3 4
+4 5
+5 1
+0
+
+1 2
+2 3
+3 4
+4 6
+6 3
+2 5
+5 1
+0
+
+0
+```
+
+### Sample Output
+
+```
+Network #1
+  SPF node 3 leaves 2 subnets
+
+Network #2
+  No SPF nodes
+
+Network #3
+  SPF node 2 leaves 2 subnets
+  SPF node 3 leaves 2 subnets
+```
+
+Problem Source: Greater New York 2000
+------
+```cpp
+//writen by 曹高挺
+#include <iostream>
+#include <vector>
+#include <list>
+#include <algorithm>
+using namespace std;
+
+typedef struct tagTerminal{
+	int order;		//used in DFS spanning tree
+	list<int> connect;
+	bool visited;
+	int minAncestor;	//this number is the order value of nodes
+	int parent;			//this number is the identifier of nodes
+	//vector<int> child;
+}Terminal;
+
+Terminal TS[1001];
+int record[1001];		//record the child tree number that seprate from mainbody when node i was delete
+int ccc;				//order counter of DFS, count from 1
+
+void MyInsert(list<int>& objList, int num){
+	//this function can be changed to binary search method
+	list<int>::iterator iter;
+	bool bb=true;
+	for(iter=objList.begin(); iter!=objList.end() && bb; iter++){
+		if(num>*iter)	continue;
+		else if(num<*iter){	objList.insert(iter, num);	bb=false;}
+		else /*(num==*iter)*/	return ;
+	}
+	if(bb){
+		objList.push_back(num);
+	}
+}
+
+inline int MinAncestor(list<int>& objList){
+	return objList.front();
+}
+
+inline int MyMin(int a, int b){
+	return a>b?b:a;
+}
+
+void DFS(int parent, int node){
+	TS[node].visited=true;
+	TS[node].order=ccc++;
+	TS[node].parent=parent;
+	TS[node].minAncestor=TS[parent].order;
+	list<int>::iterator cIter;
+	for(cIter=TS[node].connect.begin(); cIter!=TS[node].connect.end(); cIter++){
+		if( !(TS[*cIter].visited) ){
+			DFS(node, *cIter);
+			//TS[node].child.push_back(*cIter);
+		}
+	}
+}
+
+int Check(int node){
+	list<int>::iterator vIter;
+	int rv=TS[node].parent;
+	int curr=rv;
+	for(vIter=TS[node].connect.begin(); vIter!=TS[node].connect.end(); vIter++){
+		if(TS[*vIter].parent==node){
+			//if *vIter is child of node
+			curr=Check(*vIter);
+			if(rv>curr)	rv=curr;
+			if(curr>=TS[node].order){
+				record[node]++;
+			}
+		}
+		else{
+			if(rv>TS[*vIter].order){
+				rv=TS[*vIter].order;
+			}
+		}
+	}
+	return rv;
+}
+
+int main(){
+	int term1, term2;
+	int i;
+	int oneNode;
+	bool bb;
+	bool bc=true;
+	int nCase=0;
+	while(cin>>term1 && term1){
+		cin>>term2;
+		//initialize
+		oneNode=term1;		//use this node to be the initial node of DFS
+		ccc=1;
+		nCase++;
+		fill(record+1, record+1001, 0);
+		record[oneNode]=-1;
+		for(i=1; i<1001; i++){
+			TS[i].connect.clear();
+			//TS[i].child.clear();
+			TS[i].visited=false;
+			TS[i].minAncestor=i;
+			TS[i].parent=i;
+		}
+		//
+		MyInsert(TS[term1].connect, term2);
+		MyInsert(TS[term2].connect, term1);
+		while(cin>>term1 && term1){
+			cin>>term2;
+			MyInsert(TS[term1].connect, term2);
+			MyInsert(TS[term2].connect, term1);
+		}
+		DFS(oneNode, oneNode);
+//		record[oneNode]=TS[oneNode].child.size();
+		Check(oneNode);
+		bb=false;
+		if(bc)	bc=false;
+		else cout<<endl;
+		cout<<"Network #"<<nCase<<endl;
+		for(i=0; i<1001; i++){
+			if(record[i]>=1){
+				cout<<"  SPF node "<<i<<" leaves "<<record[i]+1<<" subnets"<<endl;
+				bb=true;
+			}
+		}
+		if( !bb ){
+			cout<<"  No SPF nodes"<<endl;
+		}
+
+	}//end one case
+
+	return 1;
+}
+```

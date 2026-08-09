@@ -1,0 +1,107 @@
+---
+title: "zju2480"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Simplest Task in Windows
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+A typical windows platform may have several windows on the desktop. A user's operation may be as simple as a single click of the mouse. In the implementation of such a windows platform, one of the simplest tasks would be deciding which window had been clicked.
+
+Given a serial of windows, for each mouse click, decide which window had been clicked. Please notice that windows may overlap, and the window on top would receive the click rather than others. And, we consider a window to be clicked even if the mouse is just on its edge/corner. For the sake of simplicity, we assume that a window will not be activated to the top by any click.
+
+### Input
+
+The first part of input is a serial of windows. First an integer N (1 &lt;= N &lt;= 10) is given, indicating the number of windows. Then N lines follow, each containing four integers, x1, y1, x2, y2, (x1 &lt; x2, y1 &lt; y2) the coordinates of the upper-left and lower-right corners of a window. The windows are given in back-to-front order. N=0 signals the end of input.
+
+The second part of input is a serial of mouse clicks. First an integer M (1 &lt;= M &lt;= 50) is given, indicating the number of mouse clicks. Then M lines follow, each containing two integers, x and y, the coordinates of a mouse click.
+
+### Output
+
+For each mouse click in the input, output a single line containing the index (starting from 0) of the window which receives the click. If there is no such window, output "-1" in a line instead.
+
+### Sample Input
+
+```
+1
+0 0 5 5
+3
+4 1
+5 1
+6 1
+0
+```
+
+### Sample Output
+
+```
+0
+0
+-1
+```
+
+http://acm.zju.edu.cn/show_problem.php?pid=2480
+------
+```cpp
+//writen by 曹高挺
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Window{
+public:
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+public:
+	Window(int a, int b, int c, int d):x1(a), y1(b), x2(c), y2(d){}
+};
+
+vector<Window> winList;
+
+int Check(int x, int y){
+	vector<Window>::reverse_iterator wIter;
+	for(wIter=winList.rbegin(); wIter!=winList.rend(); wIter++){
+		if( x>=(wIter->x1) && x<=(wIter->x2) && y>=(wIter->y1) && y<=(wIter->y2) ){
+			return ( winList.rend()-wIter-1 );
+		}
+	}
+	return -1;
+
+}
+
+int main(){
+	int nWindow, nCase;
+	int i;
+	int tem1, tem2, tem3, tem4;
+	cin>>nWindow;
+	while(nWindow!=0){
+		winList.clear();
+		for(i=0; i<nWindow; i++){
+			//The windows are given in back-to-front order
+			cin>>tem1>>tem2>>tem3>>tem4;
+			winList.push_back( Window(tem1, tem2, tem3, tem4) );
+		}
+		cin>>nCase;
+		for(i=0; i<nCase; i++){
+			cin>>tem1>>tem2;
+			cout<<Check(tem1, tem2)<<endl;
+		}
+
+		cin>>nWindow;
+	}
+
+	return 1;
+}
+```

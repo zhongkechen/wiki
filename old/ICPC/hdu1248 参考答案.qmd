@@ -1,0 +1,81 @@
+---
+title: "hdu1248 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+//732185 2008-07-31 12:03:42 Accepted 1248 0MS 12K 556 B G++ whiteTiger
+#include <stdio.h>
+
+int dp[10001];
+
+int min(int a, int b, int c){
+    if(a > b)    a = b;
+    if(a > c)    a = c;
+    return a;
+}
+
+void init(){
+    int i, p1, p2, p3;
+    int p[3] = {150, 200, 350};
+    for(i = 0; i < 150; i++)
+        dp[i] = i;
+    for(i=150; i< 10001; i++){
+        p1 = p2 = p3 = 9999;
+        p1 = dp[i-p[0]];
+        if(i >= 200)
+            p2 = dp[i-p[1]];
+        if(i >= 350)
+            p3 = dp[i-p[2]];
+        dp[i] = min(p1, p2, p3);
+    }
+}
+
+int main(){
+    init();
+    int N, m;
+    scanf("%d", &N);
+    while(N--){
+        scanf("%d", &m);
+        printf("%d\n", dp[m]);
+    }
+
+    return 0;
+}
+}
+
+/*written by zl  876149 2008-11-05 15:59:37 Accepted 1248 0MS 0K 453 B C++ passing */
+#include<iostream>
+using namespace std;
+int main()
+{
+	int casenum;
+	cin>>casenum;
+	for(int i=0;i<casenum;i++)
+	{
+		int x,y,z,t,number;
+		scanf("%d",&t);
+		number=t;
+		for(x=0;x<=t/350;x++)
+		{
+			for(y=0;y<=t/200;y++)
+			{
+				for(z=0;z<=t/150;z++)
+				{
+					if((t-350*x-200*y-150*z)<0) break;
+					if((t-350*x-200*y-150*z)<number)
+						number=t-350*x-200*y-150*z;
+				}
+			}
+		}
+		printf("%d\n",number);
+	}
+	return 0;
+```

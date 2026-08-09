@@ -1,0 +1,47 @@
+---
+title: "timus1206"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Sum of digits
+
+http://acm.timus.ru/problem.aspx?space=1&num=1206
+
+Time Limit: 1.0 second
+
+Memory Limit: 1 000 KB
+
+Let us denote the sum of digits of the number N by S(N). In this problem, we want you to determine, how often the following equality holds:
+
+S(A+B) = S(A) + S(B)
+
+### Input
+
+The input file contains a single positive integer K, 0 < K <= 50.
+Output
+
+You should output the number of pairs of К-digit numbers A and B to satisfy the above equality. Counting that number you should be aware of the following:
+
+1. Numbers A and B should not have leading zeroes
+1. While counting the total number of pairs, the order of numbers A and B matters, thus, for instance, (12, 26) and (26, 12) are different pairs that satisfy the conditions of the problem.
+
+### Sample Input
+
+2
+
+### Sample Output
+
+1980
+
+Problem Author: Leonid Volkov
+
+Problem Source: USU Internal Contest, March 2002
+
+------

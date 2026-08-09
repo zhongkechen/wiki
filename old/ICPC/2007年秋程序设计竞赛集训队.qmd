@@ -1,0 +1,39 @@
+---
+title: "2007年秋程序设计竞赛集训队"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+准备07年秋ACM ICPC亚洲赛区比赛，成立集训队。集中训练时间，每周日下午2点。
+
+比赛时间：
+
+* 2007年9月29日上午8点：南京赛区 http://icpc07.nuaa.edu.cn/
+* 2007年10月7日下午13点：长春赛区 http://acm.jlu.edu.cn/cc2007/default.htm
+* 2007年10月13日：北京赛区 http://icpc.baylor.edu/icpc/regionals/Beijing07/
+* 2007年10月14日：成都赛区 http://icpc.baylor.edu/icpc/regionals/Chengdu07/
+* 台北赛区 http://icpc.baylor.edu/icpc/regionals/Taipei07/
+* 新加坡赛区 http://icpc.baylor.edu/icpc/regionals/Sing07/
+* 南京赛区现场赛 2007年10月28日 http://icpc07.nuaa.edu.cn/
+
+队员：
+
+* 张丹江 05计本2 13655773638 409380949
+* 陈仲寅 05计本2 13777702156 403719634 czy88840616@163.com
+* 曹高挺 04信电2 13676773829 376712724 caogtaa@gmail.com
+* 叶贤淼 04信电2 13777798963
+* 何梁斌 05信电1 13819747560 312081597
+* 沈知录 05信电1 13868405513 112212545
+* 潘志亮 05信电1 13456026122 289457559
+* 陈哲伟 05信电1 13655773577 363229344
+* 胡盛迭 04瓯计本 13857737487 48971970 wzoot@163.com
+* 洪智妍 04瓯计本 13676748381 119415820 hongzhiyan85@gmail.com
+* 曾宇浩 05瓯计2 13968819476 214217181
+* 陈建培 05瓯计2 13655773561 303994795
+* 期待更多人加入

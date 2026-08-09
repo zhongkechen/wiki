@@ -1,0 +1,39 @@
+---
+title: "hdu2000"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## ASCII码排序
+
+http://acm.hdu.edu.cn/showproblem.php?pid=2000
+
+```cpp
+/*written by czk*/
+#include <stdio.h>
+
+void swap(char *s, int i, int j) {
+    char c = s[i];
+    s[i] = s[j];
+    s[j] = c;
+}
+
+int main() {
+    char a[3];
+    while(scanf("%1s%1s%1s", &a[0], &a[1], &a[2]) != EOF) {
+        if(a[0] > a[1])
+            swap(a, 0, 1);
+        if(a[0] > a[2])
+            swap(a, 0, 2);
+        if(a[1] > a[2])
+            swap(a, 1, 2);
+        printf("%c %c %c\n", a[0], a[1], a[2]);
+    }
+}
+```

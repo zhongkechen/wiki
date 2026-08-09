@@ -1,0 +1,35 @@
+---
+title: "zju1045"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## HangOver
+
+http://acm.zju.edu.cn/show_problem.php?pid=1045
+
+```cpp
+/*written by czk*/
+#include <stdio.h>
+
+int main() {
+    while(1) {
+        double l, t;
+        int i;
+        scanf("%lf", &l);
+        if(l==0.0)
+            break;
+
+        t = 0.0;
+        for(i = 1; t<l ;i++)
+            t += 1.0/(i+1);
+        printf("%d card(s)\n", i-1);
+    }
+}
+```

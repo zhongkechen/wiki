@@ -1,0 +1,89 @@
+---
+title: "hdu1312 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1312 经典：二维BFS
+ymc 2008/09/18
+题目大意：
+在一块矩形地面上铺着n×m的瓷砖，瓷砖有红色与黑色。
+.代表黑色，#代表红色，@为初始人所站立的黑色瓷砖位置。
+人每次可以移动的相邻的黑色瓷砖上，问可达的黑色瓷砖总共
+有多少块。
+分析与解题思路：
+经典BFS
+*/
+#include <iostream>
+#include <queue>
+using namespace std;
+const int N=25;
+char map[N][N];
+bool used[N][N];
+int n,m;
+int sx,sy;
+int step[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
+bool Init()
+{
+    scanf("%d %d",&m,&n);
+    if(n==0&&m==0)
+        return 0;
+    for(int i=0;i<n;i++)
+    {
+        scanf("%s",map[i]);
+        for(int j=0;j<m;j++)
+            if(map[i][j]=='@')
+            {
+                    sx=i;
+                    sy=j;
+            }
+    }
+    return 1;
+}
+int BFS()
+{
+    int ans=1;
+    queue<int> q;
+    memset(used,0,sizeof(used));
+    q.push(sx);
+    q.push(sy);
+    used[sx][sy]=true;
+    int x,y;
+    int x1,y1;
+    while(!q.empty())
+    {
+        x=q.front();q.pop();
+        y=q.front();q.pop();
+        for(int k=0;k<4;k++)
+        {
+            x1=x+step[k][0];
+            y1=y+step[k][1];
+            if(x1<0||x1>=n||y1<0||y1>=m)
+                continue;
+            if(used[x1][y1]||map[x1][y1]=='#')
+                continue;
+            used[x1][y1]=true;
+            q.push(x1),q.push(y1);
+            ans++;
+        }
+    }
+    return ans;
+}
+int main()
+{
+    int ans;
+    while(Init())
+    {
+        ans=BFS();
+        printf("%d\n",ans);
+    }
+}
+```

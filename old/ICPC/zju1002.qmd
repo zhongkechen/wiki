@@ -1,0 +1,133 @@
+---
+title: "zju1002"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Fire Net
+
+http://acm.zju.edu.cn/show_problem.php?pid=1002
+
+Time limit:1 Seconds
+
+Memory limit: 32768K
+
+Suppose that we have a square city with straight streets.  A map of a city is a square board with n rows and n columns, each representing a street or a piece of wall.
+
+A blockhouse is a small castle that has four openings through which to shoot.  The four openings are facing North, East, South, and West, respectively. There will be one machine gun shooting through each opening.
+Here we assume that a bullet is so powerful that it can run across any distance and destroy a blockhouse on its way.  On the other hand, a wall is so strongly built that can stop the bullets.
+
+The goal is to place as <i>many</i> blockhouses in a city as possible so that no two can destroy each other.  A configuration of blockhouses is <B><I>legal</I></B> provided that no two blockhouses are on the same horizontal row or vertical column in a map unless there is at least one wall separating them.  In this problem we will consider small square cities (at most 4x4) that contain walls through which bullets cannot run through.
+
+The following image shows five pictures of the same board.  The first picture is the empty board, the second and third pictures show legal configurations, and the fourth and fifth pictures show illegal configurations. For this board, the maximum number of blockhouses in a legal configuration is 5; the second picture shows one way to do it, but there are several other ways.
+
+![1002.gif](<assets/zju1002/1002.gif>)
+
+Your task is to write a program that, given a description of a map, calculates the maximum number of blockhouses that can be placed in the city in a legal configuration.
+
+The input file contains one or more map descriptions, followed by a line containing the number 0 that signals the end of the file.  Each map description begins with a line containing a positive integer <I>n</I> that is the size of the city; <I>n</I> will be at most 4. The next <I>n</I> lines each describe one row of the map, with a '<TT>.</TT>' indicating an open space and an uppercase '<TT>X</TT>' indicating a wall.  There are no spaces in the input file.
+For each test case, output one line containing the maximum number of blockhouses that can be placed in the city in a legal configuration.
+
+### Sample input
+
+```
+4
+.X..
+....
+XX..
+....
+2
+XX
+.X
+3
+.X.
+X.X
+.X.
+3
+...
+.XX
+.XX
+4
+....
+....
+....
+....
+0
+```
+
+### Sample output
+
+```
+5
+1
+5
+2
+4
+```
+
+------
+
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <vector>
+#include <cctype>
+using namespace std;
+
+typedef vector<char> Vector;
+typedef vector<Vector> Matrix;
+
+int max_num;
+
+void fill_all(Matrix &city, int row, int col, int n)
+{
+    city[row][col] = 'o';
+    for( int i = row+1; i < n && city[i][col] != 'X'; i++) city[i][col] = 'o';
+    for( int i = row-1; i >=0 && city[i][col] != 'X'; i--) city[i][col] = 'o';
+    for( int i = col+1; i < n && city[row][i] != 'X'; i++) city[row][i] = 'o';
+    for( int i = col-1; i >=0 && city[row][i] != 'X'; i--) city[row][i] = 'o';
+}
+
+void DFS(Matrix city, int row, int col, int n, int cur_num) {
+    if(city[row][col] == '.') {
+        fill_all(city, row, col, n);
+        cur_num++;
+        if(cur_num > max_num) max_num = cur_num;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(city[i][j] == '.')
+                    DFS(city, i, j, n, cur_num);
+            }
+        }
+    }
+}
+
+int main()
+{
+    int n;
+    while(1) {
+        cin>>n;
+        max_num = 0;
+        if(n==0) break;
+        Matrix city(n, Vector(n));
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++)
+                while(isspace(city[i][j] = cin.get()));
+        }
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(city[i][j] == '.')
+                    DFS(city, i, j, n, 0);
+            }
+        }
+        cout<<max_num<<endl;
+    }
+    return 0;
+}
+```

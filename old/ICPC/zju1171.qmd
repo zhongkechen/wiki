@@ -1,0 +1,117 @@
+---
+title: "zju1171"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Sorting the Photos
+
+http://acm.zju.edu.cn/show_problem.php?pid=1171
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Imagine you have a pile of 1 <= N <= 10^5 photos. Some of them are faced upwards and the others faced downwards. Your goal is to sort them so all the photos are faced the same direction. The only operation you are allowed to do is to take any amount of the photos from the top into the separate pile, turn that pile upside-down as the whole and put it back over the rest of original pile.
+
+Write the program that calculates the minimum number of such operations needed to complete the sorting goal.
+
+This problem contains multiple test cases!
+
+The first line of a multiple input is an integer N, then a blank line followed by N input blocks. Each input block is in the format indicated in the problem description. There is a blank line between input blocks.
+
+The output format consists of N output blocks. There is a blank line between output blocks.
+
+### Input
+
+First line of the input contains the only number. Then, characters going possibly separated by newline and/or space characters "D" - faced down or "U" - faced up.
+
+### Output
+
+Single integer number - minimal number of flip operations required to sort the photos pile.
+
+### Sample Input
+
+```
+1
+
+5
+UU D
+UU
+```
+
+### Sample Output
+
+```
+2
+```
+------
+```cpp
+/*Time Limit Exceeded
+Written by czk*/
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  int n;
+  cin >> n;
+  for(int i = 0; i < n; i++) {
+    int m;
+    cin >> m;
+    char state = 'N';
+    int flip = 0;
+    for(int j = 0; j < m; j++) {
+      char c;
+      cin >> c;
+      if(state == 'N')
+        state = c;
+      else if(state != c) {
+        state = c;
+        flip++;
+      }
+    }
+    cout << flip << '\n';
+    if( i != n-1)
+      cout << '\n';
+  }
+}
+```
+
+```cpp
+/*Accepted Version
+Written by czk*/
+#include <stdio.h>
+#include <ctype.h>
+
+int main()
+{
+  int n;
+  scanf("%d", &n);
+  for(int i = 0; i < n; i++) {
+    int m;
+    scanf("%d", &m);
+    char state = 'N';
+    int flip = 0;
+    for(int j = 0; j < m; j++) {
+      char c;
+      while(isspace(c=getchar()));
+      if(state == 'N')
+        state = c;
+      else if(state != c) {
+        state = c;
+        flip++;
+      }
+    }
+    printf("%d\n", flip);
+    if( i != n-1)
+      putchar('\n');
+  }
+}
+```

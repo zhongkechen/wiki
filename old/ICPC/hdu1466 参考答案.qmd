@@ -1,0 +1,78 @@
+---
+title: "hdu1466 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1466 DP：计算直线的交点数
+ymc 2008/09/22
+题目大意：
+平面上有n条直线，且无三线共点，问这些直线能有多少种不同交点数。
+比如,如果n=2,则可能的交点数量为0(平行)或者1(不平行)。
+分析与解题思路：
+n条直线的交点数记为ans[n](多个可能的取值)。
+记最后一条直线为p，则与p平行的直线数(包括p本身)有r条(1<=r<=n)
+r=n时，交点数为0。
+1<=r<n时，s=n-r,则交点数为ans[n]=r*s+ans[s]。
+*/
+
+#include <iostream>
+using namespace std;
+const int N=22;
+bool ans[N][N*N];
+
+void Init_n(int n)//n条直线的交点数
+{
+    int tmp;
+    ans[n][0]=true;//n条直线平行，交点数为0
+    for(int r=1;r<n;r++)//有r条与p平行(包括p本身)
+    {
+        int s=n-r;//剩下s条与p不平行
+        tmp=s*(s-1)/2;
+        for(int j=0;j<=tmp;j++)
+        {
+            if(ans[s][j]==false)
+                continue;
+            ans[n][r*s+j]=true;
+        }
+    }
+}
+void Init()
+{
+    memset(ans,0,sizeof(ans));
+    ans[0][0]=true;
+    ans[1][0]=true;
+    ans[2][0]=ans[2][1]=true;
+    for(int n=3;n<N;n++)
+        Init_n(n);
+}
+
+void OutPut(int n)//输出
+{
+    int tmp=n*(n-1)/2;
+    printf("0");
+    for(int i=1;i<=tmp;i++)
+    {
+        if(ans[n][i])
+            printf(" %d",i);
+    }
+    printf("\n");
+}
+int main()
+{
+    Init();
+    int n;
+    while(scanf("%d",&n)!=EOF)
+    {
+        OutPut(n);
+    }
+}
+```

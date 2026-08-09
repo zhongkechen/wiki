@@ -1,0 +1,57 @@
+---
+title: "hdu1087 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1087 DP：严格递增子列最大和
+ymc 2008/09/22
+题目大意：
+给定n个数的一个数列a1,a2,...an
+求a的一个严格递增子列，是的子列的和最大。输出子列的最大和。
+分析与解题思路：
+ans[k]为以a[k]结尾的严格递增子列的最大值。
+则ans[k]=max{ans[i]+a[k]},满足1<=i<k,a[i]<a[k]。
+*/
+#include <iostream>
+using namespace std;
+const int N=1005;
+int a[N];
+int ans[N];
+int n;
+void DP()
+{
+    int Max=0;
+    memset(ans,0,sizeof(ans));
+    for(int k=1;k<=n;k++)
+    {
+        for(int i=0;i<k;i++)
+        {
+            if(a[i]<a[k]&&ans[i]+a[k]>ans[k])
+            {
+                ans[k]=ans[i]+a[k];
+                if(ans[k]>Max)
+                    Max=ans[k];
+            }
+        }
+    }
+    printf("%d\n",Max);
+}
+int main()
+{
+    while(scanf("%d",&n),n)
+    {
+        for(int i=1;i<=n;i++)
+            scanf("%d",&a[i]);
+        DP();
+    }
+}
+```

@@ -1,0 +1,102 @@
+---
+title: "hdu1241 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1241 经典：BFS
+ymc 2008/09/16
+题目大意：
+有n×m的地图上，@代表石油，.代表没有石油，
+相邻的@表示石油属于同一个石油，求总共有多少块石油。
+注意：相邻表示连个格子水平，垂直或者对角相邻。
+分析与解题思路：
+每次先查找一个没有匹配过的@,然后用BFS查找所有与@匹配
+的其它@。
+*/
+#include <iostream>
+#include <queue>
+using namespace std;
+const int N=110;
+char map[N][N];
+bool used[N][N];
+int n,m;
+int step[8][2]={{1,0},{-1,0},{0,1},{0,-1},
+                {1,1},{1,-1},{-1,1},{-1,-1}};
+
+int Init()
+{
+    scanf("%d %d",&n,&m);
+    if(n==0&&m==0)
+        return 0;
+    memset(map,'*',sizeof(map));
+    memset(used,0,sizeof(used));
+    for(int i=0;i<n;i++)
+        scanf("%s",map[i]);
+    return 1;
+}
+bool Find(int &x,int &y)//搜索未匹配的@
+{
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(!used[i][j]&&map[i][j]=='@')
+            {
+                x=i;
+                y=j;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+void BFS(int x,int y)//所有与(x,y)的@属于同一块石油的@匹配
+{
+    queue<int> q;
+    used[x][y]=true;
+    q.push(x);
+    q.push(y);
+    int x1,y1,x2,y2;
+    while(!q.empty())
+    {
+        x1=q.front();q.pop();
+        y1=q.front();q.pop();
+        for(int k=0;k<8;k++)
+        {
+            x2=x1+step[k][0];
+            y2=y1+step[k][1];
+            if(x2<0||x2>=n||y2<0||y2>=m)
+                continue;
+            if(map[x2][y2]=='*'||used[x2][y2]==true)
+                continue;
+            used[x2][y2]=true;
+            q.push(x2);
+            q.push(y2);
+        }
+    }
+}
+int main()
+{
+    int x,y;
+    int ans;
+    while(Init())
+    {
+        ans=0;
+        while(Find(x,y))
+        {
+            BFS(x,y);
+            ans++;
+        }
+        printf("%d\n",ans);
+    }
+}
+```

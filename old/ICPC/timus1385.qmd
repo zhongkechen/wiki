@@ -1,0 +1,53 @@
+---
+title: "timus1385"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Interesting number
+
+http://acm.timus.ru/problem.aspx?space=1&num=1385
+
+Time Limit: 1.0 second
+
+Memory Limit: 1 000 KB
+
+Tyomitch calls the number with 2N digits (without leading zeroes) "interesting", if it's divisible by both the number formed from its first N digits and the number formed from its last N digits. For example, 1020 is "interesting" (divisible by 10 and 20) and 2005 is not. Tyomitch wants to know how many "interesting" 2N-digit numbers exist. You are to help him.
+
+### Input
+
+Input contains an integer N (1 ≤ N ≤ 10000).
+
+### Output
+
+Output the number of "interesting" 2N-digit numbers.
+
+### Sample Input
+
+```
+1
+```
+
+### Sample Output
+
+```
+14
+```
+
+### Hint
+
+```
+11, 12, 15, 22, 24, 33, 36, 44, 48, 55, 66, 77, 88, 99.
+```
+
+Problem Author: Alexander Ipatov
+
+Problem Source: Petrozavodsk summer training camp, August 2005.
+
+------

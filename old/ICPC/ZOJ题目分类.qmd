@@ -1,0 +1,45 @@
+---
+title: "ZOJ题目分类"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+简单题：http://acm.zju.edu.cn/forum/viewtopic.php?t=1060
+
+字符串处理：http://acm.zju.edu.cn/forum/viewtopic.php?t=68
+
+匹配问题：http://acm.zju.edu.cn/forum/viewtopic.php?t=62
+
+模拟类：http://acm.zju.edu.cn/forum/viewtopic.php?t=70
+
+动态规划：http://acm.zju.edu.cn/forum/viewtopic.php?t=69
+
+搜索：http://acm.zju.edu.cn/forum/viewtopic.php?t=67
+
+数论：http://acm.zju.edu.cn/forum/viewtopic.php?t=66
+
+几何：http://acm.zju.edu.cn/forum/viewtopic.php?t=65
+
+树结构：http://acm.zju.edu.cn/forum/viewtopic.php?t=64
+
+图论：http://acm.zju.edu.cn/forum/viewtopic.php?t=63
+
+组合：http://acm.zju.edu.cn/forum/viewtopic.php?t=61
+
+贪婪：http://acm.zju.edu.cn/forum/viewtopic.php?t=60
+
+最短路径：http://acm.zju.edu.cn/forum/viewtopic.php?t=59
+
+游戏理论：http://acm.zju.edu.cn/forum/viewtopic.php?t=58
+
+抽象结构：http://acm.zju.edu.cn/forum/viewtopic.php?t=57
+
+最大流：http://acm.zju.edu.cn/forum/viewtopic.php?t=56
+
+其他：http://acm.zju.edu.cn/forum/viewtopic.php?t=55

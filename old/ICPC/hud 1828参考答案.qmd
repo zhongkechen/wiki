@@ -1,0 +1,226 @@
+---
+title: "hud 1828参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+ymc 2009/4/9
+hdu 1828 picture 线段树
+参考99年国家队IOI论文集
+题目大意：
+给定n个边与坐标轴平行的矩形，求这些矩形的覆盖的形状的周长。
+思想：
+把所有矩形的左右边按x轴坐标从小大大排列，并且标记是左边还是右边，存在line[]中。
+扫描矩形的所有y坐标，排列，按照这些y坐标切割y轴，得到2*n-1条线段，存在y[]中，
+用这2*n-1条线段建立线段树，跟节点为tree[1]。
+扫描矩形的所有x坐标，排列。放在x[1]到x[2n-1]，
+并且x[0]=x[1](计算时不用考虑第一次特殊情况)。
+扫描line[]，如果line[i]为左边，则插入线段树，否则从线段树中删除。
+插入算法：线段line[i]插入到tree[p]中
+如果line[i]完全覆盖tree[p]，插入到tree[p]的树根。
+再考虑插入到tree[p]的左子树与右子树。
+同时记录tree[p]的跟节点需要更新(update=false)
+
+删除算法：从tree[p]中删除line[i]
+如果tree[p]完全被line[i]覆盖，从树根中删除。
+再考虑从左子树与又子树中删除。
+同时记录跟节点需要更新。
+
+更新算法：更新树tree[p]
+若tree被完全覆盖(count>0)
+则 len=tree[p]的代表的线段的长度
+   左右端点都被覆盖（父节点可能要用到这个信息）
+   包含的线段数lines为1。
+否则
+   len=左子树的len+又子树的len
+   左右端点的覆盖情况要看左子树的左端点和右子树的右端点。
+   包含的线段数lines为左子树和右子树的线段之和。（考虑中间的两段是否合成一段）
+
+初始ans=0（周长）;
+每次插入或者删除线段line[i]时，同时计算ans的增长。具体如下：
+ans+=tree[1].lines*2*(x[i+1]-x[i1])
+ans+=2*(更新信息前后，tree[1]中测度差的绝对值)
+*/
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+const int N=20000;
+struct Line //表示平行与y轴的边
+{
+    int y1,y2;
+    int x;
+    bool left;//是否为矩形的左边
+    bool operator <(const Line t) const
+    {
+        return x<t.x;
+    }
+};
+struct Node//线段树的节点
+{
+//    int l,r;
+    int count;  //节点是被线段完全覆盖的次数
+    int len; //节点上线段的测度
+    int lines; //节点上所包含的线段的段数
+    int lcover,rcover; //节点的左右端点是否被覆盖
+    bool update; //节点是否更新过
+};
+Node tree[4*N];
+Line line[2*N];
+int x[2*N],y[2*N];//x，y轴上的分割点，
+int n;
+void Build(int p,int left,int right)//left，right为y轴上分割点的下标
+{
+    tree[p].count=0;
+    tree[p].len=0;
+    tree[p].lines=0;
+    tree[p].lcover=0;
+    tree[p].rcover=0;
+    tree[p].update=true;
+    if(left==right-1)//叶节点
+        return;
+    int m=(left+right)/2;
+    Build(2*p,left,m);
+    Build(2*p+1,m,right);
+}
+void Insert(int p,int l,int r,int y1,int y2)
+{
+    if(y1<=y[l]&&y[r]<=y2)//覆盖整个树p
+    {
+        tree[p].count++;
+        tree[p].update=false;
+        //return; 这里不能返回，不然WA
+    }
+    if(l==r-1)
+        return;
+    int m=(l+r)/2;
+    if(y1<y[m])//插入到左子树
+    {
+        tree[p].update=false;
+        Insert(2*p,l,m,y1,y2);
+    }
+    if(y[m]<y2)//插入到右子树
+    {
+        tree[p].update=false;
+        Insert(2*p+1,m,r,y1,y2);
+    }
+}
+void Delete(int p,int l,int r,int y1,int y2)
+{
+    if(y1<=y[l]&&y[r]<=y2)//从跟中删除
+    {
+        tree[p].count--;
+        tree[p].update=false;
+        //return;  这里不能返回，不然WA
+    }
+    if(l==r-1)
+        return;
+    int m=(l+r)/2;
+    if(y1<y[m])//从左子树中删除
+    {
+        tree[p].update=false;
+        Delete(2*p,l,m,y1,y2);
+    }
+    if(y[m]<y2)//从右子树中删除
+    {
+        tree[p].update=false;
+        Delete(2*p+1,m,r,y1,y2);
+    }
+}
+void Update(int p,int l,int r)
+{
+    if(tree[p].update)//剪枝，不然TLE
+        return;
+    if(tree[p].count>0)//被完全覆盖
+    {
+        tree[p].len=y[r]-y[l];
+        tree[p].lcover=true;
+        tree[p].rcover=true;
+        tree[p].lines=1;
+    }
+    else if(l==r-1) //叶节点并且count==0
+    {
+        tree[p].len=0;
+        tree[p].lcover=false;
+        tree[p].rcover=false;
+        tree[p].lines=0;
+    }
+    else//不是也节点并且没被完全覆盖
+    {
+        int m=(l+r)/2;
+        Update(2*p,l,m);//更新子节点
+        Update(2*p+1,m,r);
+        tree[p].len=tree[2*p].len+tree[2*p+1].len;//从子节点得到根节点的信息
+        tree[p].lcover=tree[2*p].lcover;
+        tree[p].rcover=tree[2*p+1].rcover;
+        tree[p].lines=tree[2*p].lines+tree[2*p+1].lines;
+        if(tree[2*p].rcover&&tree[2*p+1].lcover)
+            tree[p].lines--;
+    }
+}
+void Init()
+{
+    int x1,y1,x2,y2;
+    int k;
+    for(int i=1;i<=n;i++)
+    {
+        scanf("%d%d%d%d",&x1,&y1,&x2,&y2);
+        k=2*i-2;
+        x[k+1]=x1;//预留x[0]
+        x[k+2]=x2;
+        y[k]=y1;
+        y[k+1]=y2;
+        line[k].y1=line[k+1].y1=y1;
+        line[k].y2=line[k+1].y2=y2;
+        line[k].x=x1;
+        line[k].left=true;
+        line[k+1].x=x2;
+        line[k+1].left=false;
+    }
+    sort(x+1,x+2*n+1);
+    x[0]=x[1];//在出入与删除时，不需要特殊处理第一个线段
+    sort(y,y+2*n);
+    sort(line,line+2*n);
+}
+void Solve()
+{
+    int r=2*n-1;
+    Build(1,0,r);
+    int Lastlen=0;
+    int ans=0;
+    for(int i=0;i<2*n;i++)//对所有线段插入或者删除。因为x[0]==x[1]，直接处理
+    {
+        if(line[i].left)
+            Insert(1,0,r,line[i].y1,line[i].y2);
+        else
+            Delete(1,0,r,line[i].y1,line[i].y2);
+        ans+=tree[1].lines*2*(x[i+1]-x[i]);//上下边数*长度
+        Lastlen=tree[1].len;
+        Update(1,0,r);
+        ans+=fabs((float)Lastlen-tree[1].len);//左右边的长度
+    }
+    printf("%d\n",ans);
+}
+int main()
+{
+    while(scanf("%d",&n)!=EOF)
+    {
+        if(n==0)
+        {
+            printf("0\n");
+            continue;
+        }
+        Init();
+        Solve();
+    }
+}
+```

@@ -1,0 +1,58 @@
+---
+title: "timus1068"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Sum
+
+http://acm.timus.ru/problem.aspx?space=1&num=1068
+
+Time Limit: 2.0 second
+
+Memory Limit: 1 000 K
+
+Your task is to find the sum of all integer numbers lying between 1 and N inclusive.
+
+### Input
+
+The input consists of a single integer N that is not greater than 10000 by it's absolute value.
+
+### Output
+
+Write to the output file a single integer number that is the sum of all integer numbers lying between 1 and N inclusive.
+
+### Sample Input
+
+```
+-3
+```
+
+### Sample Output
+
+```
+-5
+```
+
+------
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  int n;
+  cin >> n;
+  if(n>0) {
+    cout << n*(n+1)/2 << endl;
+  } else {
+    cout << n*(-n+1)/2+1 << endl;
+  }
+}
+```

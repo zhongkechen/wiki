@@ -1,0 +1,155 @@
+---
+title: "hdu1072 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1072  经典：最短路径问题Floyd＋SPFA
+ymc 2008/09/17
+题目大意：
+在n×m的地图上，0表示墙，1表示空地，2表示人
+3表示目的地，4表示有炸弹重启器。
+炸弹的时间是6，人走一步所需要的时间是1。
+每次可以上、下、左、右移动一格。当人走到4时
+如果炸弹的时间不是0，可以重新设定炸弹的时间为6。
+如果人走到3而炸弹的时间不为0时，成功走出。
+求人从2走到3的最短时间。
+分析与解题思路：
+1.首先用Floyd求出所有可行走的点之间的最短距离。
+2.然后得到所有2，3，4之间的最短距离，如果整个距离超过5
+则设置为Max。
+3.用SPFA求2到3的最短距离。
+*/
+#include <iostream>
+#include <queue>
+using namespace std;
+const int N=10;
+const int M=N*N;
+const int Max=(1<<24)+(1<<16)+(1<<8)+1;
+int map[N][N];
+int n,m;
+int dist[M][M];
+int ans[M*M];
+bool inqueue[M*M];
+int num;
+int s,t;
+int step[2][2]={{1,0},{0,1}};//只需要两个方向
+void Init()
+{
+    scanf("%d %d",&n,&m);
+    for(int i=0;i<n;i++)
+        for(int j=0;j<m;j++)
+        {
+            scanf("%d",&map[i][j]);
+            if(map[i][j]==2)//起点，
+            {
+                s=i*m+j;
+                map[i][j]=4;
+            }
+            else if(map[i][j]==3)//终点
+            {
+                t=i*m+j;
+                map[i][j]=4;
+            }
+        }
+    memset(dist,1,sizeof(dist));
+    num=n*m;
+    int x,y;
+    int i1,j1;
+    for(int i=0;i<n;i++)//相邻的两点是否能走
+        for(int j=0;j<m;j++)
+        {
+            if(map[i][j]==0)
+                continue;
+            x=i*m+j;
+            for(int k=0;k<2;k++)
+            {
+                i1=i+step[k][0];
+                j1=j+step[k][1];
+
+                if(i1<0||i1>=n||j1<0||j1>=m||map[i1][j1]==0)
+                    continue;
+                y=i1*m+j1;
+                dist[x][y]=1;
+                dist[y][x]=1;
+            }
+        }
+}
+void Floyd()
+{
+    for(int k=0;k<num;k++)
+        for(int i=0;i<num;i++)
+            for(int j=0;j<num;j++)
+                if(dist[i][j]>dist[i][k]+dist[k][j])
+                    dist[i][j]=dist[i][k]+dist[k][j];
+}
+void SPFA()
+{
+    memset(ans,1,sizeof(ans));
+    memset(inqueue,0,sizeof(inqueue));
+    queue<int> q;
+    q.push(s);
+    ans[s]=0;
+    inqueue[s]=true;
+    int u;
+    while(!q.empty())
+    {
+        u=q.front();q.pop();
+        for(int v=0;v<num;v++)
+        {
+            if(dist[u][v]==Max)
+                continue;
+            if(ans[v]>ans[u]+dist[u][v])
+            {
+                ans[v]=ans[u]+dist[u][v];
+                if(!inqueue[v])
+                {
+                    inqueue[v]=true;
+                    q.push(v);
+                }
+            }
+        }
+        inqueue[u]=true;
+    }
+}
+void Solve()
+{
+    Floyd();
+    int x,y,x1,y1;
+    for(int i=0;i<num;i++)
+    {
+        x=i/m;
+        y=i%m;
+        for(int j=0;j<num;j++)
+        {
+            x1=j/m;
+            y1=j%m;
+            if(map[x][y]!=4||map[x1][y1]!=4||dist[i][j]>5)//2，3,4之间距离小于6
+                dist[i][j]=Max;
+        }
+    }
+    SPFA();
+}
+int main()
+{
+    int test;
+    scanf("%d",&test);
+    while(test-->0)
+    {
+        Init();
+        Solve();
+        if(ans[t]==Max)
+            printf("-1\n");
+        else
+            printf("%d\n",ans[t]);
+    }
+}
+```

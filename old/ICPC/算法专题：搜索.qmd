@@ -1,0 +1,32 @@
+---
+title: "算法专题：搜索"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+以下是hdu上搜索类的题目，欢迎大家写解题报告
+
+1. http://acm.hdu.edu.cn/showproblem.php?pid=1010   [hdu1010 参考答案](<hdu1010 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1240   [hdu1240 参考答案](<hdu1240 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1241   [hdu1241 参考答案](<hdu1241 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1242   [hdu1242 参考答案](<hdu1242 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1072   [hdu1072 参考答案](<hdu1072 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1253   [hdu1253 参考答案](<hdu1253 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1312   [hdu1312 参考答案](<hdu1312 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1372   [hdu1372 参考答案](<hdu1372 参考答案.qmd>)
+
+(以上题目类似于1010)
+
+* http://acm.hdu.edu.cn/showproblem.php?pid=1239   [hdu1239 参考答案](<hdu1239 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1238   [hdu1238 参考答案](<hdu1238 参考答案.qmd>) WA
+* http://acm.hdu.edu.cn/showproblem.php?pid=1015
+* http://acm.hdu.edu.cn/showproblem.php?pid=1016
+* http://acm.hdu.edu.cn/showproblem.php?pid=1401
+* http://acm.hdu.edu.cn/showproblem.php?pid=1515
+* http://acm.hdu.edu.cn/showproblem.php?pid=1548

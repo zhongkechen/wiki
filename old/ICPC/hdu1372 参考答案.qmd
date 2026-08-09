@@ -1,0 +1,70 @@
+---
+title: "hdu1372 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+zju1091 hdu1372 经典：跳马问题
+ymc 2008/8/30
+题目大意：
+一只马在8×8的棋盘上从一个位置跳到另外一个位置所需要的最少步数。
+分析与解题思路：
+从起点开始BFS搜索。还可以简历一个图，任意两个点之间的最短路径。
+*/
+#include <iostream>
+#include <queue>
+using namespace std;
+int sx,sy,ex,ey;
+int dist[8][8];
+int step[8][2]={{-1,2},{-1,-2},{1,2},{1,-2},\
+                {2,1},{2,-1},{-2,1},{-2,-1}};
+int BFS()
+{
+    memset(dist,-1,sizeof(dist));
+    queue<int> q;
+    int x1,y1,x2,y2;
+    dist[sx][sy]=0;
+    q.push(sx);
+    q.push(sy);
+    while(!q.empty())
+    {
+        x1=q.front();q.pop();
+        y1=q.front();q.pop();
+        if(x1==ex&&y1==ey)
+                return dist[x1][y1];
+        for(int i=0;i<8;i++)
+        {
+            x2=x1+step[i][0];
+            y2=y1+step[i][1];
+            if(x2<0||x2>7||y2<0||y2>7||dist[x2][y2]>0)
+                continue;
+            dist[x2][y2]=dist[x1][y1]+1;
+            q.push(x2);
+            q.push(y2);
+        }
+    }
+    return -1;
+}
+int main()
+{
+    char a[3],b[3];
+    int ans;
+    while(scanf("%2s %2s",a,b)!=EOF)
+    {
+        sx=a[0]-'a';
+        sy=a[1]-'1';
+        ex=b[0]-'a';
+        ey=b[1]-'1';
+        ans=BFS();
+        printf("To get from %s to %s takes %d knight moves.\n",a,b,ans);
+    }
+}
+```

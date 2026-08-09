@@ -1,0 +1,23 @@
+---
+title: "推荐参考书"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+程序设计语言参考书：
+
+* The C Programming Language 2nd Edition
+* The C++ Programming Language Special Edition
+* The C++ Standard Library - A Tutorial and Reference
+* STL源码剖析
+
+数据结构和算法推荐参考书：
+
+* Fundamentals of Data Structures in C
+* Structure and Interpretation of Computer Programs

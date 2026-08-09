@@ -1,0 +1,104 @@
+---
+title: "ACM新手FAQ"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## 有关程序设计竞赛
+
+### 什么是大学生程序设计竞赛
+
+参看 [大学生程序设计竞赛介绍](<大学生程序设计竞赛介绍.qmd>)
+
+### 英语不好，看不懂题目怎么办
+
+可以先做一些中文题目，然后再慢慢提高英语。在[HDU Online Judge](http://acm.hdu.edu.cn/listproblem.php?vol=11)上可以找到不少中文题。
+
+## 有关ZOJ判题系统
+
+### 判题结果显示XXXXX，这是表示什么意思？
+
+这里有一个ZOJ上所有可能的判题结果的列表，以及它们对应的含义：
+
+* Queuing：判题系统非常忙，不能马上判断你提交的程序，你需要再等一会儿才能得到答案。
+* Accepted：恭喜你！你的程序完全正确！
+* Presentation Error：虽然程序的输出结果是正确的，但是输出的格式没有和题目要求的完全一致。请对照题目说明，检查输出中的空格、空行等。
+* Wrong Answer：对于某些输入你的程序所产生的输出不正确。ZOJ上测试程序是否正确的测试数据是没有公开的
+* Runtime Error： 你的程序在运行过程中出错了，有可能是浮点运算错、段地址错等。具体是什么错误，会有一个提示，参看有关运行错误的问题。
+* Time Limit Exceeded：你的程序运行太费时间了。
+* Memory Limit Exceeded： 你的程序运行太浪费存储空间了。
+* Output Limit Exceeded：你的程序运行产生了太多的输出。这常常是由于死循环造成的。现在输出的限制是1M字节。
+* Compile Error : 编译器(gcc/g++/gpc)不能编译你的程序。当然警告是会被忽略的，不会被当作错误来处理。点击判题结果上的链接可以看到更多关于编译错误的详细信息。
+* Out Of Contest Time: 这个信息只会在比赛的时候产生。如果比赛时间到了提交程序，就会产生这个信息。
+* No such problem: 你提交程序时填写了错误的题号。
+* Restricted Function: 你的程序试图调用受限制的函数。比如说你尝试打开一个文件或者调用system函数等，这在ZOJ上是不允许的。
+
+### 在自己的计算机上编译通过的程序，为什么提交上去编译就不通过了？
+
+首先先确认提交时选对了语言，是C还是C++不能选错。然后由于判题系统用的是GCC编译器，如果自己的计算机上用的是VC的话，就要注意GCC和VC之间的一些区别：
+
+* main函数的返回类型必须是int，void main会导致编译错误
+* 在for(int i=0...){ }这样的循环结束之后，i就超出定义域了。VC6有一个BUG，这个i在循环结束后仍然存在，在VC7之后已经修正。
+* itoa不是标准库函数，在GCC中没有。
+* VC的64位整数`__int64`不是标准的。在GCC中你可以使用long long类型来表示64位整数
+* 在GCC中，sqrt函数的参数需要double类型，用int型会导致编译错误
+
+### 运行错误中的SIGSEGV是代表什么意思？常见的运行错误有哪些？
+
+运行错误中最常见的是SIGSEGV，表示Segment Fault（段错误）。有可能导致这个错误的原因有：
+
+* 缓冲区溢出，通常由指针非法引用造成。
+* 栈溢出，请记住默认的栈的大小是8192K。
+* 非法文件访问，在ZOJ上文件访问是被禁止的。
+
+ 其他运行错误还有SIGFPE是表示被0除错误，SIGBUS表示硬件错误（正常情况不应该发生），SIGABRT表示程序在结束前非正常退出。 可以在Linux系统中使用命令man 7 signal来查看更多的信息。
+
+### 输入输出应该如何编写？
+
+你的程序应该从标准输入(stdin)中读取数据，应该将结果写到标准输出(stdout)。比如说，在C 语言中使用scanf，在C++中使用cin来从stdin读取数据，在C语言中使用printf，在C++中使用cout来写到stdout。不允许用户程序打开文件进行读写，否则会导致运行错误。下面是用C++解决1001号问题的例子：
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int a,b;
+    while(cin >> a >> b)
+        cout << a+b << endl;
+}
+```
+
+下面是用C语言解决1001题的例子：
+
+```cpp
+#include <stdio.h>
+
+int main()
+{
+    int a,b;
+    while(scanf("%d %d",&a, &b) != EOF)
+        printf("%d\n",a+b);
+}
+```
+
+下面是用PASCAL解决1001题的例子：
+
+```
+program p1001(Input,Output);
+var
+  a,b:Integer;
+begin
+   while not eof(Input) do
+     begin
+       Readln(a,b);
+       Writeln(a+b);
+     end;
+end.
+```

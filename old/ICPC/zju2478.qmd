@@ -1,0 +1,85 @@
+---
+title: "zju2478"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Encoding
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Given a string containing only 'A' - 'Z', we could encode it using the following method:
+
+1. Each sub-string containing k same characters should be encoded to "kX" where "X" is the only character in this sub-string.
+1. If the length of the sub-string is 1, '1' should be ignored.
+
+### Input
+
+The first line contains an integer N (1 <= N <= 100) which indicates the number of test cases. The next N lines contain N strings. Each string consists of only 'A' - 'Z' and the length is less than 100.
+
+### Output
+
+For each test case, output the encoded string in a line.
+
+### Sample Input
+
+```
+2
+ABC
+ABBCCC
+```
+
+### Sample Output
+
+```
+ABC
+A2B3C
+```
+http://acm.zju.edu.cn/show_problem.php?pid=2478
+
+------
+```cpp
+/*written by 洪峰
+AC了哦*/
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+	char s[200],temp;
+	int i,j,n,flag;
+	cin>>n;
+	for (i=0;i<n;i++)
+	{
+		cin>>s;
+		temp=s[0];
+		flag=1;
+		for (j=1;j<strlen(s);j++)
+			if (temp==s[j])
+				flag++;
+			else
+			{
+				if (flag==1)
+					cout<<temp;
+				else
+					cout<<flag<<temp;
+				flag=1;
+				temp=s[j];
+			}
+		if (flag==1)
+			cout<<temp<<endl;
+		else
+			cout<<flag<<temp<<endl;
+	}
+	return 0;
+}
+```

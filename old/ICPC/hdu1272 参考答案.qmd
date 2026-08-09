@@ -1,0 +1,119 @@
+---
+title: "hdu1272 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+//这道题我做了很长时间，主要是概念没搞清，题目题意也不清晰，一系列原因导致做题时间过长。
+//下面我介绍一下题目思路：
+//本题主要是并查集的回路判断（根节点是否相同）和以及分支数（判断根节点数）的判断，其他的并查集的基本
+//例程还是必须的，比如路径压缩。
+//下面是一段难看的代码，随便看看……，有好看的代码积极上传：）
+
+#include<iostream>
+#define N 100100
+using namespace std;
+
+int p[N];
+int ex[N];//设一个数组，记录输入数有多少
+
+bool isLegal(int x, int y)
+{
+	int tx,ty;
+	int mx,my;
+	int t;
+
+	tx = x;
+	ty = y;
+
+	while(p[tx])
+		tx = p[tx];
+
+	while(p[ty])
+		ty = p[ty];
+
+	if( tx == ty)
+		return false;
+
+	mx = x;
+	my = y;
+	while(p[mx])
+	{
+		t = p[mx];
+		p[mx] = tx;
+		mx = t;
+	}
+	while(p[my])
+	{
+		t = p[my];
+		p[my] = ty;
+		my = t;
+	}
+	p[tx] = ty;
+	return true;
+}
+
+int main()
+{
+	int x,y;
+	int a,max;//max主要是设置一个界，对树的分支数判断时遍历数组的上界，a是记录第一个是根节点的元素（一个分支一个根节点）
+	bool no = false;
+	memset(p,0,sizeof(p));
+	while(scanf("%d%d",&x,&y)!=EOF)
+	{
+		max = max<x?x:max;
+		max = max<y?y:max;
+		if(x == y && x == -1)
+			exit(0);
+		else if(x== y && x == 0)
+		{
+			if(no)
+			{
+				printf("No\n");
+				no = false;
+			}
+			else
+			{
+				for(int i = 1; i <= max; i++)
+					if(!p[i] && ex[i] == 1)
+					{
+						a = i;
+						break;
+					}
+
+				for(; i <= max; i++)
+					if( (!p[i]) && (i != a) && (ex[i] == 1) )
+					{
+						printf("No\n");
+						no = true;
+						break;
+					}
+				if(!no)
+					printf("Yes\n");
+			}
+			memset(p,0,sizeof(p));
+			memset(ex,0,sizeof(ex));
+			max = -1;
+			no = false;
+
+		}
+		else
+		{
+			ex[x] = 1;
+			ex[y] = 1;
+			if(!isLegal(x,y))
+				no = true;
+		}
+	}
+	return 0;
+}
+
+//ASUN……
+```

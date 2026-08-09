@@ -1,0 +1,72 @@
+---
+title: "timus1209"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## 1, 10, 100, 1000...
+
+http://acm.timus.ru/problem.aspx?space=1&num=1209
+
+Time Limit: 1.0 second
+
+Memory Limit: 1 000 KB
+
+Let's consider an infinite sequence of digits constructed of ascending powers of 10 written one after another. Here is the beginning of the sequence: 110100100010000... You are to find out what digit is located at the definite position of the sequence.
+
+### Input
+
+There is the only positive integer number N in the first line, N &lt; 65536. The i-th of N left lines contains the positive integer Ki - the number of position in the sequence. It's given that Ki &lt; 231.
+
+### Output
+
+You are to output N digits 0 or 1 separated with a space. More precisely, the i-th digit of output is to be equal to the Ki-th digit of described above sequence.
+
+### Sample Input
+
+```
+4
+3
+14
+7
+6
+```
+
+### Sample Output
+
+```
+0 0 1 0
+```
+
+Problem Author: Alexey Lakhtin
+
+Problem Source: USU Open Collegiate Programming Contest October'2002 Junior Session
+
+------
+```cpp
+/*Written by czk*/
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+	int n;
+	cin >> n;
+	for(int i = 0; i < n; i++){
+		int k;
+		cin >> k;
+		double root = sqrt(8.0*k-7.0);
+		if(floor(root) == root)
+			cout << "1 ";
+		else
+			cout << "0 ";
+	}
+}
+```

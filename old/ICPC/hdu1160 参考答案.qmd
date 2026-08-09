@@ -1,0 +1,101 @@
+---
+title: "hdu1160 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+zju1108,hdu1160 FatMouse's Speed:严格递增子列
+ymc 2008/10/10
+题目大意：
+给定n只老鼠，每只老鼠有体重和速度，求老鼠的一个最长序列，
+使得体重严格递增，速度严格递减。给出这个序列的长度，并且输出这个序列中
+的每只老鼠在输入中的序号。
+分析与解题思路：
+先对所有老鼠排序，第一个关键字体重从小到大，第二关键字速度从大到小。
+然后求这个序列中的最长严格递增子序列。
+算法参考：严格递增子序列
+b[i]记录以i只老鼠作为结尾的最长合法序列的长度，则有状态转移方程
+b[i]=max{b[j]+1},0<=j<i,并且第j只老鼠可以排在第i只老鼠前面。
+*/
+#include <iostream>
+#include <algorithm>
+using namespace std;
+const int N=1010;
+struct Mice
+{
+   int w; //体重
+   int s; //速度
+   int id;//因为输出需要序号，这里记录序号
+};
+int n;
+Mice a[N];
+int b[N]; //以i只老鼠作为结尾的最长合法序列的长度
+int c[N];//以第i只老鼠作为结尾的最长合法序列的倒数第二只老鼠的序号
+int len;
+int d[N];
+bool Cmp(const Mice &b,const Mice &c)
+{
+     return (b.w<c.w||b.w==c.w&&b.s>c.s);
+}
+void DP()
+{
+     sort(a,a+n,Cmp);
+     b[0]=1;
+     c[0]=-1;
+     for(int i=1;i<n;i++) //
+     {
+         b[i]=1;
+         c[i]=-1;
+         for(int j=0;j<i;j++)
+         {
+            if(a[j].w<a[i].w && a[j].s>a[i].s&&b[j]+1>b[i])
+            {
+              b[i]=b[j]+1;
+              c[i]=j;
+            }
+         }
+
+     }
+   int max=n-1;
+   for(int j=n-1;j>=0;j--)//最长的序列长度，以及最后一直老鼠的序号
+     if(b[j]>b[max]) max=j;
+
+   int j=max;
+   len=b[max];
+   while(c[j]!=-1) //输出序列，写的有点乱。
+   {
+      d[--len]=a[j].id;
+      j=c[j];
+   }
+   d[0]=a[j].id;
+   cout<<b[max]<<endl;
+   for(int i=0;i<b[max];i++)
+    cout<<d[i]<<endl;
+}
+
+int main()
+{
+     int id;
+     id=0;
+     int weight,speed;
+     while(cin>>weight)
+     {
+         cin>>speed;
+         a[id].w=weight;
+         a[id].s=speed;
+         a[id].id=id+1;
+         id++;
+     }
+     n=id;
+     DP();
+     //system("pause");
+}
+```

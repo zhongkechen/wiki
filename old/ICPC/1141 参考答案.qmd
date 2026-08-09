@@ -1,0 +1,76 @@
+---
+title: "1141 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+zju 1141 CCA 最近共同祖先 并查集
+ymc 2008/6/11
+题目大意：
+给定一颗树，每次查询某两个节点的共同祖先。
+对所有的查询，输出被查询过的祖先节点已经查询的次数。
+解题思路：
+p[N]记录每个节点的父节点，L[N]记录节点所在的层次。
+如果要查询的两个节点u，v所在的层次不同，让层次深的节点
+追溯到与另外一个节点相同层次的祖先。然后每次让两个节点追溯
+到父节点，直到找到相同的祖先。
+*/
+#include <iostream>
+using namespace std;
+const int N=1000;
+int p[N],L[N],An[N];
+int n;
+int CCA(int u,int v)
+{
+	while(L[u]>L[v])
+		u=p[u];
+	while(L[v]>L[u])
+		v=p[v];
+	while(L[u])
+	{
+		if(u==v)
+			break;
+		u=p[u];
+		v=p[v];
+	}
+	return u;
+}
+int main()
+{
+	while(scanf("%d",&n)!=EOF)
+	{
+        memset(p,0,sizeof(p));
+        memset(L,0,sizeof(L));
+        memset(An,0,sizeof(An));
+        int u,v,m;
+        char tmp[2];
+        for(int j=0;j<n;j++)
+        {
+            scanf("%d %1s %1s %d %1s",&u,tmp,tmp,&m,tmp);
+            for(int i=0;i<m;i++)
+            {
+                cin>>v;
+                p[v]=u;
+                L[v]=L[u]+1;
+            }
+        }
+        scanf("%d",&m);
+        for(int i=0;i<m;i++)
+        {
+            scanf("%1s %d %1s %d %1s",tmp,&u,tmp,&v,tmp);
+            An[CCA(u,v)]++;
+        }
+        for(int i=1;i<=n;i++)
+            if(An[i]>0)
+                printf("%d:%d\n",i,An[i]);
+	}
+}
+```

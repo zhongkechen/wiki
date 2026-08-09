@@ -1,0 +1,114 @@
+---
+title: "hdu1003 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+//533278 2008-03-30 19:03:17 Accepted 1003 31MS 264K 1206 B C++ whiteTiger 非DP方法
+#include <stdio.h>
+
+int main(){
+    int CaseNum;
+    scanf("%d", &CaseNum);
+    int a[100000];
+    for(int Case = 0; Case < CaseNum; Case++){
+        int num;
+        scanf("%d",&num);
+        for(int i = 0; i < num; i++){
+            scanf("%d", &a[i]);
+        }
+        int currentSum, maxSum, start, end;
+        //最大子段和
+        start = 0;
+        end = 0;
+        maxSum = -1001;     //记录最大值，n范围-1000-1000
+        currentSum = 0;     //记录当前总和
+        for(int i= 0; i < num; i++){
+            for(int j = i; j  < num; j++){
+                currentSum += a[j];
+                if(currentSum > maxSum){
+                    maxSum = currentSum;
+                    start = i+1;
+                    end = j+1;
+                }
+                if(currentSum < 0){
+                    i = j;
+                    currentSum = 0;
+                    break;
+                }
+            }
+            currentSum = 0;
+        }
+        printf("Case %d:\n", Case+1);
+        printf("%d %d %d\n", maxSum, start, end);
+        if(Case != CaseNum -1){
+            printf("\n");
+        }
+    }
+    return 0;
+}
+```
+
+```cpp
+//ASUN 我们的数据结构书上有介绍，我选了算法复杂度最小的一种算法，O(N)
+
+#include"stdio.h"
+
+void main()
+{
+	int dig;
+	int n,k,t,count;
+	int Newi,ThisSum;
+	int MaxDig,Maxi,Maxj,MaxDi,MaxSum;
+	scanf("%d",&k);
+
+	for(count=0;count<k;count++)
+	{
+		scanf("%d",&n);
+
+		ThisSum=MaxSum=Maxi=Maxj=MaxDi=Newi=0;
+		for(t=0;t<n;t++)
+		{
+			scanf("%d",&dig);
+			if(t==0)
+				MaxDig=dig;
+
+			ThisSum+=dig;
+			if(MaxDig<dig)
+			{
+				MaxDig=dig;
+				MaxDi=t;
+			}
+
+			if(ThisSum>MaxSum)
+			{
+				MaxSum=ThisSum;
+				Maxi=Newi;
+				Maxj=t;
+			}
+			else if(ThisSum<0)
+			{
+				ThisSum=0;
+				Newi=t+1;
+			}
+		}
+
+		if(MaxSum==0)
+		{
+			MaxSum=MaxDig;
+			Maxi=Maxj=MaxDi;
+		}
+
+		printf("Case %d:\n%d %d %d\n",count+1,MaxSum,Maxi+1,Maxj+1);
+		if(count!=k-1)
+			printf("\n");
+	}
+}
+```
