@@ -153,8 +153,8 @@ Python语言的类和对象
 
 - 写一个前面所作的Mylist类的子类MylistSub，在它的每个操作的开始增加一个打印信息的语句，并统计函数调用的次数。MylistSub应该从Mylist继承基本的操作。比如说连接操作，首先它打印一个消息，然后对计数器加1，最后调用父类的方法执行功能。增加一个方法，把操作计数器打印出来。在交互式界面下尝试你的类。你的计数器是对每个对象进行计数还是对每个类进行计数？如何两者都实现？
 - 写一个叫做Meta的类，写一个方法拦截所有对成员的访问，并把参数打印到屏幕上。创建一个Meta类的对象，并尝试调用它。如果把这个对象用在表达式中，会发生什么事情？如果对它进行+、切片、索引操作会怎么样？
-- 考虑如图所示的这个类图。用Python的继承对这六个类进行编程实现，然后给每个类增加一个speak方法，每个类打印一条个不相同的消息。给顶层的 Animal类增加replay方法，它只是简单的调用self.speak。最后把speak方法从Hacker类中移除。
-- 考虑如图所示的类结构。用一系列Python类来实现这个结构，Scene对象（戏剧中的一场）内嵌了Customer、Clerk、Parrot类的对象。让Scene类包含一个action方法（开始演出），而内嵌的Customer、Clerk、Parrot类的对象都有一个line方法（台词），打印出一条个不相同的消息。内嵌的对象要么从父类继承了一个line方法，或者自己定义了一个line方法。 ![animal.png](assets/游戏设计基础实验教案/animal.png) 最后，这样测试你的类
+- 考虑如图所示的这个类图。用Python的继承对这六个类进行编程实现，然后给每个类增加一个speak方法，每个类打印一条个不相同的消息。给顶层的 Animal类增加replay方法，它只是简单的调用self.speak。最后把speak方法从Hacker类中移除。 ![animal.png](assets/游戏设计基础实验教案/animal.png)
+- 考虑如图所示的类结构。用一系列Python类来实现这个结构，Scene对象（戏剧中的一场）内嵌了Customer、Clerk、Parrot类的对象。让Scene类包含一个action方法（开始演出），而内嵌的Customer、Clerk、Parrot类的对象都有一个line方法（台词），打印出一条个不相同的消息。内嵌的对象要么从父类继承了一个line方法，或者自己定义了一个line方法。 ![parrot.png](assets/实验4/parrot.png) 最后，这样测试你的类
 - 写一个排序二叉树BSTree类，实现类似集合的功能：insert插入一个元素、in判断元素是否在二叉树中，remove删除一个元素，union合并两个集合，intersect求两个集合的交集。
 
 ## 第五课

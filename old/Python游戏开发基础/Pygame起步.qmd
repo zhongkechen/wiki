@@ -10,6 +10,8 @@ format:
 
 [返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
 
+附件：[完整示例 car.py](<assets/Pygame起步/car.py>)
+
 ## 概述
 
 ### 介绍
