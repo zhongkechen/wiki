@@ -1,0 +1,32 @@
+---
+title: "算法专题：递推求解"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+### HDU
+
+1. http://acm.hdu.edu.cn/showproblem.php?pid=1465 [hdu1465 参考答案](<hdu1465 参考答案.qmd>) ** 不容易系列之一**
+* http://acm.hdu.edu.cn/showproblem.php?pid=2050 [hdu2050 参考答案](<hdu2050 参考答案.qmd>) ** 折线分割平面**
+* http://acm.hdu.edu.cn/showproblem.php?pid=1290 [hdu1290 参考答案](<hdu1290 参考答案.qmd>) 献给杭电五十周年校庆的礼物
+* http://acm.hdu.edu.cn/showproblem.php?pid=1297 [hdu1297 参考答案](<hdu1297 参考答案.qmd>) Children’s Queue
+* http://acm.hdu.edu.cn/showproblem.php?pid=1438 [hdu1438 参考答案](<hdu1438 参考答案.qmd>) 钥匙计数之一
+* http://acm.hdu.edu.cn/showproblem.php?pid=1480 [hdu1480 参考答案](<hdu1480 参考答案.qmd>) 钥匙计数之二
+* http://acm.hdu.edu.cn/showproblem.php?pid=2013 [hdu2013 参考答案](<hdu2013 参考答案.qmd>) 蟠桃记
+* http://acm.hdu.edu.cn/showproblem.php?pid=2018  [hdu2018 参考答案](<hdu2018 参考答案.qmd>) 母牛的故事
+* http://acm.hdu.edu.cn/showproblem.php?pid=1465 [hdu1465 参考答案](<hdu1465 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1466 [hdu1466 参考答案](<hdu1466 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2041 [hdu2041 参考答案](<hdu2041 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2042 [hdu2042 参考答案](<hdu2042 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2044 [hdu2044 参考答案](<hdu2044 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2045 [hdu2045 参考答案](<hdu2045 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2046 [hdu2046 参考答案](<hdu2046 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2047 [hdu2047 参考答案](<hdu2047 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2048 [hdu2048 参考答案](<hdu2048 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2049 [hdu2049 参考答案](<hdu2049 参考答案.qmd>)

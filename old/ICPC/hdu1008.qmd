@@ -1,0 +1,40 @@
+---
+title: "hdu1008"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Elevator
+
+http://acm.hdu.edu.cn/showproblem.php?pid=1008
+
+```cpp
+/*written by czk*/
+#include <stdio.h>
+
+int main() {
+    int n, i;
+    while(scanf("%d", &n) != EOF) {
+        int time = 0;
+        int current = 0;
+        int next;
+        if(n == 0)
+            break;
+        for(i = 0; i < n; i++) {
+            scanf("%d", &next);
+            if(next > current)
+                time += (next - current) * 6 + 5;
+            else
+                time += (current - next) * 4 + 5;
+            current = next;
+        }
+        printf("%d\n", time);
+    }
+}
+```

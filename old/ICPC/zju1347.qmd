@@ -1,0 +1,55 @@
+---
+title: "zju1347"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Determine the Price
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+For the manager of a theatre, setting the price of a ticket is a rather delicate matter. Suppose that a theatre has n (&lt;= 1000000) seats, and that if you give away the tickets for free, all the seats will be taken. After some sort of investigation, it is estimated that for every p yuans of increase of the ticket price, the theatre will lose m audiences. But the audiences will not leave until the ticket price jumps up a complete step of p yuans. For example, if given p=1.00 and m=10, no audience will be lost if the price is set to be 0.99 yuans, and 10 will be lost if the price is 1.99 yuans. It costs R yuans for the theatre to run each show, and S yuans to serve each of the audiences during each show. Now your job is to write a program to maximize the total revenue of each show for the theatre.
+
+### Input
+
+The first line of input contains a positive integer N (&lt; 10000), then followed by N test cases.
+
+Each test case consists of 5 positive numbers in a line, n, p, m, R, S which are all defined in the problem.
+
+### Output
+
+For each test case, print the optimal price of a ticket, the total number of audiences to sit in the theatre with that price set, and the maximum revenue, in the format illustrated by the sample output.
+
+Note: the unit of price is RMB yuan, and a price must be rounded off to 2 decimal places. There must be one blank line between two test cases, but no extra line at the end of output.
+
+### Sample Input
+
+```
+2
+1000 0.10 10 1000 2.00
+100 0.50 2 500 2.0
+```
+
+### Sample Output
+
+```
+price = 6.09
+audiences = 400
+revenue = 636.00
+
+price = 13.99
+audiences = 46
+revenue = 51.54
+```
+
+Problem Source: Zhejiang University Local Contest 2002
+
+http://acm.zju.edu.cn/show_problem.php?pid=1347

@@ -1,0 +1,88 @@
+---
+title: "zju2290"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Game
+
+http://acm.zju.edu.cn/show_problem.php?pid=2290
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Two players( A and B ) take turns to take stones form a heap of N stones.
+
+There are some rules:
+
+1. A always takes first. He can take arbitrary number of stones but not all of them.
+1. The number of the one who will take should less than or equal the twice of the other one taken last time. But must more than one or one.
+1. The one who take take the last one stone is the winner.
+1. The two players are clever enough, they can make the best choice.
+
+### Input
+
+Every test case has only one line with one integer N(2 &lt;= N &lt;= 100000000), the numbers of the stones.
+
+### Output
+
+If A will lose output "lose"
+
+If A can win,output the numbers A should take at the first time. If there are more ways to make A win, output the smallest one.
+
+### Sample Input
+
+```
+4
+```
+
+### Sample Output
+
+```
+1
+```
+
+---
+
+```cpp
+/*Written by czk*/
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int g(int n) {
+	int i = n;
+	while(1){
+		int j1 = 1, j2 = 2;
+		while(j2<i) {
+			j2 = j1 + j2;
+			j1 = j2 - j1;
+		}
+		if(j2==i || i ==1 )
+			return i==n? 0 : i;
+		else
+			i-=j1;
+	}
+}
+int main()
+{
+	int i;
+	while(cin>>i) {
+	//for(i = 2; i< 1000; i++){
+	//	cout << i<<'\t';
+		int win = g(i);
+		if(win)
+			cout << win << endl;
+		else
+			cout << "lose" << endl;
+	}
+	return 0;
+}
+```

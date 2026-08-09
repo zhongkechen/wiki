@@ -1,0 +1,108 @@
+---
+title: "zju2481"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Unique Ascending Array
+
+http://acm.zju.edu.cn/show_problem.php?pid=2481
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Given an array of integers A[N], you are asked to decide the shortest array of integers B[M], such that the following two conditions hold.
+
+* For all integers 0 &lt;= i &lt; N, there exists an integer 0 &lt;= j &lt; M, such that A[i] == B[j]
+* For all integers 0 =&lt; i &lt; j &lt; M, we have B[i] &lt; B[j]
+
+Notice that for each array A[] a unique array B[] exists.
+
+### Input
+
+The input consists of several test cases. For each test case, an integer N (1 &lt;= N &lt;= 100) is given, followed by N integers A[0], A[1], ..., A[N - 1] in a line. A line containing only a zero indicates the end of input.
+
+### Output
+
+For each test case in the input, output the array B in one line. There should be exactly one space between the numbers, and there should be no initial or trailing spaces.
+
+### Sample Input
+
+```
+8 1 2 3 4 5 6 7 8
+8 8 7 6 5 4 3 2 1
+8 1 3 2 3 1 2 3 1
+0
+```
+
+### Sample Output
+
+```
+1 2 3 4 5 6 7 8
+1 2 3 4 5 6 7 8
+1 2 3
+```
+
+---
+
+```cpp
+/*written by proby*/
+#include <iostream>
+#include <list>
+using namespace std;
+
+void Add(list<int>& objList, int i){
+	list<int>::iterator objIter;
+	for(objIter=objList.begin(); ; objIter++){
+		if(objIter==objList.end() || *objIter>i){
+			objList.insert(objIter, i);
+			return;
+		}
+		if(*objIter==i){
+			return;
+		}
+	}
+}
+
+void MyPrint(list<int>& objList){
+	list<int>::iterator objIter;
+	list<int>::iterator nextIter;
+	nextIter=objList.begin();
+	nextIter++;
+	for(objIter=objList.begin(); objIter!=objList.end(); objIter++){
+		cout<<(*objIter);
+		if( nextIter!=objList.end() ){
+			cout<<" ";
+		}
+		nextIter++;
+	}
+	cout<<endl;
+}
+
+int main(){
+	list<int> objList;
+	list<int>::iterator listIter;
+	int nLen, objInt, i;
+	cin>>nLen;
+	while(nLen!=0){
+		for(i=0; i<nLen; i++){
+			cin>>objInt;
+			Add(objList, objInt);
+		}
+		MyPrint(objList);
+		objList.clear();
+		cin>>nLen;
+	}
+
+	return 1;
+}
+```
+
+---

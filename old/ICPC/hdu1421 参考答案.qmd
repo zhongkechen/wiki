@@ -1,0 +1,61 @@
+---
+title: "hdu1421 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu1421 DP
+ymc 2008/10/08
+题目大意：
+给定n个物品，每个物品有重量，
+从中选出m对，使得这m对物品重量差的平方和最小。
+疲劳度：m对物品重量差的平方和
+分析与解题思路
+先对n中物品的重量排序
+令ans[i][k]表示前i个物品中选k对的最小疲劳度。
+1) 则ans[i][k]可能含有第i个物品(这种情况下,第i种物品一定是和
+第i-1个物品配对)，
+则ans[i][k]=ans[i-2][k-1]+(a[i]-a[i-1])
+2) ans[i][k]的k对也可能不含有第i个物品，此时有
+ans[i][k]=ans[i-1][k]。(条件2k<=i-1)
+状态转移方程
+ans[i][k]=min{ans[i-2][k-1]+(a[i]-a[i-1])*(a[i]-a[i-1]),ans[i-1][k]}
+*/
+#include <iostream>
+#include <algorithm>
+using namespace std;
+const int N=2010;
+int a[N];
+int n,m;
+int ans[N][N/2];
+void DP()
+{
+    memset(ans,0,sizeof(ans));
+    sort(a+1,a+n+1);
+    for(int k=1;k<=m;k++)
+        for(int i=k+k;i<=n;i++)
+        {
+            ans[i][k]=ans[i-2][k-1]+(a[i]-a[i-1])*(a[i]-a[i-1]);
+            if(i-1>=k+k&&ans[i-1][k]<ans[i][k])
+                ans[i][k]=ans[i-1][k];
+        }
+}
+int main()
+{
+    while(scanf("%d %d",&n,&m)!=EOF)
+    {
+        for(int i=1;i<=n;i++)
+            scanf("%d",&a[i]);
+        DP();
+        printf("%d\n",ans[n][m]);
+    }
+}
+```

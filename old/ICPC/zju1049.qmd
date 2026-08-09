@@ -1,0 +1,33 @@
+---
+title: "zju1049"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## I Think I Need a Houseboat
+
+http://acm.zju.edu.cn/show_problem.php?pid=1049
+
+```cpp
+/*written by czk*/
+#include <stdio.h>
+#include <math.h>
+int main() {
+    int t, i;
+    scanf("%d", &t);
+    for(i = 1; i <= t; i++) {
+        double x, y;
+        scanf("%lf%lf", &x, &y);
+        double square_radius = x*x + y*y;
+        double area = 3.141592653589793 * square_radius * 0.5;
+        printf("Property %d: This property will begin eroding in year %.0f.\n", i, floor(area / 50.0) + 1);
+    }
+    printf("END OF OUTPUT.\n");
+}
+```

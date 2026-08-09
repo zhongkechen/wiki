@@ -1,0 +1,94 @@
+---
+title: "hdu1239 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1239 简单搜索＋剪枝
+ymc 2008/09/18
+题目大意：
+给定1<=m<=10000,1<=a<=b<=1000,求两个质数p,q
+满足：p<=q,使得a/b<=p/q<=1,pq<=m，并且pq值最大。
+分析鱼解题思路：
+由pq<=m,得到p/q<=m/(q*q),结合a/b<=p/q<=1
+得到q*q<=m*b/a,在有m，a，b的取值范围得到
+q<=10000;同时2<=p<=q。
+先求出10000以内的所有质数，然后对q，p从大到小搜索。
+注意剪枝。
+*/
+
+#include <iostream>
+using namespace std;
+const int N=10000;
+bool flag[N];
+int prim[N]={2};
+int num=1;
+int m,a,b;
+void Init()//用伊拉脱森（Eratosthens）筛求质数
+{
+    memset(flag,1,sizeof(flag));
+    flag[0]=flag[1]=false;
+    for(int i=0;i<N;i=i+2)
+        flag[i]=false;
+    int x;
+    while(1)
+    {
+        x=prim[num-1]+1;
+        while(flag[x]==false&&x<N)
+            x++;
+        if(x==N)
+            break;
+        prim[num++]=x;
+        for(int i=x+x;i<N;i=i+x)
+            flag[i]=false;
+    }
+}
+void Search()
+{
+    int Max=1;
+    int p,q,p1,q1;
+    int tmp;
+    for(int i=num-1;i>=0;i--)
+    {
+        q=prim[i];
+        if(q+q>m)//剪枝，p>=2
+            continue;
+        if(q*q<Max)//剪枝,p<=q
+            break;
+        for(int j=i;j>=0;j--)
+        {
+            p=prim[j];
+            tmp=p*q;
+            if(tmp>m)//剪枝
+                continue;
+            if(tmp<=Max)//剪枝
+                break;
+            if(a*q<=b*p&&tmp>Max)
+            {
+                Max=tmp;
+                p1=p;
+                q1=q;
+            }
+        }
+    }
+    printf("%d %d\n",p1,q1);
+}
+int main()
+{
+    Init();
+    while(scanf("%d %d %d",&m,&a,&b))
+    {
+        if(m==0&&a==0&&b==0)
+            break;
+        Search();
+    }
+}
+```

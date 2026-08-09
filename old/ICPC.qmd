@@ -1,0 +1,95 @@
+---
+title: "大学生程序设计竞赛"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+> 很多题目都是英文的，这是和国际ACM大学生程序设计竞赛接轨的。所以首先要学会看懂题目。
+
+#### 资料
+
+1. [杭电课件.rar](<ICPC/assets/ICPC/杭电课件.rar>)
+
+### 交流方式
+
+* 我们的论坛和邮件列表，这里讨论所有关于程序设计竞赛的问题，强烈希望竞赛成员每个人都能加入：
+
+  <table border=0 style="background-color: #fff; padding: 5px;" cellspacing=0>
+    <tr><td>
+      <img src="http://groups.google.com/groups/img/3/groups_bar_zh-CN.gif"
+           height=26 width=132 alt="Google 网上论坛 Beta 版">
+    </td></tr>
+    <tr><td style="padding-left: 5px"> <b>订阅 温大ACM</b> </td></tr>
+    <form action="http://groups.google.com/group/wzuacm/boxsubscribe">
+    <tr><td style="padding-left: 5px;"> 电子邮件： <input type=text name=email>
+             <input type=submit name="sub" value="订阅">
+    </td></tr>
+  </form>
+  <tr><td align=right> <a href="http://groups.google.com/group/wzuacm">访问此论坛</a> </td></tr>
+  </table>
+* 我们的wiki主页：就是这里了[http://wiki.ch3n2k.com/mywiki/ICPC/](http://wiki.ch3n2k.com/mywiki/ICPC/)，主要用于收集资料，作知识聚集。
+* 我们的IRC讨论组：#wzuacm on irc.freenode.net。取代qq群用于即时交流。详细使用方法参看[IRC使用帮助](<ICPC/IRC使用帮助.qmd>)。
+* 我们的qq群号是6514070，这里主要是闲聊
+
+### 第一届温州大学大学生程序设计竞赛
+
+[wcpc1.pdf](<ICPC/assets/ICPC/wcpc1.pdf>)
+
+### 培训计划
+
+* [ACM培训计划](<ICPC/ACM培训计划.qmd>)
+* [2008年春培训计划](<ICPC/2008年春培训计划.qmd>)
+* [队员id](<ICPC/队员id.qmd>)
+* [暑假集训](<ICPC/暑假集训.qmd>)
+
+### 学习资料
+
+* [ACM新手入门](<ICPC/ACM新手入门.qmd>)
+* [ACM新手FAQ](<ICPC/ACM新手FAQ.qmd>)
+* [ACM题目参考解答](<ICPC/ACM题目参考解答.qmd>)
+* [ZOJ题目分类](<ICPC/ZOJ题目分类.qmd>)
+* [ACM相关网站](<ICPC/ACM相关网站.qmd>)
+* [推荐参考书](<ICPC/推荐参考书.qmd>)
+* [程序设计竞赛Quotes](<ICPC/程序设计竞赛Quotes.qmd>)
+
+### 介绍
+
+* [什么是国际大学生程序设计竞赛](http://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest)
+* [什么是在线判题系统](http://en.wikipedia.org/wiki/Online_judge)
+* [大学生程序设计竞赛介绍](<ICPC/大学生程序设计竞赛介绍.qmd>) [wcpc4student.pdf](<ICPC/assets/ICPC/wcpc4student.pdf>) [wcpc4student.odp](<ICPC/assets/ICPC/wcpc4student.odp>)
+
+### 相关软件
+
+* [C++集成开发环境](<C++集成开发环境.qmd>) 有关一些开发环境的使用说明
+* [PC2System](<ICPC/PC2System.qmd>) 国际大学生程序设计竞赛用的系统
+* 如果机房电脑速度太慢参看[温大机房优化脚本](<温大机房优化脚本.qmd>)
+* [在线判题系统](<ICPC/在线判题系统.qmd>)
+
+### 算法
+
+* [算法专题：动态规划](<ICPC/算法专题：动态规划.qmd>)
+* [算法专题：搜索](<ICPC/算法专题：搜索.qmd>)
+* [算法专题：贪婪算法](<ICPC/算法专题：贪婪算法.qmd>)
+* [算法专题：递推求解](<ICPC/算法专题：递推求解.qmd>)
+
+### 照片
+
+* 2005年省竞赛照片：
+* 2006年省竞赛照片：
+* 2007年省竞赛照片：
+* 2007年ICPC南京赛区竞赛照片： [南京2007.zip](<ICPC/assets/ICPC/南京2007.zip>)
+
+### 其他
+
+* [温州大学ACM_ICPC获奖记录](<ICPC/温州大学ACM_ICPC获奖记录.qmd>)
+* [温州大学ACM_ICPC训练队章程](<ICPC/温州大学ACM_ICPC训练队章程.qmd>) 草拟中
+* [温州大学ACM_ICPC训练队历史](<ICPC/温州大学ACM_ICPC训练队历史.qmd>)
+* [2007年秋程序设计竞赛集训队](<ICPC/2007年秋程序设计竞赛集训队.qmd>)
+* [2007年寒假程序设计竞赛训练](<ICPC/2007年寒假程序设计竞赛训练.qmd>)
+* 用我们的帐号提交到zoj: [wzuacm](<ICPC/wzuacm.qmd>) 或者使用自动提交脚本： [autosubmit.py](<ICPC/assets/ICPC/autosubmit.py>) (自动提取当前目录下的c文件自动提交)

@@ -1,0 +1,297 @@
+---
+title: "算法专题：动态规划"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+### 基本原理
+
+动态规划是[最优化原理](http://zh.wikipedia.org/w/index.php?title=最优化原理&action=edit)中的一种重要的方法。
+
+动态规划在查找有很多**重叠子问题**的情况的最优解时有效。它将问题重新组合成子问题。为了避免多次解决这些子问题，它们的结果都逐渐被计算并被保存，从简单的问题直到整个问题都被解决。因此，动态规划保存[递归](http://zh.wikipedia.org/w/index.php?title=递归&variant=zh-cn)时的结果，因而不会在解决同样的问题时花费时间。
+
+动态规划只能应用于有**最优子结构**的问题。最优子结构的意思是局部最优解能决定全局最优解。简单地说，问题能够分解成子问题来解决。
+
+总的来说，动态规划的优势在于：
+
+* 重叠子问题
+* 最优子结构
+* 记忆化
+
+步骤
+
+1. 最优子结构性质。如果问题的最优解所包含的子问题的解也是最优的，我们就称该问题具有最优子结构性质（即满足最优化原理）。最优子结构性质为动态规划算法解决问题提供了重要线索。
+1. 子问题重叠性质。子问题重叠性质是指在用递归算法自顶向下对问题进行求解时，每次产生的子问题并不总是新问题，有些子问题会被重复计算多次。动态 规划算法正是利用了这种子问题的重叠性质，对每一个子问题只计算一次，然后将其计算结果保存在一个表格中，当再次需要计算已经计算过的子问题时，只是在表 格中简单地查看一下结果，从而获得较高的效率。
+
+### HDU
+
+1. http://acm.hdu.edu.cn/showproblem.php?pid=1466   [hdu1466 参考答案](<hdu1466 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1003   [hdu1003 参考答案](<hdu1003 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1087   [hdu1087 参考答案](<hdu1087 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1159   [hdu1159 参考答案](<hdu1159 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1176   [hdu1176 参考答案](<hdu1176 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1058   [hdu1058 参考答案](<hdu1058 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1069   [hdu1069 参考答案](<hdu1069 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2059   [hdu2059 参考答案](<hdu2059 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=2084   [hdu2084 参考答案](<hdu2084 参考答案.qmd>)
+* http://acm.hdu.edu.cn/showproblem.php?pid=1024   [hdu1024 参考答案](<hdu1024 参考答案.qmd>)
+
+### 动态规划典型例题
+
+* [皇宫看守](http://algorithm.diy.myrice.com/problems/problem_set/guard/problem.htm)
+* [方砖问题](http://algorithm.diy.myrice.com/problems/problem_set/quadrel/problem.htm)
+* [高性能计算机](http://algorithm.diy.myrice.com/problems/problem_set/hpc/problem.htm)
+* [计算矩阵连乘积 ](http://algorithm.diy.myrice.com/problems/problem_set/matrix_chain_mul/problem.htm)
+* [最长公共子序列](http://algorithm.diy.myrice.com/problems/problem_set/LCS/problem.htm)
+* [凸多边形的最优三角剖分 ](http://algorithm.diy.myrice.com/problems/problem_set/polygon/problem.htm)
+* [Bitonic旅行路线问题 ](http://algorithm.diy.myrice.com/problems/problem_set/bitonic/problem.htm)
+* [多边形计算 ](http://algorithm.diy.myrice.com/problems/problem_set/polygon_cal/problem.htm)
+* [字符识别 ](http://algorithm.diy.myrice.com/problems/problem_set/character_recognition/problem.htm)
+* [优美打印 ](http://algorithm.diy.myrice.com/problems/problem_set/printing/problem.htm)
+* [编辑距离 ](http://algorithm.diy.myrice.com/problems/problem_set/edit_distance/problem.htm)
+* [Vitebi算法](http://algorithm.diy.myrice.com/problems/problem_set/vitebi/problem.htm)
+* 最长单调子序列
+* Floyd-Warshall算法
+
+### 参考资料
+
+* http://en.wikipedia.org/wiki/Dynamic_programming
+* [动态规划.ppt](<assets/算法专题：动态规划/动态规划.ppt>)
+
+### 动态规划练习
+
+Vol I
+
+* [1013 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1013)
+* [1022 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1022)
+* [1025 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1025)
+* [1027 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1027)
+* [1074 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1074)
+* [1076 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1076)
+* [1093 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1093)
+* [1094 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1094)
+
+Vol II
+
+* [1100 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1100)
+* [1107 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1107)
+* [1108 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1108)
+* [1136 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=1136)
+* [1149 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1149)
+* [1183 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1183)
+* [1196 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1196)
+
+Vol III
+
+* [1200 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1200)
+* [1206 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1206)
+* [1227 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1227)
+* [1234 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1234)
+* [1245 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1245)
+* [1249 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1249)
+* [1250 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1250)
+* [1276 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1276)
+
+Vol IV
+
+* [1303 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1303)
+* [1346 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1346)
+* [1353 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1353)
+* [1366 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1366)
+* [1368 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=1368)
+* [1387 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1387)
+
+Vol V
+
+* [1424 by SgHao ](http://acm.zju.edu.cn/show_problem.php?pid=1424)
+* [1425 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1425)
+* [1428 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1428)
+* [1446 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1446)
+* [1448 by SgHao ](http://acm.zju.edu.cn/show_problem.php?pid=1448)
+* [1449 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1449)
+* [1454 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1454)
+* [1459 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1459)
+* [1462 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1462)
+* [1463 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1463)
+* [1470 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1470)
+* [1474 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=1474)
+* [1475 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1475)
+* [1483 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1483)
+* [1484 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1484)
+* [1490 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=1490)
+* [1499 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1499)
+
+Vol VI
+
+* [1503 by pandahyx ](http://acm.zju.edu.cn/show_problem.php?pid=1503)
+* [1512 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1512)
+* [1515 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1515)
+* [1520 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1520)
+* [1524 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1524)
+* [1539 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1539)
+* [1540 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=1540)
+* [1554 by SgHao ](http://acm.zju.edu.cn/show_problem.php?pid=1554)
+* [1563 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1563)
+* [1567 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=1567)
+* [1579 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1579)
+
+Vol VII
+
+* [1602 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1602)
+* [1607 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1607)
+* [1611 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1611)
+* [1629 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1629)
+* [1638 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1638)
+* [1642 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1642)
+* [1651 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1651)
+* [1666 by Vegetable Bird ](http://acm.zju.edu.cn/show_problem.php?pid=1666)
+* [1695 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=1695)
+
+Vol VIII
+
+* [1713 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1713)
+* [1717 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1717)
+* [1731 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1731)
+* [1733 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1733)
+* [1736 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=1736)
+* [1738 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1738)
+* [1743 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1743)
+* [1756 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1756)
+* [1757 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1757)
+* [1787 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1787)
+* [1792 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1792)
+
+Vol IX
+
+* [1800 by SgHao ](http://acm.zju.edu.cn/show_problem.php?pid=1800)
+* [1819 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1819)
+* [1853 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1853)
+* [1864 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=1864)
+* [1877 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1877)
+* [1880 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1880)
+* [1893 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1893)
+
+Vol X [1913 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1913)
+
+* [1918 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1918)
+* [1925 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1925)
+* [1953 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1953)
+* [1985 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1985)
+* [1986 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1986)
+* [1988 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1988)
+* [1991 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=1991)
+* [1995 by SgHao ](http://acm.zju.edu.cn/show_problem.php?pid=1995)
+
+Vol XI
+
+* [2002 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2002)
+* [2014 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2014)
+* [2025 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2025)
+* [2042 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2042)
+* [2058 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2058)
+* [2059 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2059)
+* [2067 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2067)
+* [2068 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2068)
+* [2069 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2069)
+* [2081 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2081)
+* [2096 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2096)
+
+Vol XII
+
+* [2127 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2127)
+* [2136 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2136)
+* [2142 by SgHao ](http://acm.zju.edu.cn/show_problem.php?pid=2142)
+* [2144 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2144)
+* [2156 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2156)
+* [2180 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2180)
+* [2189 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2189)
+
+Vol XIII
+
+* [2202 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2202)
+* [2206 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2206)
+* [2213 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2213)
+* [2224 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2224)
+* [2227 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2227)
+* [2242 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2242)
+* [2244 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2244)
+* [2254 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2254)
+* [2255 by Vegetable Bird ](http://acm.zju.edu.cn/show_problem.php?pid=2255)
+* [2264 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2264)
+* [2271 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2271)
+* [2278 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2278)
+* [2280 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2280)
+* [2281 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2281)
+* [2283 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2283)
+* [2284 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2284)
+* [2297 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2297)
+
+Vol XIV
+
+* [2319 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2319)
+* [2337 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2337)
+* [2338 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2338)
+* [2341 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2341)
+* [2349 by Vegetable Bird ](http://acm.zju.edu.cn/show_problem.php?pid=2349)
+* [2353 by Vegetable Bird ](http://acm.zju.edu.cn/show_problem.php?pid=2353)
+* [2354 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2354)
+* [2366 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2366)
+* [2372 by pandahyx ](http://acm.zju.edu.cn/show_problem.php?pid=2372)
+* [2374 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2374)
+* [2397 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2397)
+
+Vol XV
+
+* [2401 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2401)
+* [2402 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2402)
+* [2414 by Vegetable Bird ](http://acm.zju.edu.cn/show_problem.php?pid=2414)
+* [2422 by jueyey ](http://acm.zju.edu.cn/show_problem.php?pid=2422)
+* [2424 by javaman ](http://acm.zju.edu.cn/show_problem.php?pid=2424)
+* [2432 by javaman](http://acm.zju.edu.cn/show_problem.php?pid=2432)
+* [2498 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2498)
+
+Vol XVI [2501 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2501)
+
+* [2521 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2521)
+* [2522 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2522)
+* [2527 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2527)
+* [2536 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2536)
+* [2547 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2547)
+* [2561 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2561)
+* [2563 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2563)
+* [2565 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2565)
+* [2568 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2568)
+* [2581 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2581)
+* [2591 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2591)
+* [2598 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2598)
+
+Vol XVII
+
+* [2604 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2604)
+* [2621 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2621)
+* [2624 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2624)
+* [2625 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2625)
+* [2626 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2626)
+* [2641 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2641)
+* [2642 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2642)
+* [2667 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2667)
+* [2673 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2673)
+* [2683 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2683)
+* [2685 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2685)
+* [2692 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2692)
+
+Vol XVIII
+
+* [2702 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2702)
+* [2710 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2710)
+* [2711 by Vegetable Bird](http://acm.zju.edu.cn/show_problem.php?pid=2711)
+* [2734 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2734)
+* [2739 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2739)
+* [2744 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2744)
+* [2745 by caopeng](http://acm.zju.edu.cn/show_problem.php?pid=2745)

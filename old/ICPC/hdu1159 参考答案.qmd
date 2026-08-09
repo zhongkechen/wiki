@@ -1,0 +1,102 @@
+---
+title: "hdu1159 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+经典DP：LCS，最长公共子列
+zju 1733 hdu 1159 Common Subsequence
+ymc 2008/09/22
+题目大意：
+给定两个字串窜S与T，求S与T的最长公共子列。
+分析与解题大意：
+令ans[i][j]为S的前i个字符与T的前j个字符的最长公共字串的
+长度。则有
+若S[i-1]==T[j-1],则ans[i][j]=ans[i-1][j-1]+1;
+否则,ans[i][j]=Max{ans[i-1][j],ans[i][j-1]}。
+S与T的最长公共子列的长度为ans[n][m]，其中n,m分别为
+S与T的长度。
+*/
+#include <iostream>
+#include <string>
+using namespace std;
+const int N=1000;
+char s[N],t[N];
+int ans[N][N];
+inline int Max(int x,int y)
+{
+    return x>y?x:y;
+}
+void LCS()
+{
+    int n=strlen(s);
+    int m=strlen(t);
+    memset(ans,0,sizeof(ans));
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=m;j++)
+        {
+            if(s[i-1]==t[j-1])
+            {
+                ans[i][j]=ans[i-1][j-1]+1;
+            }
+            else
+                ans[i][j]=Max(ans[i-1][j],ans[i][j-1]);
+        }
+    printf("%d\n",ans[n][m]);
+}
+int main()
+{
+    while(scanf("%s %s",s,t)!=EOF)
+    {
+        LCS();
+    }
+}
+```
+
+```cpp
+//722801 2008-07-26 11:50:30 Accepted 1159 265MS 3908K 788 B G++ whiteTiger DP
+#include <stdio.h>
+#include <string.h>
+
+int lcsCount[1001][1001];
+char a[1001],b[1001];
+
+int max(const int x, const int y){
+    return x>y?x:y;
+}
+
+void lcs(){
+    memset(lcsCount, 0, sizeof(lcsCount));
+    int x = strlen(a);
+    int y = strlen(b);
+    for(int i = 0; i <= x; i++){
+        for(int j = 0; j <= y; j++){
+            if(i==0 || j ==0)
+                lcsCount[i][j] = 0;
+            else if(a[i-1] == b[j-1])
+                lcsCount[i][j] = lcsCount[i-1][j-1]+1;//状态转移方程
+            else{
+                lcsCount[i][j] = max(lcsCount[i][j-1], lcsCount[i-1][j]);//状态转移方程
+            }
+        }
+    }
+}
+
+int main()
+{
+    while(scanf("%s %s", a, b)!=EOF){
+        lcs();
+        printf("%d\n", lcsCount[strlen(a)][strlen(b)]);
+    }
+
+    return 0;
+}
+```

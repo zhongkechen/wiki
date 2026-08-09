@@ -1,0 +1,57 @@
+---
+title: "zju2476"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Total Amount
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Given a list of monetary amounts in a standard format, please calculate the total amount.
+
+We define the format as follows:
+
+1. The amount starts with '$'.
+1. The amount could have a leading '0' if and only if it is less then 1.
+1. The amount ends with a decimal point and exactly 2 following digits.
+1. The digits to the left of the decimal point are separated into groups of three by commas (a group of one or two digits may appear on the left).
+
+### Input
+
+The input consists of multiple tests. The first line of each test contains an integer N (1 &lt;= N &lt;= 10000) which indicates the number of amounts. The next N lines contain N amounts. All amounts and the total amount are between $0.00 and $20,000,000.00, inclusive. N=0 denotes the end of input.
+
+### Output
+
+For each input test, output the total amount.
+
+### Sample Input
+
+```
+2
+$1,234,567.89
+$9,876,543.21
+3
+$0.01
+$0.10
+$1.00
+0
+```
+
+### Sample Output
+
+```
+$11,111,111.10
+$1.11
+```
+http://acm.zju.edu.cn/show_problem.php?pid=2476
+
+---

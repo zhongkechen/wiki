@@ -1,0 +1,60 @@
+---
+title: "zju1954"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Bee Maja
+
+http://acm.zju.edu.cn/show_problem.php?pid=1954
+
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <cmath>
+using namespace std;
+
+int main() {
+    int n;
+    while (cin >> n ) {
+        if (n==1) {
+            cout << "0 0" << endl;
+            continue;
+        }
+        double r = sqrt((double)(4*n-5)/3);
+        int i = floor(r);
+        if (i%2==0)
+            i--;
+        int level = (i-1)/2+1;
+        int offset = n - 3*(level-1)*level-2;
+        switch (offset / level) {
+        case 0:
+            cout << level-1 - offset % level<< ' ' << 1 + offset % level << endl;
+            break;
+        case 1:
+            cout << -1 - offset % level <<' ' << level << endl;
+            break;
+        case 2:
+            cout << - level << ' ' << level - 1 - offset % level << endl;
+            break;
+        case 3:
+            cout << 1 - level + offset % level << ' ' << -1 - offset % level << endl;
+            break;
+        case 4:
+            cout << 1 + offset % level << ' ' << - level << endl;
+            break;
+        case 5:
+            cout << level << ' ' << 1 - level + offset % level << endl;
+            break;
+        }
+    }
+}
+```

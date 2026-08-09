@@ -1,0 +1,47 @@
+---
+title: "暑假集训"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+### 第一次
+
+* 时间：
+* 指导教师：
+* 参加学生
+* 练习题：
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1415
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1416
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1417
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1418
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1419
+
+### 第二次
+
+* 时间：
+* 指导教师：
+* 参加学生
+* 练习题：
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1420
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1421
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1422
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1423
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1424
+
+### 第三次
+
+* 时间：
+* 指导教师：
+* 参加学生
+* 练习题
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1425
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1426
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1427
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1428
+    * http://acm.hdu.edu.cn/showproblem.php?pid=1429

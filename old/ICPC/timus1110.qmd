@@ -1,0 +1,43 @@
+---
+title: "timus1110"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Power
+
+http://acm.timus.ru/problem.aspx?space=1&num=1110
+
+Time Limit: 0.5 second
+
+Memory Limit: 1 000 KB
+
+You are given the whole numbers N, M and Y. Write a program that will find all whole numbers X in the interval [0, M-1] such that X^N mod M = Y.
+
+### Input
+
+The input contains a single line with N, M and Y (0&lt;N&lt;999, 1&lt;M&lt;999, 0&lt;Y&lt;99) separated with one space.
+Output
+
+Output all numbers X separated with space on one line. The numbers must be written in ascending order. If no such numbers exist then output -1.
+
+### Sample Input
+
+```
+2 6 4
+```
+
+### Sample Output
+
+```
+2 4
+```
+Problem Source: Bulgarian National Olimpiad Day #1
+
+---

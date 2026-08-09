@@ -1,0 +1,150 @@
+---
+title: "zju2724"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Windows Message Queue
+
+http://acm.zju.edu.cn/show_problem.php?pid=2724
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Message queue is the basic fundamental of windows system. For each process, the system maintains a message queue. If something happens to this process, such as mouse click, text change, the system will add a message to the queue. Meanwhile, the process will do a loop for getting message from the queue according to the priority value if it is not empty. Note that the less priority value means the higher priority. In this problem, you are asked to simulate the message queue for putting messages to and getting message from the message queue.
+
+### Input
+
+There's only one test case in the input. Each line is a command, "GET" or "PUT", which means getting message or putting message. If the command is "PUT", there're one string means the message name and two integer means the parameter and priority followed by. There will be at most 60000 command. Note that one message can appear twice or more and if two messages have the same priority, the one comes first will be processed first.(i.e., FIFO for the same priority.) Process to the end-of-file.
+
+### Output
+
+For each "GET" command, output the command getting from the message queue with the name and parameter in one line. If there's no message in the queue, output "EMPTY QUEUE!". There's no output for "PUT" command.
+
+### Sample Input
+
+```
+GET
+PUT msg1 10 5
+PUT msg2 10 4
+GET
+GET
+GET
+```
+
+### Sample Output
+
+```
+EMPTY QUEUE!
+msg2 10
+msg1 10
+EMPTY QUEUE!
+```
+
+Author: ZHOU, Ran
+
+Problem Source: Zhejiang University Local Contest 2006, Preliminary
+
+---
+
+```cpp
+/*Written by czk*/
+#include <cstdio>
+#include <algorithm>
+#include <functional>
+using namespace std;
+
+struct message {
+    char name[20];
+    int parameter;
+    int priority;
+    int serial;
+    bool operator>(const message &m) const {
+        return priority > m.priority || priority == m.priority && serial > m.serial;
+    }
+};
+
+int main() {
+    message q[60000];
+    int serial = 0;
+    int size = 0;
+    make_heap(q, q, greater<message>());
+    char command[10];
+    while(scanf("%s", command)!=EOF) {
+        if(command[0] == 'G') {
+            if(size==0)
+                puts("EMPTY QUEUE!");
+            else {
+                pop_heap(q, q+size,greater<message>());
+                size--;
+                printf("%s %d\n", q[size].name, q[size].parameter);
+            }
+        }
+        else {
+            scanf("%s%d%d", q[size].name, &q[size].parameter, &q[size].priority);
+            q[size].serial = serial++;
+            size++;
+            push_heap(q, q+size, greater<message>());
+        }
+    }
+}
+```
+
+```cpp
+/*
+Another version using priority_queue
+Written by czk
+*/
+#include <cstdio>
+#include <algorithm>
+#include <functional>
+#include <queue>
+using namespace std;
+
+struct message {
+    char name[20];
+    int parameter;
+    int priority;
+    int serial;
+    message(char *n, int p, int pri, int s):parameter(p), priority(pri), serial(s)
+    {
+        strcpy(name, n);
+    }
+};
+
+bool great(const message *m1, const message *m2)
+{
+    return m1->priority > m2->priority || m1->priority == m2->priority && m1->serial > m2->serial;
+}
+
+int main() {
+    priority_queue<message *, vector<message *>, bool(*)(const message *, const message *) > q(&great);
+    int serial = 0;
+    char command[10];
+    while(scanf("%s", command)!=EOF) {
+        if(command[0] == 'G') {
+            if(q.empty())
+                puts("EMPTY QUEUE!");
+            else {
+                message *p = q.top();
+                printf("%s %d\n",p->name, p->parameter);
+                delete p;
+                q.pop();
+            }
+        }
+        else {
+            char name[20];
+            int parameter, priority;
+            scanf("%s%d%d", name, &parameter, &priority);
+            q.push(new message(name, parameter, priority, serial++));
+        }
+    }
+}
+```

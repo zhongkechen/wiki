@@ -1,0 +1,125 @@
+---
+title: "hdu1198 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+zju 2412,hdu1198,并查集,BFS
+BFS或者DFS都可以
+ymc 2008/5/22
+题目大意：
+一个m×n的草地上，没一块草地上都有水管，水管的布局总共有11中情况。
+如果某一块草地上有水供应了，则和它有水管连接的草地都有水供应。
+使得所有草地都有水供应，至少要多少个水源。
+解题方法：
+搜索所有草地，如果当前没有的水供应，则加一个水源，用BFS或者BDS，把所有和当前草地
+有水管连接的草地找出来，标记成有水源供应。
+*/
+#include <iostream>
+#include <queue>
+using namespace std;
+const int N=60;
+int step[4][2]={{-1,0},{0,1},{1,0},{0,-1}};
+struct Pipe
+{
+	bool up,right,down,left;
+	Pipe(bool u=0,bool r=0,bool d=0,bool l=0)
+	{
+		up=u;right=r;down=d;left=l;
+	}
+};
+
+Pipe pipe[11];
+bool p[11][4]={{1,0,0,1},{1,1,0,0},{0,0,1,1},{0,1,1,0},
+               {1,0,1,0},{0,1,0,1},{1,1,0,1},{1,0,1,1},
+               {0,1,1,1},{1,1,1,0},{1,1,1,1}};
+int n,m;
+char map[N][N];
+bool graph[N][N];
+struct Point
+{
+	int x,y;
+	Point(int xx=0,int yy=0)
+	{
+		x=xx;y=yy;
+	}
+};
+void init()
+{
+	for(int i=0;i<11;i++)
+	{
+		pipe[i].up=p[i][0];
+		pipe[i].right=p[i][1];
+		pipe[i].down=p[i][2];
+		pipe[i].left=p[i][3];
+	}
+}
+void BFS(int i,int j)
+{
+	queue<Point> q;
+	graph[i][j]=true;
+	q.push(Point(i,j));
+	int x,y;
+	int tmp1,tmp2;
+	while(!q.empty())
+	{
+		x=q.front().x;
+		y=q.front().y;
+		q.pop();
+		tmp1=map[x][y]-'A';
+		int x1,y1;
+		for(int k=0;k<4;k++)
+		{
+            if(p[tmp1][k]==false)
+                continue;
+            x1=x+step[k][0];
+            y1=y+step[k][1];
+            if(x1<0||x1>=n||y1<0||y1>=m)
+                continue;
+            tmp2=map[x1][y1]-'A';
+            if(!graph[x1][y1]&&p[tmp2][(k+2)%4]==true)
+            {
+                graph[x1][y1]=true;
+                q.push(Point(x1,y1));
+            }
+
+		}
+	}
+}
+int wellsprings()
+{
+	memset(graph,0,sizeof(graph));
+	int ans=0;
+	for(int i=0;i<n;i++)
+		for(int j=0;j<m;j++)
+		{
+			if(!graph[i][j])
+			{
+				ans++;
+				BFS(i,j);
+			}
+		}
+	return ans;
+}
+int main()
+{
+	init();
+	while(1)
+	{
+		cin>>n>>m;
+		if(n<=0&&m<<0) break;
+		for(int i=0;i<n;i++)
+			for(int j=0;j<m;j++)
+				cin>>map[i][j];
+		cout<<wellsprings()<<endl;
+	}
+}
+```

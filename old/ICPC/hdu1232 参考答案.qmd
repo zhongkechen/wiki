@@ -1,0 +1,76 @@
+---
+title: "hdu1232 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu1232 畅通工程,经典并查集
+ymc 2008/09/28
+题目大意:
+有n个诚实,某些城市有道路连接,至少要再建多少条路,使得
+所有道路都联通。
+分析与解题思路:
+经典并查集题目，合并m次后，统计有多少个集合。
+*/
+#include <iostream>
+using namespace std;
+const int N=1010;
+int p[N];
+int n,m;
+void Merge(int x,int y)
+{
+    int rx=x;
+    int ry=y;
+    while(p[rx]!=-1)//搜索x的树根
+        rx=p[rx];
+    while(p[ry]!=-1)//搜索y的树根
+        ry=p[ry];
+    int i=x;
+    int t;
+    while(p[i]!=-1)//压缩x
+    {
+        t=p[i];
+        p[i]=rx;
+        i=t;
+    }
+    i=y;
+    while(p[i]!=-1)//压缩y
+    {
+        t=p[i];
+        p[i]=rx;
+        i=t;
+    }
+    if(ry!=rx)//合并
+        p[ry]=rx;
+    return;
+}
+int main()
+{
+    int x,y;
+    while(scanf("%d",&n)!=EOF)
+    {
+        if(n==0)
+            break;
+        scanf("%d",&m);
+        memset(p,-1,sizeof(p));
+        for(int i=0;i<m;i++)
+        {
+            scanf("%d %d",&x,&y);
+            Merge(x,y);
+        }
+        int ans=0;
+        for(int i=1;i<=n;i++)
+            if(p[i]==-1)
+                ans++;
+        printf("%d\n",ans-1);
+    }
+}
+```

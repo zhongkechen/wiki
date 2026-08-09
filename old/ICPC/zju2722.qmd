@@ -1,0 +1,74 @@
+---
+title: "zju2722"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Head-to-Head Match
+
+http://acm.zju.edu.cn/show_problem.php?pid=2722
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+Our school is planning to hold a new exciting computer programming contest. During each round of the contest, the competitors will be paired, and compete head-to-head. The loser will be eliminated, and the winner will advance to next round. It proceeds until there is only one competitor left, who is the champion. In a certain round, if the number of the remaining competitors is not even, one of them will be chosed randomly to advance to next round automatically, and then the others will be paired and fight as usual. The contest committee want to know how many rounds is needed to produce to champion, then they could prepare enough problems for the contest.
+
+### Input
+
+The input consists of several test cases. Each case consists of a single line containing a integer N - the number of the competitors in total. 1 &lt;= N &lt;= 2,147,483,647. An input with 0(zero) signals the end of the input, which should not be processed.
+Output
+
+For each test case, output the number of rounds needed in the contest, on a single line.
+
+### Sample Input
+
+```
+8
+16
+15
+0
+```
+
+### Sample Output
+
+```
+3
+4
+4
+```
+
+Author: YANG, Chao
+
+Problem Source: Zhejiang University Local Contest 2006, Preliminary
+
+---
+
+```cpp
+/*Written by czk*/
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  while(1) {
+    int n;
+    cin >> n;
+    if(n==0)
+      break;
+    int i=0;
+    n--;
+    while(n!=0) {
+      n>>=1;
+      i++;
+    }
+    cout << i << endl;
+  }
+}
+```

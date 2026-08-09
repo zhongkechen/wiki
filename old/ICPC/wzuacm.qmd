@@ -1,0 +1,51 @@
+---
+title: "wzuacm"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+<center><font size="+3">Web Submit</font></center>
+	<hr>
+	<center>
+		<form method=post action=http://acm.zju.edu.cn/submit_process.php>
+		<table width=50%>
+			<tr>
+				<td width=30% align=right>User ID:</td><td><input type=text name="user_id" value="wzuacm"></td>
+			</tr>
+			<tr>
+				<td align=right>Password:</td><td><input type=password name="passwd" value="wzuacm"></td>
+			</tr>
+			<tr>
+				<td align=right>Problem:</td><td><input type=text maxlength=5 size=5 name="prob_id"></td>
+			</tr>
+			<tr>
+				<td align=right>Language:</td>
+				<td><select name="language">
+					<option value=0>C</option>
+					<option value=1 selected>C++</option>
+					<option value=2>GPC</option>
+					<option value=4>FPC</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td align=right>Source:</td><td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan=2><textarea name=source rows=20 cols=60></textarea></td>
+			</tr>
+		</table>
+		<table width=50%>
+			<tr>
+				<td align=center><input type=submit value="  submit  "></td><td align=center><input type=reset value="  reset  "></td>
+			</tr>
+		</table>
+
+		</form>
+	</center>

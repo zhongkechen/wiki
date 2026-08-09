@@ -1,0 +1,50 @@
+---
+title: "timus1220"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Stacks
+
+Time Limit: 1.0 second
+
+Memory Limit: 750 KB
+
+Imagine, that you are employed by a software development company. You work now on the famous "D++ -project", which is devoted to the creation of a new generation programming language. Your particular task is quite prosaic, though. You are to develop the memory manager being able to work with a large number of stacks.
+
+### Input
+
+The first line of the input contains the total number of stack operations N, 0 &lt; N &lt;= 100000. Each of the next N lines contains a description of a stack operation, either in the form PUSH A B (meaning to push B into stack A), or in the form POP A (meaning to pop an element from stack A), where A is the number of stack (1 &lt;= A &lt;= 1000), and B is an integer (0 &lt;= B &lt;= 10^9^). You may assume, that every operation in the input file is correct (i.e., before each POP operation, the respective stack is not empty).
+
+### Output
+
+For each POP operation, described in the input, output the value, which this POP operation gets from the top of that stack, to which it is applied. Numbers in the output file should appear according to the order of the POP operations in the input file. Each number should be output in a separate line.
+
+### Sample Input
+
+```
+7
+PUSH 1 100
+PUSH 1 200
+PUSH 2 300
+PUSH 2 400
+POP 2
+POP 1
+POP 2
+```
+
+### Sample Output
+
+```
+400
+200
+300
+```
+
+http://acm.timus.ru/problem.aspx?space=1&num=1220

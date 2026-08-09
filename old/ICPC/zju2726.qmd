@@ -1,0 +1,108 @@
+---
+title: "zju2726"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Constellation
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+The constellation is very popular today. Many people believe that people with different constellations have different characters. Vivid asks you to help him calculate the distribution of constellations in his class.
+
+You are given the birthdays of Vivid's classmates. Your program should print out a histogram to show the distribution of constellations.
+
+The corresponding relationship between the constellations and the dates are listed below:
+```
+Aries - March 20th to April 20th
+Taurus - April 21st to May 21st
+Gemini - May 22nd to June 22nd
+Cancer - June 23rd to July 22nd
+Leo - July 23rd to August 22nd
+Virgo - August 23rd to September 22nd
+Libra - September 23rd to October 22nd
+Scorpion - October 23rd to November 22nd
+Sagitarius - November 23rd to December 22nd
+Capricorn - December 23rd to January 21st
+Aquarius - January 22nd to February 20th
+Pisces - February 21st to March 19th
+```
+Notice: the histogram should show out the exact proportions, however, the height of each bar should be as short as possible (see the samples).
+
+### Input
+
+There are multiple test cases. Each test case begins with an integer N (the number of Vivid's classmates, 1 &lt;= N &lt;= 50), followed by N lines of strings indicating the birthdays of them. A birthday is represented by the month (an English word), a blank, and the date. You can assume all the birthdays are valid dates. A case with N = 0 indicates the end of input. Do not proceed this case.
+
+### Output
+
+For each test case, print the histogram to show the constellation distribution. See the sample outputs for directions. No trimming space is allowed. A blank line should be printed after each test case.
+
+### Sample Input
+
+```
+4
+March 19
+March 20
+March 19
+March 20
+19
+March 19
+March 20
+March 20
+March 19
+March 19
+March 20
+March 20
+March 19
+March 19
+March 20
+March 20
+March 19
+March 19
+March 20
+March 20
+March 19
+March 19
+March 20
+March 20
+0
+```
+
+### Sample Output
+
+```
+  2                                           2
+ XX                                          XX
+------------------------------------------------
+ Ar  Ta  Ge  Ca  Le  Vi  Li  Sc  Sa  Ca  Aq  Pi
+
+ 10
+ XX                                           9
+ XX                                          XX
+ XX                                          XX
+ XX                                          XX
+ XX                                          XX
+ XX                                          XX
+ XX                                          XX
+ XX                                          XX
+ XX                                          XX
+ XX                                          XX
+------------------------------------------------
+ Ar  Ta  Ge  Ca  Le  Vi  Li  Sc  Sa  Ca  Aq  Pi
+```
+
+Author: JIN, Tianpeng
+
+Problem Source: Zhejiang University Local Contest 2006, Preliminary
+
+---
+
+http://acm.zju.edu.cn/show_problem.php?pid=2726

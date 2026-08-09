@@ -1,0 +1,37 @@
+---
+title: "hdu1076"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## An Easy Task
+
+http://acm.hdu.edu.cn/showproblem.php?pid=1076
+
+```cpp
+/*written by czk*/
+#include <stdio.h>
+
+int isleap(int y) {
+    return y%400 == 0 || y%4 == 0 && y%100 != 0;
+}
+
+int main() {
+    int t;
+    scanf("%d", &t);
+    while(t--) {
+        int y, n;
+        scanf("%d%d", &y, &n);
+        while(n > 0)
+            if(isleap(y++))
+                n--;
+        printf("%d\n", y-1);
+    }
+}
+```

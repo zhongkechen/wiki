@@ -1,0 +1,100 @@
+---
+title: "1272参考答案2"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+//hdu 1272 并查集
+//2009年5月19日19:14:24
+//自己做的并查集的第二题，比较麻烦，而且在hdu的判题系统中成功率也很低
+//题目描述：小希的迷宫，就是判断输入进的数据是不是一棵树，既没有回路，也没有森林(自己在这里跌了个跟头)
+//解决方法：就是并查集搜索，查找根节点，压缩，如果两个数的根节点相同，则说明会产生回路
+//比如2->3->4->6,5->6,如果输入2和5，就会造成回路
+//特别注意：当输入的是0 0时，结果是Yes
+//by  zjd
+
+#include <stdio.h>
+#include <string>
+using namespace std;
+
+int set[100005];
+int used[100005];
+int m,n;
+int x,y;
+int flag;
+int tree;
+
+int  Merge(int x,int y){
+    used[x]=1;
+    used[y]=1;
+    if(x==y)
+        return 0;
+    int xx=x;int x_count=0;
+    int yy=y;int y_count=0;
+    while (set[xx]!=-1){  //找出x头结点，并做是否有回路判断
+        xx=set[xx];
+    }
+    while (set[yy]!=-1){//找出y头结点，并做是否有回路判断
+        yy=set[yy];
+    }
+
+    int i=x;
+    int t;
+    while(set[i]!=-1){    //压缩x
+        t=set[i];
+        set[i]=xx;
+        i=t;
+    }
+    int j=y;
+    while(set[j]!=-1){//压缩y
+        t=set[j];
+        set[j]=yy;
+        j=t;
+    }
+    if(xx==yy)
+        return 0;
+    else{
+        set[yy]=xx;
+    }
+    return 1;
+}
+
+int main(){
+    memset(set,-1,sizeof(set));
+    memset(used,0,sizeof(used));
+    flag=1;
+    tree=0;
+    while(scanf("%d%d",&x,&y)!=EOF){
+        if(x==-1&&y==-1)
+            break;
+        else if(x==0&&y==0){
+            for(int ii=0;ii<10005;ii++){
+                if(used[ii]==1&&set[ii]==-1){
+                    tree++;
+                }
+            }
+            if(flag==0||tree>1)
+				printf("No\n");
+            else
+                printf("Yes\n");
+            memset(set,-1,sizeof(set));
+            memset(used,0,sizeof(used));
+            flag=1;
+            tree=0;
+        }
+        else {
+            if(Merge(x,y)==0)
+                flag=0;
+
+        }
+    }
+    return 0;
+}
+```

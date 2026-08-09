@@ -1,0 +1,62 @@
+---
+title: "IRC使用帮助"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+### 简介
+
+IRC（Internet Relay Chat的缩写，因特网中继聊天）是一种通过网络的即时聊天和网络会议的方式。其主要用于群体聊天（多对多），但同样也可以用于个人对个人的聊天。它是最早的网络交流方式之一，芬兰人雅尔口·欧伊卡林恁（Jarkko Oikarinen）于1988年8月创造了IRC来取代一个BBS上叫做MUT(MultiUserTalk)的程序。现在很多技术讨论都在IRC上进行。
+
+IRC采用一种基于TCP和SSL的公开协议。一个IRC服务器可以连接其它的IRC服务器以扩展为一个IRC网络。IRC用户通过客户端软件和服务器相连。大多数的IRC服务器不需要客户注册登录，但在连接前必须设定好昵称（nickname）。
+
+Channel（频道）是IRC进行交流的基本方式。你可以使用/list命令列出一个服务器上的所有频道，用户可以用/join命令来加入一个频道。在一个频道内发送消息，消息会被发送到频道内的所有用户。对于横跨整个IRC网络的频道，会以#打头，而&打头的频道是某个服务器所独有的。
+
+### 客户端软件
+
+* [mIRC](http://www.mirc.com/)被认为是Windows操作系统下最受欢迎，应用最广的IRC客户端软件。
+* [Chatzilla](https://addons.mozilla.org/en-US/firefox/addon/16)是Mozilla浏览器下的IRC客户端程序，基于Javascript 和 XUL语言编写的。
+* [Opera](http://www.opera.com/)浏览器有内建的IRC客户端软件。
+* [Pidgin](http://www.pidgin.im/)这样的即时通讯（IM）软件也同样支持IRC网络。
+* [X-Chat](http://www.xchat.org/)有Linux版本和Windows版本，更有其他许多非官方版本
+* [HydraIRC](http://www.hydrairc.com/)是GPL授权，评价不错
+* [KVIrc](http://www.kvirc.net/)是一款优秀的windows系统的IRC客户端软件，移植于Qt GUI toolkit。支援UTF-8码。原始码GPL授权。
+
+### 参考资源
+
+* [IRC学堂](http://www.chatkey.com/help/irc_train.htm)
+* [IRC使用教学](http://pcman.sayya.org/irc/)
+
+### 使用方法
+
+要加入irc.freenode.net服务器上的#wzuacm频道，可以用如下方法之一：
+
+* 在Windows平台下，下载安装mIRC，在Server中选择irc.freenode.net，在Channel（频道）中输入#wzuacm即可进入。
+* 在Linux平台下，安装XChat，其他配置同mIRC。
+* 使用开源的即时通讯软件Gaim也可以连上IRC，方法类似mirc。
+* 使用开源的即时通讯软件Miranda IM也可以连上IRC，方法类似mirc。
+* 在支持IRC协议的浏览器地址栏中输入：irc://chat.freenode.net/#wzuacm 即可转到IRC聊天频道。Mozilla 内建IRC功能，Opera 内建IRC功能，Firefox + Chatzilla扩展插件。
+* 所有浏览器都直接访问网址：http://irc.sourpuss.net/irc.cgi 输入你的昵称（Nickname），选择服务器（Server）为irc.freenode.net，在频道（Channel）中输入：#wzuacm 即可。
+
+### 用Pidgin上IRC
+
+运行Pidgin，添加帐号（无需注册）：
+  ![account.jpg](<assets/IRC使用帮助/account.jpg>)
+
+加入一个频道，比如#linux-wz：
+  ![channel.jpg](<assets/IRC使用帮助/channel.jpg>)
+
+注册你的帐号，以免被别人使用：
+  ![register.jpg](<assets/IRC使用帮助/register.jpg>)
+
+### 常用IRC命令
+
+* /nick XXX 设置昵称
+* /mode 设置模式
+* /help 查看帮助

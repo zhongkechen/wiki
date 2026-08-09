@@ -1,0 +1,73 @@
+---
+title: "论坛"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000006 在备份中缺失；以下内容来自最新可读取版本 00000005。
+:::
+
+### Linux温州论坛
+
+Linux温州论坛（邮件列表）成立，旨在为温州的Linux爱好者提供一个交流的平台。
+
+<table border=0 style="background-color: #fff; padding: 5px;" cellspacing=0>
+  <tr><td>
+    <img src="http://groups.google.com/groups/img/3/groups_bar_zh-CN.gif"
+         height=26 width=132 alt="Google 网上论坛">
+  </td></tr>
+  <tr><td style="padding-left: 5px"> <b>订阅 linux-wz</b> </td></tr>
+  <form action="http://groups.google.com/group/linux-wz/boxsubscribe">
+  <tr><td style="padding-left: 5px;"> 电子邮件： <input type=text name=email>
+           <input type=submit name="sub" value="订阅">
+  </td></tr>
+</form>
+<tr><td align=right> <a href="http://groups.google.com/group/linux-wz">访问此论坛</a> </td></tr>
+</table>
+
+### 程序设计竞赛论坛
+
+<table border=0 style="background-color: #fff; padding: 5px;" cellspacing=0>
+  <tr><td>
+    <img src="http://groups.google.com/groups/img/3/groups_bar_zh-CN.gif"
+         height=26 width=132 alt="Google 网上论坛 Beta 版">
+  </td></tr>
+  <tr><td style="padding-left: 5px"> <b>订阅 温大ACM</b> </td></tr>
+  <form action="http://groups.google.com/group/wzuacm/boxsubscribe">
+  <tr><td style="padding-left: 5px;"> 电子邮件： <input type=text name=email>
+           <input type=submit name="sub" value="订阅">
+  </td></tr>
+</form>
+<tr><td align=right> <a href="http://groups.google.com/group/wzuacm">访问此论坛</a> </td></tr>
+</table>
+
+### 学习计算机的论坛
+
+由于架设论坛需要信产部的特种许可，手续繁琐，小论坛通过率很低，所以本网站并不开设论坛。有关计算机学习的讨论（尤其是有关程序设计的讨论）可以到google的在线论坛进行：
+<table border=0 style="background-color: #fff; padding: 5px;" cellspacing=0>
+  <tr><td>
+  <img src="http://groups.google.com/groups/img/3nb/groups_bar.gif"
+         height=26 width=132 alt="Google Groups">
+  </td></tr>
+  <tr><td style="padding-left: 5px">
+  <b>加入study-cs论坛</b>
+  </td></tr>
+  <form action="http://groups.google.com/group/study-cs/boxsubscribe">
+  <tr><td style="padding-left: 5px;">
+  Email: <input type=text name=email>
+  <input type=submit name="sub" value="加入">
+  </td></tr>
+</form>
+<tr><td align=right>
+  <a href="http://groups.google.com/group/study-cs">浏览这个论坛</a>
+</td></tr>
+</table>

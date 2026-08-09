@@ -1,0 +1,107 @@
+---
+title: "zju1575"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Koch Curve
+
+http://acm.zju.edu.cn/show_problem.php?pid=1575
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+![1575.jpg](<assets/zju1575/1575.jpg>)
+
+Koch Curve is very common in fractal. It has infinite length. The figure above illustrates the creation of a Koch Curve. A line segment L1 (a-&gt;d) is given. It is cut into three equal parts. L2 is obtained by rotating the middle part counter-clockwise to vector s-&gt;d. The length satisfies the constraint p0p1 = p1p2 = p2p3 = p3p4. We further process on p0-&gt;p1, p1-&gt;p2, p2-&gt;p3, p3-&gt;p4 to obtain L3. We proceed with such iteration to obtain Koch Curve. Since the length is increased by 4/3 each iteration, the length of Koch Curve is infinite. With given s and d, you are to provide the result of the n-th iteration.
+
+### Input
+
+There are multiple tests, in each test.
+
+The first line contains an integer n (1 &lt;= n &lt;= 7).
+
+The second line contains four floating numbers sx, sy, dx, dy.
+
+### Output
+
+For each test print the vertex in the order from s to d. Keep two digits after decimal point.
+
+Print a blank line after each case.
+
+### Sample Input
+
+```
+1
+0 0 3 0
+1
+3 0 0 0
+```
+
+### Sample Output
+
+```
+0.00 0.00
+1.00 0.00
+1.50 0.87
+2.00 0.00
+3.00 0.00
+
+3.00 0.00
+2.00 0.00
+1.50 -0.87
+1.00 0.00
+0.00 0.00
+```
+
+Author: DU, Peng
+
+Problem Source: ZOJ Monthly, April 2003
+
+---
+
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+void koch(int n, double sx, double sy, double dx, double dy, bool print) {
+	if(n < 0) return;
+	double x1 = (sx * 2+  dx) / 3;
+	double y1 = (sy * 2+  dy) / 3;
+
+	double x2 = ( sx + 2 * dx) / 3;
+	double y2 = ( sy + 2 * dy) / 3;
+
+	double xm = x1 + 0.5*(x2-x1) - 1.7320508075688772935274463415059/2*(y2-y1);
+	double ym = y1 + 1.7320508075688772935274463415059/2 * (x2 - x1)  + 0.5 * (y2-y1);
+
+	koch(n-1, sx, sy, x1, y1, true);
+	koch(n-1, x1, y1, xm, ym, true);
+	koch(n-1, xm, ym, x2, y2, true);
+	koch(n-1, x2, y2, dx, dy, false);
+	if(print)
+		cout <<setprecision(2)<< fixed<< dx << " "<< dy << '\n';
+}
+
+int main() {
+	while(1) {
+		int n;
+		double sx, sy, dx, dy;
+		cin >> n >> sx >> sy >> dx >> dy;
+		if(cin.eof())
+			break;
+		cout <<setprecision(2)<< fixed<< sx << " "<< sy << '\n';
+		koch(n, sx, sy, dx, dy, true);
+		cout << endl;
+	}
+}
+```

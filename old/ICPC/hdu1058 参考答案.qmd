@@ -1,0 +1,92 @@
+---
+title: "hdu1058 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu1058 Humble Numbers DP
+ymc 2008/9/23
+题目大意：
+如果一个数的没有2，3，5，7以外的质因子，则这个数
+称为Humble数。前几个Humble数为
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 18,
+20, 21, 24, 25, 27, ...
+求第n个Humble数。
+分析与解题思路：
+Humble数没有2，3，5，7以外的质因子，则
+令h[]记录已经求到的Humble数，假设已经求了num个。
+则把所有h[]中的数乘以2，3，5，7得到的最小大于h[num]的
+数就是下一个Humble数。但这样无疑会TLE。
+Prim[4]={2,3,5,7}
+初始id[4]={1,1,1,1}
+其中id[k]为h[]中的下标。表示乘以2的Humble数在h[]中的下标。
+已经知道num个Humble数时，min{Prim[k]*H[id[k]},0<=k<=3，
+就是要找的下一个Humble数。
+注意重复的情况。
+*/
+#include <iostream>
+#include <limits>
+using namespace std;
+const int N=5843;
+int num;
+double Prim[4]={2,3,5,7};
+int id[4]={1,1,1,1};//初始下标
+int h[N];
+char s[4][3]={"th","st","nd","rd"};
+int  Humble()//求下一个Humble数，
+{
+    double Max=INT_MAX;//double类型，乘积可能会超出int。
+    double tmp;
+    int k;
+    for(int i=0;i<4;i++)
+    {
+        tmp=Prim[i]*h[id[i]];
+        if(tmp<Max)
+        {
+            Max=tmp;
+            k=i;
+        }
+    }
+    id[k]++;
+    return int(Max);
+}
+void Init()
+{
+    h[1]=1;
+    num=1;
+    for(num=2;num<N;num++)
+    {
+        h[num]=Humble();
+        if(h[num]==h[num-1])//重复，重新再求。
+            num--;
+    }
+}
+void OutPut(int n)//输出，11，12，13特殊，其它1，2，3结尾的普通。
+{
+    int k=0;
+    if(n%10==1&&n%100!=11)
+        k=1;
+    else if(n%10==2&&n%100!=12)
+        k=2;
+    else if(n%10==3&&n%100!=13)
+        k=3;
+    printf("The %d%s humble number is %d.\n",n,s[k],h[n]);
+}
+int main()
+{
+    int n;
+    Init();
+    while(scanf("%d",&n),n)
+    {
+        OutPut(n);
+    }
+}
+```

@@ -1,0 +1,117 @@
+---
+title: "hdu1074 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu1074
+ymc 2008/10/9
+题目大意
+你n个任务，每个任务完完成的最后期限d和所需的时间c。
+如果某个任务的完成时间超过了最后期限d，则要惩罚，惩罚的数值为超过的天数。
+求完成这n个任务的最小惩罚数值以及完成的次序。
+分析与解题思路：
+用n位表示任务的完成状态，对应位上为1表示该任务已经完成，否则表示未完成。
+每个状态有三个数据，分别是达到该状态的最小惩罚数值，达到该状态总共所需的时间，已经到达该
+状态的最后完成个一个任务。
+结构体
+struct Status
+{
+    int reduce; //惩罚时间
+    int time;//总共花费时间
+    int last;//最后一个完成的任务
+};
+Status ans[M]表示所有的状态
+则状态转移方程为
+ans[next].reduce=min{ans[k].reduce+reduce[i]};
+其中k为第i个任务未完成，完成的i个任务后，状态k转变为状态next。
+*/
+#include <iostream>
+#include <limits>
+using namespace std;
+const int N=15;
+const int M=65536;
+char s[N][110];
+int d[N],c[N];
+int n;
+struct Status
+{
+    int reduce; //惩罚时间
+    int time;//总共花费时间
+    int last;//最后一个完成的任务
+};
+Status ans[M];
+void Init()
+{
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
+        scanf("%s %d %d",s[i],&d[i],&c[i]);
+   memset(ans,-1,sizeof(ans));
+}
+void DP()
+{
+    ans[0].time=0;
+    ans[0].reduce=0;
+    int max=(1<<n)-1;
+    int next;
+    for(int k=0;k<max;k++)
+    {
+        if(ans[k].reduce==-1)
+            continue;
+        for(int i=0;i<n;i++)
+        {
+            int tmp=(k>>i);
+            if((tmp&1)==0)//第i个任务未完成
+            {
+                next=k+(1<<i);
+            }
+            else
+                continue;
+            ans[next].time=ans[k].time+c[i]; //完成第i个任务
+            tmp=ans[k].reduce;
+            if(ans[next].time>d[i])
+                tmp+=ans[next].time-d[i];
+            if(ans[next].reduce==-1||ans[next].reduce>tmp)
+            {
+                ans[next].reduce=tmp;
+                ans[next].last=i;
+            }
+        }
+        ans[k].reduce=-1;//当前状态以后不会在用到。
+    }
+}
+void Output()
+{
+    int t;
+    t=(1<<n)-1;
+    printf("%d\n",ans[t].reduce);
+    int out[N];
+    int k=0;
+    while(ans[t].last>=0)//生成输出序列
+    {
+        out[k++]=ans[t].last;
+        t=t-(1<<ans[t].last);
+    }
+    for(int k=n-1;k>=0;k--)
+        printf("%s\n",s[out[k]]);
+}
+int main()
+{
+    int test;
+    scanf("%d",&test);
+    while(test-->0)
+    {
+        Init();
+        DP();
+        Output();
+    }
+}
+```

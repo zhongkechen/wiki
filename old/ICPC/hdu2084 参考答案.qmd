@@ -1,0 +1,95 @@
+---
+title: "hdu2084 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+#include <iostream>
+using namespace std;
+const int N=110;
+int a[N][N];
+int f[N][N];
+int n;
+void Init()
+{
+	scanf("%d",&n);
+	for(int i=0;i<n;i++)
+		for(int j=0;j<=i;j++)
+			scanf("%d",&a[i][j]);
+	memset(f,-1,sizeof(f));
+}
+int DP(int i,int j)
+{
+	int ans;
+	if(f[i][j]>=0)
+			return f[i][j];
+	if(i==n-1)
+		ans=a[i][j];
+	else
+	{
+		if(DP(i+1,j)>DP(i+1,j+1))
+			ans=a[i][j]+DP(i+1,j);
+		else
+			ans=a[i][j]+DP(i+1,j+1);
+	}
+	f[i][j]=ans;
+	return f[i][j];
+}
+int main()
+{
+	int test;
+	cin>>test;
+	while(test-->0)
+	{
+		Init();
+		printf("%d\n",DP(0,0));
+	}
+}
+```
+
+```cpp
+//非递规 dp  written by czy
+#include <stdio.h>
+#include <memory.h>
+
+int tower[102][102];
+int tmax[102][102];
+
+int max(int &a, int &b){
+    return a>b?a:b;
+}
+
+int main(){
+    int Case;
+    scanf("%d",&Case);
+        while(Case--){
+            int tHeight;
+            scanf("%d", &tHeight);
+            for(int i = 1; i <= tHeight; i++){
+                for(int j = 1; j <= i; j++){
+                    scanf("%d", &tower[i][j]);
+                }
+            }
+            memset(tmax,0,101*101*4);
+
+            //dp
+            for(int k = tHeight; k > 0; k--){
+                for(int l = 1; l <= k; l++)
+                    if(k==tHeight)
+                        tmax[k][l] = tower[k][l];
+                    else
+                        tmax[k][l] = tower[k][l] + max(tmax[k+1][l],tmax[k+1][l+1]);
+            }
+            printf("%d\n", tmax[1][1]);
+        }
+
+    return 0;
+}
+```

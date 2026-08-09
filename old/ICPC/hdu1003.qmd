@@ -1,0 +1,87 @@
+---
+title: "hdu1003"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Max Sum
+
+http://acm.hdu.edu.cn/showproblem.php?pid=1003
+
+```cpp
+/*written by czk*/
+/*O(n^2), Time Limit Exceed*/
+#include <stdio.h>
+#include <limits.h>
+int main() {
+    int T, t;
+    scanf("%d", &T);
+    for(t = 1; t <= T; t++) {
+        int n, i;
+        short a[100000];
+        int max_sum = INT_MIN;
+        int max_start, max_end;
+        int start, end;
+        scanf("%d", &n);
+        for(i = 0; i < n; i++)
+            scanf("%d", &a[i]);
+        for(start = 0; start < n; start++) {
+            int sum = 0;
+            for(end = 0; end < n; end++) {
+                sum += a[end];
+                if(sum > max_sum) {
+                    max_sum = sum;
+                    max_start = start;
+                    max_end = end;
+                }
+            }
+        }
+        printf("Case %d:\n%d %d %d\n", t, max_sum, max_start+1, max_end+1);
+        if(t != T)
+            printf("\n");
+    }
+}
+```
+
+```cpp
+/*written by czk*/
+/*O(n), AC*/
+#include <stdio.h>
+#include <limits.h>
+int main() {
+    int T, t;
+    scanf("%d", &T);
+    for(t = 1; t <= T; t++) {
+        int n, i, a;
+        int max_sum = INT_MIN;
+        int max_start, max_end;
+        int start, end, sum;
+        scanf("%d", &n);
+
+        start = 0;
+        sum = 0;
+        for(end = 0; end < n; end++) {
+            scanf("%d", &a);
+            sum += a;
+            if(sum > max_sum) {
+                max_sum = sum;
+                max_end = end;
+                max_start = start;
+            }
+            if(sum < 0) {
+                start = end + 1;
+                sum = 0;
+            }
+        }
+        printf("Case %d:\n%d %d %d\n", t, max_sum, max_start+1, max_end+1);
+        if(t != T)
+            printf("\n");
+    }
+}
+```

@@ -1,0 +1,48 @@
+---
+title: "timus1302"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Delta-wave
+
+Time Limit: 1.0 second
+
+Memory Limit: 1 000 KB
+
+A triangle field is numbered with successive integers in the way shown on the picture below.
+
+![deltawave.JPG](<assets/timus1302/deltawave.JPG>)
+
+The traveller needs to go from the cell with number M to the cell with number N. The traveller is able to enter the cell through cell edges only, he can not travel from cell to cell through vertices. The number of edges the traveller passes makes the length of the traveller's route.
+Write the program to determine the length of the shortest route connecting cells with numbers N and M.
+
+### Input
+
+Input contains two integer numbers M and N in the range from 1 to 1000000000 separated with space(s).
+
+### Output
+
+Output should contain the length of the shortest route.
+
+### Sample Input
+
+```
+6 12
+```
+
+### Sample Output
+
+```
+3
+```
+
+http://acm.timus.ru/problem.aspx?space=1&num=1302
+
+---

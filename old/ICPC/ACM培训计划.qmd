@@ -1,0 +1,431 @@
+---
+title: "ACM培训计划"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```
+这个计划是网络上找的,我自己做过的，我都了http。无论我AC过的，没AC的，都欢迎和我讨论。ymc
+```
+
+```
+[url=http://acm.ecust.edu.cn/training/articles/]http://acm.ecust.edu.cn/training/articles/[/url]
+```
+
+### 新手须知
+
+* 目的与注意事项
+
+先做几组难度最低的题，这些题都来自浙大(ZJU)、北大（PKU)和同济(TOJ)的网站。
+有些题的解法几乎一眼可以看出，但对C,C++基本语句的熟悉还是很有好处的。练习这些题还有以下目的：
+
+1. 了解竞赛题的形式
+2. 熟悉如何在训练系统中提交做对的题目
+
+    请所有的新队员认真完成以下各题。如果做题遇到困难，如题意难以理解、不知如何着手或不知错在哪里，不要气馁，可以请教别的队员，也可请教教练。我们会尽力帮助你完成这几组中每一道题。但不要复制别人的程序，即便参考了别人的程序，也要亲自再完成一遍。而且不建议过多参考别人程序，这样会消弱训练的效果，也减少了思考的乐趣。
+    有些队员可能觉得某些题太简单，但我们还是建议将它们都做掉。因为题目虽然简单，但是再简单的题目都不能保证一次做对，而做错题的各种原因如题意理解错误，格式错误等你都会碰到。了解这些原因对减少错误率很有好处。
+3. 做题前请了解一些规范：
+    1. main函数应为int型，最后return 0 ，即：
+
+```cpp
+int main()
+{
+...
+   return 0;
+}
+```
+这样做是因为避免有些编译器报错。
+
+1. 为了便于核对，请在代码开头加上可以表明题目的注释，如：//ZJU1001; /\*PKU1002 \*/等
+
+### 热身
+
+再次提醒：做对后别忘提交到训练系统.
+
+三道都是A+B，而且有样例程序。请自己做一遍，不要拷。
+
+* 0.1  http://acm.zju.edu.cn/show_problem.php?pid=1001  A+B Problem
+* 0.2  PKU  1000  A+B Problem
+* 0.3  TOJ  1000  熟悉一下Online Judge的环境
+
+### 起步
+
+    以下是一些TOJ上的题目，作为起步练习很不错。题目是中文的，但其它形式和比赛题型一样。要注意输出格式。有些题目对格式交待不是很清楚，但这并不是说你可以随意增加空格和空行。遇到这种情况，根据样例输出自行判断。一般行尾没有多余空格。
+编号  来源  题号  标题  评注
+
+* 1.1  TOJ  1001  排版题.输出排列成菱形的字母
+* 1.2  TOJ  1003  排版题.输出三角形的字符
+* 1.3  TOJ  1006  敲七
+* 1.4  TOJ  1007  Step.如何得到输入数据的结束
+
+* 1.5  TOJ  1008  扬辉三角
+
+* 1.6  TOJ  1009  蛇行矩阵  可以直接在2维数组中填数.
+
+(直接推出每个位置数字的公式和递推公式也可以，但效果并不比前一种方法更有效，而且难度较大）
+
+* 1.7  TOJ  1015  行编辑器  简单的字符串处理
+* 1.8  TOJ  1019  输入三个自然数
+
+### 英文题（1）
+
+     以下是ZJU上的题目，ZJU的题都是英文的，有些题难度可能不比上面一组高。但对新队员来说，理解题意本身可能是个难点。
+编号  来源  题号  标题  评注
+
+* 2.1  http://acm.zju.edu.cn/show_problem.php?pid=1048  Financial Management
+
+只比A+B难一点
+
+* 2.2  http://acm.zju.edu.cn/show_problem.php?pid=1045  HangOver  这一道和下面两道都是简单的计算
+* 2.3  http://acm.zju.edu.cn/show_problem.php?pid=1049  I Think I need I boat
+* 2.4  http://acm.zju.edu.cn/show_problem.php?pid=1813  Biker's Trip Odometer
+* 2.5  http://acm.zju.edu.cn/show_problem.php?pid=1057  Undercut
+* 2.6  http://acm.zju.edu.cn/show_problem.php?pid=1113  u Calculate e  没有输入，但要注意格式
+* 2.7  http://acm.zju.edu.cn/show_problem.php?pid=1151  Word Reversal  简单的字符串处理
+* 2.8  http://acm.zju.edu.cn/show_problem.php?pid=1195  Blowing Fuses  别看题有些长，但其实很简单
+* 2.9  http://acm.zju.edu.cn/show_problem.php?pid=1755  Clay Bully
+* 2.10 http://acm.zju.edu.cn/show_problem.php?pid=1760  Doubles
+
+### 英文题（2）
+
+    下面这些题可能稍微难一些，但与上面一组难度上并没有本质区别。只要仔细想想，应当不难做出。
+编号  来源  题号  标题  评注
+
+* 3.1  ZJU  1489  2^x mod n = 1
+* 3.2  http://acm.zju.edu.cn/show_problem.php?pid=1712  Skew Binary
+* 3.3  http://acm.zju.edu.cn/show_problem.php?pid=1016  Parencodings
+* 3.4  http://acm.zju.edu.cn/show_problem.php?pid=1350  The Drunk Jailer
+* 3.5  http://acm.zju.edu.cn/show_problem.php?pid=1051  A New Growth Industry  这三题可能比较繁琐，做的时候要仔细
+* 3.6  http://acm.zju.edu.cn/show_problem.php?pid=1178  Booklet PrintingBook
+* 3.7  http://acm.zju.edu.cn/show_problem.php?pid=1078  Palindrom Numbers
+
+### TOJ前20题中剩余题
+
+    TOJ前20题都是基础题，在第一组练习中已经做了一部分，剩下的这一部分难度肯定比第一组大，但与上一组难度差不多。有几道题涉及更知识，在这依旧被剔除，留着以后做。
+编号  来源  题号  标题  评注
+
+* 4.1  TOJ  1005  母牛生小牛  类似Fibonacci数列，但有区别
+* 4.2  TOJ  1012  约瑟夫问题
+* 4.3  TOJ  1013  去尾问题
+* 4.4  TOJ  1014  阶乘结果末尾有多少零？  这两题涉及到一些数学推导，可能难度较大
+* 4.5  TOJ  1016  请求N！左边第二位的数字
+* 4.6  TOJ  1018  编制一个乘法运算的程序
+
+* 4.7  TOJ  1020  字符串编辑
+
+### 基础题继续练习
+
+再补充一些适于基本功练习的题目，供大家继续打好C(C++)与语言基础。
+有些题目需要一些数学推算，但都不会超出你们的知识范围。
+编号  来源  题号  标题  评注
+
+* 5.1  http://acm.zju.edu.cn/show_problem.php?pid=1763  A Simple Question of Chemistry  极简单
+* 5.2  http://acm.zju.edu.cn/show_problem.php?pid=1915  Above Average
+
+极简单
+
+* 5.3  http://acm.zju.edu.cn/show_problem.php?pid=2104  Let the Balloon Rise  极简单
+* 5.4  http://acm.zju.edu.cn/show_problem.php?pid=2201  No Brainer  极简单
+* 5.5  http://acm.zju.edu.cn/show_problem.php?pid=2208  To and Fro  极简单，只要读懂题
+* 5.6  http://acm.zju.edu.cn/show_problem.php?pid=1797  Least Common Multiple 想一想如何有效率地求最大公约数和最小公倍数
+* 5.7  http://acm.zju.edu.cn/show_problem.php?pid=1629  Counting Triangles
+* 5.8  ZJU  2015  Number Sequence  注意数列的周期性
+* 5.9  http://acm.zju.edu.cn/show_problem.php?pid=1657  Goldbach's Conjecture
+* 5.10  http://acm.zju.edu.cn/show_problem.php?pid=1871  Steps
+* 5.11  http://acm.zju.edu.cn/show_problem.php?pid=1858  Soundex
+* 5.12  http://acm.zju.edu.cn/show_problem.php?pid=1622  Switch
+* 5.13  http://acm.zju.edu.cn/show_problem.php?pid=1160  Biorhythms
+* 5.14  TOJ  1022  数制转换  要注意如何读入数据
+* 5.15  http://acm.zju.edu.cn/show_problem.php?pid=1010  数素数
+
+注意质数判定的效率
+
+### 高精度运算练习
+
+高精度运算也是基本功之一。
+以下各题都牵涉到高精度运算,许多涉及数制转换。但也需注意其它方面。
+做题时注意模块化。做完这些题后，你会发现很多功能可以重用。
+
+* 6.1  ZJU  1272  Numerically Speaking  有样例程序
+* 6.2  http://acm.zju.edu.cn/show_problem.php?pid=1292  Integer Inquiry  高精度加法
+* 6.3  http://acm.zju.edu.cn/show_problem.php?pid=1205  Martian Addition
+
+高精度加法，但不是十进制
+
+* 6.4  http://acm.zju.edu.cn/show_problem.php?pid=1073  Round and Round We Go  高精度乘法
+* 6.5  ZJU  1086  Octal Fractions  高精和数制转换
+* 6.6  http://acm.zju.edu.cn/show_problem.php?pid=1154  Niven Numbers
+
+高精和数制转换，注意，长度题目中未明确给定。如果设固定长数组，先设50.如果运行时溢出再往上加。
+
+* 6.7  ZJU  1210  Reciprocals  高精度除法，同时注意输出格式要求
+* 6.8  ZJU  1962  How Many Fibs?
+
+高精度加法,以及比较
+
+* 6.9  ZJU  2017  Simple Arithmetics  涉高精加，减，乘，且格式处理较繁
+* 6.10  ZJU  2241  Fractran  表示一个大数不仅可以用各位数，也可以用它的各因子。这题就是一例。
+
+### 模拟类题目专项练习
+
+所谓模拟类题目，就是那些题目详细描述了完成某一过程的步骤，你只须严格按照要求模拟这一过程即可。
+这类题目通常不需要很复杂的算法设计，但有些题十分繁琐，稍不小心就会出错。另外，对题意的准确把握也是关键，特别是这些步骤的细节方面，一定要完全搞清楚，不能自己乱猜。
+下面的一些模拟类题目都是比较繁琐的，大家做它们时一定要细心，且有足够的耐心。
+
+* 6.1  ZJU  1072  Microprocessor Simulation
+* 6.2  ZJU  1208  Roll the Die!
+* 6.3  http://acm.zju.edu.cn/show_problem.php?pid=1710  The Snail
+* 6.4  ZJU  1723  Board Silly
+* 6.5  http://acm.zju.edu.cn/show_problem.php?pid=1737  Unreliable Message
+
+* 6.6  ZJU  1824  Maze Traversal
+* 6.7  ZJU  1834  AutoFish
+
+* 6.8  ZJU  1862  Mine Sweeper
+
+* 6.9  ZJU  2240
+
+Run Length Encoding
+
+### 新一组练习
+
+这一组题目较综合，难度不一。
+
+* 7.1  ZJU  1068  P,MTHBGWB
+* 7.2  ZJU  1146  LC-Display
+* 7.3  http://acm.zju.edu.cn/show_problem.php?pid=1243 URLs
+* 7.4  http://acm.zju.edu.cn/show_problem.php?pid=1115 Digital Roots
+* 7.5  http://acm.zju.edu.cn/show_problem.php?pid=1180 Self Numbers
+* 7.6  http://acm.zju.edu.cn/show_problem.php?pid=1337 Pi
+* 7.7  http://acm.zju.edu.cn/show_problem.php?pid=1312 Prime Cuts
+
+* 7.8  ZJU  1326 M\*A\*S\*H  建议用链表做
+* 7.9  http://acm.zju.edu.cn/show_problem.php?pid=1494 Climbing Worm
+* 7.10  http://acm.zju.edu.cn/show_problem.php?pid=1577 GCD & LCM
+* 7.11  ZJU  2122  A Flea on a Chessboard
+
+* 7.12  ZJU  1628 Diamond
+* 7.13  ZJU  1630 Die
+* 7.14  ZJU  1517 Grandpa's Rubik Cube
+* 7.15  http://acm.zju.edu.cn/show_problem.php?pid=1161  Gone Fishing  贪心经典
+
+### 字符串处理
+
+* 8.1  ZJU  1099
+
+HTML
+
+* 8.2  ZJU  1318 Table
+* 8.3  ZJU  1116  A Well-Formed Problem
+* 8.4  ZJU  1324  Unix ls  用C语言的用scanf读数据
+* 8.5  http://acm.zju.edu.cn/show_problem.php?pid=1295  Reverse Text
+* 8.6  http://acm.zju.edu.cn/show_problem.php?pid=1392  The Hardest Problem Ever
+* 8.7  ZJU  1325  Palindromes
+* 8.8  ZJU  1404  Oil Pipeline
+* 8.9  http://acm.zju.edu.cn/show_problem.php?pid=1884  WERTYU
+
+### Group 9:
+
+* 9.1  http://acm.zju.edu.cn/show_problem.php?pid=2388  Beat the Spread!
+* 9.2  http://acm.zju.edu.cn/show_problem.php?pid=2376  Ants  努力得猜吧
+* 9.3  ZJU  2358  Sum of Factorials  注意0的阶乘
+* 9.4  http://acm.zju.edu.cn/show_problem.php?pid=2345  Gold Coins
+* 9.5  http://acm.zju.edu.cn/show_problem.php?pid=2321  Filling Out the Team
+* 9.6  ZJU  2397  Tian Ji -- The Horse Racing  经典贪心
+* 9.7  ZJU  2316  Matrix Multiplication  线性代数，加组合数学
+* 9.8  ZJU  2301  Color the Ball  离散化坐标
+* 9.9  ZJU  2330  A^B == B^A?  高数题
+* 9.10  ZJU  2329  AB Circle
+* 9.11  ZJU  2313  Chinese Girls' Amusement
+
+### Group 10:
+
+* 10.1  http://acm.zju.edu.cn/show_problem.php?pid=2417  Lowest Bit
+* 10.2  http://acm.zju.edu.cn/show_problem.php?pid=2405  Specialized Four-Digit Numbers
+* 10.3  http://acm.zju.edu.cn/show_problem.php?pid=2481  Unique Ascending Array
+* 10.4  http://acm.zju.edu.cn/show_problem.php?pid=2478  Encoding
+* 10.5  http://acm.zju.edu.cn/show_problem.php?pid=2421  Recaman's Sequence
+* 10.6  http://acm.zju.edu.cn/show_problem.php?pid=2416  Open the Lock
+
+* 10.7  http://acm.zju.edu.cn/show_problem.php?pid=2482  IP Address
+* 10.8  ZJU  2401  Zipper
+* 10.9  ZJU  2480  Simplest Task in Windows
+* 10.10  http://acm.zju.edu.cn/show_problem.php?pid=2476  Total Amount
+
+* 10.11  ZJU  2256  Mincost  贪心
+* 10.12  ZJU  2258  Number Sequence II  构造
+
+### 专题１：递归运用初步
+
+　在同济练习题前２０道题中，有三题至今没有被加入我们的练习题中。其中有两题１００２（全排列问题）和１０１７（石子归并），运用递归思想可以很方便的解决它们。
+  对递归的介绍，请看这里。
+  递归的应用总是和深度优先搜索联系到一起。这里先请看两篇有关的文章，一篇中文的，一篇英文的。
+  看了这两篇文章，应当对深度优先的基本概念有些了解。请结合样例程序仔细体会8皇后问题的解法。这是很经典的深度优先搜索问题。
+以下是一些问题的样例程序：
+整数拆分
+组合问题
+全排列
+八皇后问题
+
+  理解这些程序若有困难，我们会详细讲解它们。理解后，请自己再编一遍。
+下面是一些有关它们的练习。
+关于这方面的题目很多，我们会不断添加。
+
+### Group Z1:递归和深度优先搜索初步
+
+先做几道简单的试试。估计问题不少。
+
+* Z1.1  TOJ  1002  全排列问题
+* Z1.2  TOJ  1017  石子归并
+
+这两题涉及N的全组合
+
+* Z1.3  TOJ  1032  等式问题
+
+### Group 11: 搜索初步
+
+深度优先搜索和广度优先搜索是属于常用的搜索技术。前者用到递归，后者涉及队列。
+深度优先搜索对于解决某些问题并不一定是最好的，但很容易实现，有时也十分有效，它的难点在于如何剪枝优化。出现在递归初步中的题目可以算是深搜的一种。
+广度优先搜索技术的结构相对固定，但节点的判重也是个难点。由于时间效率的原因，广度优先搜索运用得更为广泛。
+下面是关于它们的一些练习。
+
+* 11.0  http://acm.zju.edu.cn/show_problem.php?pid=2416  Open the Lock  广度优先。
+
+* 11.1  http://acm.zju.edu.cn/show_problem.php?pid=1091  Knight Moves  最简单的广度优先搜索问题，但包括了这类方法的所有要素。
+* 11.2  http://acm.zju.edu.cn/show_problem.php?pid=1005  Jugs  典型的广度优先
+* 11.3  http://acm.zju.edu.cn/show_problem.php?pid=1649  Rescue  广度优先在迷宫问题中的应用
+* 11.4  http://acm.zju.edu.cn/show_problem.php?pid=1002  Fire Net  这些都是可以运用深度优先的题目。有些需要很好的剪枝。
+* 11.5  http://acm.zju.edu.cn/show_problem.php?pid=1003  Crashing Balloon
+* 11.6  http://acm.zju.edu.cn/show_problem.php?pid=1004  Anagrams by Stack
+
+### Group 12: 深度优先搜索
+
+下面是关于深度优先搜索（DFS）的一些练习。
+
+* 12.0  PKU  1256  Anagram
+
+生成不重复排列
+
+* 12.1  http://acm.zju.edu.cn/show_problem.php?pid=1711  Sum It Up  生成不重复组合
+* 12.2  http://acm.zju.edu.cn/show_problem.php?pid=2412  Farm Irrigation  初步
+* 12.3  http://acm.zju.edu.cn/show_problem.php?pid=1694  Shredding Company
+* 12.4  http://acm.zju.edu.cn/show_problem.php?pid=1457  Prime Ring Problem
+* 12.5  http://acm.zju.edu.cn/show_problem.php?pid=1204  Additive equations
+* 12.6  http://acm.zju.edu.cn/show_problem.php?pid=2192  T-shirt Gumbo  进阶,有序搜索与剪枝
+* 12.7  http://acm.zju.edu.cn/show_problem.php?pid=1909  Square
+* 12.8  http://acm.zju.edu.cn/show_problem.php?pid=1987  Vase Collection 状态压缩＋DFS
+* 12.9  http://acm.zju.edu.cn/show_problem.php?pid=1937  Addition Chains DFS+剪枝
+* 12.10  http://acm.zju.edu.cn/show_problem.php?pid=1984  Genetic Code DFS+打表
+* 12.11  ZJU  2110  Tempter of the Bone
+* 12.12  http://acm.zju.edu.cn/show_problem.php?pid=1179  Finding Rectangles  DFS+剪枝，输出比较麻烦
+* 12.13  ZJU  1411  Anniversary
+* 12.14  http://acm.zju.edu.cn/show_problem.php?pid=1008  Gnome Tetravex
+* 12.15  http://acm.zju.edu.cn/show_problem.php?pid=1499  Increasing Sequences
+* 12.16  http://acm.zju.edu.cn/show_problem.php?pid=1516 [zju1516参考答案](<zju1516参考答案.qmd>)
+
+### Group 13: 广度优先搜索
+
+下面是关于广度优先搜索（BFS）的一些练习。
+
+* 13.0  http://acm.zju.edu.cn/show_problem.php?pid=1438  Asteroids!  三维迷宫
+* 13.1  http://acm.zju.edu.cn/show_problem.php?pid=2050  Flip Game  BFS+状态压缩
+* 13.2  http://acm.zju.edu.cn/show_problem.php?pid=2081  Mission Impossible  最短路径＋BFS+DFS
+* 13.3  http://acm.zju.edu.cn/show_problem.php?pid=1310  Robot  进阶,最短路径＋BFS
+* 13.4  http://acm.zju.edu.cn/show_problem.php?pid=1671  Walking Ant 最短路径 Floyd
+* 13.5  http://acm.zju.edu.cn/show_problem.php?pid=1940  Dungeon Master 最短路径 BFS 三维迷宫
+* 13.6  http://acm.zju.edu.cn/show_problem.php?pid=1103  Hike on a Graph 最短路径 BFS 状态表示
+* 13.7  ZJU  1358  Moving Object Recognition
+* 13.8  ZJU  1217  Eight  难题,注意状态的表示与哈希
+* 13.9  ZJU  1227  Free Candies
+* 13.10  ZJU  1505  Solitaire
+* 13.11  http://acm.zju.edu.cn/show_problem.php?pid=1361  Holedox Moving 状态压缩＋BFS 最短路径
+* 13.12  http://acm.zju.edu.cn/show_problem.php?pid=1084 **Channel Allocation**  图顶点着色
+* 13.13  http://acm.hdu.edu.cn/showproblem.php?pid=1043 **Eight**  八数码问题 [hdu 1043参考答案](<hdu 1043参考答案.qmd>)
+
+### Group 14: 图--遍历(Graph Traversal)、传递闭包（Transitive Closure）
+
+* 14.0  http://acm.zju.edu.cn/show_problem.php?pid=1221  Risk  多源最短路径问题 Floyd-Warshall算法
+* 14.1  http://acm.zju.edu.cn/show_problem.php?pid=2165  Red and Black  基于网格的连通性分析
+* 14.2  http://acm.zju.edu.cn/show_problem.php?pid=1589  Professor John  传递闭包，也可以用DFS
+* 14.3  http://acm.zju.edu.cn/show_problem.php?pid=1085  Alien Security   有向图最短路径与割点
+
+### Group 15: 图--拓扑排序（Topological Sort）、关节点（Articulation Point）
+
+* 15.0  ZJU  1060  Sorting It All Out
+* 15.1  ZJU  1119  SPF
+* 15.2  ZJU  1311  Network
+
+### Group 16: 图--最小生成树（Minimum Spanning Tree）
+
+* 16.0  http://acm.zju.edu.cn/show_problem.php?pid=1406  Jungle Roads
+* 16.1  ZJU  1203  Swordfish
+* 16.2  ZJU  1542  Network
+* 16.3  http://acm.zju.edu.cn/show_problem.php?pid=1586  QS Network  要注意节点权值
+* 16.4  ZJU  1372  Networking  要注意重复边
+* 16.5  http://acm.zju.edu.cn/show_problem.php?pid=1914  Arctic Network  想想为什么可以用最小生成树?
+* 16.6  ZJU  2158  Truck History  想想如何转化为最小生成树?
+* 16.7  ZJU  2048  High Ways  基于连通分量的最小生成树
+* 16.8  ZJU  1718  Building a Space Station
+* 16.9  PKU  1258  Agri-Net
+
+### Group 17: 图--最短路径（Shortest Path）
+
+* 17.0  ZJU  1053  FDNY to the Rescue!
+* 17.1  ZJU  1609  Equivalence
+* 17.2  http://acm.zju.edu.cn/show_problem.php?pid=1082  Stockbroker Grapevine
+* 17.3  ZJU  1655  Transport Goods  边权值有些特别
+* 17.4  http://acm.zju.edu.cn/show_problem.php?pid=1092  Arbitrage
+* 17.5  ZJU  1967  Fiber Network  想想如何利用Floyd三重循环?
+* 17.6  ZJU  1456  Minimum Transport Cost  有些难度的最短路径题
+* 17.7  ZJU  2008  Invitation Cards  带最小堆的Dijkstra
+* 17.8  ZJU  1765  Which Way Do I Go?  综合题，比较复杂
+* 17.9  ZJU  1232  Adventure of Super Mario
+
+### Group 18: 图--回路问题（Euler Path & Hamilton Tour）
+
+* 18.0  ZJU  1105  FatMouse's Tour
+* 18.1  ZJU  2016  Play on Words  可转化为判定欧拉路的存在性
+* 18.2  ZJU  1130  Ouroboros Snake  可以转化为欧拉路
+* 18.3  SCU  1286  First Love  可以转化为欧拉路
+
+### Group 19: 图--二部图匹配（Bipartite Matching）
+
+* 19.0  ZJU  1140  Courses
+* 19.1  ZJU  1137  Girls and Boys
+* 19.2  ZJU  1157  A Plug for UNIX
+* 19.3  http://acm.zju.edu.cn/show_problem.php?pid=1364  Machine Schedule
+* 19.4  ZJU  1197  Sorting Slides
+* 19.5  ZJU  1525  Air Raid
+* 19.6  ZJU  1059  What's In a Name
+* 19.7  ZJU  1516  Uncle Tom's Inherited Land
+* 19.8  ZJU  1654  Place the Robots
+* 19.9  ZJU  1509  Family
+
+### Group 20: 图--网络流（Network Flow）
+
+* 20.0  PKU  1273  Drainage Ditches  典型的网络最大流问题
+* 20.1  ZJU  1734  Power Network  可转化为网络最大流问题
+
+### Group 21: 图--差分约束（Difference Constraints）
+
+* 21.0  ZJU  1260  King
+* 21.1  ZJU  1420  Cashier Employment
+* 21.2  ZJU  1455  Schedule Problem
+* 21.3  ZJU  1508  Intervals
+
+### Group 22: 图--其它
+
+* 22.0  ZJU  1015  Fishing Net  弦图判定
+* 22.1  ZJU  1492  Maximum Clique 求最大团，经典NP hard
+* 22.2  ZJU  1576  Marriage is Stable  稳定婚姻，延迟认可算法
+
+### Group 23: 数据结构
+
+* 23.0  http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1610  Count the Colors  [zju1610 参考答案](<zju1610 参考答案.qmd>)
+* 23.1  http://acm.hdu.edu.cn/showproblem.php?pid=1828  Picture  [hud 1828参考答案](<hud 1828参考答案.qmd>)

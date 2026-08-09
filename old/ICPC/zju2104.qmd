@@ -1,0 +1,45 @@
+---
+title: "zju2104"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Let the Balloon Rise
+
+http://acm.zju.edu.cn/show_problem.php?pid=2104
+
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+bool less_map(map<string, int>::value_type v1, map<string, int>::value_type v2) {
+    return v1.second < v2.second;
+}
+
+int main() {
+    while (true) {
+        int n;
+        cin >> n;
+        if (n==0)
+            break;
+        map<string, int> colors;
+        for (int i = 0; i < n; i++) {
+            string color;
+            cin >> color;
+            colors[color]++;
+        }
+        cout << max_element(colors.begin(), colors.end(), less_map)->first << endl;
+    }
+```
+
+}

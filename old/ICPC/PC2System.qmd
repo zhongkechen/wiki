@@ -1,0 +1,15 @@
+---
+title: "PC2System"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+Programming Contest Control (PC2) System
+
+* 官方主页 http://www.ecs.csus.edu/pc2/

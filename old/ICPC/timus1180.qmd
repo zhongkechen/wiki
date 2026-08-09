@@ -1,0 +1,56 @@
+---
+title: "timus1180"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## A Stone Game
+
+http://acm.timus.ru/problem.aspx?space=1&num=1180
+
+```cpp
+/*Written by czk*/
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    char c;
+    int i = 0;
+    while(scanf("%c", &c) != EOF) {
+        if(isdigit(c)) {
+            i += c-'0';
+        }
+    }
+    if(i%3==0)
+        printf("2");
+    else
+        printf("1\n%d", i%3);
+}
+```
+
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+int main() {
+    char c;
+    int i = 0;
+    while(cin >> c) {
+        if(isdigit(c)) {
+            i += c-'0';
+        }
+    }
+    if(i%3==0)
+        cout << '2';
+    else
+        cout <<"1\n" << i%3;
+}
+```

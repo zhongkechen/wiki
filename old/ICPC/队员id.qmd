@@ -1,0 +1,22 @@
+---
+title: "队员id"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+* [陈仲寅](http://acm.hdu.edu.cn/userstatus.php?user=chenzhongyin)
+* [孙健](http://acm.hdu.edu.cn/userstatus.php?user=jiansunboy)
+* [建章](http://acm.hdu.edu.cn/userstatus.php?user=wu65602662)
+* [徐洁](http://acm.hdu.edu.cn/userstatus.php?user=xujie3)
+* [卢江林](http://acm.hdu.edu.cn/userstatus.php?user=lujianglin)
+* [徐建波](http://acm.hdu.edu.cn/userstatus.php?user=xujianbo)
+* [郑琳](http://acm.hdu.edu.cn/userstatus.php?user=zlpassion)
+
+\* [大一牛人1](http://acm.hdu.edu.cn/userstatus.php?user=Cheney928)
+\* [大一牛人2](http://acm.hdu.edu.cn/userstatus.php?user=yanghebinyes)

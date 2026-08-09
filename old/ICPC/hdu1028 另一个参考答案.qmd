@@ -1,0 +1,73 @@
+---
+title: "hdu1028 另一个参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+  SUN
+  杭电1028
+  方法生成函数（1 + x + x^2 + x^3 + ……）*（1 + x^2 + x^4 + ……）*（1 + x^3 + x^6）……（1 + x^n）
+  求出x^n前面的系数
+
+*/
+
+#include <iostream>
+#define N 8000
+
+using namespace std;
+int n;
+int a[N],b[N],ab[N];//数组a表示一个多项式的系数，下标表示指数 ab表示a和b 乘积
+
+int Num()
+{
+    int i,j,k;
+
+    memset(ab, 0 ,sizeof(ab));
+	for(i = 0; i <= n ; i++)
+      ab[i] = 1;//第一次要赋值为全1，为下面循环准备
+
+    for(k = 2; k <= n; k++)
+    {
+
+        memcpy(b, ab, sizeof(ab));//把ab 复制给 b 开始新的循环
+
+	for(i = 0; i <= n; i++)
+	{
+		a[i] = 0;
+		ab[i] = 0;
+	}
+	//初始化数组a 和 ab。也可以试试memset函数我被超时吓怕了
+
+        for(i = 0; i <= n; i += k)
+            a[i] = 1;//新的一个多项式
+
+        for(i = 0; i <= n; i++)// 两个多项式相乘
+            for(j = 0; j <= n; j++)
+		{
+                   ab[i+j] += a[i]*b[j];
+                   if(i + j > n)// 为了不做无谓的操作
+			break;
+		}
+    }
+    return ab[n];//指数是n的项的系数就是结果
+}
+
+int main()
+{
+    int res;
+    while(scanf("%d",&n) != EOF)
+    {
+        res = Num();
+        printf("%d\n",res);
+    }
+    return 0;
+}
+```

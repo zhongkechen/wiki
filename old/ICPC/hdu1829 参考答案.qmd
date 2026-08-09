@@ -1,0 +1,106 @@
+---
+title: "hdu1829 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu 1829 并查集 二分图判定
+ymc 2008/10/29
+题目大意：
+有n只虫子，分为公母两种性别。
+给定m对虫子的相互恋爱关系，判定有没有同性恋虫子存在。
+解题思路：
+用opp[i]记录与i异性的虫子的id，如果没有，则为0。
+已经知道同性的虫子在一个集合中，用p[i]表示i虫子在这个
+集合中的父节点。
+初始p[i]=0,opp[i]=0。
+对每一对关系x，y。
+先求x,y的根节点rx，ry。
+若rx==ry,则说明存在同性恋。
+若rx！=ry，合并x，opp[y],合并opp[x],y。
+若opp[x]==0,直接opp[x]=y。
+*/
+#include <iostream>
+using namespace std;
+const int N=2010;
+int p[N];
+int opp[N];
+int n,m;
+bool ans;
+int FindRoot(int x)
+{
+    int rx=x;
+    while(p[rx]!=0)
+        rx=p[rx];
+    int tx=x;
+    int tmp;
+    while(p[tx]!=0)
+    {
+        tmp=p[tx];
+        p[tx]=rx;
+        tx=tmp;
+    }
+    return rx;
+}
+void Merge(int x,int y)
+{
+    int rx,ry;
+    rx=FindRoot(x);
+    ry=FindRoot(y);
+    if(rx!=ry)
+        p[ry]=rx;
+}
+void Solve()
+{
+    int x,y;
+    ans=true;
+    memset(p,0,sizeof(p));
+    memset(opp,0,sizeof(opp));
+    scanf("%d %d",&n,&m);
+    int rx,ry;
+    for(int i=0;i<m;i++)
+    {
+        scanf("%d %d",&x,&y);
+        if(ans==false)
+            continue;
+        rx=FindRoot(x);
+        ry=FindRoot(y);
+        if(rx==ry)//同性恋
+        {
+            ans=false;
+            continue;
+        }
+        if(opp[x]==0)//合并opp[x]与y
+            opp[x]=y;
+        else
+            Merge(opp[x],y);
+        if(opp[y]==0)//合并opp[y]与x
+            opp[y]=x;
+        else
+            Merge(x,opp[y]);
+    }
+}
+int main()
+{
+    int test;
+    scanf("%d",&test);
+    for(int t=1;t<=test;t++)
+    {
+        Solve();
+        printf("Scenario #%d:\n",t);
+        if(ans)
+            printf("No suspicious bugs found!\n\n");
+        else
+            printf("Suspicious bugs found!\n\n");
+
+    }
+}
+```

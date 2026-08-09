@@ -1,0 +1,74 @@
+---
+title: "timus1005"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Stone Pile
+
+http://acm.timus.ru/problem.aspx?space=1&num=1005
+
+Time Limit: 2.0 second
+
+Memory Limit: 1 000 КБ
+
+You have a number of stones with known weights W1…Wn. Write a program that will rearrange the stones into two piles such that weight difference between the piles is minimal.
+
+### Input
+
+Input contains the number of stones N (1 &lt;= N &lt;= 20) and weights of the stones W1…Wn (1 &lt;= Wi &lt;= 100000) delimited by white space (either space characters or new lines).
+
+### Output
+
+Your program should output a number representing the minimal possible weight difference between stone piles.
+
+### Sample Input
+
+```
+5
+5
+8
+13
+27
+14
+```
+
+### Sample Output
+
+```
+3
+```
+
+---
+
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <numeric>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int diff(const vector<int>&w,int total, int n, int w1) {
+	if(n==0)
+		return abs(total - w1 - w1);
+	else
+		return min(diff(w, total, n-1, w1), diff(w, total, n-1, w1+w[n-1]));
+}
+
+int main() {
+	int n;
+	cin >> n;
+	vector<int> w(n);
+	for(int i = 0; i < n; i++)
+		cin>>w[i];
+	int total = accumulate(w.begin(), w.end(), 0);
+	cout << diff(w, total, w.size(),0);
+}
+```

@@ -1,0 +1,113 @@
+---
+title: "zju2329"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## AB Circle
+
+http://acm.zju.edu.cn/show_problem.php?pid=2329
+
+Time limit: 1 Seconds
+
+Memory limit: 32768K
+
+A circle formed by 'a' and 'b', you are required to figure out all such pairs of positions that when cutting the circle in a pair of the positions, we will get two segments that the number of 'a's in one segment is equal to the number of 'b's in the other segment.
+
+![abcircle.gif](<assets/zju2329/abcircle.gif>)
+
+### Input
+
+The length of circle: n is between 2 and 1000 inclusive.
+
+All the characters in the input is either 'a' or 'b'.
+
+There is no strings without any 'a' in the input.
+
+There is no strings without any 'b' in the input.
+
+### Output
+
+There are no more than 400 test cases. For each test case, print out all the correct cuttings. For each cutting, print out a pair of integers, representing the two positions to cut on.
+
+In output, all the pairs of positions should be sorted.
+
+The legal positions' number is between 0 and n-1 inclusive.
+
+Print a blank line after each test case.
+
+### Sample Input
+
+```
+ab
+baa
+```
+
+### Sample Output
+
+#### AB Circle #1:
+
+```
+0,1
+```
+
+#### AB Circle #2:
+
+```
+0,1
+0,2
+1,2
+```
+
+Note for sample 2
+
+original: baa
+
+cut in 0,1: b aa
+
+the number of 'a's in "b" = the number of 'b's in "aa" = 0
+
+cut in 0,2: ba a
+
+the number of 'b's in "ba" = the number of 'a's in "a" = 1
+
+cut in 1,2: a ab
+
+the number of 'a's in "a" = the number of 'b's in "ab" = 1
+
+BE CAREFULL: the total size of output might be very large.
+
+---
+
+```cpp
+/*Written by czk*/
+#include <iostream>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+int main() {
+	string a;
+	int caseno = 0;
+	while( cin >> a ) {
+		size_t total_a = std::count(a.begin(), a.end(), 'a');
+		size_t total_b = std::count(a.begin(), a.end(), 'b');
+		if(total_a > total_b) swap(total_a, total_b);
+		cout <<"AB Circle #"<< ++caseno <<":"<<'\n';
+		for(size_t i = 0; i < total_a + total_b -1; i++) {
+			if(total_a <= total_b && i < total_b)
+				cout << i <<',' << i+total_a << '\n';
+			if(total_a != total_b && i  < total_a )
+				cout << i <<',' << i+total_b << '\n' ;
+		}
+		cout << '\n';
+	}
+	return 0;
+}
+```

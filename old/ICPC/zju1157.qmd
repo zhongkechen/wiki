@@ -1,0 +1,239 @@
+---
+title: "zju1157"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## A Plug for UNIX
+
+http://acm.zju.edu.cn/show_problem.php?pid=1157
+
+Time limit: 10 Seconds
+
+Memory limit: 32768K
+
+You are in charge of setting up the press room for the inaugural meeting of the United Nations Internet eXecutive (UNIX), which has an international mandate to make the free flow of information and ideas on the Internet as cumbersome and bureaucratic as possible.
+
+Since the room was designed to accommodate reporters and journalists from around the world, it is equipped with electrical receptacles to suit the different shapes of plugs and voltages used by appliances in all of the countries that existed when the room was built. Unfortunately, the room was built many years ago when reporters used very few electric and electronic devices and is equipped with only one receptacle of each type. These days, like everyone else, reporters require many such devices to do their jobs: laptops, cell phones, tape recorders, pagers, coffee pots, microwave ovens, blow dryers, curling irons, tooth brushes, etc. Naturally, many of these devices can operate on batteries, but since the meeting is likely to be long and tedious, you want to be able to plug in as many as you can.
+
+Before the meeting begins, you gather up all the devices that the reporters would like to use, and attempt to set them up. You notice that some of the devices use plugs for which there is no receptacle. You wonder if these devices are from countries that didn't exist when the room was built. For some receptacles, there are several devices that use the corresponding plug. For other receptacles, there are no devices that use the corresponding plug.
+
+In order to try to solve the problem you visit a nearby parts supply store. The store sells adapters that allow one type of plug to be used in a different type of outlet. Moreover, adapters are allowed to be plugged into other adapters. The store does not have adapters for all possible combinations of plugs and receptacles, but there is essentially an unlimited supply of the ones they do have.
+
+This problem contains multiple test cases!
+
+The first line of a multiple input is an integer N, then a blank line followed by N input blocks. Each input block is in the format indicated in the problem description. There is a blank line between input blocks.
+
+The output format consists of N output blocks. There is a blank line between output blocks.
+
+### Input
+
+The input will consist of one case. The first line contains a single positive integer n (1 &lt;= n &lt;= 100) indicating the number of receptacles in the room. The next n lines list the receptacle types found in the room. Each receptacle type consists of a string of at most 24 alphanumeric characters. The next line contains a single positive integer m (1 &lt;= m &lt;= 100) indicating the number of devices you would like to plug in. Each of the next m lines lists the name of a device followed by the type of plug it uses (which is identical to the type of receptacle it requires). A device name is a string of at most 24 alphanumeric characters. No two devices will have exactly the same name. The plug type is separated from the device name by a space. The next line contains a single positive integer k (1 &lt;= k &lt;= 100) indicating the number of different varieties of adapters that are available. Each of the next k lines describes a variety of adapter, giving the type of receptacle provided by the adapter, followed by a space, followed by the type of plug.
+
+### Output
+
+A line containing a single non-negative integer indicating the smallest number of devices that cannot be plugged in.
+
+### Sample Input
+
+```
+1
+
+4
+A
+B
+C
+D
+5
+laptop B
+phone C
+pager B
+clock B
+comb X
+3
+B X
+X A
+X D
+```
+
+### Sample Output
+
+```
+1
+```
+
+Problem Source: East Central North America 1999
+
+```cpp
+// written by 曹高挺
+// 2007-02-26 20:06:46 Accepted 1157 C++ 00:00.02 1060K
+
+// 二分匹配
+// 设备匹配插孔，每种类型的原插孔只有一个，适配器同一类型有无穷多个
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+
+using namespace std;
+
+int nRecep, nDev, nAdpt;	// 原插孔类型数，设备数，适配器类型数
+							// 这三个数都是<=100的，但是在最坏情况下插针数有400种
+
+int m1to2[400];
+int m2to1[400];
+bool conn[400][400];
+bool visited[400];
+
+map<string, int> recep;		// 插孔名称和其对应的ID
+map<string, int>::iterator miter;
+int nhi;
+
+int devtype[400];			// 各设备插针类型
+vector<int> adpt[400];		// 记录所有可以直接转换的插针，计算完毕后包括可以间接转换的插针
+
+int qu[400];				// BFS时用
+int qlen;
+
+int IndexOf(string& str){
+	if( (miter=recep.find(str))==recep.end() ){
+		recep[str] = nhi++;
+		return nhi-1;
+	}
+	return miter->second;
+}
+
+void Init(){
+    memset(conn, false, sizeof(conn));
+	memset(m1to2, -1, sizeof(m1to2));
+	memset(m2to1, -1, sizeof(m2to1));
+	recep.clear();
+	nhi = 0;
+	for(int i=0; i<300; i++){
+		adpt[i].resize(0);
+	}
+}
+
+void GetInfo(){
+	int i;
+	string name;
+	string name2;
+
+	// 插孔加入ID映射表
+	cin>>nRecep;
+	for(i=0; i<nRecep; i++){
+		cin>>name;
+		IndexOf(name);
+	}
+
+	// 计算各设备的插针类型
+	cin>>nDev;
+	for(i=0; i<nDev; i++){
+		cin>>name>>name;
+		devtype[i] = IndexOf(name);
+	}
+
+	// 获取适配器信息
+	cin>>nAdpt;
+	for(i=0; i<nAdpt; i++){
+		cin>>name>>name2;
+		adpt[ IndexOf(name) ].push_back( IndexOf(name2) );
+	}
+
+	// 此时nhi为插针类型数 (nhi>=nRecep)
+}
+
+void BFS(int from){
+	// 广度优先遍历，计算from类型针脚所有可以转换的针脚
+	qlen = 0;
+	memset(visited, false, sizeof(bool)*nhi);
+	visited[from] = true;
+	int i, iter=0;
+	int tp, nexttp;
+
+	for(i=0; i<(int)adpt[from].size(); i++){
+        qu[qlen++] = adpt[from][i];
+		visited[ adpt[from][i] ] = true;
+	}
+	while( iter<qlen ){
+		tp = qu[iter];				// 当前插针类型
+		for(i=0; i<(int)adpt[tp].size(); i++){
+			nexttp = adpt[tp][i];	// 转换后的指针类型
+			if( !visited[ nexttp ] ){
+				visited[ nexttp ] = true;
+				adpt[from].push_back( nexttp );
+				qu[qlen++] = nexttp;
+			}
+		}
+		iter ++;
+	}
+}
+
+void Plug(){
+	// 计算出所有可以转换的插针，计算结果在adpt里
+	int i, j;
+	int tp;
+	for(i=0; i<nhi; i++){
+		BFS(i);
+	}
+
+	// 构二分图
+	for(i=0; i<nDev; i++){
+		tp = devtype[i];
+		conn[i][tp] = true;
+		for(j=0; j<(int)adpt[tp].size(); j++){
+			if( adpt[tp][j] < nRecep ){
+				conn[i][adpt[tp][j]] = true;
+			}
+		}
+	}
+}
+
+bool FindPath(int nn){
+	int i;
+	for(i=0; i<nRecep; i++){
+		if( !visited[i] && conn[nn][i] ){
+			visited[i] = true;
+			if( m2to1[i]==-1 || FindPath(m2to1[i]) ){
+				m1to2[nn] = i;
+				m2to1[i] = nn;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+int Match(){
+	int ret = 0;
+	int i;
+	for(i=0; i<nDev; i++){
+		if( m1to2[i]==-1 ){
+			memset(visited, false, sizeof(bool)*nRecep);
+			ret += FindPath(i);
+		}
+	}
+	return ret;
+}
+
+int main(){
+	int T, k;
+	cin>>T;
+	for(k=0; k<T; k++){
+		if( k )	printf("\n");
+		Init();
+		GetInfo();
+		Plug();
+		printf("%d\n", nDev-Match());
+	}
+
+	return 1;
+}
+```

@@ -1,0 +1,45 @@
+---
+title: "hdu2050 参考答案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+```cpp
+/*
+hdu2050 折线分割平面,递推求解
+ymc 2008/9/23
+题目大意：
+给定n条折线，求最多能将平面分成多少部分。
+分析与解题思路：
+先考虑直线
+令L[n]表示n条直线最多将平面分成L[n]部分。
+则可以令第n条直线与其它的n-1条直线都相交。
+则有L[n]=l[n-1]+n。
+初始L[1]=2;
+得到L[n]=1+n(n+1)/2;
+记F[n]为n条折线最多将平面分成F[n]部分，则
+F[n]=L[2n]-2n=2*n^2+1-n;
+*/
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int n;
+    int test;
+    int ans;
+    scanf("%d",&test);
+    while(test-->0)
+    {
+        scanf("%d",&n);
+        ans=2*n*n+1-n;
+        printf("%d\n",ans);
+    }
+}
+```

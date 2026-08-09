@@ -1,0 +1,59 @@
+---
+title: "timus1200"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+## Horns and Hoofs
+
+http://acm.timus.ru/problem.aspx?space=1&num=1200
+
+Time Limit: 0.25 second
+
+Memory Limit: 1 000 KB
+
+The famous venturer Ostap B. decided to organize a firm "Horns & Hoofs" which will produce horns and hoofs. Fist of all, Ostap has studied the market, the manufacturing process, and the local conditions.
+
+The calculations showed that each horn would give a profit of A roubles and each hoof would bring B roubles. It must be taken into account that there are similar products in the market already and that horns and hoofs are in a sense interchangeable. Therefore the total amount of produced goods must not exceed K pieces each month, otherwise the excess will not be sold.
+
+Besides, Ostap B. knows that the local racketeers fight monopolism and collect each month for each type of goods a "tax" which is equal (in roubles) to the square of the produced amount. For example, if the firm has produced two horns and three hoofs, then they must pay 4+9=13 roubles.
+
+Having heard about the success of students of the Department of Mathematics and Mechanics in the All-Russian finals of business game Nixdorff Delta, Ostap appealed to the dean's office. He asked to calculate the optimal production volumes for his new firm. The dean is sure that his students will cope with this task.
+
+### Input
+
+The first line contains real numbers A and B (-10000 &lt;= A,B &lt;= 10000) with a two fractional digits precision. These numbers are the profits (in roubles) given by each horn and by each hoof respectively.
+
+The next line contains an integer K which is the maximal number of goods that could be sold each month (1 &lt;= K &lt;= 10000).
+
+### Output
+
+You should output at the first line the maximal possible profit with a two fractional digits precision. The next line should contain the optimal production volumes.
+
+If there are several possible answers, you should output the one with the least amount of horns, and if there is still a tie with the least amount of hoofs.
+
+### Sample Input
+
+```
+34.20 61.70
+45
+```
+
+### Sample Output
+
+```
+1239.50
+16 29
+```
+
+Problem Author: Magaz Asanov
+
+Problem Source: USU Internal Contest, March 2002
+
+---

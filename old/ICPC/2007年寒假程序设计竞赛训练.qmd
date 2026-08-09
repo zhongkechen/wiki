@@ -1,0 +1,87 @@
+---
+title: "2007年寒假程序设计竞赛训练"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“大学生程序设计竞赛”](../ICPC.qmd)
+
+### 目的
+
+ . 为了准备07年的浙江省大学生程序设计竞赛及其他程序设计相关竞赛，锻炼程序设计竞赛后备人才，活跃学习程序设计的氛围，特别开展07年寒假程序设计竞赛训练。
+
+### 参加条件
+
+* 我校大一到大四学生
+* 对程序设计有浓厚兴趣
+* 有一定的程序设计基础
+
+### 训练计划
+
+#### 集中培训
+
+* 目的：布置任务，并针对新人进行一些入门讲解
+* 时间：待定(可能是07年1月24日16:00)
+* 地点：待定(可能是5号楼某教室或实验室)
+* 任务：程序设计判题系统入门训练，布置假期任务
+
+#### 自学
+
+* 目的：配合程序设计竞赛的需要，准备一些基本的理论知识
+* 时间：07年1月底寒假开始到07年3月初开学
+* 地点：在学校、在家或者任何地方
+* 任务：自学如下内容：C程序设计语言、C++程序设计语言、STL标准模板库、数据结构、算法设计基础、基本的英语阅读技巧
+* 检查：开学时进行测验
+
+#### 练习
+
+* 时间：07年1月底寒假开始到07年3月初开学
+* 地点：在学校、在家或者任何有计算机并能够上网的地方
+* 任务：每个人独立在zoj在线判题系统上完成40题以上（即平均每日1题以上）。开学交一篇解题报告。
+* 检查：分两阶段检查，过年（2月18日）之前和过年之后开学之前，两个阶段都必须完成20题以上。
+* 评定：在名额不足的情况下，答题数量多者入选。
+
+### 帐号列表
+
+在此列出各位同学在zoj( http://acm.zju.edu.cn/ )上的帐号，并记录训练开始前的成绩
+
+| 姓名 | zoj帐号 | 寒假开始前题数 | 截止2月18日题数 | 寒假结束后题数(3月8日) |
+| --- | --- | --- | --- | --- |
+| 曹高挺 | [caogtaa](http://acm.zju.edu.cn/user_status.php?user=caogtaa) | 260 | 293(1362) | 340(1535) |
+| 胡盛迭 | [wzoot](http://acm.zju.edu.cn/user_status.php?user=wzoot) | 0 | 52(77) | 88(159) |
+| 金珊丹 | [jsd850926](http://acm.zju.edu.cn/user_status.php?user=jsd850926) | 1 | 63 | 74(160) |
+| 陈仲寅 | [chenzhongyin](http://acm.zju.edu.cn/user_status.php?user=chenzhongyin) | 3 | 31(53) | 55(78) |
+| 程超 | [refuse_dump](http://acm.zju.edu.cn/user_status.php?user=refuse_dump) | 0 | 30(102) | 52(172) |
+| 陈翔翔 | [chenxiang](http://acm.zju.edu.cn/user_status.php?user=chenxiang) | 29 | 42(68) | 50(87) |
+| 周鑫崴 | [mdgt](http://acm.zju.edu.cn/user_status.php?user=mdgt) | 0 | 23(25) | 44(53) |
+| 徐玲红 | [zixin](http://acm.zju.edu.cn/user_status.php?user=zixin) | 1 | 8(57) | 40(142) |
+| 钱海霞 | [wzqhx](http://acm.zju.edu.cn/user_status.php?user=wzqhx) | 0 | 28(44) | 40(81) |
+| 苏晶晶 | [janetpanda](http://acm.zju.edu.cn/user_status.php?user=janetpanda) | 0 | 13(50) | 40(81) |
+| 竹海波 | [zhb](http://acm.zju.edu.cn/user_status.php?user=zhb) | 0 | 20(41) | 40(68) |
+| 蔡何斌 | [chb](http://acm.zju.edu.cn/user_status.php?user=chb) | 0 | 20(22) | 40(43) |
+| 张丹江 | [zdj](http://acm.zju.edu.cn/user_status.php?user=zdj) | 0 | 20(80) | 39(138) |
+| 以下同学尽快补齐题数 |  |  |  |  |
+| 叶贤淼 | [Conqueror](http://acm.zju.edu.cn/user_status.php?user=Conqueror) | 0 | 8(19) | 20(63) |
+| 洪智妍 | [hongzhiyan](http://acm.zju.edu.cn/user_status.php?user=hongzhiyan) | 0 | 10(33) | 16(48) |
+| 沈利彪 | [hittler](http://acm.zju.edu.cn/user_status.php?user=hittler) | 0 | 7(33) | 7(33) |
+| 洪剑 | [hj](http://acm.zju.edu.cn/user_status.php?user=hj) | 0 | 5(16) | 5(25) |
+| 宣淑飞 | [little0509115113](http://acm.zju.edu.cn/user_status.php?user=little0509115113) | 0 | 5(10) | 5(10) |
+| 邱海霞 | [qhx](http://acm.zju.edu.cn/user_status.php?user=qhx) | 1 | 2(11) | 2 |
+| 金益惠 | [jinyihui](http://acm.zju.edu.cn/user_status.php?user=jinyihui) | 0 | 0(0) | 0 |
+| 胡连来 | [hll](http://acm.zju.edu.cn/user_status.php?user=hll) | 0 | 0(0) | 0 |
+| 李余朋 | [Yjacm](http://acm.zju.edu.cn/user_status.php?user=lyp) | 20?? | 1(1) | 1 |
+| 吴勇 | [wuyong0125](http://acm.zju.edu.cn/user_status.php?user=wuyong0125) | 0 | 1(2) | 7 |
+| 郑书琴 | [zsq](http://acm.zju.edu.cn/user_status.php?user=zsq) | 0 | 0(0) | 0 |
+| 冯国良 | [leo](http://acm.zju.edu.cn/user_status.php?user=leo) | 0 | 0(0) | 0 |
+| 黄元 | Henry | 0 | 0(0) | 0 |
+| 夏静 | xiaeagle | 0 | 0(0) | 0 |
+
+### QQ群
+
+我们的qq群号是6514070，希望每个人都能加入
+
+### The end
