@@ -49,14 +49,6 @@ website:
   repo-actions: [source]
   google-analytics: G-WNLDZWNFJM
   search: true
-  navbar:
-    left:
-      - href: index.md
-        text: 首页
-      - href: old/首页.qmd
-        text: 旧版首页
-      - href: old/数字图像处理.qmd
-        text: 数字图像处理
   page-footer:
     center: |
       Zhongke's shared personal notes<br>
