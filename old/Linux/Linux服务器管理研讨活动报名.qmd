@@ -1,0 +1,52 @@
+---
+title: "Linux服务器管理研讨活动报名"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 报名
+
+希望参加研讨会的人，请点击名单下面的编辑按钮，参照已有参与者的格式写上自己的相关信息
+
+| **编号** | **姓名** | **单位** | **职业** | **联系方式** |
+| --- | --- | --- | --- | --- |
+| 1 | 陈忠克 | 温州大学 | 教师 | qq:245149, |
+| 2 | 黄长城 | 温州大学/瑞安计算机协会 | 教师 | qq:25378802,email:cchuang@126.com |
+| 3 | 沈欢 | 庄吉集团 | 主管 | qq:247791321,email:shenhuan007@gmail.com |
+| 4 | 陈熠锋 | 瓯海信息中心 | 工程师 | email: chenyifengATgmailDOTcom |
+| 5 | 陈盛锡 | 鳌江实验小学 | 教师 | qq:85296277,email:huaidongxi@gmail.com |
+| 6 | 金可仲 | 温州大学 | 教师 | qq:30396806,email:beetleking@163.com |
+| 7 | 叶海鹏 | 温州科技职业学院 | 教师 | qq:39140421,email:wznxyhp@gmail.com |
+| 8 | 蔡定岳 | 温州科技职业学院 | 教师 | qq:77280042,email:wncdy@163.com |
+| 9 | 陈吟新 | 环宇集团 | 主管 | qq:88656765,yadeli@sina.com.cn |
+| 10 | 陈毅 | 温州时代广场 | 主管 | qq：47422408,zjayi@sohu.com |
+| 11 | 吴培明 | 温州中百有限公司 | 主管 | qq:23844812,mewpm@sohu.com |
+| 12 | 陈畅 | 温州科技职业学院 | 教师 | qq:12906846,email:chenchan@zjip.com |
+| 13 | 郑凯 | 温州移动乐清分公司 | 主管 | qq:21106779,email:arkey@zj139.com |
+| 14 | 周国强 | 浙江汇智科技有限公司 | 工程师 | qq:365833305,email:zgq.sunny@gmail.com |
+| 15 | 纪委 | 浙江sos公司 | 工程师 | qq:361176000,email:361176000@qq.com |
+| 16 | 莫汉宗 | 浙江生活秀服饰有限公司 | 主管 | qq:465155518,email:chinamohanzong@163.com |
+| 17 | 许驰 | 温州科技职业学院 | 教师 | qq:2825123,email:godbu@126.com |
+| 18 | 张紫光 | 温州生活传媒科技有限公司 | 主管 | qq:18068186,email:normanzzg@gmail.com |
+| 19 | 俞周玲 | 温州机电高级技工学校 | 教师 | qq:627414818,email:yzl3156@163.com |
+| 20 | 黄根安 | 浙江汇智科技有限公司 | 工程师 | qq:344593576,email:hga@zjhuizhi.com |
+| 21 | 王宇星 | 温州机电高级技工学校 | 教师 | qq:1750476,email:poorkids@163.com |
+| 22 | 吴春光 | 温州机电高级技工学校 | 教师 | qq:297521520,email:wzwuchunguang@163.com |
+| 23 | 黄凤鸣 | 温州机电高级技工学校 | 教师 | qq:66936767,email:hagff2006@163.com |
+| 24 | 王晓锋 | 浙江汇智科技有限公司 | 工程师 | qq:173189163,email:wang173189163@163.com |
+| 26 | 张建伟 | 温州大学 | 研究生 | qq:204959560,email:zhangjianwei725@163.com |
+| 27 | 张雁超 | 温州大学 | 教师 | qq:8728776,email:zyc@wzu.edu.cn |
+| 28 | 张清学 | 业余爱好者 | 设计师 | qq:66725248,email:zqxue2005@126.com |
+| 29 | 夏浩 | 温州易高信息技术有限公司 | 工程师 | qq:21428581,email:xiah2005@yahoo.com.cn |
+| 30 | 王昊 | 三虎集团 | 主管 | qq:49251183,email:whao@86shjt.com |
+| 31 | 岳海 | 庄吉集团 | 主管 | qq:691704683,email:yuehaister@gmail.com |
+| 31 | ZQS | Z集团 | 主管 | qq:XXX,email:XXX@gmail.com |
+
+----
+CategoryHomepage
