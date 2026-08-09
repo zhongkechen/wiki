@@ -1,0 +1,18 @@
+---
+title: "面向对象程序设计试卷库"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+在这里详述 面向对象程序设计试卷库.
+
+* [2004-2005学年第一学期C++期中考试试卷.pdf](<assets/面向对象程序设计试卷库/2004-2005学年第一学期C++期中考试试卷.pdf>)
+* [2004上C2期中试卷.doc](<assets/面向对象程序设计试卷库/2004上C2期中试卷.doc>)
+* [c++ papar.pdf](<assets/面向对象程序设计试卷库/c++ papar.pdf>)
+* [成教试卷.doc](<assets/面向对象程序设计试卷库/成教试卷.doc>)

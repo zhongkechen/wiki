@@ -1,0 +1,15 @@
+---
+title: "面向对象程序设计期末课程成绩"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+::: {.callout-note}
+原页面重定向至“课程成绩”，该目标尚未迁移。
+:::

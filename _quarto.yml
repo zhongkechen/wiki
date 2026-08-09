@@ -30,6 +30,8 @@ project:
     - old/Python游戏开发基础/*.qmd
     - old/高级语言程序设计课程.qmd
     - old/高级语言程序设计课程/*.qmd
+    - old/面向对象程序设计课程.qmd
+    - old/面向对象程序设计课程/*.qmd
   resources:
     - CNAME
 

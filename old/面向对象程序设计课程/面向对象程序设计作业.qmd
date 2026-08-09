@@ -1,0 +1,13 @@
+---
+title: "面向对象程序设计作业"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+[https://czk.8866.org/oj/users/](https://czk.8866.org/oj/users/)
