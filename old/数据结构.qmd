@@ -11,6 +11,7 @@ format:
 [返回旧版首页](首页.qmd)
 
 ## 课件
+
 - [数据结构概述](<数据结构/数据结构概述.qmd>) Introduction
 - [线性表](<数据结构/线性表.qmd>) Linear List
 - [栈](<数据结构/栈.qmd>) Stack
@@ -24,6 +25,7 @@ format:
 - [排序](<数据结构/排序.qmd>) Sort
 
 ## 其他材料
+
 - [数据结构课程作业](<数据结构/数据结构课程作业.qmd>)
 - [数据结构课程](<数据结构/数据结构课程.qmd>) 课程建设材料
 - [数据结构课程实验](<数据结构/数据结构课程实验.qmd>)
@@ -34,7 +36,8 @@ format:
 - [栈的说课教案](<数据结构/栈的说课教案.qmd>)
 - 算法与数据结构 (李忠月的数据结构课程，内容与数据结构课程没有差别)
 
-- 课程讨论： http://groups.google.com/group/study-cs
+- 课程讨论：[study-cs 论坛](http://groups.google.com/group/study-cs)
+
 ## 参考资料
 
 - [Fundamentals of Data Structures in C](http://www.amazon.com/Fundamentals-Data-Structures-Ellis-Horowitz/dp/0929306406/ref=pd_bbs_sr_1?ie=UTF8&s=books&qid=1215473945&sr=1-1), Ellis Horowitz, Sartaj Sahni, W. H. Freeman
