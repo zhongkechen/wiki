@@ -15,6 +15,13 @@ project:
     - wiki/围棋.md
     - wiki/科学上网.md
     - old/首页.qmd
+    - old/TCPL.qmd
+    - old/Answer_to_Chapter_1.qmd
+    - old/Examples_from_TCPL.qmd
+    - old/Illustrated_C.qmd
+    - old/Ch运行环境.qmd
+    - old/C++集成开发环境.qmd
+    - old/温大机房优化脚本.qmd
     - old/数据结构.qmd
     - old/数据结构/**/*.qmd
     - old/数字图像处理.qmd

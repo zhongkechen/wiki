@@ -1,0 +1,49 @@
+---
+title: "Ch运行环境"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”](<高级语言程序设计课程.qmd>)
+
+Ch运行环境介绍：
+
+Ch is an embeddable C/C++ interpreter for cross-platform scripting, shell programming, 2D/3D plotting, numerical computing, and embedded scripting. C/Ch/C++ allow users to use one language, anywhere and everywhere, for any programming tasks.
+
+Ch的优点：
+
+* 具有C语言语法的脚本语言，适合教学中交互式的执行C程序语句（这是最重要的特色）
+* 可将解释器嵌入应用程序，可以将C语言脚本作为一个应用程序的配置文件（这个功能其它很多语言比如Python、Lisp等也可以实现）
+* 扩展了C语言语法，方便数值计算（双刃剑，既是优点也是缺点）
+
+Ch的缺点：
+
+* 使用扩展语法的程序不能在其它标准C/C++平台上运行（学习这些语法，会给人带来很大的困惑，搞不清楚哪些语法是C哪些语法是Ch）
+* Ch没有源代码（不能了解Ch的底层机制，如果官方公司倒闭或者不再支持这个软件，这个语言就将寿终正寝）
+* Ch是商业软件，不是完全免费（学习了它以后，如果要做进一步的开发应用，需要购买版权）
+* Ch缺少商业支持，除了SoftIntegeration公司以外没有其他商业公司支持。（没有商业应用前途）
+* 集成开发环境少，除了使用纯编辑器VI，就只有ChSciTE支持Ch。（作大型软件开发不方便）
+* 没有调试器，不能调试（给实际开发大型软件带来不便）
+* 不兼容C++语言（不能用作C++教学使用）
+* Ch没有编译器，Ch的程序以解释方式执行，执行速度慢。用Ch扩展语法写成的程序，不能编译成可执行文件。（不使用扩展语法，可以用标准C编译器编译成可执行程序。）
+
+Ch的下载地址：
+
+* <http://www.softintegration.com/>
+
+问题：
+
+* ch有没有源代码？
+     没有
+* ch有哪些商业公司支持？有哪些商业应用？
+     好像还没看到
+* ch写的代码能不能转换成标准C语言？
+     好像不行
+* ch写的程序能不能编译成可执行文件？
+     好像不行
+* ch Professional和Standard有什么区别？
+     扩展库方面可能有区别

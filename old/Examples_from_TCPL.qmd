@@ -1,0 +1,1779 @@
+---
+title: "Examples_from_TCPL"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”](<高级语言程序设计课程.qmd>)
+
+
+## 入门
+### 第一个C语言程序
+写一个程序，在屏幕上输出hello, world
+
+```c
+#include <stdio.h>
+
+main()
+{
+    printf("hello, world\n");
+}
+```
+
+### 摄氏华氏温度对照表
+使用公式℃=(5/9)(℉-32) 打印华氏温度与摄氏温度对照表
+
+```c
+#include <stdio.h>
+
+/* print Fahrenheit-Celsius table
+   for fahr = 0, 20, ..., 300 */
+main()
+{
+    int fahr, celsius;
+    int lower, upper, step;
+
+    lower = 0;      /* lower limit of temperature scale */
+    upper = 300;    /* upper limit */
+    step = 20;      /* step size */
+
+    fahr = lower;
+    while (fahr <= upper) {
+        celsius = 5 * (fahr-32) / 9;
+        printf("%d\t%d\n", fahr, celsius);
+        fahr = fahr + step;
+    }
+}
+```
+
+### 温度对照表第2版
+上述的温度转换程序存在两个问题。比较简单的问题是，由于输出的数不是右对齐的，所以输出的结果不是很美观。另一个较为严重的问题是，由于我们使用的是整型算术运算，因此经计算得到的摄氏温度值不太精确，例如，与0℉对应的精确的摄氏温度应该为-17.8℃，而不是-17℃。
+
+```c
+#include <stdio.h>
+
+/* print Fahrenheit-Celsius table
+   for fahr = 0, 20, ..., 300; floating-point version */
+main()
+{
+    float fahr, celsius;
+    float lower, upper, step;
+
+    lower = 0;      /* lower limit of temperatuire scale */
+    upper = 300;    /* upper limit */
+    step = 20;      /* step size */
+
+    fahr = lower;
+    while (fahr <= upper) {
+        celsius = (5.0/9.0) * (fahr-32.0);
+        printf("%3.0f %6.1f\n", fahr, celsius);
+        fahr = fahr + step;
+    }
+}
+```
+
+### 温度对照表第3版
+对于某个特定任务我们可以采用多种方法来编写程序。上面这个程序如果把while循环改成for循环，程序可以更简洁。
+
+```c
+#include <stdio.h>
+
+/* print Fahrenheit-Celsius table */
+main()
+{
+    int fahr;
+
+    for (fahr = 0; fahr <= 300; fahr = fahr + 20)
+        printf("%3d %6.1f\n", fahr, (5.0/9.0)*(fahr-32));
+}
+```
+
+### 温度对照表第4版
+对于前面程序中出现的上限、下限、步长等值，使用变量是不恰当的，因为它们不会变，直接使用常数也是不恰当的，因为这样不容易理解。正确的方法之一是使用宏定义：
+
+```c
+#include <stdio.h>
+
+#define LOWER  0     /* lower limit of table */
+#define UPPER  300   /* upper limit */
+#define STEP   20    /* step size */
+
+/* print Fahrenheit-Celsius table */
+main()
+{
+    int fahr;
+
+    for (fahr = LOWER; fahr <= UPPER; fahr = fahr + STEP)
+        printf("%3d %6.1f\n", fahr, (5.0/9.0)*(fahr-32));
+}
+```
+
+### 文件复制
+把输入一次一个字符地复制到输出
+
+```c
+#include <stdio.h>
+
+/* copy input to output; 1st version  */
+main()
+{
+    int c;
+
+    c = getchar();
+    while (c != EOF) {
+        putchar(c);
+        c = getchar();
+    }
+}
+```
+
+### 文件复制第2版
+对于经验比较丰富的C语言程序员，可以把这个字符复制程序编写得更精炼一些。
+
+```c
+#include <stdio.h>
+
+/* copy input to output; 2nd version  */
+main()
+{
+    int c;
+
+    while ((c = getchar()) != EOF)
+        putchar(c);
+}
+```
+
+### 字符计数
+下列程序用于对字符进行计数，它与上面的复制程序类似。
+
+```c
+#include <stdio.h>
+
+/* count characters in input; 1st version */
+main()
+{
+    long nc;
+
+    nc = 0;
+    while (getchar() != EOF)
+        ++nc;
+    printf("%ld\n", nc);
+}
+```
+
+### 字符计数第2版
+
+```c
+#include <stdio.h>
+
+/* count characters in input; 2nd version */
+main()
+{
+    double nc;
+
+    for (nc = 0; getchar() != EOF; ++nc)
+        ;
+    printf("%.0f\n", nc);
+}
+```
+
+### 行计数
+接下来的这个程序用于统计输入中的行数。
+
+```c
+#include <stdio.h>
+
+/* count lines in input */
+main()
+{
+    int c, nl;
+
+    nl = 0;
+    while ((c = getchar()) != EOF)
+        if (c == '\n')
+            ++nl;
+    printf("%d\n", nl);
+}
+```
+
+### 单词计数
+写一个程序用于统计行数、单词数与字符数
+
+```c
+#include <stdio.h>
+
+#define IN   1  /* inside a word */
+#define OUT  0  /* outside a word */
+
+/* count lines, words, and characters in input */
+main()
+{
+    int c, nl, nw, nc, state;
+
+    state = OUT;
+    nl = nw = nc = 0;
+    while ((c = getchar()) != EOF) {
+        ++nc;
+        if (c == '\n')
+            ++nl;
+        if (c == ' ' || c == '\n' || c = '\t')
+            state = OUT;
+        else if (state == OUT) {
+            state = IN;
+            ++nw;
+        }
+    }
+    printf("%d %d %d\n", nl, nw, nc);
+}
+```
+
+### 数字字符计数
+编写一个程序，以统计各个数字、空白符(包括空格符、制表符及换行符)以及所有其他字符出现的次数
+
+```c
+   #include <stdio.h>
+
+   /* count digits, white space, others */
+   main()
+   {
+       int c, i, nwhite, nother;
+       int ndigit[10];
+
+       nwhite = nother = 0;
+       for (i = 0; i < 10; ++i)
+           ndigit[i] = 0;
+
+       while ((c = getchar()) != EOF)
+           if (c >= '0' && c <= '9')
+               ++ndigit[c-'0'];
+           else if (c == ' ' || c == '\n' || c == '\t')
+               ++nwhite;
+           else
+               ++nother;
+
+       printf("digits =");
+       for (i = 0; i < 10; ++i)
+           printf(" %d", ndigit[i]);
+       printf(", white space = %d, other = %d\n",
+           nwhite, nother);
+   }
+```
+
+### 函数
+写一个求幂的函数power(m,n)
+
+```c
+   #include <stdio.h>
+
+   int power(int m, int n);
+
+    /* test power function */
+    main()
+    {
+        int i;
+
+        for (i = 0; i < 10; ++i)
+            printf("%d %d %d\n", i, power(2,i), power(-3,i));
+        return 0;
+    }
+
+    /* power:  raise base to n-th power; n >= 0 */
+    int power(int base, int n)
+    {
+        int i,  p;
+
+        p = 1;
+        for (i = 1; i <= n; ++i)
+            p = p * base;
+        return p;
+    }
+```
+
+### power函数第2版
+
+```c
+   /* power:  raise base to n-th power; n >= 0; version 2 */
+   int power(int base, int n)
+   {
+       int p;
+
+       for (p = 1; n > 0; --n)
+           p = p * base;
+       return p;
+   }
+```
+
+### 最长的行
+写一个程序读入一组文本行，并把最长的文本行打印出来。
+
+```c
+   #include <stdio.h>
+   #define MAXLINE 1000   /* maximum input line length */
+
+   int getline(char line[], int maxline);
+   void copy(char to[], char from[]);
+
+   /* print the longest input line */
+   main()
+   {
+       int len;            /* current line length */
+       int max;            /* maximum length seen so far */
+       char line[MAXLINE];    /* current input line */
+       char longest[MAXLINE]; /* longest line saved here */
+
+       max = 0;
+       while ((len = getline(line, MAXLINE)) > 0)
+           if (len > max) {
+               max = len;
+               copy(longest, line);
+           }
+       if (max > 0)  /* there was a line */
+           printf("%s", longest);
+       return 0;
+   }
+
+   /* getline:  read a line into s, return length  */
+   int getline(char s[],int lim)
+   {
+       int c, i;
+
+       for (i=0; i < lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
+           s[i] = c;
+       if (c == '\n') {
+           s[i] = c;
+           ++i;
+       }
+       s[i] = '\0';
+       return i;
+   }
+
+   /* copy:  copy 'from' into 'to'; assume to is big enough */
+   void copy(char to[], char from[])
+   {
+       int i;
+
+       i = 0;
+       while ((to[i] = from[i]) != '\0')
+           ++i;
+   }
+```
+
+### 最长的行第2版
+使用全局变量来实现
+
+```c
+   #include <stdio.h>
+
+   #define MAXLINE 1000    /* maximum input line size */
+
+   int max;                /* maximum length seen so far */
+   char line[MAXLINE];     /* current input line */
+   char longest[MAXLINE];  /* longest line saved here */
+
+   int getline(void);
+   void copy(void);
+
+   /* print longest input line; specialized version */
+   main()
+   {
+       int len;
+       extern int max;
+       extern char longest[];
+
+       max = 0;
+       while ((len = getline()) > 0)
+           if (len > max) {
+               max = len;
+               copy();
+           }
+       if (max > 0)  /* there was a line */
+           printf("%s", longest);
+       return 0;
+   }
+
+   /* getline:  specialized version */
+   int getline(void)
+   {
+       int c, i;
+       extern char line[];
+
+       for (i = 0; i < MAXLINE - 1
+            && (c=getchar)) != EOF && c != '\n'; ++i)
+                line[i] = c;
+       if (c == '\n') {
+           line[i] = c;
+           ++i;
+       }
+       line[i] = '\0';
+       return i;
+   }
+
+   /* copy: specialized version */
+   void copy(void)
+   {
+       int i;
+       extern char line[], longest[];
+
+       i = 0;
+       while ((longest[i] = line[i]) != '\0')
+           ++i;
+   }
+```
+
+## 类型、运算符和表达式
+### 字符串长度
+写一个函数求字符串的长度
+
+```c
+   /* strlen:  return length of s */
+   int strlen(char s[])
+   {
+       int i;
+
+       while (s[i] != '\0')
+           ++i;
+       return i;
+   }
+```
+
+### 字符串转整数
+写一个函数将包含一串数字的字符串转换成整数
+
+```c
+   /* atoi:  convert s to integer */
+   int atoi(char s[])
+   {
+       int i, n;
+
+       n = 0;
+       for (i = 0; s[i] >= '0' && s[i] <= '9'; ++i)
+           n = 10 * n + (s[i] - '0');
+       return n;
+   }
+```
+
+### 大写变小写
+写一个函数，将大写字母变成小写字母，其他字符不变。
+
+```c
+   /* lower:  convert c to lower case; ASCII only */
+   int lower(int c)
+   {
+       if (c >= 'A' && c <= 'Z')
+           return c + 'a' - 'A';
+       else
+           return c;
+   }
+```
+
+### 随机函数
+
+写一个函数，用来产生随机的整数
+
+```c
+   unsigned long int next = 1;
+
+   /* rand:  return pseudo-random integer on 0..32767 */
+   int rand(void)
+   {
+       next = next * 1103515245 + 12345;
+       return (unsigned int)(next/65536) % 32768;
+   }
+
+   /* srand:  set seed for rand() */
+   void srand(unsigned int seed)
+   {
+       next = seed;
+   }
+```
+
+### 字符串删除
+写一个函数squeeze(s, c)，删除字符串s中所有的字符c。
+
+```c
+   /* squeeze:  delete all c from s */
+   void squeeze(char s[], int c)
+   {
+      int i, j;
+
+      for (i = j = 0; s[i] != '\0'; i++)
+          if (s[i] != c)
+              s[j++] = s[i];
+      s[j] = '\0';
+   }
+```
+
+### 字符串连接
+写一个函数strcat(s,t)，它将字符串t连接到字符串s的尾部
+
+```c
+   /* strcat:  concatenate t to end of s; s must be big enough */
+   void strcat(char s[], char t[])
+   {
+       int i, j;
+
+       i = j = 0;
+       while (s[i] != '\0') /* find end of s */
+           i++;
+       while ((s[i++] = t[j++]) != '\0') /* copy t */
+           ;
+   }
+```
+
+### 位运算
+写一个函数getbits(x,p,n)，它返回x中从右边数第p位开始向右数n位的字段
+
+```c
+   /* getbits:  get n bits from position p */
+   unsigned getbits(unsigned x, int p, int n)
+   {
+       return (x >> (p+1-n)) & ~(~0 << n);
+   }
+```
+
+### 位计数
+函数bitcount统计其整型参数的值为1的二进制位的个数
+
+```c
+   /* bitcount:  count 1 bits in x */
+   int bitcount(unsigned x)
+   {
+       int b;
+
+       for (b = 0; x != 0; x >>= 1)
+           if (x & 01)
+               b++;
+       return b;
+   }
+```
+
+## 控制流
+### 折半查找
+
+```c
+   /* binsearch:  find x in v[0] <= v[1] <= ... <= v[n-1] */
+   int binsearch(int x, int v[], int n)
+   {
+       int low, high, mid;
+
+       low = 0;
+       high = n - 1;
+       while (low <= high) {
+           mid = (low+high)/2;
+           if (x < v[mid])
+               high = mid + 1;
+           else if (x  > v[mid])
+               low = mid + 1;
+           else    /* found match */
+               return mid;
+       }
+       return -1;   /* no match */
+   }
+```
+
+### 数字字符计数第2版
+
+```c
+   #include <stdio.h>
+
+   main()  /* count digits, white space, others */
+   {
+       int c, i, nwhite, nother, ndigit[10];
+
+       nwhite = nother = 0;
+       for (i = 0; i < 10; i++)
+           ndigit[i] = 0;
+       while ((c = getchar()) != EOF) {
+           switch (c) {
+           case '0': case '1': case '2': case '3': case '4':
+           case '5': case '6': case '7': case '8': case '9':
+               ndigit[c-'0']++;
+               break;
+           case ' ':
+           case '\n':
+           case '\t':
+               nwhite++;
+               break;
+           default:
+               nother++;
+               break;
+           }
+       }
+       printf("digits =");
+       for (i = 0; i < 10; i++)
+           printf(" %d", ndigit[i]);
+       printf(", white space = %d, other = %d\n",
+           nwhite, nother);
+       return 0;
+   }
+```
+
+### 字符串转整数第2版
+
+```c
+   #include <ctype.h>
+
+   /* atoi:  convert s to integer; version 2 */
+   int atoi(char s[])
+   {
+       int i, n, sign;
+
+       for (i = 0; isspace(s[i]); i++)  /* skip white space */
+           ;
+       sign = (s[i] == '-') ? -1 : 1;
+       if (s[i] == '+' || s[i] == '-')  /* skip sign */
+           i++;
+       for (n = 0; isdigit(s[i]); i++)
+           n = 10 * n + (s[i] - '0');
+       return sign * n;
+   }
+```
+
+### 希尔排序
+
+```c
+   /* shellsort:  sort v[0]...v[n-1] into increasing order */
+   void shellsort(int v[], int n)
+   {
+       int gap, i, j, temp;
+
+       for (gap = n/2; gap > 0; gap /= 2)
+           for (i = gap; i < n; i++)
+               for (j=i-gap; j>=0 && v[j]>v[j+gap]; j-=gap) {
+                   temp = v[j];
+                   v[j] = v[j+gap];
+                   v[j+gap] = temp;
+               }
+   }
+```
+
+### 字符串翻转
+
+```c
+   #include <string.h>
+
+   /* reverse:  reverse string s in place */
+   void reverse(char s[])
+   {
+       int c, i, j;
+
+       for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
+           c = s[i];
+           s[i] = s[j];
+           s[j] = c;
+       }
+   }
+```
+
+### 整数转字符串
+
+```c
+   /* itoa:  convert n to characters in s */
+   void itoa(int n, char s[])
+   {
+       int i, sign;
+
+       if ((sign = n) < 0)  /* record sign */
+           n = -n;          /* make n positive */
+       i = 0;
+       do {      /* generate digits in reverse order */
+           s[i++] = n % 10 + '0';  /* get next digit */
+       } while ((n /= 10) > 0);    /* delete it */
+       if (sign < 0)
+           s[i++] = '-';
+       s[i] = '\0';
+       reverse(s);
+   }
+```
+
+### 字符串裁剪
+
+```c
+   /* trim:  remove trailing blanks, tabs, newlines */
+   int trim(char s[])
+   {
+       int n;
+
+       for (n = strlen(s)-1; n >= 0; n--)
+           if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
+               break;
+       s[n+1] = '\0';
+       return n;
+   }
+```
+
+## 函数
+### 模式查找
+设计并编写一个程序，它将输入中包含特定“模式”或字符串的各行打印出来(这是UNIX程序grep的特例)
+
+```c
+   #include <stdio.h>
+   #define MAXLINE 1000 /* maximum input line length */
+
+   int getline(char line[], int max)
+   int strindex(char source[], char searchfor[]);
+
+   char pattern[] = "ould";   /* pattern to search for */
+
+   /* find all lines matching pattern */
+   main()
+   {
+       char line[MAXLINE];
+       int found = 0;
+
+       while (getline(line, MAXLINE) > 0)
+           if (strindex(line, pattern) >= 0) {
+               printf("%s", line);
+               found++;
+           }
+       return found;
+   }
+
+   /* getline:  get line into s, return length */
+   int getline(char s[], int lim)
+   {
+       int c, i;
+
+       i = 0;
+       while (--lim > 0 && (c=getchar()) != EOF && c != '\n')
+           s[i++] = c;
+       if (c == '\n')
+           s[i++] = c;
+       s[i] = '\0';
+       return i;
+   }
+
+   /* strindex:  return index of t in s, -1 if none */
+   int strindex(char s[], char t[])
+   {
+       int i, j, k;
+
+       for (i = 0; s[i] != '\0'; i++) {
+           for (j=i, k=0; t[k]!='\0' && s[j]==t[k]; j++, k++)
+               ;
+           if (k > 0 && t[k] == '\0')
+               return i;
+       }
+       return -1;
+   }
+```
+
+### 字符串转浮点数
+函数atof把字符串s转换为相应的双精度浮点数，是atoi函数的扩展
+
+```c
+   #include <ctype.h>
+
+   /* atof:  convert string s to double */
+   double atof(char s[])
+   {
+       double val, power;
+       int i, sign;
+
+       for (i = 0; isspace(s[i]); i++)  /* skip white space */
+           ;
+       sign = (s[i] == '-') ? -1 : 1;
+       if (s[i] == '+' || s[i] == '-')
+           i++;
+       for (val = 0.0; isdigit(s[i]); i++)
+           val = 10.0 * val + (s[i] - '0');
+       if (s[i] == '.')
+           i++;
+       for (power = 1.0; isdigit(s[i]); i++) {
+           val = 10.0 * val + (s[i] - '0');
+           power *= 10;
+       }
+       return sign * val / power;
+   }
+```
+
+### 调用atof
+
+```c
+   #include <stdio.h>
+
+   #define MAXLINE 100
+
+   /* rudimentary calculator */
+   main()
+   {
+       double sum, atof(char []);
+       char line[MAXLINE];
+       int getline(char line[], int max);
+
+       sum = 0;
+       while (getline(line, MAXLINE) > 0)
+           printf("\t%g\n", sum += atof(line));
+       return 0;
+   }
+```
+
+### 字符串转整数第3版
+在函数atof的基础上，我们可以利用它编写出函数atoi(将字符串转换为int类型)
+
+```c
+   /* atoi:  convert string s to integer using atof */
+   int atoi(char s[])
+   {
+       double atof(char s[]);
+
+       return (int) atof(s);
+   }
+```
+
+### 计算器
+编写一个具有加(+)、减(-)、乘(*)、除(/)四则运算功能的计算器程序。为了更容易实现，我们在计算器中使用逆波兰表示法代替普通的中缀表示法，比如：
+`(1 - 2) * (4 + 5)`
+采用逆波兰表示法表示为：
+`1 2 - 4 5 + *`
+
+```c
+   #include <stdio.h>
+   #include <stdlib.h>  /* for  atof() */
+
+   #define MAXOP   100  /* max size of operand or operator */
+   #define NUMBER  '0'  /* signal that a number was found */
+
+   int getop(char []);
+   void push(double);
+   double pop(void);
+
+   /* reverse Polish calculator */
+   main()
+   {
+       int type;
+       double op2;
+       char s[MAXOP];
+
+       while ((type = getop(s)) != EOF) {
+           switch (type) {
+           case NUMBER:
+               push(atof(s));
+               break;
+           case '+':
+               push(pop() + pop());
+               break;
+           case '*':
+               push(pop() * pop());
+               break;
+           case '-':
+               op2 = pop();
+               push(pop() - op2);
+               break;
+           case '/':
+               op2 = pop();
+               if (op2 != 0.0)
+                   push(pop() / op2);
+               else
+                   printf("error: zero divisor\n");
+               break;
+           case '\n':
+               printf("\t%.8g\n", pop());
+               break;
+           default:
+               printf("error: unknown command %s\n", s);
+               break;
+           }
+       }
+       return 0;
+   }
+```
+
+```c
+   #include <ctype.h>
+
+   int getch(void);
+   void ungetch(int);
+
+   /* getop:  get next character or numeric operand */
+   int getop(char s[])
+   {
+       int i, c;
+
+       while ((s[0] = c = getch()) == ' ' || c == '\t')
+           ;
+       s[1] = '\0';
+       if (!isdigit(c) && c != '.')
+           return c;      /* not a number */
+       i = 0;
+       if (isdigit(c))    /* collect integer part */
+           while (isdigit(s[++i] = c = getch()))
+              ;
+       if (c == '.')      /* collect fraction part */
+           while (isdigit(s[++i] = c = getch()))
+              ;
+       s[i] = '\0';
+       if (c != EOF)
+           ungetch(c);
+       return NUMBER;
+   }
+```
+
+```c
+   #define BUFSIZE 100
+
+   char buf[BUFSIZE];    /* buffer for ungetch */
+   int bufp = 0;         /* next free position in buf */
+
+   int getch(void)  /* get a (possibly pushed-back) character */
+   {
+       return (bufp > 0) ? buf[--bufp] : getchar();
+   }
+
+   void ungetch(int c)   /* push character back on input */
+   {
+       if (bufp >= BUFSIZE)
+           printf("ungetch: too many characters\n");
+       else
+           buf[bufp++] = c;
+   }
+```
+
+### 打印整数
+
+```c
+   #include <stdio.h>
+
+   /* printd:  print n in decimal */
+   void printd(int n)
+   {
+       if (n < 0) {
+           putchar('-');
+           n = -n;
+       }
+       if (n / 10)
+           printd(n / 10);
+       putchar(n % 10 + '0');
+   }
+```
+
+### 快速排序
+
+```c
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(int v[], int left, int right)
+   {
+       int i, last;
+       void swap(int v[], int i, int j);
+
+       if (left >= right) /* do nothing if array contains */
+           return;        /* fewer than two elements */
+       swap(v, left, (left + right)/2); /* move partition elem */
+       last = left;                     /* to v[0] */
+       for (i = left + 1; i <= right; i++)  /* partition */
+           if (v[i] < v[left])
+               swap(v, ++last, i);
+       swap(v, left, last);            /* restore partition  elem */
+       qsort(v, left, last-1);
+       qsort(v, last+1, right);
+   }
+```
+
+```c
+   /* swap:  interchange v[i] and v[j] */
+   void swap(int v[], int i, int j)
+   {
+       int temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+```
+
+## 指针与数组
+### 交换两个变量的值
+
+```c
+   void swap(int *px, int *py)  /* interchange *px and *py */
+   {
+       int temp;
+
+       temp = *px;
+       *px = *py;
+       *py = temp;
+   }
+```
+
+### 读取整数
+
+```c
+   #include <ctype.h>
+
+   int getch(void);
+   void ungetch(int);
+
+   /* getint:  get next integer from input into *pn */
+   int getint(int *pn)
+   {
+       int c, sign;
+
+       while (isspace(c = getch()))   /* skip white space */
+           ;
+       if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
+           ungetch(c);  /* it is not a number */
+           return 0;
+       }
+       sign = (c == '-') ? -1 : 1;
+       if (c == '+' || c == '-')
+           c = getch();
+       for (*pn = 0; isdigit(c), c = getch())
+           *pn = 10 * *pn + (c - '0');
+       *pn *= sign;
+       if (c != EOF)
+           ungetch(c);
+       return c;
+   }
+```
+
+### 求字符串长度
+
+```c
+   /* strlen:  return length of string s */
+   int strlen(char *s)
+   {
+       int n;
+
+       for (n = 0; *s != '\0', s++)
+           n++;
+       return n;
+   }
+```
+
+### 内存分配程序
+
+```c
+   #define ALLOCSIZE 10000 /* size of available space */
+
+   static char allocbuf[ALLOCSIZE]; /* storage for alloc */
+   static char *allocp = allocbuf;  /* next free position */
+
+   char *alloc(int n)    /* return pointer to n characters */
+   {
+       if (allocbuf + ALLOCSIZE - allocp >= n) {  /* it fits */
+           allocp += n;
+           return allocp - n; /* old p */
+       } else      /* not enough room */
+           return 0;
+   }
+
+   void afree(char *p)  /* free storage pointed to by p */
+   {
+       if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+           allocp = p;
+   }
+```
+
+### 字符串拷贝
+
+```c
+   /* strcpy:  copy t to s; array subscript version */
+   void strcpy(char *s, char *t)
+   {
+       int i;
+
+       i = 0;
+       while ((s[i] = t[i]) != '\0')
+           i++;
+   }
+```
+
+### 字符串拷贝第2版
+
+```c
+   /* strcpy:  copy t to s; pointer version */
+   void strcpy(char *s, char *t)
+   {
+       int i;
+
+       i = 0;
+       while ((*s = *t) != '\0') {
+           s++;
+           t++;
+       }
+   }
+```
+
+### 字符串拷贝第3版
+
+```c
+   /* strcpy:  copy t to s; pointer version 2 */
+   void strcpy(char *s, char *t)
+   {
+       while ((*s++ = *t++) != '\0')
+           ;
+   }
+```
+
+### 字符串拷贝第4版
+
+```c
+   /* strcpy:  copy t to s; pointer version 3 */
+   void strcpy(char *s, char *t)
+   {
+       while (*s++ = *t++)
+           ;
+   }
+```
+
+### 字符串比较
+
+```c
+   /* strcmp:  return <0 if s<t, 0 if s==t, >0 if s>t */
+   int strcmp(char *s, char *t)
+   {
+       int i;
+
+       for (i = 0; s[i] == t[i]; i++)
+           if (s[i] == '\0')
+               return 0;
+       return s[i] - t[i];
+   }
+```
+
+### 字符串比较第2版
+
+```c
+   /* strcmp:  return <0 if s<t, 0 if s==t, >0 if s>t */
+   int strcmp(char *s, char *t)
+   {
+       for ( ; *s == *t; s++, t++)
+           if (*s == '\0')
+               return 0;
+       return *s - *t;
+   }
+```
+
+### 文本行排序
+该程序按字母顺序对由文本行组成的集合进行排序。
+
+```c
+   #include <stdio.h>
+   #include <string.h>
+
+   #define MAXLINES 5000     /* max #lines to be sorted */
+
+   char *lineptr[MAXLINES];  /* pointers to text lines */
+
+   int readlines(char *lineptr[], int nlines);
+   void writelines(char *lineptr[], int nlines);
+
+   void qsort(char *lineptr[], int left, int right);
+
+   /* sort input lines */
+   main()
+   {
+       int nlines;     /* number of input lines read */
+
+       if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
+           qsort(lineptr, 0, nlines-1);
+           writelines(lineptr, nlines);
+           return 0;
+       } else {
+           printf("error: input too big to sort\n");
+           return 1;
+       }
+   }
+
+   #define MAXLEN 1000  /* max length of any input line */
+   int getline(char *, int);
+   char *alloc(int);
+
+   /* readlines:  read input lines */
+   int readlines(char *lineptr[], int maxlines)
+   {
+       int len, nlines;
+       char *p, line[MAXLEN];
+
+       nlines = 0;
+       while ((len = getline(line, MAXLEN)) > 0)
+           if (nlines >= maxlines || p = alloc(len) == NULL)
+               return -1;
+           else {
+               line[len-1] = '\0';  /* delete newline */
+               strcpy(p, line);
+               lineptr[nlines++] = p;
+           }
+       return nlines;
+   }
+
+   /* writelines:  write output lines */
+   void writelines(char *lineptr[], int nlines)
+   {
+       int i;
+
+       for (i = 0; i < nlines; i++)
+           printf("%s\n", lineptr[i]);
+   }
+```
+
+### 输出所有行函数第2版
+
+```c
+   /* writelines:  write output lines */
+   void writelines(char *lineptr[], int nlines)
+   {
+       while (nlines-- > 0)
+           printf("%s\n", *lineptr++);
+   }
+```
+
+### 文本行排序函数
+
+```c
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(char *v[], int left, int right)
+   {
+       int i, last;
+       void swap(char *v[], int i, int j);
+
+       if (left >= right)  /* do nothing if array contains */
+           return;         /* fewer than two elements */
+       swap(v, left, (left + right)/2);
+       last = left;
+       for (i = left+1; i <= right; i++)
+           if (strcmp(v[i], v[left]) < 0)
+               swap(v, ++last, i);
+       swap(v, left, last);
+       qsort(v, left, last-1);
+       qsort(v, last+1, right);
+   }
+```
+
+```c
+   /* swap:  interchange v[i] and v[j] */
+   void swap(char *v[], int i, int j)
+   {
+       char *temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+```
+
+### 日期转换
+我们考虑一个日期转换的问题：把某月某日这种日期表示形式转换为某年中第几天的表示形式，反之亦然。
+
+```c
+   static char daytab[2][13] = {
+       {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+       {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+   };
+
+   /* day_of_year:  set day of year from month & day */
+   int day_of_year(int year, int month, int day)
+   {
+       int i, leap;
+       leap = year%4 == 0 && year%100 != 0 || year%400 == 0;
+       for (i = 1; i < month; i++)
+           day += daytab[leap][i];
+       return day;
+   }
+
+   /* month_day:  set month, day from day of year */
+   void month_day(int year, int yearday, int *pmonth, int *pday)
+   {
+       int i, leap;
+
+       leap = year%4 == 0 && year%100 != 0 || year%400 == 0;
+       for (i = 1; yearday > daytab[leap][i]; i++)
+           yearday -= daytab[leap][i];
+       *pmonth = i;
+       *pday = yearday;
+   }
+```
+
+### 月份名称
+考虑这样一个问题：编写一个函数month_name(n)，它返回一个指向第n个月名字的字符串的指针。
+
+```c
+   /* month_name:  return name of n-th month */
+   char *month_name(int n)
+   {
+       static char *name[] = {
+           "Illegal month",
+           "January", "February", "March",
+           "April", "May", "June",
+           "July", "August", "September",
+           "October", "November", "December"
+       };
+
+       return (n < 1 || n > 12) ? name[0] : name[n];
+   }
+```
+
+### 参数回显
+写一个程序echo，它将命令行参数回显在屏幕上的一行中，其中命令行中各参数之间用空格隔开。
+
+```c
+   #include <stdio.h>
+
+   /* echo command-line arguments; 1st version */
+   main(int argc, char *argv[])
+   {
+       int i;
+
+       for (i = 1; i < argc; i++)
+           printf("%s%s", argv[i], (i < argc-1) ? " " : "");
+       printf("\n");
+       return 0;
+   }
+```
+
+### 参数回显第2版
+
+```c
+   #include <stdio.h>
+
+   /* echo command-line arguments; 2nd version */
+   main(int argc, char *argv[])
+   {
+       while (--argc > 0)
+           printf("%s%s", *++argv, (argc > 1) ? " " : "");
+       printf("\n");
+       return 0;
+   }
+```
+
+### 模式查找第2版
+通过命令行的第一个参数指定待匹配的模式
+
+```c
+   #include <stdio.h>
+   #include <string.h>
+   #define MAXLINE 1000
+
+   int getline(char *line, int max);
+
+   /* find:  print lines that match pattern from 1st arg */
+   main(int argc, char *argv[])
+   {
+       char line[MAXLINE];
+       int found = 0;
+
+       if (argc != 2)
+           printf("Usage: find pattern\n");
+       else
+           while (getline(line, MAXLINE) > 0)
+               if (strstr(line, argv[1]) != NULL) {
+                   printf("%s", line);
+                   found++;
+               }
+       return found;
+   }
+```
+
+### 模式查找第3版
+用-x(代表except)表示打印所有与模式不匹配的文本行，用-n(代表number)表示打印行号
+
+```c
+   #include <stdio.h>
+   #include <string.h>
+   #define MAXLINE 1000
+
+   int getline(char *line, int max);
+
+   /* find: print lines that match pattern from 1st arg */
+   main(int argc, char *argv[])
+   {
+       char line[MAXLINE];
+       long lineno = 0;
+       int c, except = 0, number = 0, found = 0;
+
+       while (--argc > 0 && (*++argv)[0] == '-')
+           while (c = *++argv[0])
+               switch (c) {
+               case 'x':
+                   except = 1;
+                   break;
+               case 'n':
+                   number = 1;
+                   break;
+               default:
+                   printf("find: illegal option %c\n", c);
+                   argc = 0;
+                   found = -1;
+                   break;
+               }
+       if (argc != 1)
+           printf("Usage: find -x -n pattern\n");
+       else
+           while (getline(line, MAXLINE) > 0) {
+               lineno++;
+               if ((strstr(line, *argv) != NULL) != except) {
+                   if (number)
+                       printf("%ld:", lineno);
+                   printf("%s", line);
+                   found++;
+               }
+           }
+       return found;
+   }
+```
+
+### 行排序程序
+在给定可选参数-n的情况下，该函数将按数值大小而非字典顺序对输入行进行排序。
+
+```c
+   #include <stdio.h>
+   #include <string.h>
+
+   #define MAXLINES 5000     /* max #lines to be sorted */
+   char *lineptr[MAXLINES];  /* pointers to text lines */
+
+   int readlines(char *lineptr[], int nlines);
+   void writelines(char *lineptr[], int nlines);
+
+   void qsort(void *lineptr[], int left, int right,
+              int (*comp)(void *, void *));
+   int numcmp(char *, char *);
+
+   /* sort input lines */
+   main(int argc, char *argv[])
+   {
+       int nlines;        /* number of input lines read */
+       int numeric = 0;   /* 1 if numeric sort */
+
+       if (argc > 1 && strcmp(argv[1], "-n") == 0)
+           numeric = 1;
+       if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
+           qsort((void**) lineptr, 0, nlines-1,
+             (int (*)(void*,void*))(numeric ? numcmp : strcmp));
+           writelines(lineptr, nlines);
+           return 0;
+       } else {
+           printf("input too big to sort\n");
+           return 1;
+       }
+   }
+```
+
+```c
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(void *v[], int left, int right,
+              int (*comp)(void *, void *))
+   {
+       int i, last;
+
+       void swap(void *v[], int, int);
+
+       if (left >= right)    /* do  nothing if array contains */
+           return;           /* fewer than two elements */
+       swap(v, left, (left + right)/2);
+       last = left;
+       for (i = left+1; i <= right;  i++)
+           if ((*comp)(v[i], v[left]) < 0)
+               swap(v, ++last, i);
+       swap(v, left, last);
+       qsort(v, left, last-1, comp);
+       qsort(v, last+1, right, comp);
+   }
+```
+
+```c
+   #include <stdlib.h>
+
+   /* numcmp:  compare s1 and s2 numerically */
+   int numcmp(char *s1, char *s2)
+   {
+       double v1, v2;
+
+       v1 = atof(s1);
+       v2 = atof(s2);
+       if (v1 < v2)
+           return -1;
+       else if (v1 > v2)
+           return 1;
+       else
+           return 0;
+   }
+```
+
+```c
+   void swap(void *v[],  int i, int j;)
+   {
+       void *temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+```
+
+### 复杂声明
+
+```c
+   /* dcl:  parse a declarator */
+   void dcl(void)
+   {
+       int ns;
+
+       for (ns = 0; gettoken() == '*'; ) /* count *'s */
+           ns++;
+       dirdcl();
+       while (ns-- > 0)
+           strcat(out, " pointer to");
+   }
+
+   /* dirdcl:  parse a direct declarator */
+   void dirdcl(void)
+   {
+       int type;
+
+       if (tokentype == '(') {         /* ( dcl ) */
+           dcl();
+           if (tokentype != ')')
+               printf("error: missing )\n");
+       } else if (tokentype == NAME)  /* variable name */
+           strcpy(name, token);
+       else
+           printf("error: expected name or (dcl)\n");
+       while ((type=gettoken()) == PARENS || type == BRACKETS)
+           if (type == PARENS)
+               strcat(out, " function returning");
+           else {
+               strcat(out, " array");
+               strcat(out, token);
+               strcat(out, " of");
+           }
+   }
+```
+
+```c
+   #include <stdio.h>
+   #include <string.h>
+   #include <ctype.h>
+
+   #define MAXTOKEN  100
+
+   enum { NAME, PARENS, BRACKETS };
+
+   void dcl(void);
+   void dirdcl(void);
+
+   int gettoken(void);
+   int tokentype;           /* type of last token */
+   char token[MAXTOKEN];    /* last token string */
+   char name[MAXTOKEN];     /* identifier name */
+   char datatype[MAXTOKEN]; /* data type = char, int, etc. */
+   char out[1000];
+
+   main()  /* convert declaration to words */
+   {
+       while (gettoken() != EOF) {   /* 1st token on line */
+           strcpy(datatype, token);  /* is the datatype */
+           out[0] = '\0';
+           dcl();       /* parse rest of line */
+           if (tokentype != '\n')
+               printf("syntax error\n");
+           printf("%s: %s %s\n", name, out, datatype);
+       }
+       return 0;
+   }
+```
+
+```c
+   int gettoken(void)  /* return next token */
+   {
+       int c, getch(void);
+       void ungetch(int);
+       char *p = token;
+
+       while ((c = getch()) == ' ' || c == '\t')
+           ;
+       if (c == '(') {
+           if ((c = getch()) == ')') {
+               strcpy(token, "()");
+               return tokentype = PARENS;
+           } else {
+               ungetch(c);
+               return tokentype = '(';
+           }
+       } else if (c == '[') {
+           for (*p++ = c; (*p++ = getch()) != ']'; )
+               ;
+           *p = '\0';
+           return tokentype = BRACKETS;
+       } else if (isalpha(c)) {
+           for (*p++ = c; isalnum(c = getch()); )
+               *p++ = c;
+           *p = '\0';
+           ungetch(c);
+           return tokentype = NAME;
+       } else
+           return tokentype = c;
+
+   }
+```
+
+## 结构
+### 坐标点和矩形结构
+
+```c
+struct point {
+    int x;
+    int y;
+};
+struct rect {
+    struct point pt1;
+    struct point pt2;
+};
+```
+
+### 创建坐标结构
+
+```c
+/* makepoint:  make a point from x and y components */
+struct point makepoint(int x, int y)
+{
+    struct point temp;
+
+    temp.x = x;
+    temp.y = y;
+    return temp;
+}
+```
+
+### 坐标相加
+
+```c
+   /* addpoints:  add two points */
+   struct addpoint(struct point p1, struct point p2)
+   {
+       p1.x += p2.x;
+       p1.y += p2.y;
+       return p1;
+   }
+```
+
+### 判断点是否在矩形中
+
+```c
+   /* ptinrect:  return 1 if p in r, 0 if not */
+   int ptinrect(struct point p, struct rect r)
+   {
+       return p.x >= r.pt1.x && p.x < r.pt2.x
+           && p.y >= r.pt1.y && p.y < r.pt2.y;
+   }
+```
+
+### 矩形规范化
+
+```c
+   #define min(a, b) ((a) < (b) ? (a) : (b))
+   #define max(a, b) ((a) > (b) ? (a) : (b))
+
+   /* canonrect: canonicalize coordinates of rectangle */
+   struct rect canonrect(struct rect r)
+   {
+       struct rect temp;
+
+       temp.pt1.x = min(r.pt1.x, r.pt2.x);
+       temp.pt1.y = min(r.pt1.y, r.pt2.y);
+       temp.pt2.x = max(r.pt1.x, r.pt2.x);
+       temp.pt2.y = max(r.pt1.y, r.pt2.y);
+       return temp;
+   }
+```
+
+### 关键字统计
+编写这样一个程序，它用来统计输入中各个C语言关键字出现的次数。
+
+```c
+   struct key {
+       char *word;
+       int count;
+   } keytab[] = {
+       "auto", 0,
+       "break", 0,
+       "case", 0,
+       "char", 0,
+       "const", 0,
+       "continue", 0,
+       "default", 0,
+       /* ... */
+       "unsigned", 0,
+       "void", 0,
+       "volatile", 0,
+       "while", 0
+   };
+```
+
+```c
+   #include <stdio.h>
+   #include <ctype.h>
+   #include <string.h>
+
+   #define MAXWORD 100
+
+   int getword(char *, int);
+   int binsearch(char *, struct key *, int);
+
+   /* count C keywords */
+   main()
+   {
+       int n;
+       char word[MAXWORD];
+
+       while (getword(word, MAXWORD) != EOF)
+           if (isalpha(word[0]))
+               if ((n = binsearch(word, keytab, NKEYS)) >= 0)
+                   keytab[n].count++;
+       for (n = 0; n < NKEYS; n++)
+           if (keytab[n].count > 0)
+               printf("%4d %s\n",
+                   keytab[n].count, keytab[n].word);
+       return 0;
+   }
+
+   /* binsearch:  find word in tab[0]...tab[n-1] */
+   int binsearch(char *word, struct key tab[], int n)
+   {
+       int cond;
+       int low, high, mid;
+
+       low = 0;
+       high = n - 1;
+       while (low <= high) {
+           mid = (low+high) / 2;
+           if ((cond = strcmp(word, tab[mid].word)) < 0)
+               high = mid - 1;
+           else if (cond > 0)
+               low = mid + 1;
+           else
+               return mid;
+       }
+       return -1;
+   }
+```
+
+```c
+   /* getword:  get next word or character from input */
+   int getword(char *word, int lim)
+   {
+       int c, getch(void);
+       void ungetch(int);
+       char *w = word;
+
+       while (isspace(c = getch()))
+           ;
+       if (c != EOF)
+           *w++ = c;
+       if (!isalpha(c)) {
+           *w = '\0';
+           return c;
+       }
+       for ( ; --lim > 0; w++)
+           if (!isalnum(*w = getch())) {
+               ungetch(*w);
+               break;
+           }
+       *w = '\0';
+       return word[0];
+   }
+```

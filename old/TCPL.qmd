@@ -1,0 +1,32 @@
+---
+title: "TCPL"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”](<高级语言程序设计课程.qmd>)
+
+
+## The C Programming Language
+
+这是中文英文对照的版本，方便学习。中文翻译的版本虽然号称是“第二版新版”，但是错误仍然太多，大家可以一起来纠错。代码中的英文没有翻译成中文，为的是鼓励大家用英文写注释。
+
+## 目录
+
+- [Preface to the Chinese Edition 中文版序](<TCPL/0_1_Preface.html>)
+- [Introduction 引言](<TCPL/0_2_Introduction.html>)
+- [Chapter 1 - A Tutorial Introduction 导言](<TCPL/1_A_Tutorial_Introduction.html>)
+- [Chapter 2 - Types, Operators and Expressions 类型、运算符与表达式](<TCPL/2_Types_Operators_and_Expressions.html>)
+- [Chapter 3 - Control Flow 控制流](<TCPL/3_Control_Flow.html>)
+- [Chapter 4 - Functions and Program Structure 函数与程序结构](<TCPL/4_Functions_and_Program_Structure.html>)
+- [Chapter 5 - Pointers and Arrays 指针与数组](<TCPL/5_Pointers_and_Arrays.html>)
+- [Chapter 6 - Structures 结构](<TCPL/6_Structures.html>)
+- [Chapter 7 - Input and Output 输入与输出](<TCPL/7_Input_and_Output.html>)
+- [Chapter 8 - The UNIX System Interface UNIX系统接口](<TCPL/8_The_UNIX_System_Interface.html>)
+- [Appendix A - Reference Manual 参考手册](<TCPL/A_Reference_Manual.html>)
+- [Appendix B - Standard Library 标准库](<TCPL/B_Standard_Library.html>)
+- [Appendix C - Summary of Changes 变更小结](<TCPL/C_Summary_of_Changes.html>)
