@@ -1,0 +1,124 @@
+---
+title: "Linux"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+## Linux操作系统
+
+### Linux入门教程
+
+* [Linux桌面安装与基本配置](<Linux/Linux桌面安装与基本配置.qmd>)
+* [Linux服务器管理](<Linux/Linux服务器管理.qmd>)
+* [Linux爱好者入门教程](http://forum.ubuntu.com.cn/about18360.html)
+* [Linux新手入门](http://www.ibm.com/developerworks/cn/linux/newto/)
+* [完全用Linux工作](https://www.douban.com/group/topic/12121637/)
+* [Unix/Linux Tutorial for Beginners](http://www.ee.surrey.ac.uk/Teaching/Unix/)
+* [Ubuntu全程安装配置手册](https://blog.csdn.net/AlfredLu/article/details/1634054)
+* [Ubuntu 桌面指南](http://people.ubuntu.com/~happyaron/ubuntu-docs/precise-html/)
+
+### 对比
+
+* [微软视窗与Linux的比较](http://zh.wikipedia.org/w/index.php?title=%E8%A6%96%E7%AA%97%E8%88%87Linux%E7%9A%84%E6%AF%94%E8%BC%83&variant=zh-cn)
+* Linux不是Windows [英文版](http://linux.oneandoneis2.org/LNW.htm) [中文翻译版](https://forum.ubuntu.com.cn/viewtopic.php?t=67915) [中文翻译版](https://wiki.ubuntu.org.cn/Linux%E4%B8%8D%E6%98%AFWindows/zh)
+
+### 基本概念
+
+* 什么是[操作系统](http://zh.wikipedia.org/w/index.php?title=%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F&variant=zh-cn)？
+    * 什么是[UNIX](http://zh.wikipedia.org/w/index.php?title=Unix&variant=zh-cn)
+* 什么是[自由软件](http://zh.wikipedia.org/w/index.php?title=%E8%87%AA%E7%94%B1%E8%BB%9F%E9%AB%94&variant=zh-cn)？ 什么是[开放源代码](http://zh.wikipedia.org/w/index.php?title=%E9%96%8B%E6%94%BE%E6%BA%90%E4%BB%A3%E7%A2%BC&variant=zh-cn)？
+    * 什么是[GNU](http://zh.wikipedia.org/w/index.php?title=GNU&variant=zh-cn)？ [GNU官网](https://www.gnu.org/)
+* 什么是[Linux](http://zh.wikipedia.org/w/index.php?title=Linux&variant=zh-cn)？ [什么是Linux](<Linux/什么是Linux.qmd>)
+    * 有哪些[Linux发行版](http://zh.wikipedia.org/w/index.php?title=Linux%E7%99%BC%E8%A1%8C%E7%89%88&variant=zh-cn)？
+    * 什么是[Debian](http://zh.wikipedia.org/w/index.php?title=Debian&variant=zh-cn)？ 什么是[红帽linux](http://zh.wikipedia.org/wiki/Red_Hat_Linux)？
+    * 什么是[Ubuntu Linux](http://zh.wikipedia.org/w/index.php?title=Ubuntu_Linux&variant=zh-cn)？
+        * Ubuntu[乌班图](http://zh.wikipedia.org/w/index.php?title=%E5%90%BE%E5%B8%AE%E6%89%98&variant=zh-cn)？
+        * 什么是[Kubuntu](http://zh.wikipedia.org/w/index.php?title=Kubuntu&variant=zh-cn)？ 什么是[Xubuntu](http://zh.wikipedia.org/w/index.php?title=Xubuntu&variant=zh-cn)？
+* 什么是[X Window系统](http://zh.wikipedia.org/w/index.php?title=X_Window_System&variant=zh-cn)？
+    * 什么是[Gnome](http://zh.wikipedia.org/w/index.php?title=GNOME&variant=zh-cn)？ 什么是[KDE](http://zh.wikipedia.org/w/index.php?title=KDE&variant=zh-cn)？
+* 什么是[APT](http://zh.wikipedia.org/w/index.php?title=Debian_Apt&variant=zh-cn)？
+* 什么是[驱动程序](http://zh.wikipedia.org/w/index.php?title=%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F&variant=zh-cn)？
+* 什么是[mount](http://en.wikipedia.org/wiki/Mount_(Unix))？
+* 什么是[根目录](http://en.wikipedia.org/wiki/Root_directory)？
+* 什么是[root用户](http://en.wikipedia.org/wiki/Root_user)？
+* 什么是[VI](http://zh.wikipedia.org/w/index.php?title=Vi)和[VIM](http://zh.wikipedia.org/w/index.php?title=Vim)？
+* 什么是[WINE](http://zh.wikipedia.org/w/index.php?title=Wine)？
+* [The TTY demystified](http://www.linusakesson.net/programming/tty/index.php)
+
+### 人物
+
+* 谁是[Richard Stallman](http://zh.wikipedia.org/w/index.php?title=Richard_Stallman&variant=zh-cn)？
+
+* 谁是[Linus Torvalds](http://zh.wikipedia.org/w/index.php?title=%E6%9E%97%E7%B4%8D%E6%96%AF%C2%B7%E6%89%98%E7%93%A6%E8%8C%B2&variant=zh-cn)？
+
+* 谁是[Eric Raymond](http://zh.wikipedia.org/w/index.php?title=%E5%9F%83%E9%87%8C%E5%85%8B%C2%B7%E6%96%AF%E8%92%82%E8%8A%AC%C2%B7%E9%9B%B7%E8%92%99&variant=zh-cn)？
+
+### 参考资料
+
+* [目录结构标准](http://www.pathname.com/fhs/pub/fhs-2.3.html)
+* [The Unofficial Fedora FAQ](https://www.fedorafaq.org/)
+* [Linux Command Line](http://www.linuxguide.it/linux_commands_line_en.htm)
+* [学习ubuntu必备的电子资料集合，电子书+视频](https://forum.ubuntu.com.cn/viewtopic.php?p=434187)
+* [Linux指令大全](http://dz.adj.idv.tw/thread-275-1-1.html)
+* [Debian Linux Tutorials, Tips, System Administration Resources](http://www.debianhelp.co.uk/)
+* [An A-Z Index of the Linux command line](https://ss64.com/bash/index.html)
+* [Ubuntu Tweak五年之历程](https://imtx.me/archives/1738.html)
+* [谢谢大家，Ubuntu Tweak仍会继续](https://imtx.me/archives/1766.html)
+
+* [Debian Policy Manual](https://www.debian.org/doc/debian-policy/)
+* [http://debian.ustc.edu.cn/](http://debian.ustc.edu.cn/) 国内镜像
+
+* [Out Of Memory Management](https://www.kernel.org/doc/gorman/html/understand/understand016.html)
+* [FAQ Linux Memory Management](http://wikigentoo.ksiezyc.pl/FAQ_Linux_Memory_Management.htm)
+* [HOWTO: Profile Memory in a Linux System](https://www.freshblurbs.com/blog/2007/01/25/how-profile-memory-linux.html)
+* [Ubuntu命令说明](http://manpages.ubuntu.com/manpages)
+* [通用命令说明](http://linux.chinaitlab.com/special/linuxcom)
+* [Fcitx 小企鹅输入法](https://fcitx-im.org/)
+* [Linux文档计划](http://www.tldp.org/)
+* [Linux内核官方网站](http://www.kernel.org/)
+* [Linux新闻](http://www.linux.org/)
+* [Linux.com](http://www.linux.com/)
+* [Linux From Scratch](http://www.linuxfromscratch.org/)
+* [UNetbootin](https://unetbootin.github.io/) UNetbootin 让你创建 Ubuntu 或者其他 Linux 发行版的可引导 Live U 盘，而无需烧录 CD。
+* [Clonezilla](https://clonezilla.org/) a partition and disk imaging/cloning program
+
+### Linux社区
+
+* 提问的智慧 [英文版](http://www.catb.org/%7Eesr/faqs/smart-questions.html) [中文翻译版](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way)
+* [Linux服务器管理研讨活动](<Linux/Linux服务器管理研讨活动.qmd>)
+* Linux温州论坛 https://groups.google.com/group/linux-wz
+
+#### 中文社区
+
+* Ubuntu
+    * [Ubuntu中文维基](https://wiki.ubuntu.org.cn/%E9%A6%96%E9%A1%B5)
+    * [Ubuntu中文论坛](https://forum.ubuntu.com.cn/)
+    * [Ubuntu Linux中文官网](https://cn.ubuntu.com/)
+
+* 其它
+
+    * [Linuxsir.org](http://www.linuxsir.org/)
+    * [Chinaunix](http://bbs.chinaunix.net/)
+    * [中国Linux公社](http://www.linuxfans.org/)
+    * [LUPA社区](http://www.lupaworld.com/)
+    * [Linux伊甸园](http://www.linuxeden.com/)
+    * [文泉驿中文字体计划](http://wenq.org)
+
+#### 中国Linux社区IRC资源
+
+* PCHOME #Unix IRC: irc.pchome.net 6667 #unix #geekbone.
+* 中国Linux公社 IRC: irc.linuxfans.org 6667~6669 7000 #linuxfans #linuxer etc.
+* LinuxFire IRC: irc.linuxfire.com.cn 6667 #linuxfire #pda #gondson2 #80s
+* LinuxSir IRC: www.linuxsir.org 6667~6669 7000 #debianer #gentooer #chatroom etc.
+* 北大Linux俱乐部IRC: linux.pku.edu.cn 6667 #club
+* LUPA社区IRC: irc.lupaworld.com 6665-6669
+
+## 附件
+
+* [Linux课件.tar.gz](<Linux/assets/Linux/Linux课件.tar.gz>)

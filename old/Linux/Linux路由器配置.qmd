@@ -1,0 +1,646 @@
+---
+title: "Linux路由器配置"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+```
+#!/bin/sh
+#####################################################################
+# route tables
+#####################################################################
+
+##################################################
+# route table cnc(route to cnc by default)
+##################################################
+ip route flush table cnc
+ip route add table cnc 192.168.0.0/24 dev eth2 src 192.168.0.247
+ip route add table cnc 60.190.72.176/29 dev eth3
+ip route add table cnc 221.12.164.192/29 dev eth3
+ip route add table cnc default via 221.12.164.193 dev eth3
+
+###################################################
+# route table telecom (route to telecom by default)
+###################################################
+ip route flush table telecom
+ip route add table telecom 192.168.0.0/24 dev eth1 src 192.168.0.249
+ip route add table telecom 60.190.72.176/29 dev eth3
+ip route add table telecom 221.12.164.192/29 dev eth3
+ip route add table telecom default via 60.190.72.177 dev eth3
+
+##################################################
+# route table autocnc(route to cnc by default)
+##################################################
+ip route flush table autocnc
+ip route add table autocnc 192.168.0.0/24 dev eth0 src 192.168.0.253
+ip route add table autocnc 60.190.72.176/29 dev eth3
+ip route add table autocnc 221.12.164.192/29 dev eth3
+ip route add table autocnc default via 221.12.164.193 dev eth3
+
+###################################################
+# route table autotelecom (route to telecom by default)
+###################################################
+ip route flush table autotelecom
+ip route add table autotelecom 192.168.0.0/24 dev eth0 src 192.168.0.253
+ip route add table autotelecom 60.190.72.176/29 dev eth3
+ip route add table autotelecom 221.12.164.192/29 dev eth3
+ip route add table autotelecom default via 60.190.72.177 dev eth3
+
+###################################################
+# default route table
+###################################################
+ip route flush table main
+ip route add table main 192.168.0.0/24 dev eth0 src 192.168.0.253
+ip route add table main 60.190.72.176/29 dev eth3
+ip route add table main 221.12.164.192/29 dev eth3
+ip route add table main default via 60.190.72.177 dev eth3
+
+ip route flush cache
+
+###############################################
+# route rules
+###############################################
+ip rule flush
+ip rule add table default priority 32767
+ip rule add table main priority 32766
+
+ip rule add fwmark 0x110/0xFF0 table telecom
+ip rule add fwmark 0x120/0xFF0 table cnc
+ip rule add fwmark 0x210/0xFF0 table autotelecom
+ip rule add fwmark 0x221/0xFF0 table autocnc
+
+######################################################################
+# iptables configuration
+######################################################################
+
+# iptable modules
+modprobe ip_conntrack_ftp
+modprobe ip_nat_ftp
+
+#####################################################
+#####################################################
+# mangle table
+#####################################################
+#####################################################
+iptables -t mangle -F
+iptables -t mangle -P PREROUTING ACCEPT
+iptables -t mangle -P INPUT ACCEPT
+iptables -t mangle -P FORWARD ACCEPT
+iptables -t mangle -P OUTPUT ACCEPT
+iptables -t mangle -P POSTROUTING ACCEPT
+iptables -t mangle -X
+iptables -t mangle -N cycle_ip
+iptables -t mangle -N choose_telecom_cnc
+iptables -t mangle -N calculate_outgoing_mark
+iptables -t mangle -N calculate_incoming_mark
+
+######################################
+# OUTPUT chain
+######################################
+# cnc networks
+iptables -t mangle -A OUTPUT -s 60.190.72.178 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1111
+iptables -t mangle -A OUTPUT -s 60.190.72.179 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1112
+iptables -t mangle -A OUTPUT -s 60.190.72.180 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1113
+iptables -t mangle -A OUTPUT -s 60.190.72.181 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1114
+iptables -t mangle -A OUTPUT -s 60.190.72.182 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1115
+iptables -t mangle -A OUTPUT -s 221.12.164.194 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1121
+iptables -t mangle -A OUTPUT -s 221.12.164.195 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1122
+iptables -t mangle -A OUTPUT -s 221.12.164.196 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1123
+iptables -t mangle -A OUTPUT -s 221.12.164.197 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1124
+iptables -t mangle -A OUTPUT -s 221.12.164.198 -d ! 192.168.0.0/16 -j MARK --set-mark 0x1125
+
+######################################
+# cycle_ip chain
+######################################
+# default use first ip
+iptables -t mangle -A cycle_ip -j MARK --set-mark 0x1/0xF
+
+# use china telcom 5 ip cyclically
+iptables -t mangle -A cycle_ip -s 192.168.0.1 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.2 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.3 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.4 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.5 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.6 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.7 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.8 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.9 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.10 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.11 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.12 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.13 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.14 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.15 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.16 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.17 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.18 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.19 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.20 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.21 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.22 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.23 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.24 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.25 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.26 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.27 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.28 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.29 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.30 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.31 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.32 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.33 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.34 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.35 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.36 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.37 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.38 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.39 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.40 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.41 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.42 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.43 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.44 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.45 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.46 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.47 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.48 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.49 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.50 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.51 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.52 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.53 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.54 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.55 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.56 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.57 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.58 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.59 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.60 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.61 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.62 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.63 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.64 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.65 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.66 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.67 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.68 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.69 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.70 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.71 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.72 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.73 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.74 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.75 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.76 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.77 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.78 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.79 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.80 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.81 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.82 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.83 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.84 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.85 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.86 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.87 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.88 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.89 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.90 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.91 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.92 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.93 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.94 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.95 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.96 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.97 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.98 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.99 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.100 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.101 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.102 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.103 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.104 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.105 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.106 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.107 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.108 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.109 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.110 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.111 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.112 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.113 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.114 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.115 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.116 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.117 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.118 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.119 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.120 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.121 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.122 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.123 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.124 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.125 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.126 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.127 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.128 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.129 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.130 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.131 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.132 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.133 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.134 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.135 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.146 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.147 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.148 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.149 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.150 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.151 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.152 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.153 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.154 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.155 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.156 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.157 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.158 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.159 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.160 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.161 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.162 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.163 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.164 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.165 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.166 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.167 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.168 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.169 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.170 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.171 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.172 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.173 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.174 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.175 -j MARK --set-mark 0x5/0xF
+
+iptables -t mangle -A cycle_ip -s 192.168.0.176 -j MARK --set-mark 0x1/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.177 -j MARK --set-mark 0x2/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.178 -j MARK --set-mark 0x3/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.179 -j MARK --set-mark 0x4/0xF
+iptables -t mangle -A cycle_ip -s 192.168.0.180 -j MARK --set-mark 0x5/0xF
+
+# special ip
+iptables -t mangle -A cycle_ip -s 192.168.0.248 -j MARK --set-mark 0x4/0xF
+
+######################################
+# choose_telecom_cnc chain
+######################################
+# default to telecom
+iptables -t mangle -A choose_telecom_cnc -j MARK --set-mark 0x10/0xF0
+
+# cnc networks
+iptables -t mangle -A choose_telecom_cnc -d 61.12.0.0/16 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -d 221.12.0.0/16 -j MARK --set-mark 0x20/0xF0
+
+# china, non china telecom, route to cnc line
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.16.0.0-58.23.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.100.0.0-58.101.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.214.21.0-58.243.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.0.0.0-60.31.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.52.145.0-60.52.145.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.55.0.0-60.55.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.121.175.0-60.121.175.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.208.0.0-60.223.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.4.64.0-61.4.79.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.128.210.0-61.128.210.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.133.0.0-61.133.179.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.134.98.0-61.136.118.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.137.128.0-61.138.94.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.138.109.0-61.138.110.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.138.114.0-61.138.191.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.138.114.0-61.138.191.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.139.128.0-61.139.191.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.148.0.0-61.149.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.156.0.0-61.157.95.83 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.158.0.0-61.159.63.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.161.0.0-61.161.63.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.161.128.0-61.163.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.167.0.0-61.168.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.176.0.0-61.176.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.179.0.0-61.179.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.180.133.0-61.182.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.189.30.0-61.189.64.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.233.7.0-61.233.7.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.233.59.0-61.233.59.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.235.139.0-61.235.139.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.10.64.0-202.10.79.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.96.64.0-202.96.66.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.97.128.0-202.97.128.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.97.132.0-202.97.159.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.97.209.0-202.97.217.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.97.236.0-202.97.243.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.99.73.0-202.99.86.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.99.158.0-202.99.223.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.99.243.0-202.99.244.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.102.148.0-202.102.191.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.102.232.0-202.102.246.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.107.0.0-202.107.127.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.110.0.0-202.110.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.111.152.0-202.111.191.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 202.136.252.0-202.136.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 203.88.192.0-203.88.203.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 203.93.9.0-203.93.18.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 203.93.51.0-203.93.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 203.175.128.0-203.175.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 210.5.15.0-210.5.17.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 210.6.150.0-210.6.150.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 210.12.0.0-210.15.112.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 210.21.0.0-210.22.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 210.51.0.0-210.53.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 210.74.97.0-210.74.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 218.8.57.0-218.8.57.255 -j MARK --set-mark 0x20/0xF0
+
+##non asia area, route to cnc line
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 1.0.0.0-9.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 11.0.0.0-57.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 62.0.0.0-111.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 128.0.0.0-132.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 134.0.0.0-149.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 151.0.0.0-152.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 154.0.0.0-162.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 164.0.0.0-170.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 172.0.0.0-201.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 204.0.0.0-209.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 212.0.0.0-217.255.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 223.0.0.0-223.255.255.255 -j MARK --set-mark 0x20/0xF0
+
+## asia, non-china, route to cnc line
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.0.0.0-58.13.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.26.0.0-58.29.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.64.0.0-58.65.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.68.0.0-58.68.127.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.69.0.0-58.81.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.84.0.0-58.87.63.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.87.128.0-58.99.127.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.102.0.0-58.115.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.120.0.0-58.127.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.136.0.0-58.143.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.145.0.0-58.153.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.156.0.0-58.191.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 58.224.0.0-58.239.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 59.0.0.0-59.31.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 59.84.0.0-59.106.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 59.112.0.0-59.150.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 59.151.128.0-59.154.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 59.156.0.0-59.171.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 59.176.0.0-59.190.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 59.191.128.0-59.191.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.32.0.0-60.54.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.56.0.0-60.62.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.64.0.0-60.159.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.192.0.0-60.193.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.196.0.0-60.199.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.224.0.0-60.231.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.234.0.0-60.234.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.236.0.0-60.245.127.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.246.0.0-60.246.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.248.0.0-60.251.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.253.0.0-60.253.127.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 60.254.0.0-60.254.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.0.0.0-61.8.159.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.8.192.0-61.27.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.28.128.0-61.29.127.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.30.0.0-61.45.127.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.45.192.0-61.47.127.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.47.192.0-61.47.255.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 61.56.0.0-61.87.191.255 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -m iprange --dst-range 123.154.0.0-123.154.255.255 -j MARK --set-mark 0x20/0xF0
+
+iptables -t mangle -A choose_telecom_cnc -d 61.115.0.0/16 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -d 150.65.0.0/16 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -d 202.12.0.0/16 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -d 202.30.0.0/16 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -d 202.229.0.0/16 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -d 202.108.0.0/19 -j MARK --set-mark 0x20/0xF0
+iptables -t mangle -A choose_telecom_cnc -d 210.82.0.0/15 -j MARK --set-mark 0x20/0xF0
+
+######################################
+# calculate_mark chain
+######################################
+#outgoing 0xF000
+iptables -t mangle -A calculate_outgoing_mark -j MARK --set-mark 0x1000/0xF000
+#auto/manual 0xF00
+iptables -t mangle -A calculate_outgoing_mark -i eth0 -j MARK --set-mark 0x200/0xF00
+iptables -t mangle -A calculate_outgoing_mark -i eth1 -j MARK --set-mark 0x100/0xF00
+iptables -t mangle -A calculate_outgoing_mark -i eth2 -j MARK --set-mark 0x100/0xF00
+#which ISP 0x0F0
+iptables -t mangle -A calculate_outgoing_mark -i eth0 -j choose_telecom_cnc
+iptables -t mangle -A calculate_outgoing_mark -i eth1 -j MARK --set-mark 0x10/0xF0
+iptables -t mangle -A calculate_outgoing_mark -i eth2 -j MARK --set-mark 0x20/0xF0
+#which IP 0x00F
+iptables -t mangle -A calculate_outgoing_mark -j cycle_ip
+
+######################################
+# calculate_incoming_mark chain
+######################################
+iptables -t mangle -A calculate_incoming_mark -d 60.190.72.178 -j MARK --set-mark 0x2111
+iptables -t mangle -A calculate_incoming_mark -d 60.190.72.179 -j MARK --set-mark 0x2112
+iptables -t mangle -A calculate_incoming_mark -d 60.190.72.180 -j MARK --set-mark 0x2113
+iptables -t mangle -A calculate_incoming_mark -d 60.190.72.181 -j MARK --set-mark 0x2114
+iptables -t mangle -A calculate_incoming_mark -d 60.190.72.182 -j MARK --set-mark 0x2115
+
+iptables -t mangle -A calculate_incoming_mark -d 221.12.164.194 -j MARK --set-mark 0x2121
+iptables -t mangle -A calculate_incoming_mark -d 221.12.164.195 -j MARK --set-mark 0x2122
+iptables -t mangle -A calculate_incoming_mark -d 221.12.164.196 -j MARK --set-mark 0x2123
+iptables -t mangle -A calculate_incoming_mark -d 221.12.164.197 -j MARK --set-mark 0x2124
+iptables -t mangle -A calculate_incoming_mark -d 221.12.164.198 -j MARK --set-mark 0x2125
+
+######################################
+# PREROUTING chain
+######################################
+iptables -t mangle -A PREROUTING -j CONNMARK --restore-mark
+iptables -t mangle -A PREROUTING -s 192.168.0.0/24 -d ! 192.168.0.0/16 -m mark --mark 0 -j calculate_outgoing_mark
+iptables -t mangle -A PREROUTING -s ! 192.168.0.0/24 -d 60.190.72.176/29 -m mark --mark 0 -j calculate_incoming_mark
+iptables -t mangle -A PREROUTING -s ! 192.168.0.0/24 -d 221.12.164.192/29 -m mark --mark 0 -j calculate_incoming_mark
+iptables -t mangle -A PREROUTING -j CONNMARK --save-mark
+
+######################################################
+# nat table
+######################################################
+iptables -t nat -F
+iptables -t nat -X
+iptables -t nat -N telecom_portmap
+iptables -t nat -N cnc_portmap
+
+######################################
+# telecom_portmap chain
+######################################
+# server 1 (rdc port)
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p tcp -m tcp --dport 8936 -j DNAT --to-destination 192.168.0.245
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p udp -m udp --dport 27016 -j DNAT --to-destination 192.168.0.245:27016
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p udp -m udp --dport 27015 -j DNAT --to-destination 192.168.0.245:27015
+
+# server czk (ftp/ssh/http/https/samba)
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 22 -j DNAT --to-destination 192.168.0.248
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.0.248
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 443 -j DNAT --to-destination 192.168.0.248
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 60445 -j DNAT --to-destination 192.168.0.248:445
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p udp -m udp --dport 60445 -j DNAT --to-destination 192.168.0.248:445
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p udp -m udp --dport 51194 -j DNAT --to-destination 192.168.0.248:51194
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 62080 -j DNAT --to-destination 192.168.0.248:1080
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 62081 -j DNAT --to-destination 192.168.0.248:9050
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 62082 -j DNAT --to-destination 192.168.0.248:8118
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 62083 -j DNAT --to-destination 192.168.0.248:9051
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 62083 -j DNAT --to-destination 192.168.0.248:9051
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 1723 -j DNAT --to-destination 192.168.0.248:1723
+
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 50080 -j DNAT --to-destination 192.168.0.248
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 50022 -j DNAT --to-destination 192.168.0.248
+iptables -t nat -A telecom_portmap -d 60.190.72.181 -p tcp -m tcp --dport 51080 -j DNAT --to-destination 192.168.0.248
+
+# server 2 (http/https/samba/ftp/ssh)
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.0.252
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 22 -j DNAT --to-destination 192.168.0.252
+#iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 443 -j DNAT --to-destination 192.168.0.252
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 60445 -j DNAT --to-destination 192.168.0.252:445
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p udp -m udp --dport 60445 -j DNAT --to-destination 192.168.0.252:445
+
+#for jiankong
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 50000 -j DNAT --to-destination 192.168.0.221
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 50001 -j DNAT --to-destination 192.168.0.221
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 50002 -j DNAT --to-destination 192.168.0.221
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 50003 -j DNAT --to-destination 192.168.0.221
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 55000 -j DNAT --to-destination 192.168.0.221
+iptables -t nat -A telecom_portmap -d 60.190.72.182 -p tcp -m tcp --dport 51000 -j DNAT --to-destination 192.168.0.221
+
+#for 192.168.0.246
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p tcp -m tcp --dport 26500 -j DNAT --to-destination 192.168.0.246
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p tcp -m tcp --dport 3389 -j DNAT --to-destination 192.168.0.246
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p udp -m udp --dport 27015 -j DNAT --to-destination 192.168.0.246
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p udp -m udp --dport 27016 -j DNAT --to-destination 192.168.0.246
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p udp -m udp --dport 7000 -j DNAT --to-destination 192.168.0.246
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p udp -m udp --dport 7001 -j DNAT --to-destination 192.168.0.246
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p udp -m udp --dport 7002 -j DNAT --to-destination 192.168.0.246
+iptables -t nat -A telecom_portmap -d 60.190.72.178 -p udp -m udp --dport 7003 -j DNAT --to-destination 192.168.0.246
+
+######################################
+# cnc_portmap chain
+######################################
+iptables -t nat -A cnc_portmap -d 221.12.164.194 -p tcp -m tcp --dport 8936 -j DNAT --to-destination 192.168.0.245
+iptables -t nat -A cnc_portmap -d 221.12.164.197 -p tcp -m tcp --dport 22 -j DNAT --to-destination 192.168.0.248
+iptables -t nat -A cnc_portmap -d 221.12.164.197 -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.0.248
+iptables -t nat -A cnc_portmap -d 221.12.164.197 -p tcp -m tcp --dport 443 -j DNAT --to-destination 192.168.0.248
+iptables -t nat -A cnc_portmap -d 221.12.164.197 -p tcp -m tcp --dport 60445 -j DNAT --to-destination 192.168.0.248:445
+iptables -t nat -A cnc_portmap -d 221.12.164.197 -p udp -m udp --dport 60445 -j DNAT --to-destination 192.168.0.248:445
+iptables -t nat -A cnc_portmap -d 221.12.164.198 -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.0.252
+iptables -t nat -A cnc_portmap -d 221.12.164.198 -p tcp -m tcp --dport 22 -j DNAT --to-destination 192.168.0.252
+#iptables -t nat -A cnc_portmap -d 221.12.164.198 -p tcp -m tcp --dport 443 -j DNAT --to-destination 192.168.0.252
+iptables -t nat -A cnc_portmap -d 221.12.164.198 -p tcp -m tcp --dport 60445 -j DNAT --to-destination 192.168.0.252:445
+iptables -t nat -A cnc_portmap -d 221.12.164.198 -p udp -m udp --dport 60445 -j DNAT --to-destination 192.168.0.252:445
+
+######################################
+# PREROUTING chain
+######################################
+#port map
+iptables -t nat -A PREROUTING -m iprange --dst-range 60.190.72.178-60.190.72.182 -j telecom_portmap
+iptables -t nat -A PREROUTING -m iprange --dst-range 221.12.164.194-221.12.164.198 -j cnc_portmap
+
+# redirect web to squid
+#iptables -t nat -A PREROUTING -s 192.168.0.0/24 -d ! 192.168.0.0/16 -p tcp -m tcp --dport 80 -j REDIRECT --to-port 3128
+
+######################################
+# POSTROUTING chain
+######################################
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1011/0xF0FF -j SNAT --to-source 60.190.72.178
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1012/0xF0FF -j SNAT --to-source 60.190.72.179
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1013/0xF0FF -j SNAT --to-source 60.190.72.180
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1014/0xF0FF -j SNAT --to-source 60.190.72.181
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1015/0xF0FF -j SNAT --to-source 60.190.72.182
+
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1021/0xF0FF -j SNAT --to-source 221.12.164.194
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1022/0xF0FF -j SNAT --to-source 221.12.164.195
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1023/0xF0FF -j SNAT --to-source 221.12.164.196
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1024/0xF0FF -j SNAT --to-source 221.12.164.197
+iptables -t nat -A POSTROUTING -m connmark --connmark 0x1025/0xF0FF -j SNAT --to-source 221.12.164.198
+
+####################################################
+####################################################
+# filter table
+####################################################
+####################################################
+iptables -t filter -F
+iptables -t filter -P INPUT ACCEPT
+iptables -t filter -P OUTPUT ACCEPT
+iptables -t filter -P FORWARD ACCEPT
+
+######################################
+# FORWARD chain
+######################################
+#iptables -A FORWARD -p tcp --syn -s ! 192.168.0.251/29 -m connlimit --connlimit-above 50 -j LOG --log-prefix "connlimit: "
+#iptables -A FORWARD -p tcp --syn -s ! 192.168.0.251/29 -m connlimit --connlimit-above 50 -j DROP
+
+iptables -A FORWARD -p tcp --syn -m iprange --src-range 192.168.0.1-192.168.0.180 -m connlimit --connlimit-above 50 -j LOG --log-prefix "connlimit: "
+iptables -A FORWARD -p tcp --syn -m iprange --src-range 192.168.0.1-192.168.0.180 -m connlimit --connlimit-above 50 -j DROP
+
+#iptables -A FORWARD -s ! 192.168.0.251/29 -m ipp2p --ipp2p --bit -j LOG --log-prefix "ipp2p: "
+#iptables -A FORWARD -s ! 192.168.0.251/29 -m ipp2p --ipp2p --bit -j DROP
+
+####################################################
+
+# choose ip:
+#  0x1: through ip 1
+#  0x2: through ip 2
+#  0x3: through ip 3
+#  0x4: through ip 4
+#  0x5: through ip 5
+#
+# ISP:
+#  0x10: through telecom
+#  0x20: through cnc
+#
+# connmark values:
+#  0x100: manual choose telecom/cnc
+#  0x200: auto choose telecom/cnc
+#
+# direction:
+#  0x1000: outgoing
+#  0x2000: incoming
+####################################################
+```

@@ -1,0 +1,640 @@
+---
+title: "Linux桌面安装与基本配置"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+## Linux桌面安装与基本配置
+
+### Ubuntu 安装
+
+安装前：
+
+* 事先在硬盘上准备一个未分区的空间，至少25G。最好先备份硬盘上的重要数据，或者使用完全空闲的硬盘。
+* 可以从官方网站下载安装光盘，然后刻录成光盘或者烧录到U盘：
+    * https://cn.ubuntu.com/download
+    * http://releases.ubuntu.com
+    * Desktop - Gnome桌面版(图形安装模式);Server - 服务器版(文本安装模式);
+
+光盘安装过程：
+
+* 将光盘放入光驱，按照提示一步一步执行即可。在硬盘分区这一步要特别小心，默认可能是删除硬盘所有分区，需要根据具体情况修改。
+
+硬盘安装过程：（以Ubuntu-8.04-desktop-i386.iso 为例）
+
+* 第一种方法（最简单的安装方法）：用winiso或winrar解压光盘镜像里的内容到同一文件夹内（和光盘镜像放在一起），双击wubi安装。按照提示完成后重启电脑，在启动菜单上选择Ubuntu就可以一步步安装Ubuntu到你的硬盘了。
+* 第二种方法：将 Ubuntu-8.04-desktop-i386.iso 中的 .disk ，casper ，wubi.exe ，umenu.exe 四个东西解压到fat32分区根目录（我用的是C盘）。双击运行 umenu.exe ，选择 demo and full installation ，选中 help me to boot from CD ，点击 finish ，出现 install CD booter ，点击下一步，将自动配置启动文件，按提示重启，出现系统选择菜单时选择 Ubuntu 即可。有的时候不能正常启动或安装，则在屏幕左上角出现“ Press `ESC’ to enter the menu ”时，按 esc 键，进入启动菜单，选择第一项 第二项 或 第三项 或第四项试试。
+* 第三种方法：
+    1. 下载GRUBFORDOS，将grldr和grub.exe放入C盘根目录;
+    1. 在C盘根目录新建 menu.lst文件，内容如下：（如果已经有menu.lst文件的覆盖亦可）
+
+       ```
+                title Install Ubuntu
+                find –set-root /Ubuntu-8.04-desktop-i386.iso
+                kernel  /vmlinuz  boot=casper  find_iso=/ubuntu-8.04-beta-desktop-i386.iso noapic （我的是AMD平台的）
+                initrd  /initrd.gz
+       ```
+
+       那个noapic，因为AMD CPU的原因，加入noapic,否则会有kernel panic.
+    1. 用winiso或winrar，复制 Casper和 .disk两个目录到C盘根目录;
+    1. 复制Casper目录中的vmlinuz和initrd.gz文件到C盘根目录;
+    1. 修改C盘根目录下的boot.ini文件，在文件末尾加入下面代码:
+
+       ```
+              C:\grldr=”GRUB”
+       ```
+    1. 重启，在启动菜单处，选择Grub，然后再选择Install Ubuntu就可以开始安装了。
+
+安装完成后，修改ubuntu的源，改成国内的ubuntu源速度比较快。修改文件：/etc/apt/sources.list，从[Ubuntu 源列表](http://wiki.ubuntu.com.cn/index.php?title=Qref/Source&variant=zh-cn)中选一组替换原来的内容
+
+### 在mac上装Linux
+
+2011年以后的MacbookPro用的是BCM4331无线网卡，这个网卡的Linux驱动很晚才出来，安装过程有一些麻烦。
+
+1. Linux Kernel 3.2rc3或者更新的版本
+1. 下载最新的firmware 666.2或者更新的版本 http://linuxwireless.org/en/users/Drivers/b43#List_of_firmware
+1. 装b43-fwcutter，Ubuntu下直接apt-get install b43-fwcutter即可
+1. 解压缩firmware文件，找到里面的wl_apsta.o文件，运行 b43-fwcutter -w /lib/firmware  wl_apsta.o
+
+然后无线网卡就可以用了
+
+### 存储器管理
+
+* [Software RAID and LVM](https://wiki.archlinux.org/index.php/Software_RAID_and_LVM)
+* [raid5](<../linux_raid.html>)
+* [Mount your widows Partitions and make it read/writable in ubuntu](http://www.debianadmin.com/mount-your-widows-partitions-and-make-it-readwritable-in-ubuntu.html)
+
+#### ubuntu读写ntfs分区
+
+在source.list上加上
+```
+deb http://flomertens.keo.in/ubuntu/ dapper main
+deb-src http://flomertens.keo.in/ubuntu/ dapper main
+```
+安装ntfs-3g
+```
+apt-get install ntfs-3g ntfs-3g-nautilus-tools
+```
+启动fuse模块
+```
+modprobe fuse
+```
+并在/etc/modules中加入一行
+```
+fuse
+```
+最后修改/etc/fstab，把对应ntfs的分区类型改成ntfs-3g，比如
+```
+/dev/hda1       /mnt/hda1   ntfs-3g defaults,nls=utf8,locale=zh_CN.utf8,umask=007,gid=46  0       1
+```
+
+### 内核
+
+* [Fedora 与 Ubuntu 内核比较](https://linuxtoy.org/archives/compare-kernel-between-fedora-and-ubuntu.html)
+
+重新编译内核
+
+1. 下载内核：http://www.kernel.org/ ，解压缩
+1. 配置内核选项：
+
+   ```
+   cp /boot/config-`uname -r` ./.config
+   make menuconfig
+   ```
+1. 编译内核：
+
+   ```
+   make-kpkg clean
+   fakeroot make-kpkg --initrd --append-to-version=-custom kernel_image kernel_headers
+   ```
+1. 安装内核：
+
+   ```
+   dpkg -i linux-image-2.6.18.1-custom_2.6.18.1-custom-10.00.Custom_i386.deb
+   dpkg -i linux-headers-2.6.18.1-custom_2.6.18.1-custom-10.00.Custom_i386.deb
+   ```
+1. 修改引导文件：
+
+   ```
+   vi /boot/grub/menu.lst
+
+   title           Ubuntu, kernel 2.6.18.1-custom
+   root            (hd0,0)
+   kernel          /boot/vmlinuz-2.6.18.1-custom root=/dev/sda1 ro quiet splash
+   initrd          /boot/initrd.img-2.6.18.1-custom
+   savedefault
+   boot
+
+   title           Ubuntu, kernel 2.6.18.1-custom (recovery mode)
+   root            (hd0,0)
+   kernel          /boot/vmlinuz-2.6.18.1-custom root=/dev/sda1 ro single
+   initrd          /boot/initrd.img-2.6.18.1-custom
+   boot
+   ```
+1. 使用新内核重启
+
+### 中文支持
+
+#### 中文输入法
+
+* fcitx
+
+小企鹅输入法(五笔、拼音等)
+```
+apt-get install fcitx
+```
+scim(Smart Common Input Method)
+```
+apt-get install scim scim-tables-zh
+```
+
+* scim
+
+在debian中安装scim后，输入法可能不会随着X启动而自动加载。可以在/etc/X11/Xsession.d/目录中添加文件95scim，内容如下：
+
+```
+export XMODIFIERS="@im=SCIM"
+export GTK_IM_MODULE=scim
+scim -d
+```
+
+在英文的locale下，无法使用scim中文输入，可以运行：
+
+```
+sudo update-alternatives --config xinput-all_ALL
+```
+
+选择scim
+
+* scim-python http://code.google.com/p/scim-python/
+* fitx http://code.google.com/p/fitx/
+
+#### 中文排序
+
+让文件名是中文的文件按照拼音顺序排列：安装locale-pinyin:
+
+```
+sudo apt-get install locale-pinyin
+```
+
+然后设置`LC_COLLATE=zh_CN@pinyin.utf8`，可以通过在/etc/environment文件中添加这一行实现：
+
+```
+LC_COLLATE="zh_CN@pinyin.utf8"
+```
+
+然后重新登录就可以起作用了
+
+### 网络配置
+
+#### adsl拨号
+
+使用pppoeconf配置拨号的属性
+```
+pppoeconf
+```
+使用pon进行拨号
+```
+pon dsl-provider
+```
+使用poff断开
+```
+poff dsl-provider
+```
+
+#### 持久化网络配置
+
+Debian和Ubuntu的网络配置大多出现在文件/etc/hostname和文件/etc/network/ interfaces里，另从/etc/network目录下的options文件里提供一点儿帮助。
+主机名在/etc/hostname文件里设置。这个文件里的名字应该是全名，因为它的值要在各种场合下使用，其中有些场合需要全名。不过，标准的Debian安装在那里留下的不是一个全名。
+```
+/etc/hostname           #主机名
+/etc/network/interfaces #IP地址、子网掩码、默认网关
+/etc/network/options    #IP转发
+```
+可以用VI编辑以上文件，也可用"ifconfig"和"route"配置
+
+### 电源管理
+
+* [ubuntu 笔记本电源管理优化指南](https://forum.ubuntu.org.cn/viewtopic.php?t=33119)
+
+#### 休眠
+
+查看系统支持哪些模式
+```
+cat /sys/power/state
+```
+   suspend to disk(S4):
+```
+echo disk > /sys/power/state
+```
+   suspend to ram(S3):
+```
+echo mem > /sys/power/state
+```
+
+hp的笔记本从待机恢复后键盘鼠标失去响应的问题，可以在/etc/acpi/suspend.d中新建文件20-i8042-input.sh：
+
+```
+#!/bin/sh
+
+# Unbind the AT keyboard interface.
+if [ -f /sys/bus/platform/drivers/i8042/unbind ]; then
+  echo -n "i8042" > /sys/bus/platform/drivers/i8042/unbind
+fi
+```
+
+在/etc/acpi/resume.d中新建文件80-i8042-input.sh:
+
+```
+#!/bin/sh
+
+# Rebind the AT keyboard interface.
+if [ -f /sys/bus/platform/drivers/i8042/bind ]; then
+  echo -n "i8042" > /sys/bus/platform/drivers/i8042/bind
+fi
+```
+
+#### 节电措施
+
+Suggestion: increase the VM dirty writeback time from 5.00 to 15 seconds with:
+```
+  echo 1500 > /proc/sys/vm/dirty_writeback_centisecs
+```
+This wakes the disk up less frequenty for background VM activity
+
+### 罗技设备配对
+
+* https://github.com/Lekensteyn/ltunify
+
+### 图形界面配置
+
+从X.org 7.3和Xrandr1.2起，Linux的图形界面可以动态修改双头显示的配置了。首先将/etc/X11/xorg.conf改为(Intel 945显卡)：
+```
+Section "Files"
+EndSection
+
+Section "InputDevice"
+        Identifier      "Generic Keyboard"
+        Driver          "kbd"
+        Option          "CoreKeyboard"
+        Option          "XkbRules"      "xorg"
+        Option          "XkbModel"      "pc105"
+        Option          "XkbLayout"     "us"
+EndSection
+
+Section "InputDevice"
+        Identifier      "Configured Mouse"
+        Driver          "mouse"
+        Option          "CorePointer"
+        Option          "Device"                "/dev/input/mice"
+        Option          "Protocol"              "ImPS/2"
+        Option          "ZAxisMapping"          "4 5"
+        Option          "Emulate3Buttons"       "true"
+EndSection
+
+Section "InputDevice"
+        Identifier      "Synaptics Touchpad"
+        Driver          "synaptics"
+        Option          "SendCoreEvents"        "true"
+        Option          "Device"                "/dev/psaux"
+        Option          "Protocol"              "auto-dev"
+        Option          "HorizScrollDelta"      "0"
+EndSection
+
+Section "Device"
+        Identifier      "Intel Corporation Mobile 945GM/GMS, 943/940GML Express Integrated Graphics Controller"
+        Driver          "intel"
+        BusID           "PCI:0:2:0"
+EndSection
+
+Section "Monitor"
+        Identifier      "通用显示器"
+        Option          "DPMS"
+EndSection
+
+Section "Screen"
+        Identifier      "Default Screen"
+        Device          "Intel Corporation Mobile 945GM/GMS, 943/940GML Express Integrated Graphics Controller"
+        Monitor         "通用显示器"
+        DefaultDepth    24
+        SubSection "Display"
+                Virtual 2048 2048
+        EndSubSection
+EndSection
+
+Section "ServerLayout"
+        Identifier      "Default Layout"
+        Screen          "Default Screen"
+        InputDevice     "Generic Keyboard"
+        InputDevice     "Configured Mouse"
+        InputDevice     "stylus"        "SendCoreEvents"
+        InputDevice     "cursor"        "SendCoreEvents"
+        InputDevice     "eraser"        "SendCoreEvents"
+        InputDevice     "Synaptics Touchpad"
+EndSection
+```
+
+用xrandr命令修改双头设置
+
+```
+usage: xrandr [options]
+  where options are:
+  -display <display> or -d <display>
+  -help
+  -o <normal,inverted,left,right,0,1,2,3>
+            or --orientation <normal,inverted,left,right,0,1,2,3>
+  -q        or --query
+  -s <size>/<width>x<height> or --size <size>/<width>x<height>
+  -r <rate> or --rate <rate> or --refresh <rate>
+  -v        or --version
+  -x        (reflect in x)
+  -y        (reflect in y)
+  --screen <screen>
+  --verbose
+  --dryrun
+  --prop or --properties
+  --fb <width>x<height>
+  --fbmm <width>x<height>
+  --dpi <dpi>/<output>
+  --output <output>
+      --auto
+      --mode <mode>
+      --preferred
+      --pos <x>x<y>
+      --rate <rate> or --refresh <rate>
+      --reflect normal,x,y,xy
+      --rotate normal,inverted,left,right
+      --left-of <output>
+      --right-of <output>
+      --above <output>
+      --below <output>
+      --same-as <output>
+      --set <property> <value>
+      --off
+      --crtc <crtc>
+  --newmode <name> <clock MHz>
+            <hdisp> <hsync-start> <hsync-end> <htotal>
+            <vdisp> <vsync-start> <vsync-end> <vtotal>
+            [+HSync] [-HSync] [+VSync] [-VSync]
+  --rmmode <name>
+  --addmode <output> <name>
+  --delmode <output> <name>
+```
+
+### 安装java
+
+```
+apt-get install sun-java5-jdk
+apt-get install sun-java5-plugin
+update-alternatives --config java
+```
+
+配置java字体
+```
+wget http://paste.ubuntu.org.cn/d323
+sudo mv /etc/java-1.5.0-sun/fontconfig.properties /etc/java-1.5.0-sun/fontconfig.properties.old
+sudo mv d323 /etc/java-1.5.0-sun/fontconfig.properties
+sudo chown root:root /etc/java-1.5.0-sun/fontconfig.properties
+```
+
+### 虚拟机安装
+
+* Vmplayer虚拟机：安装vmware-player
+
+  ```
+  sudo apt-get install vmware-player
+  ```
+
+  在http://www.easyvmx.com/ 上创建一个虚拟机，然后用vmware-player运行它。
+* VirtualBox：先添加ubuntu-cn的源，然后安装virtualbox
+
+  ```
+  sudo apt-get install virtualbox
+  ```
+
+### 编辑排版
+
+* [Emacs](<../Emacs.html>)
+* [VI](<../VI.html>)
+* [TeX排版](<../TeX排版.html>)
+
+### 聊天
+
+使用gaim来上msn messenger, yahoo messenger, icq, google talk, aol等
+```
+apt-get install gaim
+```
+skype:在/etc/apt/source.list中填加
+```
+deb http://debian.bootsplash.de unstable main
+```
+然后安装
+```
+apt-get install skype
+```
+
+使用qq：
+
+* 使用lumaqq来上qq: http://lumaqq.linuxsir.org/
+
+```
+cd;mkdir tmp;cd tmp
+wget -c http://download.ubuntu.org.cn/software/lumaqq_2005-linux_gtk2_x86_no_jre.tar.gz
+sudo tar zxvf lumaqq_2005-linux_gtk2_x86_no_jre.tar.gz -C /opt/
+wget -c http://download.ubuntu.org.cn/software/lumaqq_2005_patch_2006.02.02.15.00.zip
+sudo unzip -o lumaqq_2005_patch_2006.02.02.15.00.zip -d /opt/LumaQQ/lib
+sudo chown -R root:root /opt/LumaQQ/
+sudo chmod -R 755 /opt/LumaQQ/
+sudo vi /usr/share/applications/LumaQQ.desktop
+```
+添加如下行：
+
+代码:
+```
+[Desktop Entry]
+Name=LumaQQ
+Comment=QQ Client
+Exec=/opt/LumaQQ/lumaqq
+Icon=/opt/LumaQQ/QQ.png
+Terminal=false
+Type=Application
+Categories=Application;Network;
+```
+
+* 使用openq: http://openq.linuxsir.org/
+* 使用eva:  http://sourceforge.net/projects/evaq    ubuntu上可以直接使用`apt-get install eva`安装
+
+### 播放电影
+
+在/etc/apt/source.list中填加
+```
+deb ftp://ftp.nerim.net/debian-marillat/ sid main
+```
+安装mplayer和解码器
+```
+apt-get install mplayer w32codecs
+```
+
+### 切割cue/flac文件
+
+安装切割工具：
+
+```
+sudo aptitude install cuetools shntool
+```
+安装编解码器
+
+```
+sudo aptitude install flac wavpack
+```
+切割cue/flac文件：
+
+```
+cuebreakpoints sample.cue | shnsplit -o flac sample.flac
+```
+给切割好的文件加上歌名等tag：
+
+```
+cuetag sample.cue `ls split-track*.flac`
+```
+
+### 网络电视
+
+支持Linux的网络电视软件比较少，现在只有sopcast一个。
+
+首先在 http://www.sopcast.org/cn/ 下载安装播放核心sp-sc。
+
+然后要安装一个图形前端gsopcast： http://lianwei3.googlepages.com/home2
+
+### 对数码相机的支持
+
+命令行方式使用gphoto2
+```
+apt-get install gphoto2
+```
+图形界面使用gtkam
+```
+apt-get install gtkam
+```
+让普通用户有权限使用数码相机。比如让用户czk能用相机
+```
+gpasswd -a czk camera
+```
+
+### 网络银行
+
+支持Linux的网络银行比较少，不过还是有的，[浦发银行](http://www.spdb.com.cn/)还有很多外资银行都是支持的。
+
+### palm同步
+
+#### 用gnome-pilot同步
+
+1. 下载gnome-pilot通讯部分的源： "apt-get source pilot-link"
+1. 修改负责管道通讯的代码： "gedit ~/pilot-link-0.12.2/libpisync/util.c" （下载的版本是0.12.2）引用: 就在文件的开头可以看到：#define PILOT_CHARSET "CP1252" ，将CP1252改为GBK
+1. 重新编译："debuild -r fakeroot"，将生成几个以deb结尾的文件。这些就是要安装的软件包。
+1. 安装："sudo dpkg -i *.deb" ，记得在相同目录下运行。
+
+### 游戏
+
+* [Top 10 Free Linux Games](https://techgage.com/print/top_10_free_linux_games/)
+
+### WINE
+
+使用WINE可以在linux下运行windows应用程序
+
+安装wine
+```
+apt-get install wine
+```
+对wine进行配置。配置比较麻烦。Sidenet提供了一个脚本自动进行配置：http://sidenet.ddo.jp/winetips/config.html
+
+当前在zh_CN.utf8的字符编码环境下，并启动了scim输入法，再运行wine就会很慢。解决办法在http://huangjiahua.livejournal.com/71157.html
+
+在 [http://www.linuxgame.org/](http://www.linuxgame.org/) 提供了一些脚本可以对wine进行方便的配置。
+
+### 关于 wine 在 zh_CN.UTF-8 , Ubuntu/Debian 下慢
+
+wine 在 zh_CN.UTF-8 , Ubuntu/Debian 下启动个 notepad 都非常慢， 而 SUSE 下的却没问题。
+看了下， 还是 请求 X core 字体的问题，在 zh_CN.UTF-8 下 wine 会请求 gbk-0 字体 ，
+而通常 Ubuntu/Debian 都没 gbk-0 字体的， 即使有的话， 用 * 来匹配字体也是很慢的。
+
+一个比较容易想到的是添加 GBK 字体
+
+让 WQY 添加 GBK-0 字体
+安装 wqy 后，加个文件/etc/X11/fonts/misc/xfonts-wqy.alias
+写入
+```
+"-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-100-100-p-0-gbk-0" "-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-100-100-p-0-iso10646-1"
+"-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-75-75-p-0-gbk-0" "-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-75-75-p-0-iso10646-1"
+```
+
+再执行
+```
+sudo update-fonts-alias misc
+xset fp
+```
+这时候 wine 的反映速度就跟 zh_CN 下一样了 （ 启动个 notepad 或者 ms word 来看看 ）
+
+* 参考： https://huangjiahua.livejournal.com/71157.html
+
+### wine中文字体
+
+```
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Wine\Fonts\Replacements]
+
+"Arial Baltic,186"="simsun"
+
+"Arial CE,238"="simsun"
+
+"Arial CYR,204"="simsun"
+
+"Arial Greek,161"="simsun"
+
+"Arial TUR,162"="simsun"
+
+"Courier New Baltic,186"="simsun"
+
+"Courier New CE,238"="simsun"
+
+"Courier New CYR,204"="simsun"
+
+"Courier New Greek,161"="simsun"
+
+"Courier New TUR,162"="simsun"
+
+"Helv"="simsun"
+
+"Helvetica"="simsun"
+
+"MS Shell Dlg"="simsun"
+
+"MS Shell Dlg 2"="simsun"
+
+"Tahoma"="simsun"
+
+"Times"="simsun"
+
+"Times New Roman"="simsun"
+
+"Times New Roman Baltic,186"="simsun"
+
+"Times New Roman CE,238"="simsun"
+
+"Times New Roman CYR,204"="simsun"
+
+"Times New Roman Greek,161"="simsun"
+
+"Times New Roman TUR,162"="simsun"
+
+"Tms Rmn"="simsun"
+
+"Verdana"="simsun"
+```

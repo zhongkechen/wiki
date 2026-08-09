@@ -1,0 +1,88 @@
+---
+title: "Linux服务器管理"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+## Linux服务器管理
+
+### Provision
+
+* [debian服务器安装](<../debian服务器安装.html>)
+* [Software RAID and LVM](https://wiki.archlinux.org/index.php/Software_RAID_and_LVM)
+* [raid5](<../linux_raid.html>)
+* [Webmin](http://www.webmin.com/): a web-based interface for system administration
+* [Linux Network (TCP) Performance Tuning with Sysctl](https://www.slashroot.in/linux-network-tcp-performance-tuning-sysctl)
+* [Enhanced Networking on Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html)
+* Ansible
+    * [https://docs.ansible.com/](https://docs.ansible.com/)
+    * [NetflixOSS Ansible Playbook](https://github.com/Answers4AWS/netflixoss-ansible)
+* [系统自动化配置和管理工具 SaltStack](https://www.vpsee.com/2013/08/a-system-configuration-management-and-orchestration-tool-saltstack/)
+* [Managing Infrastructure as Code](https://www.youtube.com/watch?v=SJ48aawceJY)
+* [Docker](https://en.wikipedia.org/wiki/Docker_(software))
+* [Docker Swarm](https://docs.docker.com/engine/swarm/)
+
+* [Site Reliability Engineering with Stephen Weinberg](https://www.youtube.com/watch?v=24xb7oZgu-I)
+
+### Services
+
+#### 远程控制
+
+* [ssh](<../ssh.html>)
+* [vnc](<../vnc.html>)
+
+#### 文件和网络存储服务器
+
+* [samba](<../samba.html>) 与Windows共享文件（共享打印机）
+* [ftp](<../ftp.html>) （[vsftpd](<../ftp.html>)、[wu-ftpd](<../ftp/wu-ftpd.html>)）
+* [nfs](<../nfs.html>)
+* [sftp](<../ssh.html>)
+* [iscsi](<../iscsi.html>)
+* netatalk: AFP
+
+#### Web服务器
+
+* [apache2](<../apache2.html>) (Mono、PHP、Python、Perl等）
+* Forum: [phpbb3](<../phpbb3.html>)
+* Wiki: [mediawiki](<../mediawiki.html>), [moinmoin](<../moinmoin.html>)
+* Blog: [drupal](<../drupal.html>), [wordpress](<../wordpress.html>)
+
+#### 数据库服务器
+
+* [mysql](<../mysql.html>)
+* [postgresql](<../postgresql.html>)
+* [sqlite](<../sqlite.html>)
+* [oracle](<../oracle.html>)
+
+#### 网络基础服务
+
+* DNS: [bind](<../bind.html>)
+* DHCP: [dhcpd](<../dhcpd.html>)
+* Proxy: [squid](<../squid.html>)
+* socks5: [danted](<../danted.html>)
+* wins: [samba](<../samba.html>)
+* vpn: [openvpn](<../openvpn.html>)
+* firewall: [iptables](<../iptables.html>)
+* router: [iproute2](<../iproute2.html>)
+* [Linux路由器配置](<Linux路由器配置.qmd>)
+
+#### 电子邮件服务
+
+* exim4
+
+#### 流媒体服务
+
+* http server
+* real media server
+
+### Monitor
+
+* nagios
+* awstats
+* cacti
