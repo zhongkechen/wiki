@@ -41,7 +41,7 @@ meow
 Hello world!
 ```
 
-- 考虑如图所示的类结构。 用一系列Python类来实现这个结构，Scene对象（戏剧中的一场）内嵌了Customer、Clerk、Parrot类的对象。让Scene类包含一个action方法（开始演出），而内嵌的Customer、Clerk、Parrot类的对象都有一个line方法（台词），打印出一条个不相同的消息。内嵌的对象要么从父类继承了一个line方法，或者自己定义了一个line方法。![animal.png](assets/实验4/animal.png) 最后，这样测试你的类：
+- 考虑如图所示的类结构。 用一系列Python类来实现这个结构，Scene对象（戏剧中的一场）内嵌了Customer、Clerk、Parrot类的对象。让Scene类包含一个action方法（开始演出），而内嵌的Customer、Clerk、Parrot类的对象都有一个line方法（台词），打印出一条个不相同的消息。内嵌的对象要么从父类继承了一个line方法，或者自己定义了一个line方法。![parrot.png](assets/实验4/parrot.png) 最后，这样测试你的类：
 ```
 >>> import parrot
 >>> parrot.Scene( ).action( )

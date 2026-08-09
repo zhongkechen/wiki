@@ -10,6 +10,8 @@ format:
 
 [返回“Python游戏开发基础”目录](<../Python游戏开发基础.qmd>)
 
+附件：[原页面附件 package.zip](<assets/Pygame事件与用户交互/package.zip>)
+
 ## 事件系统
 
 Pygame通过一个事件系统与用户进行交互，以及处理一些系统发生的事件。事件系统包括一个事件队列，其中每一项都是一个Event对象。所有的用户输入和一些系统事件，都会形成一个Event对象被添加到事件队列中。pygame.event模块提供了很多函数去访问和控制这个队列。
