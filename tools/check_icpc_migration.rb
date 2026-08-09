@@ -94,6 +94,15 @@ Dir.mktmpdir("check-icpc-migration") do |temporary_root|
   )
   assert(html_problem_page.include?("&lt;br&gt;"), "Literal HTML tag was not escaped")
 
+  judge_page = File.read(
+    File.join(temporary_root, "old", "ICPC", "在线判题系统.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    judge_page.include?("换行符为\\\\r\\\\n，而判题程序认为换行符为\\\\n"),
+    "Literal backslashes were not escaped"
+  )
+
   beginner_page = File.read(
     File.join(temporary_root, "old", "ICPC", "ACM新手入门.qmd"),
     encoding: "UTF-8"

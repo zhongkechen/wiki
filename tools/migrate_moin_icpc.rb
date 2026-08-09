@@ -493,6 +493,7 @@ def escape_plain_moin_markup(source)
     quote = line.match?(/\A>\s/)
     line = line.sub(/\A(\s+)\*/, '\1@@MOIN_BULLET@@') if bullet
     line = line.sub(/\A>/, "@@MOIN_QUOTE@@") if quote
+    line = line.gsub("\\") { "\\\\" }
     line = line.gsub("*", "\\*")
     line = line.gsub(/(?<!<)<(?!<)/, "&lt;")
     line = line.gsub(/(?<!>)>(?!>)/, "&gt;")
