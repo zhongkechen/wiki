@@ -1,0 +1,533 @@
+---
+title: "C++编程基础"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+#pragma section-numbers 2
+
+## C++编程基础
+
+### 简单的C++程序实例
+
+#### 第一个C++程序 输出Hello world
+
+```cpp
+// 这是我的第一个C++程序
+// 在屏幕上输出: hello world!
+#include <iostream>
+using namespace std;
+int main() {
+    cout << "hello world!\n";
+    return 0;
+}
+```
+
+#### 第1.5个C++程序 输入名字，输出招呼
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std; // haven't explained this yet ...
+int main()
+{
+    string user_name;
+    cout << "Please enter your first name: ";
+    cin >> user_name;
+    cout << '\n"
+         << "Hello, "
+         << user_name
+         << " ... and goodbye!\n";
+    return 0;
+}
+```
+
+#### 第二个C++程序 求两数之和
+
+```cpp
+//输入两个数，求它们的和
+#include <iostream>
+using namespace std;
+int main() {
+    int a, b;
+    cin >> a >> b;
+    cout << a + b << endl;
+}
+```
+
+#### 第三个C++程序 求两个数中较大的一个
+
+```cpp
+//输入两个数，输出两个数中较大的一个
+#include <iostream>
+using namespace std;
+
+int max(int, int);
+
+int main() {
+    int a, b;
+
+    cin >> a >> b;
+    cout << max(a, b) << endl;
+}
+
+int max(int x, int y) {
+    if(x>y)
+        return x;
+    else
+        return y;
+}
+```
+
+### 注释
+
+参见：[C++:注释](<C++:注释.qmd>)
+
+### 名字空间
+
+参见:[C++:名字空间](<C++:名字空间.qmd>)
+
+### C++的头文件
+
+C语言中的标准头文件有.h，在C++中仍然可以使用
+```cpp
+#include <stdio.h>
+```
+C语言的头文件在C++中有另一种方式：前面加c后面去掉.h
+```cpp
+#include <cstdio>
+```
+C++中增加的标准头文件没有.h
+```cpp
+#include <iostream>
+```
+
+所有C++中新增的标准库，都放在名字空间std中。比如
+```cpp
+#include <iostream>
+int main() {
+   std::cout << "hello, world!";
+   using namespace std;
+   cout << "hello, world!";
+}
+```
+使用.h头文件包含的C语言标准库不在std名字空间中
+```cpp
+#include <stdio.h>
+int main() {
+   printf("hello, world!");
+}
+```
+使用没有.h的头文件包含的C语言库，在std名字空间中
+```cpp
+#include <cstdio>
+int main() {
+   std::printf("hello world!");
+   using namespace std;
+   printf("hello world!");
+}
+```
+
+### C++输入输出
+
+* C语言输入输出(printf/scanf)在C++中仍然可以使用
+* C++输入输出新增了一种输入输出方式，它更容易使用、可扩展输入输出系统，不需要格式化串。它包括：
+    * C++流：cin, cout ,  cerr
+    * C++输入输出操作符：`<<`和`>>`
+
+用法：
+```cpp
+#include <iostream>
+int main() {
+   int i, j;
+   std::cin >> i >> j;
+   std::cout << "say hello " << i << " times!";
+}
+```
+
+更多例子：
+```cpp
+#include <iostream>
+using namespace std;
+int main() {
+    int val, sum = 0;
+    cout << "Enter next number: ";
+    while ( cin >> val) {
+        sum += val;
+        cout << "Enter next number: ";
+    }
+    cout << "Sum of all values: " << sum << '\n';
+    return 0;
+}
+```
+
+格式控制：使用操纵符
+
+* 输出控制：
+    * 控制进制dec, hex, oct
+    * 刷新流endl, flush
+    * 对齐left, right
+    * 精度setprecision(n)
+    * 宽度setw(n)
+* 输入控制：
+    * 跳过空格skipws
+    * 读取空白ws
+
+例子：
+```cpp
+int main() {
+   int i = 4, j = 6, k = 8;
+   char c = '!';
+   cout << i << c << endl
+      << j << c << '\n'<<flush
+      << k << c <<endl;
+}
+```
+```cpp
+int main() {
+   int i = 92;
+   cout << "i = " << i << " (decimal)\n";
+   cout << "i = " << oct << i << "(octal)\n";
+   cout << "i = " << hex << i << " (hexadecimal)\n";
+   cout << "i = " << dec << i << " (decimal)\n";
+}
+```
+如果最后一句改为这样，输出会怎样？
+```
+cout << "i = " << i << " (hexadecimal)\n";
+```
+
+```cpp
+int main() {
+   int i;
+   for( i = 1; i <= 1000; i *= 10)
+      cout << setw(6) << i << '\n';
+   cout << setw(6);
+   for( i = 1; i <= 1000; i *=10)
+      cout << i << '\n';
+}
+```
+
+```cpp
+int main() {
+   int a = 5, b = 43, c = 104;
+   cout << left << setw(10) << “Karen”
+      << right << setw(6) << a << '\n';
+   cout << left << setw(10) << “Ben”
+      << right << setw(6) << b << '\n';
+   cout << left << setw(10) << “Patricia”
+      << right << setw(6) << c << '\n';
+}
+```
+
+```cpp
+#include <iostream>
+using namespace std;
+int main() {
+    char c;
+    cin >> noskipws;
+    while( cin >> c )
+        cout << c;
+    return 0;
+}
+```
+
+注意：不要同时使用C和C++输入输出库
+
+### 定义常量
+
+C语言定义常量的办法
+```cpp
+#define PI 3.14
+#define MAX 100
+float a[ MAX ];
+```
+这种宏定义的方法容易带来一些错误。
+
+在C++中新增的了代替宏的一些语法。包括C++定义常量的办法：
+```cpp
+const double PI = 3.14;
+const int MAX = 100;
+float a[ MAX ];
+```
+const变量必须在定义时初始化，不能赋值
+```cpp
+const int a = 5;
+const int b; // error
+a = 10; // error
+```
+
+注：const在C语言中也可以使用，但是C++中对const的用法作了扩充。
+
+用const修饰指针的时候，可以放在指针定义的两个不同位置：
+```cpp
+int main() {
+    int i = 10;
+    int j = 11;
+    const int *p = &i;
+    p = &j;           //ok
+    (*p)++;            //error
+    int * const q = &i;
+    (*q)++;            //ok
+    q = &j;           //error
+    const int * const r = &i;
+    (*r)++;            //error;
+    r = &j;           //error;
+}
+```
+
+### 强制类型转换
+
+参见：[C++:强制类型转换](<C++:强制类型转换.qmd>)
+
+### 定义变量
+
+C语言只能在一个语句块开始的地方定义变量
+```cpp
+void function(int x) {
+    int n; /* 可以在这里定义*/
+    if(x) {
+        float d; /*可以在这里定义*/
+        d= PI*3;
+    }
+    n = 5;
+    int y = 3;  /*不能在这里定义*/
+}
+```
+
+而在C++中没有这样的没有限制，而且还可以在for初始化部分定义变量。比如
+```cpp
+void reverse_and_print(int a[], int size) {
+    for(int i = 0; i < size; i++)
+        a[i] = 2*i;
+    int temp;
+    for(int i = 0; i < size/2; i++) {
+        temp = a[i];
+        a[i] = a[size-1-i];
+        a[size-1-i] = temp;
+    }
+    for(int i = 0; i < size; i++)
+        cout << a[i] << '\n';
+}
+```
+
+### 结构体
+
+定义结构体变量时可以省略关键字struct
+```
+struct point {
+    double x, y;
+};
+struct point p1; // C/C++
+point p2; // C++
+```
+此外，C++的结构体内部可以包含函数，这样的结构体就变成了类。在后面会详细介绍。
+
+### C++内存分配
+
+C++中可以使用C语言内存分配malloc/free/realloc/calloc等，最常用的是malloc和free。
+```cpp
+#include <stdlib.h>
+int main() {
+    int * p = (int *) malloc(sizeof(int));
+    *p = 10;
+    free(p);
+    p = (int *) malloc(sizeof(int) * 5);
+    *p = 5;
+    p[1] = 6;
+    p[4] = 9
+    free(p);
+}
+```
+
+C++中还可以用特有的内存分配方法：new/delete。比如：
+```cpp
+int main() {
+    int *p1 = new int;     // 1个int
+    int *p2 = new int [5]; // 5个int
+    int *p3 = new int (5); // 1个int，值为5
+    delete p1;   // 不能写成free(p1);
+    delete[] p2; // 不能写成delete p2;
+    delete p3;   // 不能写成delete[] p3;
+}
+```
+
+注意：
+
+* new和delete是两个新增的关键字，他们也是两个运算符。
+* malloc分配的内存只能用free来释放，new分配的内存只能用delete来释放，new []分配的内存只能用delete []来释放。比如：
+
+  ```cpp
+  int *p1 = (int *)malloc(sizeof(int));
+  delete p1; // error
+  int *p2 = new int;
+  free(p2); // error
+  int *p3 = new int[10];
+  delete p3[5]; // error
+  ```
+
+注意：
+
+* delete一次只能删除一次new的空间
+
+```cpp
+int *p1 = new int;
+int *p2 = new int;
+delete p1, p2; // error
+```
+
+## C++中的一些新类型
+
+### bool类型
+
+[C++:bool类型](<C++:bool类型.qmd>)
+
+### string类型
+
+在C语言中，用char\* 和char[ ]表示字符串。用string.h头文件中定义的strlen, strcpy, strcat, strstr等函数来对字符串进行操作。
+```cpp
+#include <string.h>
+int main() {
+    char s1[20] = "";
+    char s2[20] = "hello world";
+    strcpy(s1, s2);
+    strcat(s2, "!!!");
+    scanf("%s", s1);
+    printf("%d", strlen(s1));
+    printf("%s", s2);
+}
+```
+
+C语言的字符串的缺点是内存需要手动管理，容易出错。比如
+```cpp
+#include <string.h>
+int main() {
+    char s1[10] = "hello";
+    char s2[10] = "world"
+    strcat(s1, s2); /*错误，s1空间不够*/
+    strcpy(s1, "hello world"); /*错误，空间不够*/
+    scanf("%s", s1); /*危险，如果输入字符串太长会出错*/
+}
+```
+
+为避免使用字符串的麻烦和潜在的错误，在C++中，用string类来存放和操作字符串。它定义在string头文件中。
+```cpp
+#include <string>
+using namespace std;
+int main() {
+   string s1;           //s1默认初始化为 ""
+   string s2 = "Bravo"; //s2初始化为"Bravo"
+   string s3 = s2;      //s3初始化和s2一样
+   string s4 (10, 'x'); //s4初始化为10个x组成的字符串
+   s1 = "Bravo";        //s1的值赋为"Bravo"
+   cout << s1 << s1.length() << endl; //输出字符串s1，并输出它的长度
+   cout << s1[0];       //取字符串s1中一个字符
+   cin >> s1;           //输入一个字符串，以空白符(white space)为界
+   s3 = s1 + s2;        //把s1和s2连接成一个字符串并赋值给s3
+}
+```
+
+### vector向量
+
+在c语言中表示多个相同的东西，使用数组，比如：
+```cpp
+#include <stdio.h>
+int main() {
+    int array[10];
+    int i = 0;
+    int x;
+    while(1) {
+        scanf("%d", &x);
+        if( x == 0)
+            break;
+        array[i++] = x;
+    }
+}
+```
+
+但是C语言中的数组存在的问题是：
+
+* 数组的大小是编译时确定的，不能动态变化；
+* 对数组的下标没有越界检查，常常导致内存错误。
+
+在C++中可以使用vector代替数组。
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+int main() {
+    vector<int> array(10);
+    int i = 0;
+    int x;
+    while(1) {
+        cin >> x;
+        if( x == 0)
+            break;
+        array[i++] = x;
+    }
+}
+```
+但是上面这个程序和C语言的版本一样，由于vector的大小是一开始就确定的，所以还是有可能发生数组溢出。我们可以进一步改写：
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int x;
+    vector<int> array;
+    while(1) {
+        cin >> x;
+        if(x == 0)
+            break;
+        array.push_back(x);
+    }
+    for(int i = 0; i < array.size(); i++)
+        cout << array[i] << '\t';
+}
+```
+此处，array的大小是动态变化的，一开始是0，随着append不断的增大。
+
+### 文件
+
+将内容写到一个文件：
+```cpp
+#include <fstream>
+#include <iostream>
+using namespace std;
+int main() {
+    string name;
+    cin >> name;
+    ofstream outfile("data.txt");
+    if(outfile)
+        outfile << "hello" << name;
+
+    else
+        cerr << "Oops! File cannot be opened!";
+
+}
+```
+
+从某个文件读数据：
+```cpp
+#include <fstream>
+#include <iostream>
+#include <ctype.h>
+using namespace std;
+int main() {
+    char c;
+    ifstream infile("in.txt");
+    ofstream outfile("out.txt");
+    while(infile >> c) {
+        outfile << toupper(c);
+    }
+}
+```
+
+---

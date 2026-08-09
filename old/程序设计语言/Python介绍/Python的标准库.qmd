@@ -1,0 +1,19 @@
+---
+title: "Python介绍/Python的标准库"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+### Python的标准库
+
+Python有一个巨大的标准库，这使得Python适合于完成很多任务。Python模块的哲学被称作"内置电池"。标准库中的模块可以通过C语言或者Python语言写成的模块来增加。标准库被精心的设计用以编写面向Internet的应用，包括对大量的标准格式和协议的支持（比如MIME和HTTP）。同时也包括编写图形用户界面的模块，连接关系型数据库的模块，任意精度的算术运算模块，以及处理正则表达式的模块。
+
+标准库是Python的一个强大之处。其中大部分是跨平台的，这意味着即使是横跨多个领域的Python程序也可以不经过修改直接运行在Unix、Windows、Macintosh以及其他平台上。
+
+现在正在争论第三方的开源模块比如Twisted、NumPy、wxPython等是否应该被包括在标准库之中，以使其跟内置电池的哲学一致。

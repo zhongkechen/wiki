@@ -1,0 +1,102 @@
+---
+title: "Python介绍/Python设计哲学"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000010 在备份中缺失；以下内容来自最新可读取版本 00000009。
+:::
+
+## Python设计哲学
+
+Python是一种多范式的语言。也就是说，它不强制编程人员采用某一种特定的编程范式，而是允许多种范式。对于面向对象程序设计（OOP）、结构化程序设计、函数式程序设计（FP）以及面向侧面的程序设计（AOP），它都可以支持。其它的编程模式也可以通过一些扩展来支持，比如通过pyDBC和Contracts for Python可以支持契约式设计（Design by Contract）。Python使用动态类型检查，并使用垃圾收集来进行内存管理。Python一个重要的特性是动态名字解析，即它会在运行时对方法和变量名进行绑定。
+
+在提供多种编程方法的选择的同时，Python的设计者拒绝像Perl那样使用过多过杂乱的语法，而是采用了少而清晰的语法。和Perl一样，Python的开发人员明确的提炼出一种特别的"文化"或者观念，这种文化或观念来自于他们对于语言的期望，这种文化带来一种他们认为是"漂亮"、"明确"和"简单"的语言形式。Perl用户和Python用户最大的区别在于他们对于这些词语的解释不同，以及它们如何被最好的实现（参见TIMTOWTDI和Python哲学）。
+
+Python开发人员另一个重要的目标是让Python用起来尽量有趣。这反映在Python的名字的由来上（由Monty Python的飞行马戏团的系列电视节目命名），也反映在示例代码中使用Monty Python上，也反映在入门和参考材料中偶尔出现的玩笑式的方法上。比如说，在解释有关语法没有实际含义的变量名字上，Python经常使用spam和eggs，而不是传统的foo和bar。
+
+Python有时候被称作"脚本语言"。实际上，作为一种动态的编程语言，它既用于应用开发，偶尔也用于脚本开发。Python已经被用于开发很多大型的软件项目，比如说Zope应用服务器，和Mnet、BitTorrent文件共享系统。它也被Google广泛使用。
+
+这个语言的另一个重要目标是易扩展性。新的内置模块可以很容易用C或者C++写成。对于现有的需要一个可编程接口的模块或者应用程序，Python也可以作为它们的一个扩展语言来使用。
+
+虽然Python的设计时有些反对函数式编程（没有尾递归消除和好的匿名closure的支持）和Lisp习惯，但是Python的哲学和一些Lisp家族的最小化语言（比如Scheme）的哲学有很多重要的类似之处。很多曾经的Lisp程序员发现Python在这方面是很有吸引力的。
+
+### The Zen of Python
+
+如果你使用2.1.2版或者更新的Python，你在任何时候都可以使用如下命令来阅读Python的哲学：
+
+```
+$ python -m this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+```
+
+中文翻译：Python之道
+
+1. 美比丑好。
+1. 直言不讳比心照不宣好。
+1. 简单比内部复杂更好。
+1. 内部复杂比外部复杂好。
+1. 平面的比嵌套的好
+1. 错落有致比密密匝匝的好
+1. 可读性很重要
+1. 特殊情况不能特殊到打破规律
+1. 虽然实用比纯粹更重要
+1. 永远别让错误悄悄地溜走
+1. 除非是你故意的
+1. 碰到模棱两可的地方，绝对不要去作猜测
+1. 什么事情都应该有一个，而且最好只有一个显而易见的解决办法
+1. 虽然刚开始的时候，这个办法可能不是那么的显而易见，但谁叫你不是荷兰人
+1. 现在就开始要比永远都不做要好。
+1. 虽然很多时候永远都不做要比匆匆忙忙去做要好。
+1. 如果一个想法实现起来很困难，那它本身就不是一个好想法
+1. 如果一个想法实现起来很容易，那它或许就是一个好想法
+1. 名字空间是个了不起的想法，所以我们现在就开始吧
+
+### duck typing 鸭子类型
+
+在计算机科学中，鸭子类型是一个描述某些语言（比如Smalltalk、Visual Foxpro等）中的动态类型系统的名词。在这些语言中，变量的值决定了这个变量能够做什么。这意味着，一个对象和其它任何一个实现同样接口的对象都是可以互换的，而不管这些对象是不是有继承关系。
+
+这个名词源自"鸭子测试"："如果一个东西像鸭子一样走路，像鸭子一样叫，那么它一定就是鸭子。"One can also say that the duck typing method ducks the issue of typing variables.
+
+Pythonic编程风格，通过观查一个对象的方法或属性特征，而不是一个对象和某种类型的显式关系来决定一个对象的类型（"如果一个东西像鸭子一样走路，像鸭子一样叫，那么它一定就是鸭子。"）。通过注重接口而不是某种类型，良好设计的代码通过多态来提高了灵活性。鸭子类型避免使用type()和isinstance()。取而代之的是，它使用hasattr()来测试或者EAFP（Easier to Ask Forgiveness than Permission）编程。
+
+Python中鸭子类型的标准例子是类似file的类。类可以实现一部分或者全部file的方法，然后可以用在file原来可以使用的地方。比如说，GzipFile实现了类似file的对象来访问gzip压缩的数据。StringIO允许将一个Python字符串作为文件来处理。Sockets和files也有很多相同的方法。然而，socket缺少tell()，不能要在任何GzipFile可以使用的地方。这说明鸭子类型的一个灵活性：一个类似file的对象可以只实现它能够实现的方法，这使它只能够用在合理的地方。
+
+### 新名词Pythonic
+
+一些新词在Python社区中流行起来，最常见的是Pythonic，which can have a wide range of meanings related to program style. 我们说一段代码是Pythonic的，意思是它很好地使用了Python的习惯用法，也就是说将这个语言用得非常自然和流畅。类似的，我们说一个接口或者语言特性是Pythonic的，意思是它和Python的习惯用法工作融洽，也就是说它的用法与语言的其他部分很协调。
+
+相反的，unpythonic意味着在Python中用C++（或者Lisp或者Perl）的风格写代码，也就是将其他语言直译成Python而没用Python的习惯形式。
+
+Py前缀被用来表示和Python有关的东西，很多Python的库和应用以Py打头，比如Pygame（一个SDL的Python绑定，通常用来写游戏），PyUI（一个纯Python的GUI），PySol（Python写的纸牌游戏）等。
+
+Python的用户和粉丝们，尤其是那些有丰富知识和经验的，常常被称为Pythonist、Pythonistas及Pythoneers。

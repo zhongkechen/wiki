@@ -1,0 +1,90 @@
+---
+title: "Python介绍/Python应用实例"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+### Python应用实例
+
+The Python programming language is actively used in industry and academia for a wide variety of purposes.
+
+#### Python的教育用途
+
+As of 2005, Python is getting more popular for teaching computer programming. Its strengths for teaching include its syntactic simplicity, flexible typing, and interactive interpreter.
+
+Python uses far fewer symbols than languages like Java and C. For example blocks inside loops and IF statements are indicated by indentation rather than curly braces ({}), and the end of a line does not have to have a semicolon. Beginning students often have initial trouble with memorizing where curly braces and semi-colons go. With Python students can skip directly to the fun part of writing code that does something. Similarly, with Java, and C++, variables types must be declared before being used. That is not needed in Python which again allows students to quickly get to the interesting part of getting their program to do something.
+
+The interactive interpreter is an extremely valuable aid to learning and experimentation. Learning-by-doing is about trying things out and seeing what happens. The faster you can get results from your experiment, the faster that learning produces results. Experience has shown that the interactive interpreter and lack of a compiler really speeds up the learning process, both for beginners and for pros who are learning a new library and such.
+
+#### 使用Python的大型组织
+
+* Google uses Python for many tasks including the backends of web apps such as Gmail and Google Maps and for many of its search-engine internals.
+* NASA is using Python to implement a CAD/CAE/PDM repository and model management, integration, and transformation system which will be the core infrastructure for its next generation collaborative engineering environment.
+
+#### 使用Python写成的软件
+
+* BitTorrent, the original implementation and several derivatives
+* Chandler, a personal information manager including calendar, email, tasks and notes support that is currently under development
+* Civilization IV videogame and the newly released computer game uses boost.python to allow the Python programming language access to many parts of the game (including the style and content of all interface screens)
+* Mailman, one of the more popular packages for running email mailing lists
+* Kombilo, go games' database manager and browser.
+* MoinMoin, a popular wiki engine in Python
+* OpenRPG, a virtual table on which to play Role Playing Games over the internet
+* Plone, a user-friendly and powerful open source Content Management System
+* Portage, the heart of Gentoo Linux. An advanced package management system based on the \*BSD style ports system
+* Solipsis, a system for massively shared virtual world
+* Trac, bug/issue tracking database, integrated with MoinMoin wiki and Subversion source version control
+* Turbogears, an application framework composed of Cherrypy, SQLObject, MochiKit, and KID templates
+* Vampire: The Masquerade - Bloodlines, a videogame, uses Python for game scripting
+* ViewVC, a web-based interface for browsing CVS and SVN repositories
+* Zope, an object-oriented web-application platform. Zope includes an application server with an integrated object-oriented database and a built-in web-based management interface
+* Battlefield 2, a first person shooter that uses python for its configuration scripts
+* Indian Ocean Tsunami Detector, a free mobile phone software for tsunami prediction.
+* EVE Online, a space Multi Massive Online Role Playing Game, the highest-ranked MMORPG on MMORPG.com
+* SPE - Stani's Python Editor, a free, open-source Python IDE for Windows, Linux & Mac with wxGlade (GUI designer), PyChecker (Code Doctor) and Blender (3D) support.
+
+#### Python包
+
+The Python Cheese Shop and Vaults of Parnassus are two primary directories of hundreds of Python packages
+
+* matplotlib, an extension providing matlab-like plotting and mathematical functions
+* Numeric Python, a language extension that adds support for large, multi-dimensional arrays and matrices
+* SciPy, a library of scientific and numerical routines
+* SimPy, a discrete-event simulation package;
+* Biopython, an international association of developers of freely available Python tools for computational molecular biology.
+* PyOpenGL, a package that allows 3D rendering using Python
+* Soya 3D, a high-level 3D game engine for Python
+* Pygame http://www.pygame.org Python game development
+* Python Imaging Library, a module for working with images
+* PyGTK, http://www.pygtk.org/, a popular cross-platform GUI library based on GTK+; furthermore, other GNOME libraries also have bindings for Python
+* PyQt, another popular cross-platform GUI library based on Qt; as above, KDE libraries have bindings too
+* wxPython, a port of wxWidgets and a popular cross-platform GUI library for Python
+
+* PyObjC, a Python-Objective C bridge that allows one to write Mac OS X software in Python
+* py2exe, compiler that turns Python scripts into standalone Windows programs
+
+* CherryPy, a Python-powered web framework
+* Django, another Python-powered web framework
+* Topsite Templating System, another Python-powered web framework
+* TurboGears, a web framework combining CherryPy, SQLObject, and Kid
+* ZODB a Python-specific object-oriented database
+* Cheetah, a Python-powered template engine and code-generation tool
+* mod_python, an Apache module allowing direct integration of Python scripts with the Apache web server
+* Quixote (software) a framework for developing Web applications in Python
+* Twisted, a networking framework for Python
+
+See more recommended modules at Useful Modules in the Python.org wiki.
+
+#### Python软件目录
+
+* Python Cheese Shop (also called the Python Package Index or PyPI) is the official directory of Python software libraries and modules.
+* ActiveState O'Reilly Python Cookbook contains hunderds of code samples for various tasks using Python.
+* Python Projects and Modules lots of useful code, as well as several articles on Python Programming.
+* Vaults of Parnassus — Links to resources.
+* Python 3D Software Collection — pointers to packages specifically useful in the production of 3D software and/or games with Python

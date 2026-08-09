@@ -1,0 +1,292 @@
+---
+title: "STL编程指南"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+出处：[http://www.sgi.com/tech/stl/](http://www.sgi.com/tech/stl/)
+
+1. [STL概述](<STL编程指南/STL概述.qmd>)
+1. [如何使用STL文档](<STL编程指南/如何使用STL文档.qmd>)
+1. Containers 容器
+    1. Concepts 概念
+        1. General concepts 一般概念
+            1. [Container](<STL编程指南/Container.qmd>)
+            2. [Forward Container](<STL编程指南/Forward Container.qmd>)
+            3. [Reversible Container](<STL编程指南/Reversible Container.qmd>)
+            4. [Random Access Container](<STL编程指南/Random Access Container.qmd>)
+        2. Sequences
+            1. [Sequence](<STL编程指南/Sequence.qmd>)
+            2. [Front Insertion Sequence](<STL编程指南/Front Insertion Sequence.qmd>)
+            3. [Back Insertion Sequence](<STL编程指南/Back Insertion Sequence.qmd>)
+        3. Associative Containers
+            1. [Associative Container](<STL编程指南/Associative Container.qmd>)
+            1. [Simple Associative Container](<STL编程指南/Simple Associative Container.qmd>)
+            1. [Pair Associative Container](<STL编程指南/Pair Associative Container.qmd>)
+            1. [Sorted Associative Container](<STL编程指南/Sorted Associative Container.qmd>)
+            1. [Hashed Associative Container](<STL编程指南/Hashed Associative Container.qmd>)
+            1. [HashFunction](<STL编程指南/HashFunction.qmd>)
+            1. [Unique Associative Container](<STL编程指南/Unique Associative Container.qmd>)
+            1. [Multiple Associative Container](<STL编程指南/Multiple Associative Container.qmd>)
+            1. [Unique Sorted Associative Container](<STL编程指南/Unique Sorted Associative Container.qmd>)
+            1. [Multiple Sorted Associative Container](<STL编程指南/Multiple Sorted Associative Container.qmd>)
+            1. [Unique Hashed Associative Container](<STL编程指南/Unique Hashed Associative Container.qmd>)
+            1. [Multiple Hashed Associative Container](<STL编程指南/Multiple Hashed Associative Container.qmd>)
+    2. Container classes 容器类
+        1. Sequences
+            1. [vector](<STL编程指南/vector.qmd>)
+            2. [deque](<STL编程指南/deque.qmd>)
+            3. [list](<STL编程指南/list.qmd>)
+            4. [slist](<STL编程指南/slist.qmd>)
+            5. [bit_vector](<STL编程指南/bit_vector.qmd>)
+        2. Associative Containers
+            1. [set](<STL编程指南/set.qmd>)
+            2. [map](<STL编程指南/map.qmd>)
+            3. [multiset](<STL编程指南/multiset.qmd>)
+            4. [multimap](<STL编程指南/multimap.qmd>)
+            5. [hash_set](<STL编程指南/hash_set.qmd>)
+            6. [hash_map](<STL编程指南/hash_map.qmd>)
+            7. [hash_multiset](<STL编程指南/hash_multiset.qmd>)
+            8. [hash_multimap](<STL编程指南/hash_multimap.qmd>)
+            9. [hash](<STL编程指南/hash.qmd>)
+        3. String package
+            1. [Character Traits](<STL编程指南/Character Traits.qmd>)
+            2. [char_traits](<STL编程指南/char_traits.qmd>)
+            3. [basic_string](<STL编程指南/basic_string.qmd>)
+        4. [rope](<STL编程指南/rope.qmd>)
+        5. Container adaptors 容器适配器
+            1. [stack](<STL编程指南/stack.qmd>)
+            2. [queue](<STL编程指南/queue.qmd>)
+            3. [priority_queue](<STL编程指南/priority_queue.qmd>)
+        6. [bitset](<STL编程指南/bitset.qmd>)
+1. Iterators 迭代子
+    1. [迭代子概述](<STL编程指南/迭代子概述.qmd>)
+    2. Concepts 概念
+        1. [Trivial Iterator](http://www.sgi.com/tech/stl/trivial.html)
+        2. [Input Iterator](http://www.sgi.com/tech/stl/InputIterator.html)
+        3. [Output Iterator](http://www.sgi.com/tech/stl/OutputIterator.html)
+        4. [Forward Iterator](http://www.sgi.com/tech/stl/ForwardIterator.html)
+        5. [Bidirectional Iterator](http://www.sgi.com/tech/stl/BidirectionalIterator.html)
+        6. [Random Access Iterator](http://www.sgi.com/tech/stl/RandomAccessIterator.html)
+    3. Iterator Tags 迭代子Tag
+        1. [迭代子Tag概述](<STL编程指南/迭代子Tag概述.qmd>)
+        2. [iterator_traits](http://www.sgi.com/tech/stl/iterator_traits.html)
+        3. [iterator_category](http://www.sgi.com/tech/stl/iterator_category.html)
+        4. [distance_type](http://www.sgi.com/tech/stl/distance_type.html)
+        5. [value_type](http://www.sgi.com/tech/stl/value_type.html)
+        6. Iterator tag classes
+            1. [input_iterator_tag](http://www.sgi.com/tech/stl/input_iterator_tag.html)
+            2. [output_iterator_tag](http://www.sgi.com/tech/stl/output_iterator_tag.html)
+            3. [forward_iterator_tag](http://www.sgi.com/tech/stl/forward_iterator_tag.html)
+            4. [bidirectional_iterator_tag](http://www.sgi.com/tech/stl/bidirectional_iterator_tag.html)
+            5. [random_access_iterator_tag](http://www.sgi.com/tech/stl/random_access_iterator_tag.html)
+        7. Iterator base classes
+            1. [input_iterator](http://www.sgi.com/tech/stl/input_iterator.html)
+            2. [output_iterator](http://www.sgi.com/tech/stl/output_iterator.html)
+            3. [forward_iterator](http://www.sgi.com/tech/stl/forward_iterator.html)
+            4. [bidirectional_iterator](http://www.sgi.com/tech/stl/bidirectional_iterator.html)
+            5. [random_access_iterator](http://www.sgi.com/tech/stl/random_access_iterator.html)
+    4. Iterator functions 迭代子函数
+        1. [distance](http://www.sgi.com/tech/stl/distance.html)
+        2. [advance](http://www.sgi.com/tech/stl/advance.html)
+    5. Iterator classes 迭代子类
+        1. [istream_iterator](http://www.sgi.com/tech/stl/istream_iterator.html)
+        2. [ostream_iterator](http://www.sgi.com/tech/stl/ostream_iterator.html)
+        3. [front_insert_iterator](http://www.sgi.com/tech/stl/front_insert_iterator.html)
+        4. [back_insert_iterator](http://www.sgi.com/tech/stl/back_insert_iterator.html)
+        5. [insert_iterator](http://www.sgi.com/tech/stl/insert_iterator.html)
+        6. [reverse_iterator](http://www.sgi.com/tech/stl/ReverseIterator.html)
+        7. [reverse_bidirectional_iterator](http://www.sgi.com/tech/stl/ReverseBidirectionalIterator.html)
+        8. [raw_storage_iterator](http://www.sgi.com/tech/stl/raw_storage_iterator.html)
+        9. [sequence_buffer](http://www.sgi.com/tech/stl/sequence_buffer.html)
+1. Algorithms 算法
+    1. Non-mutating algorithms 非变动性算法
+        1. [for_each](http://www.sgi.com/tech/stl/for_each.html)
+        1. [find](http://www.sgi.com/tech/stl/find.html)
+        1. [find_if](http://www.sgi.com/tech/stl/find_if.html)
+        1. [adjacent_find](http://www.sgi.com/tech/stl/adjacent_find.html)
+        1. [find_first_of](http://www.sgi.com/tech/stl/find_first_of.html)
+        1. [count](http://www.sgi.com/tech/stl/count.html)
+        1. [count_if](http://www.sgi.com/tech/stl/count_if.html)
+        1. [mismatch](http://www.sgi.com/tech/stl/mismatch.html)
+        1. [equal](http://www.sgi.com/tech/stl/equal.html)
+        1. [search](http://www.sgi.com/tech/stl/search.html)
+        1. [search_n](http://www.sgi.com/tech/stl/search_n.html)
+        1. [find_end](http://www.sgi.com/tech/stl/find_end.html)
+    2. Mutating algorithms 变动性算法
+        1. [copy](http://www.sgi.com/tech/stl/copy.html)
+        2. [copy_n](http://www.sgi.com/tech/stl/copy_n.html)
+        3. [copy_backward](http://www.sgi.com/tech/stl/copy_backward.html)
+        4. Swap 交换
+            1. [swap](http://www.sgi.com/tech/stl/swap.html)
+            2. [iter_swap](http://www.sgi.com/tech/stl/iter_swap.html)
+            3. [swap_ranges](http://www.sgi.com/tech/stl/swap_ranges.html)
+        5. [transform](http://www.sgi.com/tech/stl/transform.html)
+        6. Replace 替换
+            1. [replace](http://www.sgi.com/tech/stl/replace.html)
+            2. [replace_if](http://www.sgi.com/tech/stl/replace_if.html)
+            3. [replace_copy](http://www.sgi.com/tech/stl/replace_copy.html)
+            4. [replace_copy_if](http://www.sgi.com/tech/stl/replace_copy_if.html)
+        7. [fill](http://www.sgi.com/tech/stl/fill.html)
+        8. [fill_n](http://www.sgi.com/tech/stl/fill_n.html)
+        9. [generate](http://www.sgi.com/tech/stl/generate.html)
+        1. [generate_n](http://www.sgi.com/tech/stl/generate_n.html)
+        1. Remove 删除
+            1. [remove](http://www.sgi.com/tech/stl/remove.html)
+            2. [remove_if](http://www.sgi.com/tech/stl/remove_if.html)
+            3. [remove_copy](http://www.sgi.com/tech/stl/remove_copy.html)
+            4. [remove_copy_if](http://www.sgi.com/tech/stl/remove_copy_if.html)
+        1. [unique](http://www.sgi.com/tech/stl/unique.html)
+        1. [unique_copy](http://www.sgi.com/tech/stl/unique_copy.html)
+        1. [reverse](http://www.sgi.com/tech/stl/reverse.html)
+        1. [reverse_copy](http://www.sgi.com/tech/stl/reverse_copy.html)
+        1. [rotate](http://www.sgi.com/tech/stl/rotate.html)
+        1. [rotate_copy](http://www.sgi.com/tech/stl/rotate_copy.html)
+        1. [random_shuffle](http://www.sgi.com/tech/stl/random_shuffle.html)
+        1. [random_sample](http://www.sgi.com/tech/stl/random_sample.html)
+        1. [random_sample_n](http://www.sgi.com/tech/stl/random_sample_n.html)
+        1. [partition](http://www.sgi.com/tech/stl/partition.html)
+        1. [stable_partition](http://www.sgi.com/tech/stl/stable_partition.html)
+    3. Sorting 排序
+        1. Sort
+            1. [sort](http://www.sgi.com/tech/stl/sort.html)
+            2. [stable_sort](http://www.sgi.com/tech/stl/stable_sort.html)
+            3. [partial_sort](http://www.sgi.com/tech/stl/partial_sort.html)
+            4. [partial_sort_copy](http://www.sgi.com/tech/stl/partial_sort_copy.html)
+            5. [is_sorted](http://www.sgi.com/tech/stl/is_sorted.html)
+        1. [nth_element](http://www.sgi.com/tech/stl/nth_element.html)
+        1. Binary search
+            1. [lower_bound](http://www.sgi.com/tech/stl/lower_bound.html)
+            2. [upper_bound](http://www.sgi.com/tech/stl/upper_bound.html)
+            3. [equal_range](http://www.sgi.com/tech/stl/equal_range.html)
+            4. [binary_search](http://www.sgi.com/tech/stl/binary_search.html)
+        1. [merge](http://www.sgi.com/tech/stl/merge.html)
+        1. [inplace_merge](http://www.sgi.com/tech/stl/inplace_merge.html)
+        1. Set operations on sorted ranges
+            1. [includes](http://www.sgi.com/tech/stl/includes.html)
+            2. [set_union](http://www.sgi.com/tech/stl/set_union.html)
+            3. [set_intersection](http://www.sgi.com/tech/stl/set_intersection.html)
+            4. [set_difference](http://www.sgi.com/tech/stl/set_difference.html)
+            5. [set_symmetric_difference](http://www.sgi.com/tech/stl/set_symmetric_difference.html)
+        1. Heap operations
+            1. [push_heap](http://www.sgi.com/tech/stl/push_heap.html)
+            2. [pop_heap](http://www.sgi.com/tech/stl/pop_heap.html)
+            3. [make_heap](http://www.sgi.com/tech/stl/make_heap.html)
+            4. [sort_heap](http://www.sgi.com/tech/stl/sort_heap.html)
+            5. [is_heap](http://www.sgi.com/tech/stl/is_heap.html)
+        1. Minimum and maximum
+            1. [min](http://www.sgi.com/tech/stl/min.html)
+            2. [max](http://www.sgi.com/tech/stl/max.html)
+            3. [min_element](http://www.sgi.com/tech/stl/min_element.html)
+            4. [max_element](http://www.sgi.com/tech/stl/max_element.html)
+        1. [lexicographical_compare](http://www.sgi.com/tech/stl/lexicographical_compare.html)
+        1. [lexicographical_compare_3way](http://www.sgi.com/tech/stl/lexicographical_compare_3way.html)
+        1. [next_permutation](http://www.sgi.com/tech/stl/next_permutation.html)
+        1. [prev_permutation](http://www.sgi.com/tech/stl/prev_permutation.html)
+    4. Generalized numeric algorithms 一般数值算法
+        1. [iota](http://www.sgi.com/tech/stl/iota.html)
+        2. [accumulate](http://www.sgi.com/tech/stl/accumulate.html)
+        3. [inner_product](http://www.sgi.com/tech/stl/inner_product.html)
+        4. [partial_sum](http://www.sgi.com/tech/stl/partial_sum.html)
+        5. [adjacent_difference](http://www.sgi.com/tech/stl/adjacent_difference.html)
+        6. [power](http://www.sgi.com/tech/stl/power.html)
+1. Function Objects 函数对象
+    1. [函数对象概述](<STL编程指南/函数对象概述.qmd>)
+    2. Concepts 概念
+        1. [Generator](<STL编程指南/Generator.qmd>)
+        2. [Unary Function](<STL编程指南/Unary Function.qmd>)
+        3. [Binary Function](<STL编程指南/Binary Function.qmd>)
+        4. [Adaptable Generator](<STL编程指南/Adaptable Generator.qmd>)
+        5. [Adaptable Unary Function](<STL编程指南/Adaptable Unary Function.qmd>)
+        6. [Adaptable Binary Function](<STL编程指南/Adaptable Binary Function.qmd>)
+        7. Predicates
+            1. [Predicate](<STL编程指南/Predicate.qmd>)
+            2. [Binary Predicate](<STL编程指南/Binary Predicate.qmd>)
+            3. [Adaptable Predicate](<STL编程指南/Adaptable Predicate.qmd>)
+            4. [Adaptable Binary Predicate](<STL编程指南/Adaptable Binary Predicate.qmd>)
+            5. [StrictWeakOrdering](<STL编程指南/StrictWeakOrdering.qmd>)
+        8. [Monoid Operation](<STL编程指南/Monoid Operation.qmd>)
+        9. [Random Number Generator](<STL编程指南/Random Number Generator.qmd>)
+    3. Predefined function objects 预定义的函数对象
+        1. Arithmetic operations
+            1. [plus](<STL编程指南/plus.qmd>)
+            2. [minus](<STL编程指南/minus.qmd>)
+            3. [multiplies](<STL编程指南/multiplies.qmd>) (以前称作"times")
+            4. [divides divides](<STL编程指南/divides divides.qmd>)
+            5. [modulus modulus](<STL编程指南/modulus modulus.qmd>)
+            6. [negate negate](<STL编程指南/negate negate.qmd>)
+        2. Comparisons
+            1. [equal_to equal_to](<STL编程指南/equal_to equal_to.qmd>)
+            2. [not_equal_to](http://www.sgi.com/tech/stl/not_equal_to.html)
+            3. [less](http://www.sgi.com/tech/stl/less.html)
+            4. [greater](http://www.sgi.com/tech/stl/greater.html)
+            5. [less_equal](http://www.sgi.com/tech/stl/less_equal.html)
+            6. [greater_equal](http://www.sgi.com/tech/stl/greater_equal.html)
+        3. Logical operations
+            1. [logical_and](http://www.sgi.com/tech/stl/logical_and.html)
+            2. [logical_or](http://www.sgi.com/tech/stl/logical_or.html)
+            3. [logical_not](http://www.sgi.com/tech/stl/logical_not.html)
+        4. Generalized identity operations
+            1. [identity](http://www.sgi.com/tech/stl/identity.html)
+            2. [project1st](http://www.sgi.com/tech/stl/project1st.html)
+            3. [project2nd](http://www.sgi.com/tech/stl/project2nd.html)
+            4. [select1st](http://www.sgi.com/tech/stl/select1st.html)
+            5. [select2nd](http://www.sgi.com/tech/stl/select2nd.html)
+        5. [subtractive_rng](http://www.sgi.com/tech/stl/subtractive_rng.html)
+    4. Function object adaptors 函数对象适配器
+        1. [binder1st](http://www.sgi.com/tech/stl/binder1st.html)
+        1. [binder2nd](http://www.sgi.com/tech/stl/binder2nd.html)
+        1. [ptr_fun](http://www.sgi.com/tech/stl/ptr_fun.html)
+        1. [pointer_to_unary_function](http://www.sgi.com/tech/stl/pointer_to_unary_function.html)
+        1. [pointer_to_binary_function](http://www.sgi.com/tech/stl/pointer_to_binary_function.html)
+        1. [unary_negate](http://www.sgi.com/tech/stl/unary_negate.html)
+        1. [binary_negate](http://www.sgi.com/tech/stl/binary_negate.html)
+        1. [unary_compose](http://www.sgi.com/tech/stl/unary_compose.html)
+        1. [binary_compose](http://www.sgi.com/tech/stl/binary_compose.html)
+        1. Member function adaptors
+            1. [mem_fun](http://www.sgi.com/tech/stl/mem_fun_t.html)
+            2. [mem_fun_ref](http://www.sgi.com/tech/stl/mem_fun_ref_t.html)
+            3. [mem_fun1](http://www.sgi.com/tech/stl/mem_fun1_t.html)
+            4. [mem_fun1_ref](http://www.sgi.com/tech/stl/mem_fun1_ref_t.html)
+1. Utilities 实用工具
+    1. Concepts 概念
+        1. [Assignable](http://www.sgi.com/tech/stl/Assignable.html)
+        2. [Default Constructible](http://www.sgi.com/tech/stl/DefaultConstructible.html)
+        3. [Equality Comparable](http://www.sgi.com/tech/stl/EqualityComparable.html)
+        4. [LessThan Comparable](http://www.sgi.com/tech/stl/LessThanComparable.html)
+    2. Functions 函数
+        1. [Relational Operators](http://www.sgi.com/tech/stl/operators.html)
+    3. Classes 类
+        1. [pair](http://www.sgi.com/tech/stl/pair.html)
+1. Memory Allocation 内存分配
+    1. Classes 类
+        1. [内存分配器](<STL编程指南/内存分配器.qmd>)
+        2. [raw_storage_iterator](http://www.sgi.com/tech/stl/raw_storage_iterator.html)
+    2. Functions 函数
+        1. [construct](http://www.sgi.com/tech/stl/construct.html)
+        2. [destroy](http://www.sgi.com/tech/stl/destroy.html)
+        3. [uninitialized_copy](http://www.sgi.com/tech/stl/uninitialized_copy.html)
+        4. [uninitialized_copy_n](http://www.sgi.com/tech/stl/uninitialized_copy_n.html)
+        5. [uninitialized_fill](http://www.sgi.com/tech/stl/uninitialized_fill.html)
+        6. [uninitialized_fill_n](http://www.sgi.com/tech/stl/uninitialized_fill_n.html)
+        7. [temporary_buffer](http://www.sgi.com/tech/stl/temporary_buffer.html)
+        8. [get_temporary_buffer](http://www.sgi.com/tech/stl/get_temporary_buffer.html)
+        9. [return_temporary_buffer](http://www.sgi.com/tech/stl/return_temporary_buffer.html)
+1. Design documents 设计文档
+    1. [Thread safety](http://www.sgi.com/tech/stl/thread_safety.html) 线程安全
+    2. [The meaning of complexity specifications](http://www.sgi.com/tech/stl/complexity.html) 复杂度说明的含义
+    3. [Representations of strings](http://www.sgi.com/tech/stl/string_discussion.html) 字符串的表示
+1. [Categorized Index](http://www.sgi.com/tech/stl/stl_index_cat.html) 分类索引
+1. [Full Index](http://www.sgi.com/tech/stl/stl_index.html) 完全索引
+1. [Frequently Asked Questions](<STL编程指南/FAQ.qmd>)
+
+Permission to use, copy, modify, distribute and sell this software and its documentation for any purpose is hereby granted without fee, provided that the below copyright notice appears in all copies and that both the copyright notice and this permission notice appear in supporting documentation. Silicon Graphics makes no representations about the suitability of this software for any purpose. It is provided "as is" without express or implied warranty.
+
+Copyright © 1994
+Hewlett-Packard Company

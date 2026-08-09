@@ -1,0 +1,152 @@
+---
+title: "C++模板"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## C++模板
+
+模板是C++最有特色的语法，也是最复杂的语法。它将类型看作一种参数来进行编程。
+
+### 模板函数
+
+参见：[C++:模板函数](<C++:模板函数.qmd>)
+
+### 模板类
+
+```cpp
+class Stack {
+    int *data_;
+    int size_;
+    int capacity_;
+public:
+    Stack(int capacity) {
+        capacity_ = capacity;
+        size_ = 0;
+        data_ = new int[capacity_];
+    }
+    ~Stack() {
+        delete[] data_;
+    }
+    void push(int t) {
+        data_[size_++] = t;
+    }
+    void pop() {
+        size_--;
+    }
+    int top() const{
+        return data_[size_-1];
+    }
+    bool empty() const{
+        return size_ == 0;
+    }
+    int size() const {
+        return size_;
+    }
+};
+```
+这个栈只能用来存放int不能存放其他东西，为了让他能够存放其他东西，我们把int参数化
+```cpp
+template<class T>
+class Stack {
+    T *data_;
+    int size_;
+    int capacity_;
+public:
+    Stack(int capacity) {
+        capacity_ = capacity;
+        size_ = 0;
+        data_ = new T[capacity_];
+    }
+    ~Stack() {
+        delete[] data_;
+    }
+    void push(const T &t) {
+        data_[size_++] = t;
+    }
+    void pop() {
+        size_--;
+    }
+    T top() const{
+        return data_[size_-1];
+    }
+    bool empty() const{
+        return size_ == 0;
+    }
+    int size() const {
+        return size_;
+    }
+};
+```
+有了这个模板类以后，我们可以定义存放各种类型元素的栈：
+```cpp
+int main() {
+    Stack<int> s;
+    Stack<double> t;
+    Stack<complex> u;
+}
+```
+
+练习：写一个Array类，可以存放任何类型元素的数组
+
+### 系统内置的模板库
+
+线性容器：vector、deque、list，关联容器：set、multiset、map、multimap
+
+适配器：stack、queue、priority_queue
+
+迭代子：类似指针
+
+算法：sort等
+
+```cpp
+#include <vector>
+#include <iostream>
+using namespace std;
+
+void print(vector<int> &v) {
+    for(int i = 0; i < v.size(); i++)
+        cout << v[i];
+}
+
+int main() {
+    vector<int> v;
+    v.push_back(3);
+    v.push_back(2);
+    v.push_back(1);
+    print(v);
+    v.pop_back();
+    print(v);
+    v.insert(v.begin(), 4);
+    print(v);
+    v.insert(v.end(), 5);
+    print(v);
+    v.erase(v.begin());
+    print(v);
+}
+```
+
+```cpp
+void print(vector<int>::iterator begin, vector<int>::iterator end) {
+    while(begin != end) {
+        cout << *begin ;
+        begin++;
+    }
+}
+
+int main() {
+    vector<int> v;
+    v.push_back(3);
+    v.push_back(2);
+    v.push_back(1);
+    print(v.begin(), v.end());
+}
+```
+
+---

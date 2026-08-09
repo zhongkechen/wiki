@@ -1,0 +1,61 @@
+---
+title: "C++流库"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## C++流库
+
+![figure15.png](<assets/C++流库/figure15.png>)
+
+### 标准输入输出
+
+ios_base基类，定义了流状态：good()、eof()、fail()、bad()，定义了格式控制属性。
+
+istream输入流，定义了operator>>，get，getline，ignore，read，putback，unget，peek。
+
+ostream输出流，定义了operator<<，put，write。
+
+预定义istream类的对象：cin。预定义ostream类对象：cout、cerr、clog
+
+各种流操纵符
+
+### 文件输入输出
+
+在ios_base中定义了文件打开模式：app、ate、binary、in、out、trunc
+
+在&lt;fstream&gt;头文件中定义了：
+
+fstream文件流
+
+ifstream文件输入流
+
+ofstream文件输出流
+
+成员函数：构造函数、open、is_open、close。
+
+参考位置：beg、cur、end
+
+读取位置：seekg、tellg
+
+输出位置：seekp、tellp
+
+### 字符串输入输出
+
+在&lt;sstream&gt;中定义了：
+
+字符串输入流istringstream
+
+字符串输出流ostringstream
+
+字符串输入输出流stringstream
+
+通过str成员函数访问字符串
+
+---

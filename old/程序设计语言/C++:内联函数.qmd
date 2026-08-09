@@ -1,0 +1,45 @@
+---
+title: "C++:内联函数"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### 内联函数
+
+一般函数调用速度较慢。对于短小和使用频繁的函数，需要加快调用的速度，C语言使用带参数的宏，C++可以使用**内联函数**(inline function)。比如：
+```cpp
+int max( int x, int y) {
+     return x>y? x : y;
+}
+int arraymax(int array[], int n) {
+    int m = INT_MIN;
+    for(int i = 0; i < n; i++) {
+        m = max(m, array[i]);    // m = ( m > array[i]?m:array[i]);
+    }
+    return m;
+}
+```
+其中，max函数被反复调用，需要改进它的效率。在C语言中可以用宏：
+```cpp
+#define max(x, y) ((x)>(y)?(x):(y))
+```
+
+而在C++中还可以用内联函数：
+```cpp
+inline int max(int x, int y) {
+    return x>y?x:y;
+}
+```
+注意：
+
+* 使用内联函数会增加目标代码的体积，是一种牺牲空间换取速度的策略。
+* 内联函数的函数体不能过于复杂，过于复杂的内联函数，编译器不能生成优化的代码而只能当作普通函数来处理。
+* 内联函数的定义必须写在头文件中，或者与使用它的代码写在同一个源文件中。
+
+---

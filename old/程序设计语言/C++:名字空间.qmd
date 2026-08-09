@@ -1,0 +1,114 @@
+---
+title: "C++:名字空间"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### 名字空间
+
+在大型程序（尤其是由很多人一起撰写的程序）中，常常遇到不同的变量、函数等取了同样的名字而造成名字的冲突。例如：
+```cpp
+// mfc.cpp:
+int inflag = 10;
+```
+```cpp
+//owl.cpp:
+int inflag = 20;
+```
+```cpp
+//main.cpp:
+extern int inflag;
+main() {
+   inflag = 30;
+}
+```
+
+这个问题在C++中，可以使用**名字空间**(namespace)来解决冲突：
+```cpp
+namespace mfc {
+    int inflag;
+    // ...
+}     //no semicolon here
+```
+```cpp
+namespace owl {
+    int inflag;
+    //…
+}
+```
+
+```cpp
+int main() {
+    mfc::inflag = 3;
+    owl::inflag = -823;
+}
+```
+
+::被称作域操作符，可以用来访问某个名字空间中的成员。此外还可以用来访问与局部变量同名的全局变量，比如
+```cpp
+int i;
+int main() {
+    int i = 0;
+    i = i +1;
+    ::i = i;
+}
+```
+
+更多名字空间的例子：
+```cpp
+namespace mfc {
+   int inflag;
+   void function(int a) {
+      //…
+   }
+   typedef unsigned short WORD;
+   struct Teacher{
+      //...
+   };
+   class Student {
+      //...
+   };
+   #define PI 3.14159
+}
+```
+注意：宏定义不受名字空间限制
+
+访问名字空间中的成员：
+```cpp
+int main() {
+    mfc::inflag = 10;
+    mfc::function(mfc::inflag);
+    mfc::WORD w;
+    struct mfc::Teacher t;
+    class mfc::Student s;
+    double p = PI; //no mfc here
+}
+```
+
+简化名字空间成员的访问：using declaration
+```cpp
+int main() {
+    using mfc::inflag;
+    inflag = 3;
+    mfc::function( inflag );
+}
+```
+
+更多的简化访问：using direction
+```cpp
+int main() {
+    using namespace mfc;
+    inflag = 3;
+    function(inflag);
+    WORD w;
+    owl::inflag = 10;
+}
+```
+
+---

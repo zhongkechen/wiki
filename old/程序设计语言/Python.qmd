@@ -1,0 +1,264 @@
+---
+title: "Python"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## Python
+
+* [Python介绍](<Python介绍.qmd>)
+
+### Python入门教程
+
+* Python教程：[Python游戏开发基础](<../Python游戏开发基础.qmd>)
+* [30个不同的Python入门网站](https://stackify.com/learn-python-tutorials/)
+* [Google's Python Class](https://developers.google.com/edu/python)
+* [Learn Python with JetBrains Academy!](https://blog.jetbrains.com/blog/2020/03/05/jetbrains-academy-python/)
+* [Python Tutorial](https://docs.python.org/3/tutorial/)
+* [Dive Into Python 3](https://diveintopython3.problemsolving.io/) ([中文版](https://woodpecker.org.cn/diveintopython3/))
+* [A Byte of Python](https://python.swaroopch.com/) (中文版: [简明Python教程](https://bop.mol.uno/))
+* [Python Programming - Wikibooks](https://en.wikibooks.org/wiki/Python_Programming)
+* [Non-Programmers Tutorial For Python](https://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3)
+* [MIT 6.0001 Introduction to Computer Science and Programming in Python](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/lecture-videos/)
+* [How to Think Like a Computer Scientist (Learning with Python 3)](http://openbookproject.net/thinkcs/python/english3e/)
+* [Python by Example](http://xahlee.info/python/index.html) by Xah Lee
+* [Learn to Program by Alan G](http://www.alan-g.me.uk/l2p/)
+* [Invent with Python](https://inventwithpython.com/)
+* [Python 非編程員教學](http://chinesepython.org/pythonfoundry/easytut.html)
+* [Python for Lisp Programmers](http://www.norvig.com/python-lisp.html)
+
+已经过时的教程（基于已经淘汰的Python 2）：
+
+* 另类的Python教程： [我的名字叫Python.pdf](<assets/Python/我的名字叫Python.pdf>) （太古老，已过时）
+* [Python Short Course](http://www.wag.caltech.edu/home/rpm/python_course/) by Richard P. Muller （太古老，已过时）
+* [The LiveWires Python Course](https://github.com/livewires/python/releases) 已过时
+* [Handbook of the Physics Computing Course](http://www.pentangle.net/python/handbook/) 已过时
+* [Python入门](http://www.math.pku.edu.cn/teachers/lidf/docs/Python/python-tutorial.html)
+
+### Python解释器
+
+* CPython http://python.org/
+* Stackless Python http://www.stackless.com/
+    * [StacklessPython](<StacklessPython.qmd>)
+* Ironpython (Python for .Net) https://ironpython.net/
+* Jython (Python for Java) https://www.jython.org/
+* [PyPy](https://www.pypy.org/)
+    * [PyPy Speed](https://speed.pypy.org/)
+* [Hylang](http://hylang.org) A dialect of Lisp that's embedded in Python
+
+### Python开发环境
+
+* Mac上Python环境准备： https://sourabhbajaj.com/mac-setup/Python/
+* [One Day of IDLE Toying](http://hkn.eecs.berkeley.edu/~dyoo/python/idle_intro/index.html) (中文版: [摆弄一天IDLE](http://hkn.eecs.berkeley.edu/~dyoo/python/idle_intro/IDLE-chinese.htm))
+* [Using IDLE](http://ftp.ntua.gr/mirror/python/idle/doc/idle2.html) by Daryl Harms
+* [Pipenv & Virtual Environments](https://docs.python-guide.org/dev/virtualenvs/)
+* [Why you should use pyenv + Pipenv for your Python projects](https://hackernoon.com/reaching-python-development-nirvana-bb5692adf30c)
+* [Advanced Usage of Pipenv](https://pipenv.pypa.io/en/latest/advanced/)
+* [poetry](https://python-poetry.org/)
+* [pyflow](https://github.com/David-OConnor/pyflow)
+* [hatch](https://github.com/ofek/hatch)
+* [flit](https://github.com/takluyver/flit)
+* [briefcase](https://briefcase.readthedocs.io/en/latest/)
+* [Python's New Package Landscape](http://andrewsforge.com/article/python-new-package-landscape/)
+* [PyPA](https://www.pypa.io/en/latest/)
+* [warehouse](https://github.com/pypa/warehouse)
+
+### Python语法
+
+* [Python语法](http://en.wikipedia.org/wiki/Python_syntax_and_semantics) from Wikipedia
+* [Python Gotchas](https://docs.python-guide.org/writing/gotchas/)
+* [30 Python Best Practices, Tips, And Tricks](https://towardsdatascience.com/30-python-best-practices-tips-and-tricks-caefb9f8c5f5)
+* [Python yield 使用浅析](https://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/)
+* [Cheat Sheet: Writing Python 2-3 compatible code](https://python-future.org/compatible_idioms.html)
+* [Type hints cheat sheet (Python 3)](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)
+* [Python Reference Manual](https://docs.python.org/3/reference/index.html)
+* [Async IO in Python: A Complete Walkthrough](https://realpython.com/async-io-python/)
+* [How the heck does async/await work in Python 3.5?](https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/)
+* [Python’s super() considered super! ](https://rhettinger.wordpress.com/2011/05/26/super-considered-super/)
+* [Coroutines and Tasks](https://docs.python.org/3/library/asyncio-task.html)
+* [PEP 492 -- Coroutines with async and await syntax](https://www.python.org/dev/peps/pep-0492/)
+
+### 代码风格
+
+* [Python Style Guide](https://www.python.org/doc/essays/styleguide/)
+* https://www.python.org/dev/peps/pep-0008/
+* https://www.python.org/dev/peps/pep-0257/
+* [Code Style -- The Hitchhiker's Guide to Python](https://docs.python-guide.org/writing/style/)
+* [Open Sourcing a Python Project the Right Way](https://www.jeffknupp.com/blog/2013/08/16/open-sourcing-a-python-project-the-right-way/)
+
+### 参考资料
+
+* [Why Python is More Productive than Java](<Why Python is More Productive than Java.qmd>)
+* awesome python https://github.com/vinta/awesome-python
+* [Why_Python](http://www.linuxjournal.com/article/3882) by Eric Raymond [why python中文版](http://blog.sina.com.cn/s/blog_53982851010008b8.html)
+
+* [WoodPecker中文社区](https://woodpecker.org.cn/)
+* [Of snakes and rubies; Or why I chose Python over Ruby](https://www.reddit.com/r/programming/comments/eroi/of_snakes_and_rubies_or_why_i_chose_python_over/)
+* [ibm上的python专题](http://www-128.ibm.com/developerworks/cn/linux/theme/special/index.html#python)
+* [Instant Hacking](http://www.hetland.org/python/instant-hacking.php) and [Instant Python](http://hetland.org/python/instant-python.php)
+* [Intro to programming with Python in Tkinter(Video Lesson)](http://wiki.python.org/moin/Intro_to_programming_with_Python_and_Tkinter)
+
+* [Beginning Python for Bioinformatics](http://www.onlamp.com/pub/a/python/2002/10/17/biopython.html)
+* [Python course in Bioinformatics](http://www.pasteur.fr/recherche/unites/sis/formation/python/)
+* [Introduction to Programming using Python](http://www.pasteur.fr/formation/infobio/python/)
+* [The Guido van Robot](http://gvr.sourceforge.net/)
+* [Python Programming for Beginners](http://www.linuxjournal.com/article/3946)
+* [Python 101 -- Introduction to Python](http://www.rexx.com/~dkuhlman/python_101/python_101.html) [Python 201 -- (Slightly) Advanced Python Topics](http://www.rexx.com/~dkuhlman/python_201/python_201.html)
+* [Scripting for Computational Science](http://www.ifi.uio.no/in228/lecsplit/)
+* [Python for Science](http://starship.python.net/crew/hinsen/)
+* [Code Teacher](http://www.codeteacher.com/category.php?ID=8)
+* [Python讨论组comp.lang.python](http://groups.google.com/group/comp.lang.python)
+* [Learn to Program(ruby)](http://pine.fm/LearnToProgram/)
+* [10 Time-saving Tips for Pythonists](https://www.sitepoint.com/community/t/article-10-time-saving-tips-for-pythonists/197722)
+* [Python_Advocacy_HOWTO](https://docs.python.org/3.1/howto/advocacy.html) by A.M. Kuchling
+* Learning to Program: attachment: http://www.freenetpages.co.uk/hp/alan.gauld/
+* Learn To Program CD: [LearnToProgramCD.zip](<assets/Python/LearnToProgramCD.zip>)
+* Tkinter Life Preserver: http://www.python.org/doc/life-preserver/
+* [Recovery from Addiction](https://archive.org/details/SeanKellyRecoveryfromAddiction)
+* [Python你必须知道的十个库](https://www.zhidaow.com/post/python-modules-you-should-know)
+* [【外刊IT评论网】Python高效编程技巧](http://www.pythontip.com/blog/post/9771/)
+* [孩子们为什么要学Python编程？](http://blog.sina.com.cn/s/blog_4e8581890102e29u.html)
+* [Python & Java: A Side-by-Side Comparison](https://pythonconquerstheuniverse.wordpress.com/2009/10/03/python-java-a-side-by-side-comparison/)
+* [Jython程序设计](https://book.douban.com/subject/1241032/)
+* [Python2 removal for Ubuntu focal](https://lists.ubuntu.com/archives/ubuntu-devel/2020-February/040918.html)
+* [Python 2.7.18, the end of an era](https://app.getpocket.com/read/2956522352)
+* [Easy, clean, reliable Python 2/3 compatibility](http://python-future.org/)
+* [Do you know how much your computer can do in a second?](https://computers-are-fast.github.io/)
+* [Python Microlibs](https://medium.com/@jherreras/python-microlibs-5be9461ad979)
+
+### Python库
+
+#### 标准库
+
+* [Python Library Reference](http://docs.python.org/lib/lib.html)
+
+#### GUI Toolkit
+
+* wxpython http://www.wxpython.org/
+* [PyGtk](<PyGtk.qmd>)
+* [Kivy](https://kivy.org/) 基于OpenGL ES的移动端、桌面端GUI开发库
+* 使用PyQt编写QT图形界面程序 http://www.riverbankcomputing.co.uk/pyqt/
+* [PyQT vs PySide2](https://machinekoder.com/pyqt-vs-qt-for-python-pyside2-pyside/)
+
+#### DB
+
+* [ElasticSearch DSL](https://elasticsearch-dsl.readthedocs.io/en/latest/)
+
+#### 网络
+
+* [uvloop](https://github.com/MagicStack/uvloop): asyncio + libuv + Cython，再配上httptools做HTTP parser，从[benchmark](https://magic.io/blog/uvloop-blazing-fast-python-networking/)看起来性能非常强劲。
+
+#### Web 开发
+
+* [Django](<Django.qmd>)
+* [WebProgramming - Python Wiki](https://wiki.python.org/moin/WebProgramming)
+* Flask: https://flask.palletsprojects.com/en/1.1.x/
+* [Better Web App](https://www.youtube.com/watch?v=DWODIO6aCUE)
+
+#### Windows
+
+* pywin32 http://sourceforge.net/projects/pywin32/
+* comtypes http://starship.python.net/crew/theller/comtypes/
+* python 与 COM [Advanced Python and COM](http://oreilly.com/catalog/pythonwin32/chapter/ch12.html)
+* 使用_winreg模块操纵windows注册表
+* 将python程序打包成windows下可以执行的exe文件：使用[py2exe](http://www.py2exe.org/)模块
+* 在.net平台上使用python：[IronPython](http://www.gotdotnet.com/Workspaces/Workspace.aspx?id=ad7acff7-ab1e-4bcb-99c0-57ac5a3a9742)
+
+#### Mac
+
+* [Py2app](http://undefined.org/python/py2app.html)
+
+#### 多媒体
+
+* 图像获取：linux平台下使用sane模块，Windows平台下使用twain模块
+    * [TWAIN](http://twainmodule.sourceforge.net/)
+* 图像处理[PythonImageLibrary中文手册](<PythonImageLibrary中文手册.qmd>)
+* 通过ffmpeg处理视频、音频 https://github.com/kkroening/ffmpeg-python
+* PyDUB：在python中直接处理音频 https://github.com/jiaaro/pydub
+
+#### 游戏
+
+* pygame: http://www.pygame.org/
+    * [Pygame](<Pygame.qmd>)
+* panda3d: http://www.panda3d.org/
+* renpy: http://www.renpy.org/wiki/renpy/Home_Page
+* pyopengl http://pyopengl.sourceforge.net/
+
+#### 字符串
+
+* [Unicode Howto](https://docs.python.org/3/howto/unicode.html)
+* http://docs.python.org/lib/module-re.html
+* http://www.amk.ca/python/howto/regex/
+* Mastering Regular Expressions 2nd Edition, By Jeffrey E. F. Friedl
+* [Click](https://click.palletsprojects.com/en/7.x/) 命令行参数处理
+
+#### 数据处理
+
+* [numpy](https://numpy.org/)
+* [scipy](https://www.scipy.org/)
+* [Practical Data Science in Python](https://radimrehurek.com/data_science_python/)
+* [PyTorch](https://pytorch.org/)
+* [Scikit-Learn](https://scikit-learn.org/stable/)
+
+#### 其它
+
+* python-ldap http://www.python-ldap.org/
+    * [PythonLdap](<PythonLdap.qmd>)
+* 读取excel：用xlrd包。把excel转成csv，使用csv库操作。
+* 加密：Python Cryptography Toolkit http://www.amk.ca/python/code/crypto
+* [Spring Python](http://springpython.webfactional.com/): 为什么Python不需要像Spring这样的东西？
+* [PLY](http://www.dabeaz.com/ply/ply.html#ply_nn2) Python Lex-Yacc
+
+### Python的字符编码处理
+
+对于中文用户，特别需要关注Python的编码技术. 列举一些常用的技巧。
+
+```
+chr(i): 将一个0到255的整数转换为一个字符.
+ord(c): 返回单个字符c的整数顺序值.普通字符返回[0,255]中的一个值,Unicode字符返回 [0,65535]中的一个值
+unichr(i): 将一个0到65535的整数转换为一个Unicode字符
+```
+
+* 代码中的编码设置，应该在代码最初两行内包含：
+
+```
+# -*- coding: UTF-8 -*-
+```
+
+* 获得/设置系统的缺省编码
+
+```
+sys.getdefaultencoding()
+
+sys.setdefaultencoding('utf-8')
+```
+
+* 获得文件系统的文件名的编码
+
+```
+sys.getfilesystemencoding()
+```
+
+* 获得当前终端的输入、输出编码
+
+```
+      sys.stdout.encoding
+
+      sys.stdin.encoding
+```
+
+* 编码转换（先转换为unicode，再转换为具体的编码），有两种方法：
+
+```
+      unicode('abc', 'mbcs').encode('utf-8')
+
+      'abc'.decode('mbcs').encode('utf-8')
+```
+
+* [Python代码片段](<Python代码片段.qmd>)

@@ -1,0 +1,171 @@
+---
+title: "Python代码片段"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+test.py
+```python
+def store():
+    n=raw_input()
+    sum1=0
+    for i in range(len(n)):
+        sum1=sum1 + int(n[i])
+    t=sum1%3
+    if(t==0):
+        print 2
+    else:
+        if(t==2):
+           print 1
+           print 2
+        else:
+           print 1
+           print 1
+store()
+```
+
+test2.py
+```python
+def queens (row, col):
+    def safe (ran, rst):
+        def check (pos):
+            return ran != rst[pos] and abs(ran - rst[pos]) != pos + 1
+        return all([check(pos) for pos in range(len(rst))])
+    return [[]] if col == 0 else [[ran] + rst for ran in range(row) for rst in queens(row, col - 1) if safe(ran, rst)]
+```
+
+wordscounter.py
+```python
+
+words = {}
+try:
+    while True:
+        s = raw_input()
+        if not s:
+            continue
+        if s in words:
+            words[s]+=1
+        else:
+            words[s]=1
+except EOFError:
+    for i in sorted(words.keys()):
+        print "%s %d" % (i, words[i])
+```
+
+test.py
+```python
+class Person:
+    def __getitem__(self, key):
+        return key
+
+p = Person()
+s = Person()
+
+Person.name = "Unknown"
+p.name = "Jack"
+p.gender = "Male"
+p.age = 30
+s.name = "Rose"
+s.gender = "Female"
+
+print Person
+print p
+print s
+print Person.name
+print p.name
+print p.gender
+print p.age
+print s.name
+print s.gender
+
+print s[0]
+```
+
+multiply99.py
+```python
+def multi99(n):
+    for i in range(1,n+1):
+        s = ''
+        for j in range(1,i+1):
+            s += '\t%d'% (i*j)
+        print s
+
+multi99(20)
+```
+
+datediff.py
+```python
+import datetime
+a = datetime.date(*[int(i) for i in raw_input().split()])
+b = datetime.date(*[int(i) for i in raw_input().split()])
+print (a - b).days()
+```
+
+accept.py
+```python
+import socket
+import threading
+import select
+allsocks = []
+
+def acc():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind("", 2555)
+    sock.listen(5)
+    while 1:
+        newsock, remote = sock.accept()
+        allsocks.append(newsock)
+
+newthread = threading.Thread(target = acc)
+newthread.start()
+
+while 1:
+    (rdsocks,,) = select.select(allsocks, [],[], 0.1)
+    for s in rdsocks:
+        msg = s.recv(100)
+```
+
+autosubmit.py
+```python
+import glob
+import urllib
+import re
+reobject = re.compile('(?P<hello>[0-9]*)\.(?P<ext>.*)')
+for filename in glob.glob('[0-9]*.*'):
+    mo = reobject.match(filename)
+    if mo:
+        prob, ext = mo.groups()
+    else:
+        continue
+    if ext.lower() in ['c']:
+        language = 0
+    elif ext.lower() in ['cc', 'cpp']:
+        language = 1
+    else:
+        continue
+    params = urllib.urlencode({'language':language, 'user_id':'wzuacm',
+        'passwd':'wzuacm', 'prob_id':prob, 'source':open(filename).read() })
+    print params
+    request = urllib.urlopen("http://acm.zju.edu.cn/submit_process.php", params)
+    request.read()
+    request.close()
+```
+
+```python
+#!/usr/bin/python
+
+def max(*args):
+    """print the maximum element of args
+    """
+    m = args[0]
+    for i in args:
+        if i > m:
+            m = i
+    print m
+```

@@ -1,0 +1,1247 @@
+---
+title: "C++标准模板库"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+[STL编程指南](<STL编程指南.qmd>)
+
+## STL概述
+
+[STL编程指南/STL概述](<STL编程指南/STL概述.qmd>)
+
+## 如何使用STL文档
+
+[STL编程指南/如何使用STL文档](<STL编程指南/如何使用STL文档.qmd>)
+
+## 容器container
+
+容器是存放和管理数据元素的数据结构，分为两大类：顺序容器（sequence container）和关联容器（associative container）。
+
+* 顺序容器有：vector（向量，酷似数组）, deque（双端队列）, list（双链表）
+* 关联容器有：map（字典）, set（集合）, multi_map（允许重复键的字典）, multi_set（允许重复键的集合）
+
+除此以外还有：
+
+* 特殊的容器：string（字符串）, array（C语言原始数组）
+* 容器适配器：stack（栈）, queue（队列）, priority_queue（优先队列）
+* 内部容器：不提供给用户使用，只用来实现其他容器，比如红黑树（用来实现map,set），堆（用来实现priority_queue）
+
+容器一般使用模板类来实现
+
+### vector向量
+
+[http://www.sgi.com/tech/stl/Vector.html](http://www.sgi.com/tech/stl/Vector.html)
+
+#### 接口说明
+
+vector的用法类似于数组，不同的是数组空间可以动态分配。
+
+```cpp
+#include <vector>
+namespace std {
+   template< class T, class Allocator = allocator<T> > class vector;
+}
+```
+
+T可以是任何类型，但是必须满足：assignable, copyable
+
+```cpp
+vector<int> V;
+V.insert(V.begin(), 3);
+assert(V.size() == 1 && V.capacity() >= 1 && V[0] == 3);
+```
+
+##### 构造方法
+
+```cpp
+vector< int > a2(10); //构造10个元素的vector
+vector< int > a3(10, 5); //构造一个10个元素的vector，每个元素都是5
+vector< int > a4(a2); //构造一个vector与a2完全一样
+vector< int > a1; // 构造一个空的vector
+int values[] = {10, 11, 12, 13, 14};
+vector< int > a5( values, values+5); //通过迭代子来构造vector
+```
+
+##### 不变操作和赋值
+
+```cpp
+a1.size( ) //取容器内元素的个数
+a1.empty( ) //判断容器是否为空
+a1 == a2 //判断两个容器的内容是否相同, 还有!=, <, >, <=, >=
+a1 = a2 //将a2全部元素赋给a1
+a1.assign( values, values+5 ) //将values[0]到values[4]赋给a1
+a1.assign( 10, 5) //给a1赋值10个5
+```
+
+##### 元素访问
+
+```cpp
+a1[ 5 ] //取第5个元素，下标从0开始
+a1.at(5) //取第5个元素，带边界检查
+a1.front() //取第0个元素
+a1.back() //取最后一个元素
+```
+
+##### 跌代子
+
+```cpp
+a1.begin() //随机跌代子，指向a1[0]
+a1.end()  //随机跌代子，指向最后一个的下一个
+a1.rbegin() //随机跌代子，指向最后一个
+a1.rend() //随机跌代子，指向a1[0]的前一个
+```
+
+##### 插入删除操作
+
+```cpp
+a1.insert( a1.begin(), 5); //在a1的最前面插入一个5
+a1.insert(a1.end(), 10, 6); //在a1的最后面插入10个6
+a1.insert(a1.begin(), values, values+5) //在a1的最前面插入values[0]到values[4]
+a1.push_back( 5 ) //在a1的最后面插入一个5
+a1.pop_back( ) // 删除a1的最后一个元素
+a1.erase( a1.begin() ) //删除a1中的第一个元素
+a1.erase( a1.begin(), a1.begin() +2) //删除a1最前面2个元素
+a1.resize( 10 ) //将a1元素个数改为10，增加的部分值为默认构造
+a1.resize( 10, 6) //将a1元素个数改为10，增加的部分值为6
+a1.clear() //清除所有元素
+```
+
+#### 用法实例
+
+```cpp
+#include <vector>
+int main() {
+   using namespace std;
+   vector< string > sentence;
+   sentence.reserve( 5 );
+   sentence.push_back( “ Hello, “);
+   sentence.push_back( “how “);
+   sentence.push_back( “are “);
+   sentence.push_back( "you ");
+   sentence.push_back( “?“);
+   copy( sentence.begin(), sentence.end(), ostream_iterator<string>(cout, “  “));
+   cout << endl;
+   cout << sentence.size() << endl;
+   cout << sentence.capacity() << endl;
+   swap( sentence[1], sentence[3]);
+   sentence.insert( find(sentence.begin(), sentence.end(), “?”), “always”);
+   sentence.back() = “!”;
+   copy( sentence.rbegin(), sentence.rend(), ostream_iterator<string>(cout, “  “));
+   cout << endl;
+}
+```
+
+用vector代替数组使用
+
+```cpp
+vector < int > a(10); // int a[10];
+a[0] = 1;
+a[1] = 2;
+a[2] = a[0] + a[1];
+for( int i = 0; i < a.size(); i++)
+   scanf( “%d”, &a[i] );
+```
+
+#### vector的实现
+
+vector的实现类似于数据结构中的顺序表
+
+![vector.jpg](<assets/C++标准模板库/vector.jpg>)
+
+```cpp
+template<class T, class Alloc=alloc>
+class vector {
+public:
+    typedef T value_type;
+    typedef value_type* iterator;
+    typedef value_type& reference;
+    typedef size_t size_type;
+protected:
+    iterator start;
+    iterator finish;
+    iterator end_of_storage;
+
+public:
+    iterator begin() { return start; }
+    iterator end() { return finish; }
+    size_type size() const { //返回当前元素个数
+        return size_type(end() - begin());
+    }
+    bool empty() const {
+        return begin() == end();
+    }
+    reference operator[](size_type n) {
+        return *(begin() + n);
+    }
+    reference front() {
+        return *begin();
+    }
+    reference back() {
+        return *(end() - 1);
+    }
+    size_type capacity() const {  //返回当前容量的大小
+        return size_type(end_of_storage - begin());
+    }
+    size_type reserve(size_type n); //改变容量的大小
+    void push_back(const T& x) {
+        if(finish != end_of_storage) {
+            construct(finish, x);
+            ++finish;
+        } else {
+            insert_aux(end(), x);
+        }
+    }
+protected:
+    typedef simple_alloc<value_type, Alloc> data_allocator;
+    void deallocate() {
+        if(start) data_allocator::deallocate(start, end_of_storage - start);
+    }
+
+    void insert_aux(iterator position, const T& x) {
+        if(finish != end_of_storage) {
+            construct(finish, *(finish-1));
+            ++finish;
+            T x_copy = x;
+            copy_backward(position, finish-2, finish-1);
+            *position = x_copy;
+        } else {
+            const size_type old_size = size();
+            const size_type len = old_size != 0 ? 2 * old_size : 1;
+            iterator new_start = data_allocator::alloate(len);
+            iterator new_finish = new_start;
+            try {
+                new_finish = uninitialized_copy(start, position, new_start);
+                construct(new_finish, x);
+                ++ new_finish;
+                new_finish = uninitialized_copy(position, finish, new_finish);
+            } catch(...) {
+                destroy(new_start, new_finish);
+                data_allocator::deallocate(new_start, len);
+                throw;
+            }
+            destroy(begin(), end());
+            deallocate();
+            start = new_start;
+            finish = new_finish;
+            end_of_storage = new_start + len;
+        }
+    }
+};
+```
+
+### deque双端队列
+
+deque与vector相似，区别是deque两端都是开放的，两端插入删除都很快。在头文件&lt;deque&gt;中定义。
+![deque.jpg](<assets/C++标准模板库/deque.jpg>)
+
+实现：
+![deque_imp.jpg](<assets/C++标准模板库/deque_imp.jpg>)
+
+可以随机访问，但速度比vector稍慢
+
+迭代子是随机跌代子，是一种class而不是原始指针
+
+操作非常相似，增加操作：push_front, pop_front，减少操作：reserve,capacity
+
+任何插入和删除操作都可能使跌代子失效
+
+例子：
+
+例子：
+```cpp
+int main() {
+    deque<string> coll;
+    coll.assign (3, string("string"));
+    coll.push_back ("last string");
+    coll.push_front ("first string");
+    copy (coll.begin(), coll.end(), ostream_iterator<string>(cout,"\n"));
+    coll.pop_front();
+    coll.pop_back();
+    for (int i=1; i<coll.size(); ++i) {
+        coll[i] = "another " + coll [i];
+    }
+    coll.resize (4, "resized string");
+    copy (coll.begin(), coll.end(), ostream_iterator<string>(cout,"\n"));
+}
+```
+
+### list链表
+
+一般为双链表实现
+
+#include &lt;list&gt;
+提供双向跌代子，不能随机访问
+插入删除操作非常快速
+插入删除操作不会使跌代子失效
+提供了一些移动元素的算法，比通用算法更快
+```cpp
+c1.swap(c2)：交换两个链表的内容
+c.remove(val)
+c.remove_if(predictor)
+c.unique() 删除重复元素
+c.splice() 将一个链表中的元素切一部分到另一个链表
+c.sort() 排序
+c.merge() 合并两个链表
+c.reverse() 倒置
+```
+
+例
+```cpp
+void printLists (const list<int>& 11, const list<int>& 12) {
+   cout << "list1: ";
+   copy (l1.begin(), l1.end(), ostream_iterator<int>(cout," "));
+   cout << endl << "list2: ";
+   copy (12.begin(), 12.end(), ostream_iterator<int>(cout," "));
+   cout << endl << endl;
+}
+int main() {
+   list<int> list1, list2;
+   for (int i=0; i<6; ++i) {
+      list1.push_back(i);
+      list2.push_front(i);
+   }
+   printLists(list1, list2);
+   list2.splice(find(list2.begin(),list2.end(), 3), list1);
+   printLists(list1, list2);
+   list2.splice(list2.end(), list2, list2.begin());
+   printLists(list1, list2);
+   list2.sort();
+   list1 = list2;
+   list2.unique();
+   printLists(list1, list2);
+   list1.merge(list2);
+   printLists(list1, list2);
+}
+```
+
+### stack栈
+
+```cpp
+#include <stack>
+namespace std {
+   template <class T, class Container = deque<T> >
+   class stack;
+}
+```
+
+主要操作
+
+* push() 入栈
+* top() 取栈顶元素
+* pop() 出栈
+
+例：
+```cpp
+int main() {
+   stack<int> st;
+   st.push(l);
+   st.push(2);
+   st.push(3);
+   cout << st.top() << ' ';
+   st.pop() ;
+   cout << st.top() << ' ';
+   st.pop() ;
+   st.top() = 77;
+   st.push(4);
+   st.push(5);
+   st.pop() ;
+   while (!st.empty()) {
+      cout << st.top() << ' ';
+      st.pop() ;
+   }
+   cout << endl;
+}
+```
+
+### queue队列
+
+```cpp
+#include <queue>
+namespace std {
+   template <class T, class Container = deque<T> >
+   class queue;
+}
+```
+
+主要操作：
+
+* push
+* pop
+* back
+* front
+
+例
+```cpp
+int main() {
+   queue<string> q;
+   q.push("These ");
+   q.push("are ");
+   q.push("more than ");
+   cout << q.front();
+   q.pop();
+   cout << q.front();
+   q.pop();
+   q.push(''four ");
+   q.push("words!");
+   q.pop();
+   cout << q.front();
+   q.pop();
+   cout << q.front() << endl;
+   q.pop();
+   cout << "number of elements in the queue: " << q.size() << endl;
+}
+```
+
+### priority_queue优先队列
+
+按照大小顺序出队的队列
+#include &lt;queue&gt;
+namespace std {
+template &lt;class T, class Container = vector&lt;T&gt;, class Compare = less&lt;typename Container::value_type&gt; &gt;
+class priority_queue;
+}
+实现：堆
+
+push() 入队
+top() 读取下一个元素
+pop() 删除下一个元素
+
+```cpp
+int main() {
+priority_queue<float> q;
+q.push(66.6);
+q.push(22.2);
+q.push(44.4);
+cout << q.top() << ' ';
+q.pop();
+cout << q.top() << endl;
+q.pop();
+q.push(11.1);
+q.push(55.5);
+q.push(33.3);
+q.pop();
+while (!q.empty()) {
+cout << q.top() << ' ';
+q.pop();
+}
+cout << endl;
+}
+```
+
+### set与multi_set
+
+在这两种容器中，元素能够根据指定的排序规则自动的排序，以优化查找。两者区别是：set不允许有重复的元素，multi_set允许有重复的元素。
+```cpp
+#include <set>
+namespace std {
+template <class T,
+class Compare = less<T>,
+class Allocator = allocator<T> >
+class set;
+template <class T,
+class Compare = less<T>,
+class Allocator = allocator<T> >
+class multiset;
+}
+```
+内部结构
+
+例子：
+```cpp
+#include <iostream>
+#include <set>
+using namespace std;
+int main() {
+typedef set<int,greater<int> > IntSet;
+IntSet coll1; // empty set container
+coll1.insert(4);
+coll1.insert(3);
+coll1.insert(5);
+coll1.insert(1);
+coll1.insert(6);
+coll1.insert(2);
+coll1.insert(5);
+IntSet::iterator pos;
+for (pos = coll1.begin(); pos != coll1.end(); ++pos) {
+cout << *pos << ' ';
+}
+cout << endl;
+pair<IntSet::iterator,bool> status = coll1.insert(4);
+if (status.second) {
+cout << "4 inserted as element "<< distance (coll1.begin(),status. first) + 1<< endl;
+}else {
+cout << "4 already exists" << endl;
+}
+set<int> coll2(coll1.begin(),
+coll1.end());
+copy (coll2.begin(), coll2.end(), ostream_iterator<int>(cout," "));
+cout << endl;
+coll2.erase (coll2.begin(), coll2.find(3));
+int num;
+num = coll2.erase (5);
+cout << num << " element(s) removed" << endl;
+copy (coll2.begin(), coll2.end(), ostream_iterator<int>(cout," "));
+cout << endl;
+}
+```
+
+### map与multi_map
+
+存放关键字与对应值的数据结构
+```cpp
+#include <map>
+namespace std {
+template <class Key, class T,
+class Compare = less<Key>,
+class Allocator = allocator<pair<const Key,T> > >
+class map;
+template <class Key, class T,
+class Compare = less<Key>,
+class Allocator = allocator<pair<const Key,T> > >
+class multimap;
+}
+```
+内部结构
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+int main() {
+typedef map<string,float> StringFloatMap;
+StringFloatMap stocks; // create empty container
+stocks["BASF"] = 369.50;
+stocks["VW"] = 413.50;
+stocks["Daimler"] = 819.00;
+stocks["BMW"] = 834.00;
+stocks["Siemens"] = 842.20;
+StringFloatMap::iterator pos;
+for (pos = stocks.begin(); pos != stocks.end(); ++pos) {
+cout << "stock: " << pos->first << "\t" << "price: " << pos->second << endl;
+}
+cout << endl;
+for (pos = stocks.begin(); pos != stocks.end(); ++pos) {
+pos->second *= 2;
+}
+for (pos = stocks.begin(); pos != stocks.end(); ++pos) {
+cout << "stock: " << pos->first << "\t"<< "price: " << pos->second << endl;
+}
+cout << endl;
+stocks["Volkswagen"] = stocks["VW"];
+stocks.erase("VW");
+for (pos = stocks.begin(); pos != stocks.end(); ++pos) {
+cout << "stock: " << pos->first << "\t"<< "price: " << pos->second << endl;
+}
+}
+```
+
+## 算法Algorithm
+
+### 概述
+
+算法是一组对容器内的数据进行处理的函数
+```
+#include <algorithm>  //一般算法
+#include <numeric>  //数值算法
+```
+
+算法的数量很多，大致可以分为：
+
+* 非变动性算法，一般不会改变容器里面的数据，比如：
+
+```
+ for_each 对每一个元素执行某操作
+ count 返回元素个数
+ count_if 返回满足某一条件的元素个数
+ min_element 返回最小的元素的迭代子
+ max_element 返回最大的元素的迭代子
+ find 搜索等于某值元素
+ find_if 搜索满足某个条件的元素
+ search_n 搜索连续n个元素，每个元素都等于某值或者满足某种条件
+ search 搜索子区间，该子区间内的每个元素和另一个区间内的元素值相等或者满足一定的关系
+ find_end 搜索最后出现的一个子区间，该子区间内的每个元素和另一个区间内的元素值相等或者满足一定的关系
+ find_first_of 搜索某些元素第一次出现的位置
+ adjacent_find 所艘连着两个相等的元素，或者连着两个元素满足某种关系
+ equal 判断两个区间内的元素是否相等或者满足一定关系
+ mismatch 搜索两个区间内第一个不同的元素
+ lexicographical_compare 检验第一区间内的元素是否小于第二个区间内的元素
+```
+
+* 变动性算法，比如：
+
+```
+ for_each 对每个元素执行某个操作
+ copy 复制
+ copy_backward 复制（从后向前）
+ transform 对一个区间每一个元素做某个操作，结果传给另一区间。对两个区间内的元素作某个操作，结果传给第三个区间。
+ swap_ranges 交换两个区间内的元素
+ fill 某一区间内填充某个值
+ fill_n 某一位置开始填充n个某个值
+ generate 用一个产生值填充某个区间
+ generate_n 用一个产生值填充某一位置开始的n个元素
+ replace 替换区间内原来为某值的元素为某一新值
+ replace_if 替换区间内满足某一条件的元素为某一新值
+ replace_copy 某区间内的元素复制到另一个区间，其中值为某一特定值的元素替换为某一新值
+ replace_copy_if 某区间内的元素复制到另一个区间，其中满足特定条件的元素替换成新的值
+```
+
+* 移除算法
+
+```
+ remove 删除序列内某一个值的元素
+ remove_if 删除序列中满足某个条件的元素
+ remove_copy 将一个区间内的元素复制到另一个区间，复制过程中移除某个值的元素
+ remove_copy_if 将一个区间内的元素复制到另一个区间，复制过程中移除满足一定条件的元素
+ unique 删除连续的重复元素，或者删除连续的两个满足一定条件的元素中的后面一个
+ unique_copy 将一个区间内的元素复制到另一个区间，复制过程中删除连续的重复元素
+```
+
+* 变序性算法
+
+```
+reverse 逆转区间内的元素
+reverse_copy 将一个区间内的元素复制到另一个区间，目标区间内的元素顺序和原来的相反
+rotate 旋转元素次序，使某一个元素成为第一个，该元素之前的元素接在原来的最后面
+rotate_copy 将一个区间内的元素复制到另一个区间，并旋转元素的次序
+next_permutation 使区间内的元素符合下一次排列的顺序
+prev_permutation 是区间内的元素符合上一次排列的顺序
+random_shuffle 打乱区间内的元素顺序
+partition 对元素进行分段
+stable_partition 对元素进行分段（稳定的）
+```
+
+* 排序算法
+
+```
+sort 排序（快速排序，不稳定）
+stable_sort 排序（稳定的）
+partial_sort 对区间内开始的一部分元素进行局部排序
+partial_sort_copy 将一个区间的元素复制到另一个区间，并对元素进行排序
+nth_element 对区间内最小的n个元素进行排序
+partition 对元素进行分段
+stable_partition 对元素进行分段（稳定的）
+make_heap 建堆
+push_heap 入堆
+pop_heap 出堆
+sort_heap 堆排序
+```
+
+* 已序区间算法
+
+```
+binary_search 二分查找
+includes 判断一个区间是不是另一个区间的子集
+lower_bound 找大于等于某个值的第一个元素
+upper_bound 找大于某个值的第一个元素
+equal_range 返回等于某个值的区间
+merge 合并两个区间，结果存到另一个区间
+inplace_merge 将一个区间的元素合并到另一个区间
+set_union 两个集合并
+set_intersection 两个集合交
+set_difference 两个集合差
+set_symmetric_difference 两个集合对称差
+```
+
+* 数值算法
+
+```
+accumulate 一个区间内的元素累加
+inner_product 两个区间的元素求内积
+adjacent_difference 计算区间内每两个相邻元素的差
+partial_sum 求区间内的每个元素的部分和
+```
+
+### for_each
+
+对区间内每一个元素采用某一种操作
+
+实现：
+```cpp
+template <class InputIterator, class UnaryFunction>
+UnaryFunction for_each(InputIterator first, InputIterator last, UnaryFunction f) {
+  while( first != end) {
+    f(*first);
+    ++first;
+  }
+  return f;
+}
+```
+用例1：
+```cpp
+void print ( int elem) {
+   cout << elem << '\t';
+}
+int main() {
+  vector< int > col( 5, 10);
+  for_each( col.begin(), col.end(), print);
+  cout << endl;
+}
+```
+用例2：
+```cpp
+void add10(int &elem) {
+   elem+=10;
+}
+void print ( int elem) {
+   cout << elem << '\t';
+}
+int main() {
+  vector<int> col(5, 10);
+  for_each(col.begin(), col.end(), add10);
+  for_each(col.begin(), col.end(), print);
+}
+```
+
+```cpp
+class AddValue{
+private:
+  int value;
+public:
+  AddValue( const int&v) : value(v) {}
+  void operator()(int&elem) const { elem+=value; }
+};
+void print ( int elem) {
+   cout << elem << '\t';
+}
+int main() {
+  vector<int > col(5, 10);
+  int n;
+  cin >> n;
+  for_each(col.begin(), col.end(), AddValue(n));
+  for_each(col.begin(), col.end(), print);
+}
+```
+
+```cpp
+template<class T>
+class AddValue{
+private:
+  T value;
+public:
+  AddValue( const T&v) : value(v) {}
+  void operator()(T&elem) const { elem+=value; }
+};
+template<class T>
+void print ( T elem) {
+   cout << elem << '\t';
+}
+int main() {
+  vector<int > col(5, 10);
+  vector<float> col2(5, 5.5);
+  vector<string> col3(5, "hello ");
+  int n;
+  float m;
+  string s;
+  cin >> n >> m >> s;
+  for_each(col.begin(), col.end(), AddValue<int>(n));
+  for_each(col2.begin(), col2.end(), AddValue<float>(m));
+  for_each(col3.begin(), col3.end(), AddValue<string>(s));
+  for_each(col.begin(), col.end(), print<int>);
+  for_each(col2.begin(), col2.end(), print<float>);
+  for_each(col3.begin(), col3.end(), print<string>);
+}
+```
+
+用例3：
+```cpp
+class MeanValue {
+private:
+   int num, sum;
+public:
+   MeanValue() : num(0), sum(0) {}
+   void operator()( int elem ) { num ++; sum+=elem; }
+   double value() { return static_cast<double>(sum) / static_cast<double>(num); }
+};
+int main() {
+   vector<int> col(5, 10);
+   MeanValue  mv = for_each(col.begin(), col.end(), MeanValue() );
+   cout << mv.value();
+}
+```
+
+### transform
+
+功能1：将区间内每个元素作变换，存储到另一个空间里面
+```cpp
+template <class InputIterator, class OutputIterator, class UnaryFunction>
+OutputIterator transform(InputIterator first, InputIterator last, OutputIterator result, UnaryFunction op) {
+  while( first != last ) {
+    *result = op(*first);
+    ++result;
+    ++first;
+  }
+  return result;
+}
+```
+功能2：将两个区间内的元素作变换，存储到另一个空间内
+```cpp
+template <class InputIterator1, class InputIterator2, class OutputIterator, class BinaryFunction>
+OutputIterator transform(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, OutputIterator result, BinaryFunction binary_op) {
+  while( first1 != last1 ) {
+    *result = binary_op(*first1, *first2);
+    ++result;
+    ++first1;
+    ++first2;
+  }
+  return result;
+}
+```
+用例1：
+```cpp
+template<class T>
+class AddValue{
+private:
+  T value;
+public:
+  AddValue( const T&v) : value(v) {}
+  T operator()(const T&elem) const { return elem+value; }
+};
+template<class T>
+class Add{
+public:
+  T operator()(const T& a, const T& b) const { return a + b; }
+};
+int main() {
+  vector< int > c1(5, 10);
+  transform( c1.begin(), c1.end(), c1.begin(), AddValue<int>(10) );
+  vector< int > c2(5, 5);
+  vector< int > c3(5);
+  transform( c1.begin(), c1.end(), c2.begin(), c3.begin(), Add<int>());
+}
+```
+
+## 仿函数(Functor, Function Object)
+
+### 概述
+
+能像函数一样使用的对象。普通函数、函数指针、定义了operator()的类的对象都可以作为仿函数。
+```
+#include <functional>
+```
+
+仿函数主要用来配合算法，来指定算法中可定制部分的操作。
+
+仿函数分为：
+
+* Generator：不带参数的仿函数，比如：
+
+```
+rand
+```
+
+* Unary Function：带一个参数的仿函数。比如：
+
+```
+abs
+negate
+identity
+```
+
+* Predicate：返回真或假的Unary Function。比如：
+
+```
+logical_not
+```
+
+* Binary Function：带两个参数的仿函数。比如：
+
+```
+plus
+minus
+multiplies
+divides
+modulus
+```
+
+* Binary Predicate：返回真或假的Binary Function。比如：
+
+```
+less
+greater
+equal_to
+not_equal_to
+less_equal
+greater_equal
+logical_and
+logical_or
+```
+auxiliary function
+```
+bind1st
+bind2nd
+not1
+not2
+mem_fun_ref
+mem_fun
+ptr_fun
+compose1
+compose2
+```
+
+### 例子
+
+例1
+```cpp
+find_if (coll.begin(),coll.end(), bind2nd (greater<int>(),42));
+```
+例2
+```cpp
+pos = find_if (coll.begin() , coll.end(), not1 (bind2nd(modulus<int>(),2)));
+
+list<int> L;
+list<int>::iterator first_positive = find_if(L.begin(), L.end(), bind2nd(greater<int>(), 0));
+```
+例3
+```cpp
+class Person {
+private:
+std::string name;
+public:
+void print() const {
+std::cout << name << std::endl;
+}
+void printWithPrefix (std::string prefix) const {
+std::cout << prefix << name << std::endl;
+}
+};
+void foo (const std::vector<Person>& coll){
+for_each (coll.begin(), coll.end(), mem_fun_ref(&Person::print));
+for_each (coll.begin(), coll.end(), bind2nd (mem_fun_ref (&Person::printWithPrefix), "person: "));
+}
+void ptrfoo (const std::vector<Person*>& coll) {
+for_each (coll.begin() , coll.end(), mem_fun(&Person::print));
+for_each (coll.begin() , coll.end(), bind2nd(mem_fun(&Person::printWithPrefix), "person: "));
+}
+```
+例4
+```cpp
+bool check(int elem);
+pos = find_if (coll.begin(), coll.end(), not1(ptr_fun(check)));
+pos = find_if (coll.begin(), coll.end(), bind2nd(ptr_fun(strcmp),""));
+transform(first, last, first, compose1(negate<double>, ptr_fun(fabs)));
+```
+例5
+```cpp
+list<int> L;
+list<int>::iterator in_range = find_if(L.begin(), L.end(),
+   not1(compose2(logical_and<bool>(), bind2nd(greater_equal<int>(), 1), bind2nd(less_equal<int>(), 10))));
+```
+例6
+```cpp
+char str[MAXLEN];
+const char* wptr = find_if(str, str + MAXLEN,    compose2(not2(logical_or<bool>()), bind2nd(equal_to<char>(), ' '), bind2nd(equal_to<char>(), '\n')));
+```
+
+## 迭代子Iterator
+
+迭代子是一种能够遍历容器里面的全部或者部分元素的对象，一个迭代子能够表示容器里面一个特定的位置。
+
+使用begin(), end()获得容器的迭代子。迭代子的类型会随着容器的不同而不同，可表示为container&lt;T&gt;::iterator,如果支持双向跌代，则可以通过rbegin(), rend()获得反向跌代子。反向跌代子的类型为：container&lt;T&gt;::reverse_iterator,
+
+### 分类
+
+* Input：只能单向读取，比如istream
+* Output：只能单向写入，比如ostream
+* Forward：单向读取和写入，具有Input和Output跌代子的全部能力，比如slist
+* Bidirectional：双向读取和写入，具有Forward跌代子的全部能力，比如list, set, map
+* Random：随机读取和写入，具有Bidirectional跌代子的全部能力，比如vector, deque
+
+### 运算符
+
+迭代子最基本的操作有：
+
+* iter++, ++iter：让跌代子移动到下一个元素，有前置后置两种形式。
+* \*iter：返回迭代子当前位置上的元素。如果是Input代子，返回元素的值，只能读取；如果是Output跌代子，返回引用，只能写入。
+* iter1 == iter2 , iter1 != iter2：判断两个跌代子是否指向同一个位置。（Output没有此操作）
+* iter1 = iter2：改变跌代子指向的位置。（Output没有此操作）
+* iter -&gt;：如果元素是类（结构体），则可以使用-&gt;直接访问元素的成员。
+* iter --, --iter：使用--移动到前一个元素，有前置后置两种形式。（双向跌代子和随机跌代子）
+* iter [n]：后面第n个的元素（Random跌代子）
+* iter += n：往后面移动n个位置（Random跌代子）
+* iter -= n：往前面移动n个位置（Random跌代子）
+* iter + n, n + iter：后面第n个位置（Random跌代子）
+* iter - n：前面第n个位置（Random跌代子）
+* iter1 - iter2: 两个元素之间的距离（Random跌代子）
+* iter1&lt;iter2, iter1 &gt; iter2, iter1 &lt;= iter2, iter1 &gt;= iter2: 比较两个跌代子的位置（Random跌代子）
+
+### 辅助函数
+
+* advance(iter, n)：将跌代子后移n个位置
+* distance(iter1, iter2)：两个跌代子之间的距离
+
+### 迭代子适配器
+
+* reverse iterator
+* insert iterators(back_inserter, front_inserter, inserter)
+* Stream Iterators(ostream_iterator, istream_iterator)
+
+### Sample
+
+例1
+```cpp
+//OK for forward iterators
+//IMPOSSIBLE for output iterators
+while (pos != coll.end()) {
+  *pos = foo();
+  ++pos;
+}
+```
+例2
+```cpp
+int main() {
+  vector<int> coll;
+  for (int i=-3; i<=9; ++i) {
+    coll.push_back (i);
+  }
+  cout << "number/distance: " << coll.end()-coll.begin() << endl;
+  vector<int>::iterator pos;
+  for (pos=coll.begin(); pos<coll.end(); ++pos) {
+    cout << *pos << ' ';
+  }
+  for (int i=0; i<coll.size(); ++i) {
+    cout << coll.begin() [i] << ' ';
+  }
+  for (pos = coll.begin(); pos < coll.end()-1; pos += 2) {
+    cout << *pos << ' ';
+  }
+}
+```
+例3
+```cpp
+int main() {
+  list<int> coll;
+  //insert elements from 1 to 9
+  for (int i=1; i<=9; ++i) {
+    coll.push_back(i);
+  }
+  list<int>::iterator pos = coll.begin();
+  cout << *pos << endl;
+  advance (pos, 3);
+  cout << *pos << endl;
+  advance (pos, -1);
+  cout << *pos << endl;
+}
+```
+例4
+```cpp
+int main(){
+  list<int> coll;
+  for (int i=-3; i<=9; ++i) {
+    coll.push_back(i);
+  }
+  list<int>::iterator pos;
+  pos = find (coll.begin(), coll.end(), 5);
+  if (pos != coll.end()) {
+    cout << distance(coll.begin(),pos) << endl;
+  }
+  else {
+    cout << "5 not found" << endl;
+  }
+}
+```
+例5
+```cpp
+void print (int elem) {
+  cout << elem << ' ';
+}
+int main() {
+  list<int> coll;
+  for (int i=1; i<=9; ++i) {
+    coll.push_back(i);
+  }
+  for_each (coll.begin(), coll.end(), print);
+  for_each (coll.rbegin(), coll.rend(), print);
+}
+```
+例6
+```cpp
+int main() {
+  vector<int> coll;
+  for (int i=1; i<=9; ++i) {
+    coll.push_back(i);
+  }
+  vector<int>::iterator pos;
+  pos = find (coll.begin(), coll.end(), 5);
+  cout << "pos: " << *pos << endl;
+  vector<int>::reverse_iterator rpos(pos);
+  cout << "rpos: " << *rpos <<endl;
+}
+```
+例7
+```cpp
+void print (int elem) {
+  cout << elem << ' ';
+}
+int main() {
+  deque<int> coll;
+  for (int i=1; i<=9; ++i) {
+    coll.push_back(i);
+  }
+  deque<int>::iterator pos1;
+  pos1 = find (coll.begin(), coll.end(), 2);
+  deque<int>::iterator pos2;
+  pos2 = find (coll.begin(), coll.end(), 7);
+  for_each (pos1, pos2, print);
+  deque<int>::reverse_iterator rpos1(pos1);
+  deque<int>::reverse_iterator rpos2(pos2);
+  for.each (rpos2, rpos1, print);
+}
+```
+例8
+```cpp
+int main(){
+  list<int> coll;
+  for (int i=1; i<=9; ++i) {
+    coll.push_back(i);
+  }
+  list<int>::iterator pos;
+  pos = find (coll.begin(), coll.end(),5);
+  cout << "pos: " << *pos << endl;
+  list<int>::reverse_iterator rpos(pos);
+  cout << "rpos: " << *rpos << endl;
+  list<int>::iterator rrpos;
+  rrpos = rpos.base();
+  cout << "rrpos: " << *rrpos << endl;
+}
+```
+例9
+```cpp
+int main() {
+  vector<int> coll;
+  back_insert_iterator<vector<int> > iter(coll);
+  *iter = 1;
+  iter++;
+  *iter = 2;
+  iter++;
+  *iter = 3;
+  copy( col1.begin(), col1.end(), ostream_iterator<int>(cout, “  “));
+  back_inserter(coll) = 44;
+  back_inserter(coll) = 55;
+  copy( col1.begin(), col1.end(), ostream_iterator<int>(cout, “  “));
+  copy (coll .begin(), coll.end(), back_inserter(coll));
+  copy( col1.begin(), col1.end(), ostream_iterator<int>(cout, “  “));
+}
+```
+例10
+```cpp
+int main() {
+  list<int> coll;
+  front_insert_iterator<list<int> > iter(coll);
+  *iter = 1;
+  iter++;
+  *iter = 2;
+  iter++;
+  *iter = 3;
+  copy( col1.begin(), col1.end(), ostream_iterator<int>(cout, “  “));
+  front_inserter(coll) = 44;
+  front_inserter(coll) = 55;
+  copy( col1.begin(), col1.end(), ostream_iterator<int>(cout, “  “));
+  copy (coll.begin(), coll.end(), front_inserter(coll));
+  copy( col1.begin(), col1.end(), ostream_iterator<int>(cout, “  “));
+}
+```
+例11
+```cpp
+int main() {
+  ostream_iterator<int> intWriter(cout,"\n");
+  *intWriter = 42;
+  intWriter++;
+  *intWriter = 77;
+  intWriter++;
+  *intWriter = -5;
+  vector<int> coll;
+  for (int i=1; i<=9; ++i) {
+    coll.push_back(i);
+  }
+  copy (coll.begin(), coll.end(), ostream_iterator<int>(cout));
+  copy (coll.gin(), coll.end(), ostream_iterator<int>(cout," < "));
+}
+```
+例12
+```cpp
+int main(){
+  istream_iterator<int> intReader(cin);
+  istream_iterator<int> intReaderEOF;
+  while (intReader != intReaderEOF) {
+    cout << "once: " << *intReader << endl;
+    cout << "once again: " << *intReader << endl;
+    ++intReader;
+  }
+}
+```
+例13
+```cpp
+int main() {
+  istream_iterator<string> cinPos(cin);
+  ostream_iterator<string> coutPos(cout," ");
+  while (cinPos != istream_iterator<string>()) {
+    advance (cinPos, 2);
+    if (cinPos != istream_iterator<string>()) {
+      *coutPos++ = *cinPos++;
+    }
+  }
+  cout << endl;
+}
+```
+例14
+```cpp
+int main() {
+  vector<Date> e;
+  copy( istream_iterator<Date>(cin), istream_iterator<Date>(), back_inserter(e));
+  vector<Date>::iterator first = find(e.begin(), e.end(), "01/01/95");
+  vector<Date>::iterator last = find(e.begin(), e.end(), "12/31/95");
+  *last = "12/30/95";
+  copy(first, last, ostream_iterator<Date>(cout, "\n"));
+  e.insert(--e.end(), TodaysDate());
+  copy( first, last, ostream_iterator<Date>(cout, "\n") );
+}
+```
+注：早先获得的跌代子在特定的操作后会失效！！vector的迭代子在插入、删除以及重新分配内存后可能会失效。
+
+## 练习
+
+1. Write a program to print a histogram of the frequencies of different characters in its input. 写一个程序，打印输入中所有字符出现次数的直方图。
+1. Write a program to print a histogram of the lengths of words in its input. It is easy to draw the histogram with the bars horizontal; a vertical orientation is more challenging. 写一个程序，打印输入中单词长度的直方图。横着画直方图的条是比较简单的，竖着画更有挑战。
+1. Write a program that prints the distinct words in its input sorted into decreasing order of frequency of occurrence. Precede each word by its count. 写一个程序，统计输入中每个单词的出现次数，并按照出现次数的顺序打印单词。在每个单词前打印出现次数。
+1. Write a cross-referencer that prints a list of all words in a document, and for each word, a list of the line numbers on which it occurs. 写一个交叉索引程序，打印文章中所有单词及每个单词在文章中出现的行号。
+1. Write the program tail, which prints the last n lines of its input. By default, n is set to 10, let us say, but it can be changed by an optional argument so that
+
+   ```
+   tail -n
+   ```
+
+   prints the last n lines. The program should behave rationally no matter how unreasonable the input or the value of n. Write the program so it makes the best use of available storage. 写一个tail程序，打印输入中的倒数n行。n默认值为10。n也可以被命令行参数指定，这样的命令
+
+   ```
+   tail -n
+   ```
+
+   只打印最后n行。这个程序应该在任何输入和任意的n值下等能够正常地工作。这个程序要写得能够最有效率的利用存储空间。
+1. Write a program to remove all comments from a C program. Don't forget to handle quoted strings and character constants properly. C comments don't nest.
+1. Write a program to check a C program for rudimentary syntax errors like unmatched parentheses, brackets and braces. Don't forget about quotes, both single and double, escape sequences, and comments. (This program is hard if you do it in full generality.)
+1. Write a program to implement a queue using two stacks.
+
+参考答案:
+
+1. [stl_sample1.cc](<assets/C++标准模板库/stl_sample1.cc>)
+1. [stl_sample2.cc](<assets/C++标准模板库/stl_sample2.cc>)
+1. .
+1. .
+1. [stl_sample3.cc](<assets/C++标准模板库/stl_sample3.cc>)
+1. .
+1. .
+1. [stl_sample4.cc](<assets/C++标准模板库/stl_sample4.cc>)
+1. 约瑟夫环问题：[stl_sample5.cc](<assets/C++标准模板库/stl_sample5.cc>)
+
+## 参考资源
+
+* [Standard Template Library Programmer's Guide](http://www.sgi.com/tech/stl/)
+* [MSDN Standard C++ Library Reference](http://msdn.microsoft.com/library/en-us/vcstdlib/html/vcoriStandardCLibraryReference.asp)
+* [http://www.stlchina.org/twiki/bin/view.pl/Main/STLChina](http://www.stlchina.org/twiki/bin/view.pl/Main/STLChina)

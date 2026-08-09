@@ -1,0 +1,63 @@
+---
+title: "C++:模板函数"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### 模板函数
+
+写一个max，求两个东西中较大的一个。
+```cpp
+int max(int a, int b) {
+    return a>b?a:b;
+}
+
+double max(double a, double b) {
+    return a>b?a:b;
+}
+
+string max(string a, string b) {
+    return a>b?a:b;
+}
+```
+它们的算法都是类似的，只是参与运算的对象的类型不同。我们可以把类型定义成一个参数：
+```cpp
+template<class T>
+T max(T a, T b) {
+    return a>b?a:b;
+}
+```
+
+调用方法
+```cpp
+int main() {
+    cout << max(5, 7);
+    cout << max(5.5, 7.5);
+    cout << max(5, 7.5); //error
+    cout << max(static_cast<double>(5), 7.5);
+    cout << max<int>(5, 7.5);
+    cout << max<double>(5, 7.5);
+}
+```
+调用时会自动对模板函数的类型进行推导。前面这个模板还不能对两个C字符串进行比较，比如
+```cpp
+int main() {
+    cout << max("world", "hello");
+}
+```
+可以对函数进行重载
+```cpp
+char *max(char *a, char *b) {
+    return strcmp(a,b)>0?a:b;
+}
+```
+
+练习：写一个abs类，可以计算任意类型的数的绝对值
+
+---

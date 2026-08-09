@@ -1,0 +1,30 @@
+---
+title: "Python介绍/Python的实现"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+### Python的实现
+
+The standard Python interpreter also supports an interactive mode in which it acts as a kind of shell: expressions can be entered one at a time, and the result of their evaluation is seen immediately. This is a boon for those learning the language and experienced developers alike: snippets of code can be tested in interactive mode before integrating them into a proper program. As well, the Python shell is often used to interactively perform system tasks, such as modifying files.
+
+Python also includes a unit testing framework for creating exhaustive test suites. While static typing aficionados see this as a replacement for a static type-checking system, Python programmers largely do not share this view.
+
+Standard Python does not support continuations, and according to Guido van Rossum, never will. However, better support for coroutine-like functionality is planned, by extending Python's generators [3]
+
+* Python – The reference implementation, also known as CPython
+* Jython – Python coded in Java
+* IronPython – Python for .NET and Mono platforms
+* Boo – Python-based but with static typing, for .NET and Mono
+* Stackless Python - Python with coroutines
+* Psyco - not an implementation, but JIT compiler for CPython
+* PyPy – Python coded in Python
+* Parrot – Virtual machine being developed mainly as the runtime for Perl 6, but with the intent to also support dynamic languages like Python, Ruby, Tcl, etc. Can currently execute a subset of Python
+* Logix – Python alternate front-end with macros
+* Movable Python- An alternative distribution of CPython for Windows. It can run off a USB stick and provides a Portable Programming Environment.

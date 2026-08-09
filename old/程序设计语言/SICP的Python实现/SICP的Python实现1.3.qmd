@@ -1,0 +1,21 @@
+---
+title: "SICP的Python实现/SICP的Python实现1.3"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+### Formulating Abstractions with Higher-Order Procedures
+
+#### Procedures as Arguments
+
+#### Constructing Procedures Using Lambda
+
+#### Procedures as General Methods
+
+#### Procedures as Returned Values

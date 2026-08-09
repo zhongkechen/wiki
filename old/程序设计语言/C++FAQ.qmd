@@ -1,0 +1,32 @@
+---
+title: "C++FAQ"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## 语言
+
+## 库
+
+* Q: 如何检测输入中的EOF？
+* A: 检查scanf和getchar返回值是否EOF。检查cin是否为false。
+
+* Q: 如何输入EOF？
+* A: 在Windows按Ctrl-Z，在Linux按Ctrl-D。
+
+## 开发环境
+
+* Q: 在DEV-C++中，程序执行完后，如何让程序暂停？
+* A: 在程序结束前增加一句： system("pause"); 这个system函数在头文件stdlib.h中定义。
+
+* Q: 在VC++中，出现precompiled header错误怎么办？
+* A: 关闭precompiled header。
+
+* Q: Eclipse中输入.或者-&gt;的时候开发环境就会卡住一会儿，怎么解决？
+* A: 关闭Auto Activation功能，选择Window菜单=&gt;Preferences，在弹出对话框的左边选择C/C++=&gt;Editor=&gt;Content Assist，去掉右边Auto Activation框中的三个复选框Enable ... as trigger前的勾

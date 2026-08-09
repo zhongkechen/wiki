@@ -1,0 +1,122 @@
+---
+title: "STL编程指南/迭代子Tag概述"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+Iterator Tags
+
+Category: iterators 	Component type: overview
+Summary
+Iterator tag functions are a method for accessing information that is associated with iterators. Specifically, an iterator type must, as discussed in the Input Iterator requirements, have an associated distance type and value type. [1] It is sometimes important for an algorithm parameterized by an iterator type to be able to determine the distance type and value type. Iterator tags also allow algorithms to determine an iterator's category, so that they can take different actions depending on whether an iterator is an Input Iterator, Output Iterator, Forward Iterator, Bidirectional Iterator, or Random Access Iterator.
+
+Note that the iterator tag functions distance_type, value_type, and iterator_category are an older method of accessing the type information associated with iterators: they were defined in the original STL. The draft C++ standard, however, defines a different and more convenient mechanism: iterator_traits. Both mechanisms are supported [2], for reasons of backwards compatibility, but the older mechanism will eventually be removed.
+Description
+The basic idea of the iterator tag functions, and of iterator_traits, is quite simple: iterators have associated type information, and there must be a way to access that information. Specifically, iterator tag functions and iterator_traits are used to determine an iterator's value type, distance type, and iterator category.
+
+An iterator's category is the most specific concept that it is a model of: Input Iterator, Output Iterator, Forward Iterator, Bidirectional Iterator, or Random Access Iterator. This information is expressed in the C++ type system by defining five category tag types, input_iterator_tag, output_iterator_tag, forward_iterator_tag, bidirectional_iterator_tag, and random_access_iterator_tag, each of which corresponds to one of those concepts. [3]
+
+The function iterator_category takes a single argument, an iterator, and returns the tag corresponding to that iterator's category. That is, it returns a random_access_iterator_tag if its argument is a pointer, a bidirectional_iterator_tag if its argument is a list::iterator, and so on. Iterator_traits provides the same information in a slightly different way: if I is an iterator, then iterator_traits&lt;I&gt;::iterator_category is a nested typedef: it is one of the five category tag types.
+
+An iterator's value type is the type of object that is returned when the iterator is dereferenced. (See the discussion in the Input Iterator requirements.) Ideally, one might want value_type to take a single argument, an iterator, and return the iterator's value type. Unfortunately, that's impossible: a function must return an object, and types aren't objects. Instead, value_type returns the value (T\*) 0, where T is the argument's value type. The iterator_traits class, however, does not have this restriction: iterator_traits&lt;I&gt;::value_type is a type, not a value. It is a nested typedef, and it can be used in declarations of variables, as an function's argument type or return type, and in any other ways that C++ types can be used.
+
+(Note that the function value_type need not be defined for Output Iterators, since an Output Iterator need not have a value type. Similarly, iterator_traits&lt;I&gt;::value_type is typically defined as void when I is an output iterator)
+
+An iterator's distance type, or difference type (the terms are synonymous) is the type that is used to represent the distance between two iterators. (See the discussion in the Input Iterator requirements.) The function distance_type returns this information in the same form that value_type does: its argument is an iterator, and it returns the value (Distance\*) 0, where Distance is the iterator's distance type. Similarly, iterator_traits&lt;I&gt;::difference_type is I's distance type.
+
+Just as with value_type, the function distance_type need not be defined for Output Iterators, and, if I is an Output Iterator, iterator_traits&lt;I&gt;::difference_type may be defined as void. An Output Iterator need not have a distance type.
+
+The functions iterator_category, value_type, and distance_type must be provided for every type of iterator. (Except, as noted above, that value_type and distance_type need not be provided for Output Iterators.) In principle, this is simply a matter of overloading: anyone who defines a new iterator type must define those three functions for it. In practice, there's a slightly more convenient method. The STL defines five base classes, output_iterator, input_iterator, forward_iterator, bidirectional_iterator, and random_access_iterator. The functions iterator_category, value_type, and distance_type are defined for those base classes. The effect, then, is that if you are defining a new type of iterator you can simply derive it from one of those base classes, and the iterator tag functions will automatically be defined correctly. These base classes contain no member functions or member variables, so deriving from one of them ought not to incur any overhead.
+
+(Again, note that base classes are provided solely for the convenience of people who define iterators. If you define a class Iter that is a new kind of Bidirectional Iterator, you do not have to derive it from the base class bidirectional_iterator. You do, however, have to make sure that iterator_category, value_type, and distance_type are defined correctly for arguments of type Iter, and deriving Iter from bidirectional_iterator is usually the most convenient way to do that.)
+Examples
+This example uses the value_type iterator tag function in order to declare a temporary variable of an iterator's value type. Note the use of an auxiliary function, __iter_swap. This is a very common idiom: most uses of iterator tags involve auxiliary functions.
+
+    template &lt;class ForwardIterator1, class ForwardIterator2, class ValueType&gt;
+    inline void __iter_swap(ForwardIterator1 a, ForwardIterator2 b, ValueType\*) {
+	ValueType tmp = \*a;
+	\*a = \*b;
+	\*b = tmp;
+    }
+
+    template &lt;class ForwardIterator1, class ForwardIterator2&gt;
+    inline void iter_swap(ForwardIterator1 a, ForwardIterator2 b) {
+	__iter_swap(a, b, value_type(a));
+    }
+
+This example does exactly the same thing, using iterator_traits instead. Note how much simpler it is: the auxiliary function is no longer required.
+
+    template &lt;class ForwardIterator1, class ForwardIterator2&gt;
+    inline void iter_swap(ForwardIterator1 a, ForwardIterator2 b) {
+**iterator_traits&lt;ForwardIterator1&gt;**: value_type tmp = \*a;
+        \*a = \*b;
+        \*b = tmp;
+    }
+
+This example uses the iterator_category iterator tag function: reverse can be implemented for either Bidirectional Iterators or for Random Access Iterators, but the algorithm for Random Access Iterators is more efficient. Consequently, reverse is written to dispatch on the iterator category. This dispatch takes place at compile time, and should not incur any run-time penalty.
+
+    template &lt;class BidirectionalIterator&gt;
+    void __reverse(BidirectionalIterator first, BidirectionalIterator last,
+		   bidirectional_iterator_tag) {
+	while (true)
+	    if (first == last || first == --last)
+		return;
+	    else
+		iter_swap(first++, last);
+    }
+
+    template &lt;class RandomAccessIterator&gt;
+    void __reverse(RandomAccessIterator first, RandomAccessIterator last,
+		   random_access_iterator_tag) {
+	while (first &lt; last) iter_swap(first++, --last);
+    }
+
+    template &lt;class BidirectionalIterator&gt;
+    inline void reverse(BidirectionalIterator first, BidirectionalIterator last) {
+	__reverse(first, last, iterator_category(first));
+    }
+
+In this case, iterator_traits would not be different in any substantive way: it would still be necessary to use auxiliary functions to dispatch on the iterator category. The only difference is changing the top-level function to
+
+    template &lt;class BidirectionalIterator&gt;
+    inline void reverse(BidirectionalIterator first, BidirectionalIterator last) {
+	__reverse(first, last,
+**iterator_traits&lt;first&gt;**: iterator_category());
+    }
+
+Concepts
+Types
+
+* output_iterator
+* input_iterator
+* forward_iterator
+* bidirectional_iterator
+* random_access_iterator
+
+* output_iterator_tag
+* input_iterator_tag
+* forward_iterator_tag
+* bidirectional_iterator_tag
+* random_access_iterator_tag
+
+* iterator_traits
+
+Functions
+
+* iterator_category
+* value_type
+* distance_type
+
+Notes
+
+[1] Output Iterators have neither a distance type nor a value type; in many ways, in fact, Output Iterators aren't really iterators. Output iterators do not have a value type, because it is impossible to obtain a value from an output iterator but only to write a value through it. They do not have a distance type, similarly, because it is impossible to find the distance from one output iterator to another. Finding a distance requires a comparison for equality, and output iterators do not support operator==.
+
+[2] The iterator_traits class relies on a C++ feature known as partial specialization. Many of today's compilers don't implement the complete standard; in particular, many compilers do not support partial specialization. If your compiler does not support partial specialization, then you will not be able to use iterator_traits, and you will have to continue to use the older iterator tag functions.
+
+[3] Note that Trivial Iterator does not appear in this list. The Trivial Iterator concept is introduced solely for conceptual clarity; the STL does not actually define any Trivial Iterator types, so there is no need for a Trivial Iterator tag. There is, in fact, a strong reason not to define one: the C++ type system does not provide any way to distinguish between a pointer that is being used as a trivial iterator (that is, a pointer to an object that isn't part of an array) and a pointer that is being used as a Random Access Iterator into an array.

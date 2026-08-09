@@ -1,0 +1,1402 @@
+---
+title: "C++继承与多态"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## 继承
+
+### 继承和派生的含义
+
+如果要提高程序开发的效率，需要对已有的代码进行**重用**。在面向过程的语言中，重用的单位是函数（过程）。而在面向对象的语言中，重用的单位是类。
+
+重用一个已有的类来创建新的类，一种方法是**组合**，它体现**部分和整体**的关系。
+
+比如说要构造一辆汽车，汽车是一种复杂的对象，它由很多小的部分组成。
+
+![figure4.png](<assets/C++继承与多态/figure4.png>)
+
+再举一个更具体简单的例子：构造一个平面图形系统，需要用到点、线段、圆、矩形、三角形等。在线段、圆、矩形、三角形等图形中，都需要表示点这个类型，比如线段需要有两个端点来表示，我们可以通过添加点类型的成员，把它们组合起来。
+
+![figure2.png](<assets/C++继承与多态/figure2.png>)
+
+或者可以把它们之间的关系更明确的表示为：
+
+![figure1.png](<assets/C++继承与多态/figure1.png>)
+
+再比如说一个学生类。
+
+![figure3.png](<assets/C++继承与多态/figure3.png>)
+
+**继承**（**派生**）是类的重用的另一种方法，它体现类之间的**is a**的关系（**一般和特殊**的关系）。如果A is a B，即A是某一种特殊的B，则我们说A类是从B类**继承**（inherit）的，或者说B**派生**（derive）出A。比如说交通工具：
+
+![figure5.png](<assets/C++继承与多态/figure5.png>)
+
+如果A类从B类继承，或B派生出A，则我们称A类是B类的**派生类**（Derived Class），B类是A类的**基类**（Base Class）；或者说A类是B类的**子类**（Child Class），B类是A类的**父类**（Parent Class）。
+
+* 逻辑上派生类和基类是一种is a的关系；
+* 派生类是在基类的基础上添加新的成员进行扩充而得到，它拥有基类的所有成员（所有属性和方法）；
+* 在用到基类对象的地方，可以用派生类对象来代替。
+
+比如说，学生Student是一类学校的成员`SchoolMember`，老师Teacher也是一类学校的成员`SchoolMember`，研究生`GraduateStudent`是一类学生Student。
+
+![figure6.png](<assets/C++继承与多态/figure6.png>)
+
+还有各种图形之间的关系：
+
+![figure7.png](<assets/C++继承与多态/figure7.png>)
+
+不恰当使用继承的例子：
+
+* Rectangle继承Point？
+
+![figure9.png](<assets/C++继承与多态/figure9.png>)
+
+* Ellipse继承Circle还是Circle继承Ellipse？
+
+![figure10.png](<assets/C++继承与多态/figure10.png>)
+
+### 派生类的定义
+
+我们用C++语言来描述学生老师之间的关系：
+```cpp
+struct Date {
+    int year;
+    int month;
+    int day;
+};
+
+struct Course {
+    string name;
+    int credit;
+};
+
+class SchoolMember {
+private:
+    string name;
+    Date birth;
+    bool gender;
+};
+
+//Student类继承了SchoolMember类，public指明继承方式是公有继承
+class Student : public SchoolMember
+{
+private:
+    string id;
+    int department;
+    int credit;
+    Date enroll_day;
+    Date graduate_day;
+};
+
+class Teacher; //前置声明
+
+//GraduateStudent类继承了Student类
+class GraduateStudent : public Student {
+private:
+    Teacher *tutor;
+};
+
+//Teacher类继承了SchoolMember类
+class Teacher : public SchoolMember
+{
+private:
+    int title;
+    int salary;
+    GraduateStudent *supervise[8];
+    int num_supervise;
+};
+```
+
+派生类对象的定义：
+```cpp
+int main() {
+    SchoolMember p;
+    Student s;
+    Teacher t;
+    GraduateStudent g;
+}
+```
+
+对象的内存布局：
+
+![figure8.png](<assets/C++继承与多态/figure8.png>)
+
+加上成员函数的实现：
+```cpp
+struct Date {
+    int year;
+    int month;
+    int day;
+};
+
+struct Course {
+    string name;
+    int credit;
+};
+
+class SchoolMember {
+private:
+    string name;
+    Date birth;
+    bool gender;
+public:
+    Date get_bith() {
+        return birth;
+    }
+    string get_name() {
+        return name;
+    }
+    bool get_gender() {
+        return gender;
+    }
+};
+
+//Student类继承了SchoolMember类，public指明继承方式是公有继承
+class Student : public SchoolMember
+{
+private:
+    string id;
+    int department;
+    int credit;
+    Date enroll_day;
+    Date graduate_day;
+public:
+    string get_id() {
+        return id;
+    }
+    int get_department() {
+        return department;
+    }
+    int get_credit() {
+        return credit();
+    }
+    Date get_enroll_day() {
+        return enroll_day;
+    }
+    Date get_graduate_day() {
+        return graduate_day;
+    }
+    void enroll(Date day) {
+        enroll_day = day;
+    }
+    void graduate(Date day) {
+        graduate_day = day;
+    }
+};
+//GraduateStudent类继承了Student类
+class GraduateStudent : public Student {
+private:
+    Teacher *tutor;
+public:
+    Teacher *get_tutor() {
+        return tutor;
+    }
+    void set_tutor(Teacher *t) {
+        if(tutor == t) return;
+        tutor = t;
+        t->add_supervise(this);
+    }
+};
+
+//Teacher类继承了SchoolMember类
+class Teacher : public SchoolMember
+{
+private:
+    int title;
+    int salary;
+    GraduateStudent *supervise[8];
+    int num_supervise;
+public:
+    void add_supervise(GraduateStudent *g) {
+        for(int i = 0; i < num_supervise; i++)
+            if(supervise[i] == g)
+                return;
+        supervise[num_supervise++] = g;
+        g->set_tutor(this);
+    }
+};
+```
+
+练习：将各种图形类用C++描述出来。
+
+### 派生类的构造和析构
+
+在创建对象时，我们需要对对象进行初始化。普通类型的对象的初始化是由构造函数完成的，对于派生类对象也是相同的。
+
+创建派生类对象时，派生类的构造函数会被自动调用。
+```cpp
+struct Date {
+    int year, month, day;
+    Date(int y, int m, int d) {
+        year = y;
+        month = m;
+        day = d;
+    }
+};
+
+class SchoolMember {
+private:
+    string name;
+    Date birth
+    bool gender;
+};
+
+class Student : public SchoolMember {
+private:
+    string id;
+    int department;
+    int credit;
+    Date enroll_day;
+    Date graduate_day;
+public:
+    Student(string n, Date b, bool g, string i, int d)
+        : enroll_day(0,0,0), graduate_day(0,0,0) {
+        id = i;
+        department = d;
+        credit = 0;
+    }
+};
+int main() {
+    Student d("Jack", Date(1985, 9, 13), true, "05011101", 11);
+}
+```
+
+这个例子里面，派生类Student扩展的部分已经初始化，但是基类的部分没有初始化。要初始化继承下来的基类部分的成员，可以在基类中定义构造函数。
+```cpp
+struct Date {
+    int year, month, day;
+    Date(int y, int m, int d) {
+        year = y;
+        month = m;
+        day = d;
+    }
+};
+
+class SchoolMember {
+private:
+    string name;
+    Date birth
+    bool gender;
+public:
+    SchoolMember(string n, Date b, bool g) : birth(b) {
+        name = n;
+        gender = g;
+    }
+};
+
+class Student : public SchoolMember {
+private:
+    string id;
+    int department;
+    int credit;
+    Date enroll_day;
+    Date graduate_day;
+public:
+    Student(string n, Date b, bool g, string i, int d)
+        : enroll_day(0,0,0), graduate_day(0,0,0), SchoolMember(n, b, g) {
+        id = i;
+        department = d;
+        credit = 0;
+    }
+};
+int main() {
+    Student d("Jack", Date(1985, 9, 13), true, "05011101", 11);
+}
+```
+
+如果基类中有构造函数，派生类没有定义构造函数，或者有构造函数但是没有显示调用基类构造函数，那么基类中的默认构造函数会被自动调用。
+```cpp
+class SchoolMember {
+    string name;
+    Date birth;
+    bool gender;
+public:
+    SchoolMember(string n = "", Date b = Date(0,0,0), bool g = false)
+        : birth(b) {
+        name = n;
+        gender = g;
+    }
+};
+class Student : public SchoolMember{
+    string id;
+    int department;
+    int credit;
+    Date enroll_day;
+    Date graduate_day;
+};
+int main() {
+    Student s;
+}
+```
+
+在一个多层的继承结构里面，创建一个派生类对象时，基类、基类的基类、基类的基类的基类等的构造函数都会被调用。
+```cpp
+class SchoolMember {
+private:
+    string name;
+    Date birth
+    bool gender;
+public:
+    SchoolMember(string n, Date b, bool g) : birth(b) {
+        name = n;
+        gender = g;
+    }
+};
+
+class Student : public SchoolMember {
+private:
+    string id;
+    int department;
+    int credit;
+    Date enroll_day;
+    Date graduate_day;
+public:
+    Student(string n, Date b, bool g, string i, int d)
+        : enroll_day(0,0,0), graduate_day(0,0,0), SchoolMember(n, b, g) {
+        id = i;
+        department = d;
+        credit = 0;
+    }
+};
+class GraduateStudent: public Student {
+    Teacher *tutor;
+public:
+    GraduateStudent(string n, Date b, bool g, string i, int d, Teacher *t)
+        :Student(n, b, g, i, d) {
+        tutor = t;
+    }
+};
+int main() {
+    Teacher teacher;
+    GraduateStudent d("Rose", Date(1985, 9, 13), false, "05011101", 11, &teacher);
+}
+```
+
+类的完整实现实例：
+```cpp
+class Date {
+public:
+    int year, month, day;
+    Date(int y, int m, int d)
+        : year(y), month(m), day(d) {
+    }
+};
+struct Course{
+    string name;
+    int credit;
+};
+
+class SchoolMember {
+    string name;
+    Date birth;
+    bool gender;
+public:
+    SchoolMember(string n, Date b, bool g)
+        : name(n), birth(b), gender(g) {
+    }
+};
+class GraduateStudent;
+class Teacher : public SchoolMember {
+    int salary;
+    int title;
+    int num_supervise;
+    GraduateStudent *supervise[8];
+public:
+    Teacher(string n, Date b, bool g, int t, int s)
+        : SchoolMember(n, b, g), salary(s), title(t) {
+    }
+    void add_supervise(GraduateStudent *g) {
+        for(int i = 0; i < num_supervise; i++)
+            if(supervise[i] == g)
+                return;
+        supervise[num_supervise++] = g;
+        g->set_tutor(this);
+    }
+};
+class Student: public SchoolMember {
+    string id;
+    int department;
+    int credit;
+    Date enroll_day;
+    Date graduate_day;
+public:
+    SchoolMember(string n, Date b, bool g, string i, int d)
+        : SchoolMember(n, b, g), id(i), department(d), credit(0),
+        enroll_day(0,0,0), graduate_day(0,0,0) {
+    }
+    void take_course(Course *c) {
+        credit += c->credit;
+    }
+    void enroll(Date day) {
+        enroll_day = day;
+    }
+    void graduate(Date day) {
+        graduate_day = day;
+    }
+};
+class GraduateStudent: public Student {
+    Teacher *tutor;
+public:
+    GraduateStudent(string n, Date b, bool g, string i, int d, Teacher *t)
+        : Student(n, b, g, i, d), tutor(t) {
+        t->add_supervise(this);
+    }
+    void set_tutor(Teacher *t) {
+        if(tutor == t) return;
+        tutor = t;
+        tutor->add_supervise(this);
+    }
+};
+```
+
+派生类对象被销毁时，基类的析构函数会被自动调用。如果派生类和基类都有析构函数，那么他们都会被调用。
+```cpp
+class SchoolMember {
+public:
+    SchoolMember() {
+        cout << "construct SchoolMember" << endl;
+    }
+    ~SchoolMember() {
+        cout <<"destruct SchoolMember" <<endl;
+    }
+};
+class Student : public SchoolMember{
+public:
+    Student() {
+        cout << "construct Student" << endl;
+    }
+    ~Student() {
+        cout << "destruct Student" << endl;
+    }
+};
+int main() {
+    Student s;
+    SchoolMember p;
+}
+```
+
+派生类析构函数只负责派生类增加部分的分配资源的析构。
+```cpp
+int MAX_SUPERVISE[] = {0, 0, 4, 10};
+
+class Teacher : public SchoolMember {
+    int salary;
+    int title;
+    int num_supervise;
+    int capacity_supervise;
+    GraduateStudent **supervise;
+public:
+    Teacher(string n, Date b, bool g, int t, int s)
+        : SchoolMember(n, b, g), salary(s), title(t) {
+    }
+    Teacher(string n, Date b, bool g, int t, int s)
+        :SchoolMember(n,b,g), salary(s), title(t) {
+        capacity_supervise = MAX_SUPERVISE[t];
+        supervise = new GraduateStudent*[capacity_supervise]
+    }
+    ~Teacher(){
+        delete[] supervise;
+    }
+    void add_supervise(GraduateStudent *g) {
+        for(int i = 0; i < num_supervise; i++)
+            if(supervise[i] == g)
+                return;
+        if(num_supervise >= capacity_supervise)
+            return;
+        supervise[num_supervise++] = g;
+        g->set_tutor(this);
+    }
+};
+int main() {
+    Teacher t("czk", Date(1979,8,27), true, 1, 1500);
+}
+```
+
+### 类型兼容性
+
+在需要使用基类对象的情况下，可以用派生类对象来代替。分为三种情况：
+
+* 派生类对象取代基类对象，派生类对象被切割
+* 派生类对象指针取代基类对象指针
+* 派生类对象引用取代基类对象引用
+
+```cpp
+int main() {
+    Student s("jack", Date(1980, 8, 8), true, "970101", 10);
+    SchoolMember  p = s; //slice
+    Student s2 = p; //error
+
+    Student  *pD = new Student("jack", Date(1980, 8, 8), true, "970101", 10);
+    SchoolMember *pB = pD;  //correct 基类指针指向派生类对象
+    SchoolMember *pB2 = new Student("jack", Date(1980, 8, 8), true, "970101", 10);
+    pB = new Teacher("jack", Date(1980, 8, 8), true, 4, 1500); //多态性在这里体现
+
+    Student &rd = s;
+    SchoolMember &rp = p;
+    Student &rd2 = p; //error
+    SchoolMember &rp2 = s; // ok
+}
+```
+
+指针类型的强制转换
+```cpp
+int main() {
+    SchoolMember  *pB = new Student;
+    Student *pD2 = pB; //error
+    Student *pD3 = dynamic_cast<Student *>(pB);
+
+    SchoolMember *pB = new Teacher;
+    Student *pD = dynamic_cast<Student *>(pB); //转换失败，得到空指针
+    Student *pD2 = static_cast<Student *>(pB); //static_cast转换时不做检查，访问pD2的后果不堪设想
+    pD2->enroll(); //不可设想的后果
+}
+```
+
+### 派生类的访问权限
+
+* private成员：只在定义它的类的成员函数中可以访问，在派生类的成员函数中不可访问。基类的私有成员被派生类继承，但是不能被派生类访问
+* protected成员：在本类及派生类中能访问的成员。派生类可以访问继承的保护成员，但是不能访问一个基类对象的保护成员
+
+```cpp
+class Base {
+public:
+    int a;
+protected:
+    int b;
+private:
+    int c;
+};
+class Derived :public Base {
+    void f() {
+        cout << a << b << c;//访问c是错误的
+    }
+};
+void f(Derived &d) {
+    cout << d.a<< d.b<< d.c; //访问b,c都是错的
+}
+```
+
+```cpp
+class Base {
+protected:
+    int x;
+};
+class Derived  : public Base{
+public:
+    void f( ) {
+        Base b;
+        cout << b.x; //访问基类对象的保护成员，错误
+        cout << x;  //发访问继承的基类保护成员，正确
+    }
+};
+```
+
+使用using声明改变基类成员权限
+```cpp
+class Person {
+public:
+    string get_name();
+    Date get_date();
+    bool get_gender();
+};
+class Student : public Person {
+private:
+    using Person::get_name;
+};
+```
+
+派生类的成员名字如果与基类相同，将隐藏基类成员
+```cpp
+class Person {
+public:
+    void set(string name);
+    void set(bool gender);
+};
+class Student : public Person{
+public:
+    void set(int department); // hide base member functions
+};
+void f(Student &s) {
+    s.set("12345");
+    s.set( true );
+    s.Person::set("12345"); //ok
+    s.Person::set(true); //ok
+}
+```
+
+保护继承和私有继承
+```cpp
+class Derived : private Base {
+//…
+};
+
+class Derived: protected Base {
+//…
+};
+```
+
+```cpp
+class Base {
+public: int a;
+protected: int b;
+private: int c;
+};
+class Derived : private Base{
+    void f() {
+        cout << a << b << c;
+    }
+};
+int main() {
+    Derived d;
+    cout << d.a << d.b << d.c;
+}
+```
+
+### 多继承
+
+在C++中允许一个派生类有多个基类，这种继承叫做多继承。相对的只有一个基类的继承被称为单继承。多继承表达的是“派生类既是一种基类A，又是一种基类B”的逻辑关系。
+
+比如Assistent类继承了Student和Teacher两个类：
+```cpp
+class Assistant : public Student, public Teacher {
+public:
+  Assistant(string n, string i, string l)
+    :  Teacher(n, l), Student(n, i) {
+    cout << "a";
+  }
+  void print() const {
+    cout<< name << id << level; // ambiguous error
+    cout<< Student::name << Teacher::name << id << level;
+  }
+};
+```
+注意：不同基类中的同名的成员会在派生类中同时存在。比如这里的name,id,level等。
+
+多继承时对象的复制：派生类对象的指针可以赋给任何一个基类类型的指针
+```cpp
+Assistant  assist("jack", "12456", "assistant");
+Student  s = assist; //OK, slice
+Teacher  t = assist; //OK, slice
+Student *ps = &assist; //OK
+Teacher *pt= &assist; //OK
+ps->print();
+pt->print();
+Person *p = &assist; //ambigius
+Person *p = (Student *)&assist;
+Person *p = (Teacher *)&assist;
+p->print();
+```
+
+虚基类
+```cpp
+class Person {
+};
+class Student : virtual public Person {
+};
+class Teacher : virtual public Person {
+};
+class Assistant : public Student, public Teacher {
+};
+```
+虚基类Person在派生类Assistant的对象中只有一份
+```cpp
+class Person {
+    string name;
+public:
+    Person(string n):name(n){ cout << "P"; }
+};
+class Student : virtual public Person {
+    string id;
+public:
+    Student(string n, string i):id(i), Person(n){ cout<<"S";}
+};
+class Teacher : virtual public Person {
+    string level;
+public:
+    Teacher(string n, string l):level(l), Person(n){cout<<"T";}
+};
+class Assistant : public Student, public Teacher {
+public:
+    Assistant(string n, string i, string l)
+    : Student(n, i), Teacher(n, l), Person(n) {cout<<"A";}
+};
+```
+
+完整例子：
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Date {
+    int year;
+    int month;
+    int day;
+public:
+    Date(int y, int m, int d) {
+        year = y;
+        month = m;
+        day = d;
+    }
+    void print() {
+        cout << year<<"-" <<month<<"-" <<day;
+    }
+};
+
+const bool MALE = false;
+const bool FEMALE = true;
+
+enum {SCHOOLMEMBER, TEACHER, STUDENT, GRADUATESTUDENT};
+
+class SchoolMember {
+    string name;
+    Date birth;
+    bool gender;
+public:
+    int type;
+
+    SchoolMember(string n, Date b, bool g)
+     : birth(b) {
+        name = n;
+        gender = g;
+        type = SCHOOLMEMBER;
+    }
+    string get_name() {
+        return name;
+    }
+    Date get_birth() {
+        return birth;
+    }
+    bool get_gender() {
+        return gender;
+    }
+    virtual void print() {
+        cout << name;
+        birth.print();
+        cout << (gender==MALE?"MALE":"FEMALE") <<endl;
+    }
+    virtual ~SchoolMember() {
+        cout << "destruct SchoolMember " << get_name() << endl;
+    }
+};
+
+struct Course {
+    string name;
+    int credit;
+};
+
+enum { MATHS = 8, PHYSICS =9, CS = 10};
+
+class Student : virtual public SchoolMember {
+    string id;
+    int department;
+    int credit;
+public:
+    Student(string n, Date b, bool g, string i, int d)
+    : SchoolMember(n,b,g)
+    {
+        id = i;
+        department = d;
+        credit = 0;
+        type = STUDENT;
+    }
+    void take_course(Course *c){
+        credit += c->credit;
+    }
+    bool can_graduate() {
+        return credit >= 160;
+    }
+    string get_id() {
+        return id;
+    }
+    int get_credit() {
+        return credit;
+    }
+    int get_department() {
+        return department;
+    }
+
+    virtual void print() {
+        cout << get_name();
+        get_birth().print();
+        cout << (get_gender()==MALE?"MALE":"FEMALE") << id << credit <<department << endl;
+    }
+    ~Student() {
+        cout << "destruct Student:" << get_name() << endl;
+    }
+
+};
+
+class Graduate;
+
+enum {PROFESSOR =4, VICEPROFESSOR = 3, ASSISTANT = 1};
+class Teacher :virtual public SchoolMember {
+    int title;
+    int salary;
+    Graduate* supervised[10];
+    int num_supervised;
+public:
+    Teacher(string n, Date b, bool g, int t, int s)
+    : SchoolMember(n, b, g) {
+        title = t;
+        salary = s;
+        num_supervised = 0;
+        type = TEACHER;
+    }
+    void add_supervised(Graduate *g) {
+        supervised[num_supervised] = g;
+        num_supervised++;
+    }
+    virtual void print() {
+        cout << get_name();
+        get_birth().print();
+        cout << (get_gender()==MALE?"MALE":"FEMALE") << title << salary << endl;
+    }
+    ~Teacher() {
+        cout << "destruct Teacher:" << get_name() << endl;
+    }
+
+};
+
+class Graduate :public Student {
+    Teacher *tutor;
+public:
+    Graduate(string n, Date b, bool g, string i, int d, Teacher *t)
+    : Student(n, b, g, i, d), SchoolMember(n, b,g)
+    {
+        tutor = t;
+        type = GRADUATESTUDENT;
+    }
+    void set_tutor(Teacher *t){
+        tutor = t;
+    }
+    virtual void print() {
+        cout << get_name();
+        get_birth().print();
+        cout << (get_gender()==MALE?"MALE":"FEMALE") << get_id() << get_credit()<< get_department() << tutor->get_name() << endl;
+    }
+    ~Graduate() {
+        cout << "destruct Graduate:" << get_name() << endl;
+    }
+
+};
+
+class Assistant : public Student, public Teacher {
+public:
+    Assistant(string n, Date b, bool g, string i, int d, int t, int s)
+    :Student(n, b, g, i, d), Teacher(n, b, g, t, s),
+    SchoolMember(n, b, g) {
+
+    }
+    void print() {
+    }
+};
+
+void printall(SchoolMember *p[], int n) {
+    for(int i = 0; i < n; i++) {
+        p[i]->print();
+    }
+}
+
+int main() {
+    SchoolMember *members[100];
+
+    members[0] = new SchoolMember("Jack", Date(1980, 1, 1), MALE);
+    members[1] = new Student("Mike", Date(1985, 5, 5), MALE, "12345", CS);
+    members[2] = new Teacher("Rose", Date(1970, 3, 3), FEMALE, PROFESSOR, 2000);
+    members[3] = new Graduate("Tom", Date(1982, 2, 2), MALE, "54321",
+                        CS, dynamic_cast<Teacher*>(members[2]));
+
+    printall(members, 4);
+    for(int i = 0;i < 4; i++)
+        delete members[i];
+    Assistant a("Jeff", Date(1978, 5, 5), MALE, "11100", CS, ASSISTANT, 800);
+    SchoolMember *s = &a;
+
+}
+```
+
+## 多态
+
+### 多态与虚函数
+
+相同的指令，作用在不同类型的对象上，产生不同动作。
+比如：很多动物，有猫、狗、老虎等等。现在让所有的动物做一个“叫”的动作，结果……
+比如：有很多图形，有直线、方形、圆形、椭圆等等。现在让所有的图形把自己画在屏幕上，结果……
+```cpp
+int main() {
+    SchoolMember *p[100];
+    p[0] = new Student(“Jack”, Date(1984, 1,1), false, “20111374”, 11);
+    p[1] = new Teacher(“Marry”, Date(1969, 5,5), true, “lecturer”, 1000);
+    p[2] = new Student(“David”, Date(1983, 11,11), false, “20112343”, 11);
+    //...
+}
+```
+现在要求写一个函数printall显示所有人的详细信息，应该怎么做？
+```cpp
+class SchoolMember {
+    enum MemberType{ P, S, T, G } type; //用来区分学生还是教师
+};
+void printall( SchoolMember *p[100] ) {
+    for( int i = 0; i < 100; i++) {
+        cout << p[i]->name << p[i]->birth << p[i]->gender;
+        switch(p[i]->type) {
+        case S: {
+                Student *s = (Student*)(p[i]);
+                cout << s->id << s->department;
+            }  break;
+        case T: {
+                Teacher *t = (Teacher*)(p[i]);
+                cout << t->level << t->salary;
+            }  break;
+        }
+    }
+}
+```
+
+在每个类上增加一个print函数：
+```cpp
+class SchoolMember {
+public:
+    void print(){ cout << name << birth <<gender; }
+};
+class Student : public SchoolMember{
+public:
+    void print() {
+        cout << name << birth << gender << ID << department;
+    }
+};
+class Teacher : public Person {
+public:
+    void print() {
+        cout << name << birth << gender << level << salary;
+    }
+};
+void printall( Person* p[100] ) {
+    for(int i = 0; i < 100; i++)
+    switch (p[i]->type) {
+        case S:
+        {
+            Student *s = (Student*)(p[i]);
+            s->print();
+        } break;
+        case T:
+        {
+            Teacher *t = (Teacher*)(p[i]);
+            t->print();
+        } break;
+    }
+}
+```
+
+仍不够简洁，理想的做法是：
+```cpp
+void printall(Person *p[100]) {
+    for ( int i =0; i < 100; i++)
+        p[i]->print( );
+}
+```
+但是，这时输出是
+```
+Jack 1984-1-1 false
+Marry 1969-5-5 true
+David 1983-3-3 false
+……
+```
+
+虚函数
+```cpp
+class Person {
+protected:
+    string name;
+    Date birth;
+    bool gender;
+public:
+    virtual void print( ) { //虚函数
+        cout << name << birth << gender;
+    }
+};
+```
+
+在派生类中覆盖（override）虚函数
+```cpp
+class Student : public Person {
+protected:
+    string ID;
+    int department;
+public:
+    virtual void print( ) {  // override Base::print
+        cout << name << birth <<gender;
+        cout << ID << department;
+    }
+};
+class Teacher : public Person{
+protected:
+    int level;
+    double salary;
+public:
+    virtual void print() { //override Base::print
+        cout << name << birth << gender;
+        cout << level << salary;
+    }
+};
+void printall(Person *p[100]) {
+    for ( int i =0; i < 100; i++)
+        p[i]->print( );
+}
+```
+
+这时候的结果是：
+```
+Jack 1984-1-1 false 20111374 11
+Marry 1969-5-5 true lecturer 1000
+David 1983-11-11 false 2012343 11
+……
+```
+
+调用被覆盖（override）的函数
+```cpp
+class Teacher : public Person {
+protected:
+    string level;
+    double salary;
+public:
+    virtual void print() {
+        Person::print();
+        cout << level <<  salary;
+    }
+};
+```
+
+多态的限制
+```cpp
+int main() {
+    Person p(“Jack”, Date(1984,1,1), false);
+    p.print(); // 这里调用Person::print
+    Student s(“David”, Date(1983,11,11), false, 403315,10);
+    s.print();  // 这里调用 Student::print
+    Person p2 = s;
+    p2.print(); // 这里调用 Person::print
+    Person *p3 = &s;
+    p3->print();  // 这里调用 Student::print 这里才是多态
+    Person &p4 = s;
+    p4.print();
+}
+```
+
+* 多态只能通过指针或者引用来实现。
+* 非成员函数、类的构造函数、静态成员函数不能是虚函数
+* virtual写在成员函数的声明中，而不是定义中
+* 一般情况下，派生类要override基类的虚函数，要求函数声明形式完全一样。
+* 例外：基类的虚函数返回基类的指针或者引用，那么派生类override它，可以返回此派生类的指针或引用
+
+  ```
+  class Base { virtual Base*f(); };
+  class Derived:public Base { virtual Derived* f(); };
+  ```
+* 如果派生类没有override基类的虚函数，那么派生类会继承基类的虚函数
+
+更多例子：
+```cpp
+class Shape {
+public:
+    virtual void draw();
+};
+class Rectangle : public Shape{
+public:
+    virtual void draw();
+};
+class Circle :public Shape {
+public:
+    virtual void draw();
+};
+int main() {
+    Rectangle r;
+    Circle c;
+    Shape &s = r;
+    s.draw();
+    Shape &t = c;
+    t.draw();
+}
+```
+
+问题：
+```cpp
+class Shape {
+public:
+    //no virtual function in base
+};
+class Rectangle : public Shape{
+public:
+    virtual void draw() { /*....*/ }
+};
+class Circle :public Shape {
+public:
+    virtual void draw() { /*....*/ }
+};
+void f(Shape* s) {
+    s->draw();
+}
+int main() {
+    Shape *s = new Rectangle;
+    f( s );
+}
+```
+基类中没有虚函数draw，则s-&gt;draw()出错。
+
+问题：
+```cpp
+class Shape {
+public:
+    virtual void draw() {/*....*/}
+};
+class Rectangle : public Shape{
+public:
+    virtual void draw(int a){/*....*/}
+};
+class Circle :public Shape {
+public:
+    virtual void draw() {/*....*/}
+};
+void f(Shape* s) {
+    s->draw();
+}
+int main() {
+    Shape *s = new Rectangle;
+    f( s );
+    Shape *c = new Circle;
+    f( c );
+}
+```
+Rectangle中定义的draw与基类中的虚函数draw不同，则基类中的draw没有被override。
+
+一个函数调用如果在编译时候确定调用哪个函数，我们称它为静态绑定；如果编译时候不能确定，到运行时才能确定，那么我们称它为动态绑定。
+```cpp
+void f(Person *p) {
+    p->print( ); //static or dynamic?
+}
+```
+一般虚函数使用动态绑定，普通函数使用静态绑定。动态绑定比静态绑定速度慢。
+
+虚表（virtual table）——C++实现多态的方法
+  ![figure14.png](<assets/C++继承与多态/figure14.png>)
+
+虚析构函数
+```cpp
+int main() {
+    Person *p = new Student(...);
+    delete p;  // which destructor is called?
+}
+```
+虚析构函数作用：通过基类指针来释放派生类对象时，能够保证调用正确的析构函数
+```cpp
+class Person {
+public:
+    virtual ~Person() { };
+};
+```
+
+更多例子：动物的叫的例子
+```cpp
+class Animal {
+public:
+    virtual void shout() { cout << "animal cannot shout"; }
+};
+class Dog : public Animal {
+public:
+    void shout() { cout << "Dog barking!"; }
+};
+class Ox : public Animal {
+public:
+    void shout() { cout << "Ox Moo"; }
+};
+
+class Fish: public Animal {
+//shout not overridden here, Animal::shout is inherited
+};
+void f(Animal *a) {
+     a->shout();
+}
+int main () {
+    int i; cin >> i;
+    Animal *a;
+    switch(i) {
+    case 1: a = new Dog; break;
+    case 2: a = new Ox; break;
+    case 3: a = new Fish; break;
+    }
+    f(a);
+    delete a;
+}
+```
+
+### 纯虚函数和抽象类
+
+问题：某些基类的虚函数没有实现的意义
+```cpp
+class Animal {
+public:
+    virtual void shout() { cout << "animal cannot shout"; }
+};
+```
+纯虚函数(pure virtual function)：函数体可以省略的虚函数
+```cpp
+class Animal {
+public:
+    virtual void shout() = 0;  //Pure virtual function
+};
+```
+
+抽象类(abstract class)：含有纯虚函数的类称为抽象类。类中只要有一个函数是纯虚函数，这个类就是抽象类。抽象类不能实例化，即不能定义对象。
+```cpp
+void f() {
+    Animal a; // error
+    Animal *pa1 = new Animal; // error
+    Animal *pa2 = new Ox;
+    pa2->shout();
+    Animal *pa3 = new Fish;
+    pa3->shout();
+}
+```
+与抽象类相对的是实体类（concrete class），即不包含纯虚函数的类
+
+抽象类虽然不能够实例化，但可以派生。在派生类中，纯虚函数会被继承。如果在派生类中，给出了所有纯虚函数的实现，那么派生类将成为实体类
+```cpp
+class Shape { //abstract class
+public:
+    virtual void draw() =0;
+    virtual double getarea() = 0;
+};
+class Rectangle :public Shape {
+public:
+    virtual void draw() {/*...*/}
+    virtual double getarea() { /*...*/}
+};
+class Circle : public Shape{
+public:
+    virtual void draw() { /*...*/}
+};
+```
+Rectangle为实体类，Circle为抽象类
+
+纯虚函数一般省略函数体，但也可以有函数体
+```cpp
+class Person {
+public:
+    virtual void print() = 0 {
+        cout << name << gender << birth;
+    }
+};
+```
+带函数体的纯虚函数可以在派生类中被调用
+```cpp
+class Student : public Person{
+public:
+    virtual void print() {
+        Person::print();  //base pure virtual function is called
+        cout << id << department;
+    }
+};
+```
+
+接口类：只有纯虚函数成员的类。
+IUnknown:微软所有COM（Component Object Model）对象的基类
+```cpp
+class IUnknown {
+public:
+    virtual long QueryInterface(
+                REFIID riid, void **ppvObject) = 0;
+    virtual unsigned long AddRef( void) = 0;
+    virtual unsigned long Release( void) = 0;
+};
+```
+
+### 运行时类型信息
+
+问题：某些情况下，光靠多态性不够用，必须得到对象准确的类型信息
+```cpp
+void f(Shape *s) {
+    // what on earth is s?
+}
+```
+两种RTTI机制：dynamic_cast和typeid。先决条件：类中必须有虚函数。在使用RTTI之前，需要先审查在面向对象设计上是否出了问题。
+
+```cpp
+dynamic_cast
+void f(Person *p) {
+    if( dynamic_cast<Student *>(p) ) {
+       cout<<"p is a Student object or its derivation";
+       Student *s = dynamic_cast<Student *>(p);
+    } else if( dynamic_cast<Teacher *>(p) ) {
+       cout<<"p is a Teacher object or its derivation";
+       Teacher * t = dynamic_cast<Teacher *>(p);
+    }
+}
+```
+
+typeid能够确定表达式的确切类型，使用时要包含&lt;typeinfo&gt;
+```cpp
+void f( Shape *s) {
+    cout << typeid(double).name();
+    cout << typeid(5280L).name();
+    cout << typeid(s).name(); //runtime class name
+    cout << typeid(*s).name(); //static or dynamic?
+    Shape &r = *s;
+    cout << typeid(r).name();
+    Shape  a;
+    cout << typeid(a).name();
+}
+```
+
+typeid返回一个typeinfo类对象的引用
+```cpp
+class type_info{
+public:
+    virtual ~type_info();
+    const char *name() const;
+    bool operator==(const type_info&) const;
+    bool operator!=(const type_info&) const;
+    bool before(const type_info&) const;
+private:
+    type_info( const type_info&);
+    type_info& operator=(const type_info&);
+};
+```
+用法：
+```cpp
+void f(Shape *s) {
+    if( typeid( *s ) == typeid( Circle ) )
+        cout << "s is a Circle";
+}
+```
+
+### 面向对象设计方法
+
+* 确定程序中需要的类及每个类需要的操作
+* 将不同类的共同的操作提取到基类
+* 通过基类接口来操纵各种不同的对象
+* 可以通过增加新的派生类来扩展系统
+
+例子：
+
+* 复合文档（composite模式）：包含文字、图形的文档
+
+    ![figure11.png](<assets/C++继承与多态/figure11.png>)
+* 一组数据，有多种表现形式（observer模式）（比如表格、柱状图、柄图）
+
+    ![figure12.png](<assets/C++继承与多态/figure12.png>)
+    交互图
+    ![figure13.png](<assets/C++继承与多态/figure13.png>)
+
+设计模式：
+
+前人成功经验总结的可以重复利用的面向对象软件设计的范例。用处：套用前人范式以面向对象思想解决问题，设计出健壮、可复用、支持变化的软件。参考书：《设计模式——可复用面向对象软件的基础》——GoF（Erich Gamma等四人）
+
+## The End

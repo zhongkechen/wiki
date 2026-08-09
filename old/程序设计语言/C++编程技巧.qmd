@@ -1,0 +1,159 @@
+---
+title: "C++编程技巧"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+some tips on writing c++ codes to avoid potential bugs:
+
+* 先写注释再写代码，规范化的注释。按照doxygen的标准给类、函数、变量写注释。比如，类似这样的注释一点用处都没有：
+
+  ```cpp
+  //----------------------------------------------------------------------------
+  // @ SimDoor::SimDoor()
+  // ---------------------------------------------------------------------------
+  // Constructor
+  //----------------------------------------------------------------------------
+  SimDoor::SimDoor( const RSString& name )
+  ```
+
+  再比如
+
+  ```
+  #!
+  ```
+
+  比较好的写法应该类似这样：
+
+  ```cpp
+      /// \brief check the block is saved or not
+      /// \author Chen Zhongke
+      /// \param filename the filename of the block data file.
+      /// \result return -1 if filename doesn't exist, otherwise return the index of the file in buffer.
+      int SimulateIsSaved(RSString filename);
+  ```
+
+  对于函数的注释应该写在头文件的声明中，而不是定义中。
+
+* 避免重复代码，使用函数。
+* 避免使用预编译
+
+  ```cpp
+  #define kMaxFriends		2
+  ```
+
+  应该定义成
+
+  ```cpp
+  static const int kMaxFriends = 2;
+  ```
+
+  并写在用到它的类中，而不是一个全局的常量。比如
+
+  ```cpp
+  #define M_Valid_Controller(x) ((x)->port!=-1 || (x)->slot!=-1)
+  ```
+
+  可以定义成
+
+  ```cpp
+  inline bool M_Valid_Controller(const ControllerInfo *x) {
+      return x->port != -1 || x->slot != -1;
+  }
+  ```
+* 避免switch，用数据来简化代码。比如
+
+  ```cpp
+      switch (index)
+      {
+          case 0: return RP_VALUE0;
+          case 1: return RP_VALUE1;
+          case 2: return RP_VALUE2;
+          case 3: return RP_VALUE3;
+          case 4: return RP_VALUE4;
+          case 5: return RP_VALUE5;
+          case 6: return RP_VALUE6;
+          case 7: return RP_VALUE7;
+      }
+  ```
+
+  可以使用如下代码来代替
+
+  ```cpp
+      int rp_values[] = {RP_VALUE0, RP_VALUE1, RP_VALUE2, RP_VALUE3, RP_VALUE4, RP_VALUE5, RP_VALUE6, RP_VALUE7};
+      return rpvalues[index];
+  ```
+
+  再比如
+
+  ```cpp
+      switch (statement)
+      {
+      case srTimerSet:
+      {
+                  //n lines of codes
+
+          break;
+      }
+      case srTimerKill:
+      {
+          //n lines of codes
+          break;
+      }
+      // n cases
+      return true;
+      }
+  ```
+
+  上述switch结构总计有170个case，代码长达5000行。同样可以用数组来改造它
+
+  ```cpp
+      bool (*response[])(void) = {TimerSetHandler, TimerKillHandler, ...};
+      return responses[statement]();
+  ```
+
+  数组里面可以是函数，也可以是仿函数对象。
+* 注意代码统计质量，函数不可太长，方法不可太多，不可有太多子类，不可有太多父类。比如，`IkeScriptMgr::CallResponse`单个函数长达5000多行，一个类`SimHuman`有多达414个成员函数，`IkeSceneContainer`类的直接派生类（不包括间接继承的类）有100个，这些数字说明这些地方的设计很可能存在问题，需要考虑是否要重构。
+* 避免指针，避免数组，避免自己写常用的数据结构。可以使用stl，数组可以用vector代替，char[]用string代替，链表用list。指针指向的对象的地址不会变化，就用引用代替指针。
+* 注意对象的owner。在C++中，每个创建的对象都应该有明确的owner，owner负责该对象的创建和释放。当需要转移owner时，需要显式的调用对象的某个方法（比如Release），释放出对象的所有权。资源获取即初始化。定义对象的时候，就将其初始化。如果还不能初始化，就推出创建对象，到能初始化的时候再创建。释放资源后，对象中将不在包括资源，对象本身也没有存在的必要，也应该立即销毁。避免用C++来实现OO design，
+* 善用svn，大的修改应该建分支branch。避免一个人在自己的电脑上长时间做大幅的代码修改，等到完成了才与trunk合并。应该给这个人所做的修改创建一个分支，让他可以在这个分支上提交，等到这个分支的代码成熟了，将它与trunk合并。
+* 速度至关重要时，用查表代替计算，避免浮点数。比如
+
+  ```cpp
+      float mScriptTime;
+  ```
+
+  这个变量表示时间，单位是秒，用float类型，参加运算的速度非常慢，而且容易出错（比如mScriptTime == 0.0f这个表达式容易因为精度问题一直为假。）可以使用整数，换作毫秒为单位就可以表示了。
+* 注意Singleton模式的实现。比如这样的实现
+
+  ```
+  class PlayerPanel{
+  public:
+      static PlayerPanel* Create() {
+          if(!mInstance)	mInstance = new PlayerPanel;
+          return mInstance;
+      }
+      static PlayerPanel* Get() { return mInstance; }
+      static void Destroy() { delete mInstance; mInstance = NULL; }
+  private:
+      static PlayerPanel*					mInstance;
+  };
+  ```
+
+  需要注意的是，要保证只有一个对象存在，所有的构造函数都要写成私有。而且，虽然拷贝构造函数和赋值运算符没有用处，但是也要进行声明，并且声明成私有的（但是不需要进行定义）。
+
+  ```
+  private:
+      PlayerPanel();
+      ~PlayerPanel();
+      PlayerPanel(const PlayerPanel&);
+      PlayerPanel &operator=(const PlayerPanel&);
+  ```
+
+  还要注意的是，这样的实现对于多线程程序来说是不安全的，因为`if(!mInstance)	mInstance = new PlayerPanel;`并不是一个原子的操作。

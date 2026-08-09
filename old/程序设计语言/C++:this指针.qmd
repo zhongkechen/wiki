@@ -1,0 +1,72 @@
+---
+title: "C++:this指针"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### this指针
+
+在类的成员函数（不包括静态成员函数）中，存在一个名为this的指针，该指针指向成员函数被调用时的对象。
+
+```cpp
+class clock {
+    int second, minute, hour;
+public:
+    clock(int h, int m, int s)
+       : hour(h), minute(m), second(s)
+    {
+    }
+    void show_time() {
+        cout <<  second << minute << hour;
+        //等价于 cout << this->second << this->minute << this->hour;
+    }
+};
+int main() {
+    clock  t1(10, 20, 30), t2(20, 30, 10);
+    t1.show_time();
+    t2.show_time();
+}
+```
+
+```cpp
+
+class clock {
+public:
+    clock &set_second(int n);
+    clock &set_minute(int n);
+    clock &set_hour(int n);
+};
+clock &clock::set_second(int n) {
+    second = n;
+    return *this;
+}
+int main() {
+    clock time(1999, 9, 9);
+    time.set_second(20);
+    time.set_minute(30)
+    time.set_hour(10);
+    time.set_second(20).set_minute(30).set_hour(10);
+}
+```
+
+this有两种类型：以clock类为例，clock\* const和const clock\* const
+```cpp
+class clock {
+public:
+    void show_time() const {
+        cout <<  second << minute << hour;
+        second++;                  //error this类型为const Date *this
+
+        clock *p = (clock*)(this); // 或者clock *p = const_cast<clock*>(this);
+        p->second++; //ok
+    }
+};
+```
+
+---

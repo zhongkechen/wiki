@@ -1,0 +1,469 @@
+---
+title: "Python介绍"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## Python语言介绍
+
+* [Wikipedia:Python_programming_language](http://en.wikipedia.org/wiki/Python_%28programming_language%29) ([Wikipedia上的Python编程语言简介](http://zh.wikipedia.org/wiki/Python))
+
+Python是一种解释型的编程语言，由Guido van Rossum于1990年创造。Python是完全动态类型的语言，使用自动的内存管理；在这方面它和Perl、Ruby、Scheme、Smalltalk和Tcl语言是类似的。Python是由开放源代码项目开发，由非盈利性组织Python软件基金会（Python Software Foundation）管理，并在项目网站上免费开放。
+
+|  |  |
+| --- | --- |
+| 编程范式: | 多范式 |
+| 出现时间: | 1990 |
+| 设计者: | Guido van Rossum |
+| 开发者: | Python Software Foundation |
+| 类型规则: | 强类型，动态类型（鸭子类型） |
+| 主要的实现版本: | CPython, Jython, IronPython, PyPy |
+| 受哪些语言影响: | ABC, Modula-3, Icon, C, Perl, Lisp, Smalltalk, Tcl |
+| 影响了哪些语言: | Ruby, Boo, Groovy, Cobra |
+| 操作系统: | 跨平台 |
+| 许可证: | Python Software Foundation License |
+| 网站: | www.python.org |
+
+### Python设计哲学
+
+Python是一种多范式的语言。也就是说，它不强制编程人员采用某一种特定的编程范式，而是允许多种范式。对于面向对象程序设计（OOP）、结构化程序设计、函数式程序设计（FP）以及面向侧面的程序设计（AOP），它都可以支持。其它的编程模式也可以通过一些扩展来支持，比如通过pyDBC和Contracts for Python可以支持契约式设计（Design by Contract）。Python使用动态类型检查，并使用垃圾收集来进行内存管理。Python一个重要的特性是动态名字解析，即它会在运行时对方法和变量名进行绑定。
+
+在提供多种编程方法的选择的同时，Python的设计者拒绝像Perl那样使用过多过杂乱的语法，而是采用了少而清晰的语法。和Perl一样，Python的开发人员明确的提炼出一种特别的"文化"或者观念，这种文化或观念来自于他们对于语言的期望，这种文化带来一种他们认为是"漂亮"、"明确"和"简单"的语言形式。Perl用户和Python用户最大的区别在于他们对于这些词语的解释不同，以及它们如何被最好的实现（参见TIMTOWTDI和Python哲学）。
+
+Python开发人员另一个重要的目标是让Python用起来尽量有趣。这反映在Python的名字的由来上（由Monty Python的飞行马戏团的系列电视节目命名），也反映在示例代码中使用Monty Python上，也反映在入门和参考材料中偶尔出现的玩笑式的方法上。比如说，在解释有关语法没有实际含义的变量名字上，Python经常使用spam和eggs，而不是传统的foo和bar。
+
+Python有时候被称作"脚本语言"。实际上，作为一种动态的编程语言，它既用于应用开发，偶尔也用于脚本开发。Python已经被用于开发很多大型的软件项目，比如说Zope应用服务器，和Mnet、BitTorrent文件共享系统。它也被Google广泛使用。
+
+这个语言的另一个重要目标是易扩展性。新的内置模块可以很容易用C或者C++写成。对于现有的需要一个可编程接口的模块或者应用程序，Python也可以作为它们的一个扩展语言来使用。
+
+虽然Python的设计时有些反对函数式编程（没有尾递归消除和好的匿名closure的支持）和Lisp习惯，但是Python的哲学和一些Lisp家族的最小化语言（比如Scheme）的哲学有很多重要的类似之处。很多曾经的Lisp程序员发现Python在这方面是很有吸引力的。
+
+#### The Zen of Python
+
+如果你使用2.1.2版或者更新的Python，你在任何时候都可以使用如下命令来阅读Python的哲学：
+
+```
+$ python -m this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+```
+
+中文翻译：Python之道
+
+1. 美比丑好。
+1. 直言不讳比心照不宣好。
+1. 简单比内部复杂更好。
+1. 内部复杂比外部复杂好。
+1. 平面的比嵌套的好
+1. 错落有致比密密匝匝的好
+1. 可读性很重要
+1. 特殊情况不能特殊到打破规律
+1. 虽然实用比纯粹更重要
+1. 永远别让错误悄悄地溜走
+1. 除非是你故意的
+1. 碰到模棱两可的地方，绝对不要去作猜测
+1. 什么事情都应该有一个，而且最好只有一个显而易见的解决办法
+1. 虽然刚开始的时候，这个办法可能不是那么的显而易见，但谁叫你不是荷兰人
+1. 现在就开始要比永远都不做要好。
+1. 虽然很多时候永远都不做要比匆匆忙忙去做要好。
+1. 如果一个想法实现起来很困难，那它本身就不是一个好想法
+1. 如果一个想法实现起来很容易，那它或许就是一个好想法
+1. 名字空间是个了不起的想法，所以我们现在就开始吧
+
+#### duck typing 鸭子类型
+
+在计算机科学中，鸭子类型是一个描述某些语言（比如Smalltalk、Visual Foxpro等）中的动态类型系统的名词。在这些语言中，变量的值决定了这个变量能够做什么。这意味着，一个对象和其它任何一个实现同样接口的对象都是可以互换的，而不管这些对象是不是有继承关系。
+
+这个名词源自"鸭子测试"："如果一个东西像鸭子一样走路，像鸭子一样叫，那么它一定就是鸭子。"One can also say that the duck typing method ducks the issue of typing variables.
+
+Pythonic编程风格，通过观查一个对象的方法或属性特征，而不是一个对象和某种类型的显式关系来决定一个对象的类型（"如果一个东西像鸭子一样走路，像鸭子一样叫，那么它一定就是鸭子。"）。通过注重接口而不是某种类型，良好设计的代码通过多态来提高了灵活性。鸭子类型避免使用type()和isinstance()。取而代之的是，它使用hasattr()来测试或者EAFP（Easier to Ask Forgiveness than Permission）编程。
+
+Python中鸭子类型的标准例子是类似file的类。类可以实现一部分或者全部file的方法，然后可以用在file原来可以使用的地方。比如说，GzipFile实现了类似file的对象来访问gzip压缩的数据。StringIO允许将一个Python字符串作为文件来处理。Sockets和files也有很多相同的方法。然而，socket缺少tell()，不能要在任何GzipFile可以使用的地方。这说明鸭子类型的一个灵活性：一个类似file的对象可以只实现它能够实现的方法，这使它只能够用在合理的地方。
+
+#### 新名词Pythonic
+
+一些新词在Python社区中流行起来，最常见的是Pythonic，which can have a wide range of meanings related to program style. 我们说一段代码是Pythonic的，意思是它很好地使用了Python的习惯用法，也就是说将这个语言用得非常自然和流畅。类似的，我们说一个接口或者语言特性是Pythonic的，意思是它和Python的习惯用法工作融洽，也就是说它的用法与语言的其他部分很协调。
+
+相反的，unpythonic意味着在Python中用C++（或者Lisp或者Perl）的风格写代码，也就是将其他语言直译成Python而没用Python的习惯形式。
+
+Py前缀被用来表示和Python有关的东西，很多Python的库和应用以Py打头，比如Pygame（一个SDL的Python绑定，通常用来写游戏），PyUI（一个纯Python的GUI），PySol（Python写的纸牌游戏）等。
+
+Python的用户和粉丝们，尤其是那些有丰富知识和经验的，常常被称为Pythonist、Pythonistas及Pythoneers。
+
+### 历史
+
+#### Python 1
+
+Python语言作为ABC程序设计语言的后继，最早在20世纪90年代早期由Guido van Rossum在CWI创造。van Rossum是Python的主要作者，并一直担任决定Python发展方向的主要角色，因此他也被戏称为Python的仁慈的命运主宰者。
+
+在CWI发布的最后版本是Python 1.2。在1995年，Guido转移到Virginia洲的Reston市的Corporation for National Research Initiatives (CNRI)继续他的Python工作。在那里发布了Python的好几个版本。Python 1.6是CNRI发布的最后版本。
+
+在Python 1.6发布以后，Guido van Rossum离开CNRI，去和一些商业软件开发人员一起工作。这时，让Python能够在GPL发布的软件中使用，成了人们迫切的愿望。CNRI和Free Software Foundation(FSF)取得了沟通，并修改了Python的自由软件许可证，使其和GPL能够兼容。那一年，Guido获得了FSF的Advancement of Free Software大奖。
+
+Python 1.6.1和Python 1.6基本上相同，只有一些小的bug的修正，并带有新的GPL兼容的许可证。
+
+#### Python 2
+
+在2000年，Guido和Python核心开发团队转移到了BeOpen.com，组成了BeOpen PythonLabs团队。Python 2.0是第一个也是唯一一个在BeOpen.com发布的版本。在Python 2.0发布以后，Guido van Rossum和其他PythonLabs开发人员加入了Digital Creations。
+
+Python 2.1继续了Python 1.6.1和Python 2.0的工作。它的许可证改名为Python Software Foundation License。所有从Python 2.1 alpha版开始增加的知识产权，归Python Software Foundation(PSF)所有。这是一个模仿Apache Software Foundation模式的非盈利性组织。
+
+#### Python 3
+
+Python开发人员一直在讨论Python的未来版本Python 3.0（这个项目被称作"Python 3000"或"Py3K"）。它将会打破对2.x系列的向后兼容性，来修正语言中存在的一些已知的缺陷。指导原则是"通过去除老的解决问题的方法，来减少重复的语言特性"。Python 3.0将于2008年10月正式发布，在一个PEP（Python Enhancement Proposal）中详细描述了其中要改变的东西，包括：
+
+* Changing print so that it is a built-in function, not a statement. This makes it easier to change a module to use a different print function, as well as making the syntax more regular. In Python 2.6 this can be enabled by entering from __future__ import print_function.[24]
+* Moving reduce (but not map or filter) out of the built-in namespace and into functools (the rationale being that operations using reduce are expressed more clearly using an accumulation loop);[25]
+* Adding support for optional function annotations that can be used for informal type declarations or other purposes;[26]
+* Unifying the str/unicode types, representing text, and introducing a separate immutable bytes type; and a mostly corresponding mutable bytearray type, which both represent arrays of bytes;[27]
+* Removing backward-compatibility features, including old-style classes, integer-truncating division, string exceptions, and implicit relative imports.
+
+### Python应用实例
+
+The Python programming language is actively used in industry and academia for a wide variety of purposes.
+
+#### Python的教育用途
+
+As of 2005, Python is getting more popular for teaching computer programming. Its strengths for teaching include its syntactic simplicity, flexible typing, and interactive interpreter.
+
+Python uses far fewer symbols than languages like Java and C. For example blocks inside loops and IF statements are indicated by indentation rather than curly braces ({}), and the end of a line does not have to have a semicolon. Beginning students often have initial trouble with memorizing where curly braces and semi-colons go. With Python students can skip directly to the fun part of writing code that does something. Similarly, with Java, and C++, variables types must be declared before being used. That is not needed in Python which again allows students to quickly get to the interesting part of getting their program to do something.
+
+The interactive interpreter is an extremely valuable aid to learning and experimentation. Learning-by-doing is about trying things out and seeing what happens. The faster you can get results from your experiment, the faster that learning produces results. Experience has shown that the interactive interpreter and lack of a compiler really speeds up the learning process, both for beginners and for pros who are learning a new library and such.
+
+#### 使用Python的大型组织
+
+* Google uses Python for many tasks including the backends of web apps such as Gmail and Google Maps and for many of its search-engine internals.
+* NASA is using Python to implement a CAD/CAE/PDM repository and model management, integration, and transformation system which will be the core infrastructure for its next generation collaborative engineering environment.
+
+#### 使用Python写成的软件
+
+* BitTorrent, the original implementation and several derivatives
+* Chandler, a personal information manager including calendar, email, tasks and notes support that is currently under development
+* Civilization IV videogame and the newly released computer game uses boost.python to allow the Python programming language access to many parts of the game (including the style and content of all interface screens)
+* Mailman, one of the more popular packages for running email mailing lists
+* Kombilo, go games' database manager and browser.
+* MoinMoin, a popular wiki engine in Python
+* OpenRPG, a virtual table on which to play Role Playing Games over the internet
+* Plone, a user-friendly and powerful open source Content Management System
+* Portage, the heart of Gentoo Linux. An advanced package management system based on the \*BSD style ports system
+* Solipsis, a system for massively shared virtual world
+* Trac, bug/issue tracking database, integrated with MoinMoin wiki and Subversion source version control
+* Turbogears, an application framework composed of Cherrypy, SQLObject, MochiKit, and KID templates
+* Vampire: The Masquerade - Bloodlines, a videogame, uses Python for game scripting
+* ViewVC, a web-based interface for browsing CVS and SVN repositories
+* Zope, an object-oriented web-application platform. Zope includes an application server with an integrated object-oriented database and a built-in web-based management interface
+* Battlefield 2, a first person shooter that uses python for its configuration scripts
+* Indian Ocean Tsunami Detector, a free mobile phone software for tsunami prediction.
+* EVE Online, a space Multi Massive Online Role Playing Game, the highest-ranked MMORPG on MMORPG.com
+* SPE - Stani's Python Editor, a free, open-source Python IDE for Windows, Linux & Mac with wxGlade (GUI designer), PyChecker (Code Doctor) and Blender (3D) support.
+
+#### Python包
+
+The Python Cheese Shop and Vaults of Parnassus are two primary directories of hundreds of Python packages
+
+* matplotlib, an extension providing matlab-like plotting and mathematical functions
+* Numeric Python, a language extension that adds support for large, multi-dimensional arrays and matrices
+* SciPy, a library of scientific and numerical routines
+* SimPy, a discrete-event simulation package;
+* Biopython, an international association of developers of freely available Python tools for computational molecular biology.
+* PyOpenGL, a package that allows 3D rendering using Python
+* Soya 3D, a high-level 3D game engine for Python
+* Pygame http://www.pygame.org Python game development
+* Python Imaging Library, a module for working with images
+* PyGTK, http://www.pygtk.org/, a popular cross-platform GUI library based on GTK+; furthermore, other GNOME libraries also have bindings for Python
+* PyQt, another popular cross-platform GUI library based on Qt; as above, KDE libraries have bindings too
+* wxPython, a port of wxWidgets and a popular cross-platform GUI library for Python
+
+* PyObjC, a Python-Objective C bridge that allows one to write Mac OS X software in Python
+* py2exe, compiler that turns Python scripts into standalone Windows programs
+
+* CherryPy, a Python-powered web framework
+* Django, another Python-powered web framework
+* Topsite Templating System, another Python-powered web framework
+* TurboGears, a web framework combining CherryPy, SQLObject, and Kid
+* ZODB a Python-specific object-oriented database
+* Cheetah, a Python-powered template engine and code-generation tool
+* mod_python, an Apache module allowing direct integration of Python scripts with the Apache web server
+* Quixote (software) a framework for developing Web applications in Python
+* Twisted, a networking framework for Python
+
+See more recommended modules at Useful Modules in the Python.org wiki.
+
+#### Python软件目录
+
+* Python Cheese Shop (also called the Python Package Index or PyPI) is the official directory of Python software libraries and modules.
+* ActiveState O'Reilly Python Cookbook contains hunderds of code samples for various tasks using Python.
+* Python Projects and Modules lots of useful code, as well as several articles on Python Programming.
+* Vaults of Parnassus — Links to resources.
+* Python 3D Software Collection — pointers to packages specifically useful in the production of 3D software and/or games with Python
+
+### Python应用领域
+
+Python在很多不同的应用领域都可以使用，包括Web和因特网、数据库、桌面图形界面，科学和数值计算、教育、网络、软件构建和测试、游戏开发、三维渲染等等。
+
+#### Web与因特网开发
+
+Python offers a wide range of choices for web development including high-end solutions such as Zope, mega frameworks such as Django and TurboGears, and advanced content management systems such as Plone and CPS. Python is also great for CGI.
+
+Python's extensive support for XML, email, RSS feeds, and many other Internet protocols makes Python a great choice for developing custom web solutions and other internet-based applications.
+
+#### 数据库访问
+
+需要访问数据库？对于MySQL、Oracle、MS SQL Server、PostgreSQL、SybODBC等数据库，Python都有特有的或者ODBC接口可以免费下载使用。
+
+#### 桌面图形界面
+
+当Python安装到硬盘上时就有Tk GUI开发库。第三方的库包括MFC（通过win32扩展）、wxWidgets、GTK、Qt、Delphi等等。
+
+#### 科学与数值计算
+
+Python广泛的使用在科学与数值计算领域，包括生物信息学（参见Python course in Bioinformatics）、物理学等。
+
+#### 教育
+
+Python是一种非常适合程序设计教学的语言，无论是在入门级别还是在更进一步的课程上。Education Special Interest Group是一个好的开端。可以参考pyBiblio和Software Carpentry Course(由Python Software Foundation资助)。
+
+#### 网络编程
+
+除了前面所说的internet和web的支持外，Python也支持低层次的网络编程，包括一个容易使用的sockets接口以及强大的第三方模块，比如Twisted（一个异步网络编程框架）。
+
+#### 软件开发
+
+Python is often used as a support language for software developers, for build control and management, testing, and in many other ways. Some of the development support tools written in Python include SCons for build control, Buildbot and Apache Gump for automated continuous compilation and testing, and Trac for bug tracking and project management.
+
+See also the list of Integrated Development Environments available for Python and the Python Package Index, which hosts thousands of third party modules for Python.
+
+#### 游戏和三维图形
+
+Python广泛的使用在商业的和业余的游戏开发上（其中的一部分列在Python Game维基页上）。PyGame和PyKyra是Python的两个游戏开发框架。Python也有多个3D渲染库可以使用。
+
+### Python支持的平台
+
+运行Python最流行的平台（因此也是维护得最好的平台）是Linux、BSD、Mac OS X和Microsoft Windows。此外，在Java平台上和.Net Framework(或者Mono)上也有一些独立开发的Python的实现，分别称作Jython和IronPython。其他支持的平台包括：
+
+类Unix系统
+
+* AIX操作系统
+* BSD
+* FreeBSD
+* NetBSD
+* Linux
+* OpenBSD
+* SPARC Solaris
+* 其他Unix,比如Irix
+
+桌面操作系统
+
+* Amiga
+* AROS
+* BeOS
+* Mac OS 9
+* Mac OS X
+* Microsoft Windows
+* OS/2
+* RISC OS (以前称作Acorn)
+
+特殊的系统和嵌入式的系统
+
+* GP2X
+* Java虚拟机
+* Nokia 770 Internet Tablet
+* Palm OS
+* PlayStation 2
+* PlayStation Portable
+* Psion
+* QNX
+* Sharp Zaurus
+* Symbian OS
+* Windows CE/Pocket PC
+* Xbox (在XBMC中使用)
+* VxWorks
+
+大型机和其他系统
+
+* AS/400
+* OS/390
+* Plan 9 由 Bell Labs 发布
+* VMS
+* z/OS
+
+Python的大部分第三方库（甚至部分官方库）只支持Windows、Linux、BSD和Mac OS X。
+
+Python最早是作为Amoeba操作系统上一种能够进行系统调用的脚本语言开发的；然而那个版本现在不再维护了。
+
+### Python的实现
+
+The standard Python interpreter also supports an interactive mode in which it acts as a kind of shell: expressions can be entered one at a time, and the result of their evaluation is seen immediately. This is a boon for those learning the language and experienced developers alike: snippets of code can be tested in interactive mode before integrating them into a proper program. As well, the Python shell is often used to interactively perform system tasks, such as modifying files.
+
+Python also includes a unit testing framework for creating exhaustive test suites. While static typing aficionados see this as a replacement for a static type-checking system, Python programmers largely do not share this view.
+
+Standard Python does not support continuations, and according to Guido van Rossum, never will. However, better support for coroutine-like functionality is planned, by extending Python's generators [3]
+
+* Python – The reference implementation, also known as CPython
+* Jython – Python coded in Java
+* IronPython – Python for .NET and Mono platforms
+* Boo – Python-based but with static typing, for .NET and Mono
+* Stackless Python - Python with coroutines
+* Psyco - not an implementation, but JIT compiler for CPython
+* PyPy – Python coded in Python
+* Parrot – Virtual machine being developed mainly as the runtime for Perl 6, but with the intent to also support dynamic languages like Python, Ruby, Tcl, etc. Can currently execute a subset of Python
+* Logix – Python alternate front-end with macros
+* Movable Python- An alternative distribution of CPython for Windows. It can run off a USB stick and provides a Portable Programming Environment.
+
+### Python的标准库
+
+Python有一个巨大的标准库，这使得Python适合于完成很多任务。Python模块的哲学被称作"内置电池"。标准库中的模块可以通过C语言或者Python语言写成的模块来增加。标准库被精心的设计用以编写面向Internet的应用，包括对大量的标准格式和协议的支持（比如MIME和HTTP）。同时也包括编写图形用户界面的模块，连接关系型数据库的模块，任意精度的算术运算模块，以及处理正则表达式的模块。
+
+标准库是Python的一个强大之处。其中大部分是跨平台的，这意味着即使是横跨多个领域的Python程序也可以不经过修改直接运行在Unix、Windows、Macintosh以及其他平台上。
+
+现在正在争论第三方的开源模块比如Twisted、NumPy、wxPython等是否应该被包括在标准库之中，以使其跟内置电池的哲学一致。
+
+## Python设计哲学
+
+Python是一种多范式的语言。也就是说，它不强制编程人员采用某一种特定的编程范式，而是允许多种范式。对于面向对象程序设计（OOP）、结构化程序设计、函数式程序设计（FP）以及面向侧面的程序设计（AOP），它都可以支持。其它的编程模式也可以通过一些扩展来支持，比如通过pyDBC和Contracts for Python可以支持契约式设计（Design by Contract）。Python使用动态类型检查，并使用垃圾收集来进行内存管理。Python一个重要的特性是动态名字解析，即它会在运行时对方法和变量名进行绑定。
+
+在提供多种编程方法的选择的同时，Python的设计者拒绝像Perl那样使用过多过杂乱的语法，而是采用了少而清晰的语法。和Perl一样，Python的开发人员明确的提炼出一种特别的"文化"或者观念，这种文化或观念来自于他们对于语言的期望，这种文化带来一种他们认为是"漂亮"、"明确"和"简单"的语言形式。Perl用户和Python用户最大的区别在于他们对于这些词语的解释不同，以及它们如何被最好的实现（参见TIMTOWTDI和Python哲学）。
+
+Python开发人员另一个重要的目标是让Python用起来尽量有趣。这反映在Python的名字的由来上（由Monty Python的飞行马戏团的系列电视节目命名），也反映在示例代码中使用Monty Python上，也反映在入门和参考材料中偶尔出现的玩笑式的方法上。比如说，在解释有关语法没有实际含义的变量名字上，Python经常使用spam和eggs，而不是传统的foo和bar。
+
+Python有时候被称作"脚本语言"。实际上，作为一种动态的编程语言，它既用于应用开发，偶尔也用于脚本开发。Python已经被用于开发很多大型的软件项目，比如说Zope应用服务器，和Mnet、BitTorrent文件共享系统。它也被Google广泛使用。
+
+这个语言的另一个重要目标是易扩展性。新的内置模块可以很容易用C或者C++写成。对于现有的需要一个可编程接口的模块或者应用程序，Python也可以作为它们的一个扩展语言来使用。
+
+虽然Python的设计时有些反对函数式编程（没有尾递归消除和好的匿名closure的支持）和Lisp习惯，但是Python的哲学和一些Lisp家族的最小化语言（比如Scheme）的哲学有很多重要的类似之处。很多曾经的Lisp程序员发现Python在这方面是很有吸引力的。
+
+### The Zen of Python
+
+如果你使用2.1.2版或者更新的Python，你在任何时候都可以使用如下命令来阅读Python的哲学：
+
+```
+
+$ python -m this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+```
+
+中文翻译：Python之道
+
+1. 美比丑好。
+1. 直言不讳比心照不宣好。
+1. 简单比内部复杂更好。
+1. 内部复杂比外部复杂好。
+1. 平面的比嵌套的好
+1. 错落有致比密密匝匝的好
+1. 可读性很重要
+1. 特殊情况不能特殊到打破规律
+1. 虽然实用比纯粹更重要
+1. 永远别让错误悄悄地溜走
+1. 除非是你故意的
+1. 碰到模棱两可的地方，绝对不要去作猜测
+1. 什么事情都应该有一个，而且最好只有一个显而易见的解决办法
+1. 虽然刚开始的时候，这个办法可能不是那么的显而易见，但谁叫你不是荷兰人
+1. 现在就开始要比永远都不做要好。
+1. 虽然很多时候永远都不做要比匆匆忙忙去做要好。
+1. 如果一个想法实现起来很困难，那它本身就不是一个好想法
+1. 如果一个想法实现起来很容易，那它或许就是一个好想法
+1. 名字空间是个了不起的想法，所以我们现在就开始吧
+
+### duck typing 鸭子类型
+
+在计算机科学中，鸭子类型是一个描述某些语言（比如Smalltalk、Visual Foxpro等）中的动态类型系统的名词。在这些语言中，变量的值决定了这个变量能够做什么。这意味着，一个对象和其它任何一个实现同样接口的对象都是可以互换的，而不管这些对象是不是有继承关系。
+
+这个名词源自"鸭子测试"："如果一个东西像鸭子一样走路，像鸭子一样叫，那么它一定就是鸭子。"One can also say that the duck typing method ducks the issue of typing variables.
+
+Pythonic编程风格，通过观查一个对象的方法或属性特征，而不是一个对象和某种类型的显式关系来决定一个对象的类型（"如果一个东西像鸭子一样走路，像鸭子一样叫，那么它一定就是鸭子。"）。通过注重接口而不是某种类型，良好设计的代码通过多态来提高了灵活性。鸭子类型避免使用type()和isinstance()。取而代之的是，它使用hasattr()来测试或者EAFP（Easier to Ask Forgiveness than Permission）编程。
+
+Python中鸭子类型的标准例子是类似file的类。类可以实现一部分或者全部file的方法，然后可以用在file原来可以使用的地方。比如说，GzipFile实现了类似file的对象来访问gzip压缩的数据。StringIO允许将一个Python字符串作为文件来处理。Sockets和files也有很多相同的方法。然而，socket缺少tell()，不能要在任何GzipFile可以使用的地方。这说明鸭子类型的一个灵活性：一个类似file的对象可以只实现它能够实现的方法，这使它只能够用在合理的地方。
+
+### 新名词Pythonic
+
+一些新词在Python社区中流行起来，最常见的是Pythonic，which can have a wide range of meanings related to program style. 我们说一段代码是Pythonic的，意思是它很好地使用了Python的习惯用法，也就是说将这个语言用得非常自然和流畅。类似的，我们说一个接口或者语言特性是Pythonic的，意思是它和Python的习惯用法工作融洽，也就是说它的用法与语言的其他部分很协调。
+
+相反的，unpythonic意味着在Python中用C++（或者Lisp或者Perl）的风格写代码，也就是将其他语言直译成Python而没用Python的习惯形式。
+
+Py前缀被用来表示和Python有关的东西，很多Python的库和应用以Py打头，比如Pygame（一个SDL的Python绑定，通常用来写游戏），PyUI（一个纯Python的GUI），PySol（Python写的纸牌游戏）等。
+
+Python的用户和粉丝们，尤其是那些有丰富知识和经验的，常常被称为Pythonist、Pythonistas及Pythoneers。
+
+### Python语法特点
+
+Python被设计成具有高度可读性的语言。它努力使代码看上去布局整齐，更多的使用英语单词来代替其他语言中的标点符号，并且它的语法结构比其他结构化语言（比如C、Perl或者Pascal）少得多。
+
+#### 缩进
+
+Python使用缩进而不是一对花括号来划分语句块。对某些特定语句后面的语句增加缩进量（来表示语句块的开始）；用减少缩进量来表示当前语句块的结束。
+
+#### 语句
+
+Python的语句包括：
+
+* if语句和else、elif（else-if的缩写）一起使用，实现按一定的条件去执行语句块。
+* while语句反复执行一个语句块，直到条件变成False
+* for循环语句跌代一个可跌代的东西，取出其中每一个元素赋给一个局部变量，这个变量在该语句附属的语句块中可以使用。
+* class statements execute a block of code and attach its local namespace to a class, for use in object oriented programming. class语句执行一个语句块，并把一个局部名字空间和一个类绑定在一起。它用在面向对象编程上。
+* def语句定义一个函数
+
+每个语句都有它自己的语义：比如说，def语句和其他很多语句不同，它不会马上执行它附属的语句块，
+
+#### 基本数据类型
+
+Python包括一组不同的数据类型。其中最常用的是：
+
+* list — 一种可变的顺序容器。
+* str — 一种不可变的由字符构成的顺序容器（字符串）。
+* dict — 一种字典
+* set — 和数学上的集合差不多的东西（无序的容器，其中每个元素只出现一次）。
+
+这里并没有列出全部类型，Python中还有很多其他类型。而以上这些是最常用的部分。
+
+* [Python历史](<Python介绍/Python历史.qmd>)
+* [Python语法特点](<Python介绍/Python语法特点.qmd>)
+* [Python支持的平台](<Python介绍/Python支持的平台.qmd>)
+* [Python应用领域](<Python介绍/Python应用领域.qmd>)
+* [Python应用实例](<Python介绍/Python应用实例.qmd>)
+* [Python的实现](<Python介绍/Python的实现.qmd>)
+* [Python的标准库](<Python介绍/Python的标准库.qmd>)

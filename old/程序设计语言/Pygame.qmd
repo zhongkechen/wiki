@@ -1,0 +1,32 @@
+---
+title: "Pygame"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+keydisplay.py
+```python
+#!/usr/bin/python
+import pygame
+from pygame.locals import *
+pygame.init()
+
+screen = pygame.display.set_mode((480, 320))
+
+font = pygame.font.SysFont("monospace", 12)
+
+while 1:
+    for e in pygame.event.get():
+        if e.type == KEYDOWN:
+            print e
+            screen.fill((0,0,0))
+            screen.blit(font.render(e.unicode, False, (255,255,255)), (0,0))
+
+        pygame.display.flip()
+```

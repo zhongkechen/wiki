@@ -1,0 +1,246 @@
+---
+title: "C++面向过程程序设计"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+#pragma section-numbers 2
+
+## C++面向过程程序设计
+
+### 函数
+
+#### 函数的声明与定义
+
+* C语言中，函数声明或定义中如果省略返回类型就是缺省为int。而在C++中，函数必须注明返回类型。比如
+
+  ```cpp
+  max(int a, int b) { /*省略返回类型，在C语言中意味着返回类型为int，在C++中则是语法错误*/
+      return a>b?a:b;
+  }
+  ```
+
+* C语言中，如果函数返回类型是int，则函数可以不用声明直接使用。C++中，在函数使用前必须先声明或定义。比如
+
+  ```cpp
+  #include <stdio.h>
+  int main() {
+      printf("%d", max(4, 3)); /*调用的函数在此处并未声明或定义，在C语言中意味着max函数带两个int型的参数返回类型是int，在C++中是语法错误。*/
+  }
+
+  int max(int a, int b) {
+      return a>b?a:b;
+  }
+  ```
+
+* C语言中，函数声明中空白的参数列表表示参数个数和类型未知。C++中，函数声明中空白的参数列表表示函数不需要参数。
+
+  ```cpp
+  #include <stdio.h>
+  int max(); /*此处函数声明中形参空白，在C语言中意味着这个函数的参数未知，在C++中意味着这个函数没有参数。*/
+
+  int main() {
+      printf("%d", max(4, 3)); /*此处函数调用，在C语言中是合法的，在C++中是不合法的，因为与前面函数声明不一致。*/
+  }
+
+  int max(int a, int b) {
+      return a>b?a:b;
+  }
+  ```
+
+在C++中需要这样声明和定义函数：
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int max(int a, int b); //函数声明
+
+int main() {
+    cout << max(4, 3);
+}
+
+/*函数定义*/
+int max(int a, int b) {
+   return a>b? a : b;
+}
+```
+
+在C++中，main函数的标准写法有两种。返回int值用于告诉操作系统程序运行的结果，一般返回0表示程序正常结束，返回其它值表示错误代码。
+```cpp
+int main() {
+    //...
+    return 0;
+}
+int main(int argc, char *argv[ ]) {
+    //...
+    return 0;
+}
+```
+
+#### 内联函数
+
+参见:[C++:内联函数](<C++:内联函数.qmd>)
+
+#### 参数默认值
+
+C++允许函数某些参数有默认值(default parameter)，比如：
+```cpp
+void print(int value, float s = 1.6, char t = '\n', bool c = true);
+int main() {
+    print(14, 48.3, '\t', false);
+    print(14, 48.3, '\t');
+    print(14, 48.3);
+    print(14);
+}
+void print(int value, float s, char t, bool c) {
+    cout << value << s << t << c;
+}
+```
+
+注意：
+
+* 默认值在函数声明中指定。
+* 默认值必须以常数的形式指定。
+* 有默认值的参数必须出现在没有默认值的参数的右边。
+* 调用函数时，不能省略中间的参数而去指定后面的参数。
+
+#### 函数重载
+
+在C语言中，不允许有同名函数。在C++中允许两个以上的函数取相同的函数名，称作函数重载(overload)。例如要写一组功能相同但是参数类型不同的函数：
+```cpp
+/*in C*/
+void print_double(double d);
+void print_int(int i);
+void print_string(const char *s);
+```
+
+在C++中这些函数可以使用相同的名字。
+```cpp
+// in C++
+void print(double d);
+void print(int i);
+void print(const char *s);
+int main() {
+    print(1.0);
+    print(2);
+    print("hello");
+}
+```
+
+注意：
+
+* 同名的函数的形参的个数、类型或者顺序必须有所不同。在调用时，编译器根据实参和形参的个数、类型和顺序来进行匹配。参数相同、返回值不同的同名函数不能重载：
+
+  ```cpp
+  void print(int i);
+  int print(int i); //error
+  ```
+* 某些情况下，一些函数可以重载，但是特定的函数调用会产生歧义。比如：
+
+```cpp
+void print(int i);
+void print(int i, int j=0);
+int main() {
+    print(1, 2); //ok!
+    print(1); //error! ambiguous!
+}
+```
+```cpp
+void print(int i, double j);
+void print(double i, int j);
+int main() {
+    print(1.0, 2); //ok!
+    print(1, 2.0); //ok
+    print(1, 2); //error! ambiguous!
+}
+```
+
+### 引用
+
+引用(reference)就是变量的别名。定义一个变量的引用就相当于给一个变量取了个别名。
+```cpp
+int main() {
+   int i;
+   int &ref = i;  //ref是i的别名
+   i = 3;
+   ref = 5;
+   float f[5] = {1,2,3,4,5};
+   float &fref = f[3];
+}
+```
+
+注意：
+
+* 定义引用一定要初始化。
+* 被引用的必须是左值(l-value)。
+
+例如：
+```cpp
+int main() {
+    int &ref; // 没有指明引用的对象（即没有初始化）
+    int &ref2 = 123; //不能引用常量，常量不是左值
+}
+```
+
+引用可以作为参数传递
+```cpp
+void swap(int &a, int &b) {//型参a和b是实参的别名，即对型参a和b的操作就是对实参的操作。
+    int t = a;
+    a = b;
+    b = t;
+}
+int main() {
+    int i = 7, j = -3;
+    swap(i, j); // i and j swapped
+}
+```
+
+引用可以作为返回值
+```cpp
+int & index(int a[], int i) {
+    return a[ i - 1];
+}
+int main() {
+    int array[] = {1, 2, 3, 4, 5, 6, 7, 8};
+    index(array, 1) = 5;
+}
+```
+
+在引用前面加const，表示不能通过这个引用（别名）去修改变量（但是原来的变量可能是可变的，也可能是不可变的）
+```cpp
+void display (const double &r) {
+    cout << r << endl;  //可以读取变量的值
+    r = 12.0; // error!但是不可以修改
+}
+int main() {
+    double d = 10.0;
+    const pi = 3.14159;
+    display(d);    //可以给const型的引用传普通变量
+    display(pi);   //可以给const型的引用传const变量
+    display(10.0);  //可以给const型的引用传常量！！
+}
+```
+
+const引用变量可以引用普通变量，普通的引用变量不能引用const变量。比如
+```cpp
+int main() {
+    int i = 5;
+    const int &r1 = i;
+    const int j = 10;
+    const int &r3 = j; // ok
+    int &r3 = j;       // error
+}
+```
+
+### 模板函数
+
+参见：[C++:模板函数](<C++:模板函数.qmd>)
+
+---

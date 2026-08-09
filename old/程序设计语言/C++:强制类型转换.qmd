@@ -1,0 +1,77 @@
+---
+title: "C++:强制类型转换"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### 强制类型转换
+
+在C语言中，使用如下风格的类型转换。这种C语言风格的转换方式在C++中仍然可以使用。
+```cpp
+int m = 1, n = 3;
+cout << (double)m / (double)n
+```
+
+在C++中，有一种新的转换方式：
+```cpp
+int m = 1, n = 3;
+cout << double(1)/double(3);
+```
+
+这种风格只能做简单类型的类型转换，不能进行复合类型的转换（比如指针类型）
+
+在C++中，还有一种新的转换方式：
+```
+static_cast<>() 静态转换
+const_cast<>() 去掉指针的常数性
+reinterpret_cast<>() 指针类型强制转换
+dynamic_cast<>() 多态类型强制转换
+```
+```cpp
+int hits = 10, at_bats = 78;
+double average = static_cast<double>(hits) / static_cast<double>(at_bats);
+```
+
+const_cast去除指针指向对象的const性
+```cpp
+const int a = 0;
+const int *p = &a;
+*p = 3; // Error
+*(int *)p = 5; // ok
+*const_cast<int *>(p) = 5; // ok
+const_cast<int>(a) = 5; // error
+```
+
+reinterpret_cast将一个类型的指针转换成另一个类型
+```cpp
+char array[] = "hello world";
+char *p1 = array;
+int *p2 = (int *)p1; //c
+int *p2 = reinterpret_cast<int *>(p1); //c++
+const char *p3 = "hello world;
+int *p4 = reinterpret_cast<int *>(p3); // error
+int *p4 = reinterpret_cast<int *> ( const_cast<char *>(p3) );
+```
+
+dynamic_cast在多态中使用，后面再介绍。
+
+练习，在下面x的地方填入适当的转换运算：
+```cpp
+int hits = 315, at_bats = 13;
+float average = x_cast<float>(hits) / x_cast<float>(at_bats);
+
+const int * find(int val, const int * t, int n);
+int a[] = {2, 4, 6};
+int *ptr = x_cast<int *>(find(4, a, 3));
+
+float f = -6.9072;
+unsigned char *p = x_cast<unsigned char*>(&f);
+```
+
+---
