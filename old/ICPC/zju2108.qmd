@@ -45,7 +45,8 @@ Print the total time on a single line for each test case.
 41
 ```
 
-------
+---
+
 ```cpp
 /*Written by czk*/
 #include <iostream>

@@ -50,4 +50,4 @@ Problem Author: Alexander Ipatov
 
 Problem Source: Petrozavodsk summer training camp, August 2005.
 
-------
+---

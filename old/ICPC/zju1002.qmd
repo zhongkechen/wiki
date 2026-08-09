@@ -23,7 +23,7 @@ Suppose that we have a square city with straight streets.  A map of a city is a 
 A blockhouse is a small castle that has four openings through which to shoot.  The four openings are facing North, East, South, and West, respectively. There will be one machine gun shooting through each opening.
 Here we assume that a bullet is so powerful that it can run across any distance and destroy a blockhouse on its way.  On the other hand, a wall is so strongly built that can stop the bullets.
 
-The goal is to place as <i>many</i> blockhouses in a city as possible so that no two can destroy each other.  A configuration of blockhouses is <B><I>legal</I></B> provided that no two blockhouses are on the same horizontal row or vertical column in a map unless there is at least one wall separating them.  In this problem we will consider small square cities (at most 4x4) that contain walls through which bullets cannot run through.
+The goal is to place as &lt;i&gt;many&lt;/i&gt; blockhouses in a city as possible so that no two can destroy each other.  A configuration of blockhouses is &lt;B&gt;&lt;I&gt;legal&lt;/I&gt;&lt;/B&gt; provided that no two blockhouses are on the same horizontal row or vertical column in a map unless there is at least one wall separating them.  In this problem we will consider small square cities (at most 4x4) that contain walls through which bullets cannot run through.
 
 The following image shows five pictures of the same board.  The first picture is the empty board, the second and third pictures show legal configurations, and the fourth and fifth pictures show illegal configurations. For this board, the maximum number of blockhouses in a legal configuration is 5; the second picture shows one way to do it, but there are several other ways.
 
@@ -31,7 +31,7 @@ The following image shows five pictures of the same board.  The first picture is
 
 Your task is to write a program that, given a description of a map, calculates the maximum number of blockhouses that can be placed in the city in a legal configuration.
 
-The input file contains one or more map descriptions, followed by a line containing the number 0 that signals the end of the file.  Each map description begins with a line containing a positive integer <I>n</I> that is the size of the city; <I>n</I> will be at most 4. The next <I>n</I> lines each describe one row of the map, with a '<TT>.</TT>' indicating an open space and an uppercase '<TT>X</TT>' indicating a wall.  There are no spaces in the input file.
+The input file contains one or more map descriptions, followed by a line containing the number 0 that signals the end of the file.  Each map description begins with a line containing a positive integer &lt;I&gt;n&lt;/I&gt; that is the size of the city; &lt;I&gt;n&lt;/I&gt; will be at most 4. The next &lt;I&gt;n&lt;/I&gt; lines each describe one row of the map, with a '&lt;TT&gt;.&lt;/TT&gt;' indicating an open space and an uppercase '&lt;TT&gt;X&lt;/TT&gt;' indicating a wall.  There are no spaces in the input file.
 For each test case, output one line containing the maximum number of blockhouses that can be placed in the city in a legal configuration.
 
 ### Sample input
@@ -71,7 +71,7 @@ X.X
 4
 ```
 
-------
+---
 
 ```cpp
 /*Written by czk*/

@@ -26,7 +26,7 @@ She turns to you to write a program to help her.
 
 ### Input
 
-There will be multiple test cases for this problem. Each test case will have input on multiple lines. The first line will contain the integer n (< 10) noting the number of places Granny wants to visit that day. These will be numbered 1 through n and Granny's house will be numbered 0. The next n lines will be a list of those places near each spot. The first line will be a list of places with a direct route from place 1. The second line will be a list of places with a direct route from place 2, and so on. You may assume that if place i has a direct route to place j, then there is a direct route the other direction also. A line containing 0 will follow the last test case.
+There will be multiple test cases for this problem. Each test case will have input on multiple lines. The first line will contain the integer n (&lt; 10) noting the number of places Granny wants to visit that day. These will be numbered 1 through n and Granny's house will be numbered 0. The next n lines will be a list of those places near each spot. The first line will be a list of places with a direct route from place 1. The second line will be a list of places with a direct route from place 2, and so on. You may assume that if place i has a direct route to place j, then there is a direct route the other direction also. A line containing 0 will follow the last test case.
 
 ### Output
 
@@ -65,7 +65,9 @@ Case 2: Granny can not make the circuit.
 ```
 
 Problem Source: East Central North America 2003, Practice
-------
+
+---
+
 ```cpp
 //2007-01-10 23:51:39 Accepted 1798 C++ 00:00.00 436K
 //DFS

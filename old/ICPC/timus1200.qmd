@@ -28,9 +28,9 @@ Having heard about the success of students of the Department of Mathematics and 
 
 ### Input
 
-The first line contains real numbers A and B (-10000 <= A,B <= 10000) with a two fractional digits precision. These numbers are the profits (in roubles) given by each horn and by each hoof respectively.
+The first line contains real numbers A and B (-10000 &lt;= A,B &lt;= 10000) with a two fractional digits precision. These numbers are the profits (in roubles) given by each horn and by each hoof respectively.
 
-The next line contains an integer K which is the maximal number of goods that could be sold each month (1 <= K <= 10000).
+The next line contains an integer K which is the maximal number of goods that could be sold each month (1 &lt;= K &lt;= 10000).
 
 ### Output
 
@@ -56,4 +56,4 @@ Problem Author: Magaz Asanov
 
 Problem Source: USU Internal Contest, March 2002
 
-------
+---

@@ -27,9 +27,9 @@ To be more realistic for the time frame given to work on the solution, a series 
 
 ### Input
 
-Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 &lt;= T &lt;= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
 
-The first line contains two integers separated by a single space W and H (512 <= W, H <= 1,024), which are the width and height of the input image (in pixels). The following H lines contain W / 4 characters each, which are the hex representation of the image data. The left most pixel is the most significant bit of the hex string. It is guaranteed that W will be a multiple of 4.
+The first line contains two integers separated by a single space W and H (512 &lt;= W, H &lt;= 1,024), which are the width and height of the input image (in pixels). The following H lines contain W / 4 characters each, which are the hex representation of the image data. The left most pixel is the most significant bit of the hex string. It is guaranteed that W will be a multiple of 4.
 
 ### Output
 

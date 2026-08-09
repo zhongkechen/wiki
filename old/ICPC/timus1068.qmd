@@ -40,7 +40,8 @@ Write to the output file a single integer number that is the sum of all integer 
 -5
 ```
 
-------
+---
+
 ```cpp
 #include <iostream>
 using namespace std;

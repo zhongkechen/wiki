@@ -27,7 +27,7 @@ You are to write a program that will count the amounts of the stars of each leve
 
 ### Input
 
-The first line of the input contains a number of stars N (1<=N<=15000). The following N lines describe coordinates of stars (two integers X and Y per line separated by a space, 0<=X,Y<=32000). There can be only one star at one point of the plane. Stars are listed in ascending order of Y coordinate. Stars with equal Y coordinates are listed in ascending order of X coordinate.
+The first line of the input contains a number of stars N (1&lt;=N&lt;=15000). The following N lines describe coordinates of stars (two integers X and Y per line separated by a space, 0&lt;=X,Y&lt;=32000). There can be only one star at one point of the plane. Stars are listed in ascending order of Y coordinate. Stars with equal Y coordinates are listed in ascending order of X coordinate.
 
 ### Output
 
@@ -58,7 +58,7 @@ Problem Author: Zaletsky P.
 
 Problem Source: Ural Collegiate Programming Contest '99
 
-------
+---
 
 ```cpp
 /*Written by czk*/

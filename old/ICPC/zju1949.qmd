@@ -31,7 +31,7 @@ Your job is to write a program that reads in a matrix and checks if it has the p
 
 ### Input
 
-The input will contain one or more test cases. The first line of each test case contains one integer n (n < 100), representing the size of the matrix. On the next n lines, there will be n integers per line. No other integers than 0 and 1 will occur in the matrix. Input will be terminated by a value of 0 for n.
+The input will contain one or more test cases. The first line of each test case contains one integer n (n &lt; 100), representing the size of the matrix. On the next n lines, there will be n integers per line. No other integers than 0 and 1 will occur in the matrix. Input will be terminated by a value of 0 for n.
 
 ### Output
 
@@ -67,7 +67,9 @@ Corrupt
 ```
 
 Problem Source: University of Ulm Local Contest 1998
-------
+
+---
+
 ```cpp
 //2007-01-11 21:26:33 Accepted 1949 C++ 00:00.01 404K
 //writen by 曹高挺

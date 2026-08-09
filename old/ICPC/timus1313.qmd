@@ -22,7 +22,7 @@ To save students from the harmful habit to sit at the computer for hours, Ural d
 
 ### Input
 
-The first input line contains the single integer N (1<=N<=100) – the number of pixels on the side of new square monitor. It is followed by N lines, each containing N integers not exceeding 100 divided by spaces. It is the image outputting by the usual video card (as you can see the color depth of new monitor is not so large – anyway usual programmer does not need more than 100 colors).
+The first input line contains the single integer N (1&lt;=N&lt;=100) – the number of pixels on the side of new square monitor. It is followed by N lines, each containing N integers not exceeding 100 divided by spaces. It is the image outputting by the usual video card (as you can see the color depth of new monitor is not so large – anyway usual programmer does not need more than 100 colors).
 
 ### Output
 
@@ -46,4 +46,4 @@ You are to write the program that outputs the sequence for input into the new mo
 
 http://acm.timus.ru/problem.aspx?space=1&num=1313
 
-------
+---

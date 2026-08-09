@@ -83,7 +83,7 @@ the number of 'a's in "a" = the number of 'b's in "ab" = 1
 
 BE CAREFULL: the total size of output might be very large.
 
-------
+---
 
 ```cpp
 /*Written by czk*/

@@ -22,9 +22,9 @@ All weights are integers (in pounds). The balance can detect and compensate any 
 
 ### Input
 
-Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 50) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 &lt;= T &lt;= 50) which is the number of test cases. T test cases follow, each preceded by a single blank line.
 
-Each case starts with two integers n (0 <= n <= 20) and k (0 <= k <= 10), where n is the number of the weights that FatMouse currently has, and k is the number of weights that FatMouse is going to purchase. The next n integers ci (0 <= i < n, 1 <= ci < 100,000) give the weights (in pounds) he currently owns. Two consecutive numbers are separated by a single space.
+Each case starts with two integers n (0 &lt;= n &lt;= 20) and k (0 &lt;= k &lt;= 10), where n is the number of the weights that FatMouse currently has, and k is the number of weights that FatMouse is going to purchase. The next n integers ci (0 &lt;= i &lt; n, 1 &lt;= ci &lt; 100,000) give the weights (in pounds) he currently owns. Two consecutive numbers are separated by a single space.
 
 ### Output
 

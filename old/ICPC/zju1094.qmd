@@ -17,10 +17,10 @@ Time limit: 1 Seconds
 Memory limit: 32768K
 
 Matrix multiplication problem is a typical example of dynamical programming.
-Suppose you have to evaluate an expression like A*B*C*D*E where A,B,C,D and E are matrices. Since matrix multiplication is associative, the order in which multiplications are performed is arbitrary. However, the number of elementary multiplications needed strongly depends on the evaluation order you choose.
+Suppose you have to evaluate an expression like A\*B\*C\*D\*E where A,B,C,D and E are matrices. Since matrix multiplication is associative, the order in which multiplications are performed is arbitrary. However, the number of elementary multiplications needed strongly depends on the evaluation order you choose.
 
-For example, let A be a 50*10 matrix, B a 10*20 matrix and C a 20*5 matrix.
-There are two different strategies to compute A*B*C, namely (A*B)*C and A*(B*C).
+For example, let A be a 50\*10 matrix, B a 10\*20 matrix and C a 20\*5 matrix.
+There are two different strategies to compute A\*B\*C, namely (A\*B)\*C and A\*(B\*C).
 The first one takes 15000 elementary multiplications, but the second one only 3500.
 Your job is to write a program that determines the number of elementary multiplications needed for a given evaluation strategy.
 
@@ -32,8 +32,8 @@ The first line of the input file contains one integer n (1 &lt;= n &lt;= 26), re
 
 The second part of the input file strictly adheres to the following syntax (given in EBNF):
 
-* Second``Part= Line { Line } <EOF>
-* Line       = Expression <CR>
+* SecondPart= Line { Line } &lt;EOF&gt;
+* Line       = Expression &lt;CR&gt;
 * Expression = Matrix | "(" Expression Expression ")"
 * Matrix     = "A" | "B" | "C" | ... | "X" | "Y" | "Z"
 
@@ -84,7 +84,9 @@ error
 ```
 
 http://acm.zju.edu.cn/show_problem.php?pid=1094
-------
+
+---
+
 ```cpp
 //2007-01-18 00:18:27 Accepted 1094 C++ 00:00.00 432K
 //writen by 曹高挺

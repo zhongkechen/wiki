@@ -31,7 +31,7 @@ format:
     请所有的新队员认真完成以下各题。如果做题遇到困难，如题意难以理解、不知如何着手或不知错在哪里，不要气馁，可以请教别的队员，也可请教教练。我们会尽力帮助你完成这几组中每一道题。但不要复制别人的程序，即便参考了别人的程序，也要亲自再完成一遍。而且不建议过多参考别人程序，这样会消弱训练的效果，也减少了思考的乐趣。
     有些队员可能觉得某些题太简单，但我们还是建议将它们都做掉。因为题目虽然简单，但是再简单的题目都不能保证一次做对，而做错题的各种原因如题意理解错误，格式错误等你都会碰到。了解这些原因对减少错误率很有好处。
 3. 做题前请了解一些规范：
-    a. main函数应为int型，最后return 0 ，即：
+    1. main函数应为int型，最后return 0 ，即：
 
 ```cpp
 int main()
@@ -42,7 +42,7 @@ int main()
 ```
 这样做是因为避免有些编译器报错。
 
-b. 为了便于核对，请在代码开头加上可以表明题目的注释，如：//ZJU1001; /*PKU1002 */等
+1. 为了便于核对，请在代码开头加上可以表明题目的注释，如：//ZJU1001; /\*PKU1002 \*/等
 
 ### 热身
 
@@ -205,7 +205,7 @@ Run Length Encoding
 * 7.6  http://acm.zju.edu.cn/show_problem.php?pid=1337 Pi
 * 7.7  http://acm.zju.edu.cn/show_problem.php?pid=1312 Prime Cuts
 
-* 7.8  ZJU  1326 M*A*S*H  建议用链表做
+* 7.8  ZJU  1326 M\*A\*S\*H  建议用链表做
 * 7.9  http://acm.zju.edu.cn/show_problem.php?pid=1494 Climbing Worm
 * 7.10  http://acm.zju.edu.cn/show_problem.php?pid=1577 GCD & LCM
 * 7.11  ZJU  2122  A Flea on a Chessboard

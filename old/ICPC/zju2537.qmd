@@ -36,18 +36,18 @@ In this problem, you, the adventurer, are in a dangerous dungeon. You are inform
 
 ### Input
 
-Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 &lt;= T &lt;= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
 
-The first line of each test case contains four integers W (1 <= W <= 50), H (1 <= H <= 50), L (1 <= L <= 1,000,000) and M (1 <= M <= 10). The dungeon is a rectangle area W block wide and H block high. L is the time limit, by which you need to reach the exit. You can move to one of the adjacent blocks up, down, left and right in each time unit, as long as the target block is inside the dungeon and is not a wall. Time starts at 1 when the game begins. M is the number of jewels in the dungeon. Jewels will be collected once the adventurer is in that block. This does not cost extra time.
+The first line of each test case contains four integers W (1 &lt;= W &lt;= 50), H (1 &lt;= H &lt;= 50), L (1 &lt;= L &lt;= 1,000,000) and M (1 &lt;= M &lt;= 10). The dungeon is a rectangle area W block wide and H block high. L is the time limit, by which you need to reach the exit. You can move to one of the adjacent blocks up, down, left and right in each time unit, as long as the target block is inside the dungeon and is not a wall. Time starts at 1 when the game begins. M is the number of jewels in the dungeon. Jewels will be collected once the adventurer is in that block. This does not cost extra time.
 
 The next line contains M integers，which are the values of the jewels.
 
 The next H lines will contain W characters each. They represent the dungeon map in the following notation:
 
-* [*] marks a wall, into which you can not move;
+* [\*] marks a wall, into which you can not move;
 * [.] marks an empty space, into which you can move;
 * [@] marks the initial position of the adventurer;
-* [<] marks the exit stairs;
+* [&lt;] marks the exit stairs;
 * [A] - [J] marks the jewels.
 
 ### Output

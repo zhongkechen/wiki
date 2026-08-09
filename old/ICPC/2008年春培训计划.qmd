@@ -124,10 +124,10 @@ format:
     * STL中的队列
     * BFS介绍
     * zju 1091算法介绍
-* [http://zh.wikipedia.org/w/index.php?title=%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2&variant=zh-cn BFS及其应用]
-* [http://student.zjzk.cn/course_ware/data_structure/web/zhanhuoduilie/zhanhuoduilie3.2.1.htm 队列的定义与及基本操作]
-* [http://zh.wikipedia.org/wiki/%E9%98%9F%E5%88%97 队列]
-* [http://www.sinrain.cn/2008/05/07/stackqueue/ STL中的堆栈与队列]
+* [BFS及其应用](http://zh.wikipedia.org/w/index.php?title=%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2&variant=zh-cn)
+* [队列的定义与及基本操作](http://student.zjzk.cn/course_ware/data_structure/web/zhanhuoduilie/zhanhuoduilie3.2.1.htm)
+* [队列](http://zh.wikipedia.org/wiki/%E9%98%9F%E5%88%97)
+* [STL中的堆栈与队列](http://www.sinrain.cn/2008/05/07/stackqueue/)
 * 参加学生
 
 ```

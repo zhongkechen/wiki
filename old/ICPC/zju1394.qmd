@@ -36,11 +36,11 @@ Start line - A single line, "START".
 
 Input line - A single line, "X Y Z", where:
 
-X : (1 <= X <= 100) is the radius of your planet in integer miles
+X : (1 &lt;= X &lt;= 100) is the radius of your planet in integer miles
 
-Y : (0 <= Y <= 100) is the amount of gasoline in your planet-rover in integer gallons
+Y : (0 &lt;= Y &lt;= 100) is the amount of gasoline in your planet-rover in integer gallons
 
-Z : (0 <= Z <= 360) is an angle separating you from the crash site in integer degrees
+Z : (0 &lt;= Z &lt;= 360) is an angle separating you from the crash site in integer degrees
 
 End line - A single line, "END".
 
@@ -84,4 +84,5 @@ NO 250
 ```
 
 Problem Source: South Central USA 2002
-------
+
+---

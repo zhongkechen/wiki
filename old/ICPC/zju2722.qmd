@@ -22,7 +22,7 @@ Our school is planning to hold a new exciting computer programming contest. Duri
 
 ### Input
 
-The input consists of several test cases. Each case consists of a single line containing a integer N - the number of the competitors in total. 1 <= N <= 2,147,483,647. An input with 0(zero) signals the end of the input, which should not be processed.
+The input consists of several test cases. Each case consists of a single line containing a integer N - the number of the competitors in total. 1 &lt;= N &lt;= 2,147,483,647. An input with 0(zero) signals the end of the input, which should not be processed.
 Output
 
 For each test case, output the number of rounds needed in the contest, on a single line.
@@ -47,7 +47,8 @@ For each test case, output the number of rounds needed in the contest, on a sing
 Author: YANG, Chao
 
 Problem Source: Zhejiang University Local Contest 2006, Preliminary
-------
+
+---
 
 ```cpp
 /*Written by czk*/

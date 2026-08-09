@@ -24,7 +24,7 @@ S(A+B) = S(A) + S(B)
 
 ### Input
 
-The input file contains a single positive integer K, 0 < K <= 50.
+The input file contains a single positive integer K, 0 &lt; K &lt;= 50.
 Output
 
 You should output the number of pairs of К-digit numbers A and B to satisfy the above equality. Counting that number you should be aware of the following:
@@ -44,4 +44,4 @@ Problem Author: Leonid Volkov
 
 Problem Source: USU Internal Contest, March 2002
 
-------
+---

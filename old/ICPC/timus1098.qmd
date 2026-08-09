@@ -85,7 +85,8 @@ Problem Author: Vasiljev S.
 
 Problem Source: This problem was offered to participants of the Third Urals Collegaite Programming Contest at the trial tour, the day before main contest
 
-------
+---
+
 ```cpp
 /*Written by czk*/
 #include <iostream>

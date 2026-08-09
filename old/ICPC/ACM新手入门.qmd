@@ -14,19 +14,19 @@ format:
 
 1. 准备一些必要的基础知识，包括基本的C语言或者C++语言编程，能阅读简单的英语。
 1. 在 ZJU Online Judge (浙江大学在线判题系统，简称ZOJ) 上注册帐号。
-    A. 打开网址[http://acm.zju.edu.cn](http://acm.zju.edu.cn)
-    A. 点击Register链接
-    A. 点击Register User链接
-    A. 输入详细信息，点击Register按钮
-    A. 注册成功
+    1. 打开网址[http://acm.zju.edu.cn](http://acm.zju.edu.cn)
+    1. 点击Register链接
+    1. 点击Register User链接
+    1. 输入详细信息，点击Register按钮
+    1. 注册成功
 1. 尝试ZOJ上的1001题
-    A. 打开[1001题](http://acm.zju.edu.cn/show_problem.php?pid=1001)网页
-    A. 仔细看清题意。题目包括问题描述、输入格式描述、输出格式描述、输入样例、输出样例等。
-    A. 用你熟悉的开发环境编写C或者C++程序
-    A. 在自己的电脑上测试自己的程序，首先输入题目中给出的例子，应该能输出正确的结果，然后再自己给出其他一些合理的输入，程序也应该给出正确的结果。
-    A. 如果测试没有问题了，在题目网页下方点击Submit
-    A. 将编写好的程序粘贴在Source框中，并User ID和Password框中填上前面注册的用户名和密码,在language后面选择对应的语言，比如：你提交的是c语言的源代码，就选c；最后点击下面的submit
-    A. 点status查看提交的结果，如果结果显示是Accepted，表示程序正确，否则说明程序有错，需要修改程序重新提交。出错时有给出出错的类型，详细参见ACM新手FAQ
+    1. 打开[1001题](http://acm.zju.edu.cn/show_problem.php?pid=1001)网页
+    1. 仔细看清题意。题目包括问题描述、输入格式描述、输出格式描述、输入样例、输出样例等。
+    1. 用你熟悉的开发环境编写C或者C++程序
+    1. 在自己的电脑上测试自己的程序，首先输入题目中给出的例子，应该能输出正确的结果，然后再自己给出其他一些合理的输入，程序也应该给出正确的结果。
+    1. 如果测试没有问题了，在题目网页下方点击Submit
+    1. 将编写好的程序粘贴在Source框中，并User ID和Password框中填上前面注册的用户名和密码,在language后面选择对应的语言，比如：你提交的是c语言的源代码，就选c；最后点击下面的submit
+    1. 点status查看提交的结果，如果结果显示是Accepted，表示程序正确，否则说明程序有错，需要修改程序重新提交。出错时有给出出错的类型，详细参见ACM新手FAQ
 1. 尝试做其他的简单题目，比如[1048题](http://acm.zju.edu.cn/show_problem.php?pid=1048)、[1049题](http://acm.zju.edu.cn/show_problem.php?pid=1049)、[2417题](http://acm.zju.edu.cn/show_problem.php?pid=2417)、[2108题](http://acm.zju.edu.cn/show_problem.php?pid=2108)、[1904题](http://acm.zju.edu.cn/show_problem.php?pid=1904)
 1. 做更多的简单题目，直到在ZOJ上做到50题。在这里可以看到一些简单题[http://acm.zju.edu.cn/forum/viewtopic.php?t=1060](http://acm.zju.edu.cn/forum/viewtopic.php?t=1060)的一个列表。
 1. 恭喜你，现在你已经不是新手了。:-)

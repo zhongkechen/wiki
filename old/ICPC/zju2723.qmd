@@ -28,7 +28,7 @@ Your task is just to determinate whether a given number is a semi-prime number.
 
 ### Input
 
-There are several test cases in the input. Each case contains a single integer N (2 <= N <= 1,000,000)
+There are several test cases in the input. Each case contains a single integer N (2 &lt;= N &lt;= 1,000,000)
 
 ### Output
 
@@ -55,7 +55,8 @@ No
 Author: LIU, Yaoting
 
 Problem Source: Zhejiang University Local Contest 2006, Preliminary
-------
+
+---
 
 ### 参考程序
 

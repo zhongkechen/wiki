@@ -64,6 +64,7 @@ Dir.mktmpdir("check-icpc-migration") do |temporary_root|
   )
   assert(course_page.include?("算法专题：动态规划.qmd"), "PageList content was not expanded")
   assert(course_page.include?("C++集成开发环境.qmd"), "Shared page link was not preserved")
+  assert(course_page.include?("> 很多题目都是英文的"), "Random quote lost blockquote markup")
   assert(!course_page.match?(/<<(?:PageList|RandomQuote)/), "Dynamic MoinMoin macro leaked")
 
   code_page = File.read(
@@ -78,6 +79,55 @@ Dir.mktmpdir("check-icpc-migration") do |temporary_root|
     encoding: "UTF-8"
   )
   assert(placeholder_page.include?("源页面不可用"), "Missing revision placeholder was lost")
+
+  matrix_page = File.read(
+    File.join(temporary_root, "old", "ICPC", "zju1094.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(matrix_page.include?("A\\*B\\*C"), "Literal multiplication became Markdown")
+  assert(matrix_page.include?("&lt;EOF&gt;"), "Literal angle-bracket text became HTML")
+  assert(matrix_page.include?("SecondPart"), "Empty inline literal escape was not removed")
+
+  html_problem_page = File.read(
+    File.join(temporary_root, "old", "ICPC", "zju1099.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(html_problem_page.include?("&lt;br&gt;"), "Literal HTML tag was not escaped")
+
+  beginner_page = File.read(
+    File.join(temporary_root, "old", "ICPC", "ACM新手入门.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(beginner_page.include?("    1. 打开网址"), "Alphabetic sublist was not normalized")
+
+  training_page = File.read(
+    File.join(temporary_root, "old", "ICPC", "2008年春培训计划.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    training_page.include?("[BFS及其应用](http://"),
+    "Legacy external link syntax was not converted"
+  )
+  assert(
+    !training_page.match?(/\]\(http[^)]+\)\(http/),
+    "Generated external link was converted twice"
+  )
+
+  history_page = File.read(
+    File.join(temporary_root, "old", "ICPC", "温州大学ACM_ICPC训练队历史.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    history_page.match?(/\|  \|  \|  \|  \|\n\| --- \| --- \| --- \| --- \|\n\| 曹高挺 /),
+    "Headerless table promoted its first data row"
+  )
+
+  broken_fence_pages = Dir[
+    File.join(temporary_root, "old", "ICPC", "*.qmd")
+  ].select do |path|
+    File.read(path, encoding: "UTF-8").match?(/```\n-{3,}\n```/)
+  end
+  assert(broken_fence_pages.empty?, "Horizontal rule remained adjacent to code fences")
 end
 
 puts "ICPC migration snapshot replay passed"

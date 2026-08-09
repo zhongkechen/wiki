@@ -29,7 +29,7 @@ Example:
 ```
 Given two numbers N and K, you are to calculate an amount of valid K based numbers, contaning N digits.
 
-You may assume that 2 <= K <= 10; 2 <= N; 4 <= N+K <= 18.
+You may assume that 2 &lt;= K &lt;= 10; 2 &lt;= N; 4 &lt;= N+K &lt;= 18.
 
 ### Input
 
@@ -52,4 +52,4 @@ The result in decimal notation.
 90
 ```
 
-------
+---

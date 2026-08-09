@@ -44,7 +44,9 @@ For each test case, print the value of f(n) on a single line.
 2
 5
 ```
-------
+
+---
+
 ```cpp
 /*written by proby*/
 #include <iostream>
@@ -100,4 +102,4 @@ int main(){
 }
 ```
 
-------
+---

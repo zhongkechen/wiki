@@ -72,7 +72,8 @@ SFStory 1999 10
 
 Author: DAI, Wenbin
 Problem Source: Zhejiang University Local Contest 2006, Preliminary
-------
+
+---
 
 ```cpp
 /*C version

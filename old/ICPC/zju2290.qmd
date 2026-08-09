@@ -29,7 +29,7 @@ There are some rules:
 
 ### Input
 
-Every test case has only one line with one integer N(2 <= N <= 100000000), the numbers of the stones.
+Every test case has only one line with one integer N(2 &lt;= N &lt;= 100000000), the numbers of the stones.
 
 ### Output
 
@@ -49,7 +49,7 @@ If A can win,output the numbers A should take at the first time. If there are mo
 1
 ```
 
-------
+---
 
 ```cpp
 /*Written by czk*/

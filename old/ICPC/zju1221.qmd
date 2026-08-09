@@ -28,7 +28,7 @@ The following connection diagram illustrates the sample input.
 
 ### Input
 
-Input to your program will consist of a series of country configuration test sets. Each test set will consist of a board description on lines 1 through 19. The representation avoids listing every national boundary twice by only listing the fact that country I borders country J when I < J. Thus, the Ith line, where I is less than 20, contains an integer X indicating how many "higher-numbered" countries share borders with country I, then X distinct integers J greater than I and not exceeding 20, each describing a boundary between countries I and J. Line 20 of the test set contains a single integer (1 <= N <= 100) indicating the number of country pairs that follow. The next N lines each contain exactly two integers (1 <= A,B <= 20; A!=B) indicating the starting and ending countries for a possible conquest.
+Input to your program will consist of a series of country configuration test sets. Each test set will consist of a board description on lines 1 through 19. The representation avoids listing every national boundary twice by only listing the fact that country I borders country J when I &lt; J. Thus, the Ith line, where I is less than 20, contains an integer X indicating how many "higher-numbered" countries share borders with country I, then X distinct integers J greater than I and not exceeding 20, each describing a boundary between countries I and J. Line 20 of the test set contains a single integer (1 &lt;= N &lt;= 100) indicating the number of country pairs that follow. The next N lines each contain exactly two integers (1 &lt;= A,B &lt;= 20; A!=B) indicating the starting and ending countries for a possible conquest.
 
 There can be multiple test sets in the input; your program should continue reading and processing until reaching the end of file. There will be at least one path between any two given countries in every country configuration.
 
@@ -78,7 +78,7 @@ Test Set #1
 ```
 Problem Source: South Central USA 1997
 
-------
+---
 
 ```cpp
 //using dijkstra

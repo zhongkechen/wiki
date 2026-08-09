@@ -26,7 +26,7 @@ The player should place one ball on the top of a peg at a time. He should first 
 
 ### Input
 
-The first line of the input contains a single integer T, indicating the number of test cases. (1<=T<=50) Each test case contains a single integer N(1<=N<=50), indicating the number of pegs available.
+The first line of the input contains a single integer T, indicating the number of test cases. (1&lt;=T&lt;=50) Each test case contains a single integer N(1&lt;=N&lt;=50), indicating the number of pegs available.
 
 ### Output
 
@@ -48,7 +48,8 @@ For each test case in the input print a line containing an integer indicating th
 ```
 Problem Source: OIBH Reminiscence Programming Contest
 
-------
+---
+
 ```cpp
 //2007-01-21 17:58:29 Accepted 1239 C++ 00:00.00 396K
 //模拟并记录前50项

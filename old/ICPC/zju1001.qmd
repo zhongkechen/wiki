@@ -44,7 +44,8 @@ For each pair of input integers a and b you should output the sum of a and b in 
 
 Use + operator
 
-------
+---
+
 ```cpp
 /*
 C++ version

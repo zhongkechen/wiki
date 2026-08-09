@@ -22,7 +22,7 @@ Do you know DDR? DDR = Dance Dance Revolution. It's a kind of music game which w
 
 One person said, 'I am a DDR King. I can get one billion points for Paranoia Max(Dirty Mix) 190 Green.' This is obviously a lie, since the highest score one can obtain playing that song is 385,317,900. You cannot understand why, if you're not familiar with DDR Grading System, so let me introduce it to you first.
 
-When playing a song, your task is to step on the specific arrow correctly at the appropriate time. The score you got depends totally on the judge result of each arrow. There are 5 possible results for each arrow: PERFECT, GREAT, GOOD, BOO and MISS. If you got a PERFECT or GREAT, you are set to be 'comboing' arrows, and the 'combo value' is increased by 1. The 'combo value' is set to zero at the beginning of a song, and will reset to zero if you get GOOD, BOO or MISS on an arrow. Only if you got PERFECT or GREAT on an arrow, you can get some score for that arrow. If the combo value will be C AFTER current arrow, a PERFECT will get ((C div 4)2+1)*300 points, and a GREAT will get ((C div 4)2+1)*100 points. (A div B means the integer part of A/B). For example, if the combo value is 11 after stepping on an arrow, a PERFECT will get 1500 points.
+When playing a song, your task is to step on the specific arrow correctly at the appropriate time. The score you got depends totally on the judge result of each arrow. There are 5 possible results for each arrow: PERFECT, GREAT, GOOD, BOO and MISS. If you got a PERFECT or GREAT, you are set to be 'comboing' arrows, and the 'combo value' is increased by 1. The 'combo value' is set to zero at the beginning of a song, and will reset to zero if you get GOOD, BOO or MISS on an arrow. Only if you got PERFECT or GREAT on an arrow, you can get some score for that arrow. If the combo value will be C AFTER current arrow, a PERFECT will get ((C div 4)2+1)\*300 points, and a GREAT will get ((C div 4)2+1)\*100 points. (A div B means the integer part of A/B). For example, if the combo value is 11 after stepping on an arrow, a PERFECT will get 1500 points.
 
 For example, if a song has 7 arrows, and a player got PERFECT,PERFECT,GREAT,PERFECT,GREAT, PERFECT,MISS on each arrow, he/she will get 300,300,100,600,200,600 points on each arrow and a total score of 2100 points.
 
@@ -30,7 +30,7 @@ Well, now, a person said that he got M points playing a song with N arrows and g
 
 ### Input
 
-The input file begins with an integer T, indicating the number of test cases. (1<=T<=100), Each test case contains three integers N, K, M(0<=N,K<=500, 0<=M<=10^9^(zju上是109,应该是10^9^才符合事实)).
+The input file begins with an integer T, indicating the number of test cases. (1&lt;=T&lt;=100), Each test case contains three integers N, K, M(0&lt;=N,K&lt;=500, 0&lt;=M&lt;=10^9^(zju上是109,应该是10^9^才符合事实)).
 
 ### Output
 
@@ -56,4 +56,4 @@ Yes
 ```
 Problem Source: OIBH Reminiscence Programming Contest
 
-------
+---

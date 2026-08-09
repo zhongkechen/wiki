@@ -23,7 +23,7 @@ Given a string containing only 'A' - 'Z', we could encode it using the following
 
 ### Input
 
-The first line contains an integer N (1 <= N <= 100) which indicates the number of test cases. The next N lines contain N strings. Each string consists of only 'A' - 'Z' and the length is less than 100.
+The first line contains an integer N (1 &lt;= N &lt;= 100) which indicates the number of test cases. The next N lines contain N strings. Each string consists of only 'A' - 'Z' and the length is less than 100.
 
 ### Output
 
@@ -45,7 +45,8 @@ A2B3C
 ```
 http://acm.zju.edu.cn/show_problem.php?pid=2478
 
-------
+---
+
 ```cpp
 /*written by 洪峰
 AC了哦*/

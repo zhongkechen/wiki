@@ -45,7 +45,9 @@ n e
 ```
 
 Problem Source: Greater New York 2000
-------
+
+---
+
 ```cpp
 /*Written by 洪峰*/
 #include<iostream>

@@ -48,7 +48,8 @@ Problem Author: Alexey Lakhtin
 
 Problem Source: USU Open Collegiate Programming Contest October'2002 Junior Session
 
-------
+---
+
 ```cpp
 /*Written by czk*/
 

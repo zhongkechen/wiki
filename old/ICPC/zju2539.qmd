@@ -18,22 +18,22 @@ Memory limit: 32768K
 
 Many of the problems that arise in early computer vision can be naturally expressed in terms of minimization of an energy function. Typically, researchers need to rely on general-purpose optimization techniques such as simulated annealing, which is extremely slow in practice. Some functions that have a restricted form can be solved efficiently using subtle algorithms. In this problem your task is to write a program to find the minimal value of a special class of energy functions widely used in image processing.
 
-Suppose an image has R rows and C columns. We can assign each of the pixel a number ranging from 1 to R * C depending on its scan-line order. We define n = R * C and the energy function is in the form of
+Suppose an image has R rows and C columns. We can assign each of the pixel a number ranging from 1 to R \* C depending on its scan-line order. We define n = R \* C and the energy function is in the form of
 
 ![showimg.php](http://acm.zju.edu.cn/showimg.php?cid=138&pid=1005&file=1.gif)
 
 where
 
 * j in N(i) means that the pixel j is in the left, right, top or bottom neighbor of pixel i;
-* the integer pi (0 <= pi <= 255) is the gray level of the pixel i;
+* the integer pi (0 &lt;= pi &lt;= 255) is the gray level of the pixel i;
 * xi (xi in {0, 1}) is the assigned label to the pixel i; and
-* the integers v0 and v1 (0 <= v0, v1 <= 255) are the prior estimation of the gray level of the pixels labeled 0 and 1 respectively.
+* the integers v0 and v1 (0 &lt;= v0, v1 &lt;= 255) are the prior estimation of the gray level of the pixels labeled 0 and 1 respectively.
 
 ### Input
 
-Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 &lt;= T &lt;= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
 
-The first line of each test case contains four integers R, C (2 <= R, C <= 20), v0 and v1. The following R lines contain C integers each, which are the gray level of the pixels. The proper ranges are shown in the problem description.
+The first line of each test case contains four integers R, C (2 &lt;= R, C &lt;= 20), v0 and v1. The following R lines contain C integers each, which are the gray level of the pixels. The proper ranges are shown in the problem description.
 
 ### Output
 

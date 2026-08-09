@@ -22,13 +22,13 @@ We all love recursion! Don't we?
 
 Consider a three-parameter recursive function w(a, b, c):
 
-if a <= 0 or b <= 0 or c <= 0, then w(a, b, c) returns:
+if a &lt;= 0 or b &lt;= 0 or c &lt;= 0, then w(a, b, c) returns:
 1
 
-if a > 20 or b > 20 or c > 20, then w(a, b, c) returns:
+if a &gt; 20 or b &gt; 20 or c &gt; 20, then w(a, b, c) returns:
 w(20, 20, 20)
 
-if a < b and b < c, then w(a, b, c) returns:
+if a &lt; b and b &lt; c, then w(a, b, c) returns:
 w(a, b, c-1) + w(a, b-1, c-1) - w(a, b-1, c)
 
 otherwise it returns:
@@ -62,7 +62,7 @@ w(-1, 7, 18) = 1
 
 Problem Source: Pacific Northwest 1999
 
-------
+---
 
 ```cpp
 /* 1168 ymC */

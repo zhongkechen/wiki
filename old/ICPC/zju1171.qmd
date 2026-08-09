@@ -18,7 +18,7 @@ Time limit: 1 Seconds
 
 Memory limit: 32768K
 
-Imagine you have a pile of 1 <= N <= 10^5 photos. Some of them are faced upwards and the others faced downwards. Your goal is to sort them so all the photos are faced the same direction. The only operation you are allowed to do is to take any amount of the photos from the top into the separate pile, turn that pile upside-down as the whole and put it back over the rest of original pile.
+Imagine you have a pile of 1 &lt;= N &lt;= 10^5 photos. Some of them are faced upwards and the others faced downwards. Your goal is to sort them so all the photos are faced the same direction. The only operation you are allowed to do is to take any amount of the photos from the top into the separate pile, turn that pile upside-down as the whole and put it back over the rest of original pile.
 
 Write the program that calculates the minimum number of such operations needed to complete the sorting goal.
 
@@ -51,7 +51,9 @@ UU
 ```
 2
 ```
-------
+
+---
+
 ```cpp
 /*Time Limit Exceeded
 Written by czk*/

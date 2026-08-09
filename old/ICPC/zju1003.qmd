@@ -52,4 +52,5 @@ Numbers, one to a line, that are the winning scores, assuming that the player wi
 ```
 
 http://acm.zju.edu.cn/show_problem.php?pid=1003
-------
+
+---

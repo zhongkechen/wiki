@@ -59,7 +59,8 @@ beware._dogs_barking
 ```
 
 Problem Source: Zhejiang University Local Contest 2001
-------
+
+---
 
 ```cpp
 

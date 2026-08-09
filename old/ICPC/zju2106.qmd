@@ -44,4 +44,5 @@ For each D, print in a single line the percentage of time in a day that all of t
 ```
 
 http://acm.zju.edu.cn/show_problem.php?pid=2106
-------
+
+---

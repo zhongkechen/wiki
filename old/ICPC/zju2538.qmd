@@ -28,11 +28,11 @@ In this problem you will parse a given array representation and satisfy a query 
 
 ### Input
 
-Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 &lt;= T &lt;= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
 
 The first line of each test case is the array representation. The dimension is not given explicitly. The dimension will be at least 1 and at most 100. Length of each dimension does not exceed 100. The total number of elements does not exceed 1,000,000. Space is not important in the array representation and should be ignored. You may assume that the array representation is always valid.
 
-The second line contains the query, which is a list of M (1 <= M <= 100) integers separated with a single space.
+The second line contains the query, which is a list of M (1 &lt;= M &lt;= 100) integers separated with a single space.
 
 ### Output
 

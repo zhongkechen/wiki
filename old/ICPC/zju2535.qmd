@@ -29,9 +29,9 @@ Comparing two sets of lines, namely A and B, the following rules apply.
 
 ### Input
 
-Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 &lt;= T &lt;= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
 
-The first line of each test case is a single integer L (1 <= L <= 31), which is the number of lines carved on the ground. The following L lines are translated into English alphabets for you. Each line has zero or more words consisting of letters only (case sensitive) and separated with spaces.
+The first line of each test case is a single integer L (1 &lt;= L &lt;= 31), which is the number of lines carved on the ground. The following L lines are translated into English alphabets for you. Each line has zero or more words consisting of letters only (case sensitive) and separated with spaces.
 
 The query will contain no more than 10 keywords. Keywords within a query are unique.
 

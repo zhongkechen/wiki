@@ -55,4 +55,5 @@ For each test case, print in one line the radius of the ring required by the Cyb
 ```
 
 http://acm.zju.edu.cn/show_problem.php?pid=2107
-------
+
+---

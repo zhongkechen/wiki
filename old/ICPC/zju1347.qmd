@@ -16,11 +16,11 @@ Time limit: 1 Seconds
 
 Memory limit: 32768K
 
-For the manager of a theatre, setting the price of a ticket is a rather delicate matter. Suppose that a theatre has n (<= 1000000) seats, and that if you give away the tickets for free, all the seats will be taken. After some sort of investigation, it is estimated that for every p yuans of increase of the ticket price, the theatre will lose m audiences. But the audiences will not leave until the ticket price jumps up a complete step of p yuans. For example, if given p=1.00 and m=10, no audience will be lost if the price is set to be 0.99 yuans, and 10 will be lost if the price is 1.99 yuans. It costs R yuans for the theatre to run each show, and S yuans to serve each of the audiences during each show. Now your job is to write a program to maximize the total revenue of each show for the theatre.
+For the manager of a theatre, setting the price of a ticket is a rather delicate matter. Suppose that a theatre has n (&lt;= 1000000) seats, and that if you give away the tickets for free, all the seats will be taken. After some sort of investigation, it is estimated that for every p yuans of increase of the ticket price, the theatre will lose m audiences. But the audiences will not leave until the ticket price jumps up a complete step of p yuans. For example, if given p=1.00 and m=10, no audience will be lost if the price is set to be 0.99 yuans, and 10 will be lost if the price is 1.99 yuans. It costs R yuans for the theatre to run each show, and S yuans to serve each of the audiences during each show. Now your job is to write a program to maximize the total revenue of each show for the theatre.
 
 ### Input
 
-The first line of input contains a positive integer N (< 10000), then followed by N test cases.
+The first line of input contains a positive integer N (&lt; 10000), then followed by N test cases.
 
 Each test case consists of 5 positive numbers in a line, n, p, m, R, S which are all defined in the problem.
 

@@ -64,7 +64,8 @@ Case 3 is not a tree.
 
 Problem Source: North Central North America 1997
 
-------
+---
+
 ```cpp
 /*written by czk*/
 #include <iostream>

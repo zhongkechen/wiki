@@ -20,13 +20,13 @@ Memory limit: 32768K
 
 ![1575.jpg](<assets/zju1575/1575.jpg>)
 
-Koch Curve is very common in fractal. It has infinite length. The figure above illustrates the creation of a Koch Curve. A line segment L1 (a->d) is given. It is cut into three equal parts. L2 is obtained by rotating the middle part counter-clockwise to vector s->d. The length satisfies the constraint p0p1 = p1p2 = p2p3 = p3p4. We further process on p0->p1, p1->p2, p2->p3, p3->p4 to obtain L3. We proceed with such iteration to obtain Koch Curve. Since the length is increased by 4/3 each iteration, the length of Koch Curve is infinite. With given s and d, you are to provide the result of the n-th iteration.
+Koch Curve is very common in fractal. It has infinite length. The figure above illustrates the creation of a Koch Curve. A line segment L1 (a-&gt;d) is given. It is cut into three equal parts. L2 is obtained by rotating the middle part counter-clockwise to vector s-&gt;d. The length satisfies the constraint p0p1 = p1p2 = p2p3 = p3p4. We further process on p0-&gt;p1, p1-&gt;p2, p2-&gt;p3, p3-&gt;p4 to obtain L3. We proceed with such iteration to obtain Koch Curve. Since the length is increased by 4/3 each iteration, the length of Koch Curve is infinite. With given s and d, you are to provide the result of the n-th iteration.
 
 ### Input
 
 There are multiple tests, in each test.
 
-The first line contains an integer n (1 <= n <= 7).
+The first line contains an integer n (1 &lt;= n &lt;= 7).
 
 The second line contains four floating numbers sx, sy, dx, dy.
 
@@ -65,7 +65,8 @@ Author: DU, Peng
 
 Problem Source: ZOJ Monthly, April 2003
 
-------
+---
+
 ```cpp
 /*Written by czk*/
 #include <iostream>

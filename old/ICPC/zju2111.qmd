@@ -24,7 +24,7 @@ A starship trooper can fight against 20 bugs. Since you do not have enough troop
 
 ### Input
 
-The input contains several test cases. The first line of each test case contains two integers N (0 < N &lt;= 100) and M (0 &lt;= M &lt;= 100), which are the number of rooms in the cavern and the number of starship troopers you have, respectively. The following N lines give the description of the rooms. Each line contains two non-negative integers -- the amount of bugs inside and the possibility of containing a brain, respectively. The next N - 1 lines give the description of tunnels. Each tunnel is described by two integers, which are the indices of the two rooms it connects. Rooms are numbered from 1 and room 1 is the entrance to the cavern.
+The input contains several test cases. The first line of each test case contains two integers N (0 &lt; N &lt;= 100) and M (0 &lt;= M &lt;= 100), which are the number of rooms in the cavern and the number of starship troopers you have, respectively. The following N lines give the description of the rooms. Each line contains two non-negative integers -- the amount of bugs inside and the possibility of containing a brain, respectively. The next N - 1 lines give the description of tunnels. Each tunnel is described by two integers, which are the indices of the two rooms it connects. Rooms are numbered from 1 and room 1 is the entrance to the cavern.
 
 The last test case is followed by two -1's.
 
@@ -57,4 +57,5 @@ For each test case, print on a single line the maximum sum of all the possibilit
 7
 ```
 http://acm.zju.edu.cn/show_problem.php?pid=2111
-------
+
+---

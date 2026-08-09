@@ -18,13 +18,13 @@ Time Limit: 1.0 second
 
 Memory Limit: 1 000 KB
 
-------
+---
 
 The group of people consists of N members. Every member has one or more friends in the group. You are to write program that divides this group into two teams. Every member of each team must have friends in another team.
 
 ### Input
 
-The first line of input contains the only number N (N <= 100). Members are numbered from 1 to N. The second, the third,...and the (N+1)th line contain list of friends of the first, the second, ...and the Nth member respectively. This list is finished by zero. Remember that friendship is always mutual in this group.
+The first line of input contains the only number N (N &lt;= 100). Members are numbered from 1 to N. The second, the third,...and the (N+1)th line contain list of friends of the first, the second, ...and the Nth member respectively. This list is finished by zero. Remember that friendship is always mutual in this group.
 
 ### Output
 
@@ -54,4 +54,4 @@ Problem Author: D. Filimonenkov
 
 Problem Source: Tetrahedron Team Contest May 2001
 
-------
+---

@@ -51,7 +51,9 @@ For each mouse click in the input, output a single line containing the index (st
 ```
 
 http://acm.zju.edu.cn/show_problem.php?pid=2480
-------
+
+---
+
 ```cpp
 //writen by 曹高挺
 #include <iostream>

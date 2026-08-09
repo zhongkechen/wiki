@@ -18,7 +18,7 @@ Time limit: 10 Seconds
 
 Memory limit: 32768K
 
-Recently, Robert found a new game on the Internet that is the newest version of 'Link and Pop'. The game rule is very simple. Initially, a board of size n*m is filled with n*m blocks. Each of these blocks has a symbol on it. All you need to do is to find a pair of blocks with the same symbol on them, which can be linked with a line that consists of at most three straight horizontal or vertical line segments. Note that the line segments cannot cross the other blocks on the board (see fig.1 for some examples of possible links, note that some blocks have been already removed from the board).
+Recently, Robert found a new game on the Internet that is the newest version of 'Link and Pop'. The game rule is very simple. Initially, a board of size n\*m is filled with n\*m blocks. Each of these blocks has a symbol on it. All you need to do is to find a pair of blocks with the same symbol on them, which can be linked with a line that consists of at most three straight horizontal or vertical line segments. Note that the line segments cannot cross the other blocks on the board (see fig.1 for some examples of possible links, note that some blocks have been already removed from the board).
 
 ![2391_1.gif](<assets/zju2391/2391_1.gif>)
 
@@ -34,7 +34,7 @@ In order to make such a program possible, Robert summarizes his rules of selecti
 
 ### Input
 
-The input contains no more than 30 test cases. The first line of each test case contains 2 integers n, m (1 <= n, m <= 30), which is the size of the board. After this line, there will be n more lines. Each of these lines contains m strings, separated by single spaces. Each of these strings represents one block in the initial configuration. Each string always consists of two capital letters. The first letter is the symbol of the block. The second letter is always one of the letters 'U','D','L','R' and 'S', which shows the block’s moving attribute: up, down, left, right, and stand still respectively. There are no blank lines between test cases. The input ends with a line of two 0s: 0 0.
+The input contains no more than 30 test cases. The first line of each test case contains 2 integers n, m (1 &lt;= n, m &lt;= 30), which is the size of the board. After this line, there will be n more lines. Each of these lines contains m strings, separated by single spaces. Each of these strings represents one block in the initial configuration. Each string always consists of two capital letters. The first letter is the symbol of the block. The second letter is always one of the letters 'U','D','L','R' and 'S', which shows the block’s moving attribute: up, down, left, right, and stand still respectively. There are no blank lines between test cases. The input ends with a line of two 0s: 0 0.
 
 ### Output
 
@@ -64,4 +64,5 @@ Case 2
 ```
 
 Problem Source: Asia 2004, Shanghai (Mainland China)
-------
+
+---

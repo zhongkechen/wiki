@@ -20,7 +20,7 @@ Memory limit: 32768K
 
 FatMouse prepared M pounds of cat food, ready to trade with the cats guarding the warehouse containing his favorite food, `JavaBean`.
 
-The warehouse has N rooms. The i-th room contains J[i] pounds of `JavaBeans` and requires F[i] pounds of cat food. FatMouse does not have to trade for all the `JavaBeans` in the room, instead, he may get J[i]* a% pounds of `JavaBeans` if he pays F[i]* a% pounds of cat food. Here a is a real number. Now he is assigning this homework to you: tell him the maximum amount of `JavaBeans` he can obtain.
+The warehouse has N rooms. The i-th room contains J[i] pounds of `JavaBeans` and requires F[i] pounds of cat food. FatMouse does not have to trade for all the `JavaBeans` in the room, instead, he may get J[i]\* a% pounds of `JavaBeans` if he pays F[i]\* a% pounds of cat food. Here a is a real number. Now he is assigning this homework to you: tell him the maximum amount of `JavaBeans` he can obtain.
 
 ### Input
 
@@ -51,7 +51,7 @@ For each test case, print in a single line a real number accurate up to 3 decima
 31.500
 ```
 
-------
+---
 
 ```cpp
 /*Written by czk*/

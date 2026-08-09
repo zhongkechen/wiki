@@ -67,5 +67,7 @@ No
 Author: ZHENG, Jianqiang
 
 Problem Source: Zhejiang University Local Contest 2006, Preliminary
-------
+
+---
+
 http://acm.zju.edu.cn/show_problem.php?pid=2725

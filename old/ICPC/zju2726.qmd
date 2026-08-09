@@ -39,7 +39,7 @@ Notice: the histogram should show out the exact proportions, however, the height
 
 ### Input
 
-There are multiple test cases. Each test case begins with an integer N (the number of Vivid's classmates, 1 <= N <= 50), followed by N lines of strings indicating the birthdays of them. A birthday is represented by the month (an English word), a blank, and the date. You can assume all the birthdays are valid dates. A case with N = 0 indicates the end of input. Do not proceed this case.
+There are multiple test cases. Each test case begins with an integer N (the number of Vivid's classmates, 1 &lt;= N &lt;= 50), followed by N lines of strings indicating the birthdays of them. A birthday is represented by the month (an English word), a blank, and the date. You can assume all the birthdays are valid dates. A case with N = 0 indicates the end of input. Do not proceed this case.
 
 ### Output
 
@@ -102,5 +102,7 @@ March 20
 Author: JIN, Tianpeng
 
 Problem Source: Zhejiang University Local Contest 2006, Preliminary
-------
+
+---
+
 http://acm.zju.edu.cn/show_problem.php?pid=2726

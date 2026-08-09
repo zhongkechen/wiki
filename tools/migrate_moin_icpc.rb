@@ -26,6 +26,7 @@ SOURCE_SNAPSHOT =
 IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
 NORMALIZED_TEXT_ATTACHMENT_EXTENSIONS = %w[.py].freeze
 BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
+TABLE_HEADER_FIRST_CELLS = %w[Array 姓名 物品].freeze
 
 def decode_page_name(entry)
   entry.gsub(/\(([0-9a-fA-F]+)\)/) do
@@ -273,6 +274,8 @@ end
 
 def markdown_code_span(content)
   code = content.strip
+  return "" if code.empty?
+
   longest_run = code.scan(/`+/).map(&:length).max || 0
   delimiter = "`" * (longest_run + 1)
   padding = code.start_with?("`") || code.end_with?("`") ? " " : ""
@@ -467,12 +470,34 @@ def append_blank_line(result)
   result << "" unless result.empty? || result.last.empty?
 end
 
-def convert_table_line(line)
+def table_cells(line)
   body = line.strip.delete_prefix("||").delete_suffix("||")
-  cells = body.split("||").map do |cell|
+  body.split("||", -1).map do |cell|
     cell.strip.sub(/\A(?:<[^>]+>\s*)+/, "")
   end
+end
+
+def convert_table_line(cells)
   "| #{cells.join(' | ')} |"
+end
+
+def table_header_row?(cells)
+  TABLE_HEADER_FIRST_CELLS.include?(cells.first)
+end
+
+def escape_plain_moin_markup(source)
+  source.gsub!(/(\|\|)\s*(?:<[^>\n]+>\s*)+/) { Regexp.last_match(1) }
+
+  source.lines.map do |line|
+    bullet = line.match(/\A(\s+)\*\s/)
+    quote = line.match?(/\A>\s/)
+    line = line.sub(/\A(\s+)\*/, '\1@@MOIN_BULLET@@') if bullet
+    line = line.sub(/\A>/, "@@MOIN_QUOTE@@") if quote
+    line = line.gsub("*", "\\*")
+    line = line.gsub(/(?<!<)<(?!<)/, "&lt;")
+    line = line.gsub(/(?<!>)>(?!>)/, "&gt;")
+    line.gsub("@@MOIN_BULLET@@", "*").gsub("@@MOIN_QUOTE@@", ">")
+  end.join
 end
 
 def convert_moin(text, owner:, context:, expand_includes: false)
@@ -499,6 +524,7 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   source, blocks, inline = convert_blocks(source)
   source = add_display_math_block(source, blocks)
   source.gsub!("<<AttachList>>", render_attach_list(owner))
+  source = escape_plain_moin_markup(source)
 
   source.gsub!(/\{\{attachment:([^}\n]+)\}\}/) do
     attachment_markup(Regexp.last_match(1), owner, context, image: true)
@@ -506,6 +532,12 @@ def convert_moin(text, owner:, context:, expand_includes: false)
 
   source.gsub!(/\{\{(https?:\/\/[^}|\n]+)(?:\|([^}|\n]*))?(?:\|[^}\n]*)?\}\}/) do
     external_image_markup(Regexp.last_match(1), Regexp.last_match(2))
+  end
+
+  source.gsub!(/(?<!\[)\[((?:https?|ftp|mailto):[^\s\]]+)(?:\s+([^\]]+))?\]/) do
+    target = Regexp.last_match(1)
+    label = Regexp.last_match(2) || target
+    "[#{label}](#{target})"
   end
 
   source.gsub!(/\[\[([^\]]+)\]\]/) do
@@ -546,13 +578,29 @@ def convert_moin(text, owner:, context:, expand_includes: false)
       list_indents.clear
       previous_line_was_list_item = false
       next
+    elsif line.match?(/^\s*-{4,}\s*$/)
+      append_blank_line(result)
+      result << "---"
+      result << ""
+      in_table = false
+      list_indents.clear
+      previous_line_was_list_item = false
+      next
     elsif line.match?(/^\s*\|\|.*\|\|\s*$/)
       append_blank_line(result) unless in_table
-      result << convert_table_line(line)
+      cells = table_cells(line)
+      row = convert_table_line(cells)
       unless in_table
-        cell_count = line.scan(/\|\|/).length - 1
-        result << "| #{Array.new(cell_count, '---').join(' | ')} |"
+        if table_header_row?(cells)
+          result << row
+          result << "| #{Array.new(cells.length, '---').join(' | ')} |"
+        else
+          result << "| #{Array.new(cells.length, '').join(' | ')} |"
+          result << "| #{Array.new(cells.length, '---').join(' | ')} |"
+          result << row
+        end
       end
+      result << row if in_table
       in_table = true
       list_indents.clear
       previous_line_was_list_item = false
@@ -577,6 +625,7 @@ def convert_moin(text, owner:, context:, expand_includes: false)
       depth = list_indents.index(source_indent) || list_indents.length - 1
       indent = " " * (depth * 4)
       marker = list[2]
+      marker = "1." if marker.match?(/\A[a-z]\.\z/i)
       prefix = "#{indent}#{marker} "
       continuation = " " * prefix.length
       result.concat(
@@ -700,7 +749,7 @@ Dir.mktmpdir("migrate-moin-icpc") do |temporary_root|
       if !page_has_readable_revision?(page_name)
         <<~MARKDOWN
           ::: {.callout-warning}
-          **源页面不可用**
+          '''源页面不可用'''
 
           MoinMoin 备份中保留了这个页面名，但没有可读取的当前版本。
           :::
@@ -716,7 +765,7 @@ Dir.mktmpdir("migrate-moin-icpc") do |temporary_root|
     if page_uses_fallback_revision?(page_name)
       placeholder = [
         "::: {.callout-warning}",
-        "**已恢复历史版本**",
+        "'''已恢复历史版本'''",
         "",
         "当前版本 #{page_current_revision(page_name)} 在备份中缺失；以下内容来自最新可读取版本 #{page_revision(page_name)}。",
         ":::",

@@ -22,7 +22,7 @@ You are given the whole numbers N, M and Y. Write a program that will find all w
 
 ### Input
 
-The input contains a single line with N, M and Y (0<N<999, 1<M<999, 0<Y<99) separated with one space.
+The input contains a single line with N, M and Y (0&lt;N&lt;999, 1&lt;M&lt;999, 0&lt;Y&lt;99) separated with one space.
 Output
 
 Output all numbers X separated with space on one line. The numbers must be written in ascending order. If no such numbers exist then output -1.
@@ -40,4 +40,4 @@ Output all numbers X separated with space on one line. The numbers must be writt
 ```
 Problem Source: Bulgarian National Olimpiad Day #1
 
-------
+---

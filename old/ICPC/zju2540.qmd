@@ -22,9 +22,9 @@ In our problem we have a square tent, which means we need to fix the four vertic
 
 ### Input
 
-Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 50) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 &lt;= T &lt;= 50) which is the number of test cases. T test cases follow, each preceded by a single blank line.
 
-Each test case contains 4 lines for the coordinates of the four distinct vertices that are picked. Each line contains the x and y coordinates separated by a single space (0 < x, y < 1,000). But please notice that the coordinates are not necessarily given in either clockwise or counterclockwise order for a square.
+Each test case contains 4 lines for the coordinates of the four distinct vertices that are picked. Each line contains the x and y coordinates separated by a single space (0 &lt; x, y &lt; 1,000). But please notice that the coordinates are not necessarily given in either clockwise or counterclockwise order for a square.
 
 ### Output
 

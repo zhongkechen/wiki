@@ -45,7 +45,7 @@ Your program should output a number representing the minimal possible weight dif
 3
 ```
 
-------
+---
 
 ```cpp
 /*Written by czk*/

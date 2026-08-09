@@ -28,9 +28,9 @@ The good news is that you have an HTML parser in hand. All you need to do is to 
 
 ### Input
 
-Standard input will contain multiple test cases. The first line of the input is a single integer T (1 <= T <= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
+Standard input will contain multiple test cases. The first line of the input is a single integer T (1 &lt;= T &lt;= 10) which is the number of test cases. T test cases follow, each preceded by a single blank line.
 
-Each test case starts with integers n (0 < n <= 1,000) and m (0 < m <= 10) which are the numbers of pages and of queries, respectively.
+Each test case starts with integers n (0 &lt; n &lt;= 1,000) and m (0 &lt; m &lt;= 10) which are the numbers of pages and of queries, respectively.
 
 The next n lines contain an URL each, which will always be in the absolute form. The page ID's are integers from 1 to n.
 

@@ -51,7 +51,8 @@ EMPTY QUEUE!
 Author: ZHOU, Ran
 
 Problem Source: Zhejiang University Local Contest 2006, Preliminary
-------
+
+---
 
 ```cpp
 /*Written by czk*/
