@@ -1,0 +1,13 @@
+---
+title: "面向对象程序设计实验指导书"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+* 《C++语言程序设计》 郑莉 董渊编著 清华大学出版社 2001 http://www.china-pub.com/computers/common/info.asp?id=743687

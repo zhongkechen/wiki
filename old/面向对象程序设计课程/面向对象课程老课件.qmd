@@ -1,0 +1,25 @@
+---
+title: "面向对象课程老课件"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+在这里详述 面向对象课程老课件.
+
+* [lab.ppt](<assets/面向对象课程老课件/lab.ppt>)
+* [oop1.ppt](<assets/面向对象课程老课件/oop1.ppt>)
+* [oop2.ppt](<assets/面向对象课程老课件/oop2.ppt>)
+* [oop3.ppt](<assets/面向对象课程老课件/oop3.ppt>)
+* [oop4.ppt](<assets/面向对象课程老课件/oop4.ppt>)
+* [oop5.ppt](<assets/面向对象课程老课件/oop5.ppt>)
+* [oop6.ppt](<assets/面向对象课程老课件/oop6.ppt>)
+* [oop7.ppt](<assets/面向对象课程老课件/oop7.ppt>)
+* [review.ppt](<assets/面向对象课程老课件/review.ppt>)
+* [复习题.pdf](<assets/面向对象课程老课件/复习题.pdf>)
+* [考试要求.ppt](<assets/面向对象课程老课件/考试要求.ppt>)

@@ -1,0 +1,19 @@
+---
+title: "面向对象程序设计教材"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+04计本2班、05计本1班、05计本2班、04瓯信算教材：
+
+* 《C++语言程序设计》　郑莉、董渊编著 清华大学出版社　2001 http://www.china-pub.com/computers/common/info.asp?id=743687
+
+03计本1班、03计本2班、03计本3班教材：
+
+* 《面向对象程序设计：C++语言描述（原书第2版）》 Richard Johnsonbaugh,Martin Kalin著，Prentice Hall出版社出版，蔡宇辉、李军义译，机械工业出版社出版 http://www.china-pub.com/computers/common/info.asp?id=8159

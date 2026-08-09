@@ -1,0 +1,13 @@
+---
+title: "面向对象程序设计课程设计指导书"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+自编实验指导书，参见：[C++课程设计](<../C++课程设计.html>)
