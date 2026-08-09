@@ -16,7 +16,7 @@ format:
 
 | **编号** | **姓名** | **单位** | **职业** | **联系方式** |
 | --- | --- | --- | --- | --- |
-| 1 | 陈忠克 | 温州大学 | 教师 | qq:245149, |
+| 1 | 陈忠克 | 温州大学 | 教师 | qq:245149,[czk19790827@gmail.com](mailto:czk19790827@gmail.com) |
 | 2 | 黄长城 | 温州大学/瑞安计算机协会 | 教师 | qq:25378802,email:cchuang@126.com |
 | 3 | 沈欢 | 庄吉集团 | 主管 | qq:247791321,email:shenhuan007@gmail.com |
 | 4 | 陈熠锋 | 瓯海信息中心 | 工程师 | email: chenyifengATgmailDOTcom |
@@ -49,4 +49,3 @@ format:
 | 31 | ZQS | Z集团 | 主管 | qq:XXX,email:XXX@gmail.com |
 
 ----
-CategoryHomepage

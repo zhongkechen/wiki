@@ -28,6 +28,9 @@ jobs:
         with:
           version: "1.10.18"
 
+      - name: Check Linux migration replay
+        run: ruby tools/check_linux_migration.rb
+
       - name: Render site
         run: quarto render
 

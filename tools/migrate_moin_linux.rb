@@ -10,6 +10,7 @@ OUTPUT_ROOT = File.expand_path("../old", __dir__)
 COURSE_NAME = "Linux"
 COURSE_OUTPUT = File.join(OUTPUT_ROOT, COURSE_NAME)
 SOURCE_SNAPSHOT_PATH = File.expand_path("data/moin_linux_sources.json", __dir__)
+SOURCE_ASSET_ROOT = File.expand_path("data/moin_linux_assets", __dir__)
 SOURCE_SNAPSHOT =
   if File.exist?(SOURCE_SNAPSHOT_PATH)
     JSON.parse(File.read(SOURCE_SNAPSHOT_PATH, encoding: "UTF-8"))
@@ -47,31 +48,70 @@ def page_directory(name)
   entry && File.join(SOURCE_ROOT, entry)
 end
 
+def snapshot_record(name)
+  record = SOURCE_SNAPSHOT[name]
+  return {} unless record
+
+  record.is_a?(Hash) ? record : { "source" => record }
+end
+
+def page_current_revision(name)
+  directory = page_directory(name)
+  return snapshot_record(name)["current_revision"] unless directory
+
+  current_path = File.join(directory, "current")
+  return nil unless File.exist?(current_path)
+
+  File.read(current_path).strip
+end
+
+def page_revision(name)
+  directory = page_directory(name)
+  return snapshot_record(name)["revision"] unless directory
+
+  revisions_directory = File.join(directory, "revisions")
+  return nil unless Dir.exist?(revisions_directory)
+
+  current_revision = page_current_revision(name)
+  current_path = current_revision && File.join(revisions_directory, current_revision)
+  return current_revision if current_path && File.file?(current_path)
+
+  Dir.children(revisions_directory).select do |revision|
+    File.file?(File.join(revisions_directory, revision))
+  end.max
+end
+
 def page_source(name)
   directory = page_directory(name)
   if directory
-    current_path = File.join(directory, "current")
-    return "" unless File.exist?(current_path)
+    revision = page_revision(name)
+    return "" unless revision
 
-    revision = File.read(current_path).strip
     revision_path = File.join(directory, "revisions", revision)
-    return "" unless File.exist?(revision_path)
-
     return File.read(revision_path, encoding: "UTF-8", invalid: :replace)
   end
 
-  SOURCE_SNAPSHOT.fetch(name, "")
+  snapshot_record(name).fetch("source", "")
 end
 
-def page_has_current_revision?(name)
+def page_has_readable_revision?(name)
   directory = page_directory(name)
-  return !SOURCE_SNAPSHOT.fetch(name, "").strip.empty? unless directory
+  unless directory
+    record = snapshot_record(name)
+    return false if record.empty?
 
-  current_path = File.join(directory, "current")
-  return false unless File.exist?(current_path)
+    return true if record["revision"]
 
-  revision = File.read(current_path).strip
-  File.exist?(File.join(directory, "revisions", revision))
+    return !record.fetch("source", "").strip.empty?
+  end
+
+  !page_revision(name).nil?
+end
+
+def page_uses_fallback_revision?(name)
+  current_revision = page_current_revision(name)
+  selected_revision = page_revision(name)
+  current_revision && selected_revision && current_revision != selected_revision
 end
 
 def linked_page_names(source)
@@ -89,7 +129,7 @@ end
 COURSE_SOURCE = page_source(COURSE_NAME)
 direct_pages = linked_page_names(COURSE_SOURCE)
 primary_pages = direct_pages.dup
-queue = direct_pages.select { |page_name| page_has_current_revision?(page_name) }
+queue = direct_pages.select { |page_name| page_has_readable_revision?(page_name) }
 
 until queue.empty?
   page_name = queue.shift
@@ -99,7 +139,7 @@ until queue.empty?
 
   descendants.each do |target|
     next if target == COURSE_NAME || primary_pages.include?(target)
-    next unless page_has_current_revision?(target)
+    next unless page_has_readable_revision?(target)
 
     primary_pages << target
     queue << target
@@ -108,12 +148,48 @@ end
 
 PRIMARY_PAGES = primary_pages.freeze
 MIGRATED_PAGES = ([COURSE_NAME] + PRIMARY_PAGES).uniq.freeze
-SOURCE_PAGE_NAMES = MIGRATED_PAGES
+AUXILIARY_SOURCE_PAGE_NAMES = MIGRATED_PAGES.filter_map do |page_name|
+  next unless page_source(page_name).include?("<<PageComment2")
+
+  comment_page = "#{page_name}/PageCommentData"
+  comment_page if page_has_readable_revision?(comment_page)
+end.freeze
+SOURCE_PAGE_NAMES = (MIGRATED_PAGES + AUXILIARY_SOURCE_PAGE_NAMES).uniq.freeze
 
 if PAGE_INDEX.any?
-  snapshot = SOURCE_PAGE_NAMES.to_h { |page_name| [page_name, page_source(page_name)] }
+  snapshot = SOURCE_PAGE_NAMES.to_h do |page_name|
+    [
+      page_name,
+      {
+        "source" => page_source(page_name),
+        "revision" => page_revision(page_name),
+        "current_revision" => page_current_revision(page_name)
+      }
+    ]
+  end
   FileUtils.mkdir_p(File.dirname(SOURCE_SNAPSHOT_PATH))
   File.write(SOURCE_SNAPSHOT_PATH, JSON.pretty_generate(snapshot) + "\n")
+
+  Dir.mktmpdir("moin-linux-assets") do |temporary_root|
+    temporary_asset_root = File.join(temporary_root, "moin_linux_assets")
+    FileUtils.mkdir_p(temporary_asset_root)
+
+    SOURCE_PAGE_NAMES.each do |page_name|
+      directory = page_directory(page_name)
+      attachments = directory && File.join(directory, "attachments")
+      next unless attachments && Dir.exist?(attachments)
+
+      destination = File.join(temporary_asset_root, page_name)
+      FileUtils.mkdir_p(destination)
+      Dir.children(attachments).each do |filename|
+        source = File.join(attachments, filename)
+        FileUtils.cp(source, destination) if File.file?(source)
+      end
+    end
+
+    FileUtils.rm_rf(SOURCE_ASSET_ROOT)
+    FileUtils.mv(temporary_asset_root, SOURCE_ASSET_ROOT)
+  end
 end
 
 def qmd_front_matter(title)
@@ -210,6 +286,8 @@ def convert_blocks(text)
     rendered =
       if language == "latex"
         "$$\n#{normalize_latex(body)}\n$$"
+      elsif language == "html"
+        body.sub(/\A<html>\s*<body>/i, "").sub(%r{</body>\s*</html>\z}i, "")
       else
         fence_language = language.to_s.gsub(/\s.*\z/, "")
         "```#{fence_language}\n#{body}\n```"
@@ -251,11 +329,11 @@ def attachment_names(owner)
     end.sort
   end
 
-  existing_assets = File.join(COURSE_OUTPUT, "assets", owner)
-  return [] unless Dir.exist?(existing_assets)
+  snapshot_assets = File.join(SOURCE_ASSET_ROOT, owner)
+  return [] unless Dir.exist?(snapshot_assets)
 
-  Dir.children(existing_assets).select do |filename|
-    File.file?(File.join(existing_assets, filename))
+  Dir.children(snapshot_assets).select do |filename|
+    File.file?(File.join(snapshot_assets, filename))
   end.sort
 end
 
@@ -276,6 +354,40 @@ end
 def external_image_markup(url, label)
   visible = label.to_s.empty? ? File.basename(url.split(/[?#]/, 2).first) : label
   "![#{visible}](#{url})"
+end
+
+def mailto_markup(spec)
+  address = spec.strip
+                .gsub(/\s+AT\s+/i, "@")
+                .gsub(/\s+DOT\s+/i, ".")
+                .delete(" ")
+  "[#{address}](mailto:#{address})"
+end
+
+def page_comments(owner)
+  source = page_source("#{owner}/PageCommentData")
+  source.scan(/\{\{\{\s*\n(.*?)\n\}\}\}/m).filter_map do |match|
+    lines = match.first.gsub("\r\n", "\n").lines.map(&:rstrip)
+    next if lines.length < 5
+
+    author = lines[1].strip
+    timestamp = lines[2].strip
+    body = lines.drop(4).join("\n").strip
+    next if body.empty?
+
+    { author: author, timestamp: timestamp, body: body }
+  end
+end
+
+def render_page_comments(owner)
+  page_comments(owner).map do |comment|
+    body = comment[:body].lines.map { |line| line.strip.empty? ? ">" : "> #{line.rstrip}" }.join("\n")
+    [
+      "> **#{comment[:author]}** · #{comment[:timestamp]}",
+      ">",
+      body
+    ].join("\n")
+  end.join("\n\n")
 end
 
 def render_content_with_blocks(content, blocks, first_prefix: "", continuation_prefix: "")
@@ -350,6 +462,8 @@ def convert_moin(text, owner:, context:, expand_includes: false)
 
   source.gsub!("<<BR>>", "<br>")
   source.gsub!("<<和>>", "@@MOIN_SHIFT_OPERATORS@@")
+  source.gsub!(/<<MailTo\(([^)]+)\)>>/) { mailto_markup(Regexp.last_match(1)) }
+  source.gsub!("<<PageComment2>>") { render_page_comments(owner) }
   source.gsub!(/<<(?:TableOfContents|Navigation\([^)]*\))>>/, "")
   source.gsub!(/<<Anchor\(([^)]+)\)>>/, '<a id="\1"></a>')
   source.gsub!(/<<FootNote\(([^)]+)\)>>/, '^[\1]')
@@ -367,7 +481,9 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   source.each_line do |raw_line|
     line = raw_line.rstrip
 
-    if line.start_with?("##")
+    if line.match?(/\A\s*(?:Category[^\s]+\s*)+\z/)
+      next
+    elsif line.start_with?("##")
       next
     elsif (heading = line.match(/^\s*(=+)\s*(.*?)\s*\1\s*$/))
       append_blank_line(result)
@@ -464,8 +580,8 @@ def attachment_source(owner, filename)
   source = source_directory && File.join(source_directory, "attachments", filename)
   return source if source && File.exist?(source)
 
-  existing = File.join(COURSE_OUTPUT, "assets", owner, filename)
-  return existing if File.exist?(existing)
+  snapshot = File.join(SOURCE_ASSET_ROOT, owner, filename)
+  return snapshot if File.exist?(snapshot)
 
   nil
 end
@@ -518,7 +634,7 @@ Dir.mktmpdir("migrate-moin-linux") do |temporary_root|
   PRIMARY_PAGES.each do |page_name|
     source = page_source(page_name)
     placeholder =
-      if !page_has_current_revision?(page_name)
+      if !page_has_readable_revision?(page_name)
         <<~MARKDOWN
           ::: {.callout-warning}
           **源页面不可用**
@@ -534,6 +650,17 @@ Dir.mktmpdir("migrate-moin-linux") do |temporary_root|
       else
         source
       end
+    if page_uses_fallback_revision?(page_name)
+      placeholder = [
+        "::: {.callout-warning}",
+        "**已恢复历史版本**",
+        "",
+        "当前版本 #{page_current_revision(page_name)} 在备份中缺失；以下内容来自最新可读取版本 #{page_revision(page_name)}。",
+        ":::",
+        "",
+        placeholder
+      ].join("\n")
+    end
     body = convert_moin(
       placeholder,
       owner: page_name,
