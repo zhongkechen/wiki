@@ -1,0 +1,51 @@
+---
+title: "C"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”目录](<../高级语言程序设计课程.qmd>)
+
+## C语言
+
+### 入门教程
+- 英文影印版：[*The C Programming Language* 2nd Edition](http://www.china-pub.com/computers/common/info.asp?id=31413), Brian Kernighan, Dennis Ritchie, Prentice Hall
+- 中文翻译版：[C程序设计语言（第二版新版）](http://www.china-pub.com/computers/common/info.asp?id=14975)，徐宝文译，机械工业出版社
+- 在线中英文对照版：[TCPL](<../TCPL.qmd>)
+- 英文电子版：[TheCProgrammingLanguage(2ndEdition).pdf](<assets/C/TheCProgrammingLanguage(2ndEdition).pdf>)
+- [Answer_to_Chapter_1](<../Answer_to_Chapter_1.qmd>) 参考答案
+- [Examples_from_TCPL](<../Examples_from_TCPL.qmd>)书中所有的例子
+- C语言实例教程[Illustrated_C](<../Illustrated_C.qmd>)
+- [高级语言程序设计课程](<../高级语言程序设计课程.qmd>)
+
+### C语言教程
+- Title: A C tutorial.
+  - Author: Christopher Sawtell.
+  - E-mail: [chris@gerty.equinox.gen.nz](mailto:chris@gerty.equinox.gen.nz)
+  - URL: [c-lesson.zip](<assets/C/c-lesson.zip>)
+  - This tutorial contains a complete course for you to learn C. It is geared towards the UNIX operating system, but most can be applied regardless of platform.
+
+- Title: Programming in C
+  - Author: Dave Marshall
+  - URL: <http://www.cm.cf.ac.uk/Dave/C/CE.html>
+  - This is one of the best C programming tutorials out there on the World Wide Web (WWW) and one of those that I tried to get permission to put on the CD.
+
+- Title: COMP.LANG.C FAQ
+  - Author: Steve Summit
+  - URL: <http://www.eskimo.com/~scs/C-faq/top.html>
+  - The FAQ (Frequently Asked Questions) is a compilation of frequently asked questions along with the answers. It is not a tutor per se but will answer many of the questions raised by C programmers and is well worth reading if you want to program in C. (The FAQ for any programming language is worth reading come to that!)
+
+
+### 参考资料
+- [Wikipedia:C语言](https://secure.wikimedia.org/wikipedia/zh/wiki/C%E8%AF%AD%E8%A8%80)
+- [Programming in C](https://www.lysator.liu.se/c/index.html)
+- [Solutions to exercises from "The C Programming Language, 2nd Edition"](https://github.com/danlucraft/kandr2)
+- [Ansi C FAQ](http://www.faqs.org/faqs/C-faq/faq/)
+- [GTK](https://gtk.org/)
+- [Ch运行环境](<../Ch运行环境.qmd>)
+- [等级考试C语言.zip](<assets/C/等级考试C语言.zip>)
+- [C语言的%s](https://en.wikipedia.org/wiki/%25s)

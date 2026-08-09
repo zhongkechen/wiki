@@ -1,0 +1,66 @@
+---
+title: "C语言练习3"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”目录](<../高级语言程序设计课程.qmd>)
+
+- 编写一个函数edge(m)，将N*N的二维数组m周边的元素置0值，即第0行、第N-1行、第0列、第N-1列的元素置0。
+- 请编写函数fun(s, t)，函数的功能是：在字符串s中所有数字字符前加一个$字符，结果存到t中。例如，输入：A1B23CD45，则输出为：A$1B$2$3CD$4$5。
+- 写一个程序avg，在命令行参数上读入一组整数，输出整数的平均值。比如avg 10 20 30，输出20。
+- 写一个函数foreach(a, n, f)，对于长度是n的数组上的每一个元素，调用函数f进行操作。
+
+```c
+#define N 20
+void edge(int m[N][N]) {
+    int i;
+    for(i = 0; i < N; i++) {
+        m[0][i] = 0;
+        m[N-1][i] = 0;
+        m[i][0] = 0;
+        m[i][N-1] = 0;
+    }
+}
+```
+
+```c
+void fun(char *s, char *t){
+    while(*s!='\0') {
+        if(isdigit(*s)) {
+            *t++ = '$';
+        }
+        *t++ = *s++;
+    }
+    *t = '\0';
+}
+```
+
+```c
+void foreach(int a[], int n, void (*f)(int))
+{
+    int i;
+    for(i = 0; i < n; i++)
+        (*f)(a[i]);
+}
+```
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+    int sum = 0;
+    int i;
+    for( i = 1; i < argc; i++)
+        sum+=atoi(argv[i]);
+    if(argc!=1)
+        printf("%f", (double)sum / (argc -1));
+    return 0;
+}
+```

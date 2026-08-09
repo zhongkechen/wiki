@@ -1,0 +1,169 @@
+---
+title: "温大机房优化脚本"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”](<高级语言程序设计课程.qmd>)
+
+将以下代码粘贴到命令行运行可以加快温大机房的电脑运行速度：
+
+```
+net stop mi-raysat_3dsmax8
+net stop "Autodesk Licensing Service"
+net stop ersvc
+net stop helpsvc
+net stop ssdpsrv
+net stop themes
+net stop sqlserveragent
+net stop mssqlserver
+net stop sqlbrowser
+net stop mssql$sqlexpress
+net stop sharedaccess
+net stop webclient
+net stop msftpsvc
+net stop w3svc
+net stop smtpsvc
+net stop nntpsvc
+net stop iisadmin
+net stop w32time
+net stop remoteregistry
+net stop macprint
+net stop lpdsvc
+net stop spooler
+net stop messenger
+net stop wuauserv
+net stop browser
+net stop dfs
+net stop lanmanserver
+net stop bits
+net stop messenger
+net stop macfile
+net stop alerter
+net stop lanmanworkstation
+net stop schedule
+net stop trkwks
+net stop lmhosts
+net stop mdm
+net stop policyagent
+net stop alg
+net stop dhcpserver
+net stop dns
+net stop ias
+net stop licenseService
+net stop mssearch
+net stop wins
+net stop ntlmssp
+net stop simptcp
+net stop snmp
+net stop nvsvc
+net stop msdtc
+net stop wzcsvc
+net stop cryptsvc
+net stop dhcp
+net stop C-DillaSrv
+net stop C-DillaCdaC11BA
+
+net stop "symantec antivirus"
+net stop sens
+net stop defwatch
+net stop ccevtmgr
+net stop ccsetmgr
+net stop eventsystem
+net stop ltdrv
+net stop HrJobProcess
+net stop KDSvrMgrService
+net stop VMAuthdService
+net stop VMnetDHCP
+net stop "VMware NAT Service"
+net stop KPfwSvc
+net stop seclogon
+```
+
+下载 [pskill.exe](<assets/温大机房优化脚本/pskill.exe>) 并拷贝到Windows目录下，然后运行：
+
+```
+pskill raysat_3dsmax8s
+pskill sqlmangr
+pskill 360tray
+pskill ati2evxx
+pskill iccagent
+pskill adskscsrv
+pskill smax4pnp
+```
+
+```
+sc config mi-raysat_3dsmax8  start= demand
+sc config "Autodesk Licensing Service" start= demand
+sc config ersvc start= demand
+sc config helpsvc start= demand
+sc config ssdpsrv start= demand
+sc config themes start= demand
+sc config sqlserveragent start= demand
+sc config mssqlserver start= demand
+sc config sqlbrowser start= demand
+sc config mssql$sqlexpress start= demand
+sc config sharedaccess start= demand
+sc config webclient start= demand
+sc config msftpsvc start= demand
+sc config w3svc start= demand
+sc config smtpsvc start= demand
+sc config nntpsvc start= demand
+sc config iisadmin start= demand
+sc config w32time start= demand
+sc config remoteregistry start= demand
+sc config macprint start= demand
+sc config lpdsvc start= demand
+sc config spooler start= demand
+sc config messenger start= demand
+sc config wuauserv start= demand
+sc config browser start= demand
+sc config dfs start= demand
+sc config lanmanserver start= demand
+sc config bits start= demand
+sc config messenger start= demand
+sc config macfile start= demand
+sc config alerter start= demand
+sc config lanmanworkstation start= demand
+sc config schedule start= demand
+sc config trkwks start= demand
+sc config lmhosts start= demand
+sc config mdm start= demand
+sc config policyagent start= demand
+sc config alg start= demand
+sc config dhcpserver start= demand
+sc config dns start= demand
+sc config ias start= demand
+sc config licenseService start= demand
+sc config mssearch start= demand
+sc config wins start= demand
+sc config ntlmssp start= demand
+sc config simptcp start= demand
+sc config snmp start= demand
+sc config nvsvc start= demand
+sc config msdtc start= demand
+sc config wzcsvc start= demand
+sc config cryptsvc start= demand
+sc config dhcp start= demand
+sc config C-DillaSrv start= demand
+sc config C-DillaCdaC11BA start= demand
+
+sc config "symantec antivirus" start= demand
+sc config sens start= demand
+sc config defwatch start= demand
+sc config ccevtmgr start= demand
+sc config ccsetmgr start= demand
+sc config eventsystem start= demand
+sc config ltdrv start= demand
+sc config HrJobProcess start= demand
+sc config KDSvrMgrService start= demand
+sc config VMAuthdService start= demand
+sc config VMnetDHCP start= demand
+sc config "VMware NAT Service" start= demand
+sc config KPfwSvc start= demand
+sc config seclogon start= demand
+```

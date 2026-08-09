@@ -1,0 +1,383 @@
+---
+title: "Illustrated_C"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”](<高级语言程序设计课程.qmd>)
+
+## C语言实例教程 Illustrated C
+
+本教程主要为程序设计的初学者设计，通过C语言了解程序设计的基本概念。同时，也供学习过C语言，但是也针对程序设计的一些基本概念不甚了解的读者设计，可以用来加深对基本概念的理解。
+
+本教程以任务驱动的方式设计，读者跟随教程完成一个一个的小的程序设计任务，从而掌握C语言的基本语法和程序设计的方法。本教程不就语法细节进行详述，有关语法细节可以参看[The C Programming Language](<TCPL.qmd>)以及相关链接。
+
+### 任务
+
+```
+设计一个C语言程序，在屏幕上输出hello world。编译并且运行它。
+```
+
+实现该功能的程序如下所示：
+
+```c
+#include <stdio.h>
+int main() {
+    printf("hello world\n");
+}
+```
+
+一个C语言程序，无论其大小如何，都是由函数和变量组成的。函数中包含一些语句，以指定所要执行的计算操作；变量则用于存储计算过程中使用的值。在本例中，函数的名字为main。通常情况下，函数的命名没有限制，但main是一个特殊的函数名——每个程序都从main函数的起点开始执行，这意味着每个程序都必须在某个位置包含一个main函数。
+
+main函数通常会调用其他函数来帮助完成某些工作，被调用的函数可以是程序设计人员自己编写的，也可以来自于函数库。上述程序段中的第一行语句`#include <stdio.h>`用于告诉编译器在本程序中包含标准输入/输出库的信息。许多C语言源程序的开始处都包含这一行语句。
+
+函数之间进行数据交换的一种方法是调用函数向被调用函数提供一个值(称为参数)列 表。函数名后面的一对圆括号将参数列表括起来。在本例中，main函数不需要任何参数，因 此用空参数表()表示。
+
+函数中的语句用一对花括号{ }括起来。本例中的main函数仅包含下面一条语句：`printf("hello, world\n");`调用函数时，只需要使用函数名加上用圆括号括起来的参数表即可。上面这条语句将"hello, world\n"作为参数调用printf函数。printf是一个用于打印输出的库函数，在此处，它打印双引号中间的字符串。
+
+用双引号括起来的字符序列称为字符串或字符串常量，如"hello, world\n"就是 个字符串。目前我们仅使用字符串作为printf以及其他函数的参数。
+
+在C语言中，字符序列\n表示换行符，在打印中遇到它时，输出打印将换行，从下一行的左端行首开始。如果去掉字符串中的\n，即使输出打印完成后也不会换行。在printf函数的参数中，只能用\n表示换行符。如果用程序的换行代替\n，例如：
+
+```
+printf("hello, world
+");
+```
+
+C编译器将会产生一条错误信息。
+
+请注意，\n只代表一个字符。类似于\n的转义字符序列为表示无法输入的字符或不可见字符提供了一种通用的可扩充的机制。除此之外，C语言提供的转义字符序列还包括：\t表 示制表符；\b表示回退符；\"表示双引号；\\表示反斜杠符本身。
+
+要使该程序可以运行，需要对程序进行编译。如何编译和运行取决于你所使用的系统。在Windows系统，参看[C++集成开发环境](<C++集成开发环境.qmd>)。Windows下安装配置较复杂，推荐使用Linux环境。在Linux系统及其他一些UNIX系统下：
+1. 用任何文本编辑器（比如vi、emacs、gedit、kate等）编辑源代码，将上述程序写入一个文本文件，比如hello.c。
+1. 编译源代码：`cc hello.c`。如果提示找不到该程序，请先安装gcc编译器。
+1. 运行编译完成的程序`./a.out`，得到运行结果。
+
+### 任务
+
+```
+设计一个C语言程序，计算并输出边长是5的正方形的面积。
+```
+
+我们将上述程序改写成如下形式：
+
+```c
+#include <stdio.h>
+int main() {
+    printf("The area of the square is 5 * 5.\n");
+}
+```
+
+运行后发现结果为：
+
+```
+The area of the square is 5 * 5.
+```
+
+该程序只是输出了"5 * 5"而不是输出5*5的值25。为了输出计算的结果，我们需要将程序改成如下形式：
+
+```c
+#include <stdio.h>
+int main() {
+    printf("The area of the square is %d.", 5 * 5);
+}
+```
+
+其中，5是一个**字面常量**，*是一个**运算符**，表示乘法运算。由运算符将这些字面常量连接起来，构成一个**表达式**。这个表达式5*5的值就是25。printf函数的参数中，%d表示这个位置有一个值代替，具体的值，由后面的表达式计算而得。
+
+### 任务
+设计一个程序，计算并输出半径是5的圆形的面积。
+
+```c
+#include <stdio.h>
+int main() {
+    printf("The area of the circle is %f", 3.14159 * 5 * 5);
+    return 0;
+}
+```
+
+目标：了解类型的概念
+
+### 任务
+设计一个程序，计算并输出一个半径是5的圆形和一个边长是5的正方形的面积总和。
+
+```c
+#include <stdio.h>
+int main() {
+    printf("The total area of the square and circle is %f.", 5*5 + 3.14159*5*5);
+    return 0;
+}
+```
+
+```c
+#include <stdio.h>
+int main() {
+    int square_area;
+    float circle_area;
+    float total_area;
+
+    square_area = 5 * 5;
+    circle_area = 3.14159 * 5 * 5;
+    total_area = square_area + circle_area;
+    printf("The total area of the square and circle is %f", total_area);
+    return 0;
+}
+```
+
+```c
+#include <stdio.h>
+int main() {
+    int length;
+    int square_area;
+    float radius;
+    float circle_area;
+    float total_area;
+
+    length = 5;
+    square_area = length * length;
+    radius = 5;
+    circle_area = 3.14159 * radius * radius;
+    total_area = square_area + circle_area;
+    printf("The total area of the square and circle is %f", total_area);
+    return 0;
+}
+```
+
+目标：掌握变量的基本概念
+
+### 任务
+设计一个程序，输入正方形的边长，输出正方形的面积
+
+```c
+#include <stdio.h>
+int main() {
+    int length;
+    int square_area;
+    scanf("%d", &length);
+    sqaure_area = length * length;
+    printf("The area of the square is %d.", square_area);
+    return 0;
+}
+```
+
+目标：掌握简单的输入输出，进一步理解变量的概念
+
+### 任务
+输入5个正方形的边长，输出它们的面积。
+
+```c
+#include <stdio.h>
+int main() {
+    int length;
+    int square_area;
+
+    printf("Please enter the length of square:");
+    scanf("%d", &length);
+    sqaure_area = length * length;
+    printf("The area of the square is %d.", square_area);
+
+    printf("Please enter the length of square:");
+    scanf("%d", &length);
+    sqaure_area = length * length;
+    printf("The area of the square is %d.", square_area);
+
+    printf("Please enter the length of square:");
+    scanf("%d", &length);
+    sqaure_area = length * length;
+    printf("The area of the square is %d.", square_area);
+
+    printf("Please enter the length of square:");
+    scanf("%d", &length);
+    sqaure_area = length * length;
+    printf("The area of the square is %d.", square_area);
+
+    printf("Please enter the length of square:");
+    scanf("%d", &length);
+    sqaure_area = length * length;
+    printf("The area of the square is %d.", square_area);
+    return 0;
+}
+```
+
+```c
+#include <stdio.h>
+
+void input_calculate_output() {
+    printf("Please enter the length of square:");
+    scanf("%d", &length);
+    sqaure_area = length * length;
+    printf("The area of the square is %d.", square_area);
+}
+int main() {
+    input_calculate_output();
+    input_calculate_output();
+    input_calculate_output();
+    input_calculate_output();
+    input_calculate_output();
+    return 0;
+}
+```
+
+目标：掌握函数的概念（无参数、无返回值）
+
+### 任务
+输入5个正方形的边长，输出它们的面积总和。
+
+```c
+#include <stdio.h>
+
+int input_calculate() {
+    printf("Please enter the length of square:");
+    scanf("%d", &length);
+    sqaure_area = length * length;
+    return square_area;
+}
+int main() {
+    int total_area = 0;
+    total_area = total_area + input_calculate_output();
+    total_area = total_area + input_calculate_output();
+    total_area = total_area + input_calculate_output();
+    total_area = total_area + input_calculate_output();
+    total_area = total_area + input_calculate_output();
+    printf("The total area of the squares is %d.", total_area);
+    return 0;
+}
+```
+
+目标：了解有返回值的函数的概念
+
+### 任务
+设计一个程序，已知圆的圆心在(3.0, 4.5)，圆周上有一点(7.0, 7.5)，计算并输出圆的面积。
+
+```c
+#include <stdio.h>
+#include <math.h>
+int main() {
+    float radius;
+
+    radius = sqrt( (7.0-3.0)*(7.0-3.0) + (7.5 - 4.5)*(7.5 - 4.5) );
+    printf("The area of the circle is %f", 3.14159 * radius * radius);
+}
+```
+
+```c
+#include <stdio.h>
+#include <math.h>
+float square(float x) {
+    return x*x;
+}
+int main() {
+    float radius;
+
+    radius = sqrt( square(7.0-3.0) + square(7.5 - 4.5) );
+    printf("The area of the circle is %f", 3.14159 * square(radius));
+}
+```
+
+目标：了解有参数的函数的概念
+
+### 任务
+写一个程序，输出边长是1，2，3，4，5的正方形的面积。
+
+```c
+#include <stdio.h>
+int main() {
+    int length;
+    int square_area;
+    length = 1;
+    square_area = length * length;
+    printf("The area of the square is %d.", square_area);
+    length = 2;
+    square_area = length * length;
+    printf("The area of the square is %d.", square_area);
+    length = 3;
+    square_area = length * length;
+    printf("The area of the square is %d.", square_area);
+    length = 4;
+    square_area = length * length;
+    printf("The area of the square is %d.", square_area);
+    length = 5;
+    square_area = length * length;
+    printf("The area of the square is %d.", square_area);
+    return 0;
+}
+```
+
+```c
+#include <stdio.h>
+int main() {
+    int length;
+    int square_area;
+
+    length = 1;
+    while(length <= 5) {
+        square_area = length * length;
+        printf("The area of the square is %d.", square_area);
+        length = length + 1;
+    }
+}
+```
+
+```c
+#include <stdio.h>
+int main() {
+    int length;
+    int square_area;
+
+    for(length = 1; length <= 5; length = length + 1) {
+        square_area = length * length;
+        printf("The area of the square is %d.", square_area);
+    }
+}
+```
+
+目标：掌握循环的概念
+
+### 任务
+设计一个程序，输入正方形的边长，输出正方形的面积。如果输入的是一个负数，给出错误提示。
+
+```c
+#include <stdio.h>
+int main() {
+    int length;
+    int square_area;
+    scanf("%d", &length);
+    if(length < 0) {
+        printf("Error! Please input a positive integer!");
+    }
+    else {
+        square_area = length * length;
+        printf("The area of the square is %d.", square_area);
+    }
+    return 0;
+}
+```
+
+目标：掌握分支的概念，缩进的编程风格
+
+### 任务
+输入5个正方形，输出面积最大的正方形的面积。
+
+```c
+#include <stdio.h>
+int main() {
+    int length;
+    int square_area;
+    int max_square_area;
+
+    max_square_area = 0;
+    for(length = 1; length <= 5; length = length + 1) {
+        square_area = length * length;
+        if(square_area > max_square_area) {
+            max_square_area = square_area;
+        }
+    }
+    printf("The max area of the squares is %d.", max_square_area);
+}
+```
+
+目标：进一步掌握循环和分支语句配合。

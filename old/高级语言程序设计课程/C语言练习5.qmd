@@ -1,0 +1,835 @@
+---
+title: "C语言练习5"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“高级语言程序设计课程”目录](<../高级语言程序设计课程.qmd>)
+
+## 典型程序
+
+输入行排序
+
+```c
+   #include <stdio.h>
+   #include <string.h>
+
+   #define MAXLINES 5000     /* max #lines to be sorted */
+
+   char *lineptr[MAXLINES];  /* pointers to text lines */
+
+   int readlines(char *lineptr[], int nlines);
+   void writelines(char *lineptr[], int nlines);
+
+   void qsort(char *lineptr[], int left, int right);
+
+   /* sort input lines */
+   main()
+   {
+       int nlines;     /* number of input lines read */
+
+       if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
+           qsort(lineptr, 0, nlines-1);
+           writelines(lineptr, nlines);
+           return 0;
+       } else {
+           printf("error: input too big to sort\n");
+           return 1;
+       }
+   }
+
+   #define MAXLEN 1000  /* max length of any input line */
+   int getline(char *, int);
+   char *alloc(int);
+
+   /* readlines:  read input lines */
+   int readlines(char *lineptr[], int maxlines)
+   {
+       int len, nlines;
+       char *p, line[MAXLEN];
+
+       nlines = 0;
+       while ((len = getline(line, MAXLEN)) > 0)
+           if (nlines >= maxlines || p = alloc(len) == NULL)
+               return -1;
+           else {
+               line[len-1] = '\0';  /* delete newline */
+               strcpy(p, line);
+               lineptr[nlines++] = p;
+           }
+       return nlines;
+   }
+
+   /* writelines:  write output lines */
+   void writelines(char *lineptr[], int nlines)
+   {
+       int i;
+
+       for (i = 0; i < nlines; i++)
+           printf("%s\n", lineptr[i]);
+   }
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(char *v[], int left, int right)
+   {
+       int i, last;
+       void swap(char *v[], int i, int j);
+
+       if (left >= right)  /* do nothing if array contains */
+           return;         /* fewer than two elements */
+       swap(v, left, (left + right)/2);
+       last = left;
+       for (i = left+1; i <= right; i++)
+           if (strcmp(v[i], v[left]) < 0)
+               swap(v, ++last, i);
+       swap(v, left, last);
+       qsort(v, left, last-1);
+       qsort(v, last+1, right);
+   }
+   /* swap:  interchange v[i] and v[j] */
+   void swap(char *v[], int i, int j)
+   {
+       char *temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+```
+
+命令行参数指定查找字符串
+```c
+   #include <stdio.h>
+   #include <string.h>
+   #define MAXLINE 1000
+
+   int getline(char *line, int max);
+
+   /* find:  print lines that match pattern from 1st arg */
+   main(int argc, char *argv[])
+   {
+       char line[MAXLINE];
+       int found = 0;
+
+       if (argc != 2)
+           printf("Usage: find pattern\n");
+       else
+           while (getline(line, MAXLINE) > 0)
+               if (strstr(line, argv[1]) != NULL) {
+                   printf("%s", line);
+                   found++;
+               }
+       return found;
+   }
+```
+
+函数指针
+
+```c
+   #include <stdio.h>
+   #include <string.h>
+
+   #define MAXLINES 5000     /* max #lines to be sorted */
+   char *lineptr[MAXLINES];  /* pointers to text lines */
+
+   int readlines(char *lineptr[], int nlines);
+   void writelines(char *lineptr[], int nlines);
+
+   void qsort(void *lineptr[], int left, int right,
+              int (*comp)(void *, void *));
+   int numcmp(char *, char *);
+
+   /* sort input lines */
+   main(int argc, char *argv[])
+   {
+       int nlines;        /* number of input lines read */
+       int numeric = 0;   /* 1 if numeric sort */
+
+       if (argc > 1 && strcmp(argv[1], "-n") == 0)
+           numeric = 1;
+       if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
+           qsort((void**) lineptr, 0, nlines-1,
+             (int (*)(void*,void*))(numeric ? numcmp : strcmp));
+           writelines(lineptr, nlines);
+           return 0;
+       } else {
+           printf("input too big to sort\n");
+           return 1;
+       }
+   }
+
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(void *v[], int left, int right,
+              int (*comp)(void *, void *))
+   {
+       int i, last;
+
+       void swap(void *v[], int, int);
+
+       if (left >= right)    /* do  nothing if array contains */
+           return;           /* fewer than two elements */
+       swap(v, left, (left + right)/2);
+       last = left;
+       for (i = left+1; i <= right;  i++)
+           if ((*comp)(v[i], v[left]) < 0)
+               swap(v, ++last, i);
+       swap(v, left, last);
+       qsort(v, left, last-1, comp);
+       qsort(v, last+1, right, comp);
+   }
+
+   #include <stdlib.h>
+
+   /* numcmp:  compare s1 and s2 numerically */
+   int numcmp(char *s1, char *s2)
+   {
+       double v1, v2;
+
+       v1 = atof(s1);
+       v2 = atof(s2);
+       if (v1 < v2)
+           return -1;
+       else if (v1 > v2)
+           return 1;
+       else
+           return 0;
+   ｝
+
+```
+
+关键字统计
+
+```c
+   #include <stdio.h>
+   #include <ctype.h>
+   #include <string.h>
+
+   #define MAXWORD 100
+
+   struct key {
+       char *word;
+       int count;
+   } keytab[] = {
+       "auto", 0,
+       "break", 0,
+       "case", 0,
+       "char", 0,
+       "const", 0,
+       "continue", 0,
+       "default", 0,
+       /* ... */
+       "unsigned", 0,
+       "void", 0,
+       "volatile", 0,
+       "while", 0
+   };
+
+
+   int getword(char *, int);
+   int binsearch(char *, struct key *, int);
+
+   /* count C keywords */
+   main()
+   {
+       int n;
+       char word[MAXWORD];
+
+       while (getword(word, MAXWORD) != EOF)
+           if (isalpha(word[0]))
+               if ((n = binsearch(word, keytab, NKEYS)) >= 0)
+                   keytab[n].count++;
+       for (n = 0; n < NKEYS; n++)
+           if (keytab[n].count > 0)
+               printf("%4d %s\n",
+                   keytab[n].count, keytab[n].word);
+       return 0;
+   }
+
+   /* binsearch:  find word in tab[0]...tab[n-1] */
+   int binsearch(char *word, struct key tab[], int n)
+   {
+       int cond;
+       int low, high, mid;
+
+       low = 0;
+       high = n - 1;
+       while (low <= high) {
+           mid = (low+high) / 2;
+           if ((cond = strcmp(word, tab[mid].word)) < 0)
+               high = mid - 1;
+           else if (cond > 0)
+               low = mid + 1;
+           else
+               return mid;
+       }
+       return -1;
+   }
+   /* getword:  get next word or character from input */
+   int getword(char *word, int lim)
+   {
+       int c, getch(void);
+       void ungetch(int);
+       char *w = word;
+
+       while (isspace(c = getch()))
+           ;
+       if (c != EOF)
+           *w++ = c;
+       if (!isalpha(c)) {
+           *w = '\0';
+           return c;
+       }
+       for ( ; --lim > 0; w++)
+           if (!isalnum(*w = getch())) {
+               ungetch(*w);
+               break;
+           }
+       *w = '\0';
+       return word[0];
+   }
+
+```
+
+关键字统计指针版
+
+```c
+   #include <stdio.h>
+   #include <ctype.h>
+   #include <string.h>
+   #define MAXWORD 100
+
+   int getword(char *, int);
+   struct key *binsearch(char *, struct key *, int);
+
+   /* count C keywords; pointer version */
+   main()
+   {
+       char word[MAXWORD];
+       struct key *p;
+
+       while (getword(word, MAXWORD) != EOF)
+           if (isalpha(word[0]))
+               if ((p=binsearch(word, keytab, NKEYS)) != NULL)
+                   p->count++;
+       for (p = keytab; p < keytab + NKEYS; p++)
+           if (p->count > 0)
+               printf("%4d %s\n", p->count, p->word);
+       return 0;
+   }
+
+   /* binsearch: find word in tab[0]...tab[n-1] */
+   struct key *binsearch(char *word, struck key *tab, int n)
+   {
+       int cond;
+       struct key *low = &tab[0];
+       struct key *high = &tab[n];
+       struct key *mid;
+
+       while (low < high) {
+           mid = low + (high-low) / 2;
+           if ((cond = strcmp(word, mid->word)) < 0)
+               high = mid;
+           else if (cond > 0)
+               low = mid + 1;
+           else
+               return mid;
+       }
+       return NULL;
+   }
+```
+
+单链表自引用结构体
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAXWORD 1000
+struct node {
+    char *word;
+    int count;
+    struct node *next;
+};
+
+struct node*addlist(struct node *head, char *w);
+char *strdup(char *s);
+void listprint(struct node *p);
+
+main() {
+    struct node *head = NULL;
+    char word[MAXWORD];
+    while(getword(word, MAXWORD)!=EOF)
+        if(isalpha(word[0]))
+            head = addlist(head, word);
+    listprint(head);
+    system("pause");
+}
+
+void listprint(struct node *p) {
+    while(p!=NULL) {
+        printf("%4d %s\n", p->count, p->word);
+        p = p->next;
+    }
+}
+
+struct node*addlist(struct node *head, char *w){
+    int cond;
+    struct node *p = head, *pre = NULL;
+    while(p!=NULL) {
+        cond=strcmp(w,p->word);
+        if(cond == 0) {
+            p->count ++;
+            return head;
+        } else if(cond > 0) {
+            pre = p; p = p->next;
+        } else
+            break;
+    }
+    p =(struct node*)malloc(sizeof(struct node));
+    p->word = strdup(w);
+    p->count = 1;
+    if(pre == NULL) {
+        p->next = NULL;
+        head = p;
+    } else {
+        p->next = pre->next;
+        pre->next = p;
+    }
+    return head;
+}
+
+char *strdup(char *s) {
+    char *p = (char *)malloc(strlen(s)+1);
+    strcpy(p, s);
+    return p;
+}
+
+
+#define BUFSIZE 100
+char buf[BUFSIZE]; /* buffer for ungetch */
+int bufp = 0; /* next free position in buf */
+int getch(void) /* get a (possibly pushed-back) character */
+{
+    return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c) /* push character back on input */ {
+    if (bufp >= BUFSIZE)
+        printf("ungetch: too many characters\n");
+    else
+        buf[bufp++] = c;
+}
+
+int getword(char *word, int lim)
+{
+    int c;
+    char *w = word;
+
+    while (isspace(c = getch()))
+        ;
+    if (c != EOF)
+        *w++ = c;
+    if (!isalpha(c)) {
+        *w = '\0';
+        return c;
+    }
+    for ( ; --lim > 0; w++)
+        if (!isalnum(*w = getch())) {
+            ungetch(*w);
+            break;
+        }
+    *w = '\0';
+    return word[0];
+}
+```
+
+变长参数列表
+```c
+   #include <stdarg.h>
+
+   /* minprintf: minimal printf with variable argument list */
+   void minprintf(char *fmt, ...)
+   {
+       va_list ap; /* points to each unnamed arg in turn */
+       char *p, *sval;
+       int ival;
+       double dval;
+
+       va_start(ap, fmt); /* make ap point to 1st unnamed arg */
+       for (p = fmt; *p; p++) {
+           if (*p != '%') {
+               putchar(*p);
+               continue;
+           }
+           switch (*++p) {
+           case 'd':
+               ival = va_arg(ap, int);
+               printf("%d", ival);
+               break;
+           case 'f':
+               dval = va_arg(ap, double);
+               printf("%f", dval);
+               break;
+           case 's':
+               for (sval = va_arg(ap, char *); *sval; sval++)
+                   putchar(*sval);
+               break;
+           default:
+               putchar(*p);
+               break;
+           }
+       }
+       va_end(ap); /* clean up when done */
+   }
+
+```
+
+文件访问
+```c
+   #include <stdio.h>
+
+   /* cat:  concatenate files, version 1 */
+   main(int argc, char *argv[])
+   {
+       FILE *fp;
+       void filecopy(FILE *, FILE *)
+
+       if (argc == 1) /* no args; copy standard input */
+           filecopy(stdin, stdout);
+       else
+          while(--argc > 0)
+              if ((fp = fopen(*++argv, "r")) == NULL) {
+                  printf("cat: can't open %s\n, *argv);
+                  return 1;
+              } else {
+                 filecopy(fp, stdout);
+                 fclose(fp);
+              }
+          return 0;
+   }
+
+    /* filecopy:  copy file ifp to file ofp */
+    void filecopy(FILE *ifp, FILE *ofp)
+    {
+        int c;
+
+        while ((c = getc(ifp)) != EOF)
+            putc(c, ofp);
+    }
+
+```
+
+
+## 选择题
+
+下列程序执行后的输出结果是     A 6          B 7                C 8             D 9
+```c
+void func(int *a,int b[]) {
+    b[0]=*a+6;
+}
+main() {
+    int a,b[5];
+    a=0;
+    b[0]=3;
+    func(&a,b);
+    printf("%d\n,b[0]);
+}
+```
+
+下列程序的输出结果是 A 4            B 6              C 8             D 10
+```c
+
+int b=2;
+int func(int *a) {
+    b += *a;
+    return b;
+}
+main() {
+    int a=2, res=2;
+    res += func(&a);
+    printf("%d\n",res);
+}
+```
+
+下列程序的输出结果是 A 5            B 6              C 7             D 8
+```c
+struct abc {
+    int a, b, c;
+};
+main() {
+    struct abc  s[2]={{1,2,3},{4,5,6}};
+    int t;
+    t=s[0],a+s[1],b;
+    printf("%d\n",t);
+}
+```
+
+语句printf("a\bre\'hi\'y\\\bou\n");的输出结果是
+```
+  A a\bre\'hi\'y\\\bou            B a\bre\'hi\'y\bou     C re'hi'you                     D abre'hi'y\bou
+```
+
+设已有定义: char *st="how are you"; 下列程序段中正确的是
+```
+     A) char  a[11], *p;  strcpy(p=a+1,&st[4]);
+     B) char  a[11];      strcpy(++a, st);
+     C) char  a[11];      strcpy(a, st);
+     D) char  a[], *p;    strcpy(p=&a[1],st+2);
+```
+
+
+下列程序执行后的输出结果是     A you&me       B you            C me            D err
+```c
+main() {
+    char  arr[2][4];
+    strcpy(arr[0],"you");
+    strcpy(arr[1],"me");
+    arr[0][3]='&';
+    printf("%s\n",arr[0]);
+}
+```
+
+
+假定下列程序的可执行文件名为prg.exe,则在该程序所在的子目录下输入命令行: prg hello good<回车>后,程序的输出结果是
+```
+  A) hello good   B) hg             C) hel           D) hellogood
+```
+
+```c
+main()(int argc, char *argv[]) {
+    int  i;
+    if(argc<1)
+        return;
+    for(i=1;i<argc;i++)
+        printf("%c", *argv[i]);
+}
+```
+
+
+以下函数返回a所指数组中最小的值所在的下标值
+```c
+fun(int   *a,  int  n){
+    int   i,j=0,p;
+    p=j;
+    for(i=j;i<n;i++)
+        if(a[i]<a[p])
+            __________;
+    return p;
+}
+```
+在下划线处应填入的是
+```
+A) i=p             B) a[p]=a[i]       C) p=j            D) p=i
+```
+
+若有以下的定义：int  t[3][2];能正确表示t数组元素地址的表达式是
+```
+A) &t[3][2]        B) t[3]            C) t[1]           D) t[2]
+```
+
+有如下定义
+```
+struct person{
+    char  name[9];
+    int age;
+};
+struct person   p[10]={
+ "Johu",  17,
+ "Paul",  19,
+ "Mary",  18,
+ "Adam",  16
+};
+```
+根据上述定义，能输出字母M的语句是
+```
+A) printf("%c\n",p[3].name);
+B) pfintf("%c\n",p[3].name[1]);
+C) prinft("%c\n",p[2].name[1]);
+D) printf("%c\n",p[2].name[0]);
+```
+
+以下对结构体类型变量的定义中，不正确的是
+```
+A) typedef struct aa
+{
+   int   n;
+   float m;
+}AA;
+AA td1;
+
+B) #define AA    struct aa
+AA {
+   int n;
+   float m;
+}td1;
+
+C) struct
+{
+   int n;
+   float m;
+}aa;
+stuct aa td1;
+
+D) struct
+{
+   int n;
+   float m;
+}td1;
+```
+
+
+有如下程序
+```c
+main()
+{
+    char s[]="ABCD", *P;
+    for(p=s+l; p<s+4; p++)
+        printf ("%s\n", p);
+}
+```
+该程序的输出结果是
+```
+A) ABCD            B) A               C) B              D) BCD
+   BCD                B                  C                 CD
+   CD                 C                  D                 D
+   D                  D
+```
+
+
+有如下程序
+```c
+main()
+{
+   char ch[2][5]={"6937","8254"},*p[2];
+   int i,j,s=0;
+   for(i=0;i<2;i++)
+      p[i]=ch[i];
+   for(i=0;i<2;i++)
+      for(j=0;p[i][j]>'\0';j+=2)
+         s=10*s+p[i][j]- '0';
+   printf('%d\n',s);
+}
+```
+该程序的输出结果是
+```
+A) 69825           B) 63825           C) 6385           D) 693825
+```
+
+函数pi的功能是根据以下近似公式求π值：
+```
+(π*π)/6=1+1/(2*2)+1/(3*3)+..+1/(n*n)
+```
+。现在请你在下面的函数中填空，完成求π的功能
+```c
+#include <math.h>
+double pi(long n) {
+   double s=0.0;
+   long i;
+   for(i=1;i<=n;i++)
+      s=s+_____________ ;
+   return sqrt(6*s);
+}
+```
+
+下列程序段的输出结果是
+```
+A) 2 1 4 3          B) 1 2 1 2          C) 1 2 3 4           D) 2 1 1 2
+```
+```c
+void fun(int  *x, int  *y){
+    printf("%d  %d", *x, *y);
+    *x=3;
+    *y=4;
+}
+main(){
+   int  x=1,y=2;
+   fun(&y,&x);
+   printf("%d %d",x, y);
+}
+```
+
+
+下面程序把从终端读入的文本（用@作为文本结束标志）输出到一个名为bi.dat的新文件中。请填空。
+```c
+#include <stdio.h>
+main() {
+   FILE  *fp;
+   char  ch;
+   if( (fp=fopen (_______________) ) == NULL)
+      exit(0);
+   while( (ch=getchar( )) !='@')
+      putc (ch, fp);
+   fclose(fp);
+}
+```
+
+以下各选项说明一种新的类型名，其中正确的是
+```
+A) typedef  v1  int;    		B) typedef  v2=int;
+C) typedef  int  v3;  		D) typedef  v4:  int;
+```
+
+以下程序的输出结果是
+```c
+main(){
+   char  st[20]= "hello\0\t\\\";
+   printf("%d%d\n",strlen(st),sizeof(st));
+}
+```
+```
+A) 9 9 			B) 5 20			C) 13 20        D) 20 20
+```
+
+以下选项中，不能正确赋值的是
+```
+A) char  s1[10]; s1="Ctest";
+B) char  s2[]={'C', 't', 'e', 's', 't'};
+C) char  s3[20]="Ctest";
+D) char  *s4="Ctest";
+```
+
+若有定义：int  aa[8];。则以下表达式中不能代表数组元aa[1]的地址的是
+```
+A) &aa[0]+1    B) &aa[1]       C) &aa[0]++  	D) aa+1
+```
+
+以下程序的输出结果是
+```c
+union myun
+{
+   struct{   int  x, y, z; } u;
+   int  k;
+} a;
+main(){
+   a.u.x=4; a.u.y=5; a.u.z=6;
+   a.k=0;
+   printf(%d\n”,a.u.x);
+}
+```
+```
+A) 4			B) 5			C) 6			D) 0
+```
+
+下面的程序执行后，文件test中的内容是
+```c
+#include   <stdio.h>
+void fun(char   *fname.,char   *st) {
+    FILE  *myf;
+    int   i;
+    myf = fopen(fname,"w");
+    for(i=0; i<strlen(st); i++)
+        putc(st[i], myf);
+    fclose(myf);
+}
+main()
+{
+   fun("test", "new world");
+   fun("test","hello,");
+```
+```
+A）hello， 		B）new worldhello，	C）new world   		D） hello, rld
+```
