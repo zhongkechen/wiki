@@ -1,0 +1,11 @@
+---
+title: "图像处理教材"
+---
+
+[返回“图像处理课程”](图像处理课程.qmd)
+
+* 书名：数字图像处理(第二版) 作者：(美)Rafael C. Gonzalez;Richard E. Woods  出版社：Prentice Hall http://www.china-pub.com/247863 <br> ![shupi.jpg](http://images.china-pub.com/ebook245001-250000/247863/shupi.jpg)
+* 书名：数字图像处理（MATLAB版） 作者：(美)Rafael C. Gonzalez;Richard E. Woods  出版社：Prentice Hall http://www.china-pub.com/247863 <br> ![shupi.jpg](http://images.china-pub.com/ebook20001-25000/22899/shupi.jpg)
+
+* 书名：图象工程(上册) 图象处理和分析 <br>![cover1.gif](<assets/图像处理教材/cover1.gif>)
+* 书名：图像工程（上册）--图像处理（第2版） 作者：章毓晋 出版社：清华大学出版社 <br>![cover2.gif](<assets/图像处理教材/cover2.gif>)

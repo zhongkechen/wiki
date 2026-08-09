@@ -1,13 +1,24 @@
 # frozen_string_literal: true
 
 require "fileutils"
+require "json"
+require "tmpdir"
 
-SOURCE_ROOT = File.expand_path("../mywiki/data/pages", __dir__)
+DEFAULT_SOURCE_ROOT = File.expand_path("../mywiki/data/pages", __dir__)
+SOURCE_ROOT = File.expand_path(ENV.fetch("MOIN_SOURCE_ROOT", DEFAULT_SOURCE_ROOT))
 OUTPUT_ROOT = File.expand_path("../old", __dir__)
 COURSE_NAME = "数字图像处理"
 COURSE_OUTPUT = File.join(OUTPUT_ROOT, COURSE_NAME)
+SOURCE_SNAPSHOT_PATH = File.expand_path("data/moin_image_processing_sources.json", __dir__)
+SOURCE_SNAPSHOT =
+  if File.exist?(SOURCE_SNAPSHOT_PATH)
+    JSON.parse(File.read(SOURCE_SNAPSHOT_PATH, encoding: "UTF-8"))
+  else
+    {}
+  end
 
 IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
+BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
 
 def decode_page_name(entry)
   entry.gsub(/\(([0-9a-fA-F]+)\)/) do
@@ -15,8 +26,20 @@ def decode_page_name(entry)
   end
 end
 
-PAGE_INDEX = Dir.children(SOURCE_ROOT).to_h do |entry|
-  [decode_page_name(entry), entry]
+PAGE_INDEX =
+  if Dir.exist?(SOURCE_ROOT)
+    Dir.children(SOURCE_ROOT).to_h do |entry|
+      [decode_page_name(entry), entry]
+    end
+  else
+    {}
+  end
+
+if PAGE_INDEX.empty? && SOURCE_SNAPSHOT.empty?
+  raise <<~MESSAGE
+    MoinMoin source data was not found.
+    Set MOIN_SOURCE_ROOT to a data/pages directory or restore #{SOURCE_SNAPSHOT_PATH}.
+  MESSAGE
 end
 
 def page_directory(name)
@@ -26,20 +49,22 @@ end
 
 def page_source(name)
   directory = page_directory(name)
-  return "" unless directory
+  if directory
+    current_path = File.join(directory, "current")
+    return "" unless File.exist?(current_path)
 
-  current_path = File.join(directory, "current")
-  return "" unless File.exist?(current_path)
+    revision = File.read(current_path).strip
+    revision_path = File.join(directory, "revisions", revision)
+    return "" unless File.exist?(revision_path)
 
-  revision = File.read(current_path).strip
-  revision_path = File.join(directory, "revisions", revision)
-  return "" unless File.exist?(revision_path)
+    return File.read(revision_path, encoding: "UTF-8", invalid: :replace)
+  end
 
-  File.read(revision_path, encoding: "UTF-8", invalid: :replace)
+  SOURCE_SNAPSHOT.fetch(name, "")
 end
 
-def direct_child_names(course_source)
-  course_source.scan(/\[\[([^\]]+)\]\]/).flatten.filter_map do |raw|
+def linked_page_names(source)
+  source.scan(/\[\[([^\]]+)\]\]/).flatten.filter_map do |raw|
     next if raw.start_with?("attachment:") || raw.match?(%r{\Ahttps?://})
 
     raw.split("|", 2).first
@@ -47,8 +72,20 @@ def direct_child_names(course_source)
 end
 
 COURSE_SOURCE = page_source(COURSE_NAME)
-DIRECT_CHILDREN = direct_child_names(COURSE_SOURCE).freeze
-MIGRATED_PAGES = ([COURSE_NAME] + DIRECT_CHILDREN).freeze
+PRIMARY_PAGES = linked_page_names(COURSE_SOURCE).freeze
+COURSE_MATERIAL_INDEX = "图像处理课程"
+COURSE_MATERIAL_PAGES = linked_page_names(page_source(COURSE_MATERIAL_INDEX)).freeze
+MIGRATED_PAGES = ([COURSE_NAME] + PRIMARY_PAGES + COURSE_MATERIAL_PAGES).uniq.freeze
+INCLUDED_PAGES = MIGRATED_PAGES.flat_map do |page_name|
+  page_source(page_name).scan(/<<Include\(\^?([^)]+)\)>>/).flatten
+end.uniq.freeze
+SOURCE_PAGE_NAMES = (MIGRATED_PAGES + INCLUDED_PAGES).uniq.freeze
+
+if PAGE_INDEX.any?
+  snapshot = SOURCE_PAGE_NAMES.to_h { |page_name| [page_name, page_source(page_name)] }
+  FileUtils.mkdir_p(File.dirname(SOURCE_SNAPSHOT_PATH))
+  File.write(SOURCE_SNAPSHOT_PATH, JSON.pretty_generate(snapshot) + "\n")
+end
 
 def qmd_front_matter(title)
   escaped = title.gsub("\\", "\\\\").gsub('"', '\\"')
@@ -59,17 +96,13 @@ def qmd_front_matter(title)
   YAML
 end
 
-def output_context(page_name)
-  page_name == COURSE_NAME ? :course : :child
-end
-
 def page_link(target, context)
   clean_target = target.sub(/\A\^/, "")
 
-  if DIRECT_CHILDREN.include?(clean_target)
-    context == :course ? "#{COURSE_NAME}/#{clean_target}.qmd" : "#{clean_target}.qmd"
-  elsif clean_target == COURSE_NAME
+  if clean_target == COURSE_NAME
     context == :course ? "#{COURSE_NAME}.qmd" : "../#{COURSE_NAME}.qmd"
+  elsif MIGRATED_PAGES.include?(clean_target)
+    context == :course ? "#{COURSE_NAME}/#{clean_target}.qmd" : "#{clean_target}.qmd"
   else
     context == :course ? "#{clean_target}.html" : "../#{clean_target}.html"
   end
@@ -148,7 +181,7 @@ def convert_blocks(text)
       end
     token = "@@MOIN_BLOCK_#{blocks.length}@@"
     blocks << rendered
-    "\n\n#{token}\n\n"
+    token
   end
 
   inline = []
@@ -159,6 +192,79 @@ def convert_blocks(text)
   end
 
   [converted, blocks, inline]
+end
+
+def add_display_math_block(source, blocks)
+  source.gsub(/<<latex\((.*?)\)>>/m) do
+    formula = Regexp.last_match(1).strip
+    if formula.start_with?("$$") && formula.end_with?("$$")
+      token = "@@MOIN_BLOCK_#{blocks.length}@@"
+      blocks << "$$\n#{normalize_latex(formula)}\n$$"
+      token
+    else
+      "$#{normalize_latex(formula)}$"
+    end
+  end
+end
+
+def attachment_names(owner)
+  source_directory = page_directory(owner)
+  source_attachments = source_directory && File.join(source_directory, "attachments")
+  if source_attachments && Dir.exist?(source_attachments)
+    return Dir.children(source_attachments).select do |filename|
+      File.file?(File.join(source_attachments, filename))
+    end.sort
+  end
+
+  existing_assets = File.join(COURSE_OUTPUT, "assets", owner)
+  return [] unless Dir.exist?(existing_assets)
+
+  Dir.children(existing_assets).select do |filename|
+    File.file?(File.join(existing_assets, filename))
+  end.sort
+end
+
+def render_attach_list(owner)
+  attachment_names(owner).map do |filename|
+    " * [[attachment:#{filename}]]"
+  end.join("\n")
+end
+
+def external_image_markup(url, label)
+  visible = label.to_s.empty? ? File.basename(url.split(/[?#]/, 2).first) : label
+  "![#{visible}](#{url})"
+end
+
+def render_content_with_blocks(content, blocks, first_prefix: "", continuation_prefix: "")
+  parts = content.split(BLOCK_TOKEN_PATTERN, -1)
+  lines = []
+  current = first_prefix.dup
+
+  parts.each_with_index do |part, index|
+    if index.even?
+      next if part.empty?
+
+      current << part
+      next
+    end
+
+    block = blocks.fetch(part.to_i)
+    lines << current.rstrip unless current.strip.empty?
+    lines << "" unless lines.empty? || lines.last.empty?
+    block.each_line do |block_line|
+      lines << "#{continuation_prefix}#{block_line.rstrip}"
+    end
+    lines << ""
+    current = continuation_prefix.dup
+  end
+
+  lines << current.rstrip unless current.strip.empty?
+  lines.pop while lines.last == ""
+  lines
+end
+
+def append_blank_line(result)
+  result << "" unless result.empty? || result.last.empty?
 end
 
 def convert_table_line(line)
@@ -180,16 +286,15 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   end
 
   source, blocks, inline = convert_blocks(source)
-
-  source.gsub!(/<<latex\((.*?)\)>>/m) do
-    formula = Regexp.last_match(1).strip
-    display = formula.start_with?("$$") && formula.end_with?("$$")
-    normalized = normalize_latex(formula)
-    display ? "\n\n$$\n#{normalized}\n$$\n\n" : "$#{normalized}$"
-  end
+  source = add_display_math_block(source, blocks)
+  source.gsub!("<<AttachList>>", render_attach_list(owner))
 
   source.gsub!(/\{\{attachment:([^}\n]+)\}\}/) do
     attachment_markup(Regexp.last_match(1), owner, context, image: true)
+  end
+
+  source.gsub!(/\{\{(https?:\/\/[^}|\n]+)(?:\|([^}|\n]*))?(?:\|[^}\n]*)?\}\}/) do
+    external_image_markup(Regexp.last_match(1), Regexp.last_match(2))
   end
 
   source.gsub!(/\[\[([^\]]+)\]\]/) do
@@ -207,6 +312,7 @@ def convert_moin(text, owner:, context:, expand_includes: false)
 
   result = []
   in_table = false
+  list_indents = []
 
   source.each_line do |raw_line|
     line = raw_line.rstrip
@@ -214,41 +320,88 @@ def convert_moin(text, owner:, context:, expand_includes: false)
     if line.start_with?("##")
       next
     elsif (heading = line.match(/^\s*(=+)\s*(.*?)\s*\1\s*$/))
+      append_blank_line(result)
       level = [heading[1].length, 2].max
       result << "#{'#' * level} #{heading[2]}"
+      result << ""
       in_table = false
+      list_indents.clear
       next
     elsif line.match?(/^\s*\|\|.*\|\|\s*$/)
+      append_blank_line(result) unless in_table
       result << convert_table_line(line)
       unless in_table
         cell_count = line.scan(/\|\|/).length - 1
         result << "| #{Array.new(cell_count, '---').join(' | ')} |"
       end
       in_table = true
+      list_indents.clear
       next
     end
 
+    append_blank_line(result) if in_table && !line.empty?
     in_table = false
 
     if (list = line.match(/^(\s+)(\*|1\.|[a-z]\.)\s+(.*)$/i))
-      indent = " " * [list[1].length - 1, 0].max
+      source_indent = list[1].length
+      if list_indents.empty?
+        append_blank_line(result)
+        list_indents << source_indent
+      elsif source_indent > list_indents.last
+        list_indents << source_indent
+      elsif source_indent < list_indents.last
+        list_indents.pop while list_indents.length > 1 && source_indent < list_indents.last
+        list_indents << source_indent if source_indent > list_indents.last
+      end
+
+      depth = list_indents.index(source_indent) || list_indents.length - 1
+      indent = " " * (depth * 4)
       marker = list[2].match?(/[a-z]\./i) ? "1." : list[2]
-      result << "#{indent}#{marker} #{list[3]}"
+      prefix = "#{indent}#{marker} "
+      continuation = " " * prefix.length
+      result.concat(
+        render_content_with_blocks(
+          list[3],
+          blocks,
+          first_prefix: prefix,
+          continuation_prefix: continuation
+        )
+      )
     elsif (definition = line.match(/^\s+(.+?)::\s*(.*)$/))
+      append_blank_line(result) unless list_indents.empty?
+      list_indents.clear
       result << "**#{definition[1]}**: #{definition[2]}"
     else
-      result << line
+      if line.empty?
+        append_blank_line(result)
+      else
+        append_blank_line(result) unless list_indents.empty?
+        list_indents.clear
+        result.concat(render_content_with_blocks(line, blocks))
+      end
     end
   end
 
   rendered = result.join("\n")
-  blocks.each_with_index { |block, index| rendered.gsub!("@@MOIN_BLOCK_#{index}@@") { block } }
+  raise "Unexpanded MoinMoin block token" if rendered.match?(BLOCK_TOKEN_PATTERN)
+
   inline.each_with_index { |code, index| rendered.gsub!("@@MOIN_INLINE_#{index}@@") { code } }
   rendered.gsub!(/\n{3,}/, "\n\n")
   rendered.strip + "\n"
 end
 
-def copy_referenced_attachments(qmd_files)
+def attachment_source(owner, filename)
+  source_directory = page_directory(owner)
+  source = source_directory && File.join(source_directory, "attachments", filename)
+  return source if source && File.exist?(source)
+
+  existing = File.join(COURSE_OUTPUT, "assets", owner, filename)
+  return existing if File.exist?(existing)
+
+  nil
+end
+
+def copy_referenced_attachments(qmd_files, course_output)
   references = qmd_files.flat_map do |qmd_file|
     text = File.read(qmd_file, encoding: "UTF-8")
     text.scan(/\]\((?:<([^>]+)>|([^)]+))\)/).filter_map do |angle, plain|
@@ -260,11 +413,10 @@ def copy_referenced_attachments(qmd_files)
   end.uniq
 
   references.each do |destination|
-    relative = destination.delete_prefix(File.join(COURSE_OUTPUT, "assets") + "/")
+    relative = destination.delete_prefix(File.join(course_output, "assets") + "/")
     owner, filename = relative.split("/", 2)
-    source_directory = page_directory(owner)
-    source = source_directory && File.join(source_directory, "attachments", filename)
-    raise "Missing source attachment for #{relative}" unless source && File.exist?(source)
+    source = attachment_source(owner, filename)
+    raise "Missing source attachment for #{relative}" unless source
 
     FileUtils.mkdir_p(File.dirname(destination))
     FileUtils.cp(source, destination)
@@ -273,39 +425,55 @@ def copy_referenced_attachments(qmd_files)
   references.length
 end
 
-FileUtils.rm_rf(COURSE_OUTPUT)
-FileUtils.mkdir_p(COURSE_OUTPUT)
+attachment_count = 0
 
-course_body = convert_moin(COURSE_SOURCE, owner: COURSE_NAME, context: :course)
-course_page = [
-  qmd_front_matter(COURSE_NAME),
-  "[返回首页](首页.qmd)",
-  "",
-  course_body
-].join("\n")
-File.write(File.join(OUTPUT_ROOT, "#{COURSE_NAME}.qmd"), course_page)
+Dir.mktmpdir("migrate-moin-image-processing") do |temporary_root|
+  temporary_output_root = File.join(temporary_root, "old")
+  temporary_course_output = File.join(temporary_output_root, COURSE_NAME)
+  FileUtils.mkdir_p(temporary_course_output)
 
-DIRECT_CHILDREN.each do |page_name|
-  source = page_source(page_name)
-  placeholder = source.strip.empty? ? "::: {.callout-note}\n该页面在旧 Wiki 中暂时没有正文。\n:::\n" : source
-  body = convert_moin(
-    placeholder,
-    owner: page_name,
-    context: :child,
-    expand_includes: page_name == "图像的数学形态学处理"
-  )
-  page = [
-    qmd_front_matter(page_name),
-    "[返回“数字图像处理”](../数字图像处理.qmd)",
+  course_body = convert_moin(COURSE_SOURCE, owner: COURSE_NAME, context: :course)
+  course_page = [
+    qmd_front_matter(COURSE_NAME),
+    "[返回首页](首页.qmd)",
     "",
-    body
+    course_body
   ].join("\n")
-  File.write(File.join(COURSE_OUTPUT, "#{page_name}.qmd"), page)
-end
+  temporary_course_page = File.join(temporary_output_root, "#{COURSE_NAME}.qmd")
+  File.write(temporary_course_page, course_page)
 
-qmd_files = [File.join(OUTPUT_ROOT, "#{COURSE_NAME}.qmd")] +
-            Dir.glob(File.join(COURSE_OUTPUT, "*.qmd"))
-attachment_count = copy_referenced_attachments(qmd_files)
+  (PRIMARY_PAGES + COURSE_MATERIAL_PAGES).uniq.each do |page_name|
+    source = page_source(page_name)
+    placeholder = source.strip.empty? ? "::: {.callout-note}\n该页面在旧 Wiki 中暂时没有正文。\n:::\n" : source
+    body = convert_moin(
+      placeholder,
+      owner: page_name,
+      context: :child,
+      expand_includes: page_name == "图像的数学形态学处理"
+    )
+    back_link =
+      if COURSE_MATERIAL_PAGES.include?(page_name)
+        "[返回“图像处理课程”](图像处理课程.qmd)"
+      else
+        "[返回“数字图像处理”](../数字图像处理.qmd)"
+      end
+    page = [
+      qmd_front_matter(page_name),
+      back_link,
+      "",
+      body
+    ].join("\n")
+    File.write(File.join(temporary_course_output, "#{page_name}.qmd"), page)
+  end
+
+  qmd_files = [temporary_course_page] +
+              Dir.glob(File.join(temporary_course_output, "*.qmd"))
+  attachment_count = copy_referenced_attachments(qmd_files, temporary_course_output)
+
+  FileUtils.rm_rf(COURSE_OUTPUT)
+  FileUtils.mv(temporary_course_output, COURSE_OUTPUT)
+  FileUtils.cp(temporary_course_page, File.join(OUTPUT_ROOT, "#{COURSE_NAME}.qmd"))
+end
 
 puts "Converted #{MIGRATED_PAGES.length} pages"
 puts "Copied #{attachment_count} attachments"
