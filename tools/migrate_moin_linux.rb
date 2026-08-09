@@ -481,7 +481,7 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   source.each_line do |raw_line|
     line = raw_line.rstrip
 
-    if line.match?(/\A\s*(?:Category[^\s]+\s*)+\z/)
+    if line.match?(/\A\s*Category\S+(?:\s+Category\S+)*\s*\z/)
       next
     elsif line.start_with?("##")
       next
