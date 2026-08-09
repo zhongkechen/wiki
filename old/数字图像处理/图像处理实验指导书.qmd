@@ -1,0 +1,10 @@
+---
+title: "图像处理实验指导书"
+---
+
+[返回“图像处理课程”](图像处理课程.qmd)
+
+* 书名：数字图像处理（MATLAB版）
+* 原出版社:Prentice Hall
+* 作者: Rafael C. Gonzalez, Richard E. Woods, Steven L. Eddins
+* ![cover.gif](<assets/图像处理实验指导书/cover.gif>)

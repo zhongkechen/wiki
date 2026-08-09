@@ -5,7 +5,9 @@ title: "图像的频域增强"
 [返回“数字图像处理”](../数字图像处理.qmd)
 
 ## 一维傅里叶变换
+
 ### 傅里叶级数
+
 任何一个周期函数都可以由一些不同频率的正弦（或余弦）函数线性叠加得到。
 
 ![figure41.png](<assets/图像的频域增强/figure41.png>)
@@ -61,6 +63,7 @@ $$
 http://www.falstad.com/fourier/
 
 ### 连续傅里叶变换
+
 当周期趋向无穷大时，函数f变为非周期函数，其傅里叶级数中的
 
 $$
@@ -82,6 +85,7 @@ $$
 这就是连续傅里叶变换
 
 ### 离散时间傅里叶变换
+
 当f(x)中的x是一个离散的变量时，傅里叶变换就变成了：
 
 $$
@@ -95,6 +99,7 @@ $$
 F是周期性的
 
 ### 离散傅里叶变换
+
 如何f(x)是离散的且是周期性的，傅里叶变换变成了：
 
 $$
@@ -151,37 +156,33 @@ $$
 
 * 关于原点是共轭对称的：
 
-$$
-F(u,v)=F^*(-u,-v)
-$$
-
+  $$
+  F(u,v)=F^*(-u,-v)
+  $$
 * 幅值是原点对称的：
 
-$$
-|F(u,v)|=|F(-u,-v)|
-$$
-
+  $$
+  |F(u,v)|=|F(-u,-v)|
+  $$
 * 周期性：
 
-$$
-F(u,v) = F(u+M,v) = F(u, v+N) = F(u+M, v+N) \dots
-$$
+  $$
+  F(u,v) = F(u+M,v) = F(u, v+N) = F(u+M, v+N) \dots
+  $$
 
 ## 在matlab中计算二维傅里叶变换
-用fft2函数计算图像的傅里叶变换：
 
+用fft2函数计算图像的傅里叶变换：
 ```
 F = fft2(f);
 ```
 
 查看傅里叶变换的结果，可以发现幅值最大的位置出现在四个角上，它们代表了低频的部分。我们可以对频谱进行平移，使得它们位于中间：
-
 ```
 F = fftshift(F);
 ```
 
 要将频谱变换回图像，使用傅里叶逆变换：
-
 ```
 F = ifftshift(F);
 f = ifft2(F);
@@ -224,7 +225,6 @@ $$
 ![figure44.png](<assets/图像的频域增强/figure44.png>)
 
 在matlab里面实现：
-
 ```
 [M, N] = size(f);
 F = fft2(f);
@@ -236,9 +236,10 @@ imshow(g);
 ```
 
 ## 频域中直接生成滤波器
-### 低通滤波器
-理想低通滤波器
 
+### 低通滤波器
+
+理想低通滤波器
 $$
 H(u,v) = \begin{cases}
 1 & D(u,v)\le D_0 \\
@@ -247,33 +248,29 @@ H(u,v) = \begin{cases}
 $$
 
 巴特沃滋低通滤波器
-
 $$
 H(u,v) = \frac{1}{1+[D(u,v)/D_0]^{2n}}
 $$
 
 高斯低通滤波器
-
 $$
 H(u,v)=e^{-D^2(u,v)/2\sigma ^2}
 $$
 
 ### 高通滤波器
-基本高通滤波：
 
+基本高通滤波：
 $$
 H_{hp}(u,v) = 1 - H_{lp}(u,v)
 $$
-
 高频强调滤波：
-
 $$
 H_{hfe}(u,v)=a+bH_{hp}(u,v)
 $$
 
 ### 在matlab里面实现
-理想低通：
 
+理想低通：
 ```
 f = imread('lena_gray.tif');
 [M N] = size(f);
@@ -286,6 +283,7 @@ g = ifft2(ifftshift(G));
 ```
 
 ## 参考资源
+
 * https://secure.wikimedia.org/wikipedia/zh/w/index.php?title=%E5%82%85%E7%AB%8B%E5%8F%B6%E5%8F%98%E6%8D%A2&variant=zh-cn
 * http://en.wikipedia.org/wiki/Fourier_analysis
 * http://zh.wikipedia.org/wiki/%E7%A6%BB%E6%95%A3%E4%BD%99%E5%BC%A6%E5%8F%98%E6%8D%A2

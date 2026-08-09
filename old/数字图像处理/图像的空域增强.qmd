@@ -5,6 +5,7 @@ title: "图像的空域增强"
 [返回“数字图像处理”](../数字图像处理.qmd)
 
 ## 图像的亮度变换
+
 亮度变换是指对每一个像素用同一个函数将原像素值进行运算，用运算结果代替原来的值。
 
 亮度变换的函数与像素的位置无关，可以表示为：s = T(r)，其中r为原始图像上像素的值，s是经过变换后的像素的值，T是亮度变换函数。
@@ -12,6 +13,7 @@ title: "图像的空域增强"
 ![figure2.png](<assets/图像的空域增强/figure2.png>)
 
 ### imadjust
+
 在matlab中可以使用imadjust函数实现简单的像素亮度变换
 
 ```
@@ -35,6 +37,7 @@ g = imcomplement(f);
 ```
 
 ### 对数和对比度拉伸
+
 更复杂的变换需要用matlab的矩阵运算来实现。对数变换的公式如下：
 
 ```
@@ -59,6 +62,7 @@ imshow(g);
 ```
 
 ### 处理可变数量的参数和返回值
+
 要处理可变数量的输入输出，用nargin返回调用函数的参数个数，nargout返回值的个数。比如
 
 ```
@@ -83,6 +87,7 @@ error(nargchk(2, 3, nargin))
 例子：gscale
 
 ## 直方图
+
 数字图像在[0, G]之间总共有L个灰度级，其直方图表示为：
 
 ```
@@ -100,6 +105,7 @@ p(rk) = h(rk)/n = nk / n
 在概率论上，p(rk)就表示灰度级rk出现的概率。
 
 ### 绘制直方图
+
 在matlab中，基本的直方图函数是imhist，
 
 ```
@@ -125,6 +131,7 @@ set(gca, 'ytick', 0:2000:15000)
 ```
 
 ### 直方图均衡化
+
 原理是让直方图的分布尽可能均匀。算法是让直方图的概率分布函数（CDF）线性增长。
 
 matlab中用histeq函数完成直方图均衡化：
@@ -142,7 +149,9 @@ g = histeq(f, 256);
 ```
 
 ## 空间滤波
+
 ### 背景知识
+
 空间域处理：g(x, y) = T[f(x, y)]，T定义在(x,y)的邻域内。
 
 ![figure31.png](<assets/图像的空域增强/figure31.png>)
@@ -150,6 +159,7 @@ g = histeq(f, 256);
 [Review_of_Linear_Systems.ppt](<assets/数字图像处理/Review_of_Linear_Systems.ppt>)
 
 ### 线性滤波
+
 一维信号的卷积
 
 ![figure33.png](<assets/图像的空域增强/figure33.png>)
@@ -189,25 +199,24 @@ imshow(gc, [ ]);
 ![figure35.png](<assets/图像的空域增强/figure35.png>)
 
 ### 非线性滤波
+
 卷积操作是计算乘积之和，是一个线性操作。非线性滤波则是对邻域内的像素进行非线性操作。比如
+
 * 最大值滤波、最小值滤波
 * 中值滤波
 * 几何平均值
 
 在matlab中可以使用ordfilt2函数实现最大值、最小值、中值滤波：
-
 ```
 g = ordfilt2(f, order, domain)
 ```
 
 对于中值滤波，matlab中有一个简便的函数可以使用：
-
 ```
 g = medfilt2(f, [m n], padopt)
 ```
 
 例如：
-
 ```
 fn = imnoise(f, 'salt & pepper', 0.2);
 gm = medfilt2(fn);
@@ -215,7 +224,6 @@ gms = medfilt2(fn, 'symmetric');
 ```
 
 其他的非线性滤波可以用colfilt实现：
-
 ```
 g = colfilt(f, [m n], 'sliding', @fun, parameters);
 ```

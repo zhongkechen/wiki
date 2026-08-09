@@ -5,15 +5,20 @@ title: "图像的空间变换"
 [返回“数字图像处理”](../数字图像处理.qmd)
 
 ## 空间几何变换
+
 将(w,z)坐标系上的图像变换为(x,y)坐标系上的图像，可以表示为：
+
 * (x,y) = T{(w,z)}
+
 比如：
+
 * (x,y) = T{(w,z)} = (w/2, z/2)
+
 ![figure51.png](<assets/图像的空间变换/figure51.png>)
 
 ### 仿射变换
-仿射变换是一种常用矩阵变换，它可以表示成矩阵的形式：
 
+仿射变换是一种常用矩阵变换，它可以表示成矩阵的形式：
 $$
 [\begin{matrix}x & y & 1\end{matrix}] = [\begin{matrix}w & z & 1\end{matrix}]T = [\begin{matrix}w & z & 1\end{matrix}] \begin{pmatrix}
 t_{11} & t_{12} & 0 \\
@@ -25,7 +30,6 @@ $$
 ![figure52.png](<assets/图像的空间变换/figure52.png>)
 
 在matlab里面实现
-
 ```
 wz = [3 4 1];
 T = [2 0 0; 0 3 0; 0 0 1];
@@ -34,7 +38,6 @@ wz = xy * inv(T);
 ```
 
 为了避免归一化参数，我们可以借助maketform函数：
-
 ```
 T = [2 0 0; 0 3 0; 0 0 1];
 tform = maketform('affine', T);
@@ -47,7 +50,6 @@ wz = tforminv(xy, tform);
 ![figure53.png](<assets/图像的空间变换/figure53.png>)
 
 这些变换使用的变换矩阵分别是：
-
 $$
 \begin{pmatrix}
 2 & 0 & 0 \\
@@ -83,25 +85,23 @@ cos(\pi /4) & sin(\pi /4) & 0 \\
 $$
 
 ### 对图像应用空间变换
+
 有两种方法：正向映射和反向映射
 
 反向映射的过程是：对每一个输出像素，计算它在输入图像上的位置，根据输入图像上该位置附近的像素值决定输出像素的值。
 
 在matlab中，简单的变换可以直接用单个函数实现。图像缩放使用：
-
 ```
 g = imresize(f, scale);
 g = imresize(f, [ROW COL]);
 ```
 
 图像旋转使用：
-
 ```
 g = imrotate(f, angle);
 ```
 
 图像剪切使用：
-
 ```
 g = imcrop(f, [X, Y, WIDTH, HEIGHT]);
 ```
@@ -115,7 +115,6 @@ g = imtransform(f, tform, interp);
 其中，interp可以是'nearest'，'bilinear'或者'bicubic'。
 
 比如：
-
 ```
 f = chekerboard(50);
 s = 0.8;
@@ -131,5 +130,6 @@ g = imtransform(f, tform);
 ![Bilinear_interpolation.png](<assets/图像的空间变换/Bilinear_interpolation.png>)
 
 ### 图像配准
+
 根据两幅图像，算出一个变换参数，使得一幅图像经过这样的变换后和另一图像接近
 ![figure54.png](<assets/图像的空间变换/figure54.png>)

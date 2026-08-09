@@ -5,6 +5,7 @@ title: "彩色图像的增强"
 [返回“数字图像处理”](../数字图像处理.qmd)
 
 ## 颜色模型
+
 RGB彩色空间：由RGB（红绿蓝）三个分量组成
 
 ![figure61.png](<assets/彩色图像的增强/figure61.png>)
@@ -50,6 +51,7 @@ HSI彩色空间：由HSI（色调、饱和度、亮度）三个分量组成
 ![figure63.png](<assets/彩色图像的增强/figure63.png>)
 
 ## MATLAB中表示彩色图像
+
 在matlab中，彩色图像由一个大小为M＊N＊3的三维矩阵表示，
 ![figure64.png](<assets/彩色图像的增强/figure64.png>)
 
@@ -62,7 +64,6 @@ rgb = cat(3, R, G, B);
 ```
 
 颜色模型之间的转换：
-
 ```
 ntsc_image = rgb2ntsc(rgb_image);
 ycbcr_image = rgb2ycbcr(rgb_image);
@@ -80,6 +81,7 @@ gray_image = rgb2gray(rgb_image);
 ```
 
 ## 索引图像
+
 ![figure65.png](<assets/彩色图像的增强/figure65.png>)
 
 ```
@@ -88,20 +90,20 @@ imshow(f, map);
 ```
 
 转换
-
 ```
 rgb_image = ind2rgb(f, map);
 [f, map] = rgb2ind(rgb_image, 256);
 ```
 
 抖动算法：
-
 ```
 bw = dither(gray_image);
 ```
 
 ## 彩色图像处理
+
 ### 彩色变换
+
 彩色变换类似于灰度图像的亮度变换，对单个像素点进行操作。
 
 **彩色至彩色变换**（输入输出都是彩色图像）
@@ -113,7 +115,6 @@ $$
 其中ri为输入像素的各个颜色分量，si为输出像素的各个颜色分量，Ti为变换函数。
 
 对于RGB图像，即:
-
 $$
 R' = T1(R), G' = T2(G), B' = T3(B)
 $$
@@ -139,7 +140,6 @@ $$
 其中r为输入像素的灰度值，si为输出像素的各个颜色分量，Ti为变换函数。
 
 如果输出的是RGB图像，则:
-
 $$
 R = T1(r), G = T2(r), B = T3(r)
 $$
@@ -175,15 +175,18 @@ g = ice('image', f, 'space', 'hsi');
 ```
 
 在交互界面中，可以实现：
+
 * 负片![figure66.png](<assets/彩色图像的增强/figure66.png>)
 * 对比度增强![figure67.png](<assets/彩色图像的增强/figure67.png>)
 * 伪彩色映射![figure68.png](<assets/彩色图像的增强/figure68.png>)
 * 彩色平衡![figure69.png](<assets/彩色图像的增强/figure69.png>)
 * 直方图均衡化![figure610.png](<assets/彩色图像的增强/figure610.png>)
-等等
-### 彩色图像滤波
-RGB三个分量分别滤波
 
+等等
+
+### 彩色图像滤波
+
+RGB三个分量分别滤波
 ```
 R = f(:,:,1);
 G = f(:,:,2);
@@ -193,15 +196,12 @@ Gf = imfilter(G, w);
 Bf = imfilter(B, w);
 g = cat(3, Rf, Gf, Bf);
 ```
-
 等价于
-
 ```
 g = imfilter(f, w);
 ```
 
 HSI图像滤波
-
 ```
 h = rgb2hsi(f);
 H = h(:,:,1);
@@ -221,6 +221,7 @@ f = hsi2rgb(h);
 ![figure614.png](<assets/彩色图像的增强/figure614.png>)
 
 ### RGB向量空间上处理
+
 将像素值作为一个向量处理。
 
 **图像梯度**

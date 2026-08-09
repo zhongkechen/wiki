@@ -5,76 +5,78 @@ title: "熟悉MATLAB环境实验"
 [返回“数字图像处理”](../数字图像处理.qmd)
 
 ## 实验目的
+
 熟悉MATLAB的实验环境，掌握MATLAB基本的使用方法
 
 ## 预备知识
+
 参见：[熟悉MATLAB环境](<熟悉MATLAB环境.qmd>)
 
 ## 实验任务
 
 1. MATLAB 没有提供一个函数来确定数组的每个元素是不是整数（即...,-2,-1,0,1,2,...）。写一个函数来实现这个功能，并满足下面的格式：
 
-```
-function I = isinteger(A)
-%ISINTEGER Determines which elements of an array are integers.
-%        I = ISINTEGER(A) returns a logical array, I, of the same size
-%        as A, with 1s (TRUE) in the locations corresponding to integers
-%        (i.e., . . . -2 -1 0 1 2 . . . )in A, and 0s (FALSE) elsewhere.
-%        A must be a numeric array.
-```
+   ```
+   function I = isinteger(A)
+   %ISINTEGER Determines which elements of an array are integers.
+   %        I = ISINTEGER(A) returns a logical array, I, of the same size
+   %        as A, with 1s (TRUE) in the locations corresponding to integers
+   %        (i.e., . . . -2 -1 0 1 2 . . . )in A, and 0s (FALSE) elsewhere.
+   %        A must be a numeric array.
+   ```
 
-要求不能使用while或者for循环。提示：使用floor函数。如果你要做到能够处理复数，那么可以使用real和imag函数。
+   要求不能使用while或者for循环。提示：使用floor函数。如果你要做到能够处理复数，那么可以使用real和imag函数。
 
 1. MATLAB没有提供一个函数用来确定数组的每个元素是不是偶数（即...,-4,-2,0,2,4,...）。写一个函数来实现这个功能，并满足下面的格式：
 
-```
-function E = iseven(A)
-%ISEVEN Determines which elements of an array are even numbers.
-%     E = ISEVEN(A) returns a logical array, E, of the same size as A,
-%     with 1s (TRUE) in the locations corresponding to even numbers
-%     (i.e., ... -4, -2, 0, 2, 4, ... )in A, and 0s (FALSE) elsewhere.
-%     A must be a numeric array.
-```
+   ```
+   function E = iseven(A)
+   %ISEVEN Determines which elements of an array are even numbers.
+   %     E = ISEVEN(A) returns a logical array, E, of the same size as A,
+   %     with 1s (TRUE) in the locations corresponding to even numbers
+   %     (i.e., ... -4, -2, 0, 2, 4, ... )in A, and 0s (FALSE) elsewhere.
+   %     A must be a numeric array.
+   ```
 
-要求不能使用while或者for循环。提示：使用floor函数。
+   要求不能使用while或者for循环。提示：使用floor函数。
 1. MATLAB没有提供一个函数用来确定数组的每个元素是不是奇数（即...,−3,−1,1,3,...）。写一个函数实现这个功能，并满足下面的格式：
 
-```
-function D = isodd(A)
-%ISODD Determines which elements of an array are odd numbers.
-%      E = ISODD(A) returns a logical array, D, of the same size as A,
-%      with 1s (TRUE) in the locations corresponding to odd numbers
-%    (i.e., . . . -3, -1, 1, 3, . . . )in A, and 0s (FALSE) elsewhere.
-%    A must be a numeric array.
-```
+   ```
+   function D = isodd(A)
+   %ISODD Determines which elements of an array are odd numbers.
+   %      E = ISODD(A) returns a logical array, D, of the same size as A,
+   %      with 1s (TRUE) in the locations corresponding to odd numbers
+   %    (i.e., . . . -3, -1, 1, 3, . . . )in A, and 0s (FALSE) elsewhere.
+   %    A must be a numeric array.
+   ```
 
-要求不能使用while或者for循环。提示：使用floor函数。
+   要求不能使用while或者for循环。提示：使用floor函数。
 1. 写一个函数满足下面的规定：
 
-```
-function H = imcircle(R, M, N)
-%IMCIRCLE Generates a circle inside a rectangle.
-%    H = IMCIRCLE(R, M, N) generates a circle of radius R centered
-%    on a rectangle of height M and width N. H is a binary image with
-%    1s on the circle and 0s elsewhere. R must be an integer >= 1.
-```
+   ```
+   function H = imcircle(R, M, N)
+   %IMCIRCLE Generates a circle inside a rectangle.
+   %    H = IMCIRCLE(R, M, N) generates a circle of radius R centered
+   %    on a rectangle of height M and width N. H is a binary image with
+   %    1s on the circle and 0s elsewhere. R must be an integer >= 1.
+   ```
 
-你的程序应该检查R的合理性，使它能够在矩形的内部。要求不能使用for或者while循环。提示：使用函数meshgrid和floor函数。
+   你的程序应该检查R的合理性，使它能够在矩形的内部。要求不能使用for或者while循环。提示：使用函数meshgrid和floor函数。
 1. 这个实验主要目的是学习如何显示和改变目录，并利用目录信息来读取图像。写一个函数满足下面的规定：
 
-```
-function [I, map] = imagein(path)
-%IMAGEIN Read image in from current-working or specified directory.
-%     I = IMAGEIN displays a window containing all the files in the
-%     current directory, and saves in I the image selected from the
-%     current directory.
-%     [I, MAP] = IMAGEIN variable MAP is required to be an output
-%     argument when the image being read is an indexed image.
-%     [ . . .] = IMAGEIN('PATH') is used when the image to be read
-%     resides in a specified directory. For example, the input
-%     argument 'C:\MY_WORK\MY_IMAGES' opens a window showing
-%     the contents of directory MY_IMAGES. An image selected from
-%     that directory is read in as image I.
-```
+   ```
+   function [I, map] = imagein(path)
+   %IMAGEIN Read image in from current-working or specified directory.
+   %     I = IMAGEIN displays a window containing all the files in the
+   %     current directory, and saves in I the image selected from the
+   %     current directory.
+   %     [I, MAP] = IMAGEIN variable MAP is required to be an output
+   %     argument when the image being read is an indexed image.
+   %     [ . . .] = IMAGEIN('PATH') is used when the image to be read
+   %     resides in a specified directory. For example, the input
+   %     argument 'C:\MY_WORK\MY_IMAGES' opens a window showing
+   %     the contents of directory MY_IMAGES. An image selected from
+   %     that directory is read in as image I.
+   ```
 
-提示：使用在线帮助来熟悉cd，pwd，uigetfile函数的使用。或者也可以采用fullfile函数来代替cd函数。
+   提示：使用在线帮助来熟悉cd，pwd，uigetfile函数的使用。或者也可以采用fullfile函数来代替cd函数。

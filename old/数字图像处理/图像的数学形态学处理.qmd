@@ -61,6 +61,7 @@ $$
 ![figure92.png](<assets/图像的数学形态学处理/figure92.png>)
 
 ### 二值图像的集合运算
+
 点的集合A可以用一幅二值的图像A来表示：
 
 $$
@@ -138,7 +139,6 @@ A\oplus B = A \oplus (B_1 \oplus B_2) = (A \oplus B_1) \oplus B_2
 $$
 
 计算膨胀所需要的时间正比于结构元素中非零像素的个数。如果分解后非零像素减少，那就可以节省计算时间。例如
-
 $$
 \left[\begin{array}{ccccc}
 1 &1& 1& 1& 1\\
@@ -148,7 +148,6 @@ $$
 1 &1& 1& 1& 1
 \end{array}\right]
 $$
-
 可以分解为
 
 $$
@@ -310,14 +309,16 @@ conn是4或者8，表示选择4连通或者8连通。
 **重构(reconstruct)**操作需要一个标记(marker)图像f、一个掩模(mask)图像g和一个结构元素B，记为$R_g(f)$。其中标记图像f必须是掩模图像g的子集。
 
 重构操作的计算过程可以表达为：
+
 1. h1初始化为标记图像，g为掩模，B为结构元素ones(3)；
 1. 重复如下操作
 
-$$
-h_{k+1} = (h_k \oplus B) \cap g
-$$
+   $$
+   h_{k+1} = (h_k \oplus B) \cap g
+   $$
 
-直到$h_{k+1} = h_k$
+   直到$h_{k+1} = h_k$
+
 ![figure921.png](<assets/图像的数学形态学处理/figure921.png>)
 
 matlab实现：
@@ -339,7 +340,6 @@ h = imreconstruct(marker, mask);
 ### 填充空洞
 
 如果有
-
 $$
 f_m(x,y)= \begin{cases}
 1-f(x,y) & if\ (x,y)\ is\ on\ the\ border\ of\ f\\
@@ -348,7 +348,6 @@ f_m(x,y)= \begin{cases}
 $$
 
 则下面这个操作的作用就是填充空洞
-
 $$
 g = [R_{f^c}(f_m)]^c
 $$
@@ -362,7 +361,6 @@ g = imfill(f, 'holes');
 ### 清除边界对象
 
 如果：
-
 $$
 f_m(x,y) = \begin{cases}
 f(x,y) & if\ (x,y)\ is\ on\ the\ border\ of\ f \\
