@@ -22,6 +22,7 @@ project:
     - old/Ch运行环境.qmd
     - old/C++集成开发环境.qmd
     - old/温大机房优化脚本.qmd
+    - old/算法.qmd
     - old/程序设计语言.qmd
     - old/程序设计语言/**/*.qmd
     - old/数据结构.qmd

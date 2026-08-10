@@ -1,0 +1,27 @@
+---
+title: "算法"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+### 算法专题
+
+* [算法专题：动态规划](<ICPC/算法专题：动态规划.qmd>)
+* [算法专题：搜索](<ICPC/算法专题：搜索.qmd>)
+* [算法专题：贪婪算法](<ICPC/算法专题：贪婪算法.qmd>)
+* [算法专题：递推求解](<ICPC/算法专题：递推求解.qmd>)
+
+### 其他算法资料
+
+* 字符串搜索Rabin-Karp算法 <http://en.wikipedia.org/wiki/Rabin-Karp_string_search_algorithm>
+* 字符串搜索KMP算法O(m+n) <http://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm>
+* 最大递增子序列O(nlogn) <http://en.wikipedia.org/wiki/Longest_increasing_subsequence>
+* 最长公共子序列 <http://en.wikipedia.org/wiki/Longest_common_subsequence_problem>
+* 最长公共子串 <http://en.wikipedia.org/wiki/Longest_common_substring_problem>
+* 最长重复子串 <http://en.wikipedia.org/wiki/Longest_repeated_substring_problem>

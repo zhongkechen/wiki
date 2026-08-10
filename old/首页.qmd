@@ -16,7 +16,7 @@ description: Zhongke 的个人 Wiki 旧站首页
   - [C语言](高级语言程序设计课程/C.qmd)
   - [C++语言](程序设计语言/C++.qmd)
   - [Matlab](程序设计语言/Matlab.qmd)
-- [算法](算法.html)
+- [算法](算法.qmd)
 
 ## 温州大学计算机专业课程相关
 

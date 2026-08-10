@@ -12,6 +12,12 @@ COURSE_TITLE = "大学生程序设计竞赛"
 COURSE_OUTPUT = File.join(OUTPUT_ROOT, COURSE_NAME)
 SOURCE_SNAPSHOT_PATH = File.expand_path("data/moin_icpc_sources.json", __dir__)
 SOURCE_ASSET_ROOT = File.join(COURSE_OUTPUT, "assets")
+ALGORITHM_TOPIC_PAGES = %w[
+  算法专题：动态规划
+  算法专题：搜索
+  算法专题：贪婪算法
+  算法专题：递推求解
+].freeze
 SHARED_PAGE_LINKS = {
   "C++集成开发环境" => "C++集成开发环境.qmd",
   "温大机房优化脚本" => "温大机房优化脚本.qmd"
@@ -779,9 +785,18 @@ Dir.mktmpdir("migrate-moin-icpc") do |temporary_root|
       owner: page_name,
       context: :child
     )
+    return_link =
+      if ALGORITHM_TOPIC_PAGES.include?(page_name)
+        [
+          "[返回“算法”](../算法.qmd)",
+          "[返回“#{COURSE_TITLE}”](../#{COURSE_NAME}.qmd)"
+        ].join(" · ")
+      else
+        "[返回“#{COURSE_TITLE}”](../#{COURSE_NAME}.qmd)"
+      end
     page = [
       qmd_front_matter(page_name),
-      "[返回“#{COURSE_TITLE}”](../#{COURSE_NAME}.qmd)",
+      return_link,
       "",
       body
     ].join("\n")

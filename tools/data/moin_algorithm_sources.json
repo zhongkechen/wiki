@@ -1,0 +1,7 @@
+{
+  "算法": {
+    "source": "== 算法专题 ==\r\n<<PageList(算法专题)>>\r\n\r\n== 其他算法资料 ==\r\n * 字符串搜索Rabin-Karp算法 http://en.wikipedia.org/wiki/Rabin-Karp_string_search_algorithm\r\n * 字符串搜索KMP算法O(m+n) http://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm\r\n * 最大递增子序列O(nlogn) http://en.wikipedia.org/wiki/Longest_increasing_subsequence\r\n * 最长公共子序列 http://en.wikipedia.org/wiki/Longest_common_subsequence_problem\r\n * 最长公共子串 http://en.wikipedia.org/wiki/Longest_common_substring_problem\r\n * 最长重复子串 http://en.wikipedia.org/wiki/Longest_repeated_substring_problem\r\n",
+    "revision": "00000006",
+    "current_revision": "00000006"
+  }
+}

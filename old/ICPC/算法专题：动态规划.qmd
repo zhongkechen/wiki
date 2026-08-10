@@ -8,7 +8,7 @@ format:
     html-math-method: mathjax
 ---
 
-[返回“大学生程序设计竞赛”](../ICPC.qmd)
+[返回“算法”](../算法.qmd) · [返回“大学生程序设计竞赛”](../ICPC.qmd)
 
 ### 基本原理
 

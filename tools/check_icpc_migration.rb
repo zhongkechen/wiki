@@ -67,6 +67,27 @@ Dir.mktmpdir("check-icpc-migration") do |temporary_root|
   assert(course_page.include?("> 很多题目都是英文的"), "Random quote lost blockquote markup")
   assert(!course_page.match?(/<<(?:PageList|RandomQuote)/), "Dynamic MoinMoin macro leaked")
 
+  algorithm_topics = %w[
+    算法专题：动态规划
+    算法专题：搜索
+    算法专题：贪婪算法
+    算法专题：递推求解
+  ]
+  algorithm_topics.each do |page_name|
+    topic_page = File.read(
+      File.join(temporary_root, "old", "ICPC", "#{page_name}.qmd"),
+      encoding: "UTF-8"
+    )
+    assert(
+      topic_page.include?("[返回“算法”](../算法.qmd)"),
+      "#{page_name} does not link back to the algorithm index"
+    )
+    assert(
+      topic_page.include?("[返回“大学生程序设计竞赛”](../ICPC.qmd)"),
+      "#{page_name} lost its ICPC return link"
+    )
+  end
+
   code_page = File.read(
     File.join(temporary_root, "old", "ICPC", "hdu1072 参考答案.qmd"),
     encoding: "UTF-8"
