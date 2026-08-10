@@ -79,8 +79,8 @@ None.
 | size_type max_size() const | [Container](<Container.qmd>) | Returns the largest possible size of the vector. |
 | size_type capacity() const | vector | See below. |
 | bool empty() const | Container | true if the vector's size is 0. |
-| reference operator[](size_type n) | Random Access Container | Returns the n'th element. |
-| const_reference operator[](size_type n) const | Random Access Container | Returns the n'th element. |
+| reference operator&#91;&#93;(size_type n) | Random Access Container | Returns the n'th element. |
+| const_reference operator&#91;&#93;(size_type n) const | Random Access Container | Returns the n'th element. |
 | vector() | Container | Creates an empty vector. |
 | vector(size_type n) | Sequence | Creates a vector with n elements. |
 | vector(size_type n, const T& t) | Sequence | Creates a vector with n copies of t. |

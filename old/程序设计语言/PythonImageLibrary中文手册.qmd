@@ -42,9 +42,9 @@ Python Imaging Library适合编写图像归档和批处理应用程序。使用�
 
 #### 图像显示
 
-当前版本的库包含Tk的**PhotoImage** 和** BitmapImage** 接口，也包含Windows的**DIB**接口（可以同PythonWin和其他基于Windows的界面工具包一起使用）。还有一些其他的PIL支持提供了很多其他的GUI工具包。
+当前版本的库包含Tk的**PhotoImage** 和 **BitmapImage** 接口，也包含Windows的**DIB**接口（可以同PythonWin和其他基于Windows的界面工具包一起使用）。还有一些其他的PIL支持提供了很多其他的GUI工具包。
 
-为了调试方便，库中有一个** show** 方法，它把图像保存到磁盘中，并调用外部显示工具来显示它。
+为了调试方便，库中有一个 **show** 方法，它把图像保存到磁盘中，并调用外部显示工具来显示它。
 
 #### 图像处理
 
@@ -150,7 +150,7 @@ for infile in sys.argv[1:]:
 
 Image 类提供一些对图像中的某一区域进行处理的方法。要从图像中提取一块子矩形区域，使用 crop 方法。
 
-**从图像中拷贝一块子矩形区域* ===
+**从图像中拷贝一块子矩形区域**
 ```python
 box = (100, 100, 400, 400)
 region = im.crop(box)
@@ -451,7 +451,7 @@ draft = L (128, 128)
 
 一幅图像可以有一个或者多个通道的数据构成。Python Imaging Library允许在一个图像中存储多个通道，只要这些通道的大小和颜色深度都是一样的。
 
-要获取图像的通道数目和通道名称，可以使用[image.htm#image-getbands-method getbands] 方法。
+要获取图像的通道数目和通道名称，可以使用[getbands](#image-getbands-method) 方法。
 
 ### 模式
 
@@ -469,11 +469,11 @@ draft = L (128, 128)
 
 PIL 还支持一些特殊的模式，包括**RGBX** (true colour with padding)和**RGBa** (true colour with premultiplied alpha)。
 
-你可以通过[image.htm#image-mode-attribute mode]属性读取图像的模式，它是一个包含上述模式类型值的字符串。
+你可以通过[mode](#image-mode-attribute)属性读取图像的模式，它是一个包含上述模式类型值的字符串。
 
 ### 大小
 
-通过图像的[image.htm#image-size-attribute size]属性可以读取图像的大小信息。大小信息由一个包含水平和垂直像素数的二元组表示。
+通过图像的[size](#image-size-attribute)属性可以读取图像的大小信息。大小信息由一个包含水平和垂直像素数的二元组表示。
 
 ### 坐标系统
 
@@ -487,9 +487,9 @@ Python Imaging Library 使用笛卡尔像素坐标系统，原点 (0,0)在图像
 
 ### 信息
 
-你可以使用[image.htm#image-info-attribute info]属性在图像中添加辅助的信息。这是一个字典对象。
+你可以使用[info](#image-info-attribute)属性在图像中添加辅助的信息。这是一个字典对象。
 
-在读取和存储文件时如何处理这些信息是和文件的类型有关系的（查看[formats.htm 图像文件格式]这一章）。
+在读取和存储文件时如何处理这些信息是和文件的类型有关系的（查看[图像文件格式](#pil-image-formats)这一章）。
 
 ### 滤波器
 
@@ -498,7 +498,7 @@ Python Imaging Library 使用笛卡尔像素坐标系统，原点 (0,0)在图像
 * NEAREST:: 在输入图像中选择最近的点，忽略其他所有点。
 * BILINEAR:: 在输入图像的2x2像素范围内进行线性插值。注意当前版本的PIL中，这个滤波器在下采样时使用固定的输入范围的大小。
 * BICUBIC:: 在输入图像的4x4像素范围内进行三次插值。注意当前版本的PIL中，这个滤波器在下采样时使用固定的输入范围的大小。
-* ANTIALIAS:: (在PIL 1.1.3中新增)。 使用高质量的重采样滤波器(a truncated sinc)对所有可能影响结果的输入像素进行计算来得到输出像素的值。在当前版本的PIL中，这个滤波器只能在**resize** 和**  thumbnail** 方法中使用。
+* ANTIALIAS:: (在PIL 1.1.3中新增)。 使用高质量的重采样滤波器(a truncated sinc)对所有可能影响结果的输入像素进行计算来得到输出像素的值。在当前版本的PIL中，这个滤波器只能在**resize** 和  **thumbnail** 方法中使用。
 
 注意，当前版本的PIL中，只有ANTIALIAS滤波器是唯一在下采样（把一幅较大的图像转换成较小的图像）时能正常工作的滤波器。BILINEAR和BICUBIC滤波器使用固定的输入范围大小，适用在保持比例(scale-preserving?)的几何转换或者上采样时。
 
@@ -534,7 +534,7 @@ import glob  for infile in glob.glob("*.jpg"):     file, ext = os.path.splitext(
 
   使用给定的模式和大小创建一个新图像。大小是以2元组的形式给出的。 当创建单通道的图时，color是单个值；当创建多通道图像时，color是一个元组（每个通道一个值）。如果color参数缺省，图像被填充成全黑。如果color是None，则图像不被初始化。
 
-#### open
+#### open {#image-open-function}
 
  **Image.open(infile)** =&gt; image
 
@@ -586,7 +586,7 @@ import glob  for infile in glob.glob("*.jpg"):     file, ext = os.path.splitext(
 
  **Image.fromstring(mode, size, data, decoder, parameters)** =&gt; image
 
-  与前一个函数的区别是，这个函数允许使用你使用任意PIL支持的像素解码器来解码数据。更多有关解码器的信息，参看[decoder.htm 编写自己的文件解码器]。
+  与前一个函数的区别是，这个函数允许使用你使用任意PIL支持的像素解码器来解码数据。更多有关解码器的信息，参看[编写自己的文件解码器](#pil-custom-decoder)。
 
  注意，这个函数只是解码像素数据，而不是解码整个图像。如果要处理存在字符串中的完整图像，可以使用**StringIO**把字符串包装起来然后用[open](#image-open-function)方法来装载它。
 
@@ -664,7 +664,7 @@ import glob  for infile in glob.glob("*.jpg"):     file, ext = os.path.splitext(
 
  与**fromstring**函数基本相同，只是将data装入当前图像。
 
-#### getbands
+#### getbands {#image-getbands-method}
 
  **im.getbands()** =&gt; tuple of strings
 
@@ -722,7 +722,7 @@ Calculates the bounding box of the non-zero regions in the image. The bounding b
 
   (过期的)返回图像数据被平移给定的偏移量以后的图像。Data wraps around the edges. If yoffset is omitted, it is assumed to be equal to xoffset.
 
- 这个方法以后将不被支持。新代码应该使用[imagechops.htm#offset ImageChops]模块提供的**offset** 函数。
+ 这个方法以后将不被支持。新代码应该使用[ImageChops](#imagechops-offset)模块提供的**offset** 函数。
 
 #### paste
 
@@ -766,7 +766,7 @@ If the image has mode "I" (integer) or "F" (floating point), you must use a func
     out = im.point(lambda i: i * 1.2 + 10)
 ```
 
-You can leave out either the **scale** or the ** offset**.
+You can leave out either the **scale** or the  **offset**.
 
 **im.point(table, mode)** =&gt; image
 
@@ -814,7 +814,7 @@ Note that this method is relatively slow. For more extensive changes, use **past
 
 **im.resize(size, filter)** =&gt; image
 
-Returns a resized copy of an image. The size argument gives the requested size in pixels, as a 2-tuple: (**width**, **  height**).
+Returns a resized copy of an image. The size argument gives the requested size in pixels, as a 2-tuple: (**width**,   **height**).
 
 The filter argument can be one of **NEAREST** (use nearest neighbour), **BILINEAR** (linear interpolation in a 2x2 environment), **BICUBIC** (cubic spline interpolation in a 4x4 environment), or **ANTIALIAS** (a high-quality downsampling filter). If omitted, or if the image has mode "1" or "P", it is set to **NEAREST**.
 
@@ -878,9 +878,9 @@ Returns a tuple of individual image bands from an image. For example, splitting 
 
 **im.thumbnail(size, filter)**
 
-Modifies the image to contain a thumbnail version of itself, no larger than the given size. This method calculates an appropriate thumbnail size to preserve the aspect of the image, calls the ** draft** method to configure the file reader (where applicable), and finally resizes the image.
+Modifies the image to contain a thumbnail version of itself, no larger than the given size. This method calculates an appropriate thumbnail size to preserve the aspect of the image, calls the  **draft** method to configure the file reader (where applicable), and finally resizes the image.
 
-The filter argument can be one of **NEAREST**, ** BILINEAR**, **BICUBIC**, or **ANTIALIAS** (best quality). If omitted, it defaults to **NEAREST** (this will be changed to ANTIALIAS in future versions).
+The filter argument can be one of **NEAREST**,  **BILINEAR**, **BICUBIC**, or **ANTIALIAS** (best quality). If omitted, it defaults to **NEAREST** (this will be changed to ANTIALIAS in future versions).
 
 Note that the bilinear and bicubic filters in the current version of PIL are not well-suited for thumbnail generation. You should use **ANTIALIAS** unless speed is much more important than quality.
 
@@ -972,13 +972,13 @@ Returns a string containing pixel data, using the given data encoding.
 
   源文件的文件格式。如果是由库创建的图像，这个属性是None。
 
-#### mode
+#### mode {#image-mode-attribute}
 
  **im.mode** =&gt; string
 
  图像的模式。这是一个指定图像使用的像素格式的字符串。最常使用的模式是"1"、"L"、"RGB"以及"CMYK"。
 
-#### size
+#### size {#image-size-attribute}
 
  **im.size** =&gt; (width, height)
 
@@ -990,9 +990,9 @@ Returns a string containing pixel data, using the given data encoding.
 
  如果有调色板的话，这个属性指向颜色调色板。如果模式是"P"， 它指向的是**ImagePalette** 类的一个对象。否则，它是 None。
 
-#### info
+#### info {#image-info-attribute}
 
-  **im.info*' =&gt; dictionary
+  **im.info** =&gt; dictionary
 
  包含图像相关数据的字典。
 
@@ -1094,7 +1094,7 @@ ImageChops.composite(image1, image2, mask) =&gt; image
 
 Same as the composite function in the Image module.
 
-#### offset
+#### offset {#imagechops-offset}
 
 ImageChops.offset(xoffset, yoffset) =&gt; image
 
@@ -2294,7 +2294,7 @@ You can join the Image SIG by sending a mail to image-sig-request@python.org. Pu
 
 Alternatively, you can use the Python mailing list, python-list@python.org, or the newsgroup comp.lang.python.
 
-### 图像文件格式
+### 图像文件格式 {#pil-image-formats}
 
 Python Imaging Library 支持很广泛的光栅文件格式。PIL库差不多能识别和读取30种文件格式。输出格式的支持没有这么广泛，但最常用的交换和展示的格式还是支持的。
 
@@ -2522,7 +2522,7 @@ XPM	".xpm"
 
 要注意的是，PIL库并不支持所有这些格式的保存操作。
 
-### 编写自己的文件解码器
+### 编写自己的文件解码器 {#pil-custom-decoder}
 
 The Python Imaging Library uses a plug-in model which allows you to add your own decoders to the library, without any changes to the library itself. Such plug-ins have names like XxxImagePlugin.py, where Xxx is a unique format name (usually an abbreviation).
 

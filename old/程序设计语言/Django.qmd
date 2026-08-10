@@ -20,6 +20,4 @@ Django 是一个基于Python的Web开发框架。
 * [Django on Gevent](https://www.youtube.com/watch?v=nocGRsytBkk)
 * 入门指南： Django step by step
 
-```raw
-<iframe src="http://docs.google.com/present/embed?id=ajkvtgc93s3s_215fb5rmff3&size=m" frameborder="0" width="555" height="451"></iframe>
-```
+<iframe src="https://docs.google.com/present/embed?id=ajkvtgc93s3s_215fb5rmff3&size=m" frameborder="0" width="555" height="451"></iframe>

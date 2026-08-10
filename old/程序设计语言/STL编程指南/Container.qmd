@@ -558,7 +558,7 @@ An algorithm that iterates through the range <tt>[a.begin(), a.end())</tt>
 <h3>Models</h3>
 <UL>
 <LI>
- <A href="Vector.html">vector</A>
+ <A href="vector.html">vector</A>
 </UL>
 <h3>Notes</h3>
 <P><A name="1">[1]</A>
@@ -607,7 +607,7 @@ The iterator type need only be an <i>input iterator</i>, which
 provides a very weak set of guarantees; in particular, all algorithms
 on input iterators must be &quot;single pass&quot;.  It follows that only a single
 iterator into a container may be active at any one time.  This restriction
-is removed in <A href="ForwardContainer.html">Forward Container</A>.
+is removed in <A href="Forward Container.html">Forward Container</A>.
 <P><A name="8">[8]</A>
 In the case of a fixed-size container, <tt>size() == max_size()</tt>.
 <P><A name="9">[9]</A>
@@ -615,7 +615,7 @@ For any <A href="Assignable.html">Assignable</A> type, <A href="swap.html">swap<
 assignment.  This requires three assignments, each of which, for
 a container type, is linear in the container's size.  In a sense,
 then, <tt>a.swap(b)</tt> is redundant.  It exists solely for the sake of
-efficiency: for many containers, such as <A href="Vector.html">vector</A> and <A href="List.html">list</A>,
+efficiency: for many containers, such as <A href="vector.html">vector</A> and <A href="list.html">list</A>,
 it is possible to implement <tt>swap</tt> such that its run-time complexity
 is constant rather than linear.  If this is possible for some container
 type <tt>X</tt>, then the template specialization <tt><A href="swap.html">swap</A>(X&amp;, X&amp;)</tt> can
@@ -626,7 +626,7 @@ have such a member function, but if the member function exists at all then
 it is guaranteed to be amortized constant time.
 
 <P><A name="10">[10]</A>
-For many containers, such as <tt><A href="Vector.html">vector</A></tt> and <tt><A href="Deque.html">deque</A></tt>, <tt>size</tt> is
+For many containers, such as <tt><A href="vector.html">vector</A></tt> and <tt><A href="deque.html">deque</A></tt>, <tt>size</tt> is
 <i>O(1</i>).  This satisfies the requirement that it be <i>O(N</i>).
 <P><A name="11">[11]</A>
 
@@ -634,7 +634,7 @@ Although <tt>[a.begin(), a.end())</tt> must be a valid range, and must
 include every element in the container, the order in which the elements
 appear in that range is unspecified.  If you iterate through a container
 twice, it is not guaranteed that the order will be the same both
-times.  This restriction is removed in <A href="ForwardContainer.html">Forward Container</A>.
+times.  This restriction is removed in <A href="Forward Container.html">Forward Container</A>.
 <h3>See also</h3>
 The <A href="Iterators.html">Iterator overview</A>, <A href="InputIterator.html">Input Iterator</A>, <A href="Sequence.html">Sequence</A>
 

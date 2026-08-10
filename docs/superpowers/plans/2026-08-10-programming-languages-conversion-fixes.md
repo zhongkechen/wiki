@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Correct four reproducible MoinMoin-to-Quarto conversion defects in PR #21 and update the generated migration output.
+**Goal:** Correct all reproducible MoinMoin-to-Quarto conversion defects found in PR #21 and update the generated migration output.
 
-**Architecture:** Keep all behavior in the existing Ruby migration script. Add narrowly scoped helpers for legacy raw HTML, relative single-bracket links, legacy heading IDs, and section-number pragmas, then lock each behavior into the snapshot replay checker.
+**Architecture:** Keep all behavior in the existing Ruby migration script. Add narrowly scoped helpers for legacy raw HTML, relative single-bracket links, occurrence-aware heading IDs, raw blocks, C++ signatures, emphasis, and section-number pragmas, then lock each behavior into the snapshot replay checker.
 
 **Tech Stack:** Ruby standard library, Quarto, Git
 
@@ -24,7 +24,7 @@
 
 **Interfaces:**
 - Consumes: generated QMD files produced by the existing migration script.
-- Produces: assertions that fail for all four current conversion defects.
+- Produces: assertions that fail for every current conversion defect.
 
 - [ ] **Step 1: Add failing raw-HTML assertions**
 
@@ -77,7 +77,13 @@ Run:
 ruby tools/check_programming_languages_migration.rb
 ```
 
-Expected: FAIL first on the outer legacy HTML assertion.
+Expected: FAIL on at least one newly added semantic assertion.
+
+- [ ] **Step 5: Add assertions for newly identified semantic failures**
+
+Cover all seven PIL links and fragments, line-local emphasis conversion,
+`#!raw` iframe rendering, both section-number pages, and protected
+`operator[]` signatures in the vector and deque pages.
 
 ### Task 2: Implement Conversion Fixes
 
@@ -164,6 +170,22 @@ ruby tools/check_programming_languages_migration.rb
 ```
 
 Expected: `Programming languages migration snapshot replay passed`.
+
+- [ ] **Step 7: Correct merged PIL navigation**
+
+Map the seven legacy handbook targets to stable fragments in the merged page.
+Support an occurrence-aware ID for the second `offset` heading.
+
+- [ ] **Step 8: Preserve raw HTML and C++ signatures**
+
+Render `#!raw` blocks without a code fence, upgrade the known Google Docs
+iframe to HTTPS, and encode the brackets in `operator[](` signatures after
+fenced blocks have been protected.
+
+- [ ] **Step 9: Convert emphasis line by line**
+
+Repair the single malformed bold marker, normalize whitespace outside Markdown
+delimiters, and prevent an unmatched marker from consuming subsequent lines.
 
 ### Task 3: Regenerate and Audit Output
 

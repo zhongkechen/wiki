@@ -1,5 +1,6 @@
 ---
 title: "C++面向过程程序设计"
+number-sections: true
 lang: zh
 toc: true
 format:
@@ -9,8 +10,6 @@ format:
 ---
 
 [返回“程序设计语言”](<../程序设计语言.qmd>)
-
-#pragma section-numbers 2
 
 ## C++面向过程程序设计
 

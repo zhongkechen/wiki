@@ -2,7 +2,7 @@
 
 ## Goal
 
-Fix the four conversion defects identified in PR #21 without adding runtime
+Fix the conversion defects identified in PR #21 without adding runtime
 dependencies or hand-editing generated pages.
 
 ## Scope
@@ -12,12 +12,15 @@ The migration must:
 - rewrite legacy raw-HTML links that correspond to migrated STL pages;
 - remove unavailable decorative images and outer HTML document wrappers from
   imported SGI pages;
-- convert relative MoinMoin single-bracket links such as
-  `[image.htm#anchor label]` into Markdown links;
-- preserve the legacy `image-open-function` fragment on the PIL `open`
-  heading;
+- map the seven PIL handbook links to stable fragments in the merged page;
+- preserve stable fragments for all linked PIL headings;
 - remove `#pragma section-numbers 2` from rendered content and enable Quarto
-  section numbering for the affected pages.
+  section numbering for the affected pages;
+- render trusted `#!raw` blocks as raw markup instead of code and upgrade the
+  known Google Docs iframe to HTTPS;
+- protect C++ `operator[]` signatures from Markdown link parsing;
+- convert MoinMoin emphasis one line at a time, normalizing delimiter
+  whitespace and repairing the one malformed source marker.
 
 Links to SGI pages that were not migrated are outside this fix. They remain
 unchanged rather than being redirected to an unverified external archive.
@@ -34,19 +37,28 @@ remove the three unavailable decorative images, and rewrite a fixed set of SGI
 filenames to the corresponding generated `.html` paths.
 
 Extend the existing single-bracket link conversion only for targets that look
-like relative files with extensions. This avoids interpreting array notation
-and numeric references as links.
+like relative files with extensions. Map the known PIL targets to stable
+same-page fragments and leave unmatched relative targets as relative links.
+This avoids interpreting array notation and numeric references as links.
 
-Use a page-specific legacy heading ID map for the one fragment found in the
-source snapshot. Detect MoinMoin's section-number pragma before body conversion,
-remove it from the body, and add `number-sections: true` to that page's YAML.
+Use a page-specific legacy heading ID map, including occurrence-aware IDs for
+the repeated PIL `offset` heading. Detect MoinMoin's section-number pragma
+before body conversion, remove it from the body, and add
+`number-sections: true` to that page's YAML.
+
+Treat `#!raw` as trusted raw markup, matching the existing `#!html` behavior,
+and upgrade the known Google Docs iframe so an HTTPS site does not block it as
+mixed content. Replace `operator[]` only when it begins a function-call
+signature, after code blocks have been tokenized, using HTML entities for the
+brackets. Convert bold and italic markers independently on each source line so
+malformed markup cannot consume later paragraphs.
 
 ## Verification
 
 Add regression assertions to
 `tools/check_programming_languages_migration.rb` before changing the converter.
-The assertions must fail against the current implementation and cover all four
-defects.
+The assertions must fail against the current implementation and cover every
+defect above.
 
 After implementation:
 

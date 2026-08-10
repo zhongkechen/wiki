@@ -31,6 +31,46 @@ IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
 NORMALIZED_TEXT_ATTACHMENT_EXTENSIONS = %w[.cc .htm .py].freeze
 BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
 TABLE_HEADER_FIRST_CELLS = %w[Array 姓名 物品].freeze
+SECTION_NUMBER_PRAGMA_PATTERN = /^#pragma section-numbers \d+[ \t]*\r?$/
+LEGACY_HTML_PAGE_LINKS = {
+  "Vector.html" => "STL编程指南/vector",
+  "List.html" => "STL编程指南/list",
+  "Slist.html" => "STL编程指南/slist",
+  "Deque.html" => "STL编程指南/deque",
+  "ForwardContainer.html" => "STL编程指南/Forward Container",
+  "RandomAccessContainer.html" => "STL编程指南/Random Access Container",
+  "FrontInsertionSequence.html" => "STL编程指南/Front Insertion Sequence",
+  "BackInsertionSequence.html" => "STL编程指南/Back Insertion Sequence",
+  "ReversibleContainer.html" => "STL编程指南/Reversible Container"
+}.freeze
+UNAVAILABLE_LEGACY_HTML_IMAGES = %w[
+  /images/common/sgilogo_small.gif
+  containers.gif
+  type.gif
+].freeze
+LEGACY_HEADING_IDS = {
+  "PythonImageLibrary中文手册" => {
+    "open" => "image-open-function",
+    "getbands" => "image-getbands-method",
+    "mode" => "image-mode-attribute",
+    "size" => "image-size-attribute",
+    "info" => "image-info-attribute",
+    "offset" => [nil, "imagechops-offset"].freeze,
+    "图像文件格式" => "pil-image-formats",
+    "编写自己的文件解码器" => "pil-custom-decoder"
+  }.freeze
+}.freeze
+LEGACY_RELATIVE_LINK_TARGETS = {
+  "PythonImageLibrary中文手册" => {
+    "image.htm#image-getbands-method" => "#image-getbands-method",
+    "image.htm#image-mode-attribute" => "#image-mode-attribute",
+    "image.htm#image-size-attribute" => "#image-size-attribute",
+    "image.htm#image-info-attribute" => "#image-info-attribute",
+    "formats.htm" => "#pil-image-formats",
+    "decoder.htm" => "#pil-custom-decoder",
+    "imagechops.htm#offset" => "#imagechops-offset"
+  }.freeze
+}.freeze
 
 def decode_page_name(entry)
   entry.gsub(/\(([0-9a-fA-F]+)\)/) do
@@ -247,12 +287,13 @@ if PAGE_INDEX.any?
   File.write(SOURCE_SNAPSHOT_PATH, JSON.pretty_generate(snapshot) + "\n")
 end
 
-def qmd_front_matter(title)
+def qmd_front_matter(title, number_sections: false)
   escaped = title.gsub("\\", "\\\\").gsub('"', '\\"')
+  number_sections_line = number_sections ? "number-sections: true\n" : ""
   <<~YAML
     ---
     title: "#{escaped}"
-    lang: zh
+    #{number_sections_line}lang: zh
     toc: true
     format:
       html:
@@ -357,7 +398,41 @@ def normalize_code_line(line)
   (" " * width) + stripped.delete_prefix(indentation)
 end
 
-def convert_blocks(text)
+def legacy_html_image_source(tag)
+  tag[/\bsrc\s*=\s*["']([^"']+)["']/i, 1]
+end
+
+def protect_cpp_operator_signatures(text)
+  text.gsub(/operator\[\](?=\()/, "operator&#91;&#93;")
+end
+
+def normalize_legacy_html(body, owner:, context:)
+  normalized = body.dup
+  normalized.gsub!(%r{<head\b[^>]*>.*?</head>}im, "")
+  normalized.gsub!(%r{</?(?:html|body)\b[^>]*>}i, "")
+  normalized.gsub!(%r{\bhttp://docs\.google\.com/}, "https://docs.google.com/")
+  normalized.gsub!(%r{<a\b[^>]*>\s*(<img\b[^>]*>)\s*</a>}im) do |match|
+    source = legacy_html_image_source(Regexp.last_match(1))
+    UNAVAILABLE_LEGACY_HTML_IMAGES.include?(source) ? "" : match
+  end
+  normalized.gsub!(%r{<img\b[^>]*>}im) do |tag|
+    source = legacy_html_image_source(tag)
+    UNAVAILABLE_LEGACY_HTML_IMAGES.include?(source) ? "" : tag
+  end
+  normalized.gsub!(/(\bhref\s*=\s*)(["'])([^"']+)\2/i) do |attribute|
+    prefix = Regexp.last_match(1)
+    quote = Regexp.last_match(2)
+    target = Regexp.last_match(3)
+    page_name = LEGACY_HTML_PAGE_LINKS[target]
+    next attribute unless page_name
+
+    path = page_link(page_name, owner, context).sub(/\.qmd\z/, ".html")
+    "#{prefix}#{quote}#{path}#{quote}"
+  end
+  protect_cpp_operator_signatures(normalized).strip
+end
+
+def convert_blocks(text, owner:, context:)
   text = text.gsub(/\{\{\{\s*\n#!([^\n]+)\n(?=\{\{\{\s*\n#!\1\n)/, "")
   blocks = []
   inline = []
@@ -379,8 +454,8 @@ def convert_blocks(text)
     rendered =
       if language == "latex"
         "$$\n#{normalize_latex(body)}\n$$"
-      elsif language == "html"
-        body.sub(/\A<html>\s*<body>/i, "").sub(%r{</body>\s*</html>\z}i, "")
+      elsif %w[html raw].include?(language)
+        normalize_legacy_html(body, owner: owner, context: context)
       else
         fence_language = language.to_s.downcase.gsub(/\s.*\z/, "")
         fence_language = {
@@ -565,8 +640,32 @@ def escape_plain_moin_markup(source)
   end.join
 end
 
+def markdown_emphasis(content, marker)
+  leading = content[/\A[ \t]*/]
+  trailing = content[/[ \t]*\z/]
+  body = content.strip
+  return content if body.empty?
+
+  "#{leading}#{marker}#{body}#{marker}#{trailing}"
+end
+
+def convert_moin_emphasis(source)
+  source.lines.map do |line|
+    converted = line.gsub(/'''([^'\n]*?)'''/) do
+      markdown_emphasis(Regexp.last_match(1), "**")
+    end
+    converted.gsub(/''([^'\n]*?)''/) do
+      markdown_emphasis(Regexp.last_match(1), "*")
+    end
+  end.join
+end
+
 def convert_moin(text, owner:, context:, expand_includes: false)
   source = text.gsub("\r\n", "\n")
+  source.gsub!(/^#pragma section-numbers \d+[ \t]*\n?/, "")
+  source.gsub!(/^([ \t]*)'''([^'\n]+)''[ \t]*=+[ \t]*$/) do
+    "#{Regexp.last_match(1)}'''#{Regexp.last_match(2).rstrip}'''"
+  end
   source.gsub!("{{{{#!", "{{{#!")
   source.gsub!(
     /(\{\{\{#!cplusplus\n#include <queue>\nnamespace std \{\n.*?\n\})\n\n(主要操作：)/m,
@@ -602,10 +701,11 @@ def convert_moin(text, owner:, context:, expand_includes: false)
     end
   end
 
-  source, blocks, inline = convert_blocks(source)
+  source, blocks, inline = convert_blocks(source, owner: owner, context: context)
   source = add_display_math_block(source, blocks)
   source.gsub!("<<AttachList>>", render_attach_list(owner))
   source = escape_plain_moin_markup(source)
+  source = protect_cpp_operator_signatures(source)
 
   source.gsub!(/\{\{attachment:([^}\n]+)\}\}/) do
     attachment_markup(Regexp.last_match(1), owner, context, image: true)
@@ -613,6 +713,16 @@ def convert_moin(text, owner:, context:, expand_includes: false)
 
   source.gsub!(/\{\{(https?:\/\/[^}|\n]+)(?:\|([^}|\n]*))?(?:\|[^}\n]*)?\}\}/) do
     external_image_markup(Regexp.last_match(1), Regexp.last_match(2))
+  end
+
+  source.gsub!(
+    /(?<!\[)\[([^\s\[\]]+\.[A-Za-z0-9]{1,10}(?:#[^\s\[\]]+)?)(?:\s+([^\]\n]+))?\](?![\]\(])/
+  ) do
+    target = Regexp.last_match(1)
+    label = Regexp.last_match(2) || target
+    target = LEGACY_RELATIVE_LINK_TARGETS.dig(owner, target) || target
+    destination = target.start_with?("#") ? target : markdown_target(target)
+    "[#{label}](#{destination})"
   end
 
   source.gsub!(/(?<!\[)\[((?:https?|ftp|mailto):[^\s\]]+)(?:\s+([^\]]+))?\]/) do
@@ -635,13 +745,13 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   source.gsub!(/<<[^>]+>>/, "")
   source.gsub!("@@MOIN_SHIFT_OPERATORS@@", "`<<` 和 `>>`")
 
-  source.gsub!(/'''(.*?)'''/m, '**\1**')
-  source.gsub!(/''(.*?)''/m, '*\1*')
+  source = convert_moin_emphasis(source)
 
   result = []
   in_table = false
   list_indents = []
   previous_line_was_list_item = false
+  heading_occurrences = Hash.new(0)
 
   source.each_line do |raw_line|
     line = raw_line.rstrip
@@ -653,7 +763,18 @@ def convert_moin(text, owner:, context:, expand_includes: false)
     elsif (heading = line.match(/^\s*(=+)\s*(.*?)\s*\1\s*$/))
       append_blank_line(result)
       level = [heading[1].length + 1, 6].min
-      result << "#{'#' * level} #{heading[2]}"
+      heading_text = heading[2]
+      occurrence = heading_occurrences[heading_text]
+      heading_occurrences[heading_text] += 1
+      configured_ids = LEGACY_HEADING_IDS.dig(owner, heading_text)
+      legacy_id =
+        if configured_ids.is_a?(Array)
+          configured_ids[occurrence]
+        else
+          configured_ids
+        end
+      id_suffix = legacy_id ? " {#" + legacy_id + "}" : ""
+      result << "#{'#' * level} #{heading_text}#{id_suffix}"
       result << ""
       in_table = false
       list_indents.clear
@@ -818,7 +939,10 @@ Dir.mktmpdir("migrate-moin-programming-languages") do |temporary_root|
     context: :course
   )
   course_page = [
-    qmd_front_matter(COURSE_TITLE),
+    qmd_front_matter(
+      COURSE_TITLE,
+      number_sections: COURSE_SOURCE.match?(SECTION_NUMBER_PRAGMA_PATTERN)
+    ),
     "[返回旧版首页](首页.qmd)",
     "",
     course_body
@@ -863,7 +987,10 @@ Dir.mktmpdir("migrate-moin-programming-languages") do |temporary_root|
       expand_includes: page_name == "Python介绍"
     )
     page = [
-      qmd_front_matter(page_name),
+      qmd_front_matter(
+        page_name,
+        number_sections: source.match?(SECTION_NUMBER_PRAGMA_PATTERN)
+      ),
       "[返回“#{COURSE_TITLE}”](<#{page_link(COURSE_NAME, page_name, :child)}>)",
       "",
       body
