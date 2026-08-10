@@ -1,0 +1,27 @@
+---
+title: "SICP的Python实现"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+[Structure and Interpretation of Computer Programs, 2nd Edition](http://mitpress.mit.edu/sicp/full-text/book/book.html)这本书中的Lisp代码用Python语言重新实现后写在这里，主要目的是供使用Python的人学习函数式编程作参考。
+
+## Building Abstractions with Procedures
+
+* [SICP的Python实现/SICP的Python实现1.1](<SICP的Python实现/SICP的Python实现1.1.qmd>)
+* [SICP的Python实现/SICP的Python实现1.2](<SICP的Python实现/SICP的Python实现1.2.qmd>)
+* [SICP的Python实现/SICP的Python实现1.3](<SICP的Python实现/SICP的Python实现1.3.qmd>)
+
+## Building Abstractions with Data
+
+## Modularity, Objects, and State
+
+## Metalinguistic Abstraction
+
+## Computing with Register Machines

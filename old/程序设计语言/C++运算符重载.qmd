@@ -1,0 +1,427 @@
+---
+title: "C++运算符重载"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## C++运算符重载
+
+### 一般运算符的重载
+
+首先看一个复数类的例子
+```cpp
+class complex {
+    double re, im;
+public:
+    complex(double r, double i);
+    complex add(complex b);
+    complex multiply(complex b);
+};
+void f() {
+    complex a(1.0, 1.0), b(-1.0, -2.0), c(0, 0);
+    a = b.add(c);
+    b = b.add(c.multiply(a));
+    c = a.multiply(b).add(complex(1,2));
+    // a = b+c;
+    // b = b + c * a;
+    // c = a * b + complex(1, 2);
+}
+```
+
+我们看到用成员函数的方式定义复数的加减乘除运算，调用起来非常不直观。我们希望复数类对象能够和int一样用+-\*/运算符进行运算。这时就用到运算符重载，它为自定义类型添加运算符。
+
+```cpp
+class complex {
+    double re, im;
+public:
+    complex(double r, double i);
+    complex  operator+ (complex  b);
+    complex  operator* (complex  b);
+};
+int main() {
+    complex a(2, 3), b(-1, 2), c(3, 4);
+    a = b + c;   // b.operator+(c)
+    b = b + c * a; // b.operator+(c.operator*(a))
+    c = a * b + complex(1, 2); //a.operator*(b).operator+(complex(1,2));
+}
+complex complex::operator+(complex b) {
+    return complex(re + b.re, im + b.im);
+}
+```
+
+能够重载的运算符
+```
++     -    *    /    %    ^    &    |    ~    !    =    <    >
++=    -=    *=    /=    %=    ^=    &=    |=    <<    >>
+>>=    <<=   ==    !=    <=    >=    &&    ||   ++
+--    ,    ->    [ ]     ()    new    new[ ]     delete    delete[ ]
+```
+不能重载的运算符
+```
+::   .    .*  ?:    sizeof    typeid
+```
+
+重载的运算符是一个名字和调用方法特殊的**函数**。可以用成员函数的方式重载，也可以用普通函数的方式重载，比如：
+```
+complex operator+( complex c, complex d);
+```
+
+重载的运算符的参数至少有一个是类，比如下面这些用法是错的：
+```
+int operator+(int a, int b); //error
+bool operator==(char *, char *); // error
+```
+
+`[ ], (), =, ->`运算符必须以成员函数方式重载。运算符重载不会改变运算符原有的优先级、操作数数目、结合性。
+```cpp
+int main () {
+   complex a, b, c;
+   complex d = a+b*c;
+}
+```
+
+不能够自己创造运算符，比如\*\*。尽量不要改变运算符原来的语义，比如把加法操作定义成-，把减法操作定义成+。
+
+二元运算符可以用带一个参数的成员函数的形式，也可以用带两个参数的普通函数的形式重载。区别：成员函数重载，第一个参数只能是类的对象。
+```cpp
+class X {
+public:
+    void operator+( int i);
+    X( int a );
+};
+void operator+( X a, X b);
+void operator+( X a, double b);
+void f( X a) {
+    a+1;  // 相当于a.operator+(1);
+    1+a;  //相当于 operator+(1, a);
+    a+1.0;  //相当于 operator+(a, 1.0);
+}
+```
+
+一元运算符可以用不带参数的成员函数的形式，也可以用带一个参数的普通函数的形式重载
+```cpp
+class X {
+    X* operator&(); // &a
+    X* operator&(X b);  // 双目 a & b
+    X operator++(); // ++a
+};
+X operator-(X); // -a
+X operator--(X); //--a
+void f( X a) {
+    &a;  // 相当于a.operator&();
+    -a;  //相当于 operator-(a);
+    --a;  //相当于 operator--(a);
+    ++a; //相当于 a.operator++();
+}
+```
+
+完整的complex运算符
+```cpp
+class complex {
+    double re, im;
+public:
+    complex( double r = 0, double i = 0): re(r), im (i) { }
+    double& real() { return re; }
+    double& imag() { return im; }
+    complex operator+() { return *this; }
+    complex operator-() { return complex(-re, -im); }
+    complex operator+=( complex c) { re+= c.re; im+= c.im; return *this; }
+    complex operator-=( complex c);
+    complex operator*=( complex c);
+    complex operator/=( complex c);
+};
+
+complex operator+( complex a, complex b) {
+    a+=b; return a;
+}
+complex operator-( complex a, complex b);
+complex operator*( complex a, complex b);
+complex operator/( complex a, complex b);
+```
+
+练习：创建分数类，定义尽可能多的运算符
+
+### operator 输入输出
+
+`<<`和`>>`是移位运算符，经常重载作输入输出用
+```cpp
+void f( complex c) {
+    cout << " hello world" << 100;
+    cout << c ;  // operator<<(cout, c)
+}
+ostream &operator<<(ostream&os, complex c) {
+    return os << "(" << c.real() << "+" << c.imag() << "i)";
+}
+istream &operator>>(istream&is, complex &c) {
+    return is >> c.real() >> c.imag();
+}
+```
+练习：输出输出Date类型的值
+
+### operator= 赋值
+
+赋值运算符，自定义对象赋值行为
+```
+void f( complex c);
+
+int main () {
+    complex c1;
+    complex c2(c1); //拷贝构造
+    c2 = c1;
+    f( c1 ); //拷贝构造
+}
+```
+
+如果没有自定义赋值运算符，默认的赋值行为：类中逐个成员赋值。
+```cpp
+class string {
+    char *str;
+    int size;
+public:
+    string( char *s ) {
+        size = strlen(s) +1;
+        str = new char[size];
+        strcpy(str, s);
+    }
+    ~string( ) {
+        delete [ ] str;
+    }
+    string( const string& c){
+        size = c.size;
+        str = new char [size];
+        strcpy(str, c.str);
+    }
+    string& operator=(const string&c){
+        if(this != &c) {
+            delete [ ] str;
+            size = c.size;
+            str = new char[size];
+            strcpy(str, c.str);
+        }
+        return *this;
+    }
+};
+
+int main() {
+    string c ( "123" );
+    string d ( c );
+    c = d; // c.operator=(d)
+}
+```
+
+自定义赋值运算符加上自定义拷贝构造函数、析构函数，C++的内存管理就完整了。正确运用它们可以保证应用程序不产生内存泄漏。
+
+练习：自己定义Stack类（栈），Array类（数组）
+
+### operator type 类型转换
+
+可以将自定义类型转换为其他类型
+```cpp
+class string {
+    char * str;
+    int size;
+public:
+    operator char *() {
+        return str;
+    }
+};
+```
+
+```cpp
+class istream {
+    bool flag;
+public:
+    operator bool() {
+        return flag;
+    }
+    istream& operator>>(double);
+};
+extern istream cin;
+int main( ) {
+    int i;
+    while( cin >> i ) {
+        /*...*/
+    }
+}
+```
+
+练习：自定义分数类型自动转换成浮点型
+
+如何把内置类型自动转换成自定义类型？通过一个参数的构造函数，比如
+```cpp
+void f(complex c);
+int main() {
+    complex c(5);
+    complex d = 7;
+    f(5);
+}
+
+class complex {
+    double re, im;
+public:
+    complex(double r) {
+        re = r;
+        im = 0;
+    }
+};
+```
+
+如何禁止一个参数的构造函数自动转换类型？用explicit修饰构造函数
+```cpp
+class complex {
+    double re, im;
+public:
+    explicit complex(double r) {
+        re = r;
+        im = 0;
+    }
+};
+```
+
+### operator[] 数组取成员
+
+让对象像数组一样使用
+```cpp
+class string {
+    char *str;
+    int size;
+public:
+    char &operator[](int i) {
+        return str[i];
+    }
+    char operator[](int i) const {
+        return str[i];
+    }
+};
+void f( string s) {
+    cout << s[10]; //相当于s.operator[](10)
+}
+```
+
+operator[]运算符的参数可以是任何类型，但是只能是二元的
+```cpp
+class Dictionary {
+public:
+    string &operator[](string word) {
+        //...
+    }
+};
+void f( Dictionary s) {
+    cout << s[ "hello" ];
+}
+```
+练习：写一个Array类
+
+### operator() 函数调用
+
+重载()，让对象可以像函数一样使用
+```cpp
+class Add {
+    int base;
+public:
+    Add(int b) : base(b) { }
+    int operator()(int a) { return base + a; }
+};
+void f(Add add) {
+    Add add2( 2 );
+    int c = add2( 8 );  // 相当于 add2.operator()(8);
+    c = add(5);
+}
+```
+operator()的参数个数可以任意。重载()的类又叫做仿函数，它是一种带状态的函数
+
+### operator++, operator-- 自增自减
+
+++和--运算符分为前置和后置两种。
+```cpp
+class Integer {
+    int i;
+public:
+    Integer& operator++() {  //前置
+        ++i;
+        return *this;
+    }
+    Integer operator++(int) { //后置
+        Integer temp(*this);
+        i++;
+        return temp;
+    }
+};
+void  f( Integer i ) {
+    i++; // i.operator++(0);
+    ++i; // i.operator++();
+}
+```
+练习: 写一个clock类
+
+### operator-&gt; 指针取成员
+
+重载-&gt;让一个对象可以像指针一样使用
+```cpp
+class autoptr{
+    SchoolMember *person;
+public:
+    autoptr( SchoolMember *p) : person(p) { }
+    ~autoptr() { delete person; }
+    SchoolMember *operator->( ) { return person; }
+    SchoolMember &operator*( ) { return *person; }
+};
+int main() {
+    SchoolMember *s = new Teacher;
+    s->print();
+    delete s;
+
+    autoptr p( new Teacher);
+    p->print( );
+}
+```
+
+### new, delete, new[ ], delete[ ] 内存分配
+
+自定义对象new和delete的行为
+```cpp
+class memory{
+public:
+    void *operator new(size_t  s) {
+        return  malloc( s );
+    }
+    void operator delete(void *p) {
+        free(p);
+    }
+};
+int main() {
+    memory *p = new memory;
+    // p = memory::new (sizeof(memory)); call constructor on p;
+    delete p;
+    // p->~memory(); memory::operator delete(p);
+}
+```
+
+### string例子
+
+```cpp
+class String{
+    char *str;
+    int size;
+public:
+    String(const char *s="");
+    String(const String&s);
+    String& operator=(const String&);
+    virtual ~String();
+    char &operator[ ](int i);
+    char operator[ ](int i) const;
+    bool operator==(const String &) const;
+    int length() const;
+    operator char*();
+    friend ostream& operator<<(ostream&os, const String &s);
+    friend istream& operator>>(istream&is, String &s);
+};
+```
+
+---

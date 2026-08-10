@@ -1,0 +1,204 @@
+---
+title: "程序设计语言"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+## 程序设计语言
+
+* [PYPL: PopularitY of Programming Language](https://pypl.github.io/PYPL.html)
+* [TIOBE Index](https://www.tiobe.com/tiobe-index/)
+* [Hello World](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program)
+
+### Python
+
+* [Python](<程序设计语言/Python.qmd>)
+
+### C
+
+* [C](<高级语言程序设计课程/C.qmd>)
+
+### C++
+
+* [C++](<程序设计语言/C++.qmd>)
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Message {
+private:
+   string txt;
+public:
+   Message(string s){ txt = s;}
+   void Print() const { cout << txt;}
+};
+
+int main()
+{
+   Message M("Hello world");
+   M.Print();
+}
+```
+
+### Lua
+
+* [Lua Tutorial Directory](http://lua-users.org/wiki/TutorialDirectory)
+* [Programming in Lua(1st Edition)](https://www.lua.org/pil/contents.html)
+* [Why not Lua](https://julien.danjou.info/why-not-lua/)
+* [Lua Reference Manual](https://www.lua.org/manual/5.3/)
+* [Lua Resty Redis](https://github.com/openresty/lua-resty-redis)
+* [Scripting Nginx with Lua](http://www.londonlua.org/scripting_nginx_with_lua/slides.html#Cover)
+* [Lua Nginx Module](https://github.com/openresty/lua-nginx-module#name)
+* [Lua源码欣赏 by 云风](http://www.wy182000.com/wordpress/wp-content/uploads/2013/04/readinglua.pdf)
+
+### Lisp
+
+* [函数式编程](<程序设计语言/函数式编程.qmd>)
+
+### Haskell
+
+* [Learn You a Haskell for Great Good](http://learnyouahaskell.com/)
+* [School of Haskell](https://www.youtube.com/watch?v=sW327nUDf5g)
+
+### JavaScript
+
+* 一个Java Script教程：[jsintro.zip](<程序设计语言/assets/程序设计语言/jsintro.zip>)
+* [State of the Art JavaScript in 2016](https://medium.com/javascript-and-opinions/state-of-the-art-javascript-in-2016-ab67fc68eb0b#.ejjn8solb)
+* [The State of JavaScript 2019](https://2019.stateofjs.com/)
+* [MochaJS](https://mochajs.org/#getting-started)
+
+### Delphi
+
+```
+program hellopas;
+{$APPTYPE CONSOLE}
+uses windows;
+
+type Message = class
+    txt : string;
+    constructor create(s:string);
+    procedure print;
+end;
+
+constructor Message.Create(s:string);
+begin
+    txt := s
+end;
+procedure Message.print;
+begin
+    writeln(txt)
+end;
+
+var m : Message;
+
+begin
+    m := Message.Create('Hello world');
+    m.print()
+end.
+```
+
+一个Delphi教程：[delphitut.zip](<程序设计语言/assets/程序设计语言/delphitut.zip>)
+
+### Perl
+
+```
+package Message;
+
+# Message class constructor
+sub new {
+   my $class = shift;
+   my $txt = shift;
+   my $self = {};
+   $self->{txt} = $txt;
+   bless ($self, $class);
+   return $self;
+}
+
+#Message->print() method
+sub print{
+   my $self = shift;
+   if ($self->{txt} eq ""){
+        print "No message";
+   }else{
+        for($i=0;$i<3;$i++){
+                print $self->{txt},"\n";
+        }
+   }
+   return $self
+}
+
+1;
+```
+
+```
+require Message;
+
+$m = Message->new("Hello World");
+$m->print();
+```
+
+* Robert's Tutorial: http://perl.sioc.org/win32perltut.html
+
+### Visual BASIC
+
+```
+class Message
+    Private theTxt
+    Public Property Let TXT(S)
+        theTxt = S
+    End Property
+    Public Sub Print()
+        Wscript.echo theTxt
+    End Sub
+End Class
+
+Dim M
+set M = new Message
+M.TXT = "Hello world"
+m.Print()
+```
+
+* VB教程： [vb_site.zip](<程序设计语言/assets/程序设计语言/vb_site.zip>)
+
+### Java
+
+```
+class Msg{
+  private String txt;
+    public Msg(String s){
+    txt = s;
+  }
+  public void print(){
+    System.out.println(txt);
+  }
+}
+
+public class hello{
+  public static void main(String args[]){
+    Msg M = new Msg("hello world");
+    M.print();
+    int i = 0;
+  }
+}
+```
+一个简洁的Java教程：[Java Programming for beginners in fourhours.htm](<程序设计语言/assets/程序设计语言/Java Programming for beginners in fourhours.htm>)
+
+### Smalltalk
+
+* Dolphin Smalltalk: http://www.object-arts.com/content/navigation/products/dce.html 文档：http://www.object-arts.com/docs/index.html [DolphinEducation.exe](<程序设计语言/assets/程序设计语言/DolphinEducation.exe>)
+
+### Tcl
+
+* http://www.noucorp.com/
+
+### Golang
+
+* https://golang.cafe/

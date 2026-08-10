@@ -1,0 +1,103 @@
+---
+title: "Why Python is More Productive than Java"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+I wrote an EMA clone in Python recently. I was asked why Python is more productive than Java after the demo. So I collected some proof from Internet.
+
+* [C++ vs Java vs Python vs Ruby : a first impression](http://www.dmh2000.com/cjpr/)
+
+```
+    interpreted vs. compiled is a big productivity win for Python/Ruby
+
+    dynamic typing is a big productivity win for Python/Ruby
+
+    Java is way faster than Python or Ruby
+
+    minimal scaffolding is a big productivity win for Python/Ruby. Makes programming more pleasant not to have to build all the infrastructure.
+
+    mostly first class functions a big win for Python/Ruby.
+
+    built-in lists/arrays and hashes/dictionaries a big win over Java [] and library based collections.
+
+    dynamic code loading in Python/Ruby is a big win. Yes you can do it in Java but again, the cruft.
+```
+
+* [Why is Python more fun than Java](http://brizzled.clapper.org/id/75)
+
+```
+    No need for set/get methods in Python
+
+    Python has useful constructs Java lacks (Function Objects, Closures, Array and String support, Dictionary Syntax)
+
+    Introspection is easier in Python
+```
+
+* [The Python Paradox](http://paulgraham.com/pypar.html)
+
+```
+A friend of mine who knows nearly all the widely used languages uses Python for most of his projects. He says the main reason is that he likes the way source code looks. That may seem a frivolous reason to choose one language over another. But it is not so frivolous as it sounds: when you program, you spend more time reading code than writing it.
+```
+
+* [Why Python](http://www.linuxjournal.com/article/3882)
+
+```
+I was generating working code nearly as fast as I could type. When I realized this, I was quite startled.
+```
+
+* [Why I Love Python](http://www.slideshare.net/didip/why-i-love-python)
+
+```
+5-10 times productivity (really!)
+```
+
+* [Python & Java: A Side-by-Side Comparison](http://pythonconquerstheuniverse.wordpress.com/category/java-and-python/)
+
+```
+How much more productive? The most widely accepted estimate is 5-10 times. On the basis of my own personal experience with the two languages, I agree with this estimate.
+
+In my personal estimate, I spend 5 times as much time fixing such errors (omitting or duplicating control characters) in Java as I do in Python. It really cuts into your productivity — and your creative energy — when you spend that much of your time just trying to satisfy the compiler.
+```
+
+* [Programming Language Productivity](http://www.connellybarnes.com/documents/language_productivity.pdf)
+
+![language_productivity.png](<assets/Why Python is More Productive than Java/language_productivity.png>)
+
+* [An empirical comparison of C, C++, Java, Perl, Python, Rexx, and Tcl](http://page.mi.fu-berlin.de/prechelt/Biblio/jccpprt_computer2000.pdf)
+
+![program_time.png](<assets/Why Python is More Productive than Java/program_time.png>)
+
+* [Programming at Python Speed](http://www.artima.com/intv/speed.html)
+
+```
+    One is that Python requires a lot less typing.
+
+    Another source of productivity is Python's powerful built-in data types.
+
+    Planning is good and bad. If you know where you're going, planning is good. If you don't know what you'll encounter on the way, you should be more open-minded and improvisational. I certainly see a place for planning, but if the language forces you to plan everything, there may be trips you'll never undertake because it would require too much thinking ahead.
+```
+
+* [Python + Django vs. C# + ASP.NET: Productivity Showdown](http://kurtgrandis.com/blog/2010/02/24/python-django-vs-c-asp-net-productivity-showdown/)
+
+![django_aspnet.png](<assets/Why Python is More Productive than Java/django_aspnet.png>)
+
+And more references:
+
+* [Comparing Python to Java](http://twistedmatrix.com/users/glyph/rant/python-vs-java.html)
+
+* [Quotes about Python](http://www.python.org/about/quotes/)
+
+* [Python Compared to Java](http://www.razorvine.net/python/PythonComparedToJava)
+
+* [Amazingly bad API](http://paulbuchheit.blogspot.com/2007/05/amazingly-bad-apis.html)
+
+* [Recovery from Addiction](http://www.archive.org/details/SeanKellyRecoveryfromAddiction)
+
+* [Comparing Python to Other Languages](http://www.python.org/doc/essays/comparisons.html)

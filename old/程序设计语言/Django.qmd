@@ -1,0 +1,23 @@
+---
+title: "Django"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+Django 是一个基于Python的Web开发框架。
+
+* 介绍 http://zh.wikipedia.org/wiki/Django
+* 官方网站： http://www.djangoproject.com/
+* [Django Book](https://djangobook.com/)
+* [Django Tagging](https://django-tagging.readthedocs.io/en/develop/)
+* [Constructive reasons to use Django instead of Rails (jp's domain)](https://news.ycombinator.com/item?id=15679)
+* [Django on Gevent](https://www.youtube.com/watch?v=nocGRsytBkk)
+* 入门指南： Django step by step
+
+<iframe src="https://docs.google.com/present/embed?id=ajkvtgc93s3s_215fb5rmff3&size=m" frameborder="0" width="555" height="451"></iframe>

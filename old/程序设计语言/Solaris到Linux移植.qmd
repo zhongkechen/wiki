@@ -1,0 +1,37 @@
+---
+title: "Solaris到Linux移植"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## Solaris到Linux移植
+
+Solaris环境：
+Sun Sparc，Solaris 10，Sun Studio 12.1
+
+Linux环境：
+X86，SUSE Linux 10，GCC4.1
+
+### const区别
+
+Sunstudio对const检查很不严格。可以将临时对象传给非const引用，这在标准C++和gcc中都是不允许的。
+
+### typename区别
+
+在gcc中需要typename的地方，sunstudio却可以省略。
+
+### pragma区别
+
+#pragma ident
+#pragma disable warning
+#pragma enable warning
+
+### cftime函数
+
+### gethostname_r

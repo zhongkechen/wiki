@@ -1,0 +1,65 @@
+---
+title: "PyGtk"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+演示如何在pygtk的一个窗口中开两个mplayer播放器
+```python
+#!/usr/bin/env python
+
+import subprocess
+import sys
+import time
+import os
+
+import pygtk
+pygtk.require('2.0')
+import gtk
+
+class TwinWindow:
+    def __init__(self, file1, file2):
+        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.window.connect("destroy", self.destroy)
+        self.window.set_border_width(10)
+        self.box = gtk.HBox(homogeneous=True, spacing=10)
+        self.window.add(self.box)
+        self.socket1 = gtk.Socket()
+        self.socket2 = gtk.Socket()
+        self.box.pack_start(self.socket1)
+        self.box.pack_start(self.socket2)
+        self.plug1 = gtk.Plug(0)
+        self.plug2 = gtk.Plug(0)
+        self.socket1.add_id(self.plug1.get_id())
+        self.socket2.add_id(self.plug2.get_id())
+        self.socket1.show()
+        self.socket2.show()
+        self.box.show()
+        self.window.resize(960, 480)
+        self.window.show()
+        self.popen1 = subprocess.Popen(["/usr/bin/env", "mplayer","-quiet", "-wid", "%d"%self.socket1.get_id(), file1], stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+        self.popen2 = subprocess.Popen(["/usr/bin/env", "mplayer","-quiet", "-wid", "%d"%self.socket2.get_id(), file2], stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+        #self.popen2 = subprocess.Popen("mplayer -quiet -wid %d %s" % (self.socket2.get_id(), file2), stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell = True )
+
+    def destroy(self,widget, data=None):
+        self.popen1.terminate()
+        self.popen2.terminate()
+        time.sleep(1)
+        self.popen1.kill()
+        self.popen2.kill()
+        os.system('reset') # workaround for the problem that shell cannot echo
+        gtk.main_quit()
+
+    def main(self):
+        gtk.main()
+
+if __name__ == '__main__':
+    root = TwinWindow(sys.argv[1], sys.argv[2])
+    root.main()
+```

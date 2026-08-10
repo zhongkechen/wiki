@@ -1,0 +1,243 @@
+---
+title: "Matlab小程序"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+```
+%melog.m
+
+% ME/MC using four-step log search
+
+clear all;
+
+close all;
+
+load bus_frames frame;
+
+figure(1);
+
+frame1=frame(:,:,1);
+
+imagesc(frame1, [0,255]);
+
+colormap(gray);
+
+figure(2);
+
+frame2=frame(:,:,2);
+
+imagesc(frame2, [0,255]);
+
+colormap(gray);
+
+temp=size(frame);
+
+dimy=temp(1);   %height of frame
+
+dimx=temp(2);   %width of frame
+
+blockx=16;      %block sizes
+
+blocky=16;
+
+srx=15;         %size of search window +-
+
+sry=15;
+
+%intialize mvf matrix
+
+matchy=zeros(dimy/blocky,dimx/blockx);
+
+matchx=zeros(dimy/blocky,dimx/blockx);
+
+tic;
+
+for loopi=2:dimy/blocky-1,
+
+    %loopi
+
+    for loopj=2:dimx/blockx-1,
+
+        ybound1=(loopi-1)*blocky+1;
+
+                ybound2=loopi*blocky;
+
+                xbound1=(loopj-1)*blockx+1;
+
+                xbound2=loopj*blockx;
+
+                %divide frame2 into blocks
+
+                block=frame(ybound1:ybound2,xbound1:xbound2,2); %current block
+
+        currentoffy=0; currentoffx=0;	least_mse=inf;
+
+        for steps=[2 4 8 16],	% four step search
+
+        for offoffy=-ceil(sry/steps):ceil(sry/steps):ceil(sry/steps),	%offset vector
+
+            for offoffx=-ceil(srx/steps):ceil(srx/steps):ceil(srx/steps),
+
+            offy=currentoffy+offoffy;
+
+            offx=currentoffx+offoffx;
+
+            if (ybound1+offy>=1&ybound2+offy<=dimy...
+
+                                &xbound1+offx>=1&xbound2+offx<=dimx)
+
+                prev_block=frame(ybound1+offy:ybound2+offy,xbound1+offx:xbound2+offx,1);
+
+                current_mse=sum((prev_block(:)-block(:)).^2);
+
+                if (current_mse<least_mse)	%found currently least mse
+
+                    least_mse=current_mse;
+
+                    bestoffy=offy;
+
+                    bestoffx=offx;
+
+                end
+
+            end
+
+            end
+
+        end
+
+        currentoffy=bestoffy;
+
+        currentoffx=bestoffx;
+
+        end
+
+        matchy(loopi,loopj)=-bestoffy;
+
+        matchx(loopi,loopj)=-bestoffx;
+
+    end
+
+end
+
+time_log=toc;
+
+figure(6);
+
+quiver(matchx,matchy);
+
+axis ij;axis image;
+
+title('Motion Vector Field, BM with Four-step Search');
+
+%MC prediction
+
+predict=zeros(dimy,dimx);
+
+for loopi=1:dimy/blocky,
+
+        %loopi
+
+        for loopj=1:dimx/blockx,
+
+                ybound1=(loopi-1)*blocky+1;
+
+                ybound2=loopi*blocky;
+
+                xbound1=(loopj-1)*blockx+1;
+
+                xbound2=loopj*blockx;
+
+                offy=-matchy(loopi,loopj);
+
+                offx=-matchx(loopi,loopj);
+
+                predict(ybound1:ybound2,xbound1:xbound2)...
+
+        =frame(ybound1+offy:ybound2+offy,xbound1+offx:xbound2+offx,1);
+
+        end
+
+end
+
+figure(3);
+
+%colormap(gray(256));
+
+%subplot(2,1,1);
+
+%imagesc(frame(blocky+1:dimy-blocky,blockx+1:dimx-blockx,2));
+
+%axis image;
+
+%title('Current Frame');
+
+%entropy of motion vector fields
+
+dy=matchy(2:dimy/blocky-1,2:dimx/blockx-1);
+
+dx=matchx(2:dimy/blocky-1,2:dimx/blockx-1);
+
+rangey=min(dy(:)):max(dy(:));
+
+rangex=min(dy(:)):max(dy(:));
+
+[county,tmp]=hist(dy(:),rangey);
+
+[countx,tmp]=hist(dx(:),rangex);
+
+proby=county/sum(county);
+
+probx=countx/sum(countx);
+
+proby(proby==0)=1;
+
+probx(probx==0)=1;
+
+H=-sum(proby.*log(proby)/log(2))-sum(probx.*log(probx)/log(2))
+
+%PSNR between the two frames
+
+DFD=abs(frame(:,:,2)-frame(:,:,1));
+
+DFD_ins=DFD(blocky+1:dimy-blocky,blockx+1:dimx-blockx);
+
+psnr1=sum(sum(DFD_ins.^2));
+
+PSNR_frame=10*log10(255*255*(dimy-2*blocky)*(dimx-2*blockx)/psnr1)
+
+DFD=abs(frame(:,:,2)-predict);
+
+%inside part of the error image
+
+DFD_ins=DFD(blocky+1:dimy-blocky,blockx+1:dimx-blockx);
+
+psnr1=sum(sum(DFD_ins.^2));
+
+PSNR_log=10*log10(255*255*(dimy-2*blocky)*(dimx-2*blockx)/psnr1)
+
+%subplot(2,1,2);
+
+imagesc(predict(blocky+1:dimy-blocky,blockx+1:dimx-blockx));
+
+colormap(gray(256));
+
+axis image;
+
+str=sprintf('Prediction from Prev Frame and ME\nBM Method, Four Step Log Search, PSNR=%5.2fdB',PSNR_log);
+
+title(str);
+
+time_log
+
+%save bus_data time_log PSNR_log -append;
+
+%===================================================================
+```

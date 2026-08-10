@@ -1,0 +1,95 @@
+---
+title: "STL编程指南/如何使用STL文档"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+## 如何使用STL文档
+
+这个站点记录SGI标准模板库中的所有组件的文档。每个页面描述一个组件，以及这个组件和其它组建关联。
+
+这个文档假定你对C++比较熟悉，尤其是C++模板。此外你在阅读单个组件的描述文档之前，你应该先阅读**标准模板库概述**：在概述中定义了整个文档都会使用到的一些专用词汇。
+
+### STL组件的分类
+
+STL组件依照它们的功能被分成六个大的categories类别：Containers容器，Iterators迭代子，Algorithms算法，Function Objects函数对象，Utilities实用工具，Allocator内存分配器；这些分类在[STL概述](<../STL概述.qmd>)中已有定义，[STL编程指南](<../STL编程指南.qmd>)的目录也是以此来组织的。
+
+STL文档包括两个索引。一个是主索引，以字母顺序列出所有组件；另一个是分类索引，组件首先被分类，在每一类中再以字母顺序排列。分类列表中有一个分类在目录中是没有的：Adapater适配器。适配器是一个类或者函数，用来把一种接口变换成另一种接口。适配器没有在目录中出现的原因是，没有一个适配器它单单是一个适配器的，每一个适配器除了是适配器以外，他总还是其它某种东西。比如说stack，它是一个容器，也是一个适配器。因此，stack在分类索引的两个地方出现。还有其它一些组件也同样在分类索引中出现多次的。
+
+STL文档对于组件有两种分类方式：
+
+1. Categories（类别）是依据组件的功能进行分类的。categories包括:
+    * Container 容器
+    * Iterator 迭代子
+    * Algorithm 算法
+    * Function Object 函数对象
+    * Utility 实用程序
+    * Adaptor 适配器
+    * Allocator 内存分配器
+1. Component types组件类型是一种结构分类：它基于C++的语言结构给组件分类。组件类型包括component types:
+    * Type 类型 (结构体struct或者类class)
+    * Function 函数
+    * Concept 概念 (在[STL概述](<../STL概述.qmd>)中定义的)
+
+这两种分类体系是独立的，每一个STL组件都有这两种分类。比如说vector，它的类别Category的是Container，它的组件类型Component type是Type；Forward Iterator，它的组件类型是概念，它的类别Category是迭代子。
+
+这两种分类出现在每一个描述STL组件的页面的开头。左上角是组件的类别，比如Container, Iterator, Algorithm, Function Object, Utility，Adapater或者Allocator；右上角是组建的类型，比如type，function或者concept。
+
+## 使用STL文档
+
+STL是一个泛型的库：几乎每一个类和函数都是模板。因此，STL文档的最重要目的就是提供对哪些类型可以做模板参数的一个清晰描述。在概述中说过，概念是一个类型必须满足的需求的集合，一个类型如果满足这个概念的所有需求则这个类型被称为这个概念的模型。
+
+概念在STL文档中使用的非常多，不仅因为它直接描述了类型的需求，而且他还是组织类型的工具。（比如说，ostream_iterator和insert_iterator都是Output Iterator的模型，这就描述了这两种类型的共同点。）概念既用来描述类型也用来描述函数。
+
+### 概念concept页面的格式
+
+描述一个概念的页面包括以下几个部分：
+
+* Summary 概述: 关于这个概念的目的的描述。
+* Refinement of 是哪些概念的refinement: 列出一组其它的概念，这个概念是这组概念的refinement。
+* Associated types 相关类型: A concept is a set of requirements on some type. Frequently, however, some of those requirements involve some other type. For example, one of the Unary Function requirements is that a Unary Function must have an argument type; if F is a type that models Unary Function and f is an object of type F, then, in the expression f(x), x must be of F's argument type. If a concept does have any such associated types, then they are defined in this section.
+* Notation 记号: The next three sections, definitions, valid expressions, and expression semantics, present expressions involving types that model the concept being defined. This section defines the meaning of the variables and identifiers used in those expressions.
+* Definitions 定义: 有一些概念，比如`LessThan Comarable`，使用一组特殊的词汇来描述。如果一个概念需要这样的特殊词汇，这些特殊词汇在这里定义。
+* Valid Expressions 合法的表达式: A type that models a concept is required to support certain operations. In most cases, it doesn't make sense to describe this in terms of specific functions or member functions: it doesn't make any difference, for example, whether a type that models Input Iterator uses a global function or a member function to provide operator++. This section lists the expressions that a type modeling this concept must support. It includes any special requirements (if any) on the types of the expression's operands, and the expression's return type (if any).
+* Expression Semantics 表达式语义: The previous section, valid expressions, lists which expressions involving a type must be supported; it doesn't, however, define the meaning of those expressions. This section does: it lists the semantics, preconditions, and postconditions for the expressions defined in the previous section.
+* Complexity Guarantees 复杂度保证: In some cases, the run-time complexity of certain operations is an important part of a concept's requirements. For example, one of the most significant distinctions between a Bidirectional Iterator and a Random Access Iterator is that, for random access iterators, expressions like p + n take constant time. Any such requirements on run-time complexity are listed in this section.
+* Invariants 不变性: Many concepts require that some property is always true for objects of a type that models the concept being defined. For example, LessThan Comparable imposes the requirement of transitivity: if x &lt; y and y &lt; z, then x &lt; z. Some such properties are "axioms" (that is, they are independent of any other requirements) and some are "theorems" (that is, they follow either from requirements in the expression semantics section or from other requirements in the invariants section).
+* Models 模型: 一组符合这个概念的类型。注意，这个列表并不是全部。大部分情况下，要列出全部是不可能的，因为满足这个概念的类型可以有无穷多个。
+* Notes 备注: 页面其它部分引用到的注脚。
+* See Also 参见: 到其它相关页面的链接。
+
+### 类型type页面的格式
+
+描述一个类型type的页面的包括以下几个部分：
+
+* Description 描述. 关于这个类型type的属性的概述。
+* Example of use 使用举例: 一段展示这个类型如何使用的代码。
+* Definition 定义: 定义这个类型的源代码的链接。
+* Template parameters 模板参数: 几乎所有的STL结构体和类都是模板。这部分列出每一模板参数的名字，用途和它的默认值（如果有的话）。
+* Model of 是什么概念的模型: 列出一组概念，这个类型是这些概念的模型。注意，一个类型可能是多个概念的模型。比如说vector，它是Random Access Container和Back Insertion Sequence的模型。如果一个类型是两个不同概念的模型，那就意味着它满足两个概念的所有需求。
+* Type requirements: The template parameters of a class template usually must satisfy a set of requirements. Many of these can simply be expressed by listing which concept a template parameter must conform to, but some type requirements are slightly more complicated, and involve a relationship between two different template parameters.
+* Public base classes: If this class inherits from any other classes, they are listed in this section.
+* Members: A list of this type's nested types, member functions, member variables, and associated non-member functions. In most cases these members are simply listed, rather than defined: since the type is a model of some concept, detailed definitions aren't usually necessary. For example, vector is a model of Container, so the description of the member function begin() in the Container page applies to vector, and there is no need to repeat it in the vector page. Instead, the Members section provides a very brief description of each member and a link to whatever page defines that member more fully.
+* New Members: A type might have some members that are not part of the requirements of any of the concepts that it models. For example, vector has a member function called capacity(), which is not part of the Random Access Container or Back Insertion Sequence requirements. These members are defined in the New members section.
+* Notes 备注: 页面其它部分引用到的注脚。
+* See Also 参见: 到其它相关页面的链接。
+
+### 函数function页面的格式
+
+描述函数的页面的包含以下几个部分：
+
+* Prototype 原型: 函数的声明。
+* Description 描述: 关于函数做什么的一个概述。
+* Definition 定义: 定义这个函数的源代码的链接。
+* Requirements on types 类型的需要: 大部分STL函数都是函数模板。这一部分描述函数模板的参数必须满足的需求。有时候，这个需求可以简单的列举参数必须符合的概念就可以了，但有时候它们比较复杂，包含两个不同的模板参数之间的关系。比如说find，模板参数`InputIterator`的需求是一个Input Iterator的模型，参数`EqualityComparable`的需求是一个Equality Comparable的模型，并且在`EqualityComparable`类型的对象和`InputIterator`所指向的元素之间必须可以比较相等性。
+* Preconditions 前置条件: 函数不一定在所有可能的输入条件下都能给出结果，而只是对有效的输入给出结果。如果使用无效的输入调用函数，将会导致错误。这一部分描述输入有效的条件。
+* Complexity 复杂度: 函数的运行时间复杂度保证。比如说，find的运行时间复杂度是输入长度的线性关系。
+* Example of use 使用举例: 一段展示函数如何使用的代码。
+* Notes 备注: 页面其它部分引用到的注脚。
+* See Also 参见: 到其它相关页面的链接。

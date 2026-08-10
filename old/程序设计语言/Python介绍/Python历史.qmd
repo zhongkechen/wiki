@@ -1,0 +1,39 @@
+---
+title: "Python介绍/Python历史"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+### 历史
+
+#### Python 1
+
+Python语言作为ABC程序设计语言的后继，最早在20世纪90年代早期由Guido van Rossum在CWI创造。van Rossum是Python的主要作者，并一直担任决定Python发展方向的主要角色，因此他也被戏称为Python的仁慈的命运主宰者。
+
+在CWI发布的最后版本是Python 1.2。在1995年，Guido转移到Virginia洲的Reston市的Corporation for National Research Initiatives (CNRI)继续他的Python工作。在那里发布了Python的好几个版本。Python 1.6是CNRI发布的最后版本。
+
+在Python 1.6发布以后，Guido van Rossum离开CNRI，去和一些商业软件开发人员一起工作。这时，让Python能够在GPL发布的软件中使用，成了人们迫切的愿望。CNRI和Free Software Foundation(FSF)取得了沟通，并修改了Python的自由软件许可证，使其和GPL能够兼容。那一年，Guido获得了FSF的Advancement of Free Software大奖。
+
+Python 1.6.1和Python 1.6基本上相同，只有一些小的bug的修正，并带有新的GPL兼容的许可证。
+
+#### Python 2
+
+在2000年，Guido和Python核心开发团队转移到了BeOpen.com，组成了BeOpen PythonLabs团队。Python 2.0是第一个也是唯一一个在BeOpen.com发布的版本。在Python 2.0发布以后，Guido van Rossum和其他PythonLabs开发人员加入了Digital Creations。
+
+Python 2.1继续了Python 1.6.1和Python 2.0的工作。它的许可证改名为Python Software Foundation License。所有从Python 2.1 alpha版开始增加的知识产权，归Python Software Foundation(PSF)所有。这是一个模仿Apache Software Foundation模式的非盈利性组织。
+
+#### Python 3
+
+Python开发人员一直在讨论Python的未来版本Python 3.0（这个项目被称作"Python 3000"或"Py3K"）。它将会打破对2.x系列的向后兼容性，来修正语言中存在的一些已知的缺陷。指导原则是"通过去除老的解决问题的方法，来减少重复的语言特性"。Python 3.0将于2008年10月正式发布，在一个PEP（Python Enhancement Proposal）中详细描述了其中要改变的东西，包括：
+
+* Changing print so that it is a built-in function, not a statement. This makes it easier to change a module to use a different print function, as well as making the syntax more regular. In Python 2.6 this can be enabled by entering from __future__ import print_function.[24]
+* Moving reduce (but not map or filter) out of the built-in namespace and into functools (the rationale being that operations using reduce are expressed more clearly using an accumulation loop);[25]
+* Adding support for optional function annotations that can be used for informal type declarations or other purposes;[26]
+* Unifying the str/unicode types, representing text, and introducing a separate immutable bytes type; and a mostly corresponding mutable bytearray type, which both represent arrays of bytes;[27]
+* Removing backward-compatibility features, including old-style classes, integer-truncating division, string exceptions, and implicit relative imports.

@@ -1,0 +1,51 @@
+---
+title: "Python介绍/Python应用领域"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+### Python应用领域
+
+Python在很多不同的应用领域都可以使用，包括Web和因特网、数据库、桌面图形界面，科学和数值计算、教育、网络、软件构建和测试、游戏开发、三维渲染等等。
+
+#### Web与因特网开发
+
+Python offers a wide range of choices for web development including high-end solutions such as Zope, mega frameworks such as Django and TurboGears, and advanced content management systems such as Plone and CPS. Python is also great for CGI.
+
+Python's extensive support for XML, email, RSS feeds, and many other Internet protocols makes Python a great choice for developing custom web solutions and other internet-based applications.
+
+#### 数据库访问
+
+需要访问数据库？对于MySQL、Oracle、MS SQL Server、PostgreSQL、SybODBC等数据库，Python都有特有的或者ODBC接口可以免费下载使用。
+
+#### 桌面图形界面
+
+当Python安装到硬盘上时就有Tk GUI开发库。第三方的库包括MFC（通过win32扩展）、wxWidgets、GTK、Qt、Delphi等等。
+
+#### 科学与数值计算
+
+Python广泛的使用在科学与数值计算领域，包括生物信息学（参见Python course in Bioinformatics）、物理学等。
+
+#### 教育
+
+Python是一种非常适合程序设计教学的语言，无论是在入门级别还是在更进一步的课程上。Education Special Interest Group是一个好的开端。可以参考pyBiblio和Software Carpentry Course(由Python Software Foundation资助)。
+
+#### 网络编程
+
+除了前面所说的internet和web的支持外，Python也支持低层次的网络编程，包括一个容易使用的sockets接口以及强大的第三方模块，比如Twisted（一个异步网络编程框架）。
+
+#### 软件开发
+
+Python is often used as a support language for software developers, for build control and management, testing, and in many other ways. Some of the development support tools written in Python include SCons for build control, Buildbot and Apache Gump for automated continuous compilation and testing, and Trac for bug tracking and project management.
+
+See also the list of Integrated Development Environments available for Python and the Python Package Index, which hosts thousands of third party modules for Python.
+
+#### 游戏和三维图形
+
+Python广泛的使用在商业的和业余的游戏开发上（其中的一部分列在Python Game维基页上）。PyGame和PyKyra是Python的两个游戏开发框架。Python也有多个3D渲染库可以使用。

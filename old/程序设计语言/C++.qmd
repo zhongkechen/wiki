@@ -1,0 +1,118 @@
+---
+title: "C++"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## C++语言
+
+### 学习资料
+
+* 基础：[C语言](<../高级语言程序设计课程/C.qmd>)
+* [C++概述](<C++概述.qmd>)
+* [C++编程基础](<C++编程基础.qmd>)
+* [C++面向过程程序设计](<C++面向过程程序设计.qmd>)
+* [C++泛型编程](<C++泛型编程.qmd>)
+* [C++类与对象](<C++类与对象.qmd>)
+* [C++继承与多态](<C++继承与多态.qmd>)
+* [C++运算符重载](<C++运算符重载.qmd>)
+* [C++模板](<C++模板.qmd>)
+* [C++标准模板库](<C++标准模板库.qmd>)
+* [C++异常](<C++异常.qmd>)
+* [C++流库](<C++流库.qmd>)
+* [STL编程指南](<STL编程指南.qmd>)
+* [C++FAQ](<C++FAQ.qmd>)
+
+* [编码风格](<编码风格.qmd>)
+* [C++编程技巧](<C++编程技巧.qmd>)
+
+C++语法专题：
+
+* [C++:bool类型](<C++:bool类型.qmd>)
+* [C++:this指针](<C++:this指针.qmd>)
+* [C++:内联函数](<C++:内联函数.qmd>)
+* [C++:友元](<C++:友元.qmd>)
+* [C++:名字空间](<C++:名字空间.qmd>)
+* [C++:强制类型转换](<C++:强制类型转换.qmd>)
+* [C++:模板函数](<C++:模板函数.qmd>)
+* [C++:注释](<C++:注释.qmd>)
+* [C++:静态成员](<C++:静态成员.qmd>)
+
+### C++开发环境
+
+* [C++集成开发环境](<../C++集成开发环境.qmd>)
+
+* [Solaris到Linux移植](<Solaris到Linux移植.qmd>)
+
+### Library
+
+* [STL简介](<STL简介.qmd>)
+
+* [blitz++](https://github.com/blitzpp/blitz)
+* [SGI STL](http://www.stlport.org/doc/sgi_stl.html)
+* [Matrix Template Library](http://new.simunova.com/en/mtl4/)
+* [Windows Template Library](https://sourceforge.net/projects/wtl/)
+* [wxWidgets](https://www.wxwidgets.org/)
+* [ACE](http://www.dre.vanderbilt.edu/~schmidt/ACE.html)
+* [TAO](http://www.dre.vanderbilt.edu/~schmidt/TAO.html)
+* [Smartwin++](http://smartwin.sourceforge.net/)
+* [VXL](https://vxl.github.io/)
+* [从 pthread 转换到 std::thread](https://segmentfault.com/a/1190000002655852)
+
+### 参考书
+
+* [C++ Primer 4th Edition 《C++ Primer中文版》](http://www.china-pub.com/computers/common/info.asp?id=32347)
+* [The C++ Programming Language《C++程序设计语言》](https://item.jd.com/12746690.html)
+* [Thinking in C++ 2nd Edition《C++编程思想》](http://www.china-pub.com/computers/common/info.asp?id=4801)
+* [Effective C++](http://www.china-pub.com/computers/common/info.asp?id=28352)
+* [The C++ Standard Library《C++标准模板库》](http://www.china-pub.com/computers/common/info.asp?id=7645)
+* [STL源码剖析](https://item.jd.com/11821611.html)
+* [泛型编程与STL](https://item.jd.com/10180148.html)
+* [C++ Templates](https://item.jd.com/12349529.html)
+* [THE DESIGN AND EVOLUTION OF C++ C++语言的设计和演化](https://item.jd.com/10131179.html)
+* [Inside The C++ Object Model 深度探索C++对象模型](https://book.douban.com/subject/10427315/)
+* [ESSENTIAL C++](https://book.douban.com/subject/1914747/) by Stanley Lippman
+* [MODERN C++ DESIGN GENERIC PROGRAMMING AND DESIGN PATTERNS APPLIED C++设计新思维——泛型编程与设计模式之应用](https://book.douban.com/subject/1755195/)
+* [EXCEPTIONAL C++](https://book.douban.com/subject/1459013/)
+* [MORE EFFECTIVE C++](https://book.douban.com/subject/5908727/) by Scott Meyers
+* [MORE EXCEPTIONAL C++](https://book.douban.com/subject/1752970/) by Herb Sutter
+* [Design Patterns:Elements of Reusable Object-Oriented software 设计模式：可复用面向对象软件的基础](http://www.china-pub.com/computers/common/info.asp?id=684)
+* [深入浅出MFC](http://www.china-pub.com/computers/common/info.asp?id=3565)
+
+### 参考资料
+
+* Title: C++ Annotations (ver 3.3.3)
+    * Author: Frank Brokken & Karel Kubat
+    * URL: http://www.icce.rug.nl/docs/cplusplus/cplusplus.html
+    * This tutorial assumes you are knowledgeable in C so you need to do one of the other tutors first. This is not a bad thing since C++ is an evolution of C and it's difficult to understand some C++ concepts without knowing the historical background.
+
+* Title: COMP.LANG.C++ FAQ
+    * Author: Marshall P. Cline, PH.D.
+    * URL: http://www.cerfnet.com/~mpcline/C++-FAQs-Lite/
+    * Like the C FAQ earlier this is a great source of answers to questions. It's not a tutor but is a great source of information about some of the more confusing aspects of C++. An extended version is available in book form from Addison Wesley.
+
+* [C++ Concurrency](https://channel9.msdn.com/Shows/Going+Deep/C-and-Beyond-2012-Herb-Sutter-Concurrency-and-Parallelism)
+* [GotW #89 Solution: Smart Pointers](https://herbsutter.com/2013/05/29/gotw-89-solution-smart-pointers/)
+* [Wikipedia:C++](https://secure.wikimedia.org/wikipedia/zh/wiki/C%2B%2B)
+* [Bjarne Stroustrup](http://www.research.att.com/~bs/C++.html)
+* [C++ Language Tutorial](http://www.cs.wustl.edu/~schmidt/C++/)
+* [C++ FAQ Lite](http://www.parashift.com/c++-faq-lite/) ([C++ FAQ Lite不完整中文版](http://www.sunistudio.com/cppfaq/index.html))
+* [C++ FAQ](http://www.faqs.org/faqs/C++-faq/)
+* [C/C++ User Journal](http://www.cuj.com/)
+* [缥缈水云间C++版](http://bbs.freecity.cn/cgi-bin/bbsdoc?board=C%2B%2B)
+* [Andrei Alexandrescu](https://erdani.com/)
+* [ACCU](https://accu.org/)
+* [JTC1/SC22/WG21 - The C++ Standards Committee - ISOCPP](http://www.open-std.org/jtc1/sc22/wg21/)
+* [面向对象程序设计课程](<../面向对象程序设计课程.qmd>)
+* [C++小程序](<C++小程序.qmd>)
+* [C++相关资源](<C++相关资源.qmd>)
+
+## 附件
+
+* [成教复习题.pdf](<assets/C++/成教复习题.pdf>)

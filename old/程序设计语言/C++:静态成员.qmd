@@ -1,0 +1,116 @@
+---
+title: "C++:静态成员"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### 静态成员
+
+类的一般数据成员，每个对象都有这样一组数据成员，它们的空间是独立的。C++的类还有一种特殊的成员，它的空间是这个类的所有对象共享的，称为类**静态数据成员**。
+```cpp
+class task {
+public:
+    static unsigned n; //声明静态成员n
+    int m;
+};
+unsigned task::n; //定义静态成员n
+int main() {
+    task  t1, t2;
+    t1.n = 10;
+    cout << t2.n;
+}
+```
+这里n的空间在整个程序里面只有一个，t1,t2共享同一个n。
+
+静态数据成员需要声明和定义。初始化不是在构造函数中进行，而是在定义的时候进行。访问静态数据成员可以和一般成员一样，通过对象名来访问，也可以不通过对象直接用类名来访问。
+```cpp
+class task {
+public:
+    task() : x(n) { n++; }
+    ~task() { n--; }
+    int x;
+    static unsigned n;
+};
+unsigned task::n = 1;// 初始化
+
+int main() {
+    cout << task::n << endl;
+    task s1;
+    cout << s1.x << s1.n << endl;
+    task s2;
+    cout << s1.x << s1.n << endl;
+    cout << s2.x << s2.n << endl;
+    cout << task::n << endl;
+}
+```
+
+**静态成员函数**是只能访问静态成员（包括静态数据成员和静态成员函数）的成员函数。
+```cpp
+class task {
+private:
+    static unsigned n;
+public:
+    static unsigned get_count() {
+        return n;
+    }
+};
+unsigned task::n = 0;
+int main() {
+    cout << task::get_count();
+    task t;
+    cout << t.get_count();
+}
+```
+
+静态成员用法举例：写一个类Singleton，这个类只能存在一个对象。
+```cpp
+class singleton{
+public:
+    static  singleton &instance() {
+        static singleton s;
+        return s;
+    }
+private:
+    singleton() { /*...*/ }
+    singleton(singleton&){ /*...*/ }
+};
+```
+
+统计所有学生的平均成绩：
+```cpp
+class student {
+    string name;
+    string num;
+    float score;
+    static float sum;
+    static int count;
+public:
+    student(string na, string nu, float sc)
+        : name(na), num(nu), score(sc) {
+        count ++;
+        sum += score;
+    }
+    static float average() {
+        return sum / count;
+    }
+};
+
+float student::sum = 0;
+int student::count = 0;
+
+int main() {
+    cout << student::average();
+    student a("Jack", "0511001", 59);
+    cout << a.average() << Student::average();
+    student b("Lisa", "0511002", 99);
+    cout << a.average() << b.average() << Student::average();
+}
+```
+
+---

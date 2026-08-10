@@ -1,0 +1,92 @@
+---
+title: "STL编程指南/迭代子概述"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+## 迭代子 Iterators
+
+### 概述
+
+迭代子是一种泛化的指针：它们是指向其他对象的对象。由名字可以看出，迭代子经常被用来迭代一个区间内的对象：如果一个迭代子指向一个区间内的某个元素，那么它可以自增以指向下一个元素。
+
+迭代子是泛型编程的核心，因为它为容器和算法提供了一个接口。算法一般都使用迭代子作为参数，因此容器只要能提供访问元素的迭代子就可以了。这使得通用的泛型算法写出来可以对许多不同类型的容器进行操作，甚至像vector和双链表这样不大区别的容器。
+
+STL定义了和迭代子相关的几个不同的概念，几个与定义的迭代子，和一组操作迭代子的类型和函数。
+
+### 描述
+
+迭代子不是单独的一个概念，而是六个有层次关系的概念：其中有些概念只有很有限的一些操作，而另一些有更多的操作。被算法使用的五个概念是Input Iterator, Output Iterator, Forward Iterator, Bidirectional Iterator, and Random Access Iterator。第六个概念Trivial Iterator只是为了更清楚地描述其它迭代子概念而引入的。
+
+最受限的迭代子是Input Iterator和Output Iterator，他们允许"单次遍历"算法但是不一定允许"多次遍历"算法。Input Iterator只保证读取访问，dereference一个Input Iterator，只能够保证能够读取它所指向的值，而不能够保证通过它赋予新的值。类似的，可以保证通过Output Iterator可以赋予新的值，但是不能保证能够读取它所指向的值。
+
+Forward Iterators 是Input Iterators和Output Iterators的refinement：它们支持Input Iterator和Output Iterator的所有操作，并提供更多其它的操作。它允许"多次遍历"算法。Forward Iterator可以是只读的，可以通过它访问对象，但是不能通过它赋予新的值；也可以是可变的，就是既可读也可以赋予新的值。
+
+Bidirectional Iterators和Forward Iterators类似，允许"多次遍历"算法。由名字可知，他们的不同之处在于移动的方向：Bidirectional Iterator允许自增使其指向下一个元素，也可以自减使其指向前一个元素。而Forward Iterator只需要支持单向移动。比如说，用来遍历单链表的迭代子就是一个Forward Iterator，而用来遍历双链表的迭代子是一个Bidirectional Iterator。
+
+最后，Random Access Iterator允许指针的算术运算：任意偏移量移动，下标操作，两个迭代子相减计算距离，等等。
+
+很多算法不是使用单个迭代子，而是使用一个区间的迭代子[1]。[first, last)这个记号表示所有的从first开始的迭代子，到last为止但是不包括last的所有迭代子。[2] 注意，一个区间可以是空的，也就是first和last是相同的。注意，如果区间内有n个迭代子，那么[first, last)需要n+1个位置表示。这是很重要的：对于n个东西进行操作的算法，常常需要有n+1个位置。比如说线性搜索(find)，必须能够返回表示搜索不成功的值。
+
+有时候，必须能够从迭代子得出某些属性。比如说，要知道迭代子所指向的对象的类型。有两种不同的机制来得到属性：一种老的机制叫做Iterator Tags，一种新的机制叫做iterator_traits [3]。
+
+### 概念
+
+* Trivial Iterator
+* Input Iterator
+* Output Iterator
+* Forward Iterator
+* Bidirectional Iterator
+* Random Access Iterator
+
+### 类型
+
+* istream_iterator
+* ostream_iterator
+
+* reverse_iterator
+* reverse_bidirectional_iterator
+* insert_iterator
+* front_insert_iterator
+* back_insert_iterator
+
+* iterator_traits
+
+* input_iterator_tag
+* output_iterator_tag
+* forward_iterator_tag
+* bidirectional_iterator_tag
+* random_access_iterator_tag
+
+* input_iterator
+* output_iterator
+* forward_iterator
+* bidirectional_iterator
+* random_access_iterator
+
+### 函数
+
+* distance_type
+* value_type
+* iterator_category
+
+* distance
+* advance
+
+* inserter
+* front_inserter
+* back_inserter
+
+### 备注
+
+[1] 在Trivial Iterator上没有明确定义区间这个概念，因为Trivial Iterator没有自增操作：没有下一个元素这样的东西。在Output Iterator上也没有明确定义区间，因为Output Iterator没有相等性比较运算。相等性比较是定义一个区间所必需的，因为只有与last判断相等性，才能完成一个区间的迭代。
+
+[2] [first, last)这个标记有时候是指迭代子first, first+1, ..., last-1，有时候是指这些迭代子所指向的对象\*first, \*(first+1), ..., \*(last-1)。在大多数情况下，从上下文可以知道标记所指的是什么。当区别是非常重要的时候，这个标记会被明确的用"迭代子的区间"或者"对象的区间"修饰。
+
+[3] iterator_traits类依赖于C++的一个称作模板偏特化(partial specialization)的语法特征。现在的很多编译器不能完全支持这一标准，甚至不少编译器完全不支持偏特化。如果你的编译器不支持偏特化，你就不能够使用iterator_traits，你必须依然使用函数iterator_category，distance_type和value_type。

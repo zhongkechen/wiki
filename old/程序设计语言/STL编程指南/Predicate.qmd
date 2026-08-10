@@ -1,0 +1,17 @@
+---
+title: "STL编程指南/Predicate"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+::: {.callout-warning}
+**源页面不可用**
+
+MoinMoin 备份中保留了这个页面名，但没有可读取的当前版本。
+:::

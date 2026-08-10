@@ -1,0 +1,394 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0036)http://www.loirak.com/prog/java.html -->
+<HTML><HEAD><TITLE>Java Programming for beginners in four hours</TITLE>
+<META content="text/html; charset=iso8859-1" http-equiv=Content-Type>
+<META content=webmaster@loirak.com http-equiv=Reply-to>
+<META content="Java Programming for beginners in four hours" name=TITLE>
+<META
+content="java programming, beginners, learn, tutor, program, classes, bytecode, methods"
+name=KEYWORDS>
+<META
+content="java tutorial learn java programming in a mere four hours step by step online"
+name=DESCRIPTION><!--http://www.loirak.com-->
+<SCRIPT language=JavaScript><!--
+
+function clearFrame()
+{
+  // if someone loads page in frames, get rid of the frames
+  if (parent.frames.length > 0) {
+    parent.location.href = location.href
+  }
+}
+
+function startURL()
+{
+  var indexNumber = document.urlform.selecturl.selectedIndex
+  if (indexNumber == 0) document.urlform.newurl.value = "game.html"
+  if (indexNumber == 1) document.urlform.newurl.value = "tutors.html#c"
+  if (indexNumber == 2) document.urlform.newurl.value = "tutors.html#asm"
+  if (indexNumber == 3) document.urlform.newurl.value = "directx/index.html"
+  if (indexNumber == 4) document.urlform.newurl.value = "java.html"
+  if (indexNumber == 5) document.urlform.newurl.value = "books.html"
+  if (indexNumber == 6) document.urlform.newurl.value = "history.html"
+  if (indexNumber == 7) document.urlform.newurl.value = "mel.html"
+  if (indexNumber == 8) document.urlform.newurl.value = "index.html#links"
+  if (indexNumber == 9) document.urlform.newurl.value = "/index.html"
+  if (indexNumber == 10) document.urlform.newurl.value = "gbprog.htm"
+  location.href = document.urlform.newurl.value
+}
+
+//--></SCRIPT>
+
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY aLink=#4c22dd bgColor=#ffffff link=#4c22dd onload=clearFrame()
+text=#000000 vLink=#4c22dd><!--<font size="+7"><b><h1>java programming, beginners, learn, tutor, program, classes, bytecode, methods, java tutorial learn java programming in a mere four hours step by step online</h1></b></font>-->
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD><A href="http://www.loirak.com/prog/index.html"><IMG
+            align=center alt="Loirak Enterprises" border=0
+            src="Java Programming for beginners in four hours_files/logo.jpg"></A>
+          </TD>
+          <TD><NOBR>
+            <FORM name=urlform><FONT size=4><A
+            href="http://www.loirak.com/prog/index.html">PROGRAMMING
+            HOME</A></FONT><BR><SELECT name=selecturl> <OPTION selected>Game
+              Programming<OPTION>C/C++<OPTION>Assembly<OPTION>DirectX<OPTION>Java<OPTION>Books/Free
+              Stuff<OPTION>History of Programming<OPTION>Story of
+              Mel<OPTION>Links<OPTION>Loirak HQ<OPTION>Gameboy</OPTION></SELECT>
+            <INPUT name=newurl type=hidden value=index.html> <INPUT onclick=startURL() type=button value=Go!>
+        </FORM></NOBR></TD></TR></TBODY></TABLE><!-- End Logo/Select -->
+      <HR>
+
+      <H2>The Four Hour Java Tutorial</H2>Have you ever wanted to master a
+      programming language? Well, you have chosen a language which is considered
+      by most to be the future of programming. This tutorial will give you the
+      basics that will enable you to build powerful programs and applets.
+      <BR><BR>Java is a high-level programming language, or a 3rd generation
+      language. It operates like this: you type in the source code, then a
+      program called a "compiler" transforms it into Java bytecode. Bytecode
+      makes Java architecture neutral, since the computer that runs your program
+      needs an interpreter or a bytecode compiler.
+      <HR>
+      Now to the pre-requisite. "Aller Anfang ist schwer!" <BR><BR><B>Java
+      Developement Kit (JDK) 20MB</B> - this includes all of the standard
+      objects and classes to make and run your programs. If you like running
+      programs, download this!
+      <CENTER>
+      <FORM action=http://java.sun.com/cgi-bin/download2.cgi method=post><INPUT name=protocol type=submit value="HTTP download"> <INPUT
+      name=referer type=hidden
+      value=http://java.sun.com/products/jdk/1.2/download-windows.html> <INPUT
+      name=download-name type=hidden value=jdk12-win32.exe> <INPUT
+      name=config-file type=hidden value=jdk12.config> <INPUT name=platform
+      type=hidden value=win32> <INPUT name=domain-checked type=hidden>
+      </FORM></CENTER>If you have problems installing or want to know more about
+      the JDK, <A
+      href="http://java.sun.com/products/jdk/1.2/install-windows.html">http://java.sun.com/products/jdk/1.2/install-windows.html</A>
+      <BR><BR>Now to programming, in only four hours to go!
+      <HR>
+
+      <H2>Hour I. Hello Program, Orientation, and Input</H2>
+      <H3>Example I.</H3><PRE><FONT color=#ff0000>
+class Hello {
+  public static void main (String[] args) {
+    System.out.println("Welcome to the world of Java Programming.");
+  } // method main
+} // class Hello
+</FONT></PRE>To compile and run this program, you need to have installed
+      JDK and added a line to your path statement referring to the directory of
+      where it was install + \bin. (e.g. path %path%;c:\jdk\bin;)
+      <UL>
+        <LI>type this file into notepad or something<BR>
+        <LI>save it as Hello.java(class name + .java)<BR>
+        <LI>drop to a command prompt<BR>
+        <LI>type <B>javac</B> <I>Hello.java</I> (e.g. "javac
+        C:\work\Hello.java")<BR>
+        <LI>type <B>java</B> <I>Hello</I> (e.g. "java C:\work\Hello")<BR>
+        <LI>then watch the magic<BR></LI></UL>You have now written and completed
+      your first Java program. Looking back to the above program, you should
+      notice the following. First, Java is <B>case-sensitive</B>. The commands
+      have to be written like they are above. Java also denotes the end of
+      statement with a semi-colon like C &amp; Pascal. Brackets signify either
+      to "<FONT color=#ff0000>{</FONT>" begin a group of statements, or "<FONT
+      color=#ff0000>}</FONT>" end a group of statements. The <FONT
+      color=#ff0000>//</FONT> designates a comment. Anything after two slashes
+      the compiler ignores. Now we're ready to read input from the keyboard. Pay
+      attention to the comments, they help explain the programs. <BR>
+      <H3>Example II.</H3><PRE><FONT color=#ff0000>
+import java.io.*; //include Java's standard Input&amp;Output routines
+
+class Echo {
+  public static void main (String[] args) throws IOException {
+
+    // Defines the standard input stream
+    BufferedReader stdin = new BufferedReader
+      (new InputStreamReader(System.in));
+    String message; // Creates a varible called message for input
+
+    System.out.print ("Enter the message : ");
+    System.out.flush(); // empties buffer, before you input text
+    message = stdin.readLine();
+
+    System.out.print("You ");
+    System.out.println("entered : " + message);
+
+  } // method main
+} // end of class Echo
+</FONT></PRE>You have just learned the standard way of getting text. First
+      you create a reader, and then you input the text with <FONT
+      color=#ff0000>readLine() </FONT>, and finally you use the print command to
+      output it. Notice the difference in the print commands : <B>println</B>
+      prints, then goes to the next line, while <B>print</B> does not. The <FONT
+      color=#ff0000>throws IOException</FONT> in main lets Java know what to do
+      with errors, when it encounters them.
+      <HR>
+
+      <H2>Hour II. Data types and Loops</H2>Java has several standard(primitive)
+      data types, this hour will cover the two most common. Since <FONT
+      color=#ff0000>String</FONT> is actually an object, it will be covered in
+      the fourth hour. <BR>
+      <H3>Example III.</H3><PRE><FONT color=#ff0000>
+import java.io.*;
+
+class Candy {
+  public static void main (String[] args) throws IOException {
+
+    BufferedReader stdin = new BufferedReader
+      (new InputStreamReader(System.in));
+    int num1, num2, sum; // declares three integers
+    double dollars; // declares a number that can have decimals
+
+    System.out.print ("How many candy bars do you want  : ");
+    System.out.flush();
+
+    // read a line, and then converts it to an integer
+    num1 = Integer.parseInt( stdin.readLine());
+
+    System.out.print ("How many suckers you do want  : ");
+    System.out.flush();
+    num2 = Integer.parseInt( stdin.readLine());
+
+    sum = num1 + num2; // Adds the two numbers;
+    dollars = (double) sum * .75;
+    System.out.println("You owe : $" + dollars);
+  } // method main
+}
+</FONT></PRE>Using <FONT color=#ff0000>(double)</FONT> to convert the
+      integer sum to a double, we can multiply by .75 to calculate the amount of
+      money. This method of conversion using parentheses is called casting.
+      <BR><BR>Java has several types of loops, the most useful being the for
+      &amp; while loops, which are both demonstrated in this next example. The
+      standard if-then-else, will also be a very handy programming tool.
+      <BR><BR><BR>
+      <H3>Example IV.</H3><PRE><FONT color=#ff0000>
+import java.io.*;
+
+class Loopit {
+  public static void main (String[] args) throws IOException {
+    BufferedReader stdin = new BufferedReader
+      (new InputStreamReader (System.in));
+    int count, max, num;
+    num = 0; // Assign initial value of count
+    while (num != -1) {
+      System.out.print ("Enter a number to factorialize (-1 to quit): ");
+      System.out.flush();
+      num = Integer.parseInt (stdin.readLine());
+      max = 1; // Assign to 1, so factorial isn't zero every time
+      if (num == -1) {
+        System.out.println("Okay, quiting...");
+      }
+      else { // Since they're not quitting we better factorialize
+        for  (count = 1; count&lt;=num; count++) {
+          max = count * max;
+        }
+        System.out.println (num+"! (factorial) is : "+ max);
+      }
+    }
+  } // method main
+}
+</FONT></PRE>The first loop above is called a while loop, the syntax being
+      : <BR>&nbsp; &nbsp; &nbsp; <FONT color=#ff0000>while (condition) {
+      dosomething; }</FONT><BR>The program runs what is in the brackets until
+      the condition becomes false. For instance, the above program runs until
+      the user enters negative one. Hence, "<FONT color=#ff0000>!=</FONT>" mean
+      not equal to. <BR><BR>Next is if, then and else. The syntax being
+      :<BR>&nbsp; &nbsp; &nbsp; <FONT color=#ff0000>if (condition) {
+      dosomething; }<BR>&nbsp; &nbsp; &nbsp; else { dosomethingdifferent;
+      }</FONT><BR>The above program compares (<FONT color=#ff0000>==</FONT>) the
+      number entered to negative one. If they are equal it tells the user the
+      program is quitting, otherwise it factorializes the number using the for
+      loop. <BR><BR>The syntax for a for loop is : <BR>&nbsp; &nbsp; &nbsp;
+      <FONT color=#ff0000>for (initialization; condition; increment) {
+      dosomething; }</FONT><BR>In example four, the initialization, <FONT
+      color=#ff0000>count = 1</FONT>, assigns count to one. The increment, <FONT
+      color=#ff0000>count++</FONT>, adds one to the variable count until the
+      condition, <FONT color=#ff0000>count&lt;=num</FONT>, becomes false. In
+      other words, count is assigned one, two, three, ... num, with the inside
+      of the loop being processed after each increment. Notice again that <FONT
+      color=#ff0000>count++</FONT> increments by one; however, <FONT
+      color=#ff0000>count+=2</FONT> would increment count by a factor of two.
+      This is also true for <FONT color=#ff0000>count--</FONT> and <FONT
+      color=#ff0000>count-=2</FONT>. The former decreases by a factor of one,
+      the latter by a factor of two.
+      <HR>
+
+      <H2>Hour III. Applets</H2>Now we are going to learn how to create Applets,
+      to include in your web pages and amaze your friends.
+      <H3>Example V.</H3><PRE><FONT color=#ff0000>
+import java.applet.Applet; // Includes standard Applet classes
+import java.awt.*; // Standard Graphics Routines
+
+public class Wow extends Applet {
+  // Applets use paint instead of main
+  public void paint (Graphics page) {
+    page.drawString("Wow, this is an Applet!", 5, 10);
+  } // method paint
+} // class Wow
+</FONT></PRE>The <FONT color=#ff0000>page.drawString</FONT> statement is
+      like the print command. Note that it also accepts the coordinates for the
+      text. In the above example, the text is placed five pixels right and ten
+      down from the top left corner of the Applet. <BR><BR>To actually use this
+      Applet :
+      <UL>
+        <LI>compile it like a normal program with <B>javac</B><BR>
+        <LI>create the following HTML file<BR><PRE><FONT color=#ff0000>&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;The Wow Applet!&lt;/TITLE&gt;
+&lt;BODY&gt;
+&lt;APPLET CODE="Wow.class" WIDTH="150" HEIGHT="50"&gt;
+&lt;/APPLET&gt;
+&lt;HR&gt;
+Was that easy or what?
+&lt;/BODY&gt;
+&lt;/HTML&gt;</FONT></PRE>
+        <LI>load the HTML file with a web browser<BR>
+        <LI>then watch the magic<BR></LI></UL>
+      <H4><FONT color=#6666dd>Applets is a topic that could easily be the
+      subject matter of an entire book, to learn more visit : <BR>
+      <LI><A href="http://java.sun.com/docs/books/tutorial" target=_top>Sun's
+      Java Tutor (http://java.sun.com/docs/books/tutorial)</A><BR></FONT></H4>
+      <HR>
+      <A name=IV></A>
+      <H2>Hour IV. Arrays, Objects, Classes and Methods</H2>The manipulation of
+      objects and arrays, complemented with the use of several classes and
+      methods will define you as a true java programmer, so take good notes!
+<BR>
+      <H3>Example VI.</H3><PRE><FONT color=#ff0000>
+class Bank {
+  public static void main (String[] args) {
+    // Creates an object with the class Bank_Account defined below
+    Bank_Account account = new Bank_Account(150.00);
+    System.out.println ("Balance: "+ account.current_Account());
+    account.debit_Account(50.30);
+    System.out.println ("New Balance : "+ account.current_Account());
+  }
+}
+
+class Bank_Account {
+  private double value_account;
+  public Bank_Account ( double initial_value) {
+    value_account = initial_value;
+  } // end constructor for object creation
+  public void debit_Account ( double number) {
+    value_account = value_account + number;
+  }
+  public double current_Account () {
+    return value_account;
+  }
+}
+</FONT></PRE>The above program has several methods and two classes. Look
+      at the creation and usage of the object <FONT
+      color=#ff0000>account</FONT>. Its value is changed by the method <FONT
+      color=#ff0000>debit_Account</FONT>. Using objects can simplify programs by
+      allowing user defined types. <BR><BR>The syntax for class creation is self
+      explanatory; however, the syntax for method declaration is a bit more
+      complex. Using the example : <BR>
+      <UL><FONT color=#ff0000>public void debit_Account ( double
+        number)</FONT> <BR><BR>
+        <LI><FONT color=#ff0000>public</FONT> is the access level, which defines
+        what can access the method. <FONT color=#ff0000>public</FONT> allows
+        other classes to access the method; however, <FONT
+        color=#ff0000>private</FONT> would only allow the method to be accessed
+        inside class Bank_Account
+        <LI><FONT color=#ff0000>void</FONT> is the return type. <FONT
+        color=#ff0000>void</FONT> is used when a particular method does not need
+        to return a value; however, in example six, the <FONT
+        color=#ff0000>current_Account</FONT> method returns a <FONT
+        color=#ff0000>double</FONT>
+        <LI><FONT color=#ff0000>debit_Account</FONT> is the name of the method
+        <LI><FONT color=#ff0000>( double number)</FONT> is known as the
+        arguments for the method. This allows the value of the "<I>bank
+        account</I>" to be passed into the method for processing </LI></UL>Now
+      that we understand classes and methods (<A
+      href="http://www.loirak.com/prog/java.html#IV">if not, read it again</A>),
+      we'll move on to something a lot simpler Arrays. <BR>
+      <H3>Example VII.</H3><PRE><FONT color=#ff0000>
+class Arrays {
+  public static void main (String[] args) {
+    int[] list = new int[5]; // creates Array of 5 integers
+    for (int index=0; index &lt; 5; index++) {
+      list[index] = index * 2; // Assign values to Array
+    }
+    for (int index=4; index &gt; -1; index--) {
+      System.out.println(list[index]);
+    }
+  } // method main
+}
+</FONT></PRE>Java uses <FONT color=#ff0000>[</FONT> and <FONT
+      color=#ff0000>]</FONT> to signify an array. In the above program an array
+      of 5 integers is created. The number five is the number of elements in the
+      array; however Java starts array indexing at <B>ZERO</B>, therefore the
+      last index of the above array is four (5-1). <BR><BR>Arrays can also be
+      used for objects, as well as the primitive data types. For example, the
+      <FONT color=#ff0000>String[] args</FONT> you see along with the main
+      method is simply an array of <FONT color=#ff0000>String</FONT> objects.
+      This array of objects stores the command line parameters you type when you
+      run your program. For example, if you typed :<BR>&nbsp; &nbsp; &nbsp;
+      <I>java Someclassname new</I> <BR>the value stored in <FONT
+      color=#ff0000>args[0]</FONT> would be "<I>new</I>". Make sure <FONT
+      color=#ff0000>args[0]</FONT> exists before you access it, or else you will
+      get an array out of bounds exception.
+      <HR>
+      Now that you have completed the tutorial, you are ready to enter the world
+      of programming, right? You have the basics, and where you go from here
+      depends on how much ambition and hard work you are willing to spend on
+      developing your skills. <BR><BR>Written by Ben Rhoades. You can send your
+      <A href="mailto:programming@loirak.com">comments</A> to
+      programming@loirak.com
+      <UL>
+        <LI>Not satisfied with the basics, try this tutorial <A
+        href="http://sunsite.unc.edu/javafaq/javatutorial.html"
+        target=_top>http://sunsite.unc.edu/javafaq/javatutorial.html</A>
+        <LI><A href="http://www.loirak.com/" target=_top>Visit Loirak
+        Enterprises </A>for more on programming, and source code.
+        (http://www.loirak.com).
+        <LI><FONT size=2>Many of the designations used by manufacturers and
+        sellers to distinguish their products are claimed as trademarks, etc.
+        Where those designations are missing, note that they are properties of
+        their respective corporations </FONT></LI></UL>
+      <CENTER>[<A href="http://www.loirak.com/prog/game.html">Game
+      Programming</A>] [<A
+      href="http://www.loirak.com/prog/tutors.html#c">C/C++</A>] [<A
+      href="http://www.loirak.com/prog/gbprog.htm">Gameboy</A>] [<A
+      href="http://www.loirak.com/prog/tutors.html#asm">Assembler</A>] [<A
+      href="http://www.loirak.com/prog/directx/index.html">DirectX</A>] [<A
+      href="http://www.loirak.com/prog/java.html">Java</A>] [<A
+      href="http://www.loirak.com/prog/books.html">Books</A>] [<A
+      href="http://www.loirak.com/prog/books.html#free">Free</A>] [<A
+      href="http://www.loirak.com/prog/history.html">History of Programming</A>]
+      [<A href="http://www.loirak.com/prog/mel.html">Story of Mel</A>] [<A
+      href="http://www.loirak.com/prog/index.html#links">Links</A>] [<A
+      href="http://www.loirak.com/index.html">Loirak HQ</A>]
+  </CENTER></LI></TD></TR></TBODY></TABLE><NOSCRIPT><XMP>
+<!-- VA Banner -->
+</noscript></XMP>
+<SCRIPT language=JavaScript>
+<!--
+if(typeof(top)=="object" && typeof(top.va_frame)=="object") { if (typeof(top.va_frame.document)=="object" && typeof(top.va_frame.document.images)=="object" && typeof(top.va_frame.document.images[0])=="object" && typeof(top.va_frame.document.images[0].src)=="string" && typeof(top.va_frame.document.images[0].src.length) =="number" && ( (top.va_frame.document.images[0].src.length>25 && top.va_frame.document.images[0].src.substring(0,25)=="http://images.go2net.com/") || (typeof(top.va_frame.document.images[1])=="object" && typeof(top.va_frame.document.images[1].src)=="string" && typeof(top.va_frame.document.images[1].src.length) =="number" && top.va_frame.document.images[1].src.length>25 && top.va_frame.document.images[1].src.substring(0,25)=="http://images.go2net.com/") ) ) {top.va_frame.location.reload(true); } else {dly=(1.+Math.random())*10000.; setTimeout('if (typeof(top.va_frame.document)=="object" && typeof(top.va_frame.document.images)=="object" && typeof(top.va_frame.document.images[0])=="object" && typeof(top.va_frame.document.images[0].src)=="string" && typeof(top.va_frame.document.images[0].src.length) =="number" && ( (top.va_frame.document.images[0].src.length>25 && top.va_frame.document.images[0].src.substring(0,25)=="http://images.go2net.com/") || (typeof(top.va_frame.document.images[1])=="object" && typeof(top.va_frame.document.images[1].src)=="string" && typeof(top.va_frame.document.images[1].src.length) =="number" && top.va_frame.document.images[1].src.length>25 && top.va_frame.document.images[1].src.substring(0,25)=="http://images.go2net.com/") ) ) {top.va_frame.location.reload(true);} else {window.open("http://click.go2net.com/adpopup?site=va&area=COMPUTERS&shape=noshape","va_rzjr137y", "width=528,height=200"); }', dly); } } else { window.open("http://click.go2net.com/adpopup?site=va&area=COMPUTERS&shape=noshape","va_rzjr137y", "width=528,height=200");}
+//-->
+</SCRIPT>
+</NOSCRIPT></BODY></HTML>

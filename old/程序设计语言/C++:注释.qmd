@@ -1,0 +1,32 @@
+---
+title: "C++:注释"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### 注释
+
+C++支持两种风格的注释(Comment)：C风格/\*…\*/和C++风格//
+```cpp
+/* this is my first c++ program*/
+int main() {
+     int i = 0; /*...*/
+}
+```
+注意：C风格的注释不能嵌套(比如：/\* …/\*…\*/…\*/)
+
+```cpp
+// 从此开始到行尾都是注释
+int main() {
+    int age;  //age of student
+}
+```
+注意：不要在注释和字符串以外输入中文，尤其是中文标点
+
+---

@@ -1,0 +1,53 @@
+---
+title: "函数式编程"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### 基本概念
+
+* [Functional programming](http://en.wikipedia.org/wiki/Functional_programming) [函数式编程](http://zh.wikipedia.org/wiki/%E5%87%BD%E6%95%B8%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80)
+* [Lambda Calculus](http://en.wikipedia.org/wiki/Lambda_calculus) [λ演算](http://zh.wikipedia.org/wiki/%CE%9B%E6%BC%94%E7%AE%97)
+* [Currying](http://en.wikipedia.org/wiki/Currying)
+* [Closure](http://en.wikipedia.org/wiki/Closure_%28computer_science%29) [闭包](http://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_%28%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%29)
+* [Higher-order functions](http://en.wikipedia.org/wiki/Higher-order_function) [高阶函数](http://zh.wikipedia.org/wiki/%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0)
+* [Recursion](http://en.wikipedia.org/wiki/Recursion) [递归](http://zh.wikipedia.org/wiki/%E9%80%92%E5%BD%92)
+* [Lazy evaluation](http://en.wikipedia.org/wiki/Lazy_evaluation) [惰性求值](http://zh.wikipedia.org/wiki/%E6%83%B0%E6%80%A7%E6%B1%82%E5%80%BC)
+* [Fix point](http://en.wikipedia.org/wiki/Fixed_point_combinator) [不动点](http://zh.wikipedia.org/wiki/%E4%B8%8D%E5%8A%A8%E7%82%B9%E7%BB%84%E5%90%88%E5%AD%90)
+* [fold](http://en.wikipedia.org/wiki/Fold_%28higher-order_function%29)
+* [Continuation](http://en.wikipedia.org/wiki/Continuation)
+* [Monad](http://en.wikipedia.org/wiki/Monad_%28functional_programming%29)
+* [Compiler for Free](https://codon.com/compilers-for-free#partial-evaluation) (Partial Evaluation, Futamura projections)
+
+### SICP相关
+
+1. Structure and Interpretation of Computer Programs中代码的Python实现: [SICP的Python实现](<SICP的Python实现.qmd>)
+1. Structure and Interpretation of Computer Programs http://mitpress.mit.edu/sicp/
+1. https://groups.csail.mit.edu/mac/classes/6.001/abelson-sussman-lectures/
+1. 作者授课录像下载 http://swiss.csail.mit.edu/classes/6.001/abelson-sussman-lectures/
+1. 函数式编程的讨论 http://www.hibernate.org.cn/viewtopic.php?t=7569&postdays=0&postorder=asc&start=0
+1. Scheme标准 http://www.schemers.org/Documents/Standards/R5RS/
+1. The Scheme Programming Language, 2nd Edition ©； 1996 Prentice Hall http://www.scheme.com/tspl2d/
+1. 最省事的scheme环境，初学推荐 http://www.drscheme.org/
+1. 更多关于scheme  http://www.schemers.org/  http://www.swiss.ai.mit.edu/projects/scheme/index.html
+1. [老赵书托（2）：计算机程序的构造与解释](http://blog.zhaojie.me/2009/07/recommended-reading-2-sicp.html)
+1. [我如何用二十天刷完 SICP](http://numbbbbb.com/2016/03/28/20160328_%E6%88%91%E5%A6%82%E4%BD%95%E7%94%A8%E4%B8%A4%E5%91%A8%E6%97%B6%E9%97%B4%E5%88%B7%E5%AE%8C%20SICP/)
+
+### 参考资料
+
+* [Java 语言中的函数编程](https://www.ibm.com/developerworks/cn/java/j-fp/index.html)
+* [Racket](https://racket-lang.org/) (PLT-Scheme)
+* [Lisp的永恒之道](https://coolshell.cn/articles/7526.html)
+* [Functional Programming For The Rest of Us](https://www.defmacro.org/2006/06/19/fp.html)
+* [函数式语言的宗教](https://www.yinwang.org/blog-cn/2013/03/31/purely-functional)
+* [Lambda](https://martinfowler.com/bliki/Lambda.html)
+* XLISP: http://www.mv.com/ipusers/xlisper/
+* XLISP PLUS: http://almy.us/xlisp.html
+* [Lisp之根源](http://daiyuwen.freeshell.org/gb/rol/roots_of_lisp.html)
+* [Why Clojure Will Win](https://web.archive.org/web/20151221082827/https://michaelochurch.wordpress.com/2013/08/07/why-clojure-will-win/)

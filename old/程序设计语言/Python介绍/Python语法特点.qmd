@@ -1,0 +1,42 @@
+---
+title: "Python介绍/Python语法特点"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+### Python语法特点
+
+Python被设计成具有高度可读性的语言。它努力使代码看上去布局整齐，更多的使用英语单词来代替其他语言中的标点符号，并且它的语法结构比其他结构化语言（比如C、Perl或者Pascal）少得多。
+
+#### 缩进
+
+Python使用缩进而不是一对花括号来划分语句块。对某些特定语句后面的语句增加缩进量（来表示语句块的开始）；用减少缩进量来表示当前语句块的结束。
+
+#### 语句
+
+Python的语句包括：
+
+* if语句和else、elif（else-if的缩写）一起使用，实现按一定的条件去执行语句块。
+* while语句反复执行一个语句块，直到条件变成False
+* for循环语句跌代一个可跌代的东西，取出其中每一个元素赋给一个局部变量，这个变量在该语句附属的语句块中可以使用。
+* class statements execute a block of code and attach its local namespace to a class, for use in object oriented programming. class语句执行一个语句块，并把一个局部名字空间和一个类绑定在一起。它用在面向对象编程上。
+* def语句定义一个函数
+
+每个语句都有它自己的语义：比如说，def语句和其他很多语句不同，它不会马上执行它附属的语句块，
+
+#### 基本数据类型
+
+Python包括一组不同的数据类型。其中最常用的是：
+
+* list — 一种可变的顺序容器。
+* str — 一种不可变的由字符构成的顺序容器（字符串）。
+* dict — 一种字典
+* set — 和数学上的集合差不多的东西（无序的容器，其中每个元素只出现一次）。
+
+这里并没有列出全部类型，Python中还有很多其他类型。而以上这些是最常用的部分。

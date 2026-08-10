@@ -1,0 +1,78 @@
+---
+title: "C++:友元"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### 友元
+
+**友元**(friend)提供了让其它函数或类绕过访问权限的控制直接访问类的所有成员（包括私有的和保护的成员）的途径。**友元函数**是能够直接访问类的所有成员的函数。比如要写一个函数isequal比较两个点是否相同：
+```cpp
+class point {
+private:
+    int x, y;
+public:
+    friend bool isequal(point a, point b); //声明isequal函数是point类的友元函数
+};
+bool isequal(point a, point b) {
+    return a.x == b.x && a.y == b.y; //友元函数可以直接访问类的私有成员x和y
+}
+
+int main() {
+    point a, b;
+    // initialize
+    cout << isequal(a, b);
+}
+```
+实际上不用友员也可以实现同样的功能，只要将x,y变成公有或者提供公有的函数访问他们就可以了：
+```cpp
+class point {
+private:
+    int x, y;
+public:
+    int &get_x() { return x; }
+    int &get_y() { return y; }
+};
+bool isequal(Point a, Point b) {
+    return a.get_x() == b.get_x() && a.get_y() == b.get_y();
+}
+
+int main() {
+    point a, b;
+    // initialize
+    cout << isequal(a, b);
+}
+```
+
+**友元类**：类A是类B的友员，则类A的所有成员函数都可以访问类B的所有成员（包括私有的和保护的）。
+```cpp
+class point {
+    int x, y;
+    friend class rectangle; // Rectangle是Point的友元类，Rectangle类的成员函数可以访问Point类的私有成员
+};
+class rectangle {
+    point p1, p2;
+public:
+    void display() {
+        cout << p1.x << p1.y << p2.x << p2.y;
+    }
+    bool in(point p) {
+        return p.x >= p1.x && p.x < p2.x && p.y >= p1.y && p.y < p2.y;
+    }
+};
+
+int main() {
+    rectangle rect;
+    // initialize
+    rect.display();
+}
+```
+注意：友元关系是单向的，并不可传递。
+
+---

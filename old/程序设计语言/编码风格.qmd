@@ -1,0 +1,55 @@
+---
+title: "编码风格"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## 常规
+
+C语言的编码一般遵循《The C Programming Language》书中例子所示的风格。
+
+C++语言的编码一般遵循《The C++ Programming Language》书中例子所示的风格。
+
+## 文件名
+
+在C语言中，头文件以.h为扩展名，源文件以.c为扩展名。（注意都为小写）
+
+在C++语言中，头文件一般以.h为扩展名，源文件以.cpp或者.cc为扩展名。
+
+在C++标准库中，头文件没有扩展名。
+
+## 注释
+
+## 圆括号、大括号和缩排
+
+每层缩进由4个空格构成，不使用tab字符。
+
+左括号与前面的元素处于同一行。比如
+
+```
+int func(int a) {
+    int b = a + 1;
+    return b * 2;
+}
+```
+以及
+```
+class Thing {
+    //...
+};
+```
+还有
+```
+for(int i = 0; i < 100; i++) {
+    cout << i << endl;
+    cout << x * i << endl;
+}
+```
+
+### 标识符命名

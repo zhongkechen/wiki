@@ -1,0 +1,49 @@
+---
+title: "PythonLdap"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+Python-ldap: LDAP client API for Python http://www.python-ldap.org/
+
+```python
+import ldap
+import ldap.modlist
+
+con = ldap.open("127.0.0.1", 37225)
+con.simple_bind('cn=Directory Manager', 'password')
+
+#search
+result = con.search_s('applicationName=SLF,nodeName=jambala',
+                       ldap.SCOPE_SUBTREE,
+                       '(objectClass=SLF-Imsi)')
+
+print len(result)
+for i in result:
+    print "DN:",i[0]
+    print "ATTRIB:", i[1]
+
+dn = 'SLF-Imsi=159159160,SLF-ImsiContainerName=SLF-ImsiContainer, SLF-ProvisioningContainerName=SLF-ProvisioningContainer,applicationName=SLF,nodeName=jambala'
+
+#add
+attrs = {'SLF-DiaServers' : ['HSS2'], 'objectClass': ['SLF-Imsi', 'JIM-ManagedObject', 'top']}
+ldif = ldap.modlist.addModlist(attrs)
+con.add_s(dn, ldif)
+
+#modify
+oldattrs = {'SLF-DiaServers': []}
+newattrs = {'SLF-DiaServers': ['HSS12']}
+ldif = ldap.modlist.modifyModlist(oldattrs, newattrs)
+con.modify_s(dn, ldif)
+
+#delete
+con.delete_s(dn)
+
+con.unbind()
+```

@@ -1,0 +1,1130 @@
+---
+title: "C++类与对象"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## C++类与对象
+
+### 问题
+
+C++语言只提供了整数、浮点数、bool、字符等基本类型。如何处理系统没有内置的类型？比如复数？时间？日期？坐标？传统C语言的做法是使用结构体，比如：
+```cpp
+struct complex {
+    double real;
+    double imag;
+};
+complex add(complex a, complex b);
+complex substract(complex a, complex b);
+complex multiply(complex a, complex b);
+void display(complex a);
+void set(complex *c, double r, double i);
+
+int main() {
+    complex x, y;
+    set(&x, 10.0, 20.0);
+    set(&y, 1.0, -2.0);
+    complex z = add(x, y);
+    display(z);
+}
+```
+
+另一个例子：
+```cpp
+struct clock {
+    int second;
+    int minute;
+    int hour;
+};
+void set_time( clock *c, int h, int m, int s) {
+    c->second = s;
+    c->minute = m;
+    c->hour = h;
+}
+void show_time(const clock *c) {
+    cout << c->hour << c->minute << c->second;
+}
+void inc_second(clock *c) {
+    c->second ++;
+    if(c->second == 60) {
+        c->minute ++;
+        c->second = 0;
+        if(c->minute == 60) {
+            c->hour ++;
+            c->minute = 0;
+            if(c->hour == 24)
+                c->hour = 0;
+        }
+    }
+}
+
+int main() {
+    clock c;
+    set_time(&c, 10, 10, 30);
+    inc_second(&c);
+    show_time(&c);
+}
+```
+
+再一个例子：
+```cpp
+#define MALE true
+#define FEMALE false
+struct student{
+   char num[20];
+   char name[10];
+   bool gender;
+};
+void set(student &s, char id[], char n[], bool g){
+    strcpy(s.num, id);
+    strcpy(s.name, n);
+    s.gender = g;
+}
+void display(student &s) {
+    cout << s.num << s.name << (s.gender?"male":"female");
+}
+int main() {
+    student stud1, stud2;
+    set(stud1, "110101", "Rose", FEMALE);
+    set(stud2, "110102", "JACK", MALE);
+    display(stud1);
+    display(stud2);
+}
+```
+
+### C++的类
+
+C语言中，表示数据的结构体和操作这些结构体的函数是分开的。或者说数据结构和操作它的算法是分开的。这样数据和操作之间的关系不是很清晰。C++的做法是在C语言的基础上更进一步，将数据与操作这组数据的函数结合在一起，构成类（class）
+```cpp
+struct clock {
+    int  hour, minute, second;
+    void set_time(int h, int m, int s);
+    void show_time();
+    void inc_second();
+};
+```
+C++中类的定义可以用struct或者用class。函数与数据结合在一起，逻辑关系更加明确。定义在类中的函数又被称为方法、成员函数。成员函数可以直接访问类（结构体）中的数据成员。C++类中函数的定义，函数体可以直接写在类的内部，写在头文件中：
+```cpp
+struct clock {
+    int  hour, minute, second;
+    void set_time(int h, int m, int s) {
+        hour = h;
+        minute = m;
+        second = s;
+    }
+    void show_time() {
+        cout << hour << minute << second;
+    }
+    void inc_second(clock *c) {
+        second ++;
+        if(second == 60) {
+            minute ++;
+            second = 0;
+            if(minute == 60) {
+                hour ++;
+                minute = 0;
+                if(hour == 24)
+                    hour = 0;
+            }
+        }
+    }
+};
+
+int main() {
+    clock c1, c2;
+    c1.set_time(10, 10, 30);
+    c2.set_time(18, 00, 00);
+    c1.show_time();
+    c2.show_time();
+}
+```
+也可以分开定义，比如：
+```cpp
+//clock.h头文件:
+struct clock {
+    int  hour, minute, second;
+    void set_time(int h, int m, int s);
+    void show_time();
+    void inc_second();
+};
+
+//clock.cpp源文件:
+void clock::set_time(int h, int m, int s) {
+    hour = h;
+    minute = m;
+    second = s;
+}
+void clock::show_time() {
+    cout << hour << minute << second;
+}
+void clock::inc_second() {
+    second ++;
+    if(second == 60) {
+        minute ++;
+        second = 0;
+        if(minute == 60) {
+            hour ++;
+            minute = 0;
+            if(hour == 24)
+                hour = 0;
+        }
+    }
+}
+
+// main.cpp源文件
+int main() {
+    clock c1, c2;
+    c1.set_time(10, 10, 30);
+    c2.set_time(18, 00, 00);
+    c1.show_time();
+    c2.show_time();
+}
+```
+
+另一个例子：
+```cpp
+const bool MALE = true;
+const bool FEMALE = false;
+struct student{
+   string num;
+   string name;
+   bool gender;
+   void set(string id, string n, bool g) {
+       num = id;
+       name = n;
+       gender = g;
+   }
+   void diplay() {
+       cout << num << name << (gender?"male":"female");
+   }
+};
+int main() {
+   student stud1, stud2;
+   stud1.set("110101", "Rose", FEMALE);
+   stud2.set("110102", "Jack", MALE);
+   stud1.display();
+   stud2.display();
+}
+```
+
+对象的定义和访问方式类似于结构体
+```cpp
+int main() {
+   struct clock now;      // 类似于C语言结构体
+   clock next;            // struct可以省略
+   next.hour = 10;         // 同C语言结构体类似，可以访问成员
+   next.minute = 10;
+   next.second = 30;
+   now.set_time(9, 40, 0); // 可以用类似的方式调用成员函数
+   now.show_time();
+   next.show_time();
+}
+```
+
+在堆空间分配和访问对象
+```cpp
+void f() {
+    clock * my_clock = new clock; //分配对象
+    clock * now = new clock;
+    now->hour = 10;          //通过指针访问成员
+    now->minute = 10;
+    now->second = 30;
+    my_clock->set_time (9, 40, 0); //通过指针调用成员函数
+    my_clock->show_time();
+    delete my_clock;              //释放对象
+    delete now;
+}
+```
+
+定义对象数组
+```cpp
+int main() {
+    clock clocks[100]; // 类似于int array[100];
+    clocks[0].set_time(9, 10, 25);
+    clocks[1].set_time(9, 9, 13);
+    clocks[2].set_time(9, 12, 25);
+    // ... ...
+    clock *pc = new clock[100];
+    pc[0].set_time(11, 20, 30);
+    // ... ...
+}
+```
+
+成员函数和普通函数一样可以内联。函数体写在类定义内部的成员函数，默认就是内联的。
+```cpp
+struct clock {
+    int second, minute, hour;
+    inline void show_time() { //inline may be omitted
+        cout << hour << minute << second;
+    }
+};
+```
+
+类外定义函数体的成员函数，要定义成内联需要加inline关键字，并把函数体写在头文件中
+```cpp
+struct clock {
+    int second, minute, hour;
+    inline void show_time();
+};
+inline void Clock::show_time() {
+    cout << hour << minute << second;
+}
+```
+
+成员函数也可以重载
+```cpp
+struct clock {
+    int second, minute, hour;
+    void set_time(int h, int m) {
+        hour = h;
+        minute = m;
+        second = 0;
+    }
+    void set_time(int h) {
+        hour = h;
+        minute = second = 0;
+    }
+};
+int main() {
+    clock t;
+    t.set_time( 10, 30);
+    t.set_time( 10 );
+}
+```
+
+成员函数也可以有缺省参数。缺省值写在声明中，而不是定义中。
+```cpp
+struct clock {
+    int second, minute, hour;
+    void set_time(int h =0, int m=0, int s=0);
+};
+void clock::set_time(int h, int m, int s) {
+    hour = h;
+    minute = m;
+    second = s;
+}
+```
+
+### 类的访问权限
+
+在前面的clock类中，我们发现类中的数据成员hour、minute、second不需要被clock类的使用者直接访问。如果直接访问，还可能会带来副作用。在C++中增加了对类的成员的访问权限的控制，把成员分为public和private等。
+```cpp
+class clock {
+private: //只能在类内访问
+    int hour, minute, second;
+public:  //可以在类外访问
+    void set_time(int h, int m, int s);
+    void show_time();
+};
+```
+public部分定义了类的外部接口，可供类的使用者调用。private部分隐藏了类的具体实现，由类的实现者实现，不需要使用者关心。这就是‘’‘封装’‘’。private和public为新增的关键字。
+```cpp
+int main(){
+    clock d;
+    d.set_time(8, 27, 30);  // 类内访问public, ok
+    d.hour = 10;           // 类内访问private错误
+}
+void clock::set_time(int h, int m, int s) {
+    hour = h;    //类内访问private, ok
+    minute = m;
+    second = s;
+}
+```
+
+struct与class的访问权限的区别：struct默认public，class默认为private
+```cpp
+struct clock_a {
+    void set_time(int h, int m, int s); // public here
+private:
+    int hour, minute, second; //private here
+};
+
+class clock_b {
+    int hour, minute, second; // private here;
+public:
+    void set_time(int h, int m, int s); // public here;
+};
+```
+
+另一个例子：
+```cpp
+class student{
+private:
+    string num;
+    string name;
+    bool gender;
+public:
+    void display() {
+        cout << num << name << (gender?"male":"female");
+    }
+    void setnum(string n) {
+        num = n;
+    }
+    void setname(char n) {
+        name = n;
+    }
+    void setgender(bool g) {
+        gender = g;
+    }
+};
+
+int main() {
+    student stud1;
+    stud1.setname("jack");
+    stud1.setnum("05020001");
+    stud1.setgender(true);
+    stud1.display();
+    cout << stud1.gender;  //error
+}
+```
+
+**并非**所有数据成员都必须是private，**并非**所有成员函数都必须是公有的。
+```cpp
+class clock {
+private: //只能在类内访问
+    int hour, minute, second;
+public:  //可以在类外访问
+    void add(int s) {
+        for(int i = 0; i < s; i++)
+            inc();
+    }
+private:
+    void inc() {
+        second++;
+        if(second == 60) {
+            second = 0;
+            minute ++;
+            if(minute == 60) {
+                minute = 0;
+                hour++;
+                if(hour == 24)
+                    hour = 0;
+            }
+        }
+    }
+};
+```
+
+### 构造与析构
+
+变量定以后，没有初始化就使用是错误的。比如：
+```cpp
+int main() {
+    int i;  // 定义普通变量
+    cout << i;  // 访问变量，错误，没有初始化
+    clock time; // 定义对象，定义的同时并没有初始化
+    time.show_time();          //错误，没有初始化
+    time.set_time(20, 55, 10); //需要调用初始化函数后
+    time.show_time();          //才能够访问
+}
+```
+
+定义变量的同时完成初始化(resource acquisition is initialization)是一种好的编程习惯，可以避免错误。对于普通变量可以这样：
+```cpp
+int main() {
+    int i = 5;  // 定义普通变量，并初始化
+    cout << i;  // 访问变量，ok
+}
+```
+
+而对于类变量，我们也希望可以完成类似的初始化，比如：
+```cpp
+int main() {
+    clock c1(10,10, 30); // 定义对象，定义的同时并且初始化
+    clock c2 = clock(10, 10, 31); // 或者这样初始化
+    c1.show_time();
+}
+```
+
+要这样做可以在类中定义一个特殊的函数——**构造函数**。它在对象被定义时就被自动调用，以确保对象能够初始化。
+```cpp
+class clock{
+    int hour, minute, second;
+public:
+    /*构造函数，函数名与类名相同，没有返回类型*/
+    clock(int h, int m, int s){
+        hour = h;
+        minute = m;
+        second = s;
+    }
+    void show_time() {
+        cout << hour << minute << second;
+    }
+};
+```
+
+注意：构造函数是没有返回类型的，写成这样是语法错误：
+```cpp
+class clock{
+public:
+    void clock (/*...*/); // error
+};
+```
+
+在定义了这样的构造函数以后，不使用参数来创建对象就变成了语法错误：
+```cpp
+int main() {
+    clock c1; // 语法错误，没有这样的构造函数
+    c1.show_time();
+}
+```
+
+有时希望对象不需要参数也可以初始化，初始化到一种默认的状态，则可以用没有参数的构造函数，称作**默认构造函数(default constructor)**。
+
+```cpp
+class clock{
+    int hour, minute, second;
+public:
+    clock() {
+        hour = minute = second = 0;
+    }
+    void show_time() {
+        cout << hour << minute << second;
+    }
+};
+
+int main() {
+    clock c1; // 初始化为0时0分0秒
+    c1.show_time();
+    clock c2(15, 30, 0) // 错误，没有这样的构造函数
+    clock c3(); // 定义函数而不是定义对象
+}
+```
+
+注意，要调用默认构造函数创建对象，不要在后面添加空的()，否则会被认为是函数声明，而不是对象定义。
+
+如果要以多种不同的方式初始化对象，可以对构造函数进行重载。构造函数也可以有缺省参数：
+```cpp
+class clock {
+    int hour, minute, second;
+public:
+    clock(int h, int m=0, int s=0);
+    clock(); // default constructor默认构造函数
+    clock(const char *s);
+};
+```
+各个构造函数所需要参数不同。在定义对象时，会根据传递的参数来选择一个特定的构造函数初始化对象。
+```cpp
+int main() {
+    clock now;  //默认构造now对象call default constructor
+    clock getup(6, 30, 30);
+    clock early(6);
+    clock sleep("23:30:0");
+    clock lesson(9, 21);
+}
+```
+
+一个所有参数具有默认参数的构造函数也是默认构造函数，比如
+```cpp
+class clock {
+    int hour, minute, second;
+public:
+    clock(int h =0, int m = 0, int s=0);
+};
+int main() {
+    clock c1;
+}
+```
+
+构造函数和普通函数一样，也可以定义在类外：
+```cpp
+class clock{
+    int hour, minute, second;
+public:
+    clock(int h, int m, int s);
+};
+clock::clock( int h, int m, int s) {
+    hour = h;
+    minute = m;
+    second = s;
+}
+
+int main() {
+    clock sleep(22, 30, 0);
+    clock getup(6, 30, 30);
+    clock now = clock(9, 21, 20);
+    clock *pC = new clock(23, 30, 25); //构造函数会被自动调用
+}
+```
+
+在用new动态分配对象的时候，构造函数也会被自动调用。如果是用malloc分配内存，构造函数不会被自动调用。这是new和malloc最重要的区别。
+```cpp
+int main() {
+    clock *pc = new clock(23, 30, 25); // 构造函数被掉用了
+    clock *pd = (clock *)malloc(sizeof(clock)); //构造函数没有调用
+}
+```
+
+要定义对象数组，并且没有初始化，那么要求该类可以默认构造对象。比如：
+```cpp
+class clock {
+    int hour, minute, second;
+public:
+    clock(int h =0, int m = 0, int s=0) {
+        hour = h;
+        minute = m;
+        second = s;
+    }
+};
+void f() {
+    clock cls[10];
+    clock *p = new clock[10];
+}
+```
+
+如果类的构造函数需要参数，则需要对数组进行初始化：
+```cpp
+class clock {
+    int hour, minute, second;
+public:
+    clock(int h , int m, int s) {
+        hour = h;
+        minute = m;
+        second = s;
+    }
+};
+void f() {
+    clock cls[10] = {clock(0,0,0), clock(1,0,0), clock(2,0,0), clock(3,0,0), clock(4,0,0), clock(5,0,0), clock(6,0,0), clock(7,0,0), clock(8,0,0), clock(9,0,0), clock(10,0,0)};
+    clock *p = new clock[10]; // 错误，没有办法初始化
+}
+```
+
+在前面写的构造函数中，我们对类的成员进行赋值，而不是初始化。在类的成员必须初始化而不能赋值的时候，这样做会带来问题。比如说类内有引用成员和const成员：
+```cpp
+class clock{
+    const int hour, minute, second;
+public:
+    clock(int h, int m, int s) {
+         hour = h; // 错误，const变量不能够赋值
+         minute = m; // 错误
+         second = s; // 错误
+    }
+    void show_time() {
+        cout << hour << minute << second;
+    }
+};
+```
+
+要对成员进行初始化，需要使用构造函数的初始化列表：
+```cpp
+class clock{
+    const int hour, minute, second;
+public:
+    clock(int h, int m, int s)
+        : hour(h), minute(m), second(s) {
+    }
+    void show_time() {
+        cout << hour << minute << second;
+    }
+};
+```
+
+对于引用也要用同样的方式初始化。而对于普通变量也可以用初始化表进行初始化：
+```cpp
+class clock{
+    int hour, minute, second;
+public:
+    clock(int h, int m, int s)
+        : hour(h), minute(m), second(s) {
+    }
+    void show_time() {
+        cout << hour << minute << second;
+    }
+};
+```
+
+在初始化列表里面要用()而不是=给出初始值。初始化列表还可以用在类中内嵌对象的情况：
+```cpp
+class world_clock {
+    clock c;
+    int timezone;
+public:
+    world_clock(int hour, int minute, int second, int t)
+        :c(hour, minute, second), timezone(t) {
+    }
+};
+```
+
+如果一个类中一个构造函数都没有写，编译器会自动生成一个默认构造函数。自动生成的构造函数可以调用内嵌类型的默认构造函数（如果有默认构造函数的话）。
+```cpp
+class world_clock {
+private:
+    clock c;
+    int timezone;
+public:
+};
+
+int main() {
+    world_clock wc; // wc.timezone没有初始化，但是wc.c的构造函数会自动调用
+}
+```
+
+对象被摧毁时，另一个特殊的成员函数也会自动被调用，这个函数称为称为**析构函数**，一般用来完成资源的释放工作。
+```cpp
+class clock {
+    int hour, minute, second;
+public:
+    ~clock() {
+        //作一些资源释放操作
+    }
+};
+```
+
+析构函数的名字为类名前加~，没有返回类型和参数。析构函数不能重载。析构函数会被自动调用，例如：
+```cpp
+
+class clock {
+    int hour, minute, second;
+public:
+    ~clock() {
+        cout << "destruct:"<< hour << minute << second;
+    }
+};
+int main() {
+    clock d1(4, 11, 1);
+    if( true ){
+        clock *d2 = new clock(9, 9, 9);
+        clock d3(8, 10,0);
+        //…
+    } // d3 is destructed here
+    delete d2; // d2 is destructed here
+    clock d4;
+}  // d1,d4 is destructed here
+```
+
+析构函数一般用在需要资源释放的地方，比如：
+```cpp
+class mystring{
+    char *s;
+public:
+    mystring(char *str) {
+        s = new char[strlen(str)+1];
+        strcpy(s, str);
+    }
+    ~mystring() {
+        delete[] s;
+    }
+};
+int main() {
+    mystring s("Hello");
+}
+```
+
+new会自动调用构造函数，而malloc不能。同样delete会自动调用析构函数，而free不能。
+```cpp
+int main() {
+    clock *d1 = new clock ;
+    clock *d2 = new clock ( 10, 11, 1);
+    clock *d3 = new clock [ 1000 ];
+    clock *d4 = (clock *)malloc( sizeof(clock) ); // 没有初始化
+    delete d1;
+    delete d2;
+    delete[] d3;
+    free(d4);
+}
+```
+
+### 对象的拷贝构造
+
+对象的复制分为两种情况：**赋值**和**拷贝构造**。**拷贝构造**是指创建一个新对象，创建的同时让新对象的值与另一个已存在的对象一模一样。**赋值**是复制一个对象的值给另一个已存在的对象，使两个对象的值一样。比如
+```cpp
+void display( clock d ) {
+   //...
+}
+
+int main() {
+    clock now;      //默认构造函数
+    clock d = now;  //拷贝构造
+    clock s( now ); //拷贝构造
+    d = s; //赋值
+    display(s);            //拷贝构造
+}
+```
+
+拷贝构造的工作由一个特殊的构造函数拷贝构造函数完成。如果一个类中没有编写拷贝构造函数，编译器会自动生成一个拷贝构造函数，用于完成默认的拷贝构造的功能：用源对象的所有数据成员逐一拷贝构造目标对象的相应成员。我们可以自定义拷贝构造函数去改写默认的拷贝构造函数。比如：
+```cpp
+class clock {
+    int hour, minute, second;
+public:
+    clock(int h, int m, int s) {
+        hour = h;
+        minute = m;
+        second = s;
+    }
+    //这个拷贝构造函数实现的功能与编译器自动声成的相同，可以省略
+    clock(clock& c) {
+         hour = c.hour;
+         minute = c.minute;
+         second = c.second;
+    }
+};
+
+int main() {
+    clock c;
+    clock d(c); //拷贝构造d，其值与c一样。
+}
+```
+
+何时需要自定义拷贝构造函数、析构函数？当涉及到内存管理时，一个类中有指针成员，指向动态分配的空间，那么通常需要写一组拷贝构造函数、析构函数和赋值操作符。例如：
+```cpp
+class mystring{
+    char *s;
+public:
+    mystring(char *str) {
+        s = new char[strlen(str)+1];
+        strcpy(s, str);
+    }
+    ~mystring() {
+        delete[] s;
+    }
+    mystring(mystring &str) {
+        s = new char[strlen(str.s)+1];
+        strcpy(s, str.s);
+    }
+};
+int main() {
+    mystring s("Hello");
+    mystring s2(s);
+}
+```
+
+再例如：写一个类array，模拟数组的功能，元素是int类型，数组的大小可以是变量，增加检查越界的功能。即可以这样使用：
+```cpp
+int main() {
+    array arr(10);  // 相当于int arr[10];
+    arr.at(0) = 3;  // 相当于arr[0] = 3;
+    arr.at(1) = 5;  // 相当于arr[1] = 5;
+    arr.at(10) = 10; //error数组越界
+}
+```
+```cpp
+class array {
+private:
+    int *p;
+    int size;
+public:
+    array(int s) {
+        size = s;
+        p = new int [ size ];
+    }
+    ~array() {
+        delete[ ] p;
+    }
+    int & at( int i) {
+        if( i < size)
+            return p[i];
+        else
+            return 0;
+    }
+};
+```
+
+但是这个类在这样使用时存在问题：
+```cpp
+int main() {
+    array arr( 10 );
+    arr.at(0) = 10;
+    array arr2(arr); // error here
+}
+```
+
+拷贝构造的对象与原对象共享同一块空间，修改了一个对象，另一个对象也受影响。当一个对象释放时，另一个对象也不能使用了。当两个对象都被释放时，同一个空间释放了两次。解决办法是自定义拷贝构造函数：
+```cpp
+class array {
+private:
+    int *p;
+    int size;
+public:
+    array(int s) {
+        size = s;
+        p = new int [ size ];
+    }
+    ~array() {
+        delete[ ] p;
+    }
+    int & at( int i) {
+        if( i < size)
+            return p[i];
+        else
+            return 0;
+    }
+    array( array &a) {
+        size = a.size;
+        p = new int [size];
+        for(int i = 0; i < size; i++)
+            p[i] = a.p[i];
+    }
+};
+```
+
+### 类的组合
+
+构造复杂的对象的一种方法是组合。一个类可以使用另一个类的对象作为成员，比如：
+```cpp
+class point{
+private:
+    double x, y;
+public:
+    //...
+};
+
+class line {
+private:
+    point start, end;
+public:
+    //...
+};
+
+class circle {
+private:
+    point center;
+    double radius;
+public:
+    //...
+};
+
+class rectangle {
+private:
+    point p1, p2;
+public:
+    //...
+};
+```
+
+组合对象的构造
+```cpp
+class point{
+    double x, y;
+public:
+    point(double x0, double y0) {
+        x = x0;
+        y = y0;
+    }
+};
+
+class line {
+    point start, end;
+public:
+    line(double x0, double y0, double x1, double y1) {
+        start.x = x0;
+        start.y = y0;
+        end.x = x1;
+        end.y = y1;
+    }
+};
+```
+这个程序遇到编译错误。一是因为point类的x,y是私有的，在line类的构造函数中访问point的x,y是错误的。二是构造line中内含的两个point对象start,end需要参数，而在line的构造函数中没有给出这些参数。解决办法：使用构造函数初始化列表
+```cpp
+class point{
+private:
+    double x, y;
+public:
+    point(double x0, double y0) {
+        x = x0;
+        y = y0;
+        cout << "point " << x << y << "initialized!" << endl;
+    }
+};
+
+class line {
+private:
+    point start, end;
+public:
+    line(double x0, double y0, double x1, double y1)
+　　　　 : start(x0, y0), end(x1, y1) {
+        cout << "line initializing" << endl;
+    }
+};
+int main() {
+    line l(1,2,3,4);
+}
+```
+在line构造函数的初始化列表中，给start、end成员的构造函数传递参数完成它们的初始化。
+
+如果内嵌的类有默认构造函数，则初始化列表可以省略。
+```cpp
+class point{
+private:
+    double x, y;
+public:
+    point(double x0 = 0, double y0 = 0) {
+        x = x0;
+        y = y0;
+        cout << "point " << x << y << "initialized!" << endl;
+    }
+};
+
+class line {
+private:
+    point start, end;
+public:
+    line(double x0, double y0, double x1, double y1) {
+        cout << "line initializing" << endl;
+    }
+};
+
+int main() {
+    line l(1,2,3,4);
+}
+```
+
+初始化表还能够解决其它一些类型的成员的初始化问题，比如const成员，引用成员等。比如
+```cpp
+class C {
+public:
+    C(int h, int m, int s)
+        : s ( 0 ), x( 0 ), time(h, m, s), t(time)
+    {
+    }
+private:
+    int x;
+    const int s;  //const data member
+    clock time;   // no default construct
+    clock &t;     // reference member
+};
+```
+
+构造函数和析构函数执行的顺序
+```cpp
+class point{
+private:
+    double x, y;
+public:
+    point(double a, double b) :x(a), y(b) {
+        cout << "construct point" << endl;
+    }
+    ~point() {
+        cout << "destruct point" << endl;
+    }
+};
+class line {
+private:
+    point start, end;
+public:
+    line(double x0, double y0, double x1, double y1)
+        : start(x0, y0) , end(x1, y1) {
+        cout << "construct line" << endl;
+    }
+    ~line() {
+        cout << "destruct line" << endl;
+    }
+};
+```
+
+### 静态成员
+
+参见：[C++:静态成员](<C++:静态成员.qmd>)
+
+### 友元
+
+参见：[C++:友元](<C++:友元.qmd>)
+
+### const对象
+
+定义对象前面加const，表示对象不能改变
+```cpp
+class clock{
+    int hour, minute, second;
+public:
+    clock(int h, int m, int s)
+       : hour(h), minute(m), second(s)
+    {
+    }
+    void set_time(int h, int m, int s) {
+        hour = h;
+        minute = m;
+        second = s;
+    }
+    void show_time() {
+        cout << hour << minute << second;
+    }
+};
+int main() {
+    const int i = 10;
+    cout << i*10;               // ok
+    i++;                        // error!
+    const clock  t(10, 30, 20);
+    cout << t.second;           // ok
+    t.second = 10;              // error
+    t.set_time(10, 20, 10);      // error!
+    t.show_time();               // error!
+}
+```
+
+const对象不能调用普通的成员函数，即使这个函数并不修改数据成员。对于不修改数据成员的成员函数，可以在声明后面加const，表示这个成员函数不修改数据成员，这样的函数可以被const对象调用。
+```cpp
+class clock{
+    int hour, minute, second;
+public:
+    clock(int h, int m, int s)
+       : hour(h), minute(m), second(s)
+    {
+    }
+    void set_time(int h, int m, int s) {
+        hour = h;
+        minute = m;
+        second = s;
+    }
+    void show_time() const {
+        cout << hour << minute << second;
+    }
+};
+int main() {
+    const int i = 10;
+    cout << i*10;               // ok
+    i++;                        // error!
+    const clock  t(10, 30, 20);
+    cout << t.second;           // ok
+    t.second = 10;              // error
+    t.set_time(10, 20, 10);      // error!
+    t.show_time();               // ok
+}
+```
+
+const成员函数可以被const对象调用，也可以被普通对象调用。
+```cpp
+int main() {
+   const  clock  time(10, 20, 30);
+   time.show_time();
+   clock now(10, 10, 10);
+   time.show_time();
+}
+```
+
+常成员函数与非常成员函数可以重载
+```cpp
+class array {
+private:
+    int *p, size;
+public:
+    array(int s) {
+        size = s;
+        p = new int [ size ];
+    }
+    ~array() { delete[ ] p; }
+    int & at( int i) {
+         if( i < size) return p[i]; else throw out_of_range();
+    }
+    int at( int i) const  {
+         if( i < size) return p[i]; else throw out_of_range();
+    }
+};
+int main() {
+    array a(10);
+    a.at(5) = 5;
+    const array b(5);
+    b.at(5) = 5;      // error
+}
+```
+
+### this指针
+
+参见：[C++:this指针](<C++:this指针.qmd>)
+
+---

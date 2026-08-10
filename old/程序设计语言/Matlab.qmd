@@ -1,0 +1,16 @@
+---
+title: "Matlab"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+* [Matlab小程序](<Matlab小程序.qmd>)
+* [熟悉MATLAB环境](<../数字图像处理/熟悉MATLAB环境.qmd>)
+* [Techniques to Improve Performance](https://www.mathworks.com/help/matlab/matlab_prog/techniques-for-improving-performance.html)
+* [MATLAB and Octave Functions for Computer Vision and Image Processing](https://www.peterkovesi.com/matlabfns/)

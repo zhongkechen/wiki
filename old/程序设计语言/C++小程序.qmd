@@ -1,0 +1,27 @@
+---
+title: "C++小程序"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+```cpp
+#include <iostream>
+using namespace std;
+int f(int n) {
+    if(n>=50025002)
+        return n-5;
+    else
+        return f(f(n+2005));
+}
+int main() {
+    int n;
+    while(cin>>n)
+        cout << f(n);
+}
+```

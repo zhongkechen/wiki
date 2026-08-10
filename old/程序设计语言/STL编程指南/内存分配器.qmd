@@ -1,0 +1,69 @@
+---
+title: "STL编程指南/内存分配器"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+## 内存分配器
+
+### 概述
+
+内存分配器Allocator把内存分配和释放封装起来。它们提供了一个底层的接口，允许有效的分配很多小对象。不同的内存分配器类型表示不同的内存管理策略。
+
+注意，内存分配其只是简单的分配和释放内存，而不是创建和释放对象。STL中还包括一组底层的算法，用来操作为初始化的内存。
+
+注意，内存分配器也不会试图包装多种内存模型。C++之定义了一种内存模型（比如说，两个指针的差总是ptrdiff_t类型），这个内存模型是内存分配器唯一支持的内存模型。这是现在的STL与一开始的STL在内存分配器定义上的一个重大区别。[1]
+
+### 详述 Description
+
+内存分配器接口的细节仍然可能会改变，我们不能保证一些成员函数在将来的版本中还将保留。你应该把分配器看成一个黑盒子"black box"。也就是说，你可以通过指定一个特定的内存分配器[2]为容器的模板参数来选择容器的内存分配策略，但是你不应该对容器是如何使用这个分配器的作任何假设。
+
+可以使用的内存分配器有以下这些。大多数情况下，你不需要关心它们之间的区别：默认的分配器alloc一般都是最好的选择。
+
+|  |  |
+| --- | --- |
+| alloc | 这是默认的内存分配器。它是线程安全的，一般来说也是性能最好的。 |
+| pthread_alloc | 这是另一个线程安全的内存分配器，它为每一个线程实用不同的内存池。你只能够在提供pthreads的操作系统上使用这个分配器。pthread_alloc一般比alloc更快，尤其是在多处理器的系统上。但是它容易导致资源碎片，一个线程释放出来的内存不能够被其他线程使用。 |
+| single_client_alloc | 快速但不是线程安全的内存分配器。如果程序只使用一个线程，这个分配器可能会比alloc快一点。 |
+| malloc_alloc | 使用标准的库函数malloc的内存分配器。它是线程安全的，但是比较慢。有时候要使用这个分配器的原因是在调试时你可以从边界检查或者内存泄露检查工具里得到更多的信息。 |
+
+### 例子 Examples
+
+```cpp
+vector<double> V(100, 5.0);     // Uses the default allocator.
+vector<double, single_client_alloc> local(V.begin(), V.end());
+```
+
+### 概念 Concepts
+
+* Allocator
+
+### 类型 Types
+
+* alloc
+* pthread_alloc
+* single_client_alloc
+* malloc_alloc
+* raw_storage_iterator
+
+### 函数 Functions
+
+* construct
+* destroy
+* uninitialized_copy
+* uninitialized_fill
+* uninitialized_fill_n
+* get_temporary_buffer
+* return_temporary_buffer
+
+### 备注 Notes
+
+[1] 做这个改变的原因是，新的接口可以减少内存碎片，并且能够实现出高效的并且线程安全的内存分配器。
+
+[2] 不同的容器可以使用不同的内存分配器。比如说，你可以在某些容器上使用默认的分配器alloc而在其它的容器上使用pthread_alloc。注意，vector&lt;int&gt;和vector&lt;int, pthread_alloc&gt;是不同的类型。

@@ -1,0 +1,65 @@
+---
+title: "Python介绍/Python支持的平台"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+### Python支持的平台
+
+运行Python最流行的平台（因此也是维护得最好的平台）是Linux、BSD、Mac OS X和Microsoft Windows。此外，在Java平台上和.Net Framework(或者Mono)上也有一些独立开发的Python的实现，分别称作Jython和IronPython。其他支持的平台包括：
+
+类Unix系统
+
+* AIX操作系统
+* BSD
+* FreeBSD
+* NetBSD
+* Linux
+* OpenBSD
+* SPARC Solaris
+* 其他Unix,比如Irix
+
+桌面操作系统
+
+* Amiga
+* AROS
+* BeOS
+* Mac OS 9
+* Mac OS X
+* Microsoft Windows
+* OS/2
+* RISC OS (以前称作Acorn)
+
+特殊的系统和嵌入式的系统
+
+* GP2X
+* Java虚拟机
+* Nokia 770 Internet Tablet
+* Palm OS
+* PlayStation 2
+* PlayStation Portable
+* Psion
+* QNX
+* Sharp Zaurus
+* Symbian OS
+* Windows CE/Pocket PC
+* Xbox (在XBMC中使用)
+* VxWorks
+
+大型机和其他系统
+
+* AS/400
+* OS/390
+* Plan 9 由 Bell Labs 发布
+* VMS
+* z/OS
+
+Python的大部分第三方库（甚至部分官方库）只支持Windows、Linux、BSD和Mac OS X。
+
+Python最早是作为Amoeba操作系统上一种能够进行系统调用的脚本语言开发的；然而那个版本现在不再维护了。

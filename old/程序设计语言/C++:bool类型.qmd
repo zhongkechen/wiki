@@ -1,0 +1,63 @@
+---
+title: "C++:bool类型"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+### bool类型
+
+C语言用int表示布尔型，非0为真，0为假。为了方便使用，C程序中常常定义如下的宏：
+```cpp
+#define BOOL int
+#define FALSE 0
+#define TRUE 1
+```
+
+在C++语言中，新增了布尔型作为内置的基本类型。bool、true、false是三个新增的关键字。
+```cpp
+bool flag = false;
+if(flag)
+    cout << "flag is true";
+else
+    cout << "flag is false";
+```
+
+C++中所有的关系运算和逻辑运算的结果都是bool类型的。逻辑运算的操作数需要bool类型的，if、while、for等循环控制语句中的条件表达式也要求是bool类型的。
+
+为了保证与C语言兼容性，在C++中int与bool的可以自动相互转换：
+```
+int型 => bool型 => int型
+0    => false  => 0
+非0  => true   => 1
+```
+
+比如
+```
+if(1) { // int型的1自动转换为bool型的true
+    cout << (0 || 3>4) << endl;  // 参与||运算的操作数0被自动转换为false
+    cout << true + false << endl; // 参与+运算的操作数true和false自动被转换为1和0
+}
+```
+
+指针类型可以自动转换成bool类型：
+```
+指针    => bool型
+空指针   => false
+非空指针 => true
+```
+
+比如
+```
+int *p = (int*)malloc(sizeof(int));
+if(p) {
+    cout << "malloc succeeded!";
+}
+```
+
+---

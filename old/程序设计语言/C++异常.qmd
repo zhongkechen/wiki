@@ -1,0 +1,222 @@
+---
+title: "C++异常"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## 异常
+
+### 错误处理
+
+如果出现本身不能处理的错误，那么发生错误的代码和处理错误的代码不在同一处。常用的错误处理的方式
+
+* 终止程序
+* 返回一个表示错误的值
+* 默默的返回
+* 设置全局出错变量
+* 抛出异常
+
+```cpp
+class Stack {
+    int size;
+    int capacity;
+public:
+    void push(int x) {
+        if(size >= capacity) {
+            // 出错怎么办？
+        }
+    }
+    int pop() {
+        if(size <= 0) {
+            // 出错怎么办？
+        }
+    }
+};
+
+int main() {
+    Stack s;
+    s.pop();    // 万一出错怎么办
+    s.push(10); // 万一出错怎么办？
+}
+```
+
+### 异常处理方式
+
+```cpp
+class Overflow {
+};
+
+class Stack {
+    int size;
+    int capacity;
+public:
+    void push(int x) {
+        if(size >= capacity) {
+            Overflow e;
+            throw e;
+        }
+    }
+};
+
+int main() {
+    Stack s;
+    try {
+        s.push(10);
+    }
+    catch(Overflow e) {
+        cout << "Overflow" << endl;
+    }
+}
+```
+
+### 处理多种异常
+
+```cpp
+class Overflow {
+};
+
+class Underflow{
+};
+
+class Stack {
+    int size;
+    int capacity;
+public:
+    void push(int x) {
+        if(size >= capacity) {
+            Overflow e;
+            throw e;
+        }
+    }
+    void pop() {
+        if(size <=0)
+            throw Underflow();
+    }
+};
+
+int main() {
+    Stack s;
+    try {
+        s.pop();
+        s.push(10);
+    }
+    catch(Overflow e) {
+        cout << "Overflow" << endl;
+    }
+    catch(Underflow e) {
+        cout << "Underflow" << endl;
+    }
+}
+```
+
+给异常添加派生结构：
+```cpp
+class StackError {
+};
+
+class Overflow : public StackError {
+};
+
+class Underflow : public StackError{
+};
+
+class Stack {
+    int size;
+    int capacity;
+public:
+    void push(int x) {
+        if(size >= capacity) {
+            Overflow e;
+            throw e;
+        }
+    }
+    void pop() {
+        if(size <=0)
+            throw Underflow();
+    }
+};
+
+int main() {
+    Stack s;
+    try {
+        s.pop();
+        s.push(10);
+    }
+    catch(Overflow e) {
+        cout << "Overflow" << endl;
+    }
+    catch(Underflow e) {
+        cout << "Underflow" << endl;
+    }
+    catch(StackError e) {
+        cout << "StackError" << endl;
+    }
+}
+```
+
+捕捉所有未知异常
+```cpp
+class StackError {
+};
+
+class Overflow : public StackError {
+};
+
+class Underflow : public StackError{
+};
+
+class Stack {
+    int size;
+    int capacity;
+public:
+    void push(int x) {
+        if(size >= capacity) {
+            throw "Error";
+        }
+    }
+    void pop() {
+        if(size <=0)
+            throw Underflow();
+    }
+};
+
+int main() {
+    Stack s;
+    try {
+        s.pop();
+        s.push(10);
+    }
+    catch(Overflow e) {
+        cout << "Overflow" << endl;
+    }
+    catch(Underflow e) {
+        cout << "Underflow" << endl;
+    }
+    catch(StackError e) {
+        cout << "StackError" << endl;
+    }
+    catch(...) {
+        cout << "Unknown Error" << endl;
+    }
+}
+```
+
+### 标准异常体系
+
+在头文件&lt;exception&gt;中定义了基类exception。
+
+dynamic_cast转换引用出错：bad_cast
+
+new分配内存出错：bad_alloc
+
+at访问成员：out_of_range
+
+![diagram16.png](<assets/C++异常/diagram16.png>)
+
+---

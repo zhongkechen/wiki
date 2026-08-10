@@ -1,0 +1,269 @@
+---
+title: "C++泛型编程"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../程序设计语言.qmd>)
+
+## C++泛型编程
+
+所谓泛型编程（Generic Programming）是指编程与类型无关，编写的算法可以在各种类型上使用。标准模板库是一个典型的使用泛型编程思想设计的C++库。
+
+### 标准模板库
+
+在C++中提供了一个STL（Standard Template Library）库，这个库中提供了基本的数据结构和算法。比如：链表、集合等。
+
+容器分为两类：
+
+* 顺序容器：元素按照线性排列的容器，比如向量、链表等
+* 关联容器：元素按照关键字关系存储，能够通过关键字快速找到元素，比如map、set等
+
+注：数组也是一种特殊的顺序容器，字符串也是一种特殊的顺序容器。
+
+算法提供了可以在多种容器上进行的一些通用操作，比如find、min等，它们可以作用在数组、向量、链表等容器上。为了实现算法与容器无关，算法不用容器为参数，而是以迭代子为参数。
+
+写一个算法find，在一个存放整数的vector中查找一个整数值。
+
+```cpp
+int *find(const vector<int> &vec, int value) {
+    for(int i = 0; i < vec.size(); i++) {
+        if(vec[i] == value)
+            return &vec[i];
+    }
+    return NULL;
+}
+```
+
+现在将这个程序改成在存放任何类型的vector中都可以查找一个值，我们可以使用template
+
+```cpp
+template<class T>
+T* find(const vector<T> &vec, T value) {
+    for(int i = 0; i < vec.size(); i++) {
+        if(vec[i] == value)
+            return &vec[i];
+    }
+    return NULL;
+}
+```
+
+接下来让这个find既可以在vector中查找，也可以在数组中查找。我们可以用函数重载的方式实现，但是这样要写两个函数。
+
+如果要用一个函数实现，我们就不能传vector或者array，而是它们共同的东西。我们用起始元素和终止元素的地址来标识。
+
+```cpp
+template<class T>
+T* find(T* begin, T* end, T value) {
+    while(begin != end) {
+        if(*begin == value)
+            return begin;
+        begin ++;
+    }
+    return NULL;
+}
+```
+
+这个程序当中不再出现数组类型或者vector类型了。我们可以用各种数组来测试它：
+
+```cpp
+int ia[] = {1, 1, 2, 3, 5, 8, 13, 21, 34};
+double da[] = {1.5, 2.0, 2.5, 3.0, 3.5, 4.0};
+string sa[] = {"lion", "tiger", "leopard"}
+
+int *pi = find(ia, ia+9, 3);
+double *pd = find(da, da+6, 3.5);
+string *ps = find(sa, sa+3, "cat");
+```
+
+如果要在vector用find
+```cpp
+vector<string> svec;
+svec.push_back("lion");
+svec.push_back("tiger");
+svec.push_back("leopard");
+string *ps = find(&svec[0], &svec[svec.size()], "cat");
+```
+
+### 迭代子iterator
+
+如何让这个函数也可以作用在链表list上？在链表上，指针的运算就会发生变化，++,\*,和!=都和指针不同。这时我们用迭代子来代替指针。
+
+```cpp
+template<class Iterator, class T>
+Iterator find(Iterator begin, Iterator end, T value) {
+    while(begin != end) {
+        if(value == *begin)
+             return begin;
+        begin++;
+    }
+    return end;
+}
+```
+
+这时，我们可以这样使用这个函数：
+```cpp
+int ia[] = {1, 1, 2, 3, 5, 8, 13, 21, 34};
+int *pa = find(ia, ia+9, 13);
+if(pa != ia+9)
+    cout << "found";
+
+vector<int> ivec;
+vector<int>::iterator it;
+it = find( ivec.begin(), ivec.end(), 13);
+if( it != ivec.end() )
+    cout << "found";
+
+list<int> ilist;
+list<int>::iterator iter;
+iter = find(ilist.begin(), ilist.end(), 13);
+if( iter != ilist.end() )
+    cout << "found"
+```
+
+### 容器的基本用法
+
+* ==和!= 判断两个容器里面的内容是否完全相同（或有所不同）
+* = 赋值
+* empty() 判断容器是否为空
+* size() 取元素的个数
+* clear() 清空容器
+* begin(), end() 迭代子
+* insert() 插入
+* erase() 删除
+
+### 顺序容器
+
+* vector以连续内存来存放元素，可以随机存取其中的元素。在vector的中间或者头部插入或删除元素会很慢。
+* list以双向链表来存放元素，只能顺序访问其中的元素。任何位置插入对很快。
+* deque是双端队列，它和vector比较相似。区别是在头部插入和删除效率提高。
+
+用如下方式可以构造一个容器对象：
+```cpp
+#include <vector>
+#include <list>
+#include <deque>
+using namespace std;
+
+int main() {
+    list<string> slist;
+
+    list<int> ilist(100);
+
+    int ia[] = {1, 1, 2, 3, 5, 8 13, 21};
+    vector<int> fib(ia, ia+8);
+    list<string> slist2(list);
+}
+```
+
+基本的操作：
+
+* push_back(x)在尾部插入一个元素x
+* pop_back()在尾部删除一个元素
+* push_front(x)在头部插入一个元素x
+* pop_front()在头部删除一个元素
+* front()取头部元素的值
+* back()取尾部元素的值
+* iterator insert(iterator pos, elemtype x)在pos位置插入一个元素x
+* void insert(iterator pos, int count, elemtype x) 在pos位置插入count个元素x
+* void insert(iterator1 pos, iterator2 begin, iterator2 end) 在pos位置插入另外一个容器的一段元素
+* iterator insert(iterator pos) 在pos位置插入一个默认值
+* iterator erase(iterator pos) 删除pos位置上的元素
+* iterator erase(iterator begin, iterator end) 删除一段元素
+
+### 算法
+
+库中为我们提供了很多泛型函数
+```
+#include <algorithm>
+```
+
+* find 按顺序查找某值
+* bineary_search 二分查找某值
+* count 返回某元素的个数
+* search 查找某个序列
+* max_element 查找最大元素
+* sort 排序
+
+### 函数对象
+
+我要找出满足特定条件的元素，则我们给函数传一个判断标准而不是一个具体的值：
+```
+Iterator find_if(Iterator begin, Iterator end, FunctionObject op);
+```
+
+```cpp
+int ia[] = {1, 1, 2, 3, 5, 8, 13, 21, 34};
+int *pa = find_if(ia, ia+9, greater_than_ten);
+```
+
+```cpp
+bool greater_than_ten(int a) {
+    return a > 10;
+}
+```
+
+从大到小排序
+```cpp
+bool greater(int a, int b) {
+    return a>b;
+}
+
+int ia[] = {1, 1, 2, 3, 5, 8, 13, 21, 34};
+sort(ia, ia+9, greater);
+```
+
+能不能不写函数？用内置的函数对象来实现：
+```cpp
+#include <functional>
+
+int ia[] = {1, 1, 2, 3, 5, 8, 13, 21, 34};
+sort(ia, ia+9, greater<int>());
+int *pa = find_if(ia, ia+9, bind2nd( greater<int>(), 10));
+```
+
+### 关联容器
+
+map用于将一个关键字key映射到一个值。
+
+```cpp
+#include <map>
+#include <string>
+
+map<string, int> words;
+
+words["hello"] = 1;
+
+string w;
+while(cin >> w)
+    words[w] ++;
+
+map<string,int>::iterator it = words.begin();
+for(; it != words.end(); it++)
+    cout << "key: " << it->first << "value: " << it->second << endl;
+
+int count = words["hello"];
+if(count != 0)
+    cout << "found" << count;
+
+map<string,int> it = words.find("hello");
+if( it != words.end() )
+    count = it -> second;
+```
+
+set是只将key存到集合中去，没有对应值。
+```cpp
+#include <set>
+
+int ia[] = {1, 1, 2, 3, 5, 8, 13, 21};
+set<int> iset(ia, ia+9);
+iset.insert(10);
+
+set<int>::iterator it = iset.begin();
+for(; it != iset.end(); ++it)
+    cout << *it << endl;
+```

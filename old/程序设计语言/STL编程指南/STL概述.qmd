@@ -1,0 +1,99 @@
+---
+title: "STL编程指南/STL概述"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“程序设计语言”](<../../程序设计语言.qmd>)
+
+## STL概述
+
+标准模板库(Standard Template Library)，简称STL，是关于容器类(container)、算法(algorithm)和迭代子(iterator)的C++库。它提供了计算机科学所需的基本的算法和数据结构。STL是一个通用的库，意思是它的组件大量都是参数化的：STL中几乎每一个组件都是模板。在使用STL前，你应该了解C++的模板是如何用的。
+
+### 容器和算法
+
+跟许多其他类库一样，STL也包含容器类：这些类的目的是用来容纳其他对象。STL的容器类包括[vector](<vector.qmd>)，[list](<list.qmd>)，[deque](<deque.qmd>)，[set](<set.qmd>)，[multiset](<multiset.qmd>)，[map](<map.qmd>)，[multimap](<multimap.qmd>)，[hash_set](<hash_set.qmd>)，[hash_multiset](<hash_multiset.qmd>)，[hash_map](<hash_map.qmd>)，[hash_meultimap](<hash_meultimap.qmd>)。每一个这样的类都是一个模板，模板可以被实例化成容纳特定类型的容器。比如说，你可以与使用C语言数组非常相似的方式使用vector&lt;int&gt;，另外vector还消除了手动管理内存分配的繁琐。
+```cpp
+      vector<int> v(3);            // Declare a vector of 3 elements.
+      v[0] = 7;
+      v[1] = v[0] + 3;
+      v[2] = v[0] + v[1];          // v[0] == 7, v[1] == 10, v[2] == 17
+```
+
+STL里面还包含了大量的算法，用来对容器里面的数据进行操作。比如说，只要使用[reverse](<STL概述/reverse.qmd>)算法，你就可以将一个vector里面的元素顺序反过来：
+```cpp
+      reverse(v.begin(), v.end()); // v[0] == 17, v[1] == 10, v[2] == 7
+```
+
+在调用reverse的时候有两点需要注意。第一，reverse是一全局函数，不是成员函数。第二，它需要两个参数而不是一个：它对一个区间内的元素进行操作，而不是一个容器。在这个特例里面，这个区间恰好是整个容器v。
+
+造成这两点的原因是相同的：reverse，其它STL算法也一样，是与STL容器相分离的。也就是说，reverse不仅可以用于反转vector的数据元素，也可以用来反转list的数据元素，甚至是C语言数组的元素。比如下面的程序也是合法的：
+```cpp
+      double A[6] = { 1.2, 1.3, 1.4, 1.5, 1.6, 1.7 };
+      reverse(A, A + 6);
+      for (int i = 0; i < 6; ++i)
+        cout << "A[" << i << "] = " << A[i];
+```
+
+和前面的反转vector例子类似，这个例子也使用了一个区间：reverse的第一个参数是指向区间开始的指针，第二个参数是指向区间结束的指针。这个区间记为[A, A+6)；这个不对称的标记表明区间的两端时不一样的，第一个是区间开始的位置，第二个是区间最后元素的下一个位置。
+
+### 迭代子
+
+在反转C数组元素的例子中，reverse的参数很清楚，是double\*类型的。但是在反转vector的时候，reverse参数的类型是什么呢？反转list呢？也就是说，reverse的参数到底声明成什么?v.begin()和v.end()到底返回什么？
+
+答案就是，传给reverse的参数是迭代子，它是一种泛化的指针。指针本身也是迭代子，这就是为什么reverse可以反转C语言数组的元素。类似的，在vector中声明了内嵌的类型iterator和const_iterator。在前面的例子中，v.begin()和v.end()返回的类型就是vector&lt;int&gt;::iterator。而还有一些迭代子，比如[istream_iterator](<STL概述/istream_iterator.qmd>)和[ostream_iterator](<STL概述/ostream_iterator.qmd>)，他们根本不和容器关联。
+
+有了迭代子这种机制，使得让算法和容器分离成了可能：算法是模板，用迭代子作为参数，因此他并不局限于一种容器。比如说，要写一个算法在一个区间内进行线性的查找。这实际上就是一个STL的[find](<STL概述/find.qmd>)算法。
+
+```cpp
+      template <class InputIterator, class T>
+      InputIterator find(InputIterator first, InputIterator last, const T& value) {
+          while (first != last && *first != value) ++first;
+          return first;
+      }
+```
+
+find有三个参数：两个迭代子定义了查找的区间，一个值指定了在这个区间内需要搜索的值。find检查区间[first, last)内的每一个迭代子，从开始一步一步前进到最后，最终当找到一个迭代子指向需要查找的元素的时候或者到达区间的最后的时候停下来。
+
+first和last声明为`InputIterator`类型，它是一个模板参数。也就是说，实际上并没有一个叫做`InputIterator`的类型：当你调用find的时候，编译器将模板的两个形参`InputIterator`和T替换成参数的实际类型。如果find的前两个参数的类型是int\*，第三个参数的类型是int，那么调用find就好像调用了这个函数一样：
+
+```cpp
+      int* find(int* first, int* last, const int& value) {
+          while (first != last && *first != value) ++first;
+          return first;
+      }
+```
+
+### 概念与建立模型
+
+关于模板函数（不单单是STL算法）的一个非常重要的问题是用哪些类型来代替模板的形参是正确的？比如说，可以用int\*或者double\*来替换find的模版形参`InputIterator`。而int或者double就不可以：find使用\*first表达式，dereference操作对于int或者double类型的对象是没有意义的。简单的答案是find隐含了对于参数类型的一组需求，任何满足需求的类型都可以用来实例化参数。要替代`InputIterator`的类型必须提供这样一些操作：它必须能够比较两个对象是否相等，它必须能够自增，它必须能够dereference并返回它所指向的对象，等等。
+
+find不是唯一有着这样需求的STL算法；[for_each](<STL概述/for_each.qmd>)和[count](<STL概述/count.qmd>)等等其它算法的参数也必须满足同样的需求。这些需求非常重要，因此我们需要给它一个名字：我们把对于类型的一组需求叫做一个**概念**(concept)，我们把这里这个特定的概念称为[Input Iterator](<STL概述/Input Iterator.qmd>)。如果某个类型满足某个概念的所有需求，我们讲这个类型是**符合**(conform)这个概念的，或者说这个类型是这个概念的一个**模型**(model)。我们说int\*是Input Iterator的一个模型，因为int\*满足所有Input Iterator定义的需求。
+
+概念不是C++语言的一个语法部分；也就是说没有办法在程序中声明一个概念，也没办法声明一个类型是某一个概念的模型。但是，概念是STL极端重要的部分。使用概念可以让程序的接口与实现彻底的分离开来：find的作者只要考虑Input Iterator概念所定义的接口，而不用考虑每一种类型的具体实现。类似的，如果你要使用find，你只要保证find的参数必须是Input Iterator的模型就可以了。这就是为什么在list、vector、C语言数组以及其它很多类型上都可以使用reverse：用概念的方式编程而不是用特定的类型编程，可以使得软件组件可以重用，并把这些组件组合在一起。
+
+### Refinement
+
+Input Iterator实际上是一个相对较弱的概念：就是说，它的需求非常少。一个Input Iterator只需要支持指针的算术运算的子集（Input Iterator必须支持前置和后置的++运算符），而不需要支持指针的所有算术运算。这对于find已经足够了，但是其它的一些算法，它们的参数需要满足更多的需求。比如说[reverse](<STL概述/reverse.qmd>)必须能够对它的参数进行自减(--)操作；因为它使用了--last这样的表达式。用概念的方式讲，reverse必须是[Bidirectional Iterator](<STL概述/Bidirectional Iterator.qmd>)概念的模型而不是Input Iterator概念。
+
+Bidirectional Iterator概念与Input Iterator概念非常相似：它只是添加了更多的需求。满足Bidirectional Iterator的类型集合是满足Input Iterator的类型集合的子集：一个类型，只要它是Bidirectional Iterator的模型，那么它一定也是Input Iterator的模型。比如说，int\*既是Bidirectional Iterator的模型，也是Input Iterator的模型，但是[istream_iterator](<STL概述/istream_iterator.qmd>)它是Input Iterator的模型，但不是Bidirectional的模型：它不符合Bidirectional Iterator的更多更严格的需求。
+
+我们把Input Iterator和Bidrectional Iterator之间的这种关系称作Bidirectional Iterator是Input Iterator的一个refinement。概念的refinement非常像C++类的继承；我们用refinement这个词而不直接称它为“继承”，是为了强调refinement是针对概念的而不是针对具体类型的。
+
+实际上，除了前面讨论的两个迭代子概念外，还有其它三个迭代子概念。这五个迭代子概念分别是[Output Iterator](<STL概述/Output Iterator.qmd>), [InputIterator](<STL概述/InputIterator.qmd>), [Forward Iterator](<STL概述/Forward Iterator.qmd>), [Bidirectional Iterator](<STL概述/Bidirectional Iterator.qmd>), [Random Access Iterator](<STL概述/Random Access Iterator.qmd>)。Forward Iterator是Input Iterator的refinement，Bidirectional Iterator是Forward Iterator的refinement，Random Access Iterator是Bidirectional Iterator的refinement。（[Output Iterator](<STL概述/Output Iterator.qmd>)和其它四个概念相关，但是他们没有refinement的关系：它不是其它任何一个迭代子概念的refinement，其它任何一个概念也不是Output Iterator的refinement。）[迭代子概述](<STL概述/迭代子概述.qmd>)这一节有更多关于迭代子的介绍。
+
+容器类和迭代子一样，被组织成一组有层次结构的概念。所有的容器都是[Container](<STL概述/Container.qmd>)概念的模型。更精确的概念，比如[Sequence](<STL概述/Sequence.qmd>)和[Associative Container](<STL概述/Associative Container.qmd>)描述更特殊的容器类型。
+
+### STL的其它部分
+
+如果你理解了算法、迭代子和容器，你就几乎已经理解了STL里的所有东西。然而，STL还是提供了其它几种类型的组件。
+
+首先，STL包含一些实用工具（utilities）：它们是一些很基本的概念和函数，用在库的很多不同部分。比如说，Assignable概念，描述具有赋值运算符和拷贝构造函数。几乎所有的STL类都是[Assignable](<STL概述/Assignable.qmd>)的模型，几乎所有的算法需要它们的参数是Assignable的模型。
+
+其次，STL包含一些底层的内存分配与释放的机制。分配器（[Allocator](<STL概述/Allocator.qmd>)）只用在一些非常特殊的场合，几乎在所有情况下你都可以简单的忽略它。
+
+最后，STL包含大量的[函数对象](<STL概述/函数对象.qmd>)(function object)，或者叫做仿函数(functor)。和迭代子是泛化的指针类似，函数对象是一种泛化的函数：函数对象是任何可以对它使用函数调用语法的东西。跟函数对象相关的概念有好几个，包括：[Unary Function](<STL概述/Unary Function.qmd>)(带一个参数的函数对象，也就是说它是f(x)这样调用的)，[Binary Function](<STL概述/Binary Function.qmd>)（待料个参数的函数对象，也就是说它是f(x, y)这样调用的）。函数对象是泛型编程的重要组成部分，因为它不但允许你抽象对象的类型，而且可以抽象所进行的操作。
