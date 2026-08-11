@@ -428,7 +428,9 @@ def table_cells(line)
 end
 
 def convert_table_line(cells)
-  escaped = cells.map { |cell| cell.gsub("|", "\\|") }
+  escaped = cells.map do |cell|
+    cell.gsub("\\", "\\\\").gsub("|", "\\|")
+  end
   "| #{escaped.join(' | ')} |"
 end
 
@@ -436,11 +438,12 @@ def escape_plain_moin_markup(source)
   source.gsub!(/(\|\|)\s*(?:<[^>\n]+>\s*)+/) { Regexp.last_match(1) }
 
   source.lines.map do |line|
+    table = line.match?(/^\s*\|\|.*\|\|\s*$/)
     bullet = line.match(/\A(\s+)\*\s/)
     quote = line.match?(/\A>\s/)
     line = line.sub(/\A(\s+)\*/, '\1@@MOIN_BULLET@@') if bullet
     line = line.sub(/\A>/, "@@MOIN_QUOTE@@") if quote
-    line = line.gsub("\\") { "\\\\" }
+    line = line.gsub("\\") { "\\\\" } unless table
     line = line.gsub("*", "\\*")
     line = line.gsub(/(?<!<)<(?!<)/, "&lt;")
     line = line.gsub(/(?<!>)>(?!>)/, "&gt;")
