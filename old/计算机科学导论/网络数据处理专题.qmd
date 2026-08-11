@@ -1,0 +1,17 @@
+---
+title: "网络数据处理专题"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+1. [何为爬虫](<../何为爬虫.html>)
+1. [Spider](<../网络爬虫.html>)
+1. [开源爬虫](<../开源爬虫.html>)
+1. [开源搜索引擎](<../开源搜索引擎.html>)
+1. [集成搜索引擎](<../集成搜索引擎.html>)

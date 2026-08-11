@@ -1,0 +1,15 @@
+---
+title: "第十一章 计算理论"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+::: {.callout-note}
+该页面在旧 Wiki 中暂时没有正文。
+:::
