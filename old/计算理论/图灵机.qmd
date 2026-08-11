@@ -1,0 +1,75 @@
+---
+title: "图灵机"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算理论”](../计算理论.qmd)
+
+定义：**Turing机**是五元组$(K,\Sigma,\delta,s,H)$，其中
+
+* $K$是状态的有穷集；
+* $\Sigma$是字母表，包含空格符$\sqcup$和左端符$\triangleright$，但不包含$\leftarrow$和$\rightarrow$，
+* $s\in K$是**初始状态**，
+* $H\subseteq K$是**停机状态**的集合，
+* $\delta$是转移函数，它是从$(K-H)\times\Sigma$到$K\times(\Sigma\cup\lbrace\leftarrow,\rightarrow\rbrace)$的函数，使得
+    1. 对所有$q\in K-H$，若$\delta(q,\triangleright)=(p,b)$，则$b=\rightarrow$,
+    1. 对所有$q\in K-H$和$a\in\Sigma$，若$\delta(q,a)=(p,b)$，则$b\ne\triangleright$。
+
+定义：Turing机$M=(K,\Sigma,\delta,s,H)$的**格局**是$K\times\triangleright\Sigma^*\times(\Sigma^*(\Sigma-\lbrace\sqcup\rbrace)\cup\lbrace e\rbrace)$。状态分量属于H的格局称为停机格局。
+
+基本机器：
+
+* 写符号机$a$
+* 向左移带头机$L$
+* 向右移带头机$R$
+* 向右找第一个$\sqcup$：$R_\sqcup$
+* 向左找第一个$\sqcup$：$L_\sqcup$
+* 向右找第一个非$\sqcup$：$R_{\overline{\sqcup}}$
+* 向左找第一个非$\sqcup$：$L_{\overline{\sqcup}}$
+* 复制机$C$
+* 左平移机$S_\leftarrow$
+
+定义：设$M=(K,\Sigma,\delta,s,H)$是Turing机，使得$H=\lbrace y,n \rbrace$包含两个不同的停机状态（$y$和$n$分别表示“是”和“否”）状态分量是$y$的任何停机格局都称为接受格局。而状态分量是$n$的停机格局称为拒绝格局。对输入$w\in(\Sigma - \lbrace\sqcup,\triangleright\rbrace)^*$，若$(s,\triangleright\underline{\sqcup}w)$产生接受格局则我们说M**接受**$w$,若$(s,\triangleright\underline{\sqcup}w)$产生拒绝格局则我们说M**拒绝**$w$。
+
+设$\Sigma_0\subseteq(\Sigma-\lbrace\sqcup,\triangleright\rbrace)$是字母表，称为M的输入字母表；通过固定$\Sigma_0$是$\Sigma-\lbrace\cup,\triangleright\rbrace$的子集，我们允许Turing机在计算中使用除在输入里出现的符号外的额外符号。如果$L\subseteq\Sigma_0^*$是语言，并且对任何字符串$w\in\Sigma_0^*$，下列关系为真：若$w\in L$则M接受$w$；若$w\notin L$则M拒绝$w$，那么我们说$M$**判定**语言$L$。
+
+若存在Turing机判定语言L则L称为**递归**的。即Turing机判定语言L的条件是，当在输入$w$上启动时它总是停机并且停机状态是对输入的正确回答：若$w\in L$则是$y$，若$w\notin L$则是$n$。
+
+定义：设$M=(K,\Sigma,\delta,s,\lbrace h\rbrace)$是Turing机，$\Sigma_0\subseteq\Sigma-\lbrace\sqcup,\triangleright\rbrace$是字母表，并设$w\in\Sigma_0^*$。假设$M$在输入$w$上停机，而且对某个$y\in\Sigma_0^*$，$(s,\triangleright\underline{\sqcup}w)\vdash_M^*(h,\triangleright\underline{\sqcup}y)$，则$y$称为$M$在**输入**$w$上的**输出**，并表示成$M(w)$。
+
+设$f$是从$\Sigma_0^*$到$\Sigma_0^*$的任意函数。若对所有$w\in\Sigma_0^*$，$M(w)=f(w)$，则我们说M**计算**函数f。即对所有$w\in\Sigma_0^*$，M在输入$w$上最终停机，并且当它确实停机时带上包含字符串$\triangleright\sqcup f(w)$。若存在Turing机计算函数$f$，则$f$称为**递归**的。
+
+定义：设$M=(K,\Sigma,\delta,s,\lbrace h\rbrace)$是Turing机使得$0,1,;\in\Sigma$，并设对某个$k\geq 1$，$f$是从$N^k$到$N$的函数。若对所有$w_1,\cdots,w_k\in 0 \bigcup 1(0\bigcup 1)^*$，$num(M(w_1;\cdots;w_k))=f(num(w_1),\cdots,num(w_k))$，则我们说$M$**计算**函数$f$。若存在计算函数$f:N^k\mapsto N$的Turing机M，则$f$称为**递归**的。
+
+定义：$M=(K,\Sigma,\delta,s,H)$是Turing机，$\Sigma_0\subseteq\Sigma-\lbrace\sqcup,\triangleright\rbrace$，是字母表，并设$L\subseteq\Sigma_0^*$是语言。若对任意字符串$w\in\Sigma_0^*$，下列关系为真：$w\in L$当且仅当M在输入$w$上停机，则我们说$M$**半判定**$L$。语言$L$是**递归可枚举**的当且仅当存在Turing机$M$半判定$L$。
+
+定理：若语言是递归的，则它是递归可枚举的。
+
+定理：若L是递归语言，则它的补$\overline{L}$也是递归的。
+
+定理：如果非确定型Turing机M半判定或判定语言L或者计算函数f，则存在标准型Turing机M'半判定或者判定语言L或者计算函数f。
+
+定义：**文法**是四元组$G=(V,\Sigma,R,S)$，其中V是字母表；$\Sigma\subseteq V$是终结符集，$V-\Sigma$称为非终结符集；$S\in V-\Sigma$是起始符；并且规则集R是$(V^*(V-\Sigma)V^*)\times(V^*)$的有穷子集。
+
+任何上下文无关文法是文法。
+
+定理：语言被文法生成当且仅当它是递归可枚举的。
+
+定义：文法计算。函数$f:\Sigma^*\mapsto\Sigma^*$是文法可计算当且仅当存在计算它的文法G。
+
+定理：函数$f:\Sigma^*\mapsto\Sigma^*$是递归的当且仅当他是文法可计算的。
+
+定义：基本函数
+
+定义：原始递归函数：
+
+定义：极小化。可极小化的。
+
+定义：$\mu$递归
+
+定理：函数$f:N^k\mapsto N$是$\mu$递归的当且仅当它是递归的。

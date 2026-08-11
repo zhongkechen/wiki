@@ -1,0 +1,19 @@
+---
+title: "计算理论"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+* [集合、关系和语言](<计算理论/集合、关系和语言.qmd>) Sets, Relations, and Languages
+* [有穷自动机](<计算理论/有穷自动机.qmd>) Finite Automata
+* [上下文无关语言](<计算理论/上下文无关语言.qmd>) Context-Free Languages
+* [图灵机](<计算理论/图灵机.qmd>) Turing Machines
+* [不可判定性](<计算理论/不可判定性.qmd>) Undecidability
+* [计算复杂性](<计算理论/计算复杂性.qmd>) Computational Complexity
+* [NP完全性](<计算理论/NP完全性.qmd>) NP-completeness
