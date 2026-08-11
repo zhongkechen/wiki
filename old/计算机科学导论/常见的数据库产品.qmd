@@ -1,0 +1,26 @@
+---
+title: "常见的数据库产品"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+1. [甲骨文](<Oracle.qmd>)
+1. #[DB2](<DB2.qmd>)
+1. #[SQL Server](<SQL Server.qmd>)
+1. #[Sybase](<Sybase.qmd>)
+1. #[Informix](<Informix.qmd>)
+1. #[PostGreSQL](<PostGreSQL.qmd>)
+1. #[Mysql](<Mysql.qmd>)
+1. #[Access](<Access.qmd>)
+1. #[Sqlite](<Sqlite.qmd>)
+1. #[BekerlyDB](<BekerlyDB.qmd>)
+1. #[Kingbase](<Kingbase.qmd>)
+1. #[Openbase](<Openbase.qmd>)
+1. #[Oscar](<Oscar.qmd>)
+1. #[达梦](<DM.qmd>)

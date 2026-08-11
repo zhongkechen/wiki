@@ -1,0 +1,15 @@
+---
+title: "指令"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+## 指令
+
+指令就是指定进行某种操作的命令。一系列的指令构成了程序。

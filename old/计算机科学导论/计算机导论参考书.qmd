@@ -1,0 +1,24 @@
+---
+title: "计算机导论参考书"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+![book.jpg](<assets/计算机导论参考书/book.jpg>)
+
+* 《计算机科学概论》(第9版) J.Glenn Brookshear著．人民邮电出版社，2007年出版
+* 《计算机科学导论》实验指导书 自编 温州大学 计算机科学与工程学院 2007年8月
+
+参考书：
+
+* 《计算科学导论》 赵致琢编著．科学出版社，2002年出版；
+* 《计算机科学与技术方法论》 董荣胜 古天龙 著  人民邮电出版社，2002年出版；
+* 《New Perspective on Computer Concepts》（第5版）  June Jamirich Parsons Dan Oja著．机械工业出版社，2004年出版。
+* 深入理 解计算机系统 Randal E.Bryant; David O'Hallaron 龚奕利、雷迎春译 中国电力出版社 2004年出版
+* [ACM图灵奖](<ACM图灵奖.qmd>)(1966-2001) 计算机发展史的缩影 吴鹤龄 崔林  高等教育出版社

@@ -1,0 +1,21 @@
+---
+title: "著名的开源软件"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+1. BSD
+1. Linux
+1. Apache
+1. [Mysql](<Mysql.qmd>)
+1. php
+1. Perl
+1. Python
+1. FireFox
+1. [PostgreSQL数据库](http://www.cnic.org/wiki/PostgreSQL)

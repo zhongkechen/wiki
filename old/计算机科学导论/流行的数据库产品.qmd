@@ -1,0 +1,32 @@
+---
+title: "流行的数据库产品"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+## 最"容易"的数据库系统-Microsoft SQL Server
+
+如果你打算做一个DBA，建议你选择那些现在比较流行的[数据库系统](<数据库系统.qmd>)。这意味着你将有更多的就业机会、交流和培训机会，而且，流行自有流行的理由，你可以因此省心很多。当然，就业竞争压力也比较大。一般的入门者选择Microsoft SQL Server，这是非常适合中小型企业的数据库系统，熟悉Access的读者很容易就能初步使用Microsoft SQL Server，成为一个DBBS。 Microsoft SQL Server2000的报价，5用户版1399美金，增加用户时，127美金每用户。
+
+## 最"难"的数据库-无冕之王Oracle
+
+如果你有机会接触到Oracle，那可是个好机会。Oracle是目前最看好的数据库厂商，由于其强大的功能和可配置、可管理能力，Oracle DBA的薪资一般比其他数据库管理员的薪资要高。而且，Oracle在大中型企业的关键应用也更加普遍了。Oracle可以运行在Windows NT、Sun Solaris、Linux等平台下。很多情况下要求你不仅仅熟悉NT，还要你熟悉Unix；而且Oracle不太友善的界面和成箱的Oracle产品资料可能也是一个障碍。
+Oracle 8i标准版的报价，如果运行在Windows NT，附带JServer和interMedia，支持5个并发用户，报价是3925美金每CPU。增加并发用户时，785美金每用户。增加附加的命名用户时，392.5美金每用户。
+
+## 数据库系统的贵族-IBM UDB/DB2
+
+作为30年数据库研究的成果，IBM DB2确实称得上"数据库系统的贵族"。不管是小型商业系统，还是大的银行系统，用DB2都是可以高枕无忧的。最近推出的新版DB2 6.1， 管理和调节工具更加卓越和便于使用。DB2 可以运行在Intel架构上，也可以运行在IBM的S/390大型计算机上。如果你所在的行业对IBM的机器特别地称道，建议你学习IBM DB2。
+DB2有两种版本：工作组版和企业版。工作组版999美元每服务器，外加249美元每个并发用户。而企业版是12500美元每个CPU，不限并发用户数量。
+
+## 以Java为中心的数据库-Sybase Adaptive Server Enterprise(ASE) 12.0
+
+即将发布的Sybase ASE 12.0，直接面向Java 程序员。这种以Java为中心的数据库系统，为那些准备在Java 平台下构建企业应用的企业来说，将是最好的选择。但是ASE称不上一个数据库领域的领先者，尽管相对于它以前的版本已经改进很多，并支持多个CPU和更多的并发，还有很多的新的特性。但Sybase的风光似乎已经不再。
+
+值得期盼的Informix Centaur
+有时候"第一"只是意味着你的对手需要等待更长的时间去赶上你。这正是1997年创立的Informix所面临的。Informix公司是率先将多媒体特性加入到关系数据库系统的大型数据库厂商之一。但是如今，IBM、Oracle、Sybase都已经跨越了这个概念。所以，Informix不得不寻求新的支撑来使自己区别于其他数据库厂商。这就是Informix Centaur的目标。Informix Centaur结合了Informix Dynamic Server 7.3的对象-关系数据库和Informix Universal Data Option 9.1，意在获得更好的适应性和多媒体支持。详情如何，我们拭目以待！

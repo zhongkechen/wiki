@@ -1,0 +1,24 @@
+---
+title: "计算机导论实验运行表"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+![Explist.jpg](<assets/计算机导论实验运行表/Explist.jpg>)
+
+## 附加说明
+
+实验报告上传
+----
+ftp://cintro@10.132.254.2
+密码：cintro
+
+实验手册
+----
+http://www2.ratvu.com/cchuang/cintroexp1.pdf

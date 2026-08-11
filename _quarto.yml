@@ -25,6 +25,11 @@ project:
     - old/算法.qmd
     - old/计算理论.qmd
     - old/计算理论/*.qmd
+    - old/计算机科学导论.qmd
+    - old/计算机科学导论/**/*.qmd
+    - old/离散数学.qmd
+    - old/计算机图形学.qmd
+    - old/算法与数据结构.qmd
     - old/程序设计语言.qmd
     - old/程序设计语言/**/*.qmd
     - old/数据结构.qmd

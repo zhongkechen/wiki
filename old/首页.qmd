@@ -27,10 +27,10 @@ description: Zhongke 的个人 Wiki 旧站首页
 - [Python游戏开发基础](Python游戏开发基础.qmd)
 - [大学生程序设计竞赛](ICPC.qmd)
 - [毕业设计](毕业设计.html)
-- [计算机科学导论](计算机科学导论.html)（[黄长城](cchuang.html)老师）
-- [离散数学](离散数学.html)（[虞铭财](ymc.html)老师）
-- [计算机图形学](计算机图形学.html)（[李忠月](lzhongyue.html)老师）
-- [算法与数据结构](算法与数据结构.html)（[李忠月](lzhongyue.html)老师）
+- [计算机科学导论](计算机科学导论.qmd)（[黄长城](cchuang.html)老师）
+- [离散数学](离散数学.qmd)（[虞铭财](ymc.html)老师）
+- [计算机图形学](计算机图形学.qmd)（[李忠月](lzhongyue.html)老师）
+- [算法与数据结构](算法与数据结构.qmd)（[李忠月](lzhongyue.html)老师）
 - [计算理论](计算理论.qmd)
 
 ## 其它
