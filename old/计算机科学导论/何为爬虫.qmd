@@ -1,0 +1,21 @@
+---
+title: "何为爬虫"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+1. spider是搜索引擎的必须模块.spider数据的结果直接影响到搜索引擎的评价指标.
+
+     第一个spider程序由MIT的Matthew K Gray操刀该程序的目的是为了统计互联网中主机的数目
+
+1. Spier定义(关于Spider的定义,有广义和狭义两种).
+    1. 狭义:利用标准的http协议根据超链和web文档检索的方法遍历万维网信息空间的软件程序.
+    1. 广义:所有能利用http协议检索web文档的软件都称之为spider.
+
+         其中Protocol Gives Sites Way To Keep Out The ′Bots Jeremy Carl, Web Week, Volume 1, Issue 7, November 1995 是和spider息息相关的协议,大家有兴趣参考[http://robotstxt.org].

@@ -65,7 +65,7 @@ Dir.mktmpdir("check-legacy-courses-migration") do |temporary_root|
     chdir: temporary_root
   )
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 63 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Converted 106 pages"), "Unexpected page count:\n#{stdout}")
   assert(
     stdout.include?("Copied 69 attachments"),
     "Unexpected attachment count:\n#{stdout}"
@@ -87,7 +87,7 @@ Dir.mktmpdir("check-legacy-courses-migration") do |temporary_root|
 end
 
 qmd_files = expected_files.select { |path| path.end_with?(".qmd") }
-assert(qmd_files.length == 63, "Expected 63 QMD pages, found #{qmd_files.length}")
+assert(qmd_files.length == 106, "Expected 106 QMD pages, found #{qmd_files.length}")
 
 qmd_files.each do |relative_path|
   absolute_path = File.join(REPOSITORY_ROOT, relative_path)
@@ -98,12 +98,15 @@ qmd_files.each do |relative_path|
   assert(!page.include?("<<"), "MoinMoin macro leaked into #{relative_path}")
   assert(!page.include?("'''"), "MoinMoin bold markup leaked into #{relative_path}")
   assert(!page.include?("#acl"), "MoinMoin ACL leaked into #{relative_path}")
+  assert(
+    !page.match?(%r{</?nowiki>}i),
+    "MoinMoin nowiki markup leaked into #{relative_path}"
+  )
 
   page.scan(/\]\((?:<([^>]+)>|([^)]+))\)/).each do |angle, plain|
     target = angle || plain
     next if target.empty? || target.start_with?("#")
     next if target.match?(%r{\A(?:https?|ftp|mailto):})
-    next if target.end_with?(".html")
 
     clean_target = target.split(/[?#]/, 2).first
     resolved = File.expand_path(clean_target, File.dirname(absolute_path))
@@ -135,6 +138,76 @@ exercise_index = File.read(
 assert(
   exercise_index.include?("第一章 数据存储.qmd"),
   "Exercise index does not link to migrated exercises"
+)
+
+concepts = File.read(
+  File.join(REPOSITORY_ROOT, "old", "计算机科学导论", "概念.qmd"),
+  encoding: "UTF-8"
+)
+%w[
+  Python语言的基本概念
+  数据库基本概念
+  概念
+  算法的概念
+  路由和交换概念
+  进程的概念
+].each do |page_name|
+  assert(
+    concepts.include?(page_name),
+    "Expanded concept PageList is missing #{page_name}"
+  )
+end
+assert(
+  !concepts.include?("CategoryCategory"),
+  "MoinMoin category marker leaked into the concept page"
+)
+
+exam_answers = File.read(
+  File.join(
+    REPOSITORY_ROOT,
+    "old",
+    "计算机科学导论",
+    "期中考试参考答案.qmd"
+  ),
+  encoding: "UTF-8"
+)
+assert(
+  exam_answers.include?("&lt;html&gt;"),
+  "Literal HTML examples were not escaped in the exam answers"
+)
+
+experiment_outline = File.read(
+  File.join(
+    REPOSITORY_ROOT,
+    "old",
+    "计算机科学导论",
+    "计算机导论实验大纲.qmd"
+  ),
+  encoding: "UTF-8"
+)
+assert(
+  experiment_outline.include?(
+    "| 实验八 | 142122100908 | 数据库基础入门 | 2 |"
+  ),
+  "Experiment eight table row is misaligned"
+)
+assert(
+  experiment_outline.include?("&lt;html&gt;"),
+  "Literal HTML examples were not escaped in the experiment outline"
+)
+
+computer_structure = File.read(
+  File.join(
+    REPOSITORY_ROOT,
+    "old",
+    "计算机科学导论",
+    "计算机的结构.qmd"
+  ),
+  encoding: "UTF-8"
+)
+assert(
+  computer_structure.include?("1. 采用二进制形式表示数据指令"),
+  "Indented Chinese numbered list was not converted"
 )
 
 graphics = File.read(

@@ -1,0 +1,97 @@
+---
+title: "开源爬虫"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+## Heritrix
+
+Heritrix is the Internet Archive′s open-source, extensible, web-scale, archival-quality web crawler project.
+
+Heritrix (sometimes spelled heretrix, or misspelled or missaid as heratrix/heritix/ heretix/heratix) is an archaic word for heiress (woman who inherits). Since our crawler seeks to collect and preserve the digital artifacts of our culture for the benefit of future researchers and generations, this name seemed apt.
+
+语言:JAVA
+
+## WebLech URL Spider
+
+WebLech is a fully featured web site download/mirror tool in Java, which supports many features required to download websites and emulate standard web-browser behaviour as much as possible. WebLech is multithreaded and comes with a GUI console.
+
+语言:JAVA
+
+## JSpider
+
+A Java implementation of a flexible and extensible web spider engine. Optional modules allow functionality to be added (searching dead links, testing the performance and scalability of a site, creating a sitemap, etc ..
+
+语言:JAVA
+
+## WebSPHINX
+
+WebSPHINX is a web crawler (robot, spider) Java class library, originally developed by Robert Miller of Carnegie Mellon University. Multithreaded, tollerant HTML parsing, URL filtering and page classification, pattern matching, mirroring, and more...
+
+语言:JAVA
+
+## PySolitaire
+
+PySolitaire is a fork of PySol Solitaire that runs correctly on Windows and has a nice clean installer. PySolitaire (Python Solitaire) is a collection of more than 300 solitaire and Mahjongg games like Klondike and Spider.
+
+语言:Python
+
+## The Spider Web Network Xoops Mod Team
+
+The Spider Web Network Xoops Module Team provides modules for the Xoops community written in the PHP coding language. We develop mods and or take existing php script and port it into the Xoops format. High quality mods is our goal.
+
+语言:php
+
+## Fetchgals
+
+A multi-threaded web spider that finds free porn thumbnail galleries by visiting a list of known TGPs (Thumbnail Gallery Posts). It optionally downloads the located pictures and movies. TGP list is included. Public domain perl script running on Linux.
+
+语言:perl
+
+## Where Spider
+
+The purpose of the Where Spider software is to provide a database system for storing URL addresses. The software is used for both ripping links and browsing them offline. The software uses a pure XML database which is easy to export and import.
+
+语言:XML
+
+## Sperowider
+
+Sperowider Website Archiving Suite is a set of Java applications, the primary purpose of which is to spider dynamic websites, and to create static distributable archives with a full text search index usable by an associated Java applet.
+
+语言:Java
+
+## SpiderPy
+
+SpiderPy is a web crawling spider program written in Python that allows users to collect files and search web sites through a configurable interface.
+
+语言:Python
+
+Spidered Data Retrieval
+
+Spider is a complete standalone Java application designed to easily integrate varied datasources. \* XML driven framework \* Scheduled pulling \* Highly extensible \* Provides hooks for custom post-processing and configuration
+
+语言:Java
+
+## webloupe
+
+WebLoupe is a java-based tool for analysis, interactive visualization (sitemap), and exploration of the information architecture and specific properties of local or publicly accessible websites. Based on web spider (or web crawler) technology.
+
+语言:java
+
+## ASpider
+
+Robust featureful multi-threaded CLI web spider using apache commons httpclient v3.0 written in java. ASpider downloads any files matching your given mime-types from a website. Tries to reg.exp. match emails by default, logging all results using log4j.
+
+语言:java
+
+## larbin
+
+Larbin is an HTTP Web crawler with an easy interface that runs under Linux. It can fetch more than 5 million pages a day on a standard PC (with a good network).
+
+语言:C++

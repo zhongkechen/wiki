@@ -21,4 +21,4 @@ format:
 * 《计算机科学与技术方法论》 董荣胜 古天龙 著  人民邮电出版社，2002年出版；
 * 《New Perspective on Computer Concepts》（第5版）  June Jamirich Parsons Dan Oja著．机械工业出版社，2004年出版。
 * 深入理 解计算机系统 Randal E.Bryant; David O'Hallaron 龚奕利、雷迎春译 中国电力出版社 2004年出版
-* [ACM图灵奖](<../ACM图灵奖.html>)(1966-2001) 计算机发展史的缩影 吴鹤龄 崔林  高等教育出版社
+* [ACM图灵奖](<ACM图灵奖.qmd>)(1966-2001) 计算机发展史的缩影 吴鹤龄 崔林  高等教育出版社

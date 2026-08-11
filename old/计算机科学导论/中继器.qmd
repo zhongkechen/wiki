@@ -1,0 +1,19 @@
+---
+title: "中继器"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算机科学导论”](../计算机科学导论.qmd)
+
+## 基本概念
+
+传输介质超过了网段长度后，可用中继器延伸网络的距离，对弱信号予以再生放大，IEEE802标准规定最多允许四个中继器接五个网段。中继器工作在物理层，不提供网段隔离功能。
+
+* [中继器](http://wiki.ccw.com.cn/%E4%B8%AD%E7%BB%A7%E5%99%A8)
+
+参见：[集线器](<集线器.qmd>)

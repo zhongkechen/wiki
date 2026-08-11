@@ -13,4 +13,4 @@ format:
 1. [开源搜索引擎](http://coreoak.javaeye.com/blog/85865)
 1. [开源爬虫](http://news.csdn.net/n/20071015/109600.html)
 1. [GPLv3：大教堂和集市的新一轮对抗](http://blog.csdn.net/haoel/archive/2007/07/17/1696333.aspx)
-1. [著名的开源软件](<../著名的开源软件.html>)
+1. [著名的开源软件](<著名的开源软件.qmd>)

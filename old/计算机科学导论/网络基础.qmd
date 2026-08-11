@@ -64,9 +64,9 @@ ICANN （Internet Corporation For Assigned Names and Numbers）也就是Internet
 
 ### 按应用方式
 
-* [客户-服务器](<../客户-服务器.html>)
-* [对等模式](<../对等模式.html>)
-* [分布式系统](<../分布式系统.html>)
+* [客户-服务器](<客户-服务器.qmd>)
+* [对等模式](<对等模式.qmd>)
+* [分布式系统](<分布式系统.qmd>)
 
 ## 网络设备
 
@@ -74,18 +74,18 @@ ICANN （Internet Corporation For Assigned Names and Numbers）也就是Internet
 
 ### 主要的网络连接设备有
 
-* [中继器](<../中继器.html>)
-* [集线器](<../集线器.html>)
-* [交换机](<../交换机.html>)
-* [网桥](<../网桥.html>)
-* [路由器](<../路由器.html>)
-* [网关](<../网关.html>)
+* [中继器](<中继器.qmd>)
+* [集线器](<集线器.qmd>)
+* [交换机](<交换机.qmd>)
+* [网桥](<网桥.qmd>)
+* [路由器](<路由器.qmd>)
+* [网关](<网关.qmd>)
 
 ### 其他网络设备(安全、配合)
 
 * [防火墙](http://www.allwiki.com/wiki/%E9%98%B2%E7%81%AB%E5%A2%99)
 * [入侵检测系统](http://baike.baidu.com/view/20936.html)
-* [网闸](<../网闸.html>)
+* [网闸](<网闸.qmd>)
 * [防毒墙](http://wiki.ccw.com.cn/%E9%98%B2%E6%AF%92%E5%A2%99)
 
 ## 补充说明

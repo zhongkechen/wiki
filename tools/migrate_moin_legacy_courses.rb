@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "cgi"
 require "fileutils"
 require "json"
 require "tmpdir"
@@ -45,6 +46,11 @@ SOURCE_SNAPSHOT =
   else
     {}
   end
+AVAILABLE_PAGE_NAMES = (PAGE_INDEX.keys + SOURCE_SNAPSHOT.keys).uniq.freeze
+SHARED_PAGE_LINKS = {
+  "Python语言的基本概念" =>
+    "Python游戏开发基础/Python语言的基本概念.qmd"
+}.freeze
 
 if PAGE_INDEX.empty? && SOURCE_SNAPSHOT.empty?
   raise <<~MESSAGE
@@ -113,8 +119,25 @@ def linked_page_names(source)
     next if target.match?(%r{\A(?:https?|ftp|mailto):})
     next if target.start_with?("#")
 
-    target
+    target.sub(/\A\^/, "")
   end.uniq
+end
+
+def matching_page_names(pattern)
+  expression = pattern.sub(/\Aregex:/, "")
+  matcher =
+    begin
+      Regexp.new(expression)
+    rescue RegexpError
+      /#{Regexp.escape(expression)}/
+    end
+  AVAILABLE_PAGE_NAMES.select { |page_name| page_name.match?(matcher) }.sort
+end
+
+def page_list_page_names(source)
+  source.scan(/<<PageList\(([^)]+)\)>>/).flatten.flat_map do |pattern|
+    matching_page_names(pattern)
+  end.uniq.sort
 end
 
 INTRODUCTION_PRIMARY_PAGES =
@@ -122,10 +145,26 @@ INTRODUCTION_PRIMARY_PAGES =
 INTRODUCTION_INDEX_PAGES = INTRODUCTION_CHILD_INDEXES.flat_map do |page_name|
   linked_page_names(page_source(page_name))
 end.freeze
+INTRODUCTION_SEED_PAGES = (
+  INTRODUCTION_PRIMARY_PAGES + INTRODUCTION_INDEX_PAGES
+).uniq.freeze
+INTRODUCTION_SECONDARY_PAGES = INTRODUCTION_SEED_PAGES.flat_map do |page_name|
+  linked_page_names(page_source(page_name))
+end.uniq.freeze
+INTRODUCTION_PAGE_LIST_PAGES = (
+  [INTRODUCTION_COURSE] +
+  INTRODUCTION_SEED_PAGES +
+  INTRODUCTION_SECONDARY_PAGES
+).flat_map do |page_name|
+  page_list_page_names(page_source(page_name))
+end.uniq.freeze
 INTRODUCTION_PAGES = (
   [INTRODUCTION_COURSE] +
-  INTRODUCTION_PRIMARY_PAGES +
-  INTRODUCTION_INDEX_PAGES
+  INTRODUCTION_SEED_PAGES +
+  INTRODUCTION_SECONDARY_PAGES +
+  INTRODUCTION_PAGE_LIST_PAGES.reject do |page_name|
+    SHARED_PAGE_LINKS.key?(page_name)
+  end
 ).uniq.freeze
 COURSE_PAGES = {
   INTRODUCTION_COURSE => INTRODUCTION_PAGES,
@@ -134,6 +173,9 @@ COURSE_PAGES = {
   "算法与数据结构" => ["算法与数据结构"]
 }.freeze
 MIGRATED_PAGE_NAMES = COURSE_PAGES.values.flatten.uniq.freeze
+SOURCE_PAGE_NAMES = (
+  MIGRATED_PAGE_NAMES + SHARED_PAGE_LINKS.keys
+).uniq.freeze
 
 missing_courses = COURSE_NAMES.reject do |name|
   PAGE_INDEX.key?(name) || SOURCE_SNAPSHOT.key?(name)
@@ -141,7 +183,7 @@ end
 raise "Missing course source pages: #{missing_courses.join(', ')}" unless missing_courses.empty?
 
 if PAGE_INDEX.any?
-  snapshot = MIGRATED_PAGE_NAMES.to_h do |name|
+  snapshot = SOURCE_PAGE_NAMES.to_h do |name|
     [
       name,
       {
@@ -174,6 +216,11 @@ def normalize_source(page_name, source)
   normalized = source
 
   case page_name
+  when "计算机导论实验大纲"
+    normalized = normalized.gsub(
+      "|| 数据库基础入门||| 2||",
+      "|| 数据库基础入门|| 2||"
+    )
   when "离散数学"
     normalized = normalized.gsub(
       /\[\[attachment:离散数学教学计划进度表\.doc\s*\]\]/,
@@ -217,8 +264,10 @@ def page_link(target, course_name, context)
     context == :course ? "#{course_name}.qmd" : "../#{course_name}.qmd"
   elsif course_pages.include?(clean_target)
     context == :course ? "#{course_name}/#{clean_target}.qmd" : "#{clean_target}.qmd"
+  elsif (shared_path = SHARED_PAGE_LINKS[clean_target])
+    context == :course ? shared_path : "../#{shared_path}"
   else
-    context == :course ? "#{clean_target}.html" : "../#{clean_target}.html"
+    nil
   end
 end
 
@@ -255,7 +304,8 @@ def convert_link(raw, owner, course_name, context)
   return "[#{label}](#{target})" if target.match?(%r{\A(?:https?|ftp|mailto):})
   return "[#{label}](#{target})" if target.start_with?("#")
 
-  "[#{label}](#{markdown_target(page_link(target, course_name, context))})"
+  path = page_link(target, course_name, context)
+  path ? "[#{label}](#{markdown_target(path)})" : label
 end
 
 def normalize_latex(content)
@@ -300,6 +350,16 @@ def convert_blocks(text)
   end
 
   [converted, blocks, inline]
+end
+
+def protect_nowiki(text)
+  fragments = []
+  converted = text.gsub(%r{<nowiki>(.*?)</nowiki>}mi) do
+    token = "@@MOIN_NOWIKI_#{fragments.length}@@"
+    fragments << CGI.escapeHTML(Regexp.last_match(1))
+    token
+  end
+  [converted, fragments]
 end
 
 def add_latex_blocks(source, blocks)
@@ -360,18 +420,56 @@ def append_blank_line(result)
   result << "" unless result.empty? || result.last.empty?
 end
 
-def convert_table_line(line)
+def table_cells(line)
   body = line.strip.delete_prefix("||").delete_suffix("||")
-  cells = body.split("||").map do |cell|
+  body.split("||", -1).map do |cell|
     cell.strip.sub(/\A(?:<[^>]+>\s*)+/, "")
   end
-  "| #{cells.join(' | ')} |"
+end
+
+def convert_table_line(cells)
+  escaped = cells.map { |cell| cell.gsub("|", "\\|") }
+  "| #{escaped.join(' | ')} |"
+end
+
+def escape_plain_moin_markup(source)
+  source.gsub!(/(\|\|)\s*(?:<[^>\n]+>\s*)+/) { Regexp.last_match(1) }
+
+  source.lines.map do |line|
+    bullet = line.match(/\A(\s+)\*\s/)
+    quote = line.match?(/\A>\s/)
+    line = line.sub(/\A(\s+)\*/, '\1@@MOIN_BULLET@@') if bullet
+    line = line.sub(/\A>/, "@@MOIN_QUOTE@@") if quote
+    line = line.gsub("\\") { "\\\\" }
+    line = line.gsub("*", "\\*")
+    line = line.gsub(/(?<!<)<(?!<)/, "&lt;")
+    line = line.gsub(/(?<!>)>(?!>)/, "&gt;")
+    line.gsub("@@MOIN_BULLET@@", "*").gsub("@@MOIN_QUOTE@@", ">")
+  end.join
+end
+
+def render_page_list(pattern)
+  matching_page_names(pattern).map do |page_name|
+    " * [[#{page_name}]]"
+  end.join("\n")
+end
+
+def list_item_match(line)
+  line.match(/^(\s+)(\*|\d+\.|[a-z]\.)\s+(.*)$/i) ||
+    line.match(/^(\s+)(\d+、)\s*(.*)$/)
 end
 
 def convert_moin(text, owner:, course_name:, context:)
   source = normalize_source(owner, text).gsub("\r\n", "\n")
+  source.gsub!(/<<PageList\(([^)]+)\)>>/) do
+    render_page_list(Regexp.last_match(1))
+  end
+  source, nowiki = protect_nowiki(source)
+  source.gsub!(%r{</?center>}i, "")
+  source.gsub!(%r{<br\s*/?>}i, "<<BR>>")
   source, blocks, inline = convert_blocks(source)
   source = add_latex_blocks(source, blocks)
+  source = escape_plain_moin_markup(source)
   source.gsub!(/\{\{attachment:([^}\n]+)\}\}/) do
     image_markup(Regexp.last_match(1), owner, course_name, context)
   end
@@ -396,7 +494,9 @@ def convert_moin(text, owner:, course_name:, context:)
   source.each_line do |raw_line|
     line = raw_line.rstrip
 
-    if line.start_with?("##", "#acl", "#format")
+    if line.match?(/\A\s*Category\S+(?:\s+Category\S+)*\s*\z/)
+      next
+    elsif line.start_with?("##", "#acl", "#format")
       next
     elsif (heading = line.match(/^\s*(=+)\s*(.*?)\s*\1\s*$/))
       append_blank_line(result)
@@ -408,9 +508,10 @@ def convert_moin(text, owner:, course_name:, context:)
       next
     elsif line.match?(/^\s*\|\|.*\|\|\s*$/)
       append_blank_line(result) unless in_table
-      result << convert_table_line(line)
+      cells = table_cells(line)
+      result << convert_table_line(cells)
       unless in_table
-        cell_count = line.scan(/\|\|/).length - 1
+        cell_count = cells.length
         result << "| #{Array.new(cell_count, '---').join(' | ')} |"
       end
       in_table = true
@@ -421,7 +522,7 @@ def convert_moin(text, owner:, course_name:, context:)
     append_blank_line(result) if in_table && !line.empty?
     in_table = false
 
-    if (list = line.match(/^(\s+)(\*|1\.|[a-z]\.)\s+(.*)$/i))
+    if (list = list_item_match(line))
       source_indent = list[1].length
       if list_indents.empty?
         append_blank_line(result)
@@ -436,7 +537,8 @@ def convert_moin(text, owner:, course_name:, context:)
 
       depth = list_indents.index(source_indent) || list_indents.length - 1
       indent = " " * (depth * 4)
-      marker = list[2].match?(/[a-z]\./i) ? "1." : list[2]
+      marker =
+        list[2].match?(/[a-z]\./i) || list[2].end_with?("、") ? "1." : list[2]
       prefix = "#{indent}#{marker} "
       result.concat(
         render_content_with_blocks(
@@ -465,6 +567,9 @@ def convert_moin(text, owner:, course_name:, context:)
 
   inline.each_with_index do |code, index|
     rendered.gsub!("@@MOIN_INLINE_#{index}@@") { code }
+  end
+  nowiki.each_with_index do |content, index|
+    rendered.gsub!("@@MOIN_NOWIKI_#{index}@@") { content }
   end
   rendered.gsub!(/\n{3,}/, "\n\n")
   rendered.strip + "\n"
