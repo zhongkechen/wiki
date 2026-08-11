@@ -1,0 +1,105 @@
+---
+title: "MSP430"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+### MSP430
+
+MSP430是TI公司的单片机产品。特点是16位、低功耗，可集成LCD控制器。
+
+User's Guide:
+
+* MSP430x1xx Family User's Guide: [slau049f.pdf](http://www.google.com/search?q=slau049f.pdf)
+* MSP430x2xx Family User's Guide: [slau144e.pdf](http://www.google.com/search?q=slau144e.pdf)
+* MSP430x4xx Family User's Guide: [slau056g.pdf](http://www.google.com/search?q=slau056g.pdf)
+
+Language Guide：
+
+* Assembly Language Tools User’s Guide [http://www.google.com/search?q=slau131a.pdf](http://www.google.com/search?q=slau131a.pdf)
+* Optimizing C/C++ Compiler User’s Guide [http://www.google.com/search?q=slau132a.pdf](http://www.google.com/search?q=slau132a.pdf)
+
+Data Sheet:
+
+| Part Number | Data Sheet | Errata Sheet |
+| --- | --- | --- |
+| 430x15x | [http://www.google.com/search?q=slas368e.pdf](http://www.google.com/search?q=slas368e.pdf) | [http://www.google.com/search?q=slaz018b.pdf](http://www.google.com/search?q=slaz018b.pdf) |
+| 430x16x | [http://www.google.com/search?q=slas368e.pdf](http://www.google.com/search?q=slas368e.pdf) | [http://www.google.com/search?q=slaz018b.pdf](http://www.google.com/search?q=slaz018b.pdf) |
+| 430x161x | [http://www.google.com/search?q=slas368e.pdf](http://www.google.com/search?q=slas368e.pdf) | [http://www.google.com/search?q=slaz018b.pdf](http://www.google.com/search?q=slaz018b.pdf) |
+| 430x11x2 | [http://www.google.com/search?q=slas361d.pdf](http://www.google.com/search?q=slas361d.pdf) | [http://www.google.com/search?q=slaz009.pdf](http://www.google.com/search?q=slaz009.pdf) |
+| 430x12x2 | [http://www.google.com/search?q=slas361d.pdf](http://www.google.com/search?q=slas361d.pdf) | [http://www.google.com/search?q=slaz009.pdf](http://www.google.com/search?q=slaz009.pdf) |
+| 430x20x1 | [http://www.google.com/search?q=slas491d.pdf](http://www.google.com/search?q=slas491d.pdf) | [http://www.google.com/search?q=slaz026e.pdf](http://www.google.com/search?q=slaz026e.pdf) |
+| 430x20x2 | [http://www.google.com/search?q=slas491d.pdf](http://www.google.com/search?q=slas491d.pdf) | [http://www.google.com/search?q=slaz026e.pdf](http://www.google.com/search?q=slaz026e.pdf) |
+| 430x20x3 | [http://www.google.com/search?q=slas491d.pdf](http://www.google.com/search?q=slas491d.pdf) | [http://www.google.com/search?q=slaz026e.pdf](http://www.google.com/search?q=slaz026e.pdf) |
+| 430F23x0 | [http://www.google.com/search?q=slas518.pdf](http://www.google.com/search?q=slas518.pdf) |  |
+| 430x41x | [http://www.google.com/search?q=slas340g.pdf](http://www.google.com/search?q=slas340g.pdf) | [http://www.google.com/search?q=slaz015.pdf](http://www.google.com/search?q=slaz015.pdf) |
+| 430FG461x | [http://www.google.com/search?q=slas508g.pdf](http://www.google.com/search?q=slas508g.pdf) | [http://www.google.com/search?q=slaz028g.pdf](http://www.google.com/search?q=slaz028g.pdf) |
+
+其他：
+
+* 选型手册 [http://www.google.com/search?q=slab034m.pdf](http://www.google.com/search?q=slab034m.pdf)
+* Power Management Products [http://www.google.com/search?q=slub014.pdf](http://www.google.com/search?q=slub014.pdf)
+* MSP430 Ultra-Low-Power MCU and Low-Power RF Devices [http://www.google.com/search?q=slyt265a.pdf](http://www.google.com/search?q=slyt265a.pdf)
+* MSP430 Software Coding Techniques [http://www.google.com/search?q=slaa294a.pdf](http://www.google.com/search?q=slaa294a.pdf)
+* MSP430 Interface to CC1100/2500 Code Library [http://www.google.com/search?q=slaa325.pdf](http://www.google.com/search?q=slaa325.pdf) [http://www.google.com/search?q=slaa325.pdf](http://www.google.com/search?q=slaa325.pdf)
+* Understanding MSP430 Flash Data Retention [http://www.google.com/search?q=slaa392.pdf](http://www.google.com/search?q=slaa392.pdf)
+
+### FET430UIF
+
+FET430UIF(FLASH Emulation Tool USB IF)是430的USB接口仿真器
+
+* 驱动程序: [FET430UIFWinXP.zip](<MSP430/assets/MSP430/FET430UIFWinXP.zip>)
+
+### IAR Embedded Workbench
+
+IAR Embedded Workbench是集成开发环境。下载：
+
+* Kickstart 4.10E (FET_R511.exe): [http://www.google.com/search?q=slac050r.zip](http://www.google.com/search?q=slac050r.zip)
+* Kickstart 3.41G (FET_R453.exe): [http://www.google.com/search?q=FET_R453.exe](http://www.google.com/search?q=FET_R453.exe)
+* (FET_R424.exe) [http://www.google.com/search?q=FET_R424.exe](http://www.google.com/search?q=FET_R424.exe)
+
+文档：
+
+* IAR Embedded Workbench KickStart Release Note [http://www.google.com/search?q=slaa304h.pdf](http://www.google.com/search?q=slaa304h.pdf)
+* IAR User's Guide: [http://www.google.com/search?q=slau138j.pdf](http://www.google.com/search?q=slau138j.pdf)
+
+### Code Composer Essentials
+
+Code Composer Essentials是一个集成开发环境。下载：
+
+* CCE 2.0 [http://www.google.com/search?q=cce+fet](http://www.google.com/search?q=cce+fet)
+* CCE 2.0.5 [http://www.google.com/search?q=slac063f.zip](http://www.google.com/search?q=slac063f.zip)
+* CCE 2.0.5 sp5 [http://www.google.com/search?q=slac135b.zip](http://www.google.com/search?q=slac135b.zip)
+
+文档：
+
+* CCE User's Guide: [http://www.google.com/search?q=slau157a.pdf](http://www.google.com/search?q=slau157a.pdf) [http://www.google.com/search?q=slau157e.pdf](http://www.google.com/search?q=slau157e.pdf)
+
+### 利尔达资料
+
+MSP430-FET仿真器：
+
+* 简介 [introducing.pdf](<MSP430/assets/MSP430/introducing.pdf>)
+* [MSP430-FET使用指南.pdf](http://www.google.com/search?q=MSP430-FET%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.pdf)
+* [IAR-FET使用指南.pdf](<MSP430/assets/MSP430/IAR-FET使用指南.pdf>)
+* [仿真器使用应注意的问题.pdf](<MSP430/assets/MSP430/仿真器使用应注意的问题.pdf>)
+
+MSP430-TEST16X 学习板：
+
+* MSP430-TEST16X 学习板线路图 [MSP430-TEST16X_V1.1A.pdf](<MSP430/assets/MSP430/MSP430-TEST16X_V1.1A.pdf>)
+* MSP430-TEST16X 学习板简介 [F16X学习板简介.pdf](<MSP430/assets/MSP430/F16X学习板简介.pdf>)
+* MSP430x15x, MSP430x16x,MSP430x161x混合信号微控制器 [msp430f16xx_cn.pdf](<MSP430/assets/MSP430/msp430f16xx_cn.pdf>)
+
+实验讲义：
+
+* [AsiaTechnicalSeminar_FE_FW_FG_cn.pdf](<MSP430/assets/MSP430/AsiaTechnicalSeminar_FE_FW_FG_cn.pdf>)
+* [AsiaTechnicalSeminar_Introduction_cn.pdf](<MSP430/assets/MSP430/AsiaTechnicalSeminar_Introduction_cn.pdf>)
+* [AsiaTechnicalSeminar_RealTimeClock_cn.pdf](<MSP430/assets/MSP430/AsiaTechnicalSeminar_RealTimeClock_cn.pdf>)
+* [AsiaTechnicalSeminar_Voltmeter_cn.pdf](<MSP430/assets/MSP430/AsiaTechnicalSeminar_Voltmeter_cn.pdf>)
+* [AsiaTechnicalSeminar_oscilloscope_cn.pdf](<MSP430/assets/MSP430/AsiaTechnicalSeminar_oscilloscope_cn.pdf>)

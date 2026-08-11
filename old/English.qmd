@@ -1,0 +1,199 @@
+---
+title: "English"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+## 对话听力练习
+
+[001Conversations.MP3](<English/assets/English/001Conversations.MP3>)
+
+1. 时间、价格、数字等
+
+    1.
+    1. 10:28
+    1. 9:28
+    1. 10:08
+    1. 10:38
+
+    1.
+    1. Two bookshelves for $ 9.90 each
+    1. A bookshelf costs $13.99.
+    1. Bookshelves cost $16 for two.
+    1. Two bookshelves cost $8 for each.
+
+    1.
+    1. More than 1,000 million.
+    1. 800 million.
+    1. More than 4 million.
+    1. Nearly 400 million.
+
+    1.
+    1. An hour.
+    1. half an hour.
+    1. Forty minutes.
+    1. Twenty minutes.
+
+    1.
+    1. $8.
+    1. $9.
+    1. $5.
+    1. $7.
+
+    1.
+    1. 6:20
+    1. 7:00
+    1. 7:10
+    1. 7:20
+
+    1.
+    1. It was 3:10.
+    1. It was 2:10.
+    1. It was 2:40.
+    1. It was 2:50.
+
+    1.
+    1. $450.
+    1. $605.
+    1. $650.
+    1. $600.
+
+    1.
+    1. 1,600.
+    1. 3,200.
+    1. 4,800.
+    1. 4,200.
+
+    1.
+    1. $265.
+    1. $260.
+    1. $530.
+    1. $350.
+1. 身份、人物关系、地点
+
+    1.
+    1. A reporter.
+    1. A teacher.
+    1. A doctor.
+    1. A worker.
+
+    1.
+    1. In an office.
+    1. At a party.
+    1. At a restaurant.
+    1. At home.
+
+    1.
+    1. Doctor and patients.
+    1. Husband and wife.
+    1. Boss and clerk.
+    1. Doctor and nurse.
+
+    1.
+    1. At the Travel agency.
+    1. At the Dean's office.
+    1. At the train station.
+    1. At the airport.
+
+    1.
+    1. Librarian and student.
+    1. Two students.
+    1. Teacher and student.
+    1. Librarian and teacher.
+
+    1.
+    1. At a bookstore.
+    1. At a post office.
+    1. At a shopping market.
+    1. At a bank.
+
+    1.
+    1. Teacher and student.
+    1. Receptionist and customer.
+    1. Boss and employee.
+    1. Saleswoman and customer.
+
+    1.
+    1. Stewardess and passenger.
+    1. Salesgirl and customer.
+    1. Ticket seller and passenger.
+    1. Boss and secretary.
+
+    1.
+    1. At the theatre.
+    1. At a bus stop.
+    1. In a restaurant.
+    1. At an airport.
+
+    1.
+    1. At a travel agency.
+    1. At a bus stop.
+    1. In a bank.
+    1. In a bookstore.
+1. 判断、推理、引申
+
+    1.
+    1. He doesn't like to spend time outside.
+    1. He went to the gym this morning.
+    1. He enjoys going out when he has free time.
+    1. He would rather exercise than stay in the house.
+
+    1.
+    1. He went boating last week.
+    1. He would rather try.
+    1. He can't go boating.
+    1. He isn't interested.
+
+    1.
+    1. She is probably somewhere around.
+    1. She shouldn't leave her things lying around.
+    1. She shouldn't find her glove.
+    1. She is probably playing baseball already.
+
+    1.
+    1. Daisy often goes to the museum.
+    1. They should bring Daisy to the museum.
+    1. Modern art doesn't cost much.
+    1. It would be a good place to get a gift for Daisy.
+
+    1.
+    1. He has plenty of time to study for.
+    1. He enjoys English literature class.
+    1. He has too many tests.
+    1. He has nothing to do these days.
+
+    1.
+    1. Nicole's jobs are relatively easy.
+    1. It's easy to take twenty-two credits.
+    1. It's good for Nicole to hold two jobs.
+    1. Nicole should slow down.
+
+    1.
+    1. They discuss what gifts to bring.
+    1. They should buy gifts before they leave.
+    1. She has not decided how to get there.
+    1. She doesn't feel like going there.
+
+    1.
+    1. He knows the route very well.
+    1. He often gets lost.
+    1. He doesn't know where the hotel is.
+    1. He thinks he is absent-minded.
+
+    1.
+    1. The final exam was just finished.
+    1. The woman received the best grade.
+    1. He was sure he got the best score.
+    1. His score was better than the woman's.
+
+    1.
+    1. The mail was sent to the post office.
+    1. He was something to drop in the mail box.
+    1. It is too soon to go back there.
+    1. The post office was closed an hour and a half ago.

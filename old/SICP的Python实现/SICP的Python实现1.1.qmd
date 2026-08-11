@@ -1,0 +1,434 @@
+---
+title: "SICP的Python实现/SICP的Python实现1.1"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“SICP的Python实现”](<../SICP的Python实现.qmd>)
+
+### The Elements of Programming
+
+#### Expressions
+
+1.
+
+   ```
+   486
+   ```
+
+   ```python
+   486
+   ```
+
+1.
+
+   ```
+   (+ 137 349)
+   486
+   (- 1000 334)
+   666
+   (* 5 99)
+   495
+   (/ 10 5)
+   2
+   (+ 2.7 10)
+   12.7
+   ```
+
+   ```python
+   137 + 349
+   1000 - 334
+   5 * 99
+   10 / 5
+   2.7 + 10
+   ```
+
+1.
+
+   ```
+   (+ 21 35 12 7)
+   75
+
+   (* 25 4 12)
+   1200
+   ```
+
+   ```python
+   21 + 35 + 12 + 7
+   25 * 4 * 12
+   ```
+
+   或者
+
+   ```
+   reduce(int.__add__, [21, 35, 12, 7])
+   reduce(int.__mul__, [25, 4, 12])
+   ```
+1.
+
+   ```
+   (+ (* 3 5) (- 10 6))
+   19
+   ```
+
+   ```python
+   (3 * 5) + (10 - 6)
+   ```
+1.
+
+   ```
+   (+ (* 3
+         (+ (* 2 4)
+            (+ 3 5)))
+      (+ (- 10 7)
+         6))
+   ```
+
+   ```python
+   (3 * ((2*4)+(3+5)) ) + ((10-7)+6)
+   ```
+
+#### Naming and the Environment
+
+1.
+
+   ```
+   (define size 2)
+   ```
+
+   ```python
+   size = 2
+   ```
+1.
+
+   ```
+   size
+   2
+   (* 5 size)
+   10
+   ```
+
+   ```python
+   size
+   5 * size
+   ```
+1.
+
+   ```
+   (define pi 3.14159)
+   (define radius 10)
+   (* pi (* radius radius))
+   314.159
+   (define circumference (* 2 pi radius))
+   circumference
+   62.8318
+   ```
+
+   ```python
+   pi = 3.14159
+   radius = 10
+   pi * (radius * radius)
+   circumference = 2 * pi * radius
+   circumference
+   ```
+
+#### Evaluating Combinations
+
+1.
+
+   ```
+   (* (+ 2 (* 4 6))
+      (+ 3 5 7))
+   ```
+
+   ```python
+   (2+(4*6)) * (3+5+7)
+   ```
+
+#### Compound Procedures
+
+1.
+
+   ```
+   (define (square x) (* x x))
+   ```
+
+   ```python
+   square = lambda x: x*x
+   ```
+1.
+
+   ```
+   (square 21)
+   441
+
+   (square (+ 2 5))
+   49
+
+   (square (square 3))
+   81
+   ```
+
+   ```python
+   square(21)
+   square(2+5)
+   square(square(3))
+   ```
+1.
+
+   ```
+   (define (sum-of-squares x y)
+     (+ (square x) (square y)))
+
+   (sum-of-squares 3 4)
+   25
+   ```
+
+   ```python
+   sum_of_squares = lambda x, y: square(x) + square(y)
+   sum_of_squares(3, 4)
+   ```
+1.
+
+   ```
+   (define (f a)
+     (sum-of-squares (+ a 1) (* a 2)))
+
+   (f 5)
+   136
+   ```
+
+   ```python
+   f = lambda a:sum_of_squares(a+1, a*2)
+   f(5)
+   ```
+
+#### The Substitution Model for Procedure Application
+
+#### Conditional Expressions and Predicates
+
+1.
+
+   ```
+   (define (abs x)
+     (cond ((> x 0) x)
+           ((= x 0) 0)
+           ((< x 0) (- x))))
+   ```
+
+   ```python
+   abs = lambda x: x if x > 0 else ( 0 if x == 0 else (-x if x < 0 else 0))
+   ```
+
+   或者
+
+   ```python
+   abs = lambda x: x if x > 0 else (0 if x == 0 else -x)
+   ```
+1.
+
+   ```
+   (define (abs x)
+     (cond ((< x 0) (- x))
+           (else x)))
+   ```
+
+   ```python
+   abs = lambda x: -x if x < 0 else x
+   ```
+1.
+
+   ```
+   (define (abs x)
+     (if (< x 0)
+         (- x)
+         x))
+   ```
+
+   ```
+   abs = lambda x: -x if x < 0 else x
+   ```
+1.
+
+   ```
+   (and (> x 5) (< x 10))
+   ```
+
+   ```python
+   x > 5 and x < 10
+   ```
+1.
+
+   ```
+   (define (>= x y)
+     (or (> x y) (= x y)))
+   ```
+
+   ```python
+   greater_or_equal = lambda x, y: x>y or x==y
+   ```
+1.
+
+   ```
+   (define (>= x y)
+     (not (< x y)))
+   ```
+
+   ```python
+   greater_or_equal = lambda x, y: not x < y
+   ```
+
+#### Example: Square Roots by Newton's Method
+
+1.
+
+   ```
+   (define (sqrt-iter guess x)
+     (if (good-enough? guess x)
+         guess
+         (sqrt-iter (improve guess x)
+                    x)))
+   ```
+
+   ```python
+   sqrt_iter = lambda guess, x: guess if good_enough(guess, x) else sqrt_iter(improve(guess, x), x)
+   ```
+1.
+
+   ```
+   (define (improve guess x)
+     (average guess (/ x guess)))
+   ```
+
+   ```python
+   improve = lambda guess, x: average(guess, x/guess)
+   ```
+1.
+
+   ```
+   (define (average x y)
+     (/ (+ x y) 2))
+   ```
+
+   ```python
+   average = lambda x, y: (x+y)/2.0
+   ```
+1.
+
+   ```
+   (define (good-enough? guess x)
+     (< (abs (- (square guess) x)) 0.001))
+   ```
+
+   ```python
+   good_enough = lambda guess, x: abs(square(guess)-x)< 0.001
+   ```
+1.
+
+   ```
+   (define (sqrt x)
+     (sqrt-iter 1.0 x))
+   ```
+
+   ```python
+   sqrt = lambda x:sqrt_iter(1.0, x)
+   ```
+1.
+
+   ```
+   (sqrt 9)
+   3.00009155413138
+   (sqrt (+ 100 37))
+   11.704699917758145
+   (sqrt (+ (sqrt 2) (sqrt 3)))
+   1.7739279023207892
+   (square (sqrt 1000))
+   1000.000369924366
+   ```
+
+   ```python
+   sqrt(9)
+   sqrt(100+37)
+   sqrt(sqrt(2)+sqrt(3))
+   square(sqrt(1000))
+   ```
+
+#### Procedures as Black-Box Abstractions
+
+1.
+
+   ```
+   (define (square x) (* x x))
+
+   (define (square x)
+     (exp (double (log x))))
+
+   (define (double x) (+ x x))
+   ```
+
+   ```python
+   square = lambda x: x*x
+   from math import exp, log
+   square = lambda x: exp(double(log(x)))
+   double = lambda x: x+x
+   ```
+1.
+
+   ```
+   (define (square x) (* x x))
+
+   (define (square y) (* y y))
+   ```
+
+   ```python
+   square = lambda x: x*x
+   square = lambda y: y*y
+   ```
+1.
+
+   ```
+   (define (sqrt x)
+     (define (good-enough? guess x)
+       (< (abs (- (square guess) x)) 0.001))
+     (define (improve guess x)
+       (average guess (/ x guess)))
+     (define (sqrt-iter guess x)
+       (if (good-enough? guess x)
+           guess
+           (sqrt-iter (improve guess x) x)))
+     (sqrt-iter 1.0 x))
+   ```
+
+   ```python
+   def sqrt(x):
+       good_enough = lambda guess, x: abs(square(guess)-x)< 0.001
+       improve = lambda guess, x: average(guess, x/guess)
+       sqrt_iter = lambda guess, x: guess if good_enough(guess, x) else sqrt_iter(improve(guess, x), x)
+       return sqrt_iter(1.0, x)
+   ```
+1.
+
+   ```
+   (define (sqrt x)
+     (define (good-enough? guess)
+       (< (abs (- (square guess) x)) 0.001))
+     (define (improve guess)
+       (average guess (/ x guess)))
+     (define (sqrt-iter guess)
+       (if (good-enough? guess)
+           guess
+           (sqrt-iter (improve guess))))
+     (sqrt-iter 1.0))
+   ```
+
+   ```python
+   def sqrt(x):
+       good_enough = lambda guess: abs(square(guess)-x)< 0.001
+       improve = lambda guess: average(guess, x/guess)
+       sqrt_iter = lambda guess: guess if good_enough(guess) else sqrt_iter(improve(guess))
+       return sqrt_iter(1.0)
+   ```
