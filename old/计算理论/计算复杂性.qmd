@@ -1,0 +1,19 @@
+---
+title: "计算复杂性"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算理论”](../计算理论.qmd)
+
+定义：多项式界限。多项式可判定
+
+定理：P在补运算下封闭。
+
+定理：$E=\lbrace"M""\omega":M\ accepts\ input\ \omega\ after\ at\ most\ 2^{|\omega|}\ steps \rbrace. E \notin P$
+
+定义：NP

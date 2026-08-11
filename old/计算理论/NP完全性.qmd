@@ -1,0 +1,51 @@
+---
+title: "NP完全性"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算理论”](../计算理论.qmd)
+
+定义：如果存在函数$f:\Sigma^*\mapsto\Sigma^*$的多项式界限的Turing机M，则f称为**多项式时间可计算的**。设$L_1,L_2\subseteq\Sigma^*$是语言，设$\tau:\Sigma^*\mapsto\Sigma^*$是多项式时间可计算得函数。如果对每个$x\in\Sigma^*$下列关系成立：$x\in L_1$当且仅当$\tau(x)\in L_2$，那么$\tau$称为从L1到L2的多项式归约。
+
+双机调度
+
+背包问题
+
+引理：多项式归约传递性
+
+定义：设$L\subseteq\Sigma^*$是语言，如果$L\in P$并且对每一个语言$L'\in NP$存在从L'到L的多项式归约，那么L称为是NP完全的。
+
+定理：设L是NP完全语言。那么P=NP当且仅当$L \in P$
+
+有界铺砖
+
+定理：有界铺砖是NP完全的。
+
+Cook定理：可满足性是NP完全的。
+
+定理：三元可满足性是NP完全的。
+
+定理：最大可满足性是NP完全的。
+
+定理：恰当覆盖是NP完全的。
+
+定理：Hamilton圈是NP完全的。
+
+定理：无向Hamilton圈是NP完全的。
+
+定理：旅行商问题是NP完全的。
+
+定理：背包问题是NP完全的。
+
+推论：划分和双机调度都是NP完全的。
+
+定理：独立集是NP完全的。
+
+定理：团和顶点覆盖是NP完全的。
+
+定理：无星号正则表达式的不等价性是NP完全的。

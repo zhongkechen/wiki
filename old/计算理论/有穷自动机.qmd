@@ -1,0 +1,57 @@
+---
+title: "有穷自动机"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算理论”](../计算理论.qmd)
+
+定义：**确定型有穷自动机** deterministic finite automaton: 确定型有穷自动机是一个五元组$M=(K, \Sigma, \delta, s, F)$，其中
+
+* $K$是有穷的状态集合，
+* $\Sigma$是字母表，
+* $s\in K$是初始状态，
+* $F\subseteq K$是终结状态集合，
+* $\delta$是从$K\times\Sigma$到$K$的函数，叫做转移函数。
+
+定义：确定型有穷自动机$(K, \Sigma, \delta, s, F)$的格局configuration是$K\times\Sigma^*$的任一元素。
+
+一步产生 yield in one step:如果$(q,\omega)$和$q',\omega '$是M的两个格局，则$(q,\omega)\vdash_M(q',\omega ')$当且仅当对于某个符号$a\in \Sigma$，$\omega=a\omega'$且$\delta(q,a)=q'$。我们称它为$(q,\omega)$一步产生$(q',\omega ')$
+
+产生 yields:$\vdash^*_M$表示$\vdash_M$的自反传递闭包。$(q,\omega)\vdash^*_M(q',\omega')$称作$(q,\omega)$产生$(q',\omega')$。
+
+接受 accept:字符串$\omega\in\Sigma^*$当且仅当存在状态$q\in F$使$(s,\omega)\vdash^*_M(q,e)$。M接受的语言是M接受的所有字符串的集合，记作$L(M)$。
+
+状态图:
+
+非确定型有穷自动机是一个五元组：$M=(K,\Sigma,\Delta,s,F)$，其中
+
+* K是有穷的状态集合
+* $\Sigma$是字母表
+* $s\in K$是初始状态
+* $F\subseteq K$是终结状态集合
+* $\Delta\subseteq K \times (\Sigma\cup\lbrace e\rbrace)\times K$
+
+两台（确定或者非确定的）有穷自动机$M_1$和$M_2$是等价的当且仅当$L(M_1)=L(M_2)$。
+
+定理：对于每一台非确定型有穷自动机，有一台等价的确定型有穷自动机。
+
+定理：有穷自动机接受的语言在下属运算下是封闭的：
+
+1. 并
+1. 连接
+1. Kleene星号
+1. 补
+1. 交
+
+定理：一个语言是正则的当且仅当它被有穷自动机接受。
+
+泵定理： 设L是一个正则语言，则存在正整数$n\ge 1$使得任意字符串$\omega\in L$只要$|\omega|\ge n$就可以写成$\omega=xyz$，其中$y\ne e$,$|xy|\le n$且对于每一个$i\ge 0$，$xy^iz\in L$。
+
+状态最小化算法：
+
+推论：语言L是正则的当且仅当$\asymp_L$有有穷的等价类

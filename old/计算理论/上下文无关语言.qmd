@@ -1,0 +1,92 @@
+---
+title: "上下文无关语言"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“计算理论”](../计算理论.qmd)
+
+定义：上下文无关文法G是一个四元组$(V, \Sigma, R, S)$，其中
+
+* V是一个字母表，
+* $\Sigma$是终结符集合，它是V的子集，($V-\Sigma$的成员叫做非终结符)
+* R是规则集合，它是$(V-\Sigma)\times V^*$的有穷子集，
+* $S\in V-\Sigma$是起始符。
+
+对任意的$A\in V-\Sigma$和$u\in V^*$，当$(A,u)\in R$时记作$A\rightarrow_Gu$。对任意字符串$u,v\in V^*$，记$u\Rightarrow_Gv$当且仅当存在字符串$x,y\in V^*$和$A\in V-\Sigma$使得$u=xAy$，$v=xv'y$和$A\rightarrow_Gv'$。关系$\Rightarrow_G$是的自反传递闭包。
+
+G生成的语言$L(G)$为$\lbrace \omega\in\Sigma^*:S\stackrel{*}{\Rightarrow}_G\omega \rbrace$
+
+如果$L=L(G)$，其中G是一个上下文无关文法，则称L是一个上下文无关语言。
+
+形如$\omega_0\Rightarrow_G\omega_1\Rightarrow_G\omega_2\Rightarrow_G\cdots\Rightarrow_G\omega_n\Rightarrow_G$的序列称作$\omega_n$在G中从$\omega_0$开始的推导，这里$\omega_0,\cdots,\omega_n$可以是$V^*$中的任何字符串，推导的长度n是任何自然数，包括0在内。也说推导有n步。
+
+语法分析树：
+
+设$G=(V,\Sigma,R,S)$是一个上下文无关文法，$D=x_1\Rightarrow x_2\Rightarrow\cdots\Rightarrow x_n$和$D'=x'_1\Rightarrow x'_2\Rightarrow\cdots\Rightarrow x'_n$是G中的两个推导，其中$x_i,x'_i\in V^*$，$i=1,\cdots,n$且$x_1,x'_1\in V-\Sigma$，$x_n,x'_n\in \Sigma^*$。即D和D'都是从单个非终结符到终结符串的推导。如果n>2并且存在k，1<k<n使得：
+
+* 对于所有的$i\ne k$有$x_i=x'_i$
+* $x_{k-1}=x'_{k-1}=uAvBw$，这里$u,v,w\in V^*$，$A,B\in V-\Sigma$
+* $x_k=uyvBw$，这里$A\rightarrow y\in R$
+* $x'_k=uAvzw$，这里$B\rightarrow z\in R$
+* $x_{k+1}=x'_{k+1}=xyvzw$
+
+则称D先于D'，记作$D\prec D'$
+
+如果有序对$(D, D')$属于$\prec$的自反对称传递闭包，则称这两个推导D和D'是相似的。
+
+最左推导：在相似性下的等价类，有一个推导在$\prec$下是极大的，叫做最左推导。
+
+最右推导：在相似性下的等价类，有一个推导在$\prec$下是极小的，叫做最右推导。
+
+定理：设$G=(V,\Sigma, R, S)$是一个上下文无关文法，$A\in V-\Sigma$及$\omega\in\Sigma^*$，则下述命题是等价的：
+
+1. $A\Rightarrow\omega$
+1. 有一棵根为A、结果为$\omega$的语法分析树
+1. 有最左推导
+1. 有最右推导
+
+在上下文无关文法生成的语言中，一个字符串可能有两个不相似的推导，也就是说有两棵不相同的语法分析树，或等价的说有两个不同的最右推导（最左推导）。能有两棵或者以上的不同语法分析树的字符串的文法叫做歧义的。存在具有下述性质的上下文无关语言：生成它的所有上下文无关文法一定是歧义的。这样的语言叫做固有歧义的。
+
+下推自动机是一个六元组$M=(K,\Sigma,\Gamma,\Delta,s,F)$，其中
+
+* K是有穷的状态集合
+* $\Sigma$是一个字母表（所有的输入符号）
+* $\Gamma$是一个字母表（所有栈符号）
+* $s\in K$是初始状态
+* $F\subseteq K$是终结状态的集合
+* $\Delta$是转移关系，它是$(K\times(\Sigma\bigcup\lbrace e \rbrace)\times\Gamma^*)\times(K\times\Gamma^*)$的有穷子集。
+
+$((p,a,\beta),(q,\gamma))\in \Delta$，则当M处于状态p，栈顶为$\beta$时，他可以从输入带读a，在栈顶用$\gamma$代替$\beta$，然后进入状态q，这叫做M的转移。
+
+推入一个符号是把这个符号加到栈顶上；托出一个符号是把这个符号从栈顶移去。
+
+下推自动机的格局是$K\times\Sigma^*\times\Gamma^*$的成员。设$(p,x,\alpha)$和$(q,y,\zeta)$是两个格局，如果存在转移$((p,a,\beta),(q,\gamma))\in\Delta$使得$x=ay$，$\alpha=\beta\eta$和$\zeta=\gamma\eta$，其中$\eta\in\Gamma^*$，则称$(p,x,\alpha)$一步生成$(q,y,\zeta)$，记作$(p,x,\alpha)\vdash_M(q,y,\zeta)$。把$\vdash_M$的自反传递闭包记作$\vdash^*_M$。称M接受字符串$\omega\in\Sigma^*$当且仅当对于某个$p\in F$，$(s,\omega,e)\vdash^*_M(p,e,e)$M接受的语言是M接受的所有字符串的集合，记作$L(M)$。
+
+定理：下推自动机接受的语言正好是上下文无关语言。
+
+定理：上下文无关语言在并、连接和Kleene星号下是封闭的。
+
+定理：一个上下文无关语言与一个正则语言的交是一个上下文无关语言。
+
+泵定理：设$G=(V,\Sigma,R,S)$是一个上下文无关文法，那么$L(G)$中任一长度大于$\phi(G)^{|V-\Sigma|}$的字符串w可以写成$w=uvxyz$使得v或y不是空串，并且对每一个$n\ge 0$，$uv^nxy^nz\in L(G)$。
+
+定理：上下文无关语言在交和补下不是封闭的。
+
+定理：
+
+1. 有多项式算法，任给一个上下文无关文法，构造一台等价的下推自动机。
+1. 有多项式算法，任给一台下推自动机，构造一个等价的上下文无关文法。
+1. 有多项式算法，任给一台上下文无关文法G和一个字符串x，判断是否$x\in L(G)$。
+
+确定型上下文无关语言：
+
+定理：确定型上下文无关语言类在补运算下是封闭的。
+
+死结束：
+
+推论：确定型上下文无关语言类是上下文无关语言类的真子集。（就下推自动机而言，非确定性比确定性更有力。）

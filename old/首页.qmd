@@ -31,7 +31,7 @@ description: Zhongke 的个人 Wiki 旧站首页
 - [离散数学](离散数学.html)（[虞铭财](ymc.html)老师）
 - [计算机图形学](计算机图形学.html)（[李忠月](lzhongyue.html)老师）
 - [算法与数据结构](算法与数据结构.html)（[李忠月](lzhongyue.html)老师）
-- [计算理论](计算理论.html)
+- [计算理论](计算理论.qmd)
 
 ## 其它
 
