@@ -1,0 +1,106 @@
+---
+title: "ftp"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+FTP(File Transfer Protocol)是一种专用于传输文件的网络协议。有很多服务端程序和客户端程序支持FTP协议。但是FTP有很多缺陷：
+
+* 密码和文件在传输中都没有加密，容易被窃取
+* 需要使用多条TCP/IP连接，一条进行控制，此外每个上传、下载、列目录操作都要建立一个额外连接。因此，防火墙需要额外的配置才能让FTP正常工作。
+* 客户端如果使用Port方式（或称为Active方式）连接服务器，客户端需要开放所有端口，这样就没有办法在客户端使用防火墙。
+* 有可能使用FTP协议内置的FXP特性，使服务器成为代理。
+* FTP协议有很大的延时，因为建立一个传输连接，需要交互很多命令。
+* 接收端没有完整性检查。当传输被打断时，接收端无法确认传输是否真正完成了。
+* 不能传输文件的日期时间属性。上传的文件会使用当前时间作为其时间属性。
+* 文件名编码问题。FTP协议标准建议使用UTF-8作为文件名编码，但是很少有Windows客户端支持这个标准，从而造成文件名乱码问题。
+
+鉴于FTP协议以上众多缺陷，在不必使用FTP协议时尽量不要使用它。需要传输文件时，可以用[SFTP](<ssh.qmd>)、[samba](<samba.qmd>)等代替FTP。
+
+### 安装
+
+Debian上带了众多FTP服务端软件，各有特色。vsftpd是FTP服务程序的一种，以安全和快速著称。输入如下命令即可安装vsftpd：
+```
+aptitude install vsftpd
+```
+
+vsftpd使用的用户帐号就是服务器上的用户帐号。安装过程中会自动创建一个名为ftp的帐号，用作匿名用户登录时使用的帐号。要做其他配置，可以打开/etc/vsftpd.conf对vsftpd进行配置：
+
+```
+#anonymous_enable=YES                         #是否允许匿名ftp,如否,则选择NO;
+#local_enable=YES                             #是否允许本地用户登陆;
+#local_umask=022                              #设置本地用户的文件掩码为缺省022,默认值为077;
+#anon_upload_enable=YES                       #是否允许匿名上传文件;
+#anon_mkdir_write_enable=YES                  #是否允许匿名用户有创建目录的权利;
+#dirmessage_enable=YES                        #是否显示目录说明文件,缺省是YES,但需要手工创建.message文件;
+#xferlog_enable=YES                           #是否记录ftp传输过程;
+#connect_from_port_20=YES                     #是否确信端口传输来自20(ftp-data);
+#chown_username=username                      #是否改变上传文件的属主,如果需要,则输入一个系统用户名,可以把上传的文件都改成root属主;
+#xferlog_file=/var/log/vsftpd.log             #ftp传输日志的路径和名字缺省是/var/log/vsftpd.log;
+#xferlog_std_format=YES                       #是否使用标准的ftp xferlog模式;
+#idle_session_timeout=600                     #设置缺省的断开不活跃会话时间;
+#data_connection_timeout=120                  #设置数据传输超时时间;
+#nopriv_user=ftpsecure                        #运行vsftpd需要的非特权系统用户,缺省是nobody;
+#ascii_upload_enable=YES                      #是否使用ASCII方式上传文件;
+#ascii_download_enable=YES                    #是否使用ASCII方式下载文件;
+#ftpd_banner=Welcome to shuke FTP service     #定制欢迎信息;
+#deny_email_enable=YES                        #是否禁止匿名用户使用某些邮件地址;
+#banned_email_file=/etc/vsftpd.banned_emails  #如果禁止匿名用户使用某些邮件地址,则输入禁止的邮件地址的路径和文件名;
+#chroot_list_enable=YES                       #是否将系统用户限制在自己的home目录下;
+#chroot_list_file=/etc/vsftpd.chroot_list     #如果限制系统用户在home目录下,则在列表中写出被禁止的用户列表;
+#max_clients=Number                           #如果以standalone模式启动,那么,只有$Number个用户可以连接,其他用户将得到错误信息,缺省是0,不限制用户数;
+#message_file                                 #设置访问一个目录时获得的目录信息文件的文件名,缺省是.message.
+```
+如果要设置相应参数,需去掉行首的"#".
+
+修改配置后使用如下命令重新加载配置文件：
+
+```
+/etc/init.d/vsftpd reload
+```
+
+vsftpd没有内置虚拟路径的功能。在设置了chroot后，vsftpd登录后显示的目录就是用户的目录。要设置共享的目录，可以使用mount命令。比如登录用户为ftp，登录后显示的目录为/home/ftp，需要共享的目录为/music，则可以这样设置：
+
+```
+mkdir /home/ftp/music
+mount --bind /music /home/ftp/music
+```
+
+其他的ftp服务端软件还有proftpd、pure-ftpd、wu-ftpd等，可以根据不同的需求选用。
+
+### 客户端连接
+
+假设服务器地址是169.254.235.235。在Windows上打开IE，在地址栏输入下列地址即可打开服务器：
+
+```
+ftp://169.254.235.235/
+```
+
+在Linux上，可以使用gftp软件连接ftp服务器。如下图所示：
+
+![gftp.png](<assets/ftp/gftp.png>)
+
+### 文件名乱码
+
+虽然FTP协议建议文件名使用UTF8进行编码，但是很多FTP服务端和客户端并不遵守这一建议。如果在ftp服务器上使用的文件名编码和客户端本地编码不同，会造成显示的文件名乱码。比如Linux服务器上大多使用UTF8编码，而windows上的FTP客户端不支持UTF8编码，就会造成中文文件名乱码。这个问题有如下几种解决方法：
+
+* 使用全英文的文件名。大多数公用的FTP服务器都遵守这一约定，中文都由拼音来表示。
+* 如果FTP客户端只用Windows客户端，都采用GBK编码，且文件都由客户端上传，在服务器上不对文件做其他用途，则可以不用进行特殊处理。这时，服务器上存放的所有文件均为客户端上传，文件名都采用GBK编码，用Windows客户端浏览不会乱码。但是，这时如果在服务端上浏览这些文件会发现文件名是乱码。如果还有其他非GBK编码的客户端连接服务器，也会发现文件名是乱码。
+* 如果客户端全部使用GBK编码，但是服务端要对文件做其他操作，比如还需拿来做Samba共享。此时，可以采用对FTP服务器打补丁的方法，补丁的功能是在文件上传、下载时，自动进行文件编码的转换。客户端上指定的GBK编码的文件名，自动被转换成服务器上的UTF8编码，保证存放在服务器硬盘上的文件名采用UTF8编码，以便做其他处理。各种FTP服务端的补丁各不相同，往往需要重新编译，安装很不方便。
+* 全部使用支持UTF-8编码的客户端，所有文件名采用UTF8编码。Windows下支持UTF8的客户端有SmartFTP等。但是这样不能用Windows下某些常用的客户端访问FTP服务器，比如IE、FlashFXP等。
+
+### 参考
+
+* 介绍：http://en.wikipedia.org/wiki/FTP
+* SFTP：[ssh](<ssh.qmd>)
+* vsftpd：http://vsftpd.beasts.org/
+* SmartFTP：http://www.smartftp.com/

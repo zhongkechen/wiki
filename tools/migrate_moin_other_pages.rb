@@ -28,7 +28,43 @@ ROOT_PAGE_CHILDREN = {
     SICP的Python实现/SICP的Python实现1.1
     SICP的Python实现/SICP的Python实现1.2
     SICP的Python实现/SICP的Python实现1.3
-  ]
+  ],
+  "C++集成开发环境" => %w[
+    VC++2003
+    Dev-C++
+    devcpp_简要使用说明
+    Eclipse开发C++程序使用说明
+    Sun_Netbeans
+    Linux下的C++开发环境
+    CodeBlock
+    Java开发环境
+    Cygwin
+    MinGW
+  ],
+  "TCPL" => %w[
+    TCPL/0_1_Preface
+    TCPL/0_2_Introduction
+    TCPL/1_A_Tutorial_Introduction
+    TCPL/2_Types_Operators_and_Expressions
+    TCPL/3_Control_Flow
+    TCPL/4_Functions_and_Program_Structure
+    TCPL/5_Pointers_and_Arrays
+    TCPL/6_Structures
+    TCPL/7_Input_and_Output
+    TCPL/8_The_UNIX_System_Interface
+    TCPL/A_Reference_Manual
+    TCPL/B_Standard_Library
+    TCPL/C_Summary_of_Changes
+  ],
+  "毕业设计" => %w[
+    在线判题题库建设
+    开源许可证研究
+    Python对象持久化技术研究
+    维基网站的研究与建设
+  ],
+  "cchuang" => [],
+  "ymc" => [],
+  "lzhongyue" => []
 }.freeze
 AUXILIARY_PAGE_NAMES = ["留言/PageCommentData"].freeze
 MIGRATED_PAGE_NAMES = ROOT_PAGE_CHILDREN.flat_map do |root_name, children|
@@ -40,10 +76,20 @@ EXCLUDED_ATTACHMENTS = {
   "MSP430" => ["ebook 16M.rar"]
 }.freeze
 REUSED_OUTPUT_PATHS = {
-  "论坛" => File.join("ICPC", "论坛.qmd")
+  "论坛" => File.join("ICPC", "论坛.qmd"),
+  "Linux" => "Linux.qmd",
+  "计算机科学导论" => "计算机科学导论.qmd",
+  "离散数学" => "离散数学.qmd"
+}.freeze
+COURSE_ROOT_NAVIGATION = {
+  "C++集成开发环境" =>
+    "[返回“高级语言程序设计课程”](<高级语言程序设计课程.qmd>)",
+  "TCPL" =>
+    "[返回“高级语言程序设计课程”](<高级语言程序设计课程.qmd>)"
 }.freeze
 BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
-SECTION_NUMBER_PRAGMA_PATTERN = /^#pragma section-numbers \d+[ \t]*\r?$/
+SECTION_NUMBER_PRAGMA_PATTERN =
+  /^#pragma section-numbers (?:on|\d+)[ \t]*\r?$/
 
 def decode_page_name(entry)
   entry.gsub(/\(([0-9a-fA-F]+)\)/) do
@@ -535,7 +581,7 @@ end
 
 def convert_moin(text, owner:)
   source = text.gsub("\r\n", "\n")
-  source.gsub!(/^#pragma section-numbers \d+[ \t]*\n?/, "")
+  source.gsub!(/^#pragma section-numbers (?:on|off|\d+)[ \t]*\n?/, "")
   source.gsub!("{{{{#!", "{{{#!")
   source.gsub!(/^(\s*)\{\{\{(?!#!)[ \t]*(\S[^\n]*)\n/) do
     "#{Regexp.last_match(1)}{{{\n#{Regexp.last_match(2)}\n"
@@ -795,7 +841,10 @@ Dir.mktmpdir("migrate-moin-other-pages") do |temporary_root|
     root_name = root_page_name(page_name)
     navigation =
       if page_name == root_name
-        "[返回旧版首页](首页.qmd)"
+        COURSE_ROOT_NAVIGATION.fetch(
+          root_name,
+          "[返回旧版首页](首页.qmd)"
+        )
       else
         "[返回“#{root_name}”](<../#{root_name}.qmd>)"
       end

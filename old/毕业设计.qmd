@@ -1,0 +1,25 @@
+---
+title: "毕业设计"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+* 徐金焕  [在线判题题库建设](<毕业设计/在线判题题库建设.qmd>)
+* 林琴春  [开源许可证研究](<毕业设计/开源许可证研究.qmd>)
+* 管林为  [Python对象持久化技术研究](<毕业设计/Python对象持久化技术研究.qmd>)
+* 杨帆  [维基网站的研究与建设](<毕业设计/维基网站的研究与建设.qmd>)
+
+注：统一使用[OpenOffice](http://zh.openoffice.org/)软件处理文档，使用pdf([Adobe Reader](http://www.adobe.com/cn/products/acrobat/readstep2.html))格式交付最终结果。
+
+注：3月10日交任务书，3月23日交翻译、文献综述，3月23日交开题报告
+
+指导记录
+
+* 1月2x日 布置毕业设计任务
+* 3月7日  指导文献综述、翻译的编写

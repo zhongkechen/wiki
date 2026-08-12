@@ -1,0 +1,25 @@
+---
+title: "TCPL/8_The_UNIX_System_Interface"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+## Chapter 8 - The UNIX System Interface UNIX系统接口
+
+The UNIX operating system provides its services through a set of system calls, which are in effect functions within the operating system that may be called by user programs. This chapter describes how to use some of the most important system calls from C programs. If you use UNIX, this should be directly helpful, for it is sometimes necessary to employ system calls for maximum efficiency, or to access some facility that is not in the library. Even if you use C on a different operating system, however, you should be able to glean insight into C programming from studying these examples; although details vary, similar code will be found on any system. Since the ANSI C library is in many cases modeled on UNIX facilities, this code may help your understanding of the library as well.
+
+UNIX操作系统通过一系列的*系统调用*提供服务，这些系统调用实际上是操作系统内的函数，它们可以被用户程序调用。本章将介绍如何在C语言程序中使用一些重要的系统调用。如果读者使用的是UNIX，本章将会对你有直接的帮助，这是因为，我们经常需要借助于系统调用以获得最高的效率，或者访问标准库中没有的某些功能。但是，即使读者是在其他操作系统上使用C语言，本章的例子也将会帮助你对C语言程序设计有更深入的了解。不同系统中的代码具有相似性，只是一些细节上有区别而已。因为ANSI C标准函数库是以UNIX系统为基础建立起来的，所以，学习本章中的程序还将有助于更好地理解标准库。
+
+This chapter is divided into three major parts: input/output, file system, and storage allocation. The first two parts assume a modest familiarity with the external characteristics of UNIX systems.
+
+本章的内容包括3个主要部分：输入/输出、文件系统和存储分配。其中，前两部分的内容要求读者对UNIX系统的外部特性有一定的了解。
+
+Chapter 7 was concerned with an input/output interface that is uniform across operating systems. On any particular system the routines of the standard library have to be written in terms of the facilities provided by the host system. In the next few sections we will describe the UNIX system calls for input and output, and show how parts of the standard library can be implemented with them.
+
+第7章介绍的输入/输出接口对任何操作系统都是一样的。在任何特定的系统中，标准库函数的实现必须通过宿主系统提供的功能来实现。接下来的几节将介绍UNIX系统中用于输入和输出的系统调用，并介绍如何通过它们实现标准库。

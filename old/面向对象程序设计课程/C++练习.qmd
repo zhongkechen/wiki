@@ -1,0 +1,808 @@
+---
+title: "C++练习"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+## 选择填空
+
+1. 在每个C++程序中都必须包含一个函数，这个函数的名字为（   ）。
+1. x和y都是bool型变量，表达式x&&y为true的条件是（）。
+1. 下面哪一个关键字不能作为函数的返回类型？A.void B.int C.new D.long
+1. a是一个整型数组的名字，则元素a[4]的地址为（）。A.a+4 B.a+8 C.a+16 D.a+32
+1. 假定AB是一个类，执行语句AB a(4), b[3], *p[2];调用AB类的构造函数的次数为（）。
+1. 在32位计算机上，int型的变量在内存中一般占（）个字节。
+1. 若定义int m = 5, y = 2;，则表达式y+=y-=m*=y后的值是（）。
+1. x>=3||x<-5的非，不用操作符!实现，可以表示为（）。
+1. 执行int m = 5; do{ cout << '*'; m--; }while(m+3>0);将输出（）个*号。
+1. 已知数组a定义为int a[][5]={ {1},{2},{3} };则数组a共有（）元素。
+1. 已知数组a定义为int a[5] ={78,80,93,100,65};，并且已知sizeof(int)的值是4，设数组a的首地址是2000H，那么第三个元素93的地址为（）。
+1. 已知数组a定义为char a[]="good morning";，请写出strstr(a,"mo")的值为（）。
+1. C++语言起源于（）语言，并在其基础上增加了面向对象的特性。
+1. 定义常值变量的修饰符是（）
+1. `for(int i = 0, j = 10; i = j = 10; i++, j++)`这个循环的循环次数是（）次
+1. 已知数组a的定义为int a[5]={10,20,30};，当有sizeof(int)值为4时，数组a占用了（）字节。
+1. 已知一个函数的定义是：double Area(double r) { return 3.14*r*r; }，则该函数的原型是（）。
+1. 访问指针变量所指向的数据应该用操作符（）。
+1. 一个联合对象所占用的存储空间的大小为（）。
+1. 当对象调用成员函数时，除了将实参传递给成员函数中显式说明的形参外，还同时把对象的地址传送给成员函数中默认的指针参数（）中。
+1. 要使用setw流控制符，需要包含的头文件是（）。
+1. 下列符号中，可以作为C++标识符的是（）：A.6str B.sp_str C.who? D.switch
+1. 有定义int p, q;下列语句不正确的是：A. p*=3;  B. p/=q; C.p+=3; D. p&&=q;
+
+## 找出以下程序中的语法错误，并作出解释。
+
+1.
+
+   ```cplusplus
+   #include <stdlib.h>
+   int main() {
+       const int size;
+       size = 10;
+       int a[size];
+       int *p1 = new int[size];
+       int *p2 = malloc(sizeof(int)* size);
+       int *p3 = new int(size);
+       for(int i = 0; i < size; i++) {
+           a[i] = i;
+           p1[i] = a[i] * i;
+           p2[i] = p1[i] * i;
+           p3[i] = p2[i] * i;
+       }
+       int sum;
+       for(int i = 0; i < size; i++)
+           sum += a[i] + p1[i] + p2[i] + p3[i];
+       cout << sum;
+       delete p1;
+       delete [] p2;
+       delete p3;
+   }
+   ```
+
+1.
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   class N {
+       static int n = 0;
+       int i;
+   public:
+       void N() : i(0) { }
+       void N(int a = 0) : i (a) { }
+       void N(int a = 0, int b) : i(a), n(b) { }
+       int get() const { return i++; }
+       void set(int a) { i = a;}
+       void print() const { cout << get() << endl;}
+       static int getn() const { return n; }
+       static void setn(int a) { n = a; i++; }
+   }
+   int main() {
+       cout << N::n << endl;
+       cout << N::getn() << endl;
+       cout << get() << endl;
+       cout << N::get() << endl;
+       cout << N::setn(10) << endl;
+       N *p = new N(5);
+       N n();
+       n.set(10);
+       n.setn(11);
+       p.set(5);
+       delete p;
+   }
+   ```
+1.
+
+   ```cplusplus
+   #include <string>
+   #include <iostream>
+   using namespace std;
+   class S {
+   public:
+       S(int a0) { cout << a0 << endl; }
+       S(double a0, int b0) : d(a0), b(b0){ cout << a0 << b0 << endl; }
+       S(char *p0) : d(a), b(2) { cout << p << endl;}
+       S(int &a0) : a(0), b(1), c("abc"), d(a0), p(new int) { }
+   private:
+       int a;
+       const int b;
+       string c;
+       int &d;
+       int *p;
+   };
+   int main() {
+       S a(1);
+       S b;
+       S c(0.0, 1);
+       S d("hello");
+       S e(true);
+       S f(a);
+       e = a;
+   }
+   ```
+1.
+
+   ```cplusplus
+   #include <string>
+   #include <iostream>
+   using namespace std;
+   class Person{
+   public:
+       Person(string name) : name_ (name) { }
+       virtual void print() const = 0 { cout << name_; }
+       virtual bool compare(Person p) const { return p.name_ == name_; }
+   protected:
+       string name_;
+   };
+   class Student : public Person {
+       Student(string name, string id) { name_ = name; id_ = id; }
+       Student(Person p, string id) { name_ = p.name_; id_ = id;}
+       bool compare(Student s) const { return s.name_==name_ && s.id_ == id_; }
+       void print() { cout << name_ << id_ << endl; }
+   private:
+       string id_;
+   };
+
+   int main() {
+       Person p("Mike");
+       Student s("jack", "12345");
+       Student t(p, "23424");
+       cout << s.compare(t);
+       cout << p.compare(t);
+       cout << s.compare(p);
+       s.print();
+       s.Person::print();
+   }
+   ```
+1.
+
+   ```cplusplus
+   class Integer{
+   public:
+       Integer(int a = 0) : i(a) {}
+       Integer operator+(int a, int b) { return a + b;}
+       Integer operator-() { return -i; }
+       Integer operator+() { return i; }
+       Integer operator++() { return ++i; }
+       Integer operator++(int) { return i++; }
+       bool operator<>(int a) { return i != a; }
+   private:
+       int i;
+   };
+   void operator>>(ostream &os, Integer i) {
+       os << i;
+   }
+   istream & operator<<(istream &is, Integer i) {
+       is >> i.i;
+       return is;
+   }
+   Integer operator-(Integer a, Integer b) {
+       return a.i - b.i;
+   }
+   int main() {
+       Integer i(-1);
+       Integer j;
+       cin >> j;
+       i = -i;
+       i = i - j;
+       i = i + 10;
+       cout << i;
+   }
+   ```
+
+## 读程序，写出程序运行的结果
+
+1.
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   int inc( int &a) {
+       return ++a;
+   }
+   int dec( int a) {
+       return --a;
+   }
+   int main() {
+       int b = 10;
+       cout << inc(b) << endl;
+       cout << dec(b) << endl;
+       cout << inc(b) << endl;
+   }
+   ```
+1.
+
+   ```cplusplus
+   #include <iostream>
+   #include <string>
+   using namespace std;
+   int f( string a );
+   int f( int b , int c = 1);
+   int f( bool b);
+   int main() {
+       string s = "";
+       cout << f(s) << endl;
+       cout << f('\060') << endl;
+       cout << f(1, 2) << endl;
+       cout << f(false) << endl;
+       cout << f(0) << endl;
+   }
+   int f( string a) {
+       return a.length();
+   }
+   int f( int b, int c) {
+       return b * c + b + c + 1;
+   }
+   int f(bool b) {
+       return b?1:-1;
+   }
+   ```
+1.
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   class Z {
+   public:
+       Z(int i) : id(i) { cout << id << " created" << endl; }
+       ~Z() { cout << id << " destroyed" << endl; }
+       Z(Z &z) : id(z.id) { cout << id << " created a copy" << endl; }
+   private:
+       int id;
+   };
+   Z z(0);
+   int main() {
+       cout << "main start" << endl;
+       Z z1(1);
+       Z z2(2);
+       Z *z3 = new Z(3);
+       Z z4(z1);
+   }
+   ```
+1.
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   class X {
+   public:
+       X(int a) : x(a) { cout << "create X:" << x << endl; }
+       ~X() { cout << "destroy X:"<< x << endl; }
+   private:
+       int x;
+   };
+   class Y : public X{
+   public:
+       Y() : x(1), X(2) { cout << "create Y" << endl; }
+       ~Y() { cout << "destroy Y" << endl; }
+   private:
+       X x;
+   };
+
+   int main() {
+       X x(5);
+       Y  y;
+   }
+   ```
+1.
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   class B{
+   public:
+       virtual void f() { cout << "B::f() "; }
+       void g() { cout << "B::g() "; }
+       virtual void h() { f(); }
+   };
+   class D : public B {
+   public:
+       void f() { cout << "D::f() "; }
+       void g() { cout << "D::g() "; }
+   };
+   int main() {
+       B b;
+       b.f(); b.g(); b.h();
+       cout << endl;
+       B *p = &b;
+       p->f(); p->g(); p->h();
+       cout << endl;
+       p = new D;
+       p->f(); p->g(); p->h();
+       cout << endl;
+       B &r = *p;
+       r.f(); r.g(); r.h();
+       cout << endl;
+       delete p;
+   }
+   ```
+1.
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   class B{
+   public:
+       B () { cout << "create B" << endl; }
+       virtual ~B() { cout << "destroy B" << endl; }
+       virtual void f() { cout << "B::f()" << endl; }
+       virtual void f(int a) { cout << "B::f(int)" << endl; }
+   };
+   class D : public B {
+   public:
+       D() { cout << "create D" << endl; }
+       virtual ~D() { cout << "destroy  D" << endl; }
+       virtual void f() { cout << "D::f()" << endl; }
+       virtual void f(bool a) { cout << "D::f(bool)" << endl; }
+   };
+   int main() {
+       B *p = new B;
+       p->f();
+       p->f(0);
+       delete p;
+       p = new D;
+       p->f();
+       p->f(0);
+       delete p;
+       D *d = new D;
+       d->f();
+       d->f(0);
+       delete d;
+   }
+   ```
+1.
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   class D {
+   public:
+       D() { cout << "D created" << endl; }
+       D(D&) { cout << "D created a copy" << endl; }
+       ~D() { cout << "D destroyed" << endl; }
+       D& operator=(D&) { cout << "D assigned" << endl; return *this; }
+       void operator++() { cout << "operator++" << endl; }
+       void operator++(int) { cout << "operator++ with int" << endl; }
+   };
+   int main() {
+       D d1;
+       D d2(d1);
+       d1 = d2;
+       ++d1;
+       d2++;
+   }
+   ```
+
+## 程序填空题
+
+1. 输入一组数，求它们的总和。以EOF标志输入的结束。
+
+   ```
+   #include <iostream>
+   using namespace std;
+   int main(){
+       int i, sum = 0;
+       while(①____________)
+           sum += i;
+       cout << sum;
+   }
+   ```
+
+1. 按照右对齐输出一组数
+
+   ```
+   #include <iostream>
+   #include <iomanip>
+   using namespace std;
+   int main() {
+       int n;
+       cin >> n;
+       for(int i = 0;i < n; i++) {
+           for(int j = 0; j <= i; j++)
+               ②_____________________
+           cout << endl;
+       }
+   }
+   ```
+
+   输入5，输出：
+
+   ```
+      1
+      2   4
+      3   6   9
+      4   8  12  16
+      5  10  15  20  25
+   ```
+
+1. 交换两个参数的函数
+
+   ```
+   void swap(③_______________) {
+       int temp = a;
+       a = b;
+       b = temp;
+   }
+   ```
+
+1. 打印时间的函数
+
+   ```
+   #include <iostream>
+   using namespace std;
+   void print_clock(④__________________________) {
+       cout << hour << ":" << minute << ":" << second;
+   }
+   int main(){
+       print_clock(10, 20, 30); // output: 10:20:30
+       print_clock(10, 20);     // output: 10:20:0
+       print_clock(10);         // output: 10:0:0
+       print_clock();           // output: 0:0:0
+   }
+   ```
+1. 打印参数的类型
+
+   ```
+   #include <iostream>
+   using namespace std;
+   void print_type(⑤___________) {
+       cout << "int type" << endl;
+   }
+   void print_type(⑥___________) {
+       cout << "char type" << endl;
+   }
+
+   int main() {
+       print_type(20);  // output: int type
+       print_type("hello world"); //output: char type
+   }
+   ```
+1. 日期对象的创建
+
+   ```
+   class Date{
+       int year, month, day;
+   public:
+       ⑦__________________________________
+       {
+       }
+       void display() {
+           cout << year <<"-" << month <<"-"<<day;
+       }
+   };
+   int main(){
+       Date d(1988, 10, 12);
+       d.display(); //output: 1988-10-12
+   }
+   ```
+
+1. 任务计数
+
+   ```
+   class Task{
+   public:
+       static int count;
+       Task() {count++;}
+       ~Task() {count--;}
+   };
+   ⑧_____________________
+   int main() {
+       cout << Task::count; //output: 0
+       Task *t = new Task;
+       cout << t->count;    //output: 1
+       delete t;
+       cout << Task::count; //output: 0
+   }
+   ```
+1. 数组
+
+   ```
+   class Array{
+       int *data;
+   public:
+       Array(int n) {
+           data = new int[n];
+       }
+       ⑨_____________________
+       {
+           delete [] data; //free memory when object destroyed
+       }
+   };
+   ```
+1. 字符串求较大者
+
+   ```
+   #include <string>
+   using namespace std;
+   int main() {
+       ⑩______________
+       cin >> str1 >> str2;
+       cout << "The bigger string is "<< (str1>str2?str1:str2);
+   }
+   ```
+
+1. cin和cout
+
+   ```
+   #include <iostream>
+   ⑪___________________ {
+       int cin = 0;
+       int &cout = cin;
+   }
+   int main() {
+       std::cin >> czk::cin;
+       std::cout<< czk::cout;
+   }
+   ```
+
+## 编程题，按要求编写程序
+
+1. 实现字符串类string，声明如下
+
+   ```cplusplus
+   class string {
+   public:
+       string(const char *str = "");		// 普通构造函数
+       string(const string &other);	        // 拷贝构造函数
+       ~string();					    // 析构函数
+       string & operator = (const string &other);	// 赋值函数
+       bool operator==(const string &s);
+       bool operator!=(const string &s);
+       bool operator<(const string &s);
+       bool operator>(const string &s);
+       bool operator<=(const string &s);
+       bool operator>=(const string &s);
+       string operator +(const string &s); //连接
+       string operator +=(const string &s);
+       int length() const;
+       bool empty() const;
+       char* c_str()	{ return m_data; }
+   private:
+       char *m_data;				    // 用于保存字符串
+   };
+   ostream &operator<<(ostream &os, const string &s);
+   istream &operator>>(istream &is, string &s);
+   ```
+1. 实现完整的复数运算，复数类的声明如下：
+
+   ```cplusplus
+   class complex {
+   public:
+       complex(double r = 0.0, double i= 0.0);
+       complex operator+();
+       complex operator-();
+       complex operator+=(complex);
+       complex operator-=(complex);
+       complex operator*=(complex);
+       bool operator!(); //非0返回假，0返回真
+       double abs(); //取模
+       double arg(); //取角度
+       complex conj(); //共轭
+       double &real(); //实部
+       double &imag(); //虚部
+   private:
+       double real_, imag_;
+   };
+   ostream &operator<<(ostream &os, complex);
+   istream &operator>>(istream &is, complex &);
+   complex operator+(complex a, complex b);
+   complex operator*(complex a, complex b);
+   complex operator-(complex a, complex b);
+   complex operator==(complex a, complex b);
+   complex operator!=(complex a, complex b);
+   ```
+1. 实现Stack类，提供push（把一个元素放入栈中），pop（把栈中最后一个元素删去），top（取栈中最后一个元素）。请实现Stack类，使其能够得到正确的运行结果。
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   int main() {
+       Stack s1(5);
+       for(int i = 0; i < 3; i++) s1.push(i);
+       Stack s2(s1);
+       while(s1.size() > 0) {
+           cout << s1.top() << endl;
+           s1.pop();
+       }
+       s1 = s2;
+       for(int i = 3; i < 5; i++) s1.push(i);
+       while(s1.size() > 0) {
+           cout << s1.top() << endl;
+           s1.pop();
+       }
+   }
+   ```
+1. 实现队列Queue类，提供enqueue（把一个元素放在队列的末尾中），dequeue（把队列中第一个元素删去），front（取队列中第一个元素的值），back（取队列最后一个元素的值）。请实现Queue类，使其能够得到正确的运行结果。
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+   int main() {
+       Queue s1(5);
+       for(int i = 0; i < 3; i++) s1.enqueue(i);
+       Queue s2(s1);
+       while(s1.size() > 0) {
+           cout << s1.front() << endl;
+           s1.dequeue();
+       }
+       s1 = s2;
+       for(int i = 3; i < 5; i++) s1.enqueue(i);
+       while(s1.size() > 0) {
+           cout << s1.front() << endl;
+           s1.dequeue();
+       }
+   }
+   ```
+1. 财务软件。Account为账户，Account****List为账户的集合，两个类的声明如下，请给出这两个类的实现。
+
+   ```cplusplus
+   class Account {
+   public:
+       Account(string name, int type, double amount);
+       string &name();
+       int &type();
+       double &amount();
+   private:
+       string name_;
+       int type_;
+       double amount_;
+   };
+   class AccountList {
+   public:
+       AccountList(int capacity);
+       void AddAccount(Account account);
+       void RemoveAccount(string name);
+       int Find(string name);
+       Account &At(int i);
+   private:
+       int capacity_;
+       int size_;
+       Account *accounts;
+   };
+   ```
+1. 学校的人事关系。学校里面有四类人：人（Person），学生（Student），教师（Teacher），助教（Assistant）。其中助教是一类特殊的人，他们是教师，同时也是学生。请完成以下程序，使之能得到正确运行结果。
+
+   ```cplusplus
+   #include <iostream>
+   #include <string>
+   using namespace std;
+   int main() {
+       Person *p[4];
+       p[0] = new Person("jack");
+       p[1] = new Student("rose", "12345");
+       p[2] = new Teacher("czk", "lecturer");
+       p[3] = new Assistant("oldbig", "23456", "assistant");
+       for(int i= 0; i < 4; i++) {
+           p[i] -> print();
+           cout << endl;
+       }
+   }
+   ```
+
+1. 声明一个Shape抽象类，在此基础上派生出Rectangle类（矩形）和Circle类（圆），二者都有Get****Area()函数计算对象的面积，请按下面的要求给出Shape类、Rectangle类、Circle类的实现：Rectangle类有Width宽度，Height高度属性；Circle类有Radius半径属性；Rectangle类和Circle类的构造函数用以初始化上述参数；每个类都有Get****Area函数，用以计算此形状的面积；主函数（如下）已经写好，对Rectangle、Circle类进行测试，使它们以统一的操作界面输出面积。
+
+   ```cplusplus
+   #include <iostream>
+   using  namespace  std;
+   int main()
+   {
+       Shape *shapes[5];
+       shape[0] =  new Rectangle(1.0, 2.0);
+       shape[1] =  new Circle(5.0);
+       shape[2] =  new Circle(1.0);
+       shape[3] =  new Rectange(3.0, 1.5);
+       shape[4] =  new Circle(0.0);
+       for( int i = 0; i < 5; i++)
+           cout<<"Area of shape "<<i <<" is "<<shape[i]->GetArea()<<endl;
+   }
+   ```
+
+1. 设计一个分数类Fraction，表示分数，可以进行算术运算，并完成输入输出，输出时分子分母能够约到最简。请完成Fraction这个类，并可以使如下程序正常运行：
+
+   ```
+   int main() {
+       Fraction f1(1, 8);
+       Fraction f2(1, 4);
+       cout << f1+f2 << endl;
+       cout << f1-f2 << endl;
+       cout << f1*f2 << endl;
+       cout << f1/f2 << endl;
+       cout << -f1 << endl;
+       cout << (-4 %2==0) << endl;
+       if(f1==f2)
+           cout << "f1 and f2 are same "<<endl;
+       else if(f1 > f2)
+           cout << "f1 is bigger" << endl;
+       else
+           cout << "f2 is bigger" << endl;
+   }
+   ```
+
+   参考程序：
+
+   ```cplusplus
+   #include <iostream>
+   using namespace std;
+
+   class Fraction {
+       int num, denom;
+   public:
+       void normalize() {
+           if(denom < 0) {
+               denom = -denom;
+               num = -num;
+           }
+           if(denom == 0)
+               num = 0;
+           else if(num == 0)
+               denom = 1;
+           else {
+               for(int i = 2; i <= min(abs(num), denom);)
+                   if(num%i==0 && denom%i==0) {
+                       num /= i;
+                       denom /= i;
+                   } else {
+                       i++;
+                   }
+           }
+       }
+       Fraction(int n, int d):num(n), denom(d){
+           normalize();
+       }
+       Fraction(const Fraction &f):num(f.num), denom(f.denom){
+           normalize();
+       }
+       Fraction operator+(Fraction a) {
+           return Fraction(num*a.denom+denom*a.num, denom*a.denom);
+       }
+       Fraction operator-(Fraction a) {
+           return Fraction(num*a.denom-denom*a.num, denom*a.denom);
+       }
+       Fraction operator*(Fraction a) {
+           return Fraction(num*a.num, denom*a.denom);
+       }
+       Fraction operator/(Fraction a) {
+           return Fraction(num*a.denom, denom*a.num);
+       }
+       Fraction operator-() {
+           return Fraction(-num, denom);
+       }
+       bool operator==(Fraction f){
+           return (*this-f).num == 0;
+       }
+       bool operator>(Fraction f){
+           return (*this-f).num > 0;
+       }
+       bool operator<(Fraction f){
+           return (*this-f).num < 0;
+       }
+       friend ostream& operator<<(ostream &os, const Fraction &f) {
+           return cout << f.num << "/" << f.denom;
+       }
+   };
+
+   int main() {
+       Fraction f1(1, 8);
+       Fraction f2(1, 4);
+       cout << f1+f2 << endl;
+       cout << f1-f2 << endl;
+       cout << f1*f2 << endl;
+       cout << f1/f2 << endl;
+       cout << -f1 << endl;
+       cout << (-4 %2==0) << endl;
+       if(f1==f2)
+           cout << "f1 and f2 are same "<<endl;
+       else if(f1 > f2)
+           cout << "f1 is bigger" << endl;
+       else
+           cout << "f2 is bigger" << endl;
+   }
+   ```
+
+## The end

@@ -17,6 +17,27 @@ ROOT_PAGE_NAMES = %w[
   有趣的小东东
   留言
   SICP的Python实现
+  C++集成开发环境
+  TCPL
+  毕业设计
+  cchuang
+  ymc
+  lzhongyue
+].freeze
+HOMEPAGE_PAGE_NAMES = %w[
+  维基简介
+  浙大考博题
+  计算机体系结构
+  MSP430
+  English
+  美食
+  有趣的小东东
+  留言
+  SICP的Python实现
+  毕业设计
+  cchuang
+  ymc
+  lzhongyue
 ].freeze
 
 def assert(condition, message)
@@ -44,8 +65,8 @@ expected_files = migrated_files(REPOSITORY_ROOT)
 qmd_files = expected_files.select { |path| path.end_with?(".qmd") }
 asset_files = expected_files - qmd_files
 
-assert(qmd_files.length == 13, "Expected 13 QMD pages, found #{qmd_files.length}")
-assert(asset_files.length == 51, "Expected 51 attachments, found #{asset_files.length}")
+assert(qmd_files.length == 46, "Expected 46 QMD pages, found #{qmd_files.length}")
+assert(asset_files.length == 62, "Expected 62 attachments, found #{asset_files.length}")
 
 Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
   FileUtils.cp_r(File.join(REPOSITORY_ROOT, "tools"), temporary_root)
@@ -75,9 +96,9 @@ Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
     chdir: temporary_root
   )
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 13 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Converted 46 pages"), "Unexpected page count:\n#{stdout}")
   assert(
-    stdout.include?("Copied 51 attachments"),
+    stdout.include?("Copied 62 attachments"),
     "Unexpected attachment count:\n#{stdout}"
   )
 
@@ -126,7 +147,7 @@ homepage = File.read(
   File.join(REPOSITORY_ROOT, "old", "首页.qmd"),
   encoding: "UTF-8"
 )
-ROOT_PAGE_NAMES.each do |page_name|
+HOMEPAGE_PAGE_NAMES.each do |page_name|
   assert(
     homepage.include?("(#{page_name}.qmd)"),
     "Homepage does not link to #{page_name}.qmd"
@@ -259,6 +280,48 @@ assert(
 assert(
   english.scan(/^ {8}a\. /).length == 120,
   "English answer choices were not preserved as nested alphabetic lists"
+)
+
+development_environment = File.read(
+  File.join(REPOSITORY_ROOT, "old", "C++集成开发环境.qmd"),
+  encoding: "UTF-8"
+)
+assert(
+  development_environment.include?(
+    "C++集成开发环境/VC++2003.qmd"
+  ),
+  "C++ development environment child pages were not migrated"
+)
+
+mingw = File.read(
+  File.join(REPOSITORY_ROOT, "old", "C++集成开发环境", "MinGW.qmd"),
+  encoding: "UTF-8"
+)
+assert(
+  mingw.include?("源页面不可用"),
+  "Unreadable MinGW source page is missing its warning"
+)
+
+tcpl = File.read(
+  File.join(REPOSITORY_ROOT, "old", "TCPL.qmd"),
+  encoding: "UTF-8"
+)
+assert(
+  tcpl.include?("TCPL/C_Summary_of_Changes.qmd"),
+  "TCPL chapter index was not expanded"
+)
+assert(
+  !tcpl.include?("#pragma section-numbers"),
+  "TCPL section numbering pragma leaked into the generated page"
+)
+
+graduation = File.read(
+  File.join(REPOSITORY_ROOT, "old", "毕业设计.qmd"),
+  encoding: "UTF-8"
+)
+assert(
+  graduation.include?("毕业设计/在线判题题库建设.qmd"),
+  "Graduation project pages were not migrated"
 )
 
 english_spam = File.join(

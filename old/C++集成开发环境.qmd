@@ -12,16 +12,18 @@ format:
 
 ## 集成开发环境指导
 
-* [VC++2003](<VC++2003.html>) ( 微软产品，集成 Microsoft C++ Compiler 7.1，Windows下最好的开发环境，调试方便，价格高)
-* [Dev-C++](<Dev-C++.html>) ( 集成MinGW编译器，小巧，免费，调试器不好用 ) [devcpp_简要使用说明](<devcpp_简要使用说明.html>)
-* Eclipse + CDT (配合GCC+GDB或者MinGW)( 跨平台，多语言开发环境，免费，速度慢 )[Eclipse开发C++程序使用说明](<Eclipse开发C++程序使用说明.html>)
-* [Sun_Netbeans](<Sun_Netbeans.html>) (跨平台、多语言、免费，速度慢)
-* Emacs(VI) + GCC  + GDB( Linux平台下通用开发平台，多语言，免费，入门难 ) [Linux下的C++开发环境](<Linux下的C++开发环境.html>)
-* [Code::Block](<CodeBlock.html>) (用C++语言开发的基于wxWidgets的开源、跨平台的集成开发环境，支持多种编译器)
+* [VC++2003](<C++集成开发环境/VC++2003.qmd>) ( 微软产品，集成 Microsoft C++ Compiler 7.1，Windows下最好的开发环境，调试方便，价格高)
+* [Dev-C++](<C++集成开发环境/Dev-C++.qmd>) ( 集成MinGW编译器，小巧，免费，调试器不好用 )  [devcpp_简要使用说明](<C++集成开发环境/devcpp_简要使用说明.qmd>)
+* Eclipse + CDT (配合GCC+GDB或者MinGW)( 跨平台，多语言开发环境，免费，速度慢 )[Eclipse开发C++程序使用说明](<C++集成开发环境/Eclipse开发C++程序使用说明.qmd>)
+* [Sun_Netbeans](<C++集成开发环境/Sun_Netbeans.qmd>) (跨平台、多语言、免费，速度慢)
+* Emacs(VI) + GCC  + GDB( Linux平台下通用开发平台，多语言，免费，入门难 ) [Linux下的C++开发环境](<C++集成开发环境/Linux下的C++开发环境.qmd>)
+* [Code::Block](<C++集成开发环境/CodeBlock.qmd>) (用C++语言开发的基于wxWidgets的开源、跨平台的集成开发环境，支持多种编译器)
 
 某些开发环境需要先安装Java开发环境才能运行：
-* [Java开发环境](<Java开发环境.html>)
+
+* [Java开发环境](<C++集成开发环境/Java开发环境.qmd>)
 
 某些开发环境需要先安装C++编译器和调试器才能编译和调试程序：
-* [Cygwin](<Cygwin.html>)
-* [MinGW](<MinGW.html>)
+
+* [Cygwin](<C++集成开发环境/Cygwin.qmd>)
+* [MinGW](<C++集成开发环境/MinGW.qmd>)

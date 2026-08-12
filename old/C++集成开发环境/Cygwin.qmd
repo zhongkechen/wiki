@@ -1,0 +1,15 @@
+---
+title: "Cygwin"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“C++集成开发环境”](<../C++集成开发环境.qmd>)
+
+运行附件中的setup.exe，边下载边安装，其中一个ftp.ntu.edu.tw的服务器速度比较快。要做C++开发环境，必须安装的是gcc、g++、make、gdb等软件包
+
+* [setup.exe](<assets/Cygwin/setup.exe>)

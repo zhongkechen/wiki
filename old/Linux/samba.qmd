@@ -1,0 +1,145 @@
+---
+title: "samba"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+Samba是一个实现SMB/CIFS协议的自由软件。SMB(Server Message Block)是微软Winows网络文件系统使用的协议。
+
+Samba的3.x版本不仅可以为微软Windows客户端提供文件和打印机共享服务，还可以与Windows域集成，作为主域控制器(PDC, Primary Domain Controller)或者作为域的成员。它也可以与活动目录域整合。Samba可以运行在大部分的Unix和类Unix操作系统上，比如Linux、Solaris、各种BSD等，包括苹果的Mac OS X服务器。
+
+### 安装
+
+输入如下命令即可安装samba：
+```
+aptitude install samba
+```
+
+在安装过程中会提示输入工作组，输入你所需要的工作组的名字即可。
+
+安装完成后，服务默认已经开启。假设服务器地址是169.254.235.235，在Windows客户机上的地址栏中输入如下地址即可访问：
+
+```
+\\169.254.235.235\
+```
+
+如果客户端是Linux，并且运行gnome，则只要在地址栏中输入如下地址即可：
+
+```
+smb://169.254.235.235/
+```
+
+### 配置
+
+#### 帐号设置
+
+如果要为samba添加新的登录帐号，首先要使用命令adduser创建新的系统帐号，比如要添加帐号jack：
+
+```
+adduser jack
+```
+
+然后提示输入密码等一系列信息后，就会创建名为jack的系统帐号。然后要用
+
+```
+smbpasswd -a jack
+```
+
+创建同名的samba帐号，才能够用作samba登录帐号。
+
+需要重新设置某个帐号的密码，比如设置czk帐号的密码，可以使用：
+
+```
+smbpasswd czk
+```
+
+如果要让用户无须登录就可以访问，则需要开启guest帐号。修改/etc/samba/smb.conf，在其中的[global]部分添加如下两行：
+
+```
+map to guest = Bad User
+guest account = jack
+```
+
+第二行中的jack为客户端用guest登录时，服务器端所使用的帐号。
+
+修改配置后，需要用如下命令重新加载设置
+
+```
+/etc/init.d/samba reload
+```
+
+#### 共享目录设置
+
+比如，要将目录/music设置为共享，共享名为music，可以在/etc/samba/smb.conf文件的末尾添加：
+```
+[music]
+    path = /music
+    guest ok = yes
+    writable = no
+```
+其中guest ok指定guest帐号可否访问，writable指定该共享是否可写。
+
+如果要设置某个共享是可写的，除了将上述writable参数改为yes外，还要将服务器上的目录的权限设置成对于登录用户是可以写的。比如，要让上述共享对于guest帐号是可以写的（guest被映射为jack），则需要
+
+```
+chown jack /music
+chmod 755 /music
+```
+
+#### 跨越防火墙共享
+
+在广域网路由器和很多大型局域网的路由器上，为了防止病毒的传播，都会禁止samba协议所使用的端口137、138、139、445的通过。但是这也给文件共享带来了不便。为了能够通过这些防火墙进行文件共享，可以修改共享所使用的端口号，来绕过防火墙。
+
+在/etc/samba/smb.conf的[global]段中添加smb ports参数，比如
+
+```
+    smb ports = 139 445 4445
+```
+
+默认的侦听端口是139和445，它们都是被防火墙拦截的，可以再增加一个不被拦截的端口号，比如4445。
+
+在Windows客户端上，运行regedit进入注册表编辑器，添加如下键值：
+
+```
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\SMB]
+"SessionPort"=dword:0000115d
+"DatagramPort"=dword:0000115d
+```
+
+其中115d是4445的16进制形式。重启windows客户端后，即可连接。
+
+#### WINS服务
+
+WINS是指Windows Internet Name Service，是一种负责解析NetBIOS名称的服务器。在跨网段使用NetBIOS名称的时候需要WINS服务器。Samba可以作为WINS服务器运行。在/etc/samba/smb.conf的[global]段中添加
+
+```
+wins support = yes
+```
+
+#### 共享打印机
+
+在/etc/samba/smb.conf中加入
+```
+[printers]
+path = /var/spool/samba
+printable = yes
+public = yes
+writable = no
+```
+即可共享服务器上的打印机。
+
+#### 域
+
+### 参考
+
+* 介绍：[http://en.wikipedia.org/wiki/Samba_(software)](http://en.wikipedia.org/wiki/Samba_(software))
+* 官方网站：http://www.samba.org/

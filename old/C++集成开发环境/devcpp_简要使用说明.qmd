@@ -1,0 +1,27 @@
+---
+title: "devcpp_简要使用说明"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“C++集成开发环境”](<../C++集成开发环境.qmd>)
+
+说明：
+
+这个简要说明是针对windows环境的。
+ 1.下载与安装
+未完成，先看看别人写的吧。
+
+用google搜索一个。如果你找不到，可以试试这个下载
+[devcpp下载](http://www.skycn.com/soft/4639.html)
+
+安装:一路next就可以了。
+ 2.建立源文件
+未完成
+
+ 3.编译运行
+为完成

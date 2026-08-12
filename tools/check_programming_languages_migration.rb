@@ -32,7 +32,7 @@ Dir.mktmpdir("check-programming-languages-migration") do |temporary_root|
   ]
   stdout, stderr, status = Open3.capture3(environment, *command, chdir: temporary_root)
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 147 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Converted 153 pages"), "Unexpected page count:\n#{stdout}")
   assert(stdout.include?("Copied 36 attachments"), "Unexpected attachment count:\n#{stdout}")
 
   expected_files = [
@@ -166,6 +166,49 @@ Dir.mktmpdir("check-programming-languages-migration") do |temporary_root|
       /src\s*=\s*"(?:\/images\/common\/sgilogo_small\.gif|containers\.gif|type\.gif)"/i
     ),
     "Unavailable legacy images were retained"
+  )
+  unavailable_links = %w[
+    ../../cpplinks/blast.html
+    ../../cpplinks/compilers.html
+    ../../cpplinks/esc99.html
+    ../../cpplinks/learn.html
+    /cgi-bin/feedback/index.cgi
+    /company_info/privacy.html
+    /company_info/terms.html
+    /company_info/trademarks/
+    deque.h
+  ]
+  cpp_resources = File.read(
+    File.join(
+      temporary_root,
+      "old",
+      "程序设计语言",
+      "C++相关资源.qmd"
+    ),
+    encoding: "UTF-8"
+  )
+  unavailable_links.each do |target|
+    assert(
+      ![cpp_resources, container_page, deque_page].any? do |page|
+        page.include?("href=\"#{target}\"")
+      end,
+      "Unavailable legacy link was retained: #{target}"
+    )
+  end
+
+  placeholder = File.read(
+    File.join(
+      temporary_root,
+      "old",
+      "程序设计语言",
+      "STL编程指南",
+      "DefaultConstructible.qmd"
+    ),
+    encoding: "UTF-8"
+  )
+  assert(
+    placeholder.include?("源页面不可用"),
+    "Unreadable legacy HTML page is missing its warning"
   )
 
   pil_page = File.read(

@@ -27,12 +27,19 @@ project:
     - old/SICP的Python实现.qmd
     - old/SICP的Python实现/*.qmd
     - old/TCPL.qmd
+    - old/TCPL/*.qmd
     - old/Answer_to_Chapter_1.qmd
     - old/Examples_from_TCPL.qmd
     - old/Illustrated_C.qmd
     - old/Ch运行环境.qmd
     - old/C++集成开发环境.qmd
+    - old/C++集成开发环境/*.qmd
     - old/温大机房优化脚本.qmd
+    - old/毕业设计.qmd
+    - old/毕业设计/*.qmd
+    - old/cchuang.qmd
+    - old/ymc.qmd
+    - old/lzhongyue.qmd
     - old/算法.qmd
     - old/计算理论.qmd
     - old/计算理论/*.qmd

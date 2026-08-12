@@ -213,6 +213,20 @@ def qmd_front_matter(title)
   YAML
 end
 
+def normalize_source(page_name, source)
+  case page_name
+  when "hdu1466 参考答案"
+    source.gsub("ans[n](多个可能的取值)", "ans\\[n\\](多个可能的取值)")
+  when "hud 1828参考答案"
+    source.gsub(
+      "x[0]=x[1](计算时不用考虑第一次特殊情况)",
+      "x\\[0\\]=x\\[1\\](计算时不用考虑第一次特殊情况)"
+    )
+  else
+    source
+  end
+end
+
 def page_link(target, context)
   clean_target = target.sub(/\A\^/, "")
 
@@ -780,6 +794,7 @@ Dir.mktmpdir("migrate-moin-icpc") do |temporary_root|
         placeholder
       ].join("\n")
     end
+    placeholder = normalize_source(page_name, placeholder)
     body = convert_moin(
       placeholder,
       owner: page_name,

@@ -1,0 +1,208 @@
+---
+title: "ssh"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+SSH 为 Secure Shell 的缩写，是一种在计算机间通过一种安全通道交换数据的网络协议。SSH采用加密的传输，可以在不安全的网络上建立一条安全的网络通道，它通过公钥机制来验证服务器和用户之间的相互验证。
+
+SSH通常用来代替 Telnet来进行远程登录、执行命令。但是它也可以作为通道，转发任何TCP连接和X11连接。它还可以使用SCP协议或者SFTP扩展协议进行文件传输。
+
+### 安装
+
+服务端：
+```
+aptitude install ssh
+```
+
+Windows客户端：
+
+* 安装putty: http://www.chiark.greenend.org.uk/~sgtatham/putty/
+* 安装cygwin: http://www.cygwin.com/
+
+Linux 客户端：
+```
+aptitude install openssh-client
+```
+
+### 远程登录
+
+假设169.254.235.235为服务器ip，czk为服务器上的帐号名称，在Linux或者Cygwin下使用如下命令可以远程登录到服务器：
+```
+ssh czk@169.254.235.235
+```
+
+如果登录服务器的帐号名称和本地计算机登录的帐号名称相同，此处的帐号名称可以省略。
+
+ssh的标准端口是22。如果在路由器上被映射成其他端口，比如50022，则在客户端可以用如下命令登录：
+
+```
+ssh -p 50022 169.254.235.235
+```
+
+在putty下，只要输入ip和端口然后点Open即可：
+
+![putty.jpg](<assets/ssh/putty.jpg>)
+
+在putty下，要正确显示中文，需要设置编码与服务端一致（一般Linux服务器用的编码都是UTF8）：
+
+![putty-utf8.jpg](<assets/ssh/putty-utf8.jpg>)
+
+### 使用密钥登录
+
+ssh默认情况下，可以使用用户名和密码登录。此时，安全性受到密码强度的限制。ssh还可以使用密钥登录。
+
+使用ssh-keygen可以用来生成密钥，默认的密钥是2048位的RSA密钥
+
+```
+ssh-keygen
+```
+
+该命令会提示密钥的加密密码，每次使用密钥时需要该密码进行解密，增强密钥的安全性。
+
+上述命令会生成两个文件：id_rsa和id_rsa.pub，分别是私钥和公钥。将id_rsa.pub文件改名为authorized_keys放在服务器上的~/.ssh/目录下，如果服务器该目录下已有这个文件，则可以把id_rsa.pub中的内容，复制到authorized_keys中。将私钥放在自己电脑上~/.ssh/目录下。私钥需要妥善保管。
+
+此后登录，就不会再询问服务器密码，只会询问私钥的解密密码。
+
+在windows平台上，putty也可以用密钥登录。但是用的密钥格式与linux的不同。可以用puttygen（参见：http://www.chiark.greenend.org.uk/~sgtatham/putty/ ）来导入linux下生成的私钥。启动puttygen，选择conversions菜单下的import key，打开linux下生成的id_rsa文件，然后按主界面中的Save Private Key按钮，保存为putty的私钥格式文件。
+
+![puttygen.jpg](<assets/ssh/puttygen.jpg>)
+
+然后在putty中登录时，选择puttygen生成的文件：
+
+![puttykey.jpg](<assets/ssh/puttykey.jpg>)
+
+在密钥登录可以正常工作后，可以在服务器上完全禁用密码登录。修改服务器上的/etc/ssh/sshd_config文件
+
+```
+#PasswordAuthentication yes
+```
+
+改为
+
+```
+PasswordAuthentication no
+```
+
+修改配置后，用如下命令重新加载配置文件：
+
+```
+/etc/init.d/ssh reload
+```
+
+### 远程执行图形界面程序
+
+使用ssh可以远程执行图形界面程序，并让程序在本地显示。要做到这一点，需要在服务器上安装X客户端，在本地机器上安装X服务端。
+
+在服务器上安装X客户端，可以用如下命令实现
+```
+aptitude install xbase-clients
+```
+
+如果本地计算机是Linux（或者FreeBSD、Solaris等），则只要是图形界面环境就已经安装好X服务端。在Windows下安装X服务端，可以用Cygwin。参见：http://x.cygwin.com/docs/ug/setup-cygwin-x-installing.html
+
+在登录时，加上-X参数
+
+```
+ssh -X 169.254.235.235
+```
+
+然后就可以在远程执行图形界面程序了，比如
+
+```
+xcalc
+```
+而程序的窗口会在本地显示。
+
+### 端口映射
+
+ssh可以将服务器上的端口映射为本地一个端口，而中间传输使用ssh的端口，这样就为其他协议的传输提供了一个安全通道。
+
+比如服务器上一个服务的端口为5901：
+```
+ssh -L 55901:127.0.0.1:5901 169.254.235.235
+```
+则服务器上的5901端口，就会被映射为本地的55901端口。本地应用程序连接本地的55901端口就可以连接到服务器。
+
+也可以将本地的端口映射成服务器上的一个端口，服务器应用程序连接服务器上的一个端口就可以连到本地计算机上。比如：
+```
+ssh -R 59050:127.0.0.1:9050 169.254.235.235
+```
+这个命令将本地端口9050映射到服务器上，服务器应用程序只要连接服务器上的59050端口就可以连接到本地的9050端口。
+
+在putty中，可以进行如下设置：
+
+![putty-port.jpg](<assets/ssh/putty-port.jpg>)
+
+单击Add，然后再连接，即可将远程服务器上的5901端口映射成本地55901端口。若要将本地端口映射为远程的端口，只要将上述窗口中的Local改成Remote就可以了。
+
+### 文件传输
+
+通过ssh服务器，可以使用简单的scp协议传输文件，也可以使用功能强大的sftp扩展协议传输文件。它们都在ssh服务器安装完成时就可以用了，不需要额外配置。
+
+在linux或者cygwin下，使用scp命令可以进行scp协议文件传输。如下命令将本地文件happy.jpg拷贝到服务器169.254.235.235上的/home/czk/下，登录用户是czk：
+```
+scp happy.jpg czk@169.254.235.235:/home/czk/
+```
+
+如下命令将服务器169.254.235.235上的/home/czk/happy.jpg文件拷贝到本地的/home/czk目录下：
+
+```
+scp czk@169.254.235.235:/home/czk/happy.jpg /home/czk
+```
+
+在windows下，可以使用pscp程序（参见：http://www.chiark.greenend.org.uk/~sgtatham/putty/ ）进行scp协议文件传输：
+```
+pscp mplayerc.exe  czk@169.254.235.235:/home/czk/
+```
+
+在linux下，gnome图形界面中直接支持sftp协议文件传输。在gnome菜单中选择**连接到服务器**，出现如下窗口：
+
+![gnome-ssh.jpg](<assets/ssh/gnome-ssh.jpg>)
+
+填入服务器相关信息，点击连接即可。
+
+在Windows下，连接SFTP服务器，可以使用WinSCP软件（[http://winscp.net/eng/docs/lang:chs](http://winscp.net/eng/docs/lang:chs)）或者Sftpdrive（商业收费软件，[http://www.sftpdrive.com/](http://www.sftpdrive.com/)）。WinSCP登录窗口如下：
+
+![winscp-login.jpg](<assets/ssh/winscp-login.jpg>)
+
+填入服务器信息进行登录后，出现如下窗口，操作方式类似普通ftp客户端软件：
+
+![winscp.jpg](<assets/ssh/winscp.jpg>)
+
+如果遇到文件名乱码，可以修改winscp的编码设置，将UTF-8 encoding for filenames改成On：
+
+![winscp-utf8.jpg](<assets/ssh/winscp-utf8.jpg>)
+
+Sftpdrive软件可以将SFTP服务器映射为Windows的网络驱动器。由于它是商业收费软件，故不作介绍。如果需要，可以查看其官方网站：http://www.sftpdrive.com/ ，联系对方公司。
+
+### 安全设置
+
+ssh服务器可以控制哪些帐号可以登录。最需要禁用的是root帐号，可以修改/etc/ssh/sshd_config中的PermitRootLogin参数来禁用root的登录：
+
+```
+PermitRootLogin no
+```
+
+如果只允许某些用户登录，可以用AllowUsers参数。比如只允许czk和jack帐号登录，可以使用如下参数：
+
+```
+AllowUsers czk jack
+```
+
+### 参考文献
+
+* SSH简介：http://en.wikipedia.org/wiki/Secure_Shell
+* Cygwin：http://x.cygwin.com/docs/ug/setup-cygwin-x-installing.html
+* putty、puttygen、pscp：http://www.chiark.greenend.org.uk/~sgtatham/putty/
+* WinSCP：http://winscp.net/eng/docs/lang:chs
+* Sftpdrive：http://www.sftpdrive.com/

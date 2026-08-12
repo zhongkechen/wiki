@@ -29,8 +29,8 @@ Dir.mktmpdir("check-linux-migration") do |temporary_root|
   ]
   stdout, stderr, status = Open3.capture3(environment, *command, chdir: temporary_root)
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 7 pages"), "Unexpected page count:\n#{stdout}")
-  assert(stdout.include?("Copied 1 attachments"), "Attachment was not reproduced:\n#{stdout}")
+  assert(stdout.include?("Converted 39 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Copied 96 attachments"), "Attachments were not reproduced:\n#{stdout}")
 
   expected_files = [
     "old/Linux.qmd",
@@ -75,6 +75,44 @@ Dir.mktmpdir("check-linux-migration") do |temporary_root|
   )
   assert(registration_page.include?("czk19790827@gmail.com"), "MailTo content was lost")
   assert(!registration_page.include?("CategoryHomepage"), "MoinMoin category metadata leaked")
+
+  server_page = File.read(
+    File.join(temporary_root, "old", "Linux", "Linux服务器管理.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    server_page.include?("debian服务器安装.qmd"),
+    "Linux server child pages were not migrated"
+  )
+  assert(
+    server_page.include?("ftp_wu-ftpd.qmd"),
+    "Nested FTP page was not mapped to a valid output filename"
+  )
+
+  mysql_page = File.read(
+    File.join(temporary_root, "old", "Linux", "mysql.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    mysql_page.include?("源页面不可用"),
+    "Unreadable Linux source page is missing its warning"
+  )
+
+  ssh_page = File.read(
+    File.join(temporary_root, "old", "Linux", "ssh.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    ssh_page.include?("number-sections: true"),
+    "Linux section numbering pragma was not converted"
+  )
+  actual_files.grep(/\.qmd\z/).each do |relative_path|
+    page = File.read(File.join(temporary_root, relative_path), encoding: "UTF-8")
+    assert(
+      !page.include?("#pragma section-numbers"),
+      "Section numbering pragma leaked into #{relative_path}"
+    )
+  end
 end
 
 puts "Linux migration snapshot replay passed"

@@ -1,0 +1,65 @@
+---
+title: "在线判题题库建设"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“毕业设计”](<../毕业设计.qmd>)
+
+## 在线判题题库建设
+
+### 题目申报表
+
+#### 内容简介
+
+1. 为在线判题系统补充题库
+1. 修正在线判题系统的漏洞
+
+#### 意义（理论、实际）
+
+1. 实践软件工程有关黑盒测试的理论，实践黑盒测试数据的设计
+1. 为程序设计、数据结构课程提供一个实验、练习和考试的平台
+
+#### 技术要点与知识要求
+
+1. 软件工程（黑盒测试）
+1. 高级语言程序设计
+1. 算法与数据结构
+
+### 步骤
+
+#### 第一步
+
+* 调查其他判题网站的现状
+* 翻译
+* 文献综述
+* 开题报告
+
+#### 第二步
+
+### 附件
+
+* 任务书： [徐金焕任务书.odt](<assets/在线判题题库建设/徐金焕任务书.odt>)
+* 翻译原文：
+* 翻译译文：
+* 文献综述：
+* 开题报告：
+* 毕业论文：
+
+### 参考资料
+
+* http://acm.zju.edu.cn/
+* http://online-judge.uva.es/problemset/
+* http://acm.timus.ru/
+* http://acm.sgu.ru/
+* http://ace.delos.com/usacogate
+* http://www.acm.shu.edu.cn/gbindex.html
+* http://www.acm.inf.ethz.ch/ProblemSetArchive.html
+
+## 附件
+
+* [文献综述.doc](<assets/在线判题题库建设/文献综述.doc>)

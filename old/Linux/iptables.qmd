@@ -1,0 +1,54 @@
+---
+title: "iptables"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+Iptables ^[简介： http://en.wikipedia.org/wiki/Iptables ] ^[官方地址： http://www.netfilter.org/ ] 是一个用户程序，用来管理Linux 2.4或2.6内核中的Netfilter模块。它可以实现防火墙、NAT等功能。
+
+在Iptables中，按照规则对ip包的所做的操作不同，将规则分别放在三张表中。filter表中存放过滤包的规则，mangle表中存放修改包的TTL、TOS、MARK等操作的规则，nat表存放进行NAT地址变换的规则。
+
+各表中的规则按照路由的目标和被处理的时间的不同，又被组织成不同的链。PREROUTING链中包含的规则在包进入本机之后最先被处理（在确定包的路由之前）。INPUT链中的规则处理目标地址是本机的包。OUTPUT链中的规则处理源地址是本机的包。FORWARD链处理转发的包（源地址和目标地址都不是本机）。POSTROUTING在包离开本机前最后被处理。
+
+iptables处理包的流程可以用下图来表示：<br>![tables_traverse.jpg](<assets/iptables/tables_traverse.jpg>)
+
+### 安装
+
+### 配置
+
+Iptable Tutorial^[Iptables指南（英）： http://iptables-tutorial.frozentux.net/iptables-tutorial.html]
+^[Iptables指南（中）： http://iptables-tutorial.frozentux.net/cn/iptables-tutorial-cn-1.1.19.html] 这篇文章对于Iptables的原理和配置方法有详细的说明。这里介绍一些常用用例。
+
+#### 本机防火墙
+
+```
+iptables -P INPUT DROP
+```
+
+#### NAT路由器
+
+假设eth0是连接内网的网卡，eth1是连接外网的网卡
+```
+iptables -A POSTROUTING -t nat -o eth1 -j MASQUERADE
+```
+
+端口映射
+```
+iptables -A PREROUTING -i eth1 -d 61.191.73.182 -p tcp --dport 80 -j DNAT --to-destination 192.168.12.1-192.168.12.10
+```
+
+#### 透明代理
+
+```
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-ports 3128
+```
+
+### 参考文献

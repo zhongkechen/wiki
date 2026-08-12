@@ -75,13 +75,13 @@ Q.push_back(3);
 Q.push_front(1);
 Q.insert(Q.begin() + 1, 2);
 Q[2] = 0;
-<A href="copy.html">copy</A>(Q.begin(), Q.end(), <A href="ostream_iterator.html">ostream_iterator</A>&lt;int&gt;(cout, &quot; &quot;));
+<A href="copy.html">copy</A>(Q.begin(), Q.end(), <A href="STL概述/ostream_iterator.html">ostream_iterator</A>&lt;int&gt;(cout, &quot; &quot;));
 // The values that are printed are 1 2 0
 
 </pre>
 <h3>Definition</h3>
-Defined in the standard header <A href="deque">deque</A>, and in the nonstandard
-backward-compatibility header <A href="deque.h">deque.h</A>.
+Defined in the standard header <A >deque</A>, and in the nonstandard
+backward-compatibility header <A >deque.h</A>.
 <h3>Template parameters</h3>
 <Table border>
 <TR>
@@ -117,7 +117,7 @@ The deque's value type: the type of object that is stored
 The <tt>deque</tt>'s allocator, used for all internal memory management.
 </TD>
 <TD VAlign=top>
-<tt><A href="Allocators.html">alloc</A></tt>
+<tt><A href="STL概述/Allocator.html">alloc</A></tt>
 </TD>
 </tr>
 </table>
@@ -477,7 +477,7 @@ The copy constructor.
 <TR>
 <TD VAlign=top>
 <pre>
-template &lt;class <A href="InputIterator.html">InputIterator</A>&gt;
+template &lt;class <A href="STL概述/InputIterator.html">InputIterator</A>&gt;
 
 deque(InputIterator f, InputIterator l)
 <A href="#4">[4]</A>
@@ -639,7 +639,7 @@ Inserts <tt>x</tt> before <tt>pos</tt>.
 <TR>
 <TD VAlign=top>
 <pre>
-template &lt;class <A href="InputIterator.html">InputIterator</A>&gt;
+template &lt;class <A href="STL概述/InputIterator.html">InputIterator</A>&gt;
 void insert(iterator pos,
             InputIterator f, InputIterator l)
 <A href="#4">[4]</A>
@@ -786,7 +786,7 @@ if it points to the erased element.
 This member function relies on <i>member template</i> functions, which
 at present (early 1998) are not supported by all compilers.  If your
 compiler supports member templates, you can call this function with
-any type of <A href="InputIterator.html">input iterator</A>.  If your
+any type of <A href="STL概述/InputIterator.html">input iterator</A>.  If your
 compiler does not yet support member templates, though, then the
 arguments must either be of type <tt>const value_type*</tt> or of type
 
@@ -814,19 +814,19 @@ font-family: Arial, helvetica, sans-serif;
 </STYLE>
 <P>
 
-<A CLASS="home" HREF="index.html">STL Home</A>
+<A CLASS="home" HREF="../STL编程指南.html">STL Home</A>
 <P>
     <table cellpadding="0" cellspacing="0" border="0" width="600">
     <tr valign="bottom">
-        <td align="right" class="footer"><a class="footer" href="/company_info/terms.html" TARGET="_top">Using this site means you accept its terms of use</a>&nbsp;|&nbsp;<a class="footer" href="/company_info/privacy.html" TARGET="_top">privacy policy</a></td>
+        <td align="right" class="footer"><a class="footer"  TARGET="_top">Using this site means you accept its terms of use</a>&nbsp;|&nbsp;<a class="footer"  TARGET="_top">privacy policy</a></td>
         <td align="center" class="footer">&nbsp;|&nbsp;</td>
-        <td align="left" class="footer"><a class="footer" href="/company_info/trademarks/" TARGET="_top">trademark information</a></td>
+        <td align="left" class="footer"><a class="footer"  TARGET="_top">trademark information</a></td>
 
     </tr>
     <tr>
         <td align="right" class="footer">Copyright &copy; 1993-2003 Silicon Graphics, Inc. All rights reserved.</td>
         <td align="center" class="footer">&nbsp;|&nbsp;</td>
-        <td align="left" class="footer"><a class="footer" href="/cgi-bin/feedback/index.cgi" TARGET="_top">contact us</a></td>
+        <td align="left" class="footer"><a class="footer"  TARGET="_top">contact us</a></td>
     </tr>
 
     </table>

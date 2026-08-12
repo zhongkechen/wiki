@@ -1,0 +1,84 @@
+---
+title: "moinmoin"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+MoinMoin是一个由Python语言实现的维基引擎，以GPL协议发布。特性包括：访问控制、用户分组、图形化编辑器、安装简易、SPAM保护、主题替换等。它是很多开源项目官方网站选用的维基引擎，比如Apache、Debian、Ubuntu、Fedora等。
+
+MoinMoin后台使用文件而不是数据库来存储数据。允许将数据存储到数据库的数据抽象层还在开发中。MoinMoin支持插件，增加Macros（宏）和Actions（操作），Parsers（语法解析器，支持各种新的内容输入语法格式），Formatter（格式化器，用来将内容输出成HTML以外的其他格式，比如Docbook）
+
+### 安装与配置
+
+MoinMoin的安装方式有很多种，本文以debian lenny平台为例，介绍用WSGI方式安装moinmoin 1.6。
+
+#### 安装Apache2
+
+安装apache2和libapache2-mod-wsgi。参看 [apache2](<apache2.qmd>)
+
+#### 安装moinmoin
+
+```
+aptitude install python-moinmoin moinmoin-common
+```
+
+#### 创建moinmoin实例
+
+要在/var/www/mywiki下安装一个moinmoin的实例，可以执行：
+```
+mkdir /var/www/mywiki/
+cp -R /usr/share/moin/data/ /var/www/mywiki/
+cp -R /usr/share/moin/underlay/ /var/www/mywiki/
+cp -R /usr/share/moin/config/wikiconfig.py /var/www/mywiki/
+chown -R www-data:www-data /var/www/mywiki
+chmod -R ug+rwX /var/www/mywiki
+chmod -R o-rwx /var/www/mywiki
+```
+
+这个过程也可以通过一个脚本自动实现。在下面MoinMaster:HelpOnInstalling/WikiInstanceCreation上下载createinstance.sh这个附件，然后执行：
+
+```
+./createinstance.sh /var/www/mywiki
+```
+
+以wsgi方式安装moinmoin还要拷贝程序文件：
+
+```
+cp /usr/share/moin/server/moin.wsgi /var/www/mywiki/
+chmod 660 /var/www/mywiki/moin.wsgi
+```
+
+#### 配置moinmoin
+
+编辑/var/www/mywiki/wikiconfig.py文件：
+```
+nano /var/www/mywiki/wikiconfig.py
+```
+修改其中下面一些值：
+
+```
+    data_dir = '/var/www/mywiki/data/'
+    data_underlay_dir = '/var/www/mywiki/underlay/'
+```
+
+#### 配置apache
+
+```
+Alias /wiki/ /usr/share/moin/htdocs/
+WSGIScriptAlias /mywiki /var/www/mywiki/moin.wsgi
+```
+
+### 参考文献
+
+* 官方网站： http://moinmo.in/
+* 简介： http://en.wikipedia.org/wiki/MoinMoin
+* WSGI: http://code.google.com/p/modwsgi/

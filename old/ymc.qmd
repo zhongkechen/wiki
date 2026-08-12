@@ -1,0 +1,22 @@
+---
+title: "ymc"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+### 虞铭财
+
+* 温州大学(温州师范学院)计算机科学与工程学院 讲师
+* Email:
+
+## 讲授的课程
+
+[离散数学](<离散数学.qmd>)
+
+---

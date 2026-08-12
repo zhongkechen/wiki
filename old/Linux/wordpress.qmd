@@ -1,0 +1,110 @@
+---
+title: "wordpress"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+WordPress是一个博客系统，使用php写成，使用MySQL作为后台数据库。它的特性包括：
+
+* 模板系统
+* 链接管理
+* 对搜索引擎友好的permalink
+* 支持插件
+* 可嵌套的分类，一篇文章可以多个分类
+* Trackback和Pingback
+* 静态页面
+* 多个作者
+* 记录哪些用户访问了博客
+* 阻止某些IP的访问者
+* 支持Tag
+
+### 安装
+
+安装apache2和php模块
+
+```
+aptitude install apache2 libapache2-mod-php5
+```
+
+安装mysql
+
+```
+aptitude install mysql-server
+```
+
+安装wordpress
+
+```
+aptitude install wordpress
+```
+
+配置apache2。添加文件/etc/apache2/conf.d/wordpress.conf
+```
+nano /etc/apache2/conf.d/wordpress.conf
+```
+在其中添加如下内容：
+```
+Alias /wordpress /usr/share/wordpress
+<Directory /usr/share/wordpress>
+    Options FollowSymLinks
+    AllowOverride Limit Options FileInfo
+    DirectoryIndex index.php
+</Directory>
+```
+重新加载apache2的配置：
+
+```
+/etc/init.d/apache2 reload
+```
+
+创建数据库表，假设服务器域名为192.168.12.252，数据库名为wordpress，用如下命令完成：
+
+```
+bash /usr/share/doc/wordpress/examples/setup-mysql -n wordpress 192.168.12.252
+```
+
+然后打开如下网址：
+
+```
+http://192.168.12.252/wordpress/
+```
+
+### 配置
+
+#### 首次登录
+
+#### 汉化
+
+打开 http://codex.wordpress.org/WordPress_in_Your_Language 下载中文汉化包。将它解压缩到/usr/share/wordpress/wp-content目录下。
+
+编辑/etc/wordpress/wp-config.php文件
+
+```
+nano /etc/wordpress/wp-config.php
+```
+在其中添加：
+```
+define ('WPLANG', 'zh_CN');
+```
+
+#### 插件
+
+http://wordpress.org/extend/plugins/
+
+#### 主题
+
+http://themes.wordpress.net/
+
+### 参考文献
+
+* 介绍：http://en.wikipedia.org/wiki/WordPress
+* 官方主页：http://wordpress.org/

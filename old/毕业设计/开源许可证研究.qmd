@@ -1,0 +1,67 @@
+---
+title: "开源许可证研究"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“毕业设计”](<../毕业设计.qmd>)
+
+## 开源许可证研究
+
+### 题目申报表
+
+#### 内容简介
+
+1. 各种开源许可证的内容和特点
+1. 各种开源许可证的使用注意事项
+1. 开源许可证的分类
+1. 调查非法使用开源软件的现状
+
+#### 意义（理论、实际）
+
+1. 开源软件蓬勃发展，但开源软件并不是可以随便使用的，而是有一定的许可证约束的。而现在对开源软件不正确的使用却经常见到。了解开源许可证的特点，有助于规范对开源软件的使用。
+1. 在为软件选择开源协议时，提供选择的依据。
+
+#### 技术要点与知识要求
+
+* 基本的英语阅读能力
+* 基本的法学常识
+
+### 进度
+
+#### 第一阶段
+
+1. 了解有哪些开源许可证
+1. 了解一种开源许可证的特点(GPL)
+1. 文献翻译(翻译一种开源许可证，比如Python许可证http://www.python.org/download/releases/2.5/license/)
+1. 文献综述
+1. 开题报告
+
+#### 未来任务
+
+1. 开源许可证分类
+1. 开源许可证对比
+1. 哪些是GPL兼容的
+1. 开源许可证大事件分析
+    1. Java开源许可证的选择
+    1. divx与xvid
+    1. debian与mplayer的矛盾
+
+### 附件
+
+* 任务书：[林琴春任务书.odt](<assets/开源许可证研究/林琴春任务书.odt>)
+* 翻译原文：http://www.python.org/download/releases/2.5/license/) 译文：
+* 文献综述：
+* 开题报告：
+* 毕业论文：
+
+### 参考资料
+
+* http://en.wikipedia.org/wiki/GNU_General_Public_License
+* http://zh.wikipedia.org/wiki/GNU%E9%80%9A%E7%94%A8%E5%85%AC%E5%85%B1%E8%AE%B8%E5%8F%AF%E8%AF%81
+* http://www.python.org/download/releases/2.5/license/
+* http://blog.zhaoke.com/59.html

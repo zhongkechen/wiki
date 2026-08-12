@@ -1,0 +1,19 @@
+---
+title: "lzhongyue"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+### lizhongyue
+
+Email:
+
+...
+
+---

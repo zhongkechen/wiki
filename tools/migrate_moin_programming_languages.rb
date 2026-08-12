@@ -41,8 +41,44 @@ LEGACY_HTML_PAGE_LINKS = {
   "RandomAccessContainer.html" => "STL编程指南/Random Access Container",
   "FrontInsertionSequence.html" => "STL编程指南/Front Insertion Sequence",
   "BackInsertionSequence.html" => "STL编程指南/Back Insertion Sequence",
-  "ReversibleContainer.html" => "STL编程指南/Reversible Container"
+  "ReversibleContainer.html" => "STL编程指南/Reversible Container",
+  "DefaultConstructible.html" => "STL编程指南/DefaultConstructible.html",
+  "EqualityComparable.html" => "STL编程指南/EqualityComparable.html",
+  "InputIterator.html" => "STL编程指南/STL概述/InputIterator",
+  "Iterators.html" => "STL编程指南/Iterators.html",
+  "LessThanComparable.html" => "STL编程指南/LessThanComparable.html",
+  "swap.html" => "STL编程指南/swap.html",
+  "Allocators.html" => "STL编程指南/STL概述/Allocator",
+  "copy.html" => "STL编程指南/copy.html",
+  "ostream_iterator.html" => "STL编程指南/STL概述/ostream_iterator",
+  "index.html" => "STL编程指南"
 }.freeze
+LEGACY_HTML_SOURCE_OUTPUTS = {
+  "STL编程指南/DefaultConstructible.html" =>
+    "STL编程指南/DefaultConstructible",
+  "STL编程指南/EqualityComparable.html" =>
+    "STL编程指南/EqualityComparable",
+  "STL编程指南/Iterators.html" =>
+    "STL编程指南/Iterators",
+  "STL编程指南/LessThanComparable.html" =>
+    "STL编程指南/LessThanComparable",
+  "STL编程指南/swap.html" =>
+    "STL编程指南/swap",
+  "STL编程指南/copy.html" =>
+    "STL编程指南/copy"
+}.freeze
+UNAVAILABLE_LEGACY_HTML_LINKS = %w[
+  ../../cpplinks/blast.html
+  ../../cpplinks/compilers.html
+  ../../cpplinks/esc99.html
+  ../../cpplinks/learn.html
+  /cgi-bin/feedback/index.cgi
+  /company_info/privacy.html
+  /company_info/terms.html
+  /company_info/trademarks/
+  deque
+  deque.h
+].freeze
 UNAVAILABLE_LEGACY_HTML_IMAGES = %w[
   /images/common/sgilogo_small.gif
   containers.gif
@@ -235,7 +271,10 @@ direct_pages = linked_page_names(COURSE_SOURCE, owner: COURSE_NAME).reject do |p
   SHARED_PAGE_LINKS.key?(page_name)
 end
 primary_pages = (
-  direct_pages + ["Matlab"] + page_list_page_names(COURSE_SOURCE, owner: COURSE_NAME)
+  direct_pages +
+  ["Matlab"] +
+  page_list_page_names(COURSE_SOURCE, owner: COURSE_NAME) +
+  LEGACY_HTML_SOURCE_OUTPUTS.keys
 ).uniq
 queue = primary_pages.select { |page_name| page_has_readable_revision?(page_name) }
 
@@ -303,8 +342,12 @@ def qmd_front_matter(title, number_sections: false)
   YAML
 end
 
+def page_output_name(page_name)
+  LEGACY_HTML_SOURCE_OUTPUTS.fetch(page_name, page_name)
+end
+
 def current_output_path(owner, context)
-  context == :course ? "#{COURSE_NAME}.qmd" : "#{COURSE_NAME}/#{owner}.qmd"
+  context == :course ? "#{COURSE_NAME}.qmd" : "#{COURSE_NAME}/#{page_output_name(owner)}.qmd"
 end
 
 def relative_output_path(destination, owner, context)
@@ -320,7 +363,11 @@ def page_link(target, owner, context)
   elsif clean_target == COURSE_NAME
     relative_output_path("#{COURSE_NAME}.qmd", owner, context)
   elsif MIGRATED_PAGES.include?(clean_target)
-    relative_output_path("#{COURSE_NAME}/#{clean_target}.qmd", owner, context)
+    relative_output_path(
+      "#{COURSE_NAME}/#{page_output_name(clean_target)}.qmd",
+      owner,
+      context
+    )
   else
     relative_output_path("#{clean_target}.html", owner, context)
   end
@@ -423,6 +470,8 @@ def normalize_legacy_html(body, owner:, context:)
     prefix = Regexp.last_match(1)
     quote = Regexp.last_match(2)
     target = Regexp.last_match(3)
+    next "" if UNAVAILABLE_LEGACY_HTML_LINKS.include?(target)
+
     page_name = LEGACY_HTML_PAGE_LINKS[target]
     next attribute unless page_name
 
@@ -988,14 +1037,17 @@ Dir.mktmpdir("migrate-moin-programming-languages") do |temporary_root|
     )
     page = [
       qmd_front_matter(
-        page_name,
+        page_output_name(page_name),
         number_sections: source.match?(SECTION_NUMBER_PRAGMA_PATTERN)
       ),
       "[返回“#{COURSE_TITLE}”](<#{page_link(COURSE_NAME, page_name, :child)}>)",
       "",
       body
     ].join("\n")
-    page_path = File.join(temporary_course_output, "#{page_name}.qmd")
+    page_path = File.join(
+      temporary_course_output,
+      "#{page_output_name(page_name)}.qmd"
+    )
     FileUtils.mkdir_p(File.dirname(page_path))
     File.write(page_path, page)
   end

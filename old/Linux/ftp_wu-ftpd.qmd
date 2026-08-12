@@ -1,0 +1,43 @@
+---
+title: "ftp/wu-ftpd"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+## ftp服务器wu-ftpd
+
+熟悉Linux的用户比较清楚，Linux下默认的ftp服务器软件就是wu-ftpd。这个软件是由华盛顿大学[Washington University](http://wuarchive.wustl.edu)开发的。它具有非常强大的功能：
+
+* 可以在用户下载文件的同时对文件做自动的压缩或解压缩操作；
+* 可以对不同网络上的机器做不同的存取限制；
+* 可以记录文件上载和下载时间；
+* 可以显示传输时的相关信息，方便用户及时了解目前的传输动态；
+* 可以设置最大连接数，提高了效率，有效地控制了负载。
+
+### 安装
+
+```
+apt-get install wu-ftpd
+```
+
+### 配置说明
+
+wu-ftpd主要有以下6个配置文件：
+```
+/etc/wu-ftpd/
+ftpaccess       #主配置文件，控制存取权限)
+ftpconvertions  #配置文件压缩/解压缩转换)
+ftpgroups       #设定ftp自己定义的组)
+ftphosts        #设定个别的用户权限)
+ftpservers      #设定不同IP/Domain Name以对应到不同的虚拟主机)
+ftpusers        #设定哪些帐号不能用ftp登录)
+```
+下面就文件中的一些常见参数做以说明。
+
+* [相关文档](http://blog.chinaunix.net/u/27614/showart_361305.html)

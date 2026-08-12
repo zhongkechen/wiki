@@ -1,0 +1,21 @@
+---
+title: "TCPL/2_Types_Operators_and_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+## Chapter 2 - Types, Operators and Expressions 类型、运算符与表达式
+
+Variables and constants are the basic data objects manipulated in a program. Declarations list the variables to be used, and state what type they have and perhaps what their initial values are. Operators specify what is to be done to them. Expressions combine variables and constants to produce new values. The type of an object determines the set of values it can have and what operations can be performed on it. These building blocks are the topics of this chapter.
+
+变量和常量是程序处理的两种基本数据对象。声明语句说明变量的名字及类型，也可以指定变量的初值。运算符指定将要进行的操作。表达式则把变量与常量组合起来生成新的值。对象的类型决定该对象可取值的集合以及可以对该对象执行的操作。文章将详细讲述这些内容。
+
+The ANSI standard has made many small changes and additions to basic types and expressions. There are now signed and unsigned forms of all integer types, and notations for unsigned constants and hexadecimal character constants. Floating-point operations may be done in single precision; there is also a long double type for extended precision. String constants may be concatenated at compile time. Enumerations have become part of the language, formalizing a feature of long standing. Objects may be declared const, which prevents them from being changed. The rules for automatic coercions among arithmetic types have been augmented to handle the richer set of types.
+
+ANSI标准对语言的基本类型与表达式做了许多小的修改与增补。所有整型都包括signed(带符号)和unsigned(无符号)两种形式，且可以表示无符号常量与十六进制字符常量。浮点运算可以以单精度进行，还可以使用更高精度的long double类型运算。字符串常量可以在编译时连接。ANSI C还支持枚举类型，该语言特性经过了长期的发展才形成。对象可以声明为const(常量)类型，表明其值不能修改。该标准还对算术类型之间的自动强制转换规则进行了扩充，以适合于更多的数据类型。

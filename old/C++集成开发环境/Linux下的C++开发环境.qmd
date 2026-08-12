@@ -1,0 +1,34 @@
+---
+title: "Linux下的C++开发环境"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“C++集成开发环境”](<../C++集成开发环境.qmd>)
+
+### debian系Linux(包括ubuntu等)
+
+安装C语言编译器：
+
+```
+apt-get install gcc
+```
+安装C++语言编译器：
+
+```
+apt-get install g++
+```
+安装调试器：
+
+```
+apt-get install gdb
+```
+安装make工具：
+
+```
+apt-get install make
+```

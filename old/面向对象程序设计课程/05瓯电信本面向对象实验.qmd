@@ -1,0 +1,118 @@
+---
+title: "05瓯电信本面向对象实验"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+所有实验在 http://czk.8866.org/labreport/ 上提交。
+
+### 实验一 集成开发环境的使用
+
+```cplusplus
+#include <iostream>
+#include <string>
+using namespace std; // haven't explained this yet ...
+int main()
+{
+    string user_name;
+    cout << "Please enter your first name: ";
+    cin >> user_name;
+    cout << '\n"
+         << "Hello, "
+         << user_name
+         << " ... and goodbye!\n";
+    return 0;
+}
+```
+
+1. 将1.1节的程序在开发环境中编译运行，查看结果
+1. 在1.1节的程序的#include<string>这一行前加//，重新编译会发生什么
+1. 在1.1节的程序的using namespace std这一行前加//，重新编译会发生什么
+1. 将1.1节的程序中的main()改成my_main()，重新编译会发生什么
+1. 扩充1.1节的程序，分别输入姓和名，并同时输出姓和名
+1. 写一个程序询问用户的姓名，如果姓名的长度大于2个字符，输出一些提示
+1. 写一个程序，读入一串整数，存入vector，然后求总和与平均值，最后输出。
+
+2课时
+
+### 实验二 面向过程程序设计
+
+* 输入一个整数，输出它的相反数。直到输入结束。
+* 写一个函数产生一个数列：1,5,12,22,35...( Pn = n*(3n-1)/2 )，将这个数列存入传入的vector中，元素数目由参数指定。写一个main函数，测试这个函数是否正确。
+* 写一个函数，输出一个vector中的各个元素的值，vector的元素可能是任何类型。写一个main函数，测试这个函数是否正确。
+* 实现一个重载的max函数，接受如下参数：(a)两个整数，(b)两个浮点数，(c)两个字符串，(d)一个整数vector，(e)一个浮点数vector，(f)一个字符串vector，(g)一个整数数组和一个表示数组大小的整数，(h)一个浮点数组和一个表示数组大小的整数，(i)一个字符串数组，以及一个表示数组大小的整数。写一个main函数测试这些函数。
+* 用template改写上面这个程序。
+
+4课时
+
+### 实验三 泛型程序设计
+
+* 写一个程序，读取文件中的每个单词，存到map中。map的关键字是单词，值是该单词在文件中出现的次数。定义一个排除在统计之外的单词的set（包含比如a、an、the等单词），在将单词插入map之前，先确定该单词不在这个set当中。文件处理完毕后，打印各个单词的次数。
+* 写一个程序，读取文件中的每个单词，将它们存到一个vector中，按照它们的长度从短到长排序输出各个单词。
+
+2课时
+
+### 实验四 对象的使用
+
+* 建立Stack.h和Stack.cpp。撰写main()函数，练习操作Stack类所有的接口，并编译运行。
+* 增加Stack类的功能，添加find和count函数。find函数检查某值是否存在。count返回某值出现的次数。编写main函数测试这两个函数。
+* 编写一个表示4*4的Matrix矩阵类，至少提供如下接口：矩阵加法、矩阵乘法、输出到屏幕、复合运算+=、用作下标操作的()运算符。定义默认构造函数、16个参数的构造函数、一个数组作参数的构造函数。
+
+  ```cplusplus
+  class Matrix {
+  public:
+      Matrix(     ) {
+
+      }
+      Matrix operator+(Matrix b) {
+           Matrix c;
+           for()
+              for()
+
+           return c;
+      }
+      Matrix operator*(Matrix b) {
+
+      }
+      void operator+=(Matrix b) {
+          *this = *this + b;
+      }
+      int operator()(int row, int col) {
+          return m[row][col];
+      }
+  private:
+      int m[4][4];
+  };
+
+  ostream &operator<<(ostream &os, Matrix d) {
+      for()
+         for()
+             os << ;
+      return os;
+  }
+
+  int main() {
+      Matrix a(   );
+      Matrix b(   );
+      Matrix c = a + b;  //a.add(b);
+      Matrix d = a * b;
+      d += c;
+      cout << d;
+      cout << d(2, 2) << endl;
+  }
+  ```
+
+4课时
+
+### 实验五 面向对象设计
+
+1. 写一个类Circle，可以表示一个圆，它有一个area()成员函数，可以计算面积。写一个Rectangle类，表示一个矩形，它也有一个area()函数，可以计算面积。写一个main函数，测试这两个类。
+1. 写一个Shape类，派生出Circle和Rectangle，它们都可以计算面积。写一个main函数，可以计算多个Shape的面积。
+
+4课时

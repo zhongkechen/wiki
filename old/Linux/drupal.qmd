@@ -1,0 +1,110 @@
+---
+title: "drupal"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+Drupal是一个开源的模块化的内容管理系统，由PHP语言写成。Drupal和其他内容管理系统类似，能够让系统管理员创建和管理内容，自定义显示方式，管理网站的访问者和贡献者，完成某些自动化的管理任务。Drupal有时也被称为web应用框架，因为它也提供了复杂的编程接口，可以从内容管理扩展到其他很多服务和应用。
+
+Drupal可以在很多环境中运行，包括Windows、Mac OS X、Linux、FreeBSD、OpenBSD、Solaris 10、OpenSolaris等等，只要有Apache (1.3+)或者IIS (IIS5+) Web服务器，以及PHP语言(4.3.3+)。Drupal需要一个MySQL或者PostgreSQL数据库来存放内容和设置。
+
+Drupal核心的特性包括：
+
+* 多用户内容创建和编辑
+* 高级的查找功能
+* 评论、论坛、投票
+* 用户自定义属性
+* 多层菜单
+* RSS种子和种子聚合器
+* 多种访问控制手段(用户角色、IP、email)
+* 访问统计和日志
+* 缓冲和超负荷节流
+* 自定义URL
+* 工作流
+* 安全特性
+* OpenID 支持
+
+其他功能可以通过插件来支持。
+
+### 安装
+
+安装apache2。参见[apache2](<apache2.qmd>)
+```
+aptitude install apache2
+```
+
+安装apache的php模块
+```
+aptitude install libapache2-mod-php5
+```
+
+安装mysql数据库
+```
+aptitude install mysql-server
+```
+
+安装drupal5
+```
+aptitude install drupal5
+```
+
+假设192.168.12.252是服务器的地址，在浏览器中访问如下URL完成最后的安装：
+```
+http://192.168.12.252/drupal5/install.php
+```
+
+安装完成后，就可以通过如下地址访问drupal了：
+```
+http://192.168.12.252/drupal5/
+```
+
+### 配置
+
+#### 初次登录
+
+第一次打开网站，会提示你创建一个用户帐号，这个帐号就是这个站点的管理员帐号。
+
+用管理员帐号登录后，选左侧的Administer菜单可以进入管理界面。
+
+#### 汉化
+
+选择Administer=>Site Building=>Modules菜单，配置站点需要开启的扩展模块。开启其中的Locale模块。
+
+在网站 http://drupal.org/project/translations 上下载需要的语言包，解压缩其中的.po文件。
+
+选择Administer=>Site configuration=>Localization菜单，在右侧选择Import标签页，在Language File中选择刚刚解压缩的.po文件，在Import Into中选择对应的语言，最后点Import按钮。导入成功后，在导入的语言后的Enable列打勾。如果要将其设置为默认语言，在Default列也打勾。
+
+#### 换肤
+
+选择 管理=>站点创建=>主题 ，可以选择多种不同的界面。
+
+如果需要更多样式的界面，可以在 http://drupal.org/project/Themes 下载。解压缩后，放在服务器/usr/share/drupal5/themes/目录下。然后在主题列表中就可以看到新的主题可供选择。
+
+#### 扩展模块
+
+选择 管理=>站点创建=>模块 ，可以选择需要开启的模块。
+
+如果需要添加更多的模块，可以在 http://drupal.org/project/Modules 下载所需的模块。解压缩后，放在/usr/share/drupal5/modules目录下。然后在模块列表中就可以看到相应的模块了。
+
+### 备注
+
+本文在debian lenny上实现，在其他版本的debian或者ubuntu上可能会略有不同。
+
+### 参考文献
+
+* 介绍：http://en.wikipedia.org/wiki/Drupal
+* 官方网站：http://drupal.org/
+
+### 相关条目
+
+* [apache2](<apache2.qmd>)
+* [mysql](<mysql.qmd>)

@@ -1,0 +1,118 @@
+---
+title: "iscsi"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+iSCSI（Internet SCSI）是一种允许客户端（称为initiator）向远程服务器上的SCSI存储设备（称为target）传送SCSI命令的协议。它是SAN（Storage Area Network）协议的一种，它可以让企业将所有数据集中到数据中心，同时让主机（数据库服务器、web服务器等）好像使用本地硬盘一样使用远程存储的数据。与Fibre Channel不同的是，Fibre Channel需要特殊的连线，而iSCSI可以在现有的网络上运行。
+
+### 安装
+
+安装：
+```
+aptitude install iscsitarget iscsitarget-source
+```
+
+然后运行如下命令编译内核模块
+
+```
+m-a a-i iscsitarget
+```
+
+运行如下命令安装编译生成的内核模块：
+
+```
+dpkg -i /usr/src/iscsitarget-module*.deb
+```
+
+运行如下命令启动iscsi target服务：
+
+```
+/etc/init.d/iscsitarget start
+```
+
+修改配置文件/etc/ietd.conf
+```
+Target iqn.2010-06.org.8866.czk
+    IncomingUser czk secretsecret
+    Lun 0 Path=filename,Type=fileio
+```
+第一句指定iSCSI Qualified Name，由三部分组成iqn.<yyyy-mm>.<tld.domain.some.host>，第二句IncomingUser指定用户名和密码（省略此句则不需要密码就可以连接），第三句指定设备所关联的文件，可以是普通文件（比如/home/czk/diskimage），也可以是一个块设备文件（比如/dev/sda）。
+
+### 客户端
+
+客户端即initiator。
+
+#### Windows
+
+从 [这里](http://www.microsoft.com/downloads/details.aspx?familyid=12cb3c1a-15d6-4585-b385-befd1319f825&displaylang=en)下载Windows下使用的客户端。
+
+运行开始菜单上的Microsoft iSCSI Initiator。
+
+![iscsi01.png](<assets/iscsi/iscsi01.png>)
+
+在Discovery标签页下选择Add，添加一个Target套接字
+
+![iscsi02.png](<assets/iscsi/iscsi02.png>)
+
+![iscsi03.png](<assets/iscsi/iscsi03.png>)
+
+在Targets标签页选择登录到一个Target
+
+![iscsi04.png](<assets/iscsi/iscsi04.png>)
+
+选Advance输入用户名和密码
+
+![iscsi05.png](<assets/iscsi/iscsi05.png>)
+
+![iscsi06.png](<assets/iscsi/iscsi06.png>)
+
+然后在磁盘管理器中会出现这个磁盘，可以赋予这个磁盘一个盘符。
+
+#### Linux
+
+安装open-iscsi包
+```
+aptitude install open-iscsi
+```
+
+编辑配置文件/etc/iscsi/iscsid.conf
+```
+node.startup = automatic
+node.session.auth.username = czk
+node.session.auth.password = secretsecret
+```
+
+运行命令：
+```
+iscsiadm -m discovery -t sendtargets -p 192.168.12.252
+```
+
+重启服务：
+```
+/etc/init.d/open-iscsi restart
+```
+
+这样，iscsi磁盘会以/dev/sdb的形式出现，可以像本地硬盘一样使用。
+
+#### VirtualBox
+
+在VirtualBox虚拟机中可以直接使用iSCSI磁盘。在命令行下输入
+```
+VBoxManage addiscsidisk -server 192.168.12.252 -target iqn.2010-06.org.8866.czk -username czk -password secretsecret
+```
+其中-server指定服务器地址，-target指定iSCSI Qualified Name， -username指定用户名，-password指定密码。然后在Virtualbox的磁盘管理器中就可以看到这个磁盘了。
+
+### 参考文献
+
+* 概述：http://en.wikipedia.org/wiki/ISCSI
+* 官方主页：http://iscsitarget.sourceforge.net/
