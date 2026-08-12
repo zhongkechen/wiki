@@ -39,6 +39,9 @@ IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
 EXCLUDED_ATTACHMENTS = {
   "MSP430" => ["ebook 16M.rar"]
 }.freeze
+REUSED_OUTPUT_PATHS = {
+  "论坛" => File.join("ICPC", "论坛.qmd")
+}.freeze
 BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
 SECTION_NUMBER_PRAGMA_PATTERN = /^#pragma section-numbers \d+[ \t]*\r?$/
 
@@ -182,9 +185,9 @@ def markdown_target(path)
   "<#{path}>"
 end
 
-def relative_output_target(from_page, to_page)
+def relative_output_path(from_page, target_path)
   from_directory = Pathname.new(File.dirname(output_relative_path(from_page)))
-  Pathname.new(output_relative_path(to_page))
+  Pathname.new(target_path)
           .relative_path_from(from_directory)
           .to_s
 end
@@ -338,9 +341,11 @@ def convert_link(raw, owner)
   return "[#{label}](#{target})" if target.start_with?("#")
 
   normalized_target = normalize_page_target(target, owner)
-  return label unless OUTPUT_PATHS.key?(normalized_target)
+  target_path =
+    OUTPUT_PATHS[normalized_target] || REUSED_OUTPUT_PATHS[normalized_target]
+  return label unless target_path
 
-  path = relative_output_target(owner, normalized_target)
+  path = relative_output_path(owner, target_path)
   "[#{label}](#{markdown_target(path)})"
 end
 
@@ -524,7 +529,7 @@ def convert_moin_emphasis(source)
 end
 
 def list_item_match(line)
-  line.match(/^(\s+)(\*|\d+\.|[a-z]\.)\s+(.*)$/i) ||
+  line.match(/^(\s+)(\*|\d+\.|[a-z]\.)(?:[ \t]+(.*))?$/i) ||
     line.match(/^(\s+)(\d+、)\s*(.*)$/)
 end
 
@@ -633,12 +638,16 @@ def convert_moin(text, owner:)
       depth = list_indents.index(source_indent) || list_indents.length - 1
       indent = " " * (depth * 4)
       marker =
-        list[2].match?(/[a-z]\./i) || list[2].end_with?("、") ? "1." : list[2]
+        if list[2].end_with?("、") || list[2].match?(/\A[iI]\.\z/)
+          "1."
+        else
+          list[2]
+        end
       prefix = "#{indent}#{marker} "
       continuation = " " * prefix.length
       result.concat(
         render_content_with_blocks(
-          list[3],
+          list[3].to_s,
           blocks,
           first_prefix: prefix,
           continuation_prefix: continuation

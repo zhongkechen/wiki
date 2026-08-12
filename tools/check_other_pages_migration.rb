@@ -217,6 +217,10 @@ comments = File.read(
 )
 assert(comments.include?("## 评论存档"), "Archived comments are missing")
 assert(
+  comments.include?("[论坛](<ICPC/论坛.qmd>)"),
+  "Existing forum page link was not preserved"
+)
+assert(
   comments.include?("2009-12-29 13:34:42"),
   "Latest archived comment is missing"
 )
@@ -239,6 +243,23 @@ assert(
   "SICP child return link is incorrect"
 )
 assert(sicp.include?("```python"), "SICP Python code fence was not restored")
+
+english = File.read(
+  File.join(REPOSITORY_ROOT, "old", "English.qmd"),
+  encoding: "UTF-8"
+)
+assert(
+  english.scan(/^1\. /).length == 3,
+  "English section list was not preserved"
+)
+assert(
+  english.scan(/^ {4}1\.$/).length == 30,
+  "English question list hierarchy was not preserved"
+)
+assert(
+  english.scan(/^ {8}a\. /).length == 120,
+  "English answer choices were not preserved as nested alphabetic lists"
+)
 
 english_spam = File.join(
   REPOSITORY_ROOT,

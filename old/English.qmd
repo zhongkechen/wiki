@@ -15,185 +15,155 @@ format:
 [001Conversations.MP3](<English/assets/English/001Conversations.MP3>)
 
 1. 时间、价格、数字等
-
     1.
-    1. 10:28
-    1. 9:28
-    1. 10:08
-    1. 10:38
-
+        a. 10:28
+        a. 9:28
+        a. 10:08
+        a. 10:38
     1.
-    1. Two bookshelves for $ 9.90 each
-    1. A bookshelf costs $13.99.
-    1. Bookshelves cost $16 for two.
-    1. Two bookshelves cost $8 for each.
-
+        a. Two bookshelves for $ 9.90 each
+        a. A bookshelf costs $13.99.
+        a. Bookshelves cost $16 for two.
+        a. Two bookshelves cost $8 for each.
     1.
-    1. More than 1,000 million.
-    1. 800 million.
-    1. More than 4 million.
-    1. Nearly 400 million.
-
+        a. More than 1,000 million.
+        a. 800 million.
+        a. More than 4 million.
+        a. Nearly 400 million.
     1.
-    1. An hour.
-    1. half an hour.
-    1. Forty minutes.
-    1. Twenty minutes.
-
+        a. An hour.
+        a. half an hour.
+        a. Forty minutes.
+        a. Twenty minutes.
     1.
-    1. $8.
-    1. $9.
-    1. $5.
-    1. $7.
-
+        a. $8.
+        a. $9.
+        a. $5.
+        a. $7.
     1.
-    1. 6:20
-    1. 7:00
-    1. 7:10
-    1. 7:20
-
+        a. 6:20
+        a. 7:00
+        a. 7:10
+        a. 7:20
     1.
-    1. It was 3:10.
-    1. It was 2:10.
-    1. It was 2:40.
-    1. It was 2:50.
-
+        a. It was 3:10.
+        a. It was 2:10.
+        a. It was 2:40.
+        a. It was 2:50.
     1.
-    1. $450.
-    1. $605.
-    1. $650.
-    1. $600.
-
+        a. $450.
+        a. $605.
+        a. $650.
+        a. $600.
     1.
-    1. 1,600.
-    1. 3,200.
-    1. 4,800.
-    1. 4,200.
-
+        a. 1,600.
+        a. 3,200.
+        a. 4,800.
+        a. 4,200.
     1.
-    1. $265.
-    1. $260.
-    1. $530.
-    1. $350.
+        a. $265.
+        a. $260.
+        a. $530.
+        a. $350.
 1. 身份、人物关系、地点
-
     1.
-    1. A reporter.
-    1. A teacher.
-    1. A doctor.
-    1. A worker.
-
+        a. A reporter.
+        a. A teacher.
+        a. A doctor.
+        a. A worker.
     1.
-    1. In an office.
-    1. At a party.
-    1. At a restaurant.
-    1. At home.
-
+        a. In an office.
+        a. At a party.
+        a. At a restaurant.
+        a. At home.
     1.
-    1. Doctor and patients.
-    1. Husband and wife.
-    1. Boss and clerk.
-    1. Doctor and nurse.
-
+        a. Doctor and patients.
+        a. Husband and wife.
+        a. Boss and clerk.
+        a. Doctor and nurse.
     1.
-    1. At the Travel agency.
-    1. At the Dean's office.
-    1. At the train station.
-    1. At the airport.
-
+        a. At the Travel agency.
+        a. At the Dean's office.
+        a. At the train station.
+        a. At the airport.
     1.
-    1. Librarian and student.
-    1. Two students.
-    1. Teacher and student.
-    1. Librarian and teacher.
-
+        a. Librarian and student.
+        a. Two students.
+        a. Teacher and student.
+        a. Librarian and teacher.
     1.
-    1. At a bookstore.
-    1. At a post office.
-    1. At a shopping market.
-    1. At a bank.
-
+        a. At a bookstore.
+        a. At a post office.
+        a. At a shopping market.
+        a. At a bank.
     1.
-    1. Teacher and student.
-    1. Receptionist and customer.
-    1. Boss and employee.
-    1. Saleswoman and customer.
-
+        a. Teacher and student.
+        a. Receptionist and customer.
+        a. Boss and employee.
+        a. Saleswoman and customer.
     1.
-    1. Stewardess and passenger.
-    1. Salesgirl and customer.
-    1. Ticket seller and passenger.
-    1. Boss and secretary.
-
+        a. Stewardess and passenger.
+        a. Salesgirl and customer.
+        a. Ticket seller and passenger.
+        a. Boss and secretary.
     1.
-    1. At the theatre.
-    1. At a bus stop.
-    1. In a restaurant.
-    1. At an airport.
-
+        a. At the theatre.
+        a. At a bus stop.
+        a. In a restaurant.
+        a. At an airport.
     1.
-    1. At a travel agency.
-    1. At a bus stop.
-    1. In a bank.
-    1. In a bookstore.
+        a. At a travel agency.
+        a. At a bus stop.
+        a. In a bank.
+        a. In a bookstore.
 1. 判断、推理、引申
-
     1.
-    1. He doesn't like to spend time outside.
-    1. He went to the gym this morning.
-    1. He enjoys going out when he has free time.
-    1. He would rather exercise than stay in the house.
-
+        a. He doesn't like to spend time outside.
+        a. He went to the gym this morning.
+        a. He enjoys going out when he has free time.
+        a. He would rather exercise than stay in the house.
     1.
-    1. He went boating last week.
-    1. He would rather try.
-    1. He can't go boating.
-    1. He isn't interested.
-
+        a. He went boating last week.
+        a. He would rather try.
+        a. He can't go boating.
+        a. He isn't interested.
     1.
-    1. She is probably somewhere around.
-    1. She shouldn't leave her things lying around.
-    1. She shouldn't find her glove.
-    1. She is probably playing baseball already.
-
+        a. She is probably somewhere around.
+        a. She shouldn't leave her things lying around.
+        a. She shouldn't find her glove.
+        a. She is probably playing baseball already.
     1.
-    1. Daisy often goes to the museum.
-    1. They should bring Daisy to the museum.
-    1. Modern art doesn't cost much.
-    1. It would be a good place to get a gift for Daisy.
-
+        a. Daisy often goes to the museum.
+        a. They should bring Daisy to the museum.
+        a. Modern art doesn't cost much.
+        a. It would be a good place to get a gift for Daisy.
     1.
-    1. He has plenty of time to study for.
-    1. He enjoys English literature class.
-    1. He has too many tests.
-    1. He has nothing to do these days.
-
+        a. He has plenty of time to study for.
+        a. He enjoys English literature class.
+        a. He has too many tests.
+        a. He has nothing to do these days.
     1.
-    1. Nicole's jobs are relatively easy.
-    1. It's easy to take twenty-two credits.
-    1. It's good for Nicole to hold two jobs.
-    1. Nicole should slow down.
-
+        a. Nicole's jobs are relatively easy.
+        a. It's easy to take twenty-two credits.
+        a. It's good for Nicole to hold two jobs.
+        a. Nicole should slow down.
     1.
-    1. They discuss what gifts to bring.
-    1. They should buy gifts before they leave.
-    1. She has not decided how to get there.
-    1. She doesn't feel like going there.
-
+        a. They discuss what gifts to bring.
+        a. They should buy gifts before they leave.
+        a. She has not decided how to get there.
+        a. She doesn't feel like going there.
     1.
-    1. He knows the route very well.
-    1. He often gets lost.
-    1. He doesn't know where the hotel is.
-    1. He thinks he is absent-minded.
-
+        a. He knows the route very well.
+        a. He often gets lost.
+        a. He doesn't know where the hotel is.
+        a. He thinks he is absent-minded.
     1.
-    1. The final exam was just finished.
-    1. The woman received the best grade.
-    1. He was sure he got the best score.
-    1. His score was better than the woman's.
-
+        a. The final exam was just finished.
+        a. The woman received the best grade.
+        a. He was sure he got the best score.
+        a. His score was better than the woman's.
     1.
-    1. The mail was sent to the post office.
-    1. He was something to drop in the mail box.
-    1. It is too soon to go back there.
-    1. The post office was closed an hour and a half ago.
+        a. The mail was sent to the post office.
+        a. He was something to drop in the mail box.
+        a. It is too soon to go back there.
+        a. The post office was closed an hour and a half ago.
