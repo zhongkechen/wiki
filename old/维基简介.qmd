@@ -1,0 +1,178 @@
+---
+title: "维基简介"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+### 什么是维基
+
+**维基**和论坛、博客等概念类似，是一种网站的组织形式。论坛的特点是任何人都可以发帖，任何人都可以回复，由管理员进行管理。博客的特点是一个人发文，任何人都可以回复。而维基的特点是什么呢？
+
+* 任何人都可以写文章，任何人都可以修改
+* 所有文章都有修改的历史记录
+* 文章之间可以非常容易的建立链接
+* 有简单的语法可以对文章的格式进行控制
+
+由于这些特点，维基网站特别适合做：
+
+* 知识聚集
+
+实例：
+
+* [维基百科](http://www.wikipedia.org/)
+
+### 如何架设维基网站
+
+这部分内容指导服务器的管理员如何在服务器上架设维基网站，普通用户可以直接跳过。
+
+#### moinmoin架设
+
+以下以在debian linux 4.0下安装为例介绍moinmoin的架设步骤
+
+* 首先是安装web服务器，这里以apache2为例：
+
+  ```
+  apt-get install apache2 libapache2-mod-python
+  ```
+* 然后安装python-moinmoin和moinmoin-common包：
+
+  ```
+  apt-get install python-moinmoin
+  ```
+* 将维基装在/var/www/mywiki目录下：
+
+  ```
+  mkdir /var/www/mywiki
+  cp -r /usr/share/moin/data /usr/share/moin/underlay /usr/share/moin/server/moin.cgi /var/www/mywiki
+  chown -R www-data:www-data /var/www/mywiki
+  chmod -R g+w /var/www/mywiki
+  ```
+* 配置apache2，将如下内容写到/etc/apache2/conf.d/mywiki.conf文件：
+
+  ```
+  Alias /wiki/ /usr/share/moin/htdocs/
+  ScriptAlias /mywiki "/usr/share/moin/server/moin.cgi"
+  <Directory /usr/share/moin/htdocs>
+      order deny,allow
+      allow from all
+  </Directory>
+  <Location /mywiki>
+      SetHandler python-program
+      PythonPath "['/var/www/mywiki','/etc/moin/']+sys.path"
+      PythonHandler MoinMoin.request::RequestModPy.run
+      PythonDebug On
+  </Location>
+  ```
+* 重启apache2，运行：
+
+  ```
+  /etc/init.d/apache2 reload
+  ```
+* 配置moinmoin，编辑/etc/moin/farmconfig.py
+
+  ```
+  wikis = [
+      ("mywiki",  r".*"),   # this is ok for a single wiki
+  ]
+  ```
+* 将moinmaster.py文件复制为mywiki.py
+
+  ```
+  cp /etc/moin/moinmaster.py /etc/moin/mywiki.py
+  ```
+* 配置moinmoin，编辑/etc/moin/mywiki.py
+
+  ```
+   sitename = u'MyWiki'
+   data_dir = '/var/www/mywiki/data'
+   data_underlay_dir = '/var/www/mywiki/underlay'
+  ```
+
+  要使用中文名称，需要将第一行改成
+
+  ```
+  # -*- coding: utf-8 -*-
+  ```
+* 打开 http://domainname/mywiki/ 即可打开维基网站了（domainname换成服务器域名或者ip）。
+* 安装中文的系统页面：任意注册一个用户，比如名叫czk，用这个用户登录。编辑/etc/moin/mywiki.py，加入
+
+  ```
+  superuser=['czk']
+  ```
+
+  打开SystemPagesSetup页面（可以在右上角的搜索框输入），在SimplifiedChinese.zip前面点安装。
+
+#### moinmoin不能显示中文名字的网页
+
+Ubuntu 14.04上安装moinmoin 1.9.7后，发现所有名字是中文的维基页面都没法打开。看日志是werkzeug包抛出来的错误。
+
+```
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/werkzeug/wsgi.py", line 558, in __call__
+    cleaned_path = cleaned_path.encode(sys.getfilesystemencoding())
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 4-7: ordinal not in range(128)
+```
+
+Ubuntu自带的werkzeug是0.9.4，把它替换成最新版本后就正常了。替换的方法是先用pip装一个最新的
+
+```
+pip install werkzeug
+```
+然后把它的安装路径加到moin.wsgi配置里面：
+
+```
+sys.path.insert(0, '/usr/local/lib/python2.7/dist-packages/')
+```
+
+#### mediawiki架设
+
+以下以在debian linux 4.0下安装为例介绍mediawiki的架设步骤
+
+* 首先是安装web服务器，这里以apache2为例：
+
+  ```
+  apt-get install apache2 libapache2-mod-python
+  ```
+* 安装mysql数据库服务器
+
+  ```
+  apt-get install mysql-server
+  ```
+* 安装mediawiki：
+
+  ```
+  apt-get install mediawiki
+  ```
+* 打开 http://domainname/mediawiki/ 打开维基网站（domainname换成服务器域名或者ip）。按照网页上的提示完成安装（数据库root用户的默认密码是空的）
+* 移动配置文件：
+
+  ```
+  mv /var/lib/mediawiki1.7/config/LocalSettings.php /var/lib/mediawiki1.7/LocalSettings.php
+  ```
+
+### 如何使用维基网站
+
+这部分内容指导维基的普通用户如何创建、修改网站的内容。
+
+#### mediawiki的使用
+
+* 创建页面：
+    * 在url中直接打入要创建的页面的名字，比如维基网站的地址是首页地址是 http://wzpedia.cn/mediawiki/index.php/ ，那么要创建名为**新页面**的页面可以打入地址：http://wzpedia.cn/mediawiki/index.php/新页面 即可
+    * 在搜索框输入要创建页面的名字，在搜索结果中点击新页面的名字。
+    * 编辑已有页面，在已有页面上创建一个到新页面的链接（比如：`[[新页面]]`），保存后点击新页面的链接。
+* 编辑页面：
+    * 直接输入要输入的文字
+    * 用`[[链接]]`插入到其他页面的链接
+    * 用`==标题==`来表示标题，等号数量不同表示不同等级的标题（从2个到6个都可以）
+    * 用`*`表示列表，用`#`表示编号。个数不同表示层次不同。
+
+### 如何管理维基网站
+
+这部分内容指导维基网站的管理员如何对网站进行管理，普通用户可以跳过。

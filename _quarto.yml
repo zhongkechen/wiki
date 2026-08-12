@@ -15,6 +15,17 @@ project:
     - wiki/围棋.md
     - wiki/科学上网.md
     - old/首页.qmd
+    - old/维基简介.qmd
+    - old/浙大考博题.qmd
+    - old/计算机体系结构.qmd
+    - old/MSP430.qmd
+    - old/English.qmd
+    - old/美食.qmd
+    - old/有趣的小东东.qmd
+    - old/有趣的小东东/*.qmd
+    - old/留言.qmd
+    - old/SICP的Python实现.qmd
+    - old/SICP的Python实现/*.qmd
     - old/TCPL.qmd
     - old/Answer_to_Chapter_1.qmd
     - old/Examples_from_TCPL.qmd

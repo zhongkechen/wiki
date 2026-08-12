@@ -1,0 +1,169 @@
+---
+title: "English"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+## 对话听力练习
+
+[001Conversations.MP3](<English/assets/English/001Conversations.MP3>)
+
+1. 时间、价格、数字等
+    1.
+        a. 10:28
+        a. 9:28
+        a. 10:08
+        a. 10:38
+    1.
+        a. Two bookshelves for $ 9.90 each
+        a. A bookshelf costs $13.99.
+        a. Bookshelves cost $16 for two.
+        a. Two bookshelves cost $8 for each.
+    1.
+        a. More than 1,000 million.
+        a. 800 million.
+        a. More than 4 million.
+        a. Nearly 400 million.
+    1.
+        a. An hour.
+        a. half an hour.
+        a. Forty minutes.
+        a. Twenty minutes.
+    1.
+        a. $8.
+        a. $9.
+        a. $5.
+        a. $7.
+    1.
+        a. 6:20
+        a. 7:00
+        a. 7:10
+        a. 7:20
+    1.
+        a. It was 3:10.
+        a. It was 2:10.
+        a. It was 2:40.
+        a. It was 2:50.
+    1.
+        a. $450.
+        a. $605.
+        a. $650.
+        a. $600.
+    1.
+        a. 1,600.
+        a. 3,200.
+        a. 4,800.
+        a. 4,200.
+    1.
+        a. $265.
+        a. $260.
+        a. $530.
+        a. $350.
+1. 身份、人物关系、地点
+    1.
+        a. A reporter.
+        a. A teacher.
+        a. A doctor.
+        a. A worker.
+    1.
+        a. In an office.
+        a. At a party.
+        a. At a restaurant.
+        a. At home.
+    1.
+        a. Doctor and patients.
+        a. Husband and wife.
+        a. Boss and clerk.
+        a. Doctor and nurse.
+    1.
+        a. At the Travel agency.
+        a. At the Dean's office.
+        a. At the train station.
+        a. At the airport.
+    1.
+        a. Librarian and student.
+        a. Two students.
+        a. Teacher and student.
+        a. Librarian and teacher.
+    1.
+        a. At a bookstore.
+        a. At a post office.
+        a. At a shopping market.
+        a. At a bank.
+    1.
+        a. Teacher and student.
+        a. Receptionist and customer.
+        a. Boss and employee.
+        a. Saleswoman and customer.
+    1.
+        a. Stewardess and passenger.
+        a. Salesgirl and customer.
+        a. Ticket seller and passenger.
+        a. Boss and secretary.
+    1.
+        a. At the theatre.
+        a. At a bus stop.
+        a. In a restaurant.
+        a. At an airport.
+    1.
+        a. At a travel agency.
+        a. At a bus stop.
+        a. In a bank.
+        a. In a bookstore.
+1. 判断、推理、引申
+    1.
+        a. He doesn't like to spend time outside.
+        a. He went to the gym this morning.
+        a. He enjoys going out when he has free time.
+        a. He would rather exercise than stay in the house.
+    1.
+        a. He went boating last week.
+        a. He would rather try.
+        a. He can't go boating.
+        a. He isn't interested.
+    1.
+        a. She is probably somewhere around.
+        a. She shouldn't leave her things lying around.
+        a. She shouldn't find her glove.
+        a. She is probably playing baseball already.
+    1.
+        a. Daisy often goes to the museum.
+        a. They should bring Daisy to the museum.
+        a. Modern art doesn't cost much.
+        a. It would be a good place to get a gift for Daisy.
+    1.
+        a. He has plenty of time to study for.
+        a. He enjoys English literature class.
+        a. He has too many tests.
+        a. He has nothing to do these days.
+    1.
+        a. Nicole's jobs are relatively easy.
+        a. It's easy to take twenty-two credits.
+        a. It's good for Nicole to hold two jobs.
+        a. Nicole should slow down.
+    1.
+        a. They discuss what gifts to bring.
+        a. They should buy gifts before they leave.
+        a. She has not decided how to get there.
+        a. She doesn't feel like going there.
+    1.
+        a. He knows the route very well.
+        a. He often gets lost.
+        a. He doesn't know where the hotel is.
+        a. He thinks he is absent-minded.
+    1.
+        a. The final exam was just finished.
+        a. The woman received the best grade.
+        a. He was sure he got the best score.
+        a. His score was better than the woman's.
+    1.
+        a. The mail was sent to the post office.
+        a. He was something to drop in the mail box.
+        a. It is too soon to go back there.
+        a. The post office was closed an hour and a half ago.

@@ -1,0 +1,131 @@
+---
+title: "Two_Numbers"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“有趣的小东东”](<../有趣的小东东.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000005 在备份中缺失；以下内容来自最新可读取版本 00000004。
+:::
+
+## 两个数
+
+设有两个自然数X、Y，2&lt;=X&lt;=Y&lt;=99，S先生知道这两个数的和S，P先生知道这两个数的积 P ，他们二人进行了如下对话：
+
+S：我确信你不知道这两个数是什么，但我也不知道。
+
+P: 一听你说这句话，我就知道这两个数是什么了。
+
+S: 我也是，现在我也知道了。
+
+现在你能通过他们的会话推断出这两个数是什么吗？（当然，S和P先生都是非常聪明的）
+
+---
+
+```cpp
+#include <cstdlib>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+struct comb{
+    int x;
+    int y;
+    int sum;
+    int product;
+    bool erased;
+};
+
+bool bysum(const comb &a, const comb &b) {
+    return a.sum < b.sum;
+}
+
+bool byproduct(const comb &a, const comb &b) {
+    return a.product < b.product;
+}
+bool byerased(const comb &a, const comb &b) {
+    return a.erased < b.erased;
+}
+
+int main() {
+    int i, j;
+    const int max = 99;
+    vector<comb> combines;
+
+    //init all combinations
+    comb c;
+    c.erased = false;
+    for (c.x = 2; c.x <= max; c.x++) {
+        for(c.y = c.x; c.y <= max; c.y++) {
+            c.sum = c.x+c.y;
+            c.product = c.x*c.y;
+            combines.push_back(c);
+        }
+    }
+
+    //remove combinations not consist with first clause
+    sort(combines.begin(), combines.end(), bysum);
+    for(i = 0; i < combines.size();) {
+        for(j = i+1; j < combines.size() && combines[i].sum == combines[j].sum;j++)
+            ;
+        if(j == i+1) {
+            combines[i].erased = true;
+        } else {
+            int m;
+            for(m = i; m < j; m++) {
+                int k;
+                for(k = 0; k < combines.size(); k++)
+                    if(k!=m && combines[m].product == combines[k].product)
+                        break;
+                if(k == combines.size()) {
+                    for(int a = i; a < j; a++)
+                        combines[a].erased = true;
+                    break;
+                }
+            }
+        }
+        i = j;
+    }
+
+    //accually remove combinations
+    sort(combines.begin(), combines.end(), byerased);
+    for(i = 0; i < combines.size() && !combines[i].erased;i++);
+    combines.erase(combines.begin()+i, combines.end());
+
+    //remove combinations not consist with second clause
+    sort(combines.begin(), combines.end(), byproduct);
+    for(i = 0; i < combines.size();) {
+        for( j = i+1; j< combines.size() && combines[i].product == combines[j].product; j++)
+            ;
+        if(j == i+1)
+            i++;
+        else
+            combines.erase(combines.begin()+i, combines.begin()+j);
+    }
+
+    //remove combinations not consist with third clause
+    sort(combines.begin(), combines.end(), bysum);
+    for(i = 0; i < combines.size();) {
+        for( j = i+1; j< combines.size() && combines[i].sum == combines[j].sum; j++)
+            ;
+        if(j == i+1)
+            i++;
+        else
+            combines.erase(combines.begin()+i, combines.begin()+j);
+    }
+
+    //output the result
+    for(i = 0; i < combines.size(); i++) {
+        cout << combines[i].x << " "<< combines[i].y <<" " <<combines[i].sum
+            <<" "<< combines[i].product<< endl;
+    }
+}
+```

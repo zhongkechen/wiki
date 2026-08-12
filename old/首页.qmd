@@ -35,5 +35,5 @@ description: Zhongke 的个人 Wiki 旧站首页
 
 ## 其它
 
-- [维基简介](维基简介.html)、[浙大考博题](浙大考博题.html)、[计算机体系结构](计算机体系结构.html)、[MSP430](MSP430.html)
-- [English](English.html)、[美食](美食.html)、[有趣的小东东](有趣的小东东.html)、[历史留言](留言.html)、[SICP 的 Python 实现](SICP的Python实现.html)
+- [维基简介](维基简介.qmd)、[浙大考博题](浙大考博题.qmd)、[计算机体系结构](计算机体系结构.qmd)、[MSP430](MSP430.qmd)
+- [English](English.qmd)、[美食](美食.qmd)、[有趣的小东东](有趣的小东东.qmd)、[历史留言](留言.qmd)、[SICP 的 Python 实现](SICP的Python实现.qmd)

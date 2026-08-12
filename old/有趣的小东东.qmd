@@ -1,0 +1,49 @@
+---
+title: "有趣的小东东"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+在这里详述 有趣的小东东.
+
+![Lorentz_transform_of_world_line.gif](http://upload.wikimedia.org/wikipedia/commons/e/e4/Lorentz_transform_of_world_line.gif)
+
+* [1.JPG](<有趣的小东东/assets/有趣的小东东/1.JPG>)
+* [123.PPS](<有趣的小东东/assets/有趣的小东东/123.PPS>)
+* [2-file.pps](<有趣的小东东/assets/有趣的小东东/2-file.pps>)
+* [2.JPG](<有趣的小东东/assets/有趣的小东东/2.JPG>)
+* [3-TheHumanBrain- 人类的大脑.pps](<有趣的小东东/assets/有趣的小东东/3-TheHumanBrain- 人类的大脑.pps>)
+* [CEO-course.ppt](<有趣的小东东/assets/有趣的小东东/CEO-course.ppt>)
+* [Korea.doc](<有趣的小东东/assets/有趣的小东东/Korea.doc>)
+* [MTV身边.swf](<有趣的小东东/assets/有趣的小东东/MTV身边.swf>)
+* [Moments.pps](<有趣的小东东/assets/有趣的小东东/Moments.pps>)
+* [While Stars are young.ppt](<有趣的小东东/assets/有趣的小东东/While Stars are young.ppt>)
+* [age.swf](<有趣的小东东/assets/有趣的小东东/age.swf>)
+* [aiglx.flv](<有趣的小东东/assets/有趣的小东东/aiglx.flv>)
+* [aiglxubuntu.flv](<有趣的小东东/assets/有趣的小东东/aiglxubuntu.flv>)
+* [figure.png](<有趣的小东东/assets/有趣的小东东/figure.png>)
+* [iphone_ad.flv](<有趣的小东东/assets/有趣的小东东/iphone_ad.flv>)
+* [job.pps](<有趣的小东东/assets/有趣的小东东/job.pps>)
+* [life2.pps](<有趣的小东东/assets/有趣的小东东/life2.pps>)
+* [miss.pps](<有趣的小东东/assets/有趣的小东东/miss.pps>)
+* [rs.pps](<有趣的小东东/assets/有趣的小东东/rs.pps>)
+* [吉他版超级马里.dpg](<有趣的小东东/assets/有趣的小东东/吉他版超级马里.dpg>)
+* [名校第一美女.PPS](<有趣的小东东/assets/有趣的小东东/名校第一美女.PPS>)
+* [很好听的女声(EZUOJU1).mp3](<有趣的小东东/assets/有趣的小东东/很好听的女声(EZUOJU1).mp3>)
+* [很好听的女声(EZUOJU2).mp3](<有趣的小东东/assets/有趣的小东东/很好听的女声(EZUOJU2).mp3>)
+* [投诉.zip](<有趣的小东东/assets/有趣的小东东/投诉.zip>)
+* [推理代入.pps](<有趣的小东东/assets/有趣的小东东/推理代入.pps>)
+* [教师节.swf](<有趣的小东东/assets/有趣的小东东/教师节.swf>)
+* [日本人實在太好笑了.pps](<有趣的小东东/assets/有趣的小东东/日本人實在太好笑了.pps>)
+* [某某星球到此一游.doc](<有趣的小东东/assets/有趣的小东东/某某星球到此一游.doc>)
+* [水晶潜艇演奏二胡快弓.dpg](<有趣的小东东/assets/有趣的小东东/水晶潜艇演奏二胡快弓.dpg>)
+* [没有办法，公司初期，只能这样了！禁止明火.doc](<有趣的小东东/assets/有趣的小东东/没有办法，公司初期，只能这样了！禁止明火.doc>)
+* [讨厌的上司--管理者反省手册.pdf](<有趣的小东东/assets/有趣的小东东/讨厌的上司--管理者反省手册.pdf>)
+
+[Two_Numbers](<有趣的小东东/Two_Numbers.qmd>)

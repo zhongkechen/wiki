@@ -1,0 +1,260 @@
+---
+title: "SICP的Python实现/SICP的Python实现1.2"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“SICP的Python实现”](<../SICP的Python实现.qmd>)
+
+### Procedures and the Processes They Generate
+
+#### Linear Recursion and Iteration
+
+1.
+
+   ```
+   (define (factorial n)
+     (if (= n 1)
+         1
+         (* n (factorial (- n 1)))))
+   ```
+
+   ```python
+   factorial = lambda n: 1 if n==1 else n*factorial(n-1)
+   ```
+1.
+
+   ```
+   (define (factorial n)
+     (fact-iter 1 1 n))
+
+   (define (fact-iter product counter max-count)
+     (if (> counter max-count)
+         product
+         (fact-iter (* counter product)
+                    (+ counter 1)
+                    max-count)))
+   ```
+
+   ```python
+   fatorial = lambda n: fact_iter(1, 1, n)
+   fact_iter = lambda product, counter, max_count: product if counter > max_count else fact_iter(counter*product, counter +1, max_count)
+   ```
+
+#### Tree Recursion
+
+1.
+
+   ```
+   (define (fib n)
+     (cond ((= n 0) 0)
+           ((= n 1) 1)
+           (else (+ (fib (- n 1))
+                    (fib (- n 2))))))
+   ```
+
+   ```python
+   fib = lambda n: 0 if n==0 else ( 1 if n==1 else fib(n-1)+fib(n-2) )
+   ```
+1.
+
+   ```
+   (define (fib n)
+     (fib-iter 1 0 n))
+
+   (define (fib-iter a b count)
+     (if (= count 0)
+         b
+         (fib-iter (+ a b) a (- count 1))))
+   ```
+
+   ```python
+   fib = lambda n: fib_iter(1, 0, n)
+   fib_iter = lambda a, b, count: b if count ==0 else fib_iter(a+b, a, count-1)
+   ```
+1.
+
+   ```
+   (define (count-change amount)
+     (cc amount 5))
+   (define (cc amount kinds-of-coins)
+     (cond ((= amount 0) 1)
+           ((or (< amount 0) (= kinds-of-coins 0)) 0)
+           (else (+ (cc amount
+                        (- kinds-of-coins 1))
+                    (cc (- amount
+                           (first-denomination kinds-of-coins))
+                        kinds-of-coins)))))
+   (define (first-denomination kinds-of-coins)
+     (cond ((= kinds-of-coins 1) 1)
+           ((= kinds-of-coins 2) 5)
+           ((= kinds-of-coins 3) 10)
+           ((= kinds-of-coins 4) 25)
+           ((= kinds-of-coins 5) 50)))
+   ```
+
+   ```python
+   count_change = lambda amount: cc(amount, 5)
+   cc = lambda amount, kinds_of_coins: 1 if amount==0 else 0 if amount < 0 or kinds_of_coins == 0 else cc(amount, kinds_of_coins-1)+cc(amount-first_denomination(kinds_of_coins), kinds_of_coins)
+   first_denomination = lambda kinds_of_coins: 1 if kinds_of_coins==1 else 5 if kinds_of_coins==2 else 10 if kinds_of_coins==3 else 25 if kinds_of_coins==4 else 50 if kinds_of_coins==5 else 0
+   ```
+1.
+
+   ```
+   (count-change 100)
+   292
+   ```
+
+   ```python
+   count_change(100)
+   ```
+
+#### Orders of Growth
+
+#### Exponentiation
+
+1.
+
+   ```
+   (define (expt b n)
+     (if (= n 0)
+         1
+         (* b (expt b (- n 1)))))
+   ```
+
+   ```python
+   expt = lambda b, n: 1 if n==0 else b*expt(b, n-1)
+   ```
+1.
+
+   ```
+   (define (expt b n)
+     (expt-iter b n 1))
+
+   (define (expt-iter b counter product)
+     (if (= counter 0)
+         product
+         (expt-iter b
+                   (- counter 1)
+                   (* b product))))
+   ```
+
+   ```python
+   expt = lambda b, n: expt_iter(b, n, 1)
+   expt_iter = lambda b, counter, product: product if counter==0 else expt_iter(b, counter-1, b*product)
+   ```
+1.
+
+   ```
+   (define (fast-expt b n)
+     (cond ((= n 0) 1)
+           ((even? n) (square (fast-expt b (/ n 2))))
+           (else (* b (fast-expt b (- n 1))))))
+   ```
+
+   ```python
+   fast_expt = lambda b, n: 1 if n==0 else square(fast_expt(b, n/2)) if even(n) else b*fast_expt(b, n-1)
+   ```
+1.
+
+   ```
+   (define (even? n)
+     (= (remainder n 2) 0))
+   ```
+
+   ```python
+   even = lambda n: n%2 == 0
+   ```
+
+#### Greatest Common Divisors
+
+1.
+
+   ```
+   (define (gcd a b)
+     (if (= b 0)
+         a
+         (gcd b (remainder a b))))
+   ```
+
+   ```python
+   gcd = lambda a, b: a if b==0 else gcd(b, a%b)
+   ```
+
+#### Example: Testing for Primality
+
+1.
+
+   ```
+   (define (smallest-divisor n)
+     (find-divisor n 2))
+   (define (find-divisor n test-divisor)
+     (cond ((> (square test-divisor) n) n)
+           ((divides? test-divisor n) test-divisor)
+           (else (find-divisor n (+ test-divisor 1)))))
+   (define (divides? a b)
+     (= (remainder b a) 0))
+   ```
+
+   ```python
+   smallest_divisor = lambda n: find_divisor(n, 2)
+   find_divisor = lambda n, test_divisor: n if square(test_divisor) > n else test_divisor if divides(test_divisor, n) else find_divisor(n, test_divisor+1)
+   divides = lambda a, b: b%a==0
+   ```
+1.
+
+   ```
+   (define (prime? n)
+     (= n (smallest-divisor n)))
+   ```
+
+   ```python
+   prime = lambda n: n==smallest_divisor(n)
+   ```
+1.
+
+   ```
+   (define (expmod base exp m)
+     (cond ((= exp 0) 1)
+           ((even? exp)
+            (remainder (square (expmod base (/ exp 2) m))
+                       m))
+           (else
+            (remainder (* base (expmod base (- exp 1) m))
+                       m))))
+   ```
+
+   ```python
+   expmod = lambda base, exp, m: 1 if exp==0 else square(expmod(base, exp/2, m))%m if even(exp) else (base*expmod(base, exp-1, m))%m
+   ```
+1.
+
+   ```
+   (define (fermat-test n)
+     (define (try-it a)
+       (= (expmod a n n) a))
+     (try-it (+ 1 (random (- n 1)))))
+   ```
+
+   ```python
+   from random import randint
+   def fermat_test(n):
+       try_it = lambda a: expmod(a, n, n) == a
+       return try_it(1+randint(0, n-2))
+   ```
+1.
+
+   ```
+   (define (fast-prime? n times)
+     (cond ((= times 0) true)
+           ((fermat-test n) (fast-prime? n (- times 1)))
+           (else false)))
+   ```
+
+   ```python
+   fast_prime = lambda n, times: True if times==0 else fast_prime(n, times-1) if fermat_test(n) else False
+   ```
