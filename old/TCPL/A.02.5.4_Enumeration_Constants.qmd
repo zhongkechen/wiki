@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.02.5.4_Enumeration_Constants"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+##### A.2.5.4 Enumeration Constants
+
+Identifiers declared as enumerators (see Par.A.8.4) are constants of type int.

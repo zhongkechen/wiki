@@ -1,0 +1,21 @@
+---
+title: "TCPL/A.07.14_Logical_AND_Operator"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.14 Logical AND Operator
+
+    logical-AND-expression:
+      inclusive-OR-expression
+      logical-AND-expression && inclusive-OR-expression
+
+The && operator groups left-to-right. It returns 1 if both its operands compare unequal to zero, 0 otherwise. Unlike &, && guarantees left-to-right evaluation: the first operand is evaluated, including all side effects; if it is equal to 0, the value of the expression is 0. Otherwise, the right operand is evaluated, and if it is equal to 0, the expression's value is 0, otherwise 1.
+
+The operands need not have the same type, but each must have arithmetic type or be a pointer. The result is int.

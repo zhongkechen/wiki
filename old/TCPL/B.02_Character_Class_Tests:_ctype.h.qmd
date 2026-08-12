@@ -1,0 +1,36 @@
+---
+title: "TCPL/B.02_Character_Class_Tests:_<ctype.h>"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### B.2 Character Class Tests: &lt;ctype.h&gt;
+
+The header &lt;ctype.h&gt; declares functions for testing characters. For each function, the argument list is an int, whose value must be EOF or representable as an unsigned char, and the return value is an int. The functions return non-zero (true) if the argument c satisfies the condition described, and zero if not.
+```
+isalnum(c)	isalpha(c) or isdigit(c) is true
+isalpha(c)	isupper(c) or islower(c) is true
+iscntrl(c)	control character
+isdigit(c)	decimal digit
+isgraph(c)	printing character except space
+islower(c)	lower-case letter
+isprint(c)	printing character including space
+ispunct(c)	printing character except space or letter or digit
+isspace(c)	space, formfeed, newline, carriage return, tab, vertical tab
+isupper(c)	upper-case letter
+isxdigit(c)	hexadecimal digit
+```
+In the seven-bit ASCII character set, the printing characters are 0x20 (' ') to 0x7E ('-'); the control characters are 0 NUL to 0x1F (US), and 0x7F (DEL).
+
+In addition, there are two functions that convert the case of letters:
+```
+int tolower(c)	convert c to lower case
+int toupper(c)	convert c to upper case
+```
+If c is an upper-case letter, tolower(c) returns the corresponding lower-case letter, toupper(c) returns the corresponding upper-case letter; otherwise it returns c.

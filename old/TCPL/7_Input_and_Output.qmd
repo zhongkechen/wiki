@@ -23,3 +23,12 @@ ANSI标准精确地定义了这些库函数，所以，在任何可以使用C语
 The properties of library functions are specified in more than a dozen headers; we have already seen several of these, including &lt;stdio.h&gt;, &lt;string.h&gt;, and &lt;ctype.h&gt;. We will not present the entire library here, since we are more interested in writing C programs that use it. The library is described in detail in Appendix B.
 
 这些库函数的属性分别在十多个头文件中声明，前面已经遇到过一部分，如&lt;stdio.h&gt;、&lt;string.h&gt;和&lt;ctype.h&gt;。我们不打算把整个标准库都罗列于此，因为我们更关心如何使用标准库编写C语言程序。附录B对标准库进行了详细的描述。
+
+* [7.1 Standard Input and Output 标准输入/输出](<7.1_Standard_Input_and_Output.qmd>)
+* [7.2 Formatted Output - printf 格式化输出——printf函数](<7.2_Formatted_Output_-_printf.qmd>)
+* [7.3 Variable-length Argument Lists 变长参数表](<7.3_Variable-length_Argument_Lists.qmd>)
+* [7.4 Formatted Input - Scanf 格式化输入——scanf](<7.4_Formatted_Input_-_Scanf.qmd>)
+* [7.5 File Access 文件访问](<7.5_File_Access.qmd>)
+* [7.6 Error Handling - Stderr and Exit 错误处理——stderr和exit](<7.6_Error_Handling_-_Stderr_and_Exit.qmd>)
+* [7.7 Line Input and Output 行输入和行输出](<7.7_Line_Input_and_Output.qmd>)
+* [7.8 Miscellaneous Functions 其他函数](<7.8_Miscellaneous_Functions.qmd>)

@@ -1,0 +1,146 @@
+---
+title: "TCPL/7.1_Standard_Input_and_Output"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 7.1 Standard Input and Output 标准输入/输出
+
+As we said in Chapter 1, the library implements a simple model of text input and output. A text stream consists of a sequence of lines; each line ends with a newline character. If the system doesn't operate that way, the library does whatever necessary to make it appear as if it does. For instance, the library might convert carriage return and linefeed to newline on input and back again on output.
+
+我们在第1章中讲过，标准库实现了简单的文本输入/输出模式。文本流由一系列行组成，每一行的结尾是一个换行符。如果系统没有遵循这种模式，则标准库将通过一些措施使得该系统适应这种模式。例如，标准库可以在输入端将回车符和换页符都转换为换行符，而在输出端进行反向的转换。
+
+The simplest input mechanism is to read one character at a time from the standard input, normally the keyboard, with getchar:
+```
+   int getchar(void)
+```
+getchar returns the next input character each time it is called, or EOF when it encounters end of file. The symbolic constant EOF is defined in &lt;stdio.h&gt;. The value is typically -1, bus tests should be written in terms of EOF so as to be independent of the specific value.
+
+最简单的输入机制是使用getchar函数从*标准输入*中(一般为键盘)一次读取一个字符：
+
+```
+   int getchar(void)
+```
+
+getchar函数在每次被调用时返回下一个输入的字符。若遇到文件结尾，则返回EOF。符号常量EOF在头文件&lt;stdio.h&gt;中定义，其值一般为-1，但程序中应该使用EOF来测试文件是否结束，这样才能保证程序同EOF的特定值无关。
+
+In many environments, a file may be substituted for the keyboard by using the &lt; convention for input redirection: if a program prog uses getchar, then the command line
+```
+   prog <infile
+```
+causes prog to read characters from infile instead. The switching of the input is done in such a way that prog itself is oblivious to the change; in particular, the string "&lt;infile" is not included in the command-line arguments in argv. Input switching is also invisible if the input comes from another program via a pipe mechanism: on some systems, the command line
+```
+   otherprog | prog
+```
+runs the two programs otherprog and prog, and pipes the standard output of otherprog into the standard input for prog.
+
+在许多环境中，可以使用符号&lt;来实现输入重定向，它将把键盘输入替换为文件输入：如果程序prog中使用了函数getchar，则命令行
+
+```
+   prog <infile
+```
+
+将使得程序prog从输入文件infile(而不是键盘)中读取字符。实际上，程序prog本身并不在意输入方式的改变，并且，字符串“&lt;infile”也并不包含在argv的命令行参数中。如果输入通过管道机制来自于另一个程序，那么这种输入切换也是不可见的。比如，在某些系统中，下列命令行：
+
+```
+   otherprog | prog
+```
+
+将运行两个程序otherprog和prog，并将程序otherprog的标准输出通过管道重定向到程序prog的标准输入上。
+
+The function
+```
+   int putchar(int)
+```
+is used for output: putchar(c) puts the character c on the standard output, which is by default the screen. putchar returns the character written, or EOF is an error occurs. Again, output can usually be directed to a file with &gt;filename: if prog uses putchar,
+```
+   prog >outfile
+```
+will write the standard output to outfile instead. If pipes are supported,
+```
+   prog | anotherprog
+```
+puts the standard output of prog into the standard input of anotherprog.
+
+函数
+
+```
+   int putchar(int)
+```
+
+用于输出数据。putchar(c)将字符c送至标准输出上，在默认情况下，标准输出为屏幕显示。如果没有发生错误，则函数putchar将返回输出的字符；如果发生了错误，则返回EOF。同样，通常情况下，也可以使用“&gt;输出文件名”的格式将输出重定向到某个文件中。例如，如果程序prog调用了函数putchar，那么命令行
+
+```
+   prog >outfile
+```
+
+将把程序prog的输出从标准输出设备重定向到文件中。如果系统支持管道，那么命令行
+
+```
+   prog | anotherprog
+```
+
+将把程序prog的输出从标准输出通过管道重定向到程序anotherprog的标准输入中。
+
+Output produced by printf also finds its way to the standard output. Calls to putchar and printf may be interleaved - output happens in the order in which the calls are made.
+
+函数printf也向标准输出设备上输出数据。我们在程序中可以交叉调用函数putchar和printf，输出将按照函数调用的先后顺序依次产生。
+
+Each source file that refers to an input/output library function must contain the line
+```
+   #include <stdio.h>
+```
+before the first reference. When the name is bracketed by &lt; and &gt; a search is made for the header in a standard set of places (for example, on UNIX systems, typically in the directory /usr/include).
+
+使用输入/输出库函数的每个源程序文件必须在引用这些函数之前包含下列语句：
+
+```
+   #include <stdio.h>
+```
+
+当文件名用一对尖括号&lt;和&gt;括起来时，预处理器将在由具体实现定义的有关位量中查找指定的文件(例如，在UNIX系统中，文件一般放在目录/usr/include中)。
+
+Many programs read only one input stream and write only one output stream; for such programs, input and output with getchar, putchar, and printf may be entirely adequate, and is certainly enough to get started. This is particularly true if redirection is used to connect the output of one program to the input of the next. For example, consider the program lower, which converts its input to lower case:
+```cpp
+   #include <stdio.h>
+   #include <ctype.h>
+
+   main() /* lower: convert input to lower case*/
+   {
+       int c
+
+       while ((c = getchar()) != EOF)
+           putchar(tolower(c));
+       return 0;
+   }
+```
+
+许多程序只从一个输人流中读取数据，并且只向一个输出流中输出数据。对于这样的程序，只需要使用函数getchar、putchar和printf实现输入/输出即可，并且对程序来说已经足够了。特别是，如果通过重定向将一个程序的输出连接到另一个程序的输入，仅仅使用这些函数就足够了。例如，考虑下列程序lower，它用于将输入转换为小写字母的形式：
+
+```cpp
+   #include <stdio.h>
+   #include <ctype.h>
+
+   main() /* lower: convert input to lower case*/
+   {
+       int c
+
+       while ((c = getchar()) != EOF)
+           putchar(tolower(c));
+       return 0;
+   }
+```
+
+The function tolower is defined in &lt;ctype.h&gt;; it converts an upper case letter to lower case, and returns other characters untouched. As we mentioned earlier, "functions" like getchar and putchar in &lt;stdio.h&gt; and tolower in &lt;ctype.h&gt; are often macros, thus avoiding the overhead of a function call per character. We will show how this is done in Section 8.5. Regardless of how the &lt;ctype.h&gt; functions are implemented on a given machine, programs that use them are shielded from knowledge of the character set.
+
+函数tolower在头文件&lt;ctype.h&gt;中定义，它把大写字母转换为小写形式，并把其他字符原样返回。我们在前面提到过，头文件&lt;stdio.h&gt;中的getchar和putchar“函数”以及&lt;ctype.h&gt;中的tolower“函数”一般都是宏，这样就避免了对每个字符都进行函数调用的开销。我们将在8.5节介绍它们的实现方法。无论&lt;ctype.h&gt;中的函数在给定的机器上是如何实现的，使用这些函数的程序都不必了解字符集的知识。
+
+Exercise 7-1. Write a program that converts upper case to lower or lower case to upper, depending on the name it is invoked with, as found in argv[0].
+
+练习7-1  编写一个程序，根据它自身被调用时存放在argv[0]中的名字，实现将大写字母转换为小写字母或将小写字母转换为大写字母的功能。

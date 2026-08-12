@@ -1,0 +1,192 @@
+---
+title: "TCPL/5.02_Pointers_and_Function_Arguments"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.2 Pointers and Function Arguments 指针与函数参数
+
+Since C passes arguments to functions by value, there is no direct way for the called function to alter a variable in the calling function. For instance, a sorting routine might exchange two out-of-order arguments with a function called swap. It is not enough to write
+```cpp
+   swap(a, b);
+```
+where the swap function is defined as
+```cpp
+   void swap(int x, int y)  /* WRONG */
+   {
+       int temp;
+
+       temp = x;
+       x = y;
+       y = temp;
+   }
+```
+Because of call by value, swap can't affect the arguments a and b in the routine that called it. The function above swaps copies of a and b.
+
+由于C语言是以传值的方式将参数值传递给被调用函数，因此，被调用函数不能直接修改主调函数中变量的值。例如，排序函数可能会使用一个名为swap的函数来交换两个次序颠倒的元素。但是，如果将swap函数定义为下列形式：
+
+```cpp
+   void swap(int x, int y)  /* WRONG */
+   {
+       int temp;
+
+       temp = x;
+       x = y;
+       y = temp;
+   }
+```
+
+则下列语句无法达到该目的。
+
+```cpp
+   swap(a, b);
+```
+
+这是因为，由于参数传递采用传值方式，因此上述的swap函数不会影响到调用它的例程中的参数a和b的值。该函数仅仅交换了a和b的副本的值。
+
+The way to obtain the desired effect is for the calling program to pass pointers to the values to be changed:
+```cpp
+   swap(&a, &b);
+```
+Since the operator & produces the address of a variable, &a is a pointer to a. In swap itself, the parameters are declared as pointers, and the operands are accessed indirectly through them.
+```cpp
+   void swap(int *px, int *py)  /* interchange *px and *py */
+   {
+       int temp;
+
+       temp = *px;
+       *px = *py;
+       *py = temp;
+   }
+```
+
+那么，如何实现我们的目标呢？可以使主调程序将指向所要交换的变量的指针传递给被
+调用函数，即：
+
+```cpp
+   swap(&a, &b);
+```
+
+由于一元运算符&用来取变量的地址，这样&a就是一个指向变量a的指针。swap函数的所有参数都声明为指针，并且通过这些指针来间接访问它们指向的操作数。
+```cpp
+   void swap(int *px, int *py)  /* interchange *px and *py */
+   {
+       int temp;
+
+       temp = *px;
+       *px = *py;
+       *py = temp;
+   }
+```
+
+Pictorially:
+
+![pic52.gif](<assets/TCPL/5.02_Pointers_and_Function_Arguments/pic52.gif>)
+
+我们通过图5—2进行说明。
+
+![pic52.gif](<assets/TCPL/5.02_Pointers_and_Function_Arguments/pic52.gif>)
+
+Pointer arguments enable a function to access and change objects in the function that called it. As an example, consider a function getint that performs free-format input conversion by breaking a stream of characters into integer values, one integer per call. getint has to return the value it found and also signal end of file when there is no more input. These values have to be passed back by separate paths, for no matter what value is used for EOF, that could also be the value of an input integer.
+
+指针参数使得被调用函数能够访问和修改主调函数中对象的值。我们来看这样一个例子：函数getint接受自由格式的输入，并执行转换，将输入的字符流分解成整数，是每次调用得到一个整数。getint需要返回转换后得到的整数，并且，在到达输入结尾时要返回文件结束标记。这些值必须通过不同的方式返回。EOF(文件结束标记)可以用任何值表示，当然也可用一个输入的整数表示。
+
+One solution is to have getint return the end of file status as its function value, while using a pointer argument to store the converted integer back in the calling function. This is the scheme used by scanf as well; see Section 7.4.
+
+可以这样设计该函数：将标识是否到达文件结尾的状态作为getint函数的返回值，同时，使用一个指针参数存储转换后得到的整数并传回给主调函数。函数scanf的实现就采用了这种方法，具体细节请参见7.4节。
+
+The following loop fills an array with integers by calls to getint:
+```cpp
+   int n, array[SIZE], getint(int *);
+
+   for (n = 0; n < SIZE && getint(&array[n]) != EOF; n++)
+       ;
+```
+Each call sets array[n] to the next integer found in the input and increments n. Notice that it is essential to pass the address of array[n] to getint. Otherwise there is no way for getint to communicate the converted integer back to the caller.
+
+下面的循环语句调用getint函数给一个整型数组赋值：
+
+```cpp
+   int n, array[SIZE], getint(int *);
+
+   for (n = 0; n < SIZE && getint(&array[n]) != EOF; n++)
+       ;
+```
+
+每次调用getint时，输入流中的下一个整数将被赋值给数组元索array[n]，同时，n的值将增加1。请注意，这里必须将array[n]的地址传递给函数getint，否则函数getint将无法把转换得到的整数传回给调用者。
+
+Our version of getint returns EOF for end of file, zero if the next input is not a number, and a positive value if the input contains a valid number.
+```cpp
+   #include <ctype.h>
+
+   int getch(void);
+   void ungetch(int);
+
+   /* getint:  get next integer from input into *pn */
+   int getint(int *pn)
+   {
+       int c, sign;
+
+       while (isspace(c = getch()))   /* skip white space */
+           ;
+       if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
+           ungetch(c);  /* it is not a number */
+           return 0;
+       }
+       sign = (c == '-') ? -1 : 1;
+       if (c == '+' || c == '-')
+           c = getch();
+       for (*pn = 0; isdigit(c), c = getch())
+           *pn = 10 * *pn + (c - '0');
+       *pn *= sign;
+       if (c != EOF)
+           ungetch(c);
+       return c;
+   }
+```
+Throughout getint, \*pn is used as an ordinary int variable. We have also used getch and ungetch (described in Section 4.3) so the one extra character that must be read can be pushed back onto the input.
+
+该版本的getint函数在到达文件结尾时返回EOF，当下一个输入不是数字时返回0，当输入中包含一个有意义的数字时返回一个正值。
+```cpp
+   #include <ctype.h>
+
+   int getch(void);
+   void ungetch(int);
+
+   /* getint:  get next integer from input into *pn */
+   int getint(int *pn)
+   {
+       int c, sign;
+
+       while (isspace(c = getch()))   /* skip white space */
+           ;
+       if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
+           ungetch(c);  /* it is not a number */
+           return 0;
+       }
+       sign = (c == '-') ? -1 : 1;
+       if (c == '+' || c == '-')
+           c = getch();
+       for (*pn = 0; isdigit(c), c = getch())
+           *pn = 10 * *pn + (c - '0');
+       *pn *= sign;
+       if (c != EOF)
+           ungetch(c);
+       return c;
+   }
+```
+在getint函数中，\*pn始终作为一个普通的整型变量使用。其中还使用了getch和ungetch两个函数(参见4.3节)，借助这两个函数，函数getint必须读入的一个多余字符就可以重新写回到输入中。
+
+**Exercise 5-1.** As written, getint treats a + or - not followed by a digit as a valid representation of zero. Fix it to push such a character back on the input.
+
+练习5-1  在上面的例子中，如果符号+或-的后面紧跟的不是数字，getint函数将把符号视为数字0的有效表达方式。修改该函数，将这种形式的+或-符号重新写回到输人流中。
+
+**Exercise 5-2.** Write getfloat, the floating-point analog of getint. What type does getfloat return as its function value?
+
+练习5-2  模仿函数getint的实现方法，编写一个读取浮点数的函数getfloat。getfloat函数的返回值应该是什么类型?

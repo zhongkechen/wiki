@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.07.01_Pointer_Conversion"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.1 Pointer Conversion
+
+If the type of an expression or subexpression is "array of T", for some type T, then the value of the expression is a pointer to the first object in the array, and the type of the expression is altered to "pointer to T". This conversion does not take place if the expression is in the operand of the unary & operator, or of ++, --, sizeof, or as the left operand of an assignment operator or the . operator. Similarly, an expression of type "function returning T", except when used as the operand of the & operator, is converted to "pointer to function returning T".

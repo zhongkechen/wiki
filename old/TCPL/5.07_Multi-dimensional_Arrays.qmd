@@ -1,0 +1,180 @@
+---
+title: "TCPL/5.07_Multi-dimensional_Arrays"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.7 Multi-dimensional Arrays 多维数组
+
+C provides rectangular multi-dimensional arrays, although in practice they are much less used than arrays of pointers. In this section, we will show some of their properties.
+
+C语言提供了类似于矩阵的多维数组，但实际上它们并不像指针数组使用得那样广泛。本节将对多维数组的特性进行介绍。
+
+Consider the problem of date conversion, from day of the month to day of the year and vice versa. For example, March 1 is the 60th day of a non-leap year, and the 61st day of a leap year. Let us define two functions to do the conversions: day_of_year converts the month and day into the day of the year, and month_day converts the day of the year into the month and day. Since this latter function computes two values, the month and day arguments will be pointers:
+```cpp
+   month_day(1988, 60, &m, &d)
+```
+sets m to 2 and d to 29 (February 29th).
+
+我们考虑一个日期转换的问题：把某月某日这种日期表示形式转换为某年中第几天的表示形式，反之亦然。例如，3月1日是非闰年的第60天，是闰年的第61天。在这里，我们定义下列两个函数以进行日期转换：函数day_of_year将某月某日的日期表示形式转换为某一年中第几天的表示形式，函数month_day则执行相反的转换。因为后一个函数要返回两个值，所以在函数month_day中，月和日这两个参数使用指针的形式。例如，下列语句：
+
+```cpp
+   month_day(1988, 60, &m, &d)
+```
+
+将把m的值设置为2，把d的值设置为29(2月29日)。
+
+These functions both need the same information, a table of the number of days in each month ("thirty days hath September ..."). Since the number of days per month differs for leap years and non-leap years, it's easier to separate them into two rows of a two-dimensional array than to keep track of what happens to February during computation. The array and the functions for performing the transformations are as follows:
+```cpp
+   static char daytab[2][13] = {
+       {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+       {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+   };
+
+   /* day_of_year:  set day of year from month & day */
+   int day_of_year(int year, int month, int day)
+   {
+       int i, leap;
+       leap = year%4 == 0 && year%100 != 0 || year%400 == 0;
+       for (i = 1; i < month; i++)
+           day += daytab[leap][i];
+       return day;
+   }
+
+   /* month_day:  set month, day from day of year */
+   void month_day(int year, int yearday, int *pmonth, int *pday)
+   {
+       int i, leap;
+
+       leap = year%4 == 0 && year%100 != 0 || year%400 == 0;
+       for (i = 1; yearday > daytab[leap][i]; i++)
+           yearday -= daytab[leap][i];
+       *pmonth = i;
+       *pday = yearday;
+   }
+```
+Recall that the arithmetic value of a logical expression, such as the one for leap, is either zero (false) or one (true), so it can be used as a subscript of the array daytab.
+
+这些函数都要用到一张记录每月天数的表(如“9月有30天”等)。对闰年和非闰年来说，每个月的天数不同，所以，将这些天数分别存放在一个二维数组的两行中比在计算过程中判断2月有多少天更容易。该数组以及执行日期转换的函数如下所示：
+
+```cpp
+   static char daytab[2][13] = {
+       {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+       {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+   };
+
+   /* day_of_year:  set day of year from month & day */
+   int day_of_year(int year, int month, int day)
+   {
+       int i, leap;
+       leap = year%4 == 0 && year%100 != 0 || year%400 == 0;
+       for (i = 1; i < month; i++)
+           day += daytab[leap][i];
+       return day;
+   }
+
+   /* month_day:  set month, day from day of year */
+   void month_day(int year, int yearday, int *pmonth, int *pday)
+   {
+       int i, leap;
+
+       leap = year%4 == 0 && year%100 != 0 || year%400 == 0;
+       for (i = 1; yearday > daytab[leap][i]; i++)
+           yearday -= daytab[leap][i];
+       *pmonth = i;
+       *pday = yearday;
+   }
+```
+
+我们在前面的章节中曾讲过，逻辑表达式的算术运算值只可能是0(为假时)或者1(为真时)。因此，在本例中，可以将逻辑表达式leap用做数组daytab的下标。
+
+The array daytab has to be external to both day_of_year and month_day, so they can both use it. We made it char to illustrate a legitimate use of char for storing small non-character integers.
+
+数组daytab必须在函数day_of_year和month_day的外部进行声明，这样，这两个函数都可以便用该数组。这里之所以将daytab的元素声明为char类型，是为了说明在char类型的变量中存放较小的非字符整数也是合法的。
+
+daytab is the first two-dimensional array we have dealt with. In C, a two-dimensional array is really a one-dimensional array, each of whose elements is an array. Hence subscripts are written as
+```cpp
+   daytab[i][j]    /* [row][col] */
+```
+rather than
+```cpp
+   daytab[i,j]    /* WRONG */
+```
+Other than this notational distinction, a two-dimensional array can be treated in much the same way as in other languages. Elements are stored by rows, so the rightmost subscript, or column, varies fastest as elements are accessed in storage order.
+
+到目前为止，daytab是我们遇到的第一个二维数组。在C语言中，二维数组实际上是一种特殊的一维数组，它的每个元素也是—个一维数组。因此，数组下标应该写成
+
+```cpp
+   daytab[i][j]    /* [row][col] */
+```
+
+而不能写成
+
+```cpp
+   daytab[i,j]    /* WRONG */
+```
+
+除了表示方式的区别外，C语言中二维数组的使用方式和其他语言一样。数组元素按行存储，因此，当按存储顺序访问数组时，最右边的数组下标(即列)变化得最快。
+
+An array is initialized by a list of initializers in braces; each row of a two-dimensional array is initialized by a corresponding sub-list. We started the array daytab with a column of zero so that month numbers can run from the natural 1 to 12 instead of 0 to 11. Since space is not at a premium here, this is clearer than adjusting the indices.
+
+数组可以用花括号括起来的初值表进行初始化，二维数组的每一行由相应的子列表进行初始化。在本例中，我们将数组daytab的第一列元素设置为0，这样，月份的位为1～12，而不是0～11。由于在这里存储空间并不是主要问题，所以这种处理方式比在程序中调整数组的下标更加直观。
+
+If a two-dimensional array is to be passed to a function, the parameter declaration in the function must include the number of columns; the number of rows is irrelevant, since what is passed is, as before, a pointer to an array of rows, where each row is an array of 13 ints. In this particular case, it is a pointer to objects that are arrays of 13 ints. Thus if the array daytab is to be passed to a function f, the declaration of f would be:
+```cpp
+   f(int daytab[2][13]) { ... }
+```
+It could also be
+```cpp
+   f(int daytab[][13]) { ... }
+```
+since the number of rows is irrelevant, or it could be
+```cpp
+   f(int (*daytab)[13]) { ... }
+```
+which says that the parameter is a pointer to an array of 13 integers. The parentheses are necessary since brackets [] have higher precedence than \*. Without parentheses, the declaration
+```cpp
+   int *daytab[13]
+```
+is an array of 13 pointers to integers. More generally, only the first dimension (subscript) of an array is free; all the others have to be specified.
+
+如果将二维数组作为参数传递给函数，那么在函数的参数声明中必须指明数组的列数。数组的行数没有太大关系，因为前面已经讲过，函数调用时传递的是一个指针，它指向由行向量构成的一维数组，其中每个行向量是具有13个整型元素的一维数组。在该例子中，传递给函数的是一个指向很多对象的指针，其中每个对象是由13个整型元素构成的一维数组。因此，如果将数组daytab作为参数传递给函数f，那么f的声明应该写成下列形式：
+
+```cpp
+   f(int daytab[2][13]) { ... }
+```
+
+也可以写成
+
+```cpp
+   f(int daytab[][13]) { ... }
+```
+
+因为数组的行数无关紧要，所以，该声明还可以写成
+
+```cpp
+   f(int (*daytab)[13]) { ... }
+```
+
+这种声明形式表明参数是一个指针，它指向具有13个整型元素的一维数组。因为方括号[]的
+优先级高于\*的优先级，所以上述声明中必须使用圆括号。如果去掉括号，则声明变成
+
+```cpp
+   int *daytab[13]
+```
+
+这相当于声明了一个数组，该数组有13个元素，其巾每个元素都是一个指向整型对象的指针。一般来说，除数组的第一维(下标)可以不指定大小外，其余各维都必须明确指定大小。
+
+Section 5.12 has a further discussion of complicated declarations.
+
+我们将在5.12节中进一步讨论更复杂的声明。
+
+**Exercise 5-8.** There is no error checking in day_of_year or month_day. Remedy this defect.
+
+练习5-8  函数day_of_year和month_day中没有进行错误检查，请解决该问题。

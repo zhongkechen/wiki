@@ -1,0 +1,26 @@
+---
+title: "TCPL/A.07.09_Relational_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.9 Relational Operators
+
+The relational operators group left-to-right, but this fact is not useful; a&lt;b&lt;c is parsed as (a&lt;b)&lt;c, and evaluates to either 0 or 1.
+
+    relational-expression:
+      shift-expression
+      relational-expression &lt; shift-expression
+      relational-expression &gt; shift-expression
+      relational-expression &lt;= shift-expression
+      relational-expression &gt;= shift-expression
+
+The operators &lt; (less), &gt; (greater), &lt;= (less or equal) and &gt;= (greater or equal) all yield 0 if the specified relation is false and 1 if it is true. The type of the result is int. The usual arithmetic conversions are performed on arithmetic operands. Pointers to objects of the same type (ignoring any qualifiers) may be compared; the result depends on the relative locations in the address space of the pointed-to objects. Pointer comparison is defined only for parts of the same object; if two pointers point to the same simple object, they compare equal; if the pointers are to members of the same structure, pointers to objects declared later in the structure compare higher; if the pointers refer to members of an array, the comparison is equivalent to comparison of the the corresponding subscripts. If P points to the last member of an array, then P+1 compares higher than P, even though P+1 points outside the array. Otherwise, pointer comparison is undefined.
+
+    These rules slightly liberalize the restrictions stated in the first edition, by permitting comparison of pointers to different members of a structure or union. They also legalize comparison with a pointer just off the end of an array.

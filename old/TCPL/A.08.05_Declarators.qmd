@@ -1,0 +1,36 @@
+---
+title: "TCPL/A.08.05_Declarators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.8.5 Declarators
+
+Declarators have the syntax:
+
+    declarator:
+      pointeropt direct-declarator
+
+    direct-declarator:
+      identifier
+      (declarator)
+      direct-declarator [ constant-expressionopt ]
+      direct-declarator ( parameter-type-list )
+      direct-declarator ( identifier-listopt )
+
+    pointer:
+
+* type-qualifier-listopt
+* type-qualifier-listopt pointer
+
+    type-qualifier-list:
+      type-qualifier
+      type-qualifier-list type-qualifier
+
+The structure of declarators resembles that of indirection, function, and array expressions; the grouping is the same.

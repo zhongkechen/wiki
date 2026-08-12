@@ -1,0 +1,30 @@
+---
+title: "TCPL/A.09.3_Compound_Statement"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.9.3 Compound Statement
+
+So that several statements can be used where one is expected, the compound statement (also called ``block'') is provided. The body of a function definition is a compound statement.
+
+    compound-statement:
+      { declaration-listopt statement-listopt }
+
+    declaration-list:
+      declaration
+      declaration-list declaration
+
+    statement-list:
+      statement
+      statement-list statement
+
+If an identifier in the declaration-list was in scope outside the block, the outer declaration is suspended within the block (see Par.A.11.1), after which it resumes its force. An identifier may be declared only once in the same block. These rules apply to identifiers in the same name space (Par.A.11); identifiers in different name spaces are treated as distinct.
+
+Initialization of automatic objects is performed each time the block is entered at the top, and proceeds in the order of the declarators. If a jump into the block is executed, these initializations are not performed. Initialization of static objects are performed only once, before the program begins execution.

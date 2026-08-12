@@ -1,0 +1,58 @@
+---
+title: "TCPL/B.01.3_Formatted_Input"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### B.1.3 Formatted Input
+
+The scanf function deals with formatted input conversion.
+```
+int fscanf(FILE *stream, const char *format, ...)
+```
+fscanf reads from stream under control of format, and assigns converted values through subsequent arguments, each of which must be a pointer. It returns when format is exhausted. fscanf returns EOF if end of file or an error occurs before any conversion; otherwise it returns the number of input items converted and assigned.
+
+The format string usually contains conversion specifications, which are used to direct interpretation of input. The format string may contain:
+
+* Blanks or tabs, which are not ignored.
+* Ordinary characters (not %), which are expected to match the next non-white space character of the input stream.
+* Conversion specifications, consisting of a %, an optional assignment suppression character \*, an optional number specifying a maximum field width, an optional h, l, or L indicating the width of the target, and a conversion character.
+
+A conversion specification determines the conversion of the next input field. Normally the result is placed in the variable pointed to by the corresponding argument. If assignment suppression is indicated by \*, as in %\*s, however, the input field is simply skipped; no assignment is made. An input field is defined as a string of non-white space characters; it extends either to the next white space character or until the field width, if specified, is exhausted. This implies that scanf will read across line boundaries to find its input, since newlines are white space. (White space characters are blank, tab, newline, carriage return, vertical tab, and formfeed.)
+
+The conversion character indicates the interpretation of the input field. The corresponding argument must be a pointer. The legal conversion characters are shown in Table B.2.
+
+The conversion characters d, i, n, o, u, and x may be preceded by h if the argument is a pointer to short rather than int, or by l (letter ell) if the argument is a pointer to long. The conversion characters e, f, and g may be preceded by l if a pointer to double rather than float is in the argument list, and by L if a pointer to a long double.
+
+Table B.2 Scanf Conversions
+```
+Character	Input Data; Argument type
+d	decimal integer; int*
+i	integer; int*. The integer may be in octal (leading 0) or hexadecimal (leading 0x or 0X).
+o	octal integer (with or without leading zero); int *.
+u	unsigned decimal integer; unsigned int *.
+x	hexadecimal integer (with or without leading 0x or 0X); int*.
+c	characters; char*. The next input characters are placed in the indicated array, up to the number given by the width field; the default is 1. No '\0' is added. The normal skip over white space characters is suppressed in this case; to read the next non-white space character, use %1s.
+s	string of non-white space characters (not quoted); char *, pointing to an array of characters large enough to hold the string and a terminating '\0' that will be added.
+e,f,g	floating-point number; float *. The input format for float's is an optional sign, a string of numbers possibly containing a decimal point, and an optional exponent field containing an E or e followed by a possibly signed integer.
+p	pointer value as printed by printf("%p");, void *.
+n	writes into the argument the number of characters read so far by this call; int *. No input is read. The converted item count is not incremented.
+[...]	matches the longest non-empty string of input characters from the set between brackets; char *. A '\0' is added. []...] includes ] in the set.
+[^...]	matches the longest non-empty string of input characters not from the set between brackets; char *. A '\0' is added. [^]...] includes ] in the set.
+%	literal %; no assignment is made.
+```
+
+```
+int scanf(const char *format, ...)
+```
+    scanf(...) is identical to fscanf(stdin, ...).
+```
+int sscanf(const char *s, const char *format, ...)
+```
+    sscanf(s, ...) is equivalent to scanf(...) except that the input characters are taken from the string s.

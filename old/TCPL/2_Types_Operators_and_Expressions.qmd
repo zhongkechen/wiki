@@ -19,3 +19,16 @@ Variables and constants are the basic data objects manipulated in a program. Dec
 The ANSI standard has made many small changes and additions to basic types and expressions. There are now signed and unsigned forms of all integer types, and notations for unsigned constants and hexadecimal character constants. Floating-point operations may be done in single precision; there is also a long double type for extended precision. String constants may be concatenated at compile time. Enumerations have become part of the language, formalizing a feature of long standing. Objects may be declared const, which prevents them from being changed. The rules for automatic coercions among arithmetic types have been augmented to handle the richer set of types.
 
 ANSI标准对语言的基本类型与表达式做了许多小的修改与增补。所有整型都包括signed(带符号)和unsigned(无符号)两种形式，且可以表示无符号常量与十六进制字符常量。浮点运算可以以单精度进行，还可以使用更高精度的long double类型运算。字符串常量可以在编译时连接。ANSI C还支持枚举类型，该语言特性经过了长期的发展才形成。对象可以声明为const(常量)类型，表明其值不能修改。该标准还对算术类型之间的自动强制转换规则进行了扩充，以适合于更多的数据类型。
+
+* [2.1 Variable Names 变量名](<2.01_Variable_Names.qmd>)
+* [2.2 Data Types and Sizes 数据类型及长度](<2.02_Data_Types_and_Sizes.qmd>)
+* [2.3 Constants 常量](<2.03_Constants.qmd>)
+* [2.4 Declarations 声明](<2.04_Declarations.qmd>)
+* [2.5 Arithmetic Operators 算术运算符](<2.05_Arithmetic_Operators.qmd>)
+* [2.6 Relational and Logical Operators 关系运算符与逻辑运算符](<2.06_Relational_and_Logical_Operators.qmd>)
+* [2.7 Type Conversions 类型转换](<2.07_Type_Conversions.qmd>)
+* [2.8 Increment and Decrement Operators 自增运算符与自减运算符](<2.08_Increment_and_Decrement_Operators.qmd>)
+* [2.9 Bitwise Operators 按位运算符](<2.09_Bitwise_Operators.qmd>)
+* [2.10 Assignment Operators and Expressions 赋值运算符与表达式](<2.10_Assignment_Operators_and_Expressions.qmd>)
+* [2.11 Conditional Expressions 条件表达式](<2.11_Conditional_Expressions.qmd>)
+* [2.12 Precedence and Order of Evaluation 运算符优先级与求值次序](<2.12_Precedence_and_Order_of_Evaluation.qmd>)

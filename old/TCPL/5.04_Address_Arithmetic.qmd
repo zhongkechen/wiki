@@ -1,0 +1,202 @@
+---
+title: "TCPL/5.04_Address_Arithmetic"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.4 Address Arithmetic 地址算数运算
+
+If p is a pointer to some element of an array, then p++ increments p to point to the next element, and p+=i increments it to point i elements beyond where it currently does. These and similar constructions are the simples forms of pointer or address arithmetic.
+
+如果p是一个指向数组中某个元素的指针，那么p++将对p进行自增运算并指向下一个元素，而p+=i将对p进行加i的增量运算，使其指向指针p当前所指向的元素之后的第i个元素。这类运算是指针或地址算术运算中最简单的形式。
+
+C is consistent and regular in its approach to address arithmetic; its integration of pointers, arrays, and address arithmetic is one of the strengths of the language. Let us illustrate by writing a rudimentary storage allocator. There are two routines. The first, alloc(n), returns a pointer to n consecutive character positions, which can be used by the caller of alloc for storing characters. The second, afree(p), releases the storage thus acquired so it can be re-used later. The routines are "rudimentary" because the calls to afree must be made in the opposite order to the calls made on alloc. That is, the storage managed by alloc and afree is a stack, or last-in, first-out. The standard library provides analogous functions called malloc and free that have no such restrictions; in Section 8.7 we will show how they can be implemented.
+
+C语言中的地址算术运算方法是一致且有规律的，将指针、数组和地址的算术运算集成在一起是该语言的一大优点。为了说明这一点，我们来看一个不完善的存储分配程序。它由两个函数组成。第一个函数alloc(n)返回一个指向n个连续字符存储单元的指针，alloc函数的调用者可利用该指针存储字符序列。第二个函数afree(p)释放己分配的存储空间，以便以后重用。之所以说这两个函数是“不完善的”，是因为对afree函数的调用次序必须与调用alloc函数的次序相反。换句话说，alloc与afree以栈的方式(即后进先出的列表)进行存储空间的管理。标准库中提供了具有类似功能的函数malloc和free，它们没有上述限制，我们将在8.7节中说明如何实现这些函数。
+
+The easiest implementation is to have alloc hand out pieces of a large character array that we will call allocbuf. This array is private to alloc and afree. Since they deal in pointers, not array indices, no other routine need know the name of the array, which can be declared static in the source file containing alloc and afree, and thus be invisible outside it. In practical implementations, the array may well not even have a name; it might instead be obtained by calling malloc or by asking the operating system for a pointer to some unnamed block of storage.
+
+最容易的实现方法是让alloc函数对一个大字符数组allocbuf中的空间进行分配。该数组是alloc和afree两个函数私有的数组。由于函数alloc和afree处理的对象是指针而不是数组下标，因此，其他函数无需知道该数组的名字，这样，可以在包含alloc和afree的源文件中将该数组声明为static类型，使得它对外不可见。实际实现时，该数组甚至可以没有名字，它可以通过调用malloc函数或向操作系统申请一个指向无名存储块的指针获得。
+
+The other information needed is how much of allocbuf has been used. We use a pointer, called allocp, that points to the next free element. When alloc is asked for n characters, it checks to see if there is enough room left in allocbuf. If so, alloc returns the current value of allocp (i.e., the beginning of the free block), then increments it by n to point to the next free area. If there is no room, alloc returns zero. afree(p) merely sets allocp to p if p is inside allocbuf.
+
+![pic56.gif](<assets/TCPL/5.04_Address_Arithmetic/pic56.gif>)
+
+```cpp
+   #define ALLOCSIZE 10000 /* size of available space */
+
+   static char allocbuf[ALLOCSIZE]; /* storage for alloc */
+   static char *allocp = allocbuf;  /* next free position */
+
+   char *alloc(int n)    /* return pointer to n characters */
+   {
+       if (allocbuf + ALLOCSIZE - allocp >= n) {  /* it fits */
+           allocp += n;
+           return allocp - n; /* old p */
+       } else      /* not enough room */
+           return 0;
+   }
+
+   void afree(char *p)  /* free storage pointed to by p */
+   {
+       if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+           allocp = p;
+   }
+```
+
+allocbuf中的空间使用状况也是我们需要了解的信息。我们使用指针allocp指向allocbuf中的下一个空闲单元。当调用alloc申请n个字符的空间时，alloc检查aLlocbuf数组中有没有足够的剩余空间。如果有足够的空闲空间，则alloc返回allocp的当前值(即空闲块的开始位置)，然后将allocp加n以使它指向下一个空闲区域。如果空闲空间不够，则alloc返问0。如果p在a11ocbuf的边界之内，则afree(p)仅仅只是将
+allocp的值设置为p(参见图5-6)。
+
+![pic56.gif](<assets/TCPL/5.04_Address_Arithmetic/pic56.gif>)
+
+```cpp
+   #define ALLOCSIZE 10000 /* size of available space */
+
+   static char allocbuf[ALLOCSIZE]; /* storage for alloc */
+   static char *allocp = allocbuf;  /* next free position */
+
+   char *alloc(int n)    /* return pointer to n characters */
+   {
+       if (allocbuf + ALLOCSIZE - allocp >= n) {  /* it fits */
+           allocp += n;
+           return allocp - n; /* old p */
+       } else      /* not enough room */
+           return 0;
+   }
+
+   void afree(char *p)  /* free storage pointed to by p */
+   {
+       if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+           allocp = p;
+   }
+```
+
+In general a pointer can be initialized just as any other variable can, though normally the only meaningful values are zero or an expression involving the address of previously defined data of appropriate type. The declaration
+```cpp
+   static char *allocp = allocbuf;
+```
+defines allocp to be a character pointer and initializes it to point to the beginning of allocbuf, which is the next free position when the program starts. This could also have been written
+```cpp
+   static char *allocp = &allocbuf[0];
+```
+since the array name is the address of the zeroth element.
+
+一般情况下，同其他类型的变量一样，指针也可以初始化。通常，对指针有意义的初始化值只能是0或者是表示地址的表达式，对后者来说，表达式所代表的地址必须是在此前己定义的具有适当类型的数据的地址。例如，声明
+
+```cpp
+   static char *allocp = allocbuf;
+```
+
+将allocp定义为字符类型指针，并将它初始化为allocbuf的起始地址，该起始地址是程序执行时的下一个空闲位置。上述语句也可以写成下列形式：
+
+```cpp
+   static char *allocp = &allocbuf[0];
+```
+
+这是因为该数组名实际上就是数组第0个元素的地址。
+
+The test
+```cpp
+       if (allocbuf + ALLOCSIZE - allocp >= n) {  /* it fits */
+```
+checks if there's enough room to satisfy a request for n characters. If there is, the new value of allocp would be at most one beyond the end of allocbuf. If the request can be satisfied, alloc returns a pointer to the beginning of a block of characters (notice the declaration of the function itself). If not, alloc must return some signal that there is no space left. C guarantees that zero is never a valid address for data, so a return value of zero can be used to signal an abnormal event, in this case no space.
+
+下列if测试语句：
+
+```cpp
+       if (allocbuf + ALLOCSIZE - allocp >= n) {  /* it fits */
+```
+
+检查是否有足够的空闲空间以满足n个字符的存储空间请求。如果空闲空间足够，则分配存储空间后allocp的新值至多比allocbuf的尾端地址大1。如果存储空间的申请可以满足，alloc将返回一个指向所需大小的字符块首地址的指针(注意函数本身的声明)。如果申请无法满足，alloc必须返回某种形式的信号以说明没有足够的空闲空间可供分配。C语言保证，0永远不是有效的数据地址，因此，返回值0可用来表示发生了异常事件。在本例中，返回值0表示没有足够的空闲空间可供分配。
+
+Pointers and integers are not interchangeable. Zero is the sole exception: the constant zero may be assigned to a pointer, and a pointer may be compared with the constant zero. The symbolic constant NULL is often used in place of zero, as a mnemonic to indicate more clearly that this is a special value for a pointer. NULL is defined in &lt;stdio.h&gt;. We will use NULL henceforth.
+
+指针与整数之间不能相互转换，但0是惟一的例外：常量0可以赋值给指针，指针也可以和常量0进行比较。程序中经常用符号常量NULL代替常量0，这样便于更清晰地说明常量0是指针的一个特殊值。符号常员NULL定义在标准头文件&lt;stddef.h&gt;中。我们在后面部分经常会用到NULL。
+
+Tests like
+```cpp
+       if (allocbuf + ALLOCSIZE - allocp >= n) {  /* it fits */
+```
+and
+```cpp
+       if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+```
+show several important facets of pointer arithmetic. First, pointers may be compared under certain circumstances. If p and q point to members of the same array, then relations like ==, !=, &lt;, &gt;=, etc., work properly. For example,
+```cpp
+   p < q
+```
+is true if p points to an earlier element of the array than q does. Any pointer can be meaningfully compared for equality or inequality with zero. But the behavior is undefined for arithmetic or comparisons with pointers that do not point to members of the same array. (There is one exception: the address of the first element past the end of an array can be used in pointer arithmetic.)
+
+类似于
+
+```cpp
+       if (allocbuf + ALLOCSIZE - allocp >= n) {  /* it fits */
+```
+
+以及
+
+```cpp
+       if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+```
+
+的条件测试语句表明指针算术运算有以下几个重要特点。首先，在某些情况下对指针可以进行比较运算。例如，如果指针p和q指向同一个数组的成员，那么它们之间就可以进行类似于==、!=、&lt;、&gt;=的关系比较运算。如果p指向的数组元素的位置在q指向的数组元素位置之前，那么关系表达式
+
+```cpp
+   p < q
+```
+
+的值为真(true)。任何指针与0进行相等或不等的比较运算都有意义。但是，指向不同数组的元素的指针之间的算术或比较运算没有定义。(这里有一个特例：指针的算术运算中可使用数组最后一个元素的下一个元素的地址。)
+
+Second, we have already observed that a pointer and an integer may be added or subtracted. The construction
+```cpp
+   p + n
+```
+means the address of the n-th object beyond the one p currently points to. This is true regardless of the kind of object p points to; n is scaled according to the size of the objects p points to, which is determined by the declaration of p. If an int is four bytes, for example, the int will be scaled by four.
+
+其次，我们从前面可以看到，指针可以和整数进行相加或相减运算。例如，结构{{#!cplusplus
+   p + n
+}}}表示指针p当前指向的对象之后第n个对象的地址。无论指针p指向的对象是何种类型，上述结论都成立。在计算p+n时，n将根据p指向的对象的长度按比例缩放，而p指向的对象的长度则取决于p的声明。例如，如果int类型占4个字节的存储空间，那么在int类型的计算中，对应的n将按4的倍数来计算。
+
+Pointer subtraction is also valid: if p and q point to elements of the same array, and p&lt;q, then q-p+1 is the number of elements from p to q inclusive. This fact can be used to write yet another version of strlen:
+```cpp
+   /* strlen:  return length of string s */
+   int strlen(char *s)
+   {
+       char *p = s;
+
+       while (*p != '\0')
+           p++;
+       return p - s;
+   }
+```
+In its declaration, p is initialized to s, that is, to point to the first character of the string. In the while loop, each character in turn is examined until the '\\0' at the end is seen. Because p points to characters, p++ advances p to the next character each time, and p-s gives the number of characters advanced over, that is, the string length. (The number of characters in the string could be too large to store in an int. The header &lt;stddef.h&gt; defines a type ptrdiff_t that is large enough to hold the signed difference of two pointer values. If we were being cautious, however, we would use size_t for the return value of strlen, to match the standard library version. size_t is the unsigned integer type returned by the sizeof operator.
+
+指针的减法运算也是有意义的：如果p和q指向相同数组中的元素、且p&lt;q，那么q-p+1就是位于p和q指向的元素之间的元素的数目。我们由此可以编写出函数strlen的另一个版本，如下所示：
+
+```cpp
+   /* strlen:  return length of string s */
+   int strlen(char *s)
+   {
+       char *p = s;
+
+       while (*p != '\0')
+           p++;
+       return p - s;
+   }
+```
+
+p是指向字符的指针，所以每执行一次p++，p就将指向下一个字符的地址，p-s则表示已经检查过的字符数，即字符串的长度。(字符串中的字符数有可能超过int类型所能表示的最大范围。头文件&lt;stddef.h&gt;中定义的类型ptrdiff_t足以表示两个指针之间的带符号差值。但是，我们在这里使用size_t作为函数strlen的返回值类型，这样可以与标准库中的函数版本相匹配。size_t是由运算符sizeof返回的无符号整型。)
+
+Pointer arithmetic is consistent: if we had been dealing with floats, which occupy more storage that chars, and if p were a pointer to float, p++ would advance to the next float. Thus we could write another version of alloc that maintains floats instead of chars, merely by changing char to float throughout alloc and afree. All the pointer manipulations automatically take into account the size of the objects pointed to.
+
+指针的算术运算具有一致性：如果处理的数据类型是比字符型占据更多存储空间的浮点类型，并且p是一个指向浮点类型的指针，那么在执行p++后，p将指向下一个浮点数的地址。因此，只需要将alloc和afree函数中所有的char类型替换为float类型，就可以得到一个适用于浮点类型而非字符型的内存分配函数。所有的指针运算都会自动考虑它所指向的对象的长度。
+
+The valid pointer operations are assignment of pointers of the same type, adding or subtracting a pointer and an integer, subtracting or comparing two pointers to members of the same array, and assigning or comparing to zero. All other pointer arithmetic is illegal. It is not legal to add two pointers, or to multiply or divide or shift or mask them, or to add float or double to them, or even, except for void \*, to assign a pointer of one type to a pointer of another type without a cast.
+
+有效的指针运算包括相同类型指针之间的赋值运算；指针同整数之间的加法或减法运算；指向相同数组中元素的两个指针间的减法或比较运算；将指针赋值为0或指针与0之间的比较运算。其他所有形式的指针运算都是非法的，例如两个指针间的加法、乘法、除法、移位或屏蔽运算；指针同float或double类型之间的加法运算；不经强制类型转换而直接将指向一种类型对象的指针赋值给指向另一种类型对象的指针的运算(两个指针之一是void \*类型的情况除外)。

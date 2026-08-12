@@ -1,0 +1,36 @@
+---
+title: "TCPL/B.09_Signals:_<signal.h>"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### B.9 Signals: &lt;signal.h&gt;
+
+The header &lt;signal.h&gt; provides facilities for handling exceptional conditions that arise during execution, such as an interrupt signal from an external source or an error in execution.
+
+void (\*signal(int sig, void (\*handler)(int)))(int)
+
+signal determines how subsequent signals will be handled. If handler is SIG_DFL, the implementation-defined default behavior is used, if it is SIG_IGN, the signal is ignored; otherwise, the function pointed to by handler will be called, with the argument of the type of signal. Valid signals include
+
+SIGABRT	abnormal termination, e.g., from abort
+SIGFPE 	arithmetic error, e.g., zero divide or overflow
+SIGILL 	illegal function image, e.g., illegal instruction
+SIGINT 	interactive attention, e.g., interrupt
+SIGSEGV	illegal storage access, e.g., access outside memory limits
+SIGTERM  	termination request sent to this program
+
+signal returns the previous value of handler for the specific signal, or SIG_ERR if an error occurs.
+
+When a signal sig subsequently occurs, the signal is restored to its default behavior; then the signal-handler function is called, as if by (\*handler)(sig). If the handler returns, execution will resume where it was when the signal occurred.
+
+The initial state of signals is implementation-defined.
+
+int raise(int sig)
+
+raise sends the signal sig to the program; it returns non-zero if unsuccessful.

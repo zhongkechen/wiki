@@ -1,0 +1,26 @@
+---
+title: "TCPL/A.09.1_Labeled_Statements"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.9.1 Labeled Statements
+
+Statements may carry label prefixes.
+
+    labeled-statement:
+      identifier : statement
+      case constant-expression : statement
+      default : statement
+
+A label consisting of an identifier declares the identifier. The only use of an identifier label is as a target of goto. The scope of the identifier is the current function. Because labels have their own name space, they do not interfere with other identifiers and cannot be redeclared. See Par.A.11.1.
+
+Case labels and default labels are used with the switch statement (Par.A.9.4). The constant expression of case must have integral type.
+
+Labels themselves do not alter the flow of control.

@@ -1,0 +1,40 @@
+---
+title: "TCPL/7.8.1_String_Operations"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 7.8.1 String Operations 字符串操作函数
+
+We have already mentioned the string functions strlen, strcpy, strcat, and strcmp, found in &lt;string.h&gt;. In the following, s and t are char \*'s, and c and n are ints.
+```
+strcat(s,t) 	concatenate t to end of s
+strncat(s,t,n)	concatenate n characters of t to end of s
+strcmp(s,t) 	return negative, zero, or positive for s < t, s == t, s > t
+strncmp(s,t,n)	same as strcmp but only in first n characters
+strcpy(s,t) 	copy t to s
+strncpy(s,t,n)	copy at most n characters of t to s
+strlen(s) 	return length of s
+strchr(s,c) 	return pointer to first c in s, or NULL if not present
+strrchr(s,c) 	return pointer to last c in s, or NULL if not present
+```
+
+前画已经提到过字符串函数strlen、strcpy、strcat和strcmp，它们都在头文件&lt;string.h&gt;中定义。在下面的各个函数中，s与t为char \*类型，c与n为int类型。
+
+```
+strcat(s,t) 	将t指向的字符串连接到s指向的字符串的末尾
+strncat(s,t,n)	将t指向的字符串中前n个字符连接到s指向的字符串的末尾
+strcmp(s,t) 	根据s指向的字符串小于(s<t)、等于(s=t)或大于(s>t)t指向的字符串的不同情况，分别返回负整数、0或正整数
+strncmp(s,t,n)	同strcmp相同，但只在前n个字符中比较
+strcpy(s,t) 	将t指向的字符串复制到s指向的位置
+strncpy(s,t,n)	将t指向的字符串中前n个字符复制到s指向的位置
+strlen(s) 	返回s指向的字符串的长度
+strchr(s,c) 	在s指向的字符串中查找c，若找到，则返回指向它第一次出现的位置的指针，否则返回NULL
+strrchr(s,c) 	在s指向的字符串中查找c，若找到，则返回指向它最后一次出现的位置的指针，否则返问NULL
+```

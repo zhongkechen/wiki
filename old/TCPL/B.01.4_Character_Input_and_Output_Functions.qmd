@@ -1,0 +1,58 @@
+---
+title: "TCPL/B.01.4_Character_Input_and_Output_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### B.1.4 Character Input and Output Functions
+
+```
+int fgetc(FILE *stream)
+```
+    fgetc returns the next character of stream as an unsigned char (converted to an int), or EOF if end of file or error occurs.
+```
+char *fgets(char *s, int n, FILE *stream)
+```
+    fgets reads at most the next n-1 characters into the array s, stopping if a newline is encountered; the newline is included in the array, which is terminated by '\\0'. fgets returns s, or NULL if end of file or error occurs.
+```
+int fputc(int c, FILE *stream)
+```
+    fputc writes the character c (converted to an unsigend char) on stream. It returns the character written, or EOF for error.
+```
+int fputs(const char *s, FILE *stream)
+```
+    fputs writes the string s (which need not contain \\n) on stream; it returns non-negative, or EOF for an error.
+```
+int getc(FILE *stream)
+```
+    getc is equivalent to fgetc except that if it is a macro, it may evaluate stream more than once.
+```
+int getchar(void)
+```
+    getchar is equivalent to getc(stdin).
+```
+char *gets(char *s)
+```
+    gets reads the next input line into the array s; it replaces the terminating newline with '\\0'. It returns s, or NULL if end of file or error occurs.
+```
+int putc(int c, FILE *stream)
+```
+    putc is equivalent to fputc except that if it is a macro, it may evaluate stream more than once.
+```
+int putchar(int c)
+```
+    putchar(c) is equivalent to putc(c,stdout).
+```
+int puts(const char *s)
+```
+    puts writes the string s and a newline to stdout. It returns EOF if an error occurs, non-negative otherwise.
+```
+int ungetc(int c, FILE *stream)
+```
+    ungetc pushes c (converted to an unsigned char) back onto stream, where it will be returned on the next read. Only one character of pushback per stream is guaranteed. EOF may not be pushed back. ungetc returns the character pushed back, or EOF for error.

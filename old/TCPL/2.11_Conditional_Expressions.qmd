@@ -1,0 +1,95 @@
+---
+title: "TCPL/2.11_Conditional_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.11 Conditional Expressions 条件表达式
+
+The statements
+```
+   if (a > b)
+       z = a;
+   else
+       z = b;
+```
+compute in z the maximum of a and b. The conditional expression, written with the ternary operator "?:", provides an alternate way to write this and similar constructions. In the expression
+```
+   expr1 ? expr2 : expr3
+```
+the expression expr1 is evaluated first. If it is non-zero (true), then the expression expr2 is evaluated, and that is the value of the conditional expression. Otherwise expr3 is evaluated, and that is the value. Only one of expr2 and expr3 is evaluated. Thus to set z to the maximum of a and b,
+```
+   z = (a > b) ? a : b;    /* z = max(a, b) */
+```
+
+下面这组语句：
+
+```
+   if (a > b)
+       z = a;
+   else
+       z = b;
+```
+
+用于求a与b中的最大值，并将结果保存到z中。条件表达式(使用三元运算符“?:”)提供了另外一种方法编写这段程序及类似的代码段。在表达式
+
+```
+   expr1 ? expr2 : expr3
+```
+
+中，首先计算expr1，如果其值不等于0(为真)，则计算expr2的值，并以该值作为条件表达式的值，否则计算expr3的值，并以该值作为条件表达式的值。expr2与expr3中只能有一个表达式被计算。因此，以上语句可以改写为：
+
+```
+   z = (a > b) ? a : b;    /* z = max(a, b) */
+```
+
+It should be noted that the conditional expression is indeed an expression, and it can be used wherever any other expression can be. If expr2 and expr3 are of different types, the type of the result is determined by the conversion rules discussed earlier in this chapter. For example, if f is a float and n an int, then the expression
+```
+   (n > 0) ? f : n
+```
+is of type float regardless of whether n is positive.
+
+应该注意，条件表达式实际上就是一种表达式，它可以用在其他表达式可以使用的任何地方。如果expr1【czk注：翻译错误，此处应该是expr2】与expr3的类型不同，结果的类型将由本章前面讨论的转换规则决定。例如，如果f为float类型．n为int类型，那么表达式
+
+```
+   (n > 0) ? f : n
+```
+
+是float类型，与n是否为正值无关。
+
+Parentheses are not necessary around the first expression of a conditional expression, since the precedence of ?: is very low, just above assignment. They are advisable anyway, however, since they make the condition part of the expression easier to see.
+
+条件表达式中第一个表达式两边的圆括号并不是必须的，这是因为条件运算符?:的优先级非常低，仅高于赋值运算符。但我们还是建议使用圆括号，因为这可以使表达式的条件部分更易于阅读。
+
+The conditional expression often leads to succinct code. For example, this loop prints n elements of an array, 10 per line, with each column separated by one blank, and with each line (including the last) terminated by a newline.
+```
+   for (i = 0; i < n; i++)
+       printf("%6d%c", a[i], (i%10==9 || i==n-1) ? '\n' : ' ');
+```
+A newline is printed after every tenth element, and after the n-th. All other elements are followed by one blank. This might look tricky, but it's more compact than the equivalent if-else. Another good example is
+```
+   printf("You have %d items%s.\n", n, n==1 ? "" : "s");
+```
+
+采用条件表达式可以编写出很简洁的代码。例如，下面的这个循环语句打印一个数组的n个元素，每行打印l0个元素，每列之间用一个空格隔开，每行用一个换行符结束(包括最后一行)：
+
+```
+   for (i = 0; i < n; i++)
+       printf("%6d%c", a[i], (i%10==9 || i==n-1) ? '\n' : ' ');
+```
+
+在每10个元素之后以及在第i个元素之后都要打印一个换行符，所有其他元素后都要打印一个空格。编写这样的代码可能需要一些技巧，但比用等价的if-else结构编写的代码要紧凑一些。下面是另一个比较好的例子：
+
+```
+   printf("You have %d items%s.\n", n, n==1 ? "" : "s");
+```
+
+Exercise 2-10. Rewrite the function lower, which converts upper case letters to lower case, with a conditional expression instead of if-else.
+
+练习2-10 重新编写将大写字母转换为小写字母的函数lower，并用条件表达式替代其中的if-else结构。

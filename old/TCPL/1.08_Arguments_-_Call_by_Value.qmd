@@ -1,0 +1,60 @@
+---
+title: "TCPL/1.08_Arguments_-_Call_by_Value"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.8 Arguments - Call by Value 参数——传值调用
+
+One aspect of C functions may be unfamiliar to programmers who are used to some other languages, particulary Fortran. In C, all function arguments are passed "by value". This means that the called function is given the values of its arguments in temporary variables rather than the originals. This leads to some different properties than are seen with "call by reference" languages like Fortran or with var parameters in Pascal, in which the called routine has access to the original argument, not a local copy.
+
+习惯其他语言(特别是Fortran语言)的程序员可能会对C语言的函数参数传递方式感到陌生。在C语言中，所有函数参数都是“通过值”传递的。也就是说，传递给被调用函数的参数值存放在临时变量中，而不是存放在原来的变量中。这与其他某些语言是不同的，比如，Fortran等语言是“通过引用调用”，Pascal则采用var参数的方式，在这些语言中，被调用的函数必须访问原始参数，而不是访问参数的本地副本。
+
+The main distinction is that in C the called function cannot directly alter a variable in the calling function; it can only alter its private, temporary copy.
+
+最主要的区别在于，在C语言中，被调用函数不能直接修改主调函数中变量的值，而只能修改其私有的临时副本的值。
+
+Call by value is an asset, however, not a liability. It usually leads to more compact programs with fewer extraneous variables, because parameters can be treated as conveniently initialized local variables in the called routine. For example, here is a version of power that makes use of this property.
+```cpp
+   /* power:  raise base to n-th power; n >= 0; version 2 */
+   int power(int base, int n)
+   {
+       int p;
+
+       for (p = 1; n > 0; --n)
+           p = p * base;
+       return p;
+   }
+```
+The parameter n is used as a temporary variable, and is counted down (a for loop that runs backwards) until it becomes zero; there is no longer a need for the variable i. Whatever is done to n inside power has no effect on the argument that power was originally called with.
+
+传值调用的利大于弊。在被调用函数中，参数可以看作是便于初始化的局部变量，因此额外使用的变量更少，这样程序可以更紧凑简洁。例如，下面的这个power函数利用了这一性质：
+
+```cpp
+   /* power:  raise base to n-th power; n >= 0; version 2 */
+   int power(int base, int n)
+   {
+       int p;
+
+       for (p = 1; n > 0; --n)
+           p = p * base;
+       return p;
+   }
+```
+
+其中，参数n用作临时变量，并通过随后执行的for循环语句递减，直到其值为0，这样就不需
+要额外引入变量i。power函数内部对n的任何操作不会影响到调用函数中n的原始参数值。
+
+When necessary, it is possible to arrange for a function to modify a variable in a calling routine. The caller must provide the address of the variable to be set (technically a pointer to the variable), and the called function must declare the parameter to be a pointer and access the variable indirectly through it. We will cover pointers in Chapter 5.
+
+必要时，也可以让函数能够修改主调函数中的变量。这种情况下，调用者需要向被调用函数提供待设置值的变量的地址(从技术角度看，地址就是指向变量的指针)，而被调用函数则需要将对应的参数声明为指针类型，并通过它间接访问变量。我们将在第5章中讨论指针。
+
+The story is different for arrays. When the name of an array is used as an argument, the value passed to the function is the location or address of the beginning of the array - there is no copying of array elements. By subscripting this value, the function can access and alter any argument of the array. This is the topic of the next section.
+
+如果是数组参数，情况就有所不同了。当把数组名用作参数时，传递给函数的值是数组起始元素的位置或地址——它并不复制数组元素本身。在被调用函数中，可以通过数组下标访问或修改数组元素的值。这是下一节将要讨论的问题。

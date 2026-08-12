@@ -1,0 +1,128 @@
+---
+title: "TCPL/A.08.03_Structure_and_Union_Declarations"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.8.3 Structure and Union Declarations
+
+A structure is an object consisting of a sequence of named members of various types. A union is an object that contains, at different times, any of several members of various types. Structure and union specifiers have the same form.
+
+    struct-or-union-specifier:
+      struct-or-union identifieropt{ struct-declaration-list }
+      struct-or-union identifier
+
+    struct-or-union:
+      struct
+      union
+
+A struct-declaration-list is a sequence of declarations for the members of the structure or union:
+
+    struct-declaration-list:
+      struct declaration
+      struct-declaration-list struct declaration
+
+    struct-declaration:
+      specifier-qualifier-list struct-declarator-list;
+
+    specifier-qualifier-list:
+      type-specifier specifier-qualifier-listopt
+      type-qualifier specifier-qualifier-listopt
+
+    struct-declarator-list:
+      struct-declarator
+      struct-declarator-list , struct-declarator
+
+Usually, a struct-declarator is just a declarator for a member of a structure or union. A structure member may also consist of a specified number of bits. Such a member is also called a bit-field; its length is set off from the declarator for the field name by a colon.
+
+    struct-declarator:
+      declarator       declaratoropt : constant-expression
+
+A type specifier of the form
+
+    struct-or-union identifier { struct-declaration-list }
+
+declares the identifier to be the tag of the structure or union specified by the list. A subsequent declaration in the same or an inner scope may refer to the same type by using the tag in a specifier without the list:
+
+    struct-or-union identifier
+
+If a specifier with a tag but without a list appears when the tag is not declared, an incomplete type is specified. Objects with an incomplete structure or union type may be mentioned in contexts where their size is not needed, for example in declarations (not definitions), for specifying a pointer, or for creating a typedef, but not otherwise. The type becomes complete on occurrence of a subsequent specifier with that tag, and containing a declaration list. Even in specifiers with a list, the structure or union type being declared is incomplete within the list, and becomes complete only at the } terminating the specifier.
+
+A structure may not contain a member of incomplete type. Therefore, it is impossible to declare a structure or union containing an instance of itself. However, besides giving a name to the structure or union type, tags allow definition of self-referential structures; a structure or union may contain a pointer to an instance of itself, because pointers to incomplete types may be declared.
+
+A very special rule applies to declarations of the form
+
+    struct-or-union identifier;
+
+that declare a structure or union, but have no declaration list and no declarators. Even if the identifier is a structure or union tag already declared in an outer scope (Par.A.11.1), this declaration makes the identifier the tag of a new, incompletely-typed structure or union in the current scope.
+
+    This recondite is new with ANSI. It is intended to deal with mutually-recursive structures declared in an inner scope, but whose tags might already be declared in the outer scope.
+
+A structure or union specifier with a list but no tag creates a unique type; it can be referred to directly only in the declaration of which it is a part.
+
+The names of members and tags do not conflict with each other or with ordinary variables. A member name may not appear twice in the same structure or union, but the same member name may be used in different structures or unions.
+
+    In the first edition of this book, the names of structure and union members were not associated with their parent. However, this association became common in compilers well before the ANSI standard.
+
+A non-field member of a structure or union may have any object type. A field member (which need not have a declarator and thus may be unnamed) has type int, unsigned int, or signed int, and is interpreted as an object of integral type of the specified length in bits; whether an int field is treated as signed is implementation-dependent. Adjacent field members of structures are packed into implementation-dependent storage units in an implementation-dependent direction. When a field following another field will not fit into a partially-filled storage unit, it may be split between units, or the unit may be padded. An unnamed field with width 0 forces this padding, so that the next field will begin at the edge of the next allocation unit.
+
+    The ANSI standard makes fields even more implementation-dependent than did the first edition. It is advisable to read the language rules for storing bit-fields as ``implementation-dependent'' without qualification. Structures with bit-fields may be used as a portable way of attempting to reduce the storage required for a structure (with the probable cost of increasing the instruction space, and time, needed to access the fields), or as a non-portable way to describe a storage layout known at the bit-level. In the second case, it is necessary to understand the rules of the local implementation.
+
+The members of a structure have addresses increasing in the order of their declarations. A non-field member of a structure is aligned at an addressing boundary depending on its type; therefore, there may be unnamed holes in a structure. If a pointer to a structure is cast to the type of a pointer to its first member, the result refers to the first member.
+
+A union may be thought of as a structure all of whose members begin at offset 0 and whose size is sufficient to contain any of its members. At most one of the members can be stored in a union at any time. If a pointr to a union is cast to the type of a pointer to a member, the result refers to that member.
+
+A simple example of a structure declaration is
+
+   struct tnode {
+       char tword[20];
+       int count;
+       struct tnode \*left;
+       struct tnode \*right;
+   }
+
+which contains an array of 20 characters, an integer, and two pointers to similar structures. Once this declaration has bene given, the declaration
+
+   struct tnode s, \*sp;
+
+declares s to be a structure of the given sort, and sp to be a pointer to a structure of the given sort. With these declarations, the expression
+
+   sp-&gt;count
+
+refers to the count field of the structure to which sp points;
+
+   s.left
+
+refers to the left subtree pointer of the structure s, and
+
+   s.right-&gt;tword[0]
+
+refers to the first character of the tword member of the right subtree of s.
+
+In general, a member of a union may not be inspected unless the value of the union has been assigned using the same member. However, one special guarantee simplifies the use of unions: if a union contains several structures that share a common initial sequence, and the union currently contains one of these structures, it is permitted to refer to the common initial part of any of the contained structures. For example, the following is a legal fragment:
+
+   union {
+       struct {
+           int type;
+       } n;
+       struct {
+           int type;
+           int intnode;
+       } ni;
+       struct {
+           int type;
+           float floatnode;
+       } nf;
+   } u;
+   ...
+   u.nf.type = FLOAT;
+   u.nf.floatnode = 3.14;
+   ...
+   if (u.n.type == FLOAT)
+       ... sin(u.nf.floatnode) ...

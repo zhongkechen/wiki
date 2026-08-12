@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.04.4_Type_Qualifiers"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.4.4 Type Qualifiers
+
+An object's type may have additional qualifiers. Declaring an object const announces that its value will not be changed; declaring it volatile announces that it has special properties relevant to optimization. Neither qualifier affects the range of values or arithmetic properties of the object. Qualifiers are discussed in Par.A.8.2.

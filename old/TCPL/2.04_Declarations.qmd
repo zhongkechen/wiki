@@ -1,0 +1,97 @@
+---
+title: "TCPL/2.04_Declarations"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.4 Declarations 声明
+
+All variables must be declared before use, although certain declarations can be made implicitly by content. A declaration specifies a type, and contains a list of one or more variables of that type, as in
+```
+   int  lower, upper, step;
+   char c, line[1000];
+```
+Variables can be distributed among declarations in any fashion; the lists above could well be written as
+```
+   int  lower;
+   int  upper;
+   int  step;
+   char c;
+   char line[1000];
+```
+The latter form takes more space, but is convenient for adding a comment to each declaration for subsequent modifications.
+
+所有变量都必须先声明后使用，尽管某些变量可以通过上下文隐式地声明。一个声明指定一种变量类型，后面所带的变量表可以包含一个或多个该类型的变量。例如：
+
+```
+   int  lower, upper, step;
+   char c, line[1000];
+```
+
+一个声明语句中的多个变量可以拆开在多个声明语句中声明。上面的两个声明语句也可以等
+价地写成下列形式：
+
+```
+   int  lower;
+   int  upper;
+   int  step;
+   char c;
+   char line[1000];
+```
+
+按照这种形式书写代码需要占用较多的交间，但便于向各声明语句中添加注释，也便于以后
+修改。
+
+A variable may also be initialized in its declaration. If the name is followed by an equals sign and an expression, the expression serves as an initializer, as in
+```
+   char  esc = '\\';
+   int   i = 0;
+   int   limit = MAXLINE+1;
+   float eps = 1.0e-5;
+```
+
+还可以在声明的同时对变量进行初始化。在声明中，如果变量名的后面紧跟一个等号及一个表达式，该表达式就充当对变量进行初始化的初始化表达式。例如：
+
+```
+   char  esc = '\\';
+   int   i = 0;
+   int   limit = MAXLINE+1;
+   float eps = 1.0e-5;
+```
+
+If the variable in question is not automatic, the initialization is done once only, conceptionally before the program starts executing, and the initializer must be a constant expression. An explicitly initialized automatic variable is initialized each time the function or block it is in is entered; the initializer may be any expression. External and static variables are initialized to zero by default. Automatic variables for which is no explicit initializer have undefined (i.e., garbage) values.
+
+如果变量不是自动变量，则只能进行一次初始化操作，从概念上讲，应该是在程序开始执行之前进行，并且初始化表达式必须为常量表达式。每次进入函数或程序块时，显式初始化的自动变量都将被初始化一次，其初始化表达式可以是任何表达式。默认情况下，外部变量与静态变量将被初始化为0。未经显式初始化的自动变量的值为未定义值(即无效值)。
+
+The qualifier const can be applied to the declaration of any variable to specify that its value will not be changed. For an array, the const qualifier says that the elements will not be altered.
+```
+   const double e = 2.71828182845905;
+   const char msg[] = "warning: ";
+```
+
+任何变量的声明都可以使用const限定符限定。该限定符指定变量的值不能被修改。对数组而言，const限定符指定数组所有元素的值都不能被修改：
+
+```
+   const double e = 2.71828182845905;
+   const char msg[] = "warning: ";
+```
+
+The const declaration can also be used with array arguments, to indicate that the function does not change that array:
+```
+   int strlen(const char[]);
+```
+The result is implementation-defined if an attempt is made to change a const.
+
+const限定符也可配合数组参数使用，它表明函数不能修改数组元素的值：
+
+```
+   int strlen(const char[]);
+```
+
+如果试图修改const限定符限定的值，具结果取决于具体的实现。

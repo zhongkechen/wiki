@@ -1,0 +1,141 @@
+---
+title: "TCPL/7.7_Line_Input_and_Output"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 7.7 Line Input and Output 行输入和行输出
+
+The standard library provides an input and output routine fgets that is similar to the getline function that we have used in earlier chapters:
+```
+   char *fgets(char *line, int maxline, FILE *fp)
+```
+fgets reads the next input line (including the newline) from file fp into the character array line; at most maxline-1 characters will be read. The resulting line is terminated with '\\0'. Normally fgets returns line; on end of file or error it returns NULL. (Our getline returns the line length, which is a more useful value; zero means end of file.)
+
+标准库提供了一个输入函数fgets，它和前面几章中用到的函数getline类似。
+
+```
+   char *fgets(char *line, int maxline, FILE *fp)
+```
+
+fgets函数从fp指向的文件中读取下一个输入行(包括换行符)，并将它存放在字符数组line中，它最多可读取maxline-1个字符。读取的行将以'\\0'结尾保存到数组中。通常情况下，fgets返回line，但如果遇到了文件结尾或发生了错误，则返回NULL(我们编写的getllne函数返回行的长度，这个值更有用，当它为0时意味着已经到达了文件的结尾)。
+
+For output, the function fputs writes a string (which need not contain a newline) to a file:
+```
+   int fputs(char *line, FILE *fp)
+```
+It returns EOF if an error occurs, and non-negative otherwise.
+
+输出函数fputs将一个字符串(不需要包含换行符)写入到一个文件中
+
+```
+   int fputs(char *line, FILE *fp)
+```
+
+如果发生错误，该函数将返回EOF，否则返回一个非负值。
+
+The library functions gets and puts are similar to fgets and fputs, but operate on stdin and stdout. Confusingly, gets deletes the terminating '\\n', and puts adds it.
+
+库函数gets和puts的功能与fgets和fputs函数类似，但它们是对stdin和stdout进行操作。有一点我们需要注意，gets函数在读取字符串时将删除结尾的换行符('\\n')，而puts函数在写入字符串时将在结尾添加一个换行符。
+
+To show that there is nothing special about functions like fgets and fputs, here they are, copied from the standard library on our system:
+```cpp
+   /* fgets:  get at most n chars from iop */
+   char *fgets(char *s, int n, FILE *iop)
+   {
+       register int c;
+       register char *cs;
+
+       cs = s;
+       while (--n > 0 && (c = getc(iop)) != EOF)
+           if ((*cs++ = c) == '\n')
+               break;
+       *cs = '\0';
+       return (c == EOF && cs == s) ? NULL : s;
+   }
+
+   /* fputs:  put string s on file iop */
+   int fputs(char *s, FILE *iop)
+   {
+       int c;
+
+       while (c = *s++)
+           putc(c, iop);
+       return ferror(iop) ? EOF : 0;
+   }
+```
+
+下面的代码是标准库中fgets和fputs函数的代码，从中可以看出，这两个函数并没有什么特别的地方。代码如下所示：
+
+```cpp
+   /* fgets:  get at most n chars from iop */
+   char *fgets(char *s, int n, FILE *iop)
+   {
+       register int c;
+       register char *cs;
+
+       cs = s;
+       while (--n > 0 && (c = getc(iop)) != EOF)
+           if ((*cs++ = c) == '\n')
+               break;
+       *cs = '\0';
+       return (c == EOF && cs == s) ? NULL : s;
+   }
+
+   /* fputs:  put string s on file iop */
+   int fputs(char *s, FILE *iop)
+   {
+       int c;
+
+       while (c = *s++)
+           putc(c, iop);
+       return ferror(iop) ? EOF : 0;
+   }
+```
+
+For no obvious reason, the standard specifies different return values for ferror and fputs.
+
+ANSI标准规定，ferror在发生错误时返回非0值，而fputs在发生错误时返回EOF，其他情况返回一个非负值。
+
+It is easy to implement our getline from fgets:
+```cpp
+   /* getline:  read a line, return length */
+   int getline(char *line, int max)
+   {
+       if (fgets(line, max, stdin) == NULL)
+           return 0;
+       else
+           return strlen(line);
+   }
+```
+
+使用fgets函数很容易实现getline函数：
+
+```cpp
+   /* getline:  read a line, return length */
+   int getline(char *line, int max)
+   {
+       if (fgets(line, max, stdin) == NULL)
+           return 0;
+       else
+           return strlen(line);
+   }
+```
+
+Exercise 7-6. Write a program to compare two files, printing the first line where they differ.
+
+练习7-6  编写一个程序，比较两个文件并打印它们第一个不相同的行。
+
+Exercise 7-7. Modify the pattern finding program of Chapter 5 to take its input from a set of named files or, if no files are named as arguments, from the standard input. Should the file name be printed when a matching line is found?
+
+练习7-7  修改第5章的模式查找程序，使它从一个命名文件的集合中读取输入(有文件名参数时)，如果没有文件名参数，则从标准输入中读取输入。当发现一个匹配行时，是否应该将相应的文件名打印出来？
+
+Exercise 7-8. Write a program to print a set of files, starting each new one on a new page, with a title and a running page count for each file.
+
+练习7-8  编写一个程序，以打印一个文件集合，每个文件从新的一页开始打印，并且打印每个文件相应的标题和页数。

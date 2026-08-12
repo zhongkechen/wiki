@@ -1,0 +1,413 @@
+---
+title: "TCPL/1.02_Variables_and_Arithmetic_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.2 Variables and Arithmetic Expressions 变量与算术表达式
+
+The next program uses the formula ℃=(5/9)(℉-32) to print the following table of Fahrenheit temperatures and their centigrade or Celsius equivalents:
+```
+   1    -17
+   20   -6
+   40   4
+   60   15
+   80   26
+   100  37
+   120  48
+   140  60
+   160  71
+   180  82
+   200  93
+   220  104
+   240  115
+   260  126
+   280  137
+   300  148
+```
+The program itself still consists of the definition of a single function named main. It is longer than the one that printed "hello, world", but not complicated. It introduces several new ideas, including comments, declarations, variables, arithmetic expressions, loops , and formatted output.
+```cpp
+   #include <stdio.h>
+
+   /* print Fahrenheit-Celsius table
+       for fahr = 0, 20, ..., 300 */
+   main()
+   {
+     int fahr, celsius;
+     int lower, upper, step;
+
+     lower = 0;      /* lower limit of temperature scale */
+     upper = 300;    /* upper limit */
+     step = 20;      /* step size */
+
+     fahr = lower;
+     while (fahr <= upper) {
+         celsius = 5 * (fahr-32) / 9;
+         printf("%d\t%d\n", fahr, celsius);
+         fahr = fahr + step;
+     }
+   }
+```
+The two lines
+```
+  /* print Fahrenheit-Celsius table
+      for fahr = 0, 20, ..., 300 */
+```
+are a comment, which in this case explains briefly what the program does. Any characters between /\* and \*/ are ignored by the compiler; they may be used freely to make a program easier to understand. Comments may appear anywhere where a blank, tab or newline can.
+
+我们来看下一个程序，使用公式℃=(5/9)(℉-32) 打印下列华氏温度与摄氏温度对照表
+
+```
+   1    -17
+   20   -6
+   40   4
+   60   15
+   80   26
+   100  37
+   120  48
+   140  60
+   160  71
+   180  82
+   200  93
+   220  104
+   240  115
+   260  126
+   280  137
+   300  148
+```
+
+此程序中仍然只包括一个名为main的函数定义。它比前面打印"hello, world"的程序长一些，但并不复杂。这个程序中引入了一些新的概念，包括注释、声明、变量、算术表达式、循环以及格式化输出。该程序如下所示：
+
+```cpp
+#include <stdio.h>
+
+/* print Fahrenheit-Celsius table
+   for fahr = 0, 20, ..., 300 */
+main()
+{
+    int fahr, celsius;
+    int lower, upper, step;
+
+    lower = 0;      /* lower limit of temperature scale */
+    upper = 300;    /* upper limit */
+    step = 20;      /* step size */
+
+    fahr = lower;
+    while (fahr <= upper) {
+        celsius = 5 * (fahr-32) / 9;
+        printf("%d\t%d\n", fahr, celsius);
+        fahr = fahr + step;
+    }
+}
+```
+
+其中的两行：
+
+```
+  /* print Fahrenheit-Celsius table
+      for fahr = 0, 20, ..., 300 */
+```
+
+称为*注释*，此处，它简单地解释了该程序是做什么用的。包含在/\*与\*/之间的字符序列将被编译器忽略。注释可以自由地运用在程序中，使得程序更易于理解。程序中允许出现空格、制表符或换行符之处，都可以使用注释。
+
+In C, all variables must be declared before they are used, usually at the beginning of the function before any executable statements. A declaration announces the properties of variables; it consists of a name and a list of variables, such as
+```
+    int fahr, celsius;
+    int lower, upper, step;
+```
+The type int means that the variables listed are integers; by contrast with float, which means floating point, i.e., numbers that may have a fractional part. The range of both int and float depends on the machine you are using; 16-bits ints, which lie between -32768 and +32767, are common, as are 32-bit ints. A float number is typically a 32-bit quantity, with at least six significant digits and magnitude generally between about 10^-38^ and 10^38^.
+
+在C语言中，所有变量都必须先声明后使用。声明通常放在函数起始处，在任何可执行语句之前。声明用于说明变量的属性，它由一个类型名和一个变量表组成，例如：
+
+```
+    int fahr, celsius;
+    int lower, upper, step;
+```
+
+其中，类型int表示其后所列变员为整数，与之相对应的，float表示所列变量为浮点数
+(即，可以带有小数部分的数)。int与float类型的取值范围取决于具体的机器。对于int
+类型，通常为16位，其取位范围在-32768～+32767之间，也有用32位表示的int类型。【czk注：英文原意是32位的int类型和16位的一样常见。现在的实际情况是32位更常见一些。】
+float类型通常是32位，它至少有6位有效数字，取位范围一般在10^-38^～10^+38^之间。
+
+C provides several other data types besides int and float, including:
+
+```
+ char  	   character - a single byte
+ short     short integer
+ long  	   long integer
+ double    double-precision floating point
+```
+
+The size of these objects is also machine-dependent. There are also arrays, structures and unions of these basic types, pointers to them, and functions that return them, all of which we will meet in due course.
+
+除int与float类型之外，C语言还提供了其他一些基本数据类型，例如：
+
+```
+ char  	   字符 - 一个字节
+ short     短整型
+ long  	   长整型
+ double    双精度浮点型
+```
+
+这些数据类型对象的大小也取决于具体的机器。另外．还存在这些基本数据类型的数组、结构、联合，指向这些类型的指针以及返回这些类型值的函数。我们将在后续相应的章节中分别介绍。
+
+Computation in the temperature conversion program begins with the assignment statements
+```
+    lower = 0;
+    upper = 300;
+    step = 20;
+    fahr = lower;
+```
+which set the variables to their initial values. Individual statements are terminated by semicolons.
+
+在上面的温度转换程序中，最开始执行的计算是下列4个*赋值语句*：
+
+```
+    lower = 0;
+    upper = 300;
+    step = 20;
+    fahr = lower;
+```
+
+它们为变量设置初始值。各语句均以分号结束。
+
+Each line of the table is computed the same way, so we use a loop that repeats once per output line; this is the purpose of the while loop
+```
+    while (fahr <= upper) {
+       ...
+    }
+```
+The while loop operates as follows: The condition in parentheses is tested. If it is true (fahr is less than or equal to upper), the body of the loop (the three statements enclosed in braces) is executed. Then the condition is re-tested, and if true, the body is executed again. When the test becomes false (fahr exceeds upper) the loop ends, and execution continues at the statement that follows the loop. There are no further statements in this program, so it terminates.
+
+温度转换表中的各行计算方式相同，因此可以用循环语句重复输出各行。这是while循环语句的用途：
+
+```
+while (fahr <= upper) {
+    ...
+}
+```
+
+while循环语句的执行方式是这样的：首先测试圆括号中的条件；如果条件为真(fahr&lt;=upper)，则执行循环体(括在花括导中的3条语句)；然后再重新测试圆括号中的条件，如果为真，则再次执行循环体；当圆括号中的条件测试结果为假(fahr&gt;upper)时，循环结束，并继续执行跟在while循环语句之后的下一条语句。在本程序中，循环语句后没有其他语句，因此整个程序的执行终止。
+
+The body of a while can be one or more statements enclosed in braces, as in the temperature converter, or a single statement without braces, as in
+```
+   while (i < j)
+       i = 2 * i;
+```
+In either case, we will always indent the statements controlled by the while by one tab stop (which we have shown as four spaces) so you can see at a glance which statements are inside the loop. The indentation emphasizes the logical structure of the program. Although C compilers do not care about how a program looks, proper indentation and spacing are critical in making programs easy for people to read. We recommend writing only one statement per line, and using blanks around operators to clarify grouping. The position of braces is less important, although people hold passionate beliefs. We have chosen one of several popular styles. Pick a style that suits you, then use it consistently.
+
+while语句的循环体可以是用花括号括起来的一条或多条语句(如上画的温度转换程序)，也可以是不用花括号包括的单条语句，例如：
+
+```
+while (i < j)
+    i = 2 * i;
+```
+
+在这两种情况下，我们总是把由while控制的语句缩进一个制表位，这样就可以很容易地看出循环语句中包含哪些语句。这种缩进方式突出了程序的逻辑结构。尽管C编译器并不关心程序的外观形式，但正确的缩址以及保留适当空格的程序设计风格对程序的易渎性非常重要。我们建议每行只书写一条语句，并在运算符两边各加上一个空格字符，这样可以使得运算的结合关系更清楚明了。相比而言，花括号的位置就不那么重要了。我们从比较流行的一些风格巾选择了一种。读者可以选择适合自己的一种风格．并养成一直使用这种风格的好习惯。
+
+Most of the work gets done in the body of the loop. The Celsius temperature is computed and assigned to the variable celsius by the statement
+```
+        celsius = 5 * (fahr-32) / 9;
+```
+The reason for multiplying by 5 and dividing by 9 instead of just multiplying by 5/9 is that in C, as in many other languages, integer division truncates: any fractional part is discarded. Since 5 and 9 are integers. 5/9 would be truncated to zero and so all the Celsius temperatures would be reported as zero.
+
+在该程序中，绝大部分工作都是在循环体中完成的。循环体中的赋值语句
+
+```
+celsius = 5 * (fahr-32) / 9;
+```
+
+用于计算与指定华氏温度相对应的摄氏温度值，并将结果贼值给变量celsius。在该语句中，之所以把表达式写成先乘5然后再除以9而不是直接写成5/9，其原因是在C语言及许多其他语言中，整数除法操作将执行*舍位*，结果中的任何小数部分都会被舍弃。由于5和9都是整数，5/9相除后经截取所得的结果为0，因此这样求得的所有摄氏温度都将为0。
+
+This example also shows a bit more of how printf works. printf is a general-purpose output formatting function, which we will describe in detail in Chapter 7. Its first argument is a string of characters to be printed, with each % indicating where one of the other (second, third, ...) arguments is to be substituted, and in what form it is to be printed. For instance, %d specifies an integer argument, so the statement
+```
+        printf("%d\t%d\n", fahr, celsius);
+```
+causes the values of the two integers fahr and celsius to be printed, with a tab (\\t) between them.
+
+从该例子中也可以看出printf函数的一些功能。printf是一个通用输出格式化函数，第7章将对此做详细介绍。该函数的第一个参数是待打印的字符申，其中的每个百分号(%)表示其他的参数(第二个、第三个、……参数)之一进行替换的位置，并指定打印格式。例如，%d指定一个整型参数，因此语句
+
+```
+printf("%d\t%d\n", fahr, celsius);
+```
+
+用于打印两个整数fahr与celsius的值，并在两者之间留一个制表符的空间(\\t)。
+
+Each % construction in the first argument of printf is paired with the corresponding second argument, third argument, etc.; they must match up properly by number and type, or you will get wrong answers.
+
+printf函数的第一个参数中的各个%分别对应于第二个、第三个、……参数，它们在数目和类型上都必须匹配，否则将出现错误的结果。
+
+By the way, printf is not part of the C language; there is no input or output defined in C itself. printf is just a useful function from the standard library of functions that are normally accessible to C programs. The behaviour of printf is defined in the ANSI standard, however, so its properties should be the same with any compiler and library that conforms to the standard.
+
+顺便指出，printf函数并不是C语言本身的一部分，C语言本身并没有定义输入/输出功能。printf仅仅是标准库函数中一个有用的函数而已，这些标准序函数在C语言程序中通常都可以使用。但是，ANSI标准定义了printf函数的行为，因此，对每个符合该标准的编译器和库来说，该函数的属性都是相同的。
+
+In order to concentrate on C itself, we don't talk much about input and output until chapter 7. In particular, we will defer formatted input until then. If you have to input numbers, read the discussion of the function scanf in Section 7.4. scanf is like printf, except that it reads input instead of writing output.
+
+为了将重点放到讲述C语言本身上，我们在第7章之前的各章中将不再对输入/输出做更多的介绍，并且，特别将格式化输入推后到第7章讲解。如果读者想了解数据输入，可以先阅读7.4节中对scanf函数的讨论部分。scanf函数类似于printf函数，但它用于读输入数据而不是写输出数据。
+
+There are a couple of problems with the temperature conversion program. The simpler one is that the output isn't very pretty because the numbers are not right-justified. That's easy to fix; if we augment each %d in the printf statement with a width, the numbers printed will be right-justified in their fields. For instance, we might say
+```
+   printf("%3d %6d\n", fahr, celsius);
+```
+to print the first number of each line in a field three digits wide, and the second in a field six digits wide, like this:
+```
+     0     -17
+    20      -6
+    40       4
+    60      15
+    80      26
+   100      37
+   ...
+```
+The more serious problem is that because we have used integer arithmetic, the Celsius temperatures are not very accurate; for instance, 0oF is actually about -17.8oC, not -17. To get more accurate answers, we should use floating-point arithmetic instead of integer. This requires some changes in the program. Here is the second version:
+```cpp
+   #include <stdio.h>
+
+   /* print Fahrenheit-Celsius table
+       for fahr = 0, 20, ..., 300; floating-point version */
+   main()
+   {
+     float fahr, celsius;
+     float lower, upper, step;
+
+     lower = 0;      /* lower limit of temperatuire scale */
+     upper = 300;    /* upper limit */
+     step = 20;      /* step size */
+
+     fahr = lower;
+     while (fahr <= upper) {
+         celsius = (5.0/9.0) * (fahr-32.0);
+         printf("%3.0f %6.1f\n", fahr, celsius);
+         fahr = fahr + step;
+     }
+   }
+```
+This is much the same as before, except that fahr and celsius are declared to be float and the formula for conversion is written in a more natural way. We were unable to use 5/9 in the previous version because integer division would truncate it to zero. A decimal point in a constant indicates that it is floating point, however, so 5.0/9.0 is not truncated because it is the ratio of two floating-point values.
+
+上述的温度转换程序存在两个问题。比较简单的问题是，由于输出的数不是右对齐的，所以输出的结果不是很美观。这个问题比较容易解决：如果在printf语句的第一个参数的%d中指明打印宽度，则打印的数字会在打印区域内右对齐。例如，可以用语句
+
+```
+printf("%3d %6d\n", fahr, celsius);
+```
+
+打印fahr与celsius的值，这样，fahr的值占3个数字宽，celsius的值占6个数字宽，输
+出的结果如下所示：
+
+```
+     0     -17
+    20      -6
+    40       4
+    60      15
+    80      26
+   100      37
+   ...
+```
+
+另一个较为严重的问题是，由于我们使用的是整型算术运算，因此经计算得到的摄氏温度值不太精确，例如，与0℉对应的精确的摄氏温度应该为-17.8℃，而不是-17℃。为了得到更精确的结果，应该用浮点算术运算代替上面的整型算术运算。这就需要对程序做适当修改。下面是该程序的另一种版本：
+
+```cpp
+#include <stdio.h>
+
+/* print Fahrenheit-Celsius table
+   for fahr = 0, 20, ..., 300; floating-point version */
+main()
+{
+    float fahr, celsius;
+    float lower, upper, step;
+
+    lower = 0;      /* lower limit of temperatuire scale */
+    upper = 300;    /* upper limit */
+    step = 20;      /* step size */
+
+    fahr = lower;
+    while (fahr <= upper) {
+        celsius = (5.0/9.0) * (fahr-32.0);
+        printf("%3.0f %6.1f\n", fahr, celsius);
+        fahr = fahr + step;
+    }
+}
+```
+
+这个程序与前一个程序基本相同，不同的是，它把fahr与celsius声明为float类型，转换公式的表述方式也更自然一些。在前一个程序中，之所以不能使用5/9的形式，是因为按整型除法的计算规则，它们相除并舍位后得到的结果为0。但是，常数中的小数点表明该常数是一个浮点数，因此，5.0/9.0是两个浮点数相除，结果将不被舍位。
+
+If an arithmetic operator has integer operands, an integer operation is performed. If an arithmetic operator has one floating-point operand and one integer operand, however, the integer will be converted to floating point before the operation is done. If we had written (fahr-32), the 32 would be automatically converted to floating point. Nevertheless, writing floating-point constants with explicit decimal points even when they have integral values emphasizes their floating-point nature for human readers.
+
+如果某个算术运算符的所有操作数均为整型，则执行整型运算。但是，如果某个算术运算符有一个浮点型操作数和—个整型操作数，则在开始运算之前整型操作数将会被转换为浮点型。例如，在表达式fahr-32中，32在运算过程中将被自动转换为浮点数再参与运算。不过，即使浮点常量取的是整型值，在书写时最好还是为它加上一个显式的小数点，这样可以强调其浮点性质，便于阅读。
+
+The detailed rules for when integers are converted to floating point are in Chapter 2. For now, notice that the assignment
+```
+   fahr = lower;
+```
+and the test
+```
+   while (fahr <= upper)
+```
+also work in the natural way - the int is converted to float before the operation is done.
+
+第2章将详细介绍把整型数转换为浮点型数的规则。在这里需要注意，赋值语句
+
+```
+fahr = lower;
+```
+
+和条件测试语句
+
+```
+while (fahr <= upper)
+```
+
+也都是按照这种方式执行的，即在运算之前先把int类型的操作数转换为float类型的操作数。
+
+The printf conversion specification %3.0f says that a floating-point number (here fahr) is to be printed at least three characters wide, with no decimal point and no fraction digits. %6.1f describes another number (celsius) that is to be printed at least six characters wide, with 1 digit after the decimal point. The output looks like this:
+```
+     0   -17.8
+    20    -6.7
+    40     4.4
+   ...
+```
+Width and precision may be omitted from a specification: %6f says that the number is to be at least six characters wide; %.2f specifies two characters after the decimal point, but the width is not constrained; and %f merely says to print the number as floating point.
+```
+ %d 	 print as decimal integer
+ %6d 	 print as decimal integer, at least 6 characters wide
+ %f 	 print as floating point
+ %6f 	 print as floating point, at least 6 characters wide
+ %.2f 	 print as floating point, 2 characters after decimal point
+ %6.2f  	 print as floating point, at least 6 wide and 2 after decimal point
+```
+Among others, printf also recognizes %o for octal, %x for hexadecimal, %c for character, %s for character string and %% for itself.
+
+printf中的转换说明%3.0f表明待打印的浮点数(即fahr)至少占3个字符宽，且不带小数点和小数部分；%6.1f表明另一个待打印的数(celsius)至少占6个字符宽，且小数点后面有1位数字。其输出如下所示：
+
+```
+     0   -17.8
+    20    -6.7
+    40     4.4
+   ...
+```
+
+格式说明可以省略宽度与精度，例如，%6f表示待打印的浮点数至少有6个字符宽；%.2f指定待打印的浮点数的小数点后有两位小数，但宽度没有限制；%f则仅仅要求按照浮点数打印该数。
+
+```
+ %d 	 按照十进制整型数打印
+ %6d 	 按照十进制整型数打印，至少6个字符宽
+ %f 	 按照浮点数打印
+ %6f 	 按照浮点数打印，至少6个字符宽
+ %.2f 	 按照浮点数打印，小数点后有两位小数
+ %6.2f   按照浮点数打印，至少6个字符宽，小数点后有两位小数
+```
+
+此外，printf函数还支持下列格式说明：%o表示八进制数；%x表示十六进制数；%c表示字符；%s表示字符串；%%表示百分号(%)本身。
+
+Exercise 1-3. Modify the temperature conversion program to print a heading above the table.
+
+练习1-3 修改温度转换程序，使之能在转换表的顶部打印一个标题。
+
+Exercise 1-4. Write a program to print the corresponding Celsius to Fahrenheit table.
+
+练习1-4 编写一个程序打印摄氏温度转换为相应华氏温度的转换表。

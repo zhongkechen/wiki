@@ -44,7 +44,7 @@ chmod -R ug+rwX /var/www/mywiki
 chmod -R o-rwx /var/www/mywiki
 ```
 
-这个过程也可以通过一个脚本自动实现。在下面MoinMaster:HelpOnInstalling/WikiInstanceCreation上下载createinstance.sh这个附件，然后执行：
+这个过程也可以通过一个脚本自动实现。在下面[MoinMaster:HelpOnInstalling/WikiInstanceCreation](<assets/moinmoin/createinstance.sh>)上下载createinstance.sh这个附件，然后执行：
 
 ```
 ./createinstance.sh /var/www/mywiki

@@ -1,0 +1,34 @@
+---
+title: "TCPL/B.01.6_File_Positioning_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### B.1.6 File Positioning Functions
+
+```
+int fseek(FILE *stream, long offset, int origin)
+```
+    fseek sets the file position for stream; a subsequent read or write will access data beginning at the new position. For a binary file, the position is set to offset characters from origin, which may be SEEK_SET (beginning), SEEK_CUR (current position), or SEEK_END (end of file). For a text stream, offset must be zero, or a value returned by ftell (in which case origin must be SEEK_SET). fseek returns non-zero on error.
+```
+long ftell(FILE *stream)
+```
+    ftell returns the current file position for stream, or -1 on error.
+```
+void rewind(FILE *stream)
+```
+    rewind(fp) is equivalent to fseek(fp, 0L, SEEK_SET); clearerr(fp).
+```
+int fgetpos(FILE *stream, fpos_t *ptr)
+```
+    fgetpos records the current position in stream in \*ptr, for subsequent use by fsetpos. The type fpos_t is suitable for recording such values. fgetpos returns non-zero on error.
+```
+int fsetpos(FILE *stream, const fpos_t *ptr)
+```
+    fsetpos positions stream at the position recorded by fgetpos in \*ptr. fsetpos returns non-zero on error.

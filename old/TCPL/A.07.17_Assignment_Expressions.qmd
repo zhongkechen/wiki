@@ -1,0 +1,29 @@
+---
+title: "TCPL/A.07.17_Assignment_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.17 Assignment Expressions
+
+There are several assignment operators; all group right-to-left.
+
+    assignment-expression:
+      conditional-expression
+      unary-expression assignment-operator assignment-expression
+
+    assignment-operator: one of
+
+## \*= /= %= += -= = &= ^= |
+
+All require an lvalue as left operand, and the lvalue must be modifiable: it must not be an array, and must not have an incomplete type, or be a function. Also, its type must not be qualified with const; if it is a structure or union, it must not have any member or, recursively, submember qualified with const. The type of an assignment expression is that of its left operand, and the value is the value stored in the left operand after the assignment has taken place.
+
+In the simple assignment with =, the value of the expression replaces that of the object referred to by the lvalue. One of the following must be true: both operands have arithmetic type, in which case the right operand is converted to the type of the left by the assignment; or both operands are structures or unions of the same type; or one operand is a pointer and the other is a pointer to void, or the left operand is a pointer and the right operand is a constant expression with value 0; or both operands are pointers to functions or objects whose types are the same except for the possible absence of const or volatile in the right operand.
+
+An expression of the form E1 op= E2 is equivalent to E1 = E1 op (E2) except that E1 is evaluated only once.

@@ -1,0 +1,271 @@
+---
+title: "TCPL/3.5_Loops_-_While_and_For"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 3.5 Loops - While and For while循环与for循环
+
+We have already encountered the while and for loops. In
+```
+   while (expression)
+       statement
+```
+the expression is evaluated. If it is non-zero, statement is executed and expression is re-evaluated. This cycle continues until expression becomes zero, at which point execution resumes after statement.
+
+我们在前面已经使用过while与for循环语句。在while循环语句
+
+```
+   while (expression)
+       statement
+```
+
+中，首先求表达式的值。如果其值为真非0，则执行语句，并再次求该表达式的值。这过程一直进行下去，直到该表达式的值为假(0)为止，随后继续执行语句后面的部分。
+
+The for statement
+```
+   for (expr1; expr2; expr3)
+       statement
+```
+is equivalent to
+```
+   expr1;
+   while (expr2) {
+       statement
+       expr3;
+   }
+```
+except for the behaviour of continue, which is described in Section 3.7.
+
+for循环语句：
+
+```
+   for (expr1; expr2; expr3)
+       statement
+```
+
+它等价于下列vhile语句：
+
+```
+   expr1;
+   while (expr2) {
+       statement
+       expr3;
+   }
+```
+
+但当while或for循环语句中包含contine语句时，上述二者之间就不一定等价了。我们将在3.7节中介绍continue语句。
+
+Grammatically, the three components of a for loop are expressions. Most commonly, expr1 and expr3 are assignments or function calls and expr2 is a relational expression. Any of the three parts can be omitted, although the semicolons must remain. If expr1 or expr3 is omitted, it is simply dropped from the expansion. If the test, expr2, is not present, it is taken as permanently true, so
+```
+   for (;;) {
+       ...
+   }
+```
+is an "infinite" loop, presumably to be broken by other means, such as a break or return.
+
+从语法角度看，for循环语句的3个组成部分都是表达式。最常见的情况是，表达式1与表达式3是赋值表达式或函数调用，表达式2是关系表达式。这3个组成部分中的任何部分都可以省略，但分号必须保留。如果在for语句中省略表达式1与表达式3，它就退化成了while循环语句。如果省略测试条件，即表达式2，则认为其值永远是真值，因此，下列for循环语句：
+
+```
+   for (;;) {
+       ...
+   }
+```
+
+是一个“无限”循环语句，这种语句需要借助其他手段(如break语句或return语句)才能
+终止执行。
+
+Whether to use while or for is largely a matter of personal preference. For example, in
+```
+   while ((c = getchar()) == ' ' || c == '\n' || c = '\t')
+       ;   /* skip white space characters */
+```
+there is no initialization or re-initialization, so the while is most natural.
+
+在设计程序时到底选用while循环语句还是for循环语句，主要取决于程序设计人员的个人偏好。例如，在下列语句中：
+
+```
+   while ((c = getchar()) == ' ' || c == '\n' || c = '\t')
+       ;   /* skip white space characters */
+```
+
+因为其中没有初始化或重新初始化的操作，所以使用while循环语句更自然一些。
+
+The for is preferable when there is a simple initialization and increment since it keeps the loop control statements close together and visible at the top of the loop. This is most obvious in
+```
+   for (i = 0; i < n; i++)
+       ...
+```
+which is the C idiom for processing the first n elements of an array, the analog of the Fortran DO loop or the Pascal for. The analogy is not perfect, however, since the index variable i retains its value when the loop terminates for any reason. Because the components of the for are arbitrary expressions, for loops are not restricted to arithmetic progressions. Nonetheless, it is bad style to force unrelated computations into the initialization and increment of a for, which are better reserved for loop control operations.
+
+如果语句中需要执行简单的初始化和变量递增，使用for语句更合适一些，它将循环控制语句集中放在循环的开头，结构更紧凑、更清晰。通过下列语句可以很明显地看出这一点：
+
+```
+   for (i = 0; i < n; i++)
+       ...
+```
+
+这是C语言处理数组前n个元素的一种习惯性用法，它类似于Fontran语言中的DO循环或Pascal
+语言中的for循环。但是，这种类比并不完全准确，因为在C语言中，for循环语句的循环变量和上限在循环体内可以修改，并且当循环因某种原因终止后循环变量i的值仍然保留：因为for语句的各组成部分可以是任何表达式，所以for语句并不限于通过算术级数进行循环控制。尽管如此，牵强地把一些无关的计算放到for语句的初始化和变量递增部分是一种不好的程序设计风格，该部分放置循环控制运算更合适。
+
+As a larger example, here is another version of atoi for converting a string to its numeric equivalent. This one is slightly more general than the one in Chapter 2; it copes with optional leading white space and an optional + or - sign. (Chapter 4 shows atof, which does the same conversion for floating-point numbers.)
+
+作为一个较大的例子，我们来重新编写将字符串转换为对应数值的函数atoi。这里编写的函数比第2章中的atoi函数更通用，它可以处理可选的前导空白符以及一个可选的加(+)或减(-)号。(第4章将介绍函数atof，它用于对浮点数执行同样的转换。)
+
+The structure of the program reflects the form of the input:
+```
+  skip white space, if any
+  get sign, if any
+  get integer part and convert it
+```
+Each step does its part, and leaves things in a clean state for the next. The whole process terminates on the first character that could not be part of a number.
+```cpp
+   #include <ctype.h>
+
+   /* atoi:  convert s to integer; version 2 */
+   int atoi(char s[])
+   {
+       int i, n, sign;
+
+       for (i = 0; isspace(s[i]); i++)  /* skip white space */
+           ;
+       sign = (s[i] == '-') ? -1 : 1;
+       if (s[i] == '+' || s[i] == '-')  /* skip sign */
+           i++;
+       for (n = 0; isdigit(s[i]); i++)
+           n = 10 * n + (s[i] - '0');
+       return sign * n;
+   }
+```
+The standard library provides a more elaborate function strtol for conversion of strings to long integers; see Section 5 of Appendix B.
+
+下面是程序的结构，从中可以看出输入的格式：
+
+```
+  skip white space, if any
+  get sign, if any
+  get integer part and convert it
+```
+
+其中的每—步都对输入数据进行相应的处理，并为下一步的执行做好准备。当遇到第一个不
+能转换为数字的字符时，整个处理过程终止。
+
+```cpp
+   #include <ctype.h>
+
+   /* atoi:  convert s to integer; version 2 */
+   int atoi(char s[])
+   {
+       int i, n, sign;
+
+       for (i = 0; isspace(s[i]); i++)  /* skip white space */
+           ;
+       sign = (s[i] == '-') ? -1 : 1;
+       if (s[i] == '+' || s[i] == '-')  /* skip sign */
+           i++;
+       for (n = 0; isdigit(s[i]); i++)
+           n = 10 * n + (s[i] - '0');
+       return sign * n;
+   }
+```
+
+标准库中提供了一个更完善的函数strtol，它将字符串转换为长整型数。有关函数strtol的详细信息，请参见附录B.5节。
+
+The advantages of keeping loop control centralized are even more obvious when there are several nested loops. The following function is a Shell sort for sorting an array of integers. The basic idea of this sorting algorithm, which was invented in 1959 by D. L. Shell, is that in early stages, far-apart elements are compared, rather than adjacent ones as in simpler interchange sorts. This tends to eliminate large amounts of disorder quickly, so later stages have less work to do. The interval between compared elements is gradually decreased to one, at which point the sort effectively becomes an adjacent interchange method.
+```
+   /* shellsort:  sort v[0]...v[n-1] into increasing order */
+   void shellsort(int v[], int n)
+   {
+       int gap, i, j, temp;
+
+       for (gap = n/2; gap > 0; gap /= 2)
+           for (i = gap; i < n; i++)
+               for (j=i-gap; j>=0 && v[j]>v[j+gap]; j-=gap) {
+                   temp = v[j];
+                   v[j] = v[j+gap];
+                   v[j+gap] = temp;
+               }
+   }
+```
+There are three nested loops. The outermost controls the gap between compared elements, shrinking it from n/2 by a factor of two each pass until it becomes zero. The middle loop steps along the elements. The innermost loop compares each pair of elements that is separated by gap and reverses any that are out of order. Since gap is eventually reduced to one, all elements are eventually ordered correctly. Notice how the generality of the for makes the outer loop fit in the same form as the others, even though it is not an arithmetic progression.
+
+把循环控制部分集中在一起，对于多重嵌套循环，优势更为明显。下面的函数是对整型数组进行排序的Shell排序算法。Shell排序算法是D. L. Shell于1959年发明的，其基本思想是：先比较距离远的元素，而不是像简单交换排序算法那样先比较相邻的元素。这样可以快速减少大量的无序情况，从而减轻后续的工作。被比较的元素之间的距离逐步减少，直到减少为1，这时排序变成了相邻元素的互换。
+
+```cpp
+   /* shellsort:  sort v[0]...v[n-1] into increasing order */
+   void shellsort(int v[], int n)
+   {
+       int gap, i, j, temp;
+
+       for (gap = n/2; gap > 0; gap /= 2)
+           for (i = gap; i < n; i++)
+               for (j=i-gap; j>=0 && v[j]>v[j+gap]; j-=gap) {
+                   temp = v[j];
+                   v[j] = v[j+gap];
+                   v[j+gap] = temp;
+               }
+   }
+```
+
+该函数中包含一个三重嵌套的for循环语句。最外层的for语句控制两个被比较元素之间的距离，从n/2开始，逐步进行对折，直到距离为0。中间层的for循环语句用于在元素间移动位置。最内层的for语句用于比较各对相距gap个位置的元素，当这两个元素逆序时把它们互换过来。由于gap的值最终要递减到1，因此所有元素最终都会位于正确的排序位置上。注意，即使最外层for循环的控制变量不是算术级数，for语句的书写形式仍然没有变，这就说明for语句具有很强的通用性。
+
+One final C operator is the comma ",", which most often finds use in the for statement. A pair of expressions separated by a comma is evaluated left to right, and the type and value of the result are the type and value of the right operand. Thus in a for statement, it is possible to place multiple expressions in the various parts, for example to process two indices in parallel. This is illustrated in the function reverse(s), which reverses the string s in place.
+```
+   #include <string.h>
+
+   /* reverse:  reverse string s in place */
+   void reverse(char s[])
+   {
+       int c, i, j;
+
+       for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
+           c = s[i];
+           s[i] = s[j];
+           s[j] = c;
+       }
+   }
+```
+The commas that separate function arguments, variables in declarations, etc., are not comma operators, and do not guarantee left to right evaluation.
+
+逗号运算符“,”也是C语言优先级最低的运算符，在for语句中经常会用到它。被逗号分隔的一对表达式将按照从左到右的顺序进行求值，各表达式右边的操作数的类型和值即为其结果的类型和值。这样，在for循环语句中，可以将多个表达式放在各个语句成分中，比如同时处理两个循环控制变量。我们可以通过下面的函数reverse(s)来举例。该函数用于倒置字符串s中各个字符的位置。
+
+```cpp
+   #include <string.h>
+
+   /* reverse:  reverse string s in place */
+   void reverse(char s[])
+   {
+       int c, i, j;
+
+       for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
+           c = s[i];
+           s[i] = s[j];
+           s[j] = c;
+       }
+   }
+```
+
+某些情况下的逗号并不是逗号运算符，比如分隔函数参数的逗号，分隔声明中变量的逗号等这些逗号并不保证各表达式按从左至右的顺序求值。
+
+Comma operators should be used sparingly. The most suitable uses are for constructs strongly related to each other, as in the for loop in reverse, and in macros where a multistep computation has to be a single expression. A comma expression might also be appropriate for the exchange of elements in reverse, where the exchange can be thought of a single operation:
+```
+    for (i = 0, j = strlen(s)-1; i < j; i++, j--)
+           c = s[i], s[i] = s[j], s[j] = c;
+```
+
+应该慎用逗号运算符。逗号运算符最适用于关系紧密的结构中，比如上面的reverse函数内的for语句，对于需要在单个表达式中进行多步计算的宏来说也很适合。逗号表达式还适用于reverse函数中元素的交换，这样，元素的交换过程便可以看成是一个单步操作。
+
+```
+    for (i = 0, j = strlen(s)-1; i < j; i++, j--)
+           c = s[i], s[i] = s[j], s[j] = c;
+```
+
+Exercise 3-3. Write a function expand(s1,s2) that expands shorthand notations like a-z in the string s1 into the equivalent complete list abc...xyz in s2. Allow for letters of either case and digits, and be prepared to handle cases like a-b-c and a-z0-9 and -a-z. Arrange that a leading or trailing - is taken literally.
+
+练习3-3  编写函数expand[sl, s2)，将字符串s1中类似于a-z一类的速记符号在字符串s2中扩展为等价的完整列表abc…xyz。该函数可以处理大小写字母和数字，并可以处理a-b-c、a-z0-9与-a-z等类似的情况。作为前导和尾随的-字符原样排印。

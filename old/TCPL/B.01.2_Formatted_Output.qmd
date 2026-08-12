@@ -1,0 +1,68 @@
+---
+title: "TCPL/B.01.2_Formatted_Output"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### B.1.2 Formatted Output
+
+The printf functions provide formatted output conversion.
+```
+   int fprintf(FILE *stream, const char *format, ...)
+```
+fprintf converts and writes output to stream under the control of format. The return value is the number of characters written, or negative if an error occurred.
+
+The format string contains two types of objects: ordinary characters, which are copied to the output stream, and conversion specifications, each of which causes conversion and printing of the next successive argument to fprintf. Each conversion specification begins with the character % and ends with a conversion character. Between the % and the conversion character there may be, in order:
+
+* Flags (in any order), which modify the specification:
+    * -, which specifies left adjustment of the converted argument in its field.
+    * +, which specifies that the number will always be printed with a sign.
+    * space: if the first character is not a sign, a space will be prefixed.
+    * 0: for numeric conversions, specifies padding to the field width with leading zeros.
+    * #, which specifies an alternate output form. For o, the first digit will become zero. For x or X, 0x or 0X will be prefixed to a non-zero result. For e, E, f, g, and G, the output will always have a decimal point; for g and G, trailing zeros will not be removed.
+* A number specifying a minimum field width. The converted argument will be printed in a field at least this wide, and wider if necessary. If the converted argument has fewer characters than the field width it will be padded on the left (or right, if left adjustment has been requested) to make up the field width. The padding character is normally space, but is 0 if the zero padding flag is present.
+* A period, which separates the field width from the precision.
+* A number, the precision, that specifies the maximum number of characters to be printed from a string, or the number of digits to be printed after the decimal point for e, E, or f conversions, or the number of significant digits for g or G conversion, or the number of digits to be printed for an integer (leading 0s will be added to make up the necessary width).
+* A length modifier h, l (letter ell), or L. "h" indicates that the corresponding argument is to be printed as a short or unsigned short; "l" indicates that the argument is a long or unsigned long, "L" indicates that the argument is a long double.
+
+Width or precision or both may be specified as \*, in which case the value is computed by converting the next argument(s), which must be int.
+
+The conversion characters and their meanings are shown in Table B.1. If the character after the % is not a conversion character, the behavior is undefined.
+
+Table B.1 Printf Conversions
+
+| Character | Argument type; | Printed As |
+| --- | --- | --- |
+| d,i | int; | signed decimal notation. |
+| o | int; | unsigned octal notation (without a leading zero). |
+| x,X | unsigned int; | unsigned hexadecimal notation (without a leading 0x or 0X), using abcdef for 0x or ABCDEF for 0X. |
+| u | int; | unsigned decimal notation. |
+| c | int; | single character, after conversion to unsigned char |
+| s | char \\*; | characters from the string are printed until a '\\0' is reached or until the number of characters indicated by the precision have been printed. |
+| f | double; | decimal notation of the form [-]mmm.ddd, where the number of d's is given by the precision. The default precision is 6; a precision of 0 suppresses the decimal point. |
+| e,E | double; | decimal notation of the form [-]m.dddddde+/-xx or [-]m.ddddddE+/-xx, where the number of d's is specified by the precision. The default precision is 6; a precision of 0 suppresses the decimal point. |
+| g,G | double; | %e or %E is used if the exponent is less than -4 or greater than or equal to the precision; otherwise %f is used. Trailing zeros and a trailing decimal point are not printed. |
+| p | void \\*; | print as a pointer (implementation-dependent representation). |
+| n | int \\*; | the number of characters written so far by this call to printf is written into the argument. No argument is converted. |
+| % | no argument is converted; | print a % |
+
+```
+int printf(const char *format, ...)
+```
+    printf(...) is equivalent to fprintf(stdout, ...).
+```
+int sprintf(char *s, const char *format, ...)
+```
+    sprintf is the same as printf except that the output is written into the string s, terminated with '\\0'. s must be big enough to hold the result. The return count does not include the '\\0'.
+```
+int vprintf(const char *format, va_list arg)
+int vfprintf(FILE *stream, const char *format, va_list arg)
+int vsprintf(char *s, const char *format, va_list arg)
+```
+    The functions vprintf, vfprintf, and vsprintf are equivalent to the corresponding printf functions, except that the variable argument list is replaced by arg, which has been initialized by the va_start macro and perhaps va_arg calls. See the discussion of &lt;stdarg.h&gt; in Section B.7.

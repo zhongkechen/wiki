@@ -1,0 +1,74 @@
+---
+title: "TCPL/1.05.3_Line_Counting"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 1.5.3 Line Counting 行计数
+
+The next program counts input lines. As we mentioned above, the standard library ensures that an input text stream appears as a sequence of lines, each terminated by a newline. Hence, counting lines is just counting newlines:
+```cpp
+   #include <stdio.h>
+
+   /* count lines in input */
+   main()
+   {
+       int c, nl;
+
+       nl = 0;
+       while ((c = getchar()) != EOF)
+           if (c == '\n')
+               ++nl;
+       printf("%d\n", nl);
+   }
+```
+The body of the while now consists of an if, which in turn controls the increment ++nl. The if statement tests the parenthesized condition, and if the condition is true, executes the statement (or group of statements in braces) that follows. We have again indented to show what is controlled by what.
+
+接下来的这个程序用于统计输入中的行数。我们在上面提到过，标准库保证输入文本流以行序列的形式出现，每一行均以换行符结束。因此．统汁行数等价于统计换行符的个数。
+
+```cpp
+#include <stdio.h>
+
+/* count lines in input */
+main()
+{
+    int c, nl;
+
+    nl = 0;
+    while ((c = getchar()) != EOF)
+        if (c == '\n')
+            ++nl;
+    printf("%d\n", nl);
+}
+```
+
+在该程序中，while循环语句的循环体是—个if语句，它控制自增语句++nl。if语句先测试圆括号中的条件，如果该条件为真，则执行其后的语句(或括在花括号中的一组语句)。这里再次用缩进方式表明语句之间的控制关系。
+
+The double equals sign == is the C notation for "is equal to" (like Pascal's single = or Fortran's .EQ.). This symbol is used to distinguish the equality test from the single = that C uses for assignment. A word of caution: newcomers to C occasionally write = when they mean ==. As we will see in Chapter 2, the result is usually a legal expression, so you will get no warning.
+
+双等于号==是C语言中表示“等于”关系的运算符(类似于Pascal中的单等于号=及Fortran中的.EQ.)。由于C语言将单等于号=作为赋值运算符，因此使用双等于号==表示相等的逻辑关系，以示区分。这里提醒注意，在表示“等于”逻辑关系的时候(应该用==)，C语言初学者有时会错误地写成单等于号=。在第2章我们将看到，即使这样误用了，其结果通常仍然是合法的表达式，因此系统不会给出警告信息。
+
+A character written between single quotes represents an integer value equal to the numerical value of the character in the machine's character set. This is called a character constant, although it is just another way to write a small integer. So, for example, 'A' is a character constant; in the ASCII character set its value is 65, the internal representation of the character A. Of course, 'A' is to be preferred over 65: its meaning is obvious, and it is independent of a particular character set.
+
+单引号中的字符表示一个整型值，该值等于此字符在机器字符集中对应的数值，我们称之为*字符常量*。但是，它只不过是小的整型数的另一种写法而已。例如，'A'是一个字符常量；在ASCII字符集中其值为65(即字符A的内部表示值为65)。当然，用'A'要比用65好，因为'A'的意义更清楚，且与特定的字符集无关。
+
+The escape sequences used in string constants are also legal in character constants, so '\\n' stands for the value of the newline character, which is 10 in ASCII. You should note carefully that '\\n' is a single character, and in expressions is just an integer; on the other hand, '\\n' is a string constant that happens to contain only one character. The topic of strings versus characters is discussed further in Chapter 2.
+
+字符串常量中使用的转义字符序列也是合法的字符常量，比如，'\\n'代表换行符的值，在ASCII字符集中其值为l0。我们应当注意到，'\\n'是单个字符，在表达式中它不过是一个整型数而已；而"\\n"是一个仅包含一个字符的字符串常量。有关字符串与字符之间的关系，我们将在第2章进一步讨论。
+
+Exercise 1-8. Write a program to count blanks, tabs, and newlines.
+练习1-8 编写一个统计空格、制表符与换行符个数的程序。
+
+Exercise 1-9. Write a program to copy its input to its output, replacing each string of one or more blanks by a single blank.
+
+练习1-9 编写一个将输入复制到输出的程序．并将其中连续的多个空格用一个空格代替。
+
+Exercise 1-10. Write a program to copy its input to its output, replacing each tab by \\t, each backspace by \\b, and each backslash by \\\\. This makes tabs and backspaces visible in an unambiguous way.
+
+练习1-10 编写一个将输入复制到输出的程序，并将其中的制表符替换为\\t，把回退符替换为\\b，把反斜杠替换为\\\\。这样可以将制表符和回退符以可见的方式显示出来。

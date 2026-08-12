@@ -1,0 +1,38 @@
+---
+title: "TCPL/7.8.2_Character_Class_Testing_and_Conversion"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 7.8.2 Character Class Testing and Conversion 字符类别测试和转换函数
+
+Several functions from &lt;ctype.h&gt; perform character tests and conversions. In the following, c is an int that can be represented as an unsigned char or EOF. The function returns int.
+```
+isalpha(c)	non-zero if c is alphabetic, 0 if not
+isupper(c)	non-zero if c is upper case, 0 if not
+islower(c)	non-zero if c is lower case, 0 if not
+isdigit(c)	non-zero if c is digit, 0 if not
+isalnum(c)	non-zero if isalpha(c) or isdigit(c), 0 if not
+isspace(c)	non-zero if c is blank, tab, newline, return, formfeed, vertical tab
+toupper(c)	return c converted to upper case
+tolower(c)	return c converted to lower case
+```
+
+头文件&lt;ctype.h&gt;中定义了一些用于字符测试和转换的函数。在下面各个函数中，c是一个可表示为unsigned char类型或EOF的int对象。该函数的返回值类型为int。
+
+```
+isalpha(c)	若c是字母，则返回一个非0值，否则返回0
+isupper(c)	若c是大写字母，则返回一个非0值，否则返回0
+islower(c)	若c是小写字母，则返回一个非0值，否则返回0
+isdigit(c)	若c是数字，则返回一个非0值，否则返回0
+isalnum(c)	若isalpha(c)或isdigit(c)，则返回一个非0值，否则返回O
+isspace(c)	若c是空格、横向制表符、换行符、回车符、换页符或纵向制表符，则返回一个非0值
+toupper(c)	返回c的大写形式
+tolower(c)	返回c的小写形式
+```

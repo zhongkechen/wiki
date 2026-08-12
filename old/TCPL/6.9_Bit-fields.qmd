@@ -1,0 +1,149 @@
+---
+title: "TCPL/6.9_Bit-fields"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 6.9 Bit-fields 位字段
+
+When storage space is at a premium, it may be necessary to pack several objects into a single machine word; one common use is a set of single-bit flags in applications like compiler symbol tables. Externally-imposed data formats, such as interfaces to hardware devices, also often require the ability to get at pieces of a word.
+
+在存储空间很宝贵的情况下，有可能需要将多个对象保存在一个机器字中。一种常用的方法是，使用类似于编译器符号表的单个二进制位标志集合。外部强加的数据格式(如硬件设备接口)也经常需要从字的部分位中读取数据。
+
+Imagine a fragment of a compiler that manipulates a symbol table. Each identifier in a program has certain information associated with it, for example, whether or not it is a keyword, whether or not it is external and/or static, and so on. The most compact way to encode such information is a set of one-bit flags in a single char or int.
+
+考虑编译器中符号表操作的有关细节。程序中的每个标识符都有与之相关的特定信息，例如，它是否为关键字，它是否是外部的且(或)是静态的，等等。对这些信息进行编码的最简洁的方法就是使用一个char或int对象中的位标志集合。
+
+The usual way this is done is to define a set of "masks" corresponding to the relevant bit positions, as in
+```
+   #define KEYWORD  01
+   #define EXTRENAL 02
+   #define STATIC   04
+```
+or
+```
+   enum { KEYWORD = 01, EXTERNAL = 02, STATIC = 04 };
+```
+The numbers must be powers of two. Then accessing the bits becomes a matter of "bit-fiddling" with the shifting, masking, and complementing operators that were described in Chapter 2.
+
+通常采用的方法是，定义一个与相关位的位置对应的“屏蔽码”集合，如
+
+```
+   #define KEYWORD  01
+   #define EXTRENAL 02
+   #define STATIC   04
+```
+
+或
+
+```
+   enum { KEYWORD = 01, EXTERNAL = 02, STATIC = 04 };
+```
+
+这些数字必须是2的幂。这样，访问这些位就变成了用第2章中描述的移位运算、屏蔽运算及补码运算进行简单的位操作。
+
+Certain idioms appear frequently:
+```
+   flags |= EXTERNAL | STATIC;
+```
+turns on the EXTERNAL and STATIC bits in flags, while
+```
+   flags &= ~(EXTERNAL | STATIC);
+```
+turns them off, and
+```
+   if ((flags & (EXTERNAL | STATIC)) == 0) ...
+```
+is true if both bits are off.
+
+下列语句在程序中经常出现：
+
+```
+   flags |= EXTERNAL | STATIC;
+```
+
+该语句将flags中的EXTERNAL和STATIC位置为1，而下列语句：
+
+```
+   flags &= ~(EXTERNAL | STATIC);
+```
+
+则将它们置为0。并且，当这两位都为0时，下列表达式：
+
+```
+   if ((flags & (EXTERNAL | STATIC)) == 0) ...
+```
+
+的值为真。
+
+Although these idioms are readily mastered, as an alternative C offers the capability of defining and accessing fields within a word directly rather than by bitwise logical operators. A bit-field, or field for short, is a set of adjacent bits within a single implementation-defined storage unit that we will call a "word". For example, the symbol table #defines above could be replaced by the definition of three fields:
+```cpp
+   struct {
+       unsigned int is_keyword : 1;
+       unsigned int is_extern  : 1;
+       unsigned int is_static  : 1;
+   } flags;
+```
+This defines a variable table called flags that contains three 1-bit fields. The number following the colon represents the field width in bits. The fields are declared unsigned int to ensure that they are unsigned quantities.
+
+尽管这些方法很容易掌握，但是，C语言仍然提供了另一种可替代的方法，即直接定义和访问一个字中的位字段的能力，而不需要通过按位逻辑运算符。位字段(bit-field)，或简称字段，是“字”中相邻位的集合。“字”(word)是单个的存储单元，它同具体的实现有关。例如，上述符号表的多个#define语句可用下列3个字段的定义来代替：
+
+```cpp
+   struct {
+       unsigned int is_keyword : 1;
+       unsigned int is_extern  : 1;
+       unsigned int is_static  : 1;
+   } flags;
+```
+
+这里定义了一个变量flags，它包含3个一位的字段。冒号后的数字表示字段的宽度(用二进制位数表示)。字段被声明为unsigned int类型，以保证它们是无符号量。
+
+Individual fields are referenced in the same way as other structure members: flags.is_keyword, flags.is_extern, etc. Fields behave like small integers, and may participate in arithmetic expressions just like other integers. Thus the previous examples may be written more naturally as
+```
+   flags.is_extern = flags.is_static = 1;
+```
+to turn the bits on;
+```
+   flags.is_extern = flags.is_static = 0;
+```
+to turn them off; and
+```
+   if (flags.is_extern == 0 && flags.is_static == 0)
+       ...
+```
+to test them.
+
+单个字段的引用方式与其他结构成员相同，例如：flags.is_keyword、flags.is_extern等等。字段的作用与小整数相似。同其他整数一样，字段可出现在算术表达式中。因此，上面的例子可用更自然的方式表达为：
+
+```
+   flags.is_extern = flags.is_static = 1;
+```
+
+该语句将is_extern和is_static位置为1。下列语句：
+
+```
+   flags.is_extern = flags.is_static = 0;
+```
+
+将is_extern和is_static位置为0。下列语句：
+
+```
+   if (flags.is_extern == 0 && flags.is_static == 0)
+       ...
+```
+
+用于对is_extern和is_static位进行测试。
+
+Almost everything about fields is implementation-dependent. Whether a field may overlap a word boundary is implementation-defined. Fields need not be names; unnamed fields (a colon and width only) are used for padding. The special width 0 may be used to force alignment at the next word boundary.
+
+字段的所有属性几乎都同具体的实现有关。字段是否能覆盖字边界由具体的实现定义。字段可以不命名，无名字段(只有一个冒号和宽度)起填充作用。特殊宽度0可以用来强制在下一个字边界上对齐。
+
+Fields are assigned left to right on some machines and right to left on others. This means that although fields are useful for maintaining internally-defined data structures, the question of which end comes first has to be carefully considered when picking apart externally-defined data; programs that depend on such things are not portable. Fields may be declared only as ints; for portability, specify signed or unsigned explicitly. They are not arrays and they do not have addresses, so the & operator cannot be applied on them.
+
+某些机器上字段的分配是从字的左端至右端进行的，而某些机器上则相反。这意味着，尽管字段对维护内部定义的数据结构很有用，但在选择外部定义数据的情况下，必须仔细考虑哪端优先的问题。依赖于这些因素的程序是不可移植的。字段也可以仅仅声明为int，为了方便移植，需要显式声明该int类型是signed还是unsigned类型。字段不是数组，并且没有地址，因此对它们不能使用&运算符。

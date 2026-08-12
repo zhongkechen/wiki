@@ -1,0 +1,66 @@
+---
+title: "TCPL/2.02_Data_Types_and_Sizes"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.2 Data Types and Sizes 数据类型及长度
+
+There are only a few basic data types in C:
+```
+char	a single byte, capable of holding one character in the local character set
+int	an integer, typically reflecting the natural size of integers on the host machine
+float	single-precision floating point
+double	double-precision floating point
+```
+
+C语言只提供了下列几种基本数据类型：
+
+```
+char	字符型，占用一个字节，可以存放本地字符集中的一个字符
+int	整型，通常反映了所用机器中整数的最自然长度
+float	单精度浮点型
+double	双精度浮点型
+```
+
+In addition, there are a number of qualifiers that can be applied to these basic types. short and long apply to integers:
+```
+   short int sh;
+   long int counter;
+```
+The word int can be omitted in such declarations, and typically it is.
+
+此外，还可以在这些基本数据类型的前面加上一些限定符。short与long两个限定符用于限定整型：
+
+```
+   short int sh;
+   long int counter;
+```
+
+在上述这种类型的声明中，关键字int可以省略。通常很多人也习惯这么做。
+
+The intent is that short and long should provide different lengths of integers where practical; int will normally be the natural size for a particular machine. short is often 16 bits long, and int either 16 or 32 bits. Each compiler is free to choose appropriate sizes for its own hardware, subject only to the the restriction that shorts and ints are at least 16 bits, longs are at least 32 bits, and short is no longer than int, which is no longer than long.
+
+short与long两个限定符的引入可以为我们提供满足实际需要的不同长度的整型数。int通常代表特定机器中整数的自然长度。short类型通常为16位，long类型通常为32位，int类型可以为16位或32位。各编译器可以根据硬件特性自主选择合适的类型长度，但要遵循下列限制：short与int类型至少为16位，而long类型至少为32位，并且short类型不得长于int类型，而int类型不得长于long类型。
+
+The qualifier signed or unsigned may be applied to char or any integer. unsigned numbers are always positive or zero, and obey the laws of arithmetic modulo 2n, where n is the number of bits in the type. So, for instance, if chars are 8 bits, unsigned char variables have values between 0 and 255, while signed chars have values between -128 and 127 (in a two's complement machine.) Whether plain chars are signed or unsigned is machine-dependent, but printable characters are always positive.
+
+类型限定符signed与unsigned可用于限定char类型或任何整型。unsigned类型的数总是正值或0，并遵守算术模2^n^定律，其中n是该类型占用的位数。例如，如果char对象占用8位，那么unsigned char类型变量的取值范围为O～255，而signed  char类型变量的取值范围则为-128～127(在采用对二的补码的机器上)。不带限定符的char类型对象是否带符号则取决于具体机器，但可打印字符总是正值。
+
+The type long double specifies extended-precision floating point. As with integers, the sizes of floating-point objects are implementation-defined; float, double and long double could represent one, two or three distinct sizes.
+
+long double类型表示高精度的浮点数。同整型一样，浮点型的长度也取决于具体的实现，float、double与long  double类型可以表示相同的长度，也可以表示两种或三种不同的长度。
+
+The standard headers &lt;limits.h&gt; and &lt;float.h&gt; contain symbolic constants for all of these sizes, along with other properties of the machine and compiler. These are discussed in Appendix B.
+
+有关这些类型长度定义的符号常量以及其他与机器和编译器有关的属性可以在标准头文件&lt;limits.h)与&lt;float.h&gt;中找到，这些内容将在附录B中讨论。
+
+Exercise 2-1. Write a program to determine the ranges of char, short, int, and long variables, both signed and unsigned, by printing appropriate values from standard headers and by direct computation. Harder if you compute them: determine the ranges of the various floating-point types.
+
+练习2-1  编写一个程序以确定分别由signed及unsigned限定的char、short、int与long类型变量的取值范围。采用打印标准头文件中的相应值以及直接计算两种方式实现。后一种方法的实现较困难一些，因为要确定各种浮点类型的取值范围。

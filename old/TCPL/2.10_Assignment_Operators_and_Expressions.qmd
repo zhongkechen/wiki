@@ -1,0 +1,170 @@
+---
+title: "TCPL/2.10_Assignment_Operators_and_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.10 Assignment Operators and Expressions 赋值运算符与表达式
+
+An expression such as
+```
+   i = i + 2
+```
+in which the variable on the left side is repeated immediately on the right, can be written in the compressed form
+```
+   i += 2
+```
+The operator += is called an assignment operator.
+
+在赋值表达式中，如果表达式左边的变量重复出现在表达式的右边，如：
+
+```
+   i = i + 2
+```
+
+则可以将这种表达式缩写为下列形式：
+
+```
+   i += 2
+```
+
+其中的运算符+=称为*赋值运算符*。
+
+Most binary operators (operators like + that have a left and right operand) have a corresponding assignment operator op=, where op is one of
+```
+   +   -   *   /   %   <<   >>   &   ^   |
+```
+
+大多数二元运算符(即有左、右两个操作数的运算符，比如+)都有一个相应的赋值运算符op=，其中，op可以是下面这些运算符之一：
+
+```
+   +   -   *   /   %   <<   >>   &   ^   |
+```
+
+If expr1 and expr2 are expressions, then
+```
+   expr1 op= expr2
+```
+is equivalent to
+```
+   expr1 = (expr1) op (expr2)
+```
+except that expr1 is computed only once. Notice the parentheses around expr2:
+```
+   x *= y + 1
+```
+means
+```
+   x = x * (y + 1)
+```
+rather than
+```
+   x = x * y + 1
+```
+
+如果expr1和expr2是表达式，那么
+
+```
+   expr1 op= expr2
+```
+
+等价于
+
+```
+   expr1 = (expr1) op (expr2)
+```
+
+它们的区别在于，前一种形式expr1只计算一次。注意，在第二种形式中，expr2两边的圆括号
+是必不可少的，例如，
+
+```
+   x *= y + 1
+```
+
+的含义是
+
+```
+   x = x * (y + 1)
+```
+
+而不是
+
+```
+   x = x * y + 1
+```
+
+As an example, the function bitcount counts the number of 1-bits in its integer argument.
+```cpp
+   /* bitcount:  count 1 bits in x */
+   int bitcount(unsigned x)
+   {
+       int b;
+
+       for (b = 0; x != 0; x >>= 1)
+           if (x & 01)
+               b++;
+       return b;
+   }
+```
+Declaring the argument x to be an unsigned ensures that when it is right-shifted, vacated bits will be filled with zeros, not sign bits, regardless of the machine the program is run on.
+
+我们这里举例说明。下面的函数bitcount统计其整型参数的值为1的二进制位的个数。
+
+```cpp
+   /* bitcount:  count 1 bits in x */
+   int bitcount(unsigned x)
+   {
+       int b;
+
+       for (b = 0; x != 0; x >>= 1)
+           if (x & 01)
+               b++;
+       return b;
+   }
+```
+
+这里将x声明为无符号类型是为了保证将x右移时，无论该程序在什么机器上运行，左边空出的位都用0(而不是符号位)填补。
+
+Quite apart from conciseness, assignment operators have the advantage that they correspond better to the way people think. We say "add 2 to i" or "increment i by 2", not "take i, add 2, then put the result back in i". Thus the expression i += 2 is preferable to i = i+2. In addition, for a complicated expression like
+```
+   yyval[yypv[p3+p4] + yypv[p1]] += 2
+```
+the assignment operator makes the code easier to understand, since the reader doesn't have to check painstakingly that two long expressions are indeed the same, or to wonder why they're not. And an assignment operator may even help a compiler to produce efficient code.
+
+除了简洁外，赋值运算符还有一个优点：表示方式与人们的思维习惯比较接近。我们通常会说“把2加到l上”或“把i增加2”。而不会说“取i的值，加上2，再把结果放回到i中”，因此，表达式i+=2比i＝i+2更自然。另外，对于复杂的表达式，例如：
+
+```
+    yyval[yypv[p3+p4] + yypv[p1]] += 2
+```
+
+赋值运算符使程序代码更易于理解，代码的阅读者不必煞费苦心地去检查两个长表达式是否完全一样，也无须为两者为什么不一样而疑惑不解。并且，赋值运算符还有助于编译器产生高效代码。
+
+We have already seen that the assignment statement has a value and can occur in expressions; the most common example is
+```
+   while ((c = getchar()) != EOF)
+       ...
+```
+The other assignment operators (+=, -=, etc.) can also occur in expressions, although this is less frequent.
+
+从上述例子中我们可以看出，赋值语句具有值，且可以用在表达式中。下面是最常见的一个例子：
+
+```
+   while ((c = getchar()) != EOF)
+       ...
+```
+
+其他赋值运算符(如+=、-=等)也可以用在表达式中，尽管这种用法比较少见。
+
+In all such expressions, the type of an assignment expression is the type of its left operand, and the value is the value after the assignment.
+
+在所有的这类表达式中，赋值表达式的类型是它的左操作数的类型，其值是赋值操作完成后的值。
+
+Exercise 2-9. In a two's complement number system, x &= (x-1) deletes the rightmost 1-bit in x. Explain why. Use this observation to write a faster version of bitcount.
+
+练习2-9 在求对二的补码时，表达式x&=(x-1)可以删除x中最右边值为l的一个二进制位。请解释这样做的道理。用这一方法重写bitcount函数，以加快其执行速度。

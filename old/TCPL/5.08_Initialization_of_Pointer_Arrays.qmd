@@ -1,0 +1,55 @@
+---
+title: "TCPL/5.08_Initialization_of_Pointer_Arrays"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.8 Initialization of Pointer Arrays 指针数组的初始化
+
+Consider the problem of writing a function month_name(n), which returns a pointer to a character string containing the name of the n-th month. This is an ideal application for an internal static array. month_name contains a private array of character strings, and returns a pointer to the proper one when called. This section shows how that array of names is initialized.
+
+考虑这样一个问题：编写一个函数month_name(n)，它返回一个指向第n个月名字的字符串的指针。这是内部static类型数组的一种理想的应用。month_name函数中包含一个私有的字符串数组，当它被调用时，返回一个指向正确元素的指针。本节将说明如何初始化该名字数组。
+
+The syntax is similar to previous initializations:
+```cpp
+   /* month_name:  return name of n-th month */
+   char *month_name(int n)
+   {
+       static char *name[] = {
+           "Illegal month",
+           "January", "February", "March",
+           "April", "May", "June",
+           "July", "August", "September",
+           "October", "November", "December"
+       };
+
+       return (n < 1 || n > 12) ? name[0] : name[n];
+   }
+```
+The declaration of name, which is an array of character pointers, is the same as lineptr in the sorting example. The initializer is a list of character strings; each is assigned to the corresponding position in the array. The characters of the i-th string are placed somewhere, and a pointer to them is stored in name[i]. Since the size of the array name is not specified, the compiler counts the initializers and fills in the correct number.
+
+指针数组的初始化语法和前面所讲的其他类型对象的初始化语法类似：
+```cpp
+   /* month_name:  return name of n-th month */
+   char *month_name(int n)
+   {
+       static char *name[] = {
+           "Illegal month",
+           "January", "February", "March",
+           "April", "May", "June",
+           "July", "August", "September",
+           "October", "November", "December"
+       };
+
+       return (n < 1 || n > 12) ? name[0] : name[n];
+   }
+```
+
+其中，name的声明与排序例子中lineptr的声明相同，是一个一维数组，数组的元素为字符
+指针。name数组的初始化通过一个字符串列表实现，列表中的每个字符串赋值给数组相应位置的元素。第i个字符串的所有字符存储在存储器中的某个位置，指向它的指针存储在name[i]中。由于上述声明中没有指明数组name的长度，因此，编译器编译时将对初值个数进行统计，并将这一准确数字填入数组的长度。

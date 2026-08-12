@@ -1,0 +1,144 @@
+---
+title: "TCPL/7.2_Formatted_Output_-_printf"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 7.2 Formatted Output - printf 格式化输出——printf函数
+
+The output function printf translates internal values to characters. We have used printf informally in previous chapters. The description here covers most typical uses but is not complete; for the full story, see Appendix B.
+```
+   int printf(char *format, arg1, arg2, ...);
+```
+printf converts, formats, and prints its arguments on the standard output under control of the format. It returns the number of characters printed.
+
+输出函数printf将内部数值转换为字符的形式：前面的有关章节中已经使用过该函数。下面只讲述该函数最典型的用法，附录B中给出了该函数完整的描述。
+
+```
+   int printf(char *format, arg1, arg2, ...);
+```
+
+函数printf在输出格式format的控制下，将其参数进行转换与格式化，并在标准输出设备上打印出来。它的返回值为打印的字符数。
+
+The format string contains two types of objects: ordinary characters, which are copied to the output stream, and conversion specifications, each of which causes conversion and printing of the next successive argument to printf. Each conversion specification begins with a % and ends with a conversion character. Between the % and the conversion character there may be, in order:
+
+* A minus sign, which specifies left adjustment of the converted argument.
+* A number that specifies the minimum field width. The converted argument will be printed in a field at least this wide. If necessary it will be padded on the left (or right, if left adjustment is called for) to make up the field width.
+* A period, which separates the field width from the precision.
+* A number, the precision, that specifies the maximum number of characters to be printed from a string, or the number of digits after the decimal point of a floating-point value, or the minimum number of digits for an integer.
+* An h if the integer is to be printed as a short, or l (letter ell) if as a long.
+
+格式字符串包含两种类型的对象：普通字符和转换说明。在输出时，普通字符将原样不动地复制到输出流中，而转换说明并不直接输出到输出流中，而是用于控制printf中参数的转换和打印。每个转换说明都由一个百分号字符(即%)开始，并以一个转换字符结束。在字符%和转换字符中间可能依次包含下列组成部分：
+
+* 负号，用于指定被转换的参数按照左对齐的形式输出。
+* 数，用于指定最小字段宽度。转换后的参数将打印不小于最小字段宽度的字段。如果有必要，字段左边(如果使用左对齐的方式，则为右边)多余的字符位置用空格填充以保证最小字段宽。
+* 小数点，用于将字段宽度和精度分开。
+* 数，用于指定精度，即指定字符串中要打印的最大字符数、浮点数小数点后的位数、整型最少输出的数字数目。
+* 字母h或l，字母h表示将整数作为short类型打印，字母l表示将整数作为long类型打印。
+
+Conversion characters are shown in Table 7.1. If the character after the % is not a conversion specification, the behavior is undefined.
+
+表7-1列出了所有的转换字符。如果%后面的字符不是一个转换说明，则该行为是未定义的。
+
+Table 7.1 Basic Printf Conversions
+```
+Character	Argument type; Printed As
+d,i	int; decimal number
+o 	int; unsigned octal number (without a leading zero)
+x,X	int; unsigned hexadecimal number (without a leading 0x or 0X), using abcdef or ABCDEF for 10, ...,15.
+u 	int; unsigned decimal number
+c 	int; single character
+s	char *; print characters from the string until a '\0' or the number of characters given by the precision.
+f	double; [-]m.dddddd, where the number of d's is given by the precision (default 6).
+e,E	double; [-]m.dddddde+/-xx or [-]m.ddddddE+/-xx, where the number of d's is given by the precision (default 6).
+g,G	double; use %e or %E if the exponent is less than -4 or greater than or equal to the precision; otherwise use %f. Trailing zeros and a trailing decimal point are not printed.
+p 	void *; pointer (implementation-dependent representation).
+% 	no argument is converted; print a %
+```
+
+表7-1 printf函数基本的转换函数
+```
+字符	参数类型；输出形式
+d,i	int类型；十进制数
+o 	int类型；无符号八进制数(没有前导0)
+x,X	int类型；无符号十六进制数(没有前导0x或0X)，10～15分别用abcdef或ABCDEF表示
+u 	int类型；无符号十进制数
+c 	int类型；单个字符
+s	char *类型；顺序打印字符串中的字符，直到遇到'\0'或已打印了由精度指定的字符数为止
+f	double类型；十进制小数[-]m.dddddd，其中d的个数由精度指定(默认值为6)
+e,E	double类型；[-]m.dddddde+/-xx或[-]m.ddddddE+/-xx，其中d的个数由精度指定(默认值为6)
+g,G	double类型；如果指数小于-4或大于等于精度，则用%e或%E格式输出，否则用%f格式输出。尾部的0和小数点不打印
+p 	void *类型；指针(取决于具体实现)
+% 	不转换参数；打印一个百分号%
+```
+
+A width or precision may be specified as \*, in which case the value is computed by converting the next argument (which must be an int). For example, to print at most max characters from a string s,
+```
+   printf("%.*s", max, s);
+```
+
+在转换说明中，宽度或精度可以用星号\*表示，这时，宽度或精度的值通过转换下一参数(必须为int类型)来计算。例如，为了从字符串s中打印最多max个字符，可以使用下列语句：
+
+```
+   printf("%.*s", max, s);
+```
+
+Most of the format conversions have been illustrated in earlier chapters. One exception is the precision as it relates to strings. The following table shows the effect of a variety of specifications in printing "hello, world" (12 characters). We have put colons around each field so you can see it extent.
+```
+   :%s:          :hello, world:
+   :%10s:        :hello, world:
+   :%.10s:       :hello, wor:
+   :%-10s:       :hello, world:
+   :%.15s:       :hello, world:
+   :%-15s:       :hello, world   :
+   :%15.10s:     :     hello, wor:
+   :%-15.10s:    :hello, wor     :
+```
+
+前面的章节中已经介绍过大部分的格式转换，但没有介绍与字符串相关的精度。下表说明了在打印字符串“hello, world”(12个字符)时根据不同的转换说明产生的不同结果。我们在每个字段的左边和右边加上冒号，这样可以清晰地表示出字段的宽度。
+```
+   :%s:          :hello, world:
+   :%10s:        :hello, world:
+   :%.10s:       :hello, wor:
+   :%-10s:       :hello, world:
+   :%.15s:       :hello, world:
+   :%-15s:       :hello, world   :
+   :%15.10s:     :     hello, wor:
+   :%-15.10s:    :hello, wor     :
+```
+
+A warning: printf uses its first argument to decide how many arguments follow and what their type is. It will get confused, and you will get wrong answers, if there are not enough arguments of if they are the wrong type. You should also be aware of the difference between these two calls:
+```
+   printf(s);         /* FAILS if s contains % */
+   printf("%s", s);   /* SAFE */
+```
+
+注意：函数printf使用第一个参数判断后面参数的个数及类型。如果参数的个数不够或者类型错误，则将得到错误的结果。清注意下面两个函数调用之间的区别：
+```
+   printf(s);         /* FAILS if s contains % */
+   printf("%s", s);   /* SAFE */
+```
+
+The function sprintf does the same conversions as printf does, but stores the output in a string:
+```
+   int sprintf(char *string, char *format, arg1, arg2, ...);
+```
+sprintf formats the arguments in arg1, arg2, etc., according to format as before, but places the result in string instead of the standard output; string must be big enough to receive the result.
+
+函数sprintf执行的转换和函数printf相同，但它将输出保存到—个字符串中：
+
+```
+   int sprintf(char *string, char *format, arg1, arg2, ...);
+```
+
+sprintf函数和printf函数一样，按照format格式格式化参数序列arg1、arg2、…，但它将输出结果存放到string中，而不是输出到标准输出中。当然，string必须足够大以存放输出结果。
+
+Exercise 7-2. Write a program that will print arbitrary input in a sensible way. As a minimum, it should print non-graphic characters in octal or hexadecimal according to local custom, and break long text lines.
+
+练习7-2  编写一个程序，以合理的方式打印任何输入。该程序至少能够根据用户的习惯以八进制或十六进制打印非图形字符，并裁断长文本行。

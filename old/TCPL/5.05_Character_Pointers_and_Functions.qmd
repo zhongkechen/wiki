@@ -1,0 +1,296 @@
+---
+title: "TCPL/5.05_Character_Pointers_and_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.5 Character Pointers and Functions 字符指针与函数
+
+A string constant, written as
+```cpp
+   "I am a string"
+```
+is an array of characters. In the internal representation, the array is terminated with the null character '\\0' so that programs can find the end. The length in storage is thus one more than the number of characters between the double quotes.
+
+字符串常量是一个字符数组，例如：
+
+```cpp
+   "I am a string"
+```
+
+在字符串的内部表示中，字符数组以空字符'\\0'结尾，所以，程序可以通过检查空字符找到字符数组的结尾。字符串常量占据的存储单元数也因此比双引号内的字符数大1。
+
+Perhaps the most common occurrence of string constants is as arguments to functions, as in
+```cpp
+   printf("hello, world\n");
+```
+When a character string like this appears in a program, access to it is through a character pointer; printf receives a pointer to the beginning of the character array. That is, a string constant is accessed by a pointer to its first element.
+
+字符串常量最常见的用法也许是作为函数参数，例如：
+
+```cpp
+   printf("hello, world\n");
+```
+
+当类似于这样的一个字符串出现在程序中时，实际上是通过字符指针访问该字符串的。在上述语句中，printf接受的是一个指向字符数组第一个字符的指针。也就是说，字符串常量可通过一个指向其第一个元素的指针访问。
+
+String constants need not be function arguments. If pmessage is declared as
+```cpp
+   char *pmessage;
+```
+then the statement
+```cpp
+   pmessage = "now is the time";
+```
+assigns to pmessage a pointer to the character array. This is not a string copy; only pointers are involved. C does not provide any operators for processing an entire string of characters as a unit.
+
+除了作为函数参数外，字符串常量还有其他用法。假定指针pmessage的声明如下：{{#!cplusplus
+   char \*pmessage;
+}}}那么，语句
+
+```cpp
+   pmessage = "now is the time";
+```
+
+将把一个指向该字符数组的指针赋值给pmessage。该过程并没有进行字符串的复制，而只
+是涉及到指针的操作。C语言没有提供将整个字符串作为一个整体进行处理的运算符。
+
+There is an important difference between these definitions:
+```cpp
+   char amessage[] = "now is the time"; /* an array */
+   char *pmessage = "now is the time"; /* a pointer */
+```
+amessage is an array, just big enough to hold the sequence of characters and '\\0' that initializes it. Individual characters within the array may be changed but amessage will always refer to the same storage. On the other hand, pmessage is a pointer, initialized to point to a string constant; the pointer may subsequently be modified to point elsewhere, but the result is undefined if you try to modify the string contents.
+
+![pic57.gif](<assets/TCPL/5.05_Character_Pointers_and_Functions/pic57.gif>)
+
+下面两个定义之间有很大的差别：
+
+```cpp
+   char amessage[] = "now is the time"; /* an array */
+   char *pmessage = "now is the time"; /* a pointer */
+```
+
+上述声明中，amessage是一个仅仅足以存放初始化字符串以及空字符'\\0'的一维数组。数组中的单个字符可以进行修改，但amessage始终指向同一个存储位置。另一方面，pmessage是一个指针，其初值指向一个字符串常量，之后它可以被修改以指向其他地址，但如果试图修改字符串的内容，结果是没有定义的(参见图5-7)。
+
+![pic57.gif](<assets/TCPL/5.05_Character_Pointers_and_Functions/pic57.gif>)
+
+We will illustrate more aspects of pointers and arrays by studying versions of two useful functions adapted from the standard library. The first function is strcpy(s,t), which copies the string t to the string s. It would be nice just to say s=t but this copies the pointer, not the characters. To copy the characters, we need a loop. The array version first:
+```cpp
+   /* strcpy:  copy t to s; array subscript version */
+   void strcpy(char *s, char *t)
+   {
+       int i;
+
+       i = 0;
+       while ((s[i] = t[i]) != '\0')
+           i++;
+   }
+```
+
+为了更进一步地讨论指针和数组其他方面的问题，下面以标准库中两个有用的函数为例来研究它们的不同实现版本。第一个函数strcpy(s,t)把指针t指向的字符串复制到指针s指向的位置。如果使用语句s=t实现该功能，其实质上只是拷贝了指针，而并没有复制字符。为了进行字符的复制，这里使用了一个循环语句。strcpy函数的第1个版本是通过数组方法实现的，如下所示：
+
+```cpp
+   /* strcpy:  copy t to s; array subscript version */
+   void strcpy(char *s, char *t)
+   {
+       int i;
+
+       i = 0;
+       while ((s[i] = t[i]) != '\0')
+           i++;
+   }
+```
+
+For contrast, here is a version of strcpy with pointers:
+```cpp
+   /* strcpy:  copy t to s; pointer version */
+   void strcpy(char *s, char *t)
+   {
+       int i;
+
+       i = 0;
+       while ((*s = *t) != '\0') {
+           s++;
+           t++;
+       }
+   }
+```
+Because arguments are passed by value, strcpy can use the parameters s and t in any way it pleases. Here they are conveniently initialized pointers, which are marched along the arrays a character at a time, until the '\\0' that terminates t has been copied into s.
+
+为了进行比较，下面是用指针方法实现的strcpy函数：
+
+```cpp
+   /* strcpy:  copy t to s; pointer version */
+   void strcpy(char *s, char *t)
+   {
+       int i;
+
+       i = 0;
+       while ((*s = *t) != '\0') {
+           s++;
+           t++;
+       }
+   }
+```
+
+因为参数是通过值传递的，所以在strcpy函数中可以以任何方式使用参数s和t。在此，s和t是方便地进行了初始化的指针，循环每执行一次，它们就沿着相应的数组前进一个字符，直到将t中的结束符'\\0'复制到s为止。
+
+In practice, strcpy would not be written as we showed it above. Experienced C programmers would prefer
+```cpp
+   /* strcpy:  copy t to s; pointer version 2 */
+   void strcpy(char *s, char *t)
+   {
+       while ((*s++ = *t++) != '\0')
+           ;
+   }
+```
+
+实际上，strcpy函数并不会按照上面的这些方式编写。经验丰富的程序员更喜欢将它编写成下列形式：
+
+```cpp
+   /* strcpy:  copy t to s; pointer version 2 */
+   void strcpy(char *s, char *t)
+   {
+       while ((*s++ = *t++) != '\0')
+           ;
+   }
+```
+
+This moves the increment of s and t into the test part of the loop. The value of \*t++ is the character that t pointed to before t was incremented; the postfix ++ doesn't change t until after this character has been fetched. In the same way, the character is stored into the old s position before s is incremented. This character is also the value that is compared against '\\0' to control the loop. The net effect is that characters are copied from t to s, up and including the terminating '\\0'.
+
+在该版本中，s和t的自增运算放到了循环的测试部分中。表达式\*t++的值是执行自增运算之前t所指向的字符。后缀运算符++表示在读取该字符之后才改变t的值。同样的道理，在s执行自增运算之前，字符就被存储到了指针s指向的旧位置。该字符值同时也用来和空字符'\\0'进行比较运算，以控制循环的执行。最后的结果是依次将t指向的字符复制到s指向的位置，直到遇到结束符'\\0'为止(同时也复制该结束符)。
+
+As the final abbreviation, observe that a comparison against '\\0' is redundant, since the question is merely whether the expression is zero. So the function would likely be written as
+```cpp
+   /* strcpy:  copy t to s; pointer version 3 */
+   void strcpy(char *s, char *t)
+   {
+       while (*s++ = *t++)
+           ;
+   }
+```
+Although this may seem cryptic at first sight, the notational convenience is considerable, and the idiom should be mastered, because you will see it frequently in C programs.
+
+为丁更进一步地精炼程序，我们注意到，表达式同'\\0'的比较是多余的。因为只需要判断表达式的值是否为0即可。因此，该函数可进—步写成下列形式：
+
+```cpp
+   /* strcpy:  copy t to s; pointer version 3 */
+   void strcpy(char *s, char *t)
+   {
+       while (*s++ = *t++)
+           ;
+   }
+```
+
+该函数初看起来不太容易理解，但这种表示方法是很有好处的，我们应该掌握这种方法，C语言程序中经常会采用这种写法。
+
+The strcpy in the standard library (&lt;string.h&gt;) returns the target string as its function value.
+
+标淮库(&lt;string.h&gt;)中提供的函数strcpy把目标字符串作为函数值返回。
+
+The second routine that we will examine is strcmp(s,t), which compares the character strings s and t, and returns negative, zero or positive if s is lexicographically less than, equal to, or greater than t. The value is obtained by subtracting the characters at the first position where s and t disagree.
+```cpp
+   /* strcmp:  return <0 if s<t, 0 if s==t, >0 if s>t */
+   int strcmp(char *s, char *t)
+   {
+       int i;
+
+       for (i = 0; s[i] == t[i]; i++)
+           if (s[i] == '\0')
+               return 0;
+       return s[i] - t[i];
+   }
+```
+
+我们研究的第二个函数是字符串比较函数strcmp(s,t)。该函数比较字符串s和t，并且根据s按照字典顺序小于、等于或大于t的结果分别返回负整数、0或正整数。该返回值是s和t由前向后逐字符比较时遇到的第一个不相等字符处的字符的差值。
+
+```cpp
+   /* strcmp:  return <0 if s<t, 0 if s==t, >0 if s>t */
+   int strcmp(char *s, char *t)
+   {
+       int i;
+
+       for (i = 0; s[i] == t[i]; i++)
+           if (s[i] == '\0')
+               return 0;
+       return s[i] - t[i];
+   }
+```
+
+The pointer version of strcmp:
+```cpp
+   /* strcmp:  return <0 if s<t, 0 if s==t, >0 if s>t */
+   int strcmp(char *s, char *t)
+   {
+       for ( ; *s == *t; s++, t++)
+           if (*s == '\0')
+               return 0;
+       return *s - *t;
+   }
+```
+
+下面是用指针方式实现的strcmp函数：
+
+```cpp
+   /* strcmp:  return <0 if s<t, 0 if s==t, >0 if s>t */
+   int strcmp(char *s, char *t)
+   {
+       for ( ; *s == *t; s++, t++)
+           if (*s == '\0')
+               return 0;
+       return *s - *t;
+   }
+```
+
+Since ++ and -- are either prefix or postfix operators, other combinations of \* and ++ and -- occur, although less frequently. For example,
+```cpp
+   *--p
+```
+decrements p before fetching the character that p points to. In fact, the pair of expressions
+```cpp
+   *p++ = val;  /* push val onto stack */
+   val = *--p;  /* pop top of stack into val */
+```
+are the standard idiom for pushing and popping a stack; see Section 4.3.
+
+由于++和--既可以作为前缀运算符，也可以作为后缀运算符，所以还可以将运算符\*与运算符++和--按照其他方式组合使用，但这些用法并不多见。例如，下列表达式
+
+```cpp
+   *--p
+```
+
+在读取指针p指向的字符之前先对p执行自减运算。事实上，下面的两个表达式
+
+```cpp
+   *p++ = val;  /* push val onto stack */
+   val = *--p;  /* pop top of stack into val */
+```
+
+是进钱和出栈的标准用法。更详细的信息，请参见4.3节。
+
+The header &lt;string.h&gt; contains declarations for the functions mentioned in this section, plus a variety of other string-handling functions from the standard library.
+
+头文件&lt;string.h&gt;中包含本节提到的函数的声明，另外还包括标准库中其他一些字符串处理函数的声明。
+
+**Exercise 5-3.** Write a pointer version of the function strcat that we showed in Chapter 2: strcat(s,t) copies the string t to the end of s.
+
+练习5-3  用指针方式实现第2章中的函数strcat。函数strcat(s,t)将t指向的字符串复制到s指向的字符串的后部。
+
+**Exercise 5-4.** Write the function strend(s,t), which returns 1 if the string t occurs at the end of the string s, and zero otherwise.
+
+练习5-4  编写函数strend(s,t)。如果字符串t出现在字符串s的尾部，该函数返回1；否则返回O。
+
+**Exercise 5-5.** Write versions of the library functions strncpy, strncat, and strncmp, which operate on at most the first n characters of their argument strings. For example, strncpy(s,t,n) copies at most n characters of t to s. Full descriptions are in Appendix B.
+
+练习5-5  实现库函数strncpy、strncat和strncmp，它们最多对参数字特串中的前n个字符进行操作。例如，函数strncpy(s,t,n)将t中最多前n个字符复制到s中，更详细的说明请参见附录B。
+
+**Exercise 5-6.** Rewrite appropriate programs from earlier chapters and exercises with pointers instead of array indexing. Good possibilities include getline (Chapters 1 and 4), atoi, itoa, and their variants (Chapters 2, 3, and 4), reverse (Chapter 3), and strindex and getop (Chapter 4).
+
+练习5-6  采用指针而非数组索引方式改写前面章节和练习中的某些程序，例如getline(第1、4章)，atoi、itoa以及它们的变体形式(第2、3、4章)，reverse(第3章)，strindex、getop(第4章)等等。

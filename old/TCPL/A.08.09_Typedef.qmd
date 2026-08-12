@@ -1,0 +1,45 @@
+---
+title: "TCPL/A.08.09_Typedef"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.8.9 Typedef
+
+Declarations whose storage class specifier is typedef do not declare objects; instead they define identifiers that name types. These identifiers are called typedef names.
+
+    typedef-name:
+      identifier
+
+A typedef declaration attributes a type to each name among its declarators in the usual way (see Par.A.8.6). Thereafter, each such typedef name is syntactically equivalent to a type specifier keyword for the associated type.
+
+For example, after
+
+   typedef long Blockno, \*Blockptr;
+   typedef struct { double r, theta; } Complex;
+
+the constructions
+
+   Blockno b;
+   extern Blockptr bp;
+   Complex z, \*zp;
+
+are legal declarations. The type of b is long, that of bp is ``pointer to long,'' and that of z is the specified structure; zp is a pointer to such a structure.
+
+typedef does not introduce new types, only synonyms for types that could be specified in another way. In the example, b has the same type as any long object.
+
+Typedef names may be redeclared in an inner scope, but a non-empty set of type specifiers must be given. For example,
+
+   extern Blockno;
+
+does not redeclare Blockno, but
+
+   extern int Blockno;
+
+does.

@@ -1,0 +1,34 @@
+---
+title: "TCPL/A.12_Preprocessing"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.12 Preprocessing
+
+A preprocessor performs macro substitution, conditional compilation, and inclusion of named files. Lines beginning with #, perhaps preceded by white space, communicate with this preprocessor. The syntax of these lines is independent of the rest of the language; they may appear anywhere and have effect that lasts (independent of scope) until the end of the translation unit. Line boundaries are significant; each line is analyzed individually (bus see Par.A.12.2 for how to adjoin lines). To the preprocessor, a token is any language token, or a character sequence giving a file name as in the #include directive (Par.A.12.4); in addition, any character not otherwise defined is taken as a token. However, the effect of white spaces other than space and horizontal tab is undefined within preprocessor lines.
+
+Preprocessing itself takes place in several logically successive phases that may, in a particular implementation, be condensed.
+
+1. First, trigraph sequences as described in Par.A.12.1 are replaced by their equivalents. Should the operating system environment require it, newline characters are introduced between the lines of the source file.
+2. Each occurrence of a backslash character \\ followed by a newline is deleted, this splicing lines (Par.A.12.2).
+3. The program is split into tokens separated by white-space characters; comments are replaced by a single space. Then preprocessing directives are obeyed, and macros (Pars.A.12.3-A.12.10) are expanded.
+4. Escape sequences in character constants and string literals (Pars. A.2.5.2, A.2.6) are replaced by their equivalents; then adjacent string literals are concatenated.
+5. The result is translated, then linked together with other programs and libraries, by collecting the necessary programs and data, and connecting external functions and object references to their definitions.
+
+* [A.12.1 Trigraph Sequences](<A.12.01_Trigraph_Sequences.qmd>)
+* [A.12.2 Line Splicing](<A.12.02_Line_Splicing.qmd>)
+* [A.12.3 Macro Definition and Expansion](<A.12.03_Macro_Definition_and_Expansion.qmd>)
+* [A.12.4 File Inclusion](<A.12.04_File_Inclusion.qmd>)
+* [A.12.5 Conditional Compilation](<A.12.05_Conditional_Compilation.qmd>)
+* [A.12.6 Line Control](<A.12.06_Line_Control.qmd>)
+* [A.12.7 Error Generation](<A.12.07_Error_Generation.qmd>)
+* [A.12.8 Pragmas](<A.12.08_Pragmas.qmd>)
+* [A.12.9 Null directive](<A.12.09_Null_directive.qmd>)
+* [A.12.10 Predefined names](<A.12.10_Predefined_names.qmd>)

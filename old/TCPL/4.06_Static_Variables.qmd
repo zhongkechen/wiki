@@ -1,0 +1,53 @@
+---
+title: "TCPL/4.06_Static_Variables"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.6 Static Variables 静态变量
+
+The variables sp and val in stack.c, and buf and bufp in getch.c, are for the private use of the functions in their respective source files, and are not meant to be accessed by anything else. The static declaration, applied to an external variable or function, limits the scope of that object to the rest of the source file being compiled. External static thus provides a way to hide names like buf and bufp in the getch-ungetch combination, which must be external so they can be shared, yet which should not be visible to users of getch and ungetch.
+
+某些变量，比如文件stack.c中定义的变量sp与val以及文件getch.c中定义的变量buf与bufp，它们仅供其所在的源文件中的函数使用，其他函数不能访问。用static声明限定外部变量与函数，可以将其后声明的对象的作用域限定为被编译源文件的剩余部分。通过static限定外部对象，可以达到隐藏外部对象的目的，比如，getch-ungetch复合结构需要共享buf与bufp两个变量，这样buf与bufp必须是外部变量，但这两个对象不应该被getch与ungetch函数的调用者所访问。
+
+Static storage is specified by prefixing the normal declaration with the word static. If the two routines and the two variables are compiled in one file, as in
+```
+   static char buf[BUFSIZE];  /* buffer for ungetch */
+   static int bufp = 0;       /* next free position in buf */
+
+   int getch(void) { ... }
+
+   void ungetch(int c) { ... }
+```
+then no other routine will be able to access buf and bufp, and those names will not conflict with the same names in other files of the same program. In the same way, the variables that push and pop use for stack manipulation can be hidden, by declaring sp and val to be static.
+
+要将对象指定为静态存储，可以在正常的对象声明之前加上关键字static作为前缀。如果把上述两个函数和两个变量放在一个文件中编译，如下所示：
+
+```
+   static char buf[BUFSIZE];  /* buffer for ungetch */
+   static int bufp = 0;       /* next free position in buf */
+
+   int getch(void) { ... }
+
+   void ungetch(int c) { ... }
+```
+
+那么其他函数就不能访问变量buf与bufp，因此这两个名字不会和同一程序中的其他文件中的相同的名字相冲突。同样，可以通过把变量sp与val声明为静态类型隐藏这两个由执行栈操作的push与pop函数使用的变量。
+
+The external static declaration is most often used for variables, but it can be applied to functions as well. Normally, function names are global, visible to any part of the entire program. If a function is declared static, however, its name is invisible outside of the file in which it is declared.
+
+外部的static声明通常多用于变量，当然，它也可用于声明函数。通常情况下，函数名字是全局可访问的，对整个程序的各个部分而言都可见。但是，如果把函数声明为static类型，则该函数名除了对该函数声明所在的文件可见外，其他文件都无法访问。
+
+The static declaration can also be applied to internal variables. Internal static variables are local to a particular function just as automatic variables are, but unlike automatics, they remain in existence rather than coming and going each time the function is activated. This means that internal static variables provide private, permanent storage within a single function.
+
+static也可用于声明内部变量。static类型的内部变量同自动变量一样，是某个特定函数的局部变量，只能在该函数中使用，但它与自动变量不同的是，不管其所在函数是否被调用，它一直存在，而不像自动变量那样，随着所在函数的被调用和退出而存在和消失。换句话说，static类型的内部变量是一种只能在某个特定函数中使用但一直占据存储空间的变量。
+
+Exercise 4-11. Modify getop so that it doesn't need to use ungetch. Hint: use an internal static variable.
+
+练习4-11  修改getop函数，使其不必使用ungetch函数。提示：可以使用一个static类型的内部变量解决该问题。

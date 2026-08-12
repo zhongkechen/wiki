@@ -23,3 +23,11 @@ This chapter is divided into three major parts: input/output, file system, and s
 Chapter 7 was concerned with an input/output interface that is uniform across operating systems. On any particular system the routines of the standard library have to be written in terms of the facilities provided by the host system. In the next few sections we will describe the UNIX system calls for input and output, and show how parts of the standard library can be implemented with them.
 
 第7章介绍的输入/输出接口对任何操作系统都是一样的。在任何特定的系统中，标准库函数的实现必须通过宿主系统提供的功能来实现。接下来的几节将介绍UNIX系统中用于输入和输出的系统调用，并介绍如何通过它们实现标准库。
+
+* [8.1 File Descriptors 文件描述符](<8.1_File_Descriptors.qmd>)
+* [8.2 Low Level I/O - Read and Write 低级I/O——read和write](<8.2_Low_Level_IO_-_Read_and_Write.qmd>)
+* [8.3 Open, Creat, Close, Unlink open、creat、close和unlink](<8.3_Open,_Creat,_Close,_Unlink.qmd>)
+* [8.4 Random Access - Lseek 随机访问——lseek](<8.4_Random_Access_-_Lseek.qmd>)
+* [8.5 Example - An implementation of Fopen and Getc 实例——fopen和getc函数的实现](<8.5_Example_-_An_implementation_of_Fopen_and_Getc.qmd>)
+* [8.6 Example - Listing Directories 实例——目录列表](<8.6_Example_-_Listing_Directories.qmd>)
+* [8.7 Example - A Storage Allocator 实例——存储分配程序](<8.7_Example_-_A_Storage_Allocator.qmd>)

@@ -1,0 +1,26 @@
+---
+title: "TCPL/A.06.5_Arithmetic_Conversions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.6.5 Arithmetic Conversions
+
+Many operators cause conversions and yield result types in a similar way. The effect is to bring operands into a common type, which is also the type of the result. This pattern is called the usual arithmetic conversions.
+
+* First, if either operand is long double, the other is converted to long double.
+* Otherwise, if either operand is double, the other is converted to double.
+* Otherwise, if either operand is float, the other is converted to float.
+* Otherwise, the integral promotions are performed on both operands; then, if either operand is unsigned long int, the other is converted to unsigned long int.
+* Otherwise, if one operand is long int and the other is unsigned int, the effect depends on whether a long int can represent all values of an unsigned int; if so, the unsigned int operand is converted to long int; if not, both are converted to unsigned long int.
+* Otherwise, if one operand is long int, the other is converted to long int.
+* Otherwise, if either operand is unsigned int, the other is converted to unsigned int.
+* Otherwise, both operands have type int.
+
+    There are two changes here. First, arithmetic on float operands may be done in single precision, rather than double; the first edition specified that all floating arithmetic was double precision. Second, shorter unsigned types, when combined with a larger signed type, do not propagate the unsigned property to the result type; in the first edition, the unsigned always dominated. The new rules are slightly more complicated, but reduce somewhat the surprises that may occur when an unsigned quantity meets signed. Unexpected results may still occur when an unsigned expression is compared to a signed expression of the same size.

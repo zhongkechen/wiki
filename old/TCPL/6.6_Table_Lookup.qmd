@@ -1,0 +1,213 @@
+---
+title: "TCPL/6.6_Table_Lookup"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 6.6 Table Lookup 表查找
+
+In this section we will write the innards of a table-lookup package, to illustrate more aspects of structures. This code is typical of what might be found in the symbol table management routines of a macro processor or a compiler. For example, consider the #define statement. When a line like
+```
+   #define  IN  1
+```
+is encountered, the name IN and the replacement text 1 are stored in a table. Later, when the name IN appears in a statement like
+```
+   state = IN;
+```
+it must be replaced by 1.
+
+为了对结构的更多方面进行深入的讨论，我们来编写一个表查找程序包的核心部分代码。这段代码很典型，可以在宏处理器或编译器的符号表管理例程中找到。例如，考虑#define语句。当遇到类似于
+
+```
+   #define  IN  1
+```
+
+之类的程序行时，就需要把名字IN和替换文本1存入到某个表中。此后，当名字IN出现在某些语句中时，如：
+
+```
+   state = IN;
+```
+
+就必须用1来替换IN。
+
+There are two routines that manipulate the names and replacement texts. install(s,t) records the name s and the replacement text t in a table; s and t are just character strings. lookup(s) searches for s in the table, and returns a pointer to the place where it was found, or NULL if it wasn't there.
+
+以下两个函数用来处理名字和替换文本。install(s,t)函数将名字s和替换文本t记录到某个表中，其中s和t仅仅是字符串。lookup(s)函数在表中查找s，若找到，则返回指向该处的指针；若没找到，则返回NULL。
+
+The algorithm is a hash-search - the incoming name is converted into a small non-negative integer, which is then used to index into an array of pointers. An array element points to the beginning of a linked list of blocks describing names that have that hash value. It is NULL if no names have hashed to that value.
+
+![pic64.gif](<assets/TCPL/6.6_Table_Lookup/pic64.gif>)
+
+该算法采用的是散列查找方法——将输入的名字转换为一个小的非负整数，该整数随后将作为一个指针数组的下标。数组的每个元素指向某个链表的表头，链表中的各个块用于描述具有该散列值的名字。如果没有名字散列到该值，则数组元素的值为NULL(参见图6-4)。
+
+![pic64.gif](<assets/TCPL/6.6_Table_Lookup/pic64.gif>)
+
+A block in the list is a structure containing pointers to the name, the replacement text, and the next block in the list. A null next-pointer marks the end of the list.
+```cpp
+   struct nlist {       /* table entry: */
+       struct nlist *next;   /* next entry in chain */
+       char *name;           /* defined name */
+       char *defn;           /* replacement text */
+   };
+```
+The pointer array is just
+```
+   #define HASHSIZE 101
+
+   static struct nlist *hashtab[HASHSIZE];  /* pointer table */
+```
+
+链表中的每个块都是一个结构，它包含一个指向名字的指针、一个指向替换文本的指针以及一个指向该链表后继块的指针。如果指向链表后继块的指针为NULL，则表明链表结束。
+```cpp
+   struct nlist {       /* table entry: */
+       struct nlist *next;   /* next entry in chain */
+       char *name;           /* defined name */
+       char *defn;           /* replacement text */
+   };
+```
+
+相应的指针数组定义如下：
+
+```
+   #define HASHSIZE 101
+
+   static struct nlist *hashtab[HASHSIZE];  /* pointer table */
+```
+
+The hashing function, which is used by both lookup and install, adds each character value in the string to a scrambled combination of the previous ones and returns the remainder modulo the array size. This is not the best possible hash function, but it is short and effective.
+```cpp
+   /* hash:  form hash value for string s */
+   unsigned hash(char *s)
+   {
+       unsigned hashval;
+
+       for (hashval = 0; *s != '\0'; s++)
+           hashval = *s + 31 * hashval;
+       return hashval % HASHSIZE;
+   }
+```
+Unsigned arithmetic ensures that the hash value is non-negative.
+
+散列函数hash在lookup和install函数中都被用到，它通过一个for循环进行计算，每次循环中，它将上一次循环中计算得到的结果值经过变换(即乘以31)后得到的新值同字符串中当前字符的值相加(\*s+31\*hashval)，然后将该结果值同数组长度执行取模操作，其结果即是该函数的返回值。这并不是最好的散列函数，但比较简短有效。
+
+```cpp
+   /* hash:  form hash value for string s */
+   unsigned hash(char *s)
+   {
+       unsigned hashval;
+
+       for (hashval = 0; *s != '\0'; s++)
+           hashval = *s + 31 * hashval;
+       return hashval % HASHSIZE;
+   }
+```
+
+由于在散列计算时采用的是无符号算术运算，因此保证了散列值非负。
+
+The hashing process produces a starting index in the array hashtab; if the string is to be found anywhere, it will be in the list of blocks beginning there. The search is performed by lookup. If lookup finds the entry already present, it returns a pointer to it; if not, it returns NULL.
+```cpp
+   /* lookup:  look for s in hashtab */
+   struct nlist *lookup(char *s)
+   {
+       struct nlist *np;
+
+       for (np = hashtab[hash(s)];  np != NULL; np = np->next)
+           if (strcmp(s, np->name) == 0)
+               return np;     /* found */
+       return NULL;           /* not found */
+   }
+```
+The for loop in lookup is the standard idiom for walking along a linked list:
+```
+   for (ptr = head; ptr != NULL; ptr = ptr->next)
+   ...
+```
+
+散列过程生成了在数组hashtab中执行查找的起始下标。如果该字符串可以被查找到，则它一定位于该起始下标指向的链表的某个块中。具体查找过程由lookup函数实现。如果lookup函数发现表项已存在，则返回指向该表项的指针，否则返回NULL。
+
+```cpp
+   /* lookup:  look for s in hashtab */
+   struct nlist *lookup(char *s)
+   {
+       struct nlist *np;
+
+       for (np = hashtab[hash(s)];  np != NULL; np = np->next)
+           if (strcmp(s, np->name) == 0)
+               return np;     /* found */
+       return NULL;           /* not found */
+   }
+```
+
+lookup函数中的for循环是遍历一个链表的标准方法，如下所示：
+
+```
+   for (ptr = head; ptr != NULL; ptr = ptr->next)
+   ...
+```
+
+install uses lookup to determine whether the name being installed is already present; if so, the new definition will supersede the old one. Otherwise, a new entry is created. install returns NULL if for any reason there is no room for a new entry.
+```cpp
+   struct nlist *lookup(char *);
+   char *strdup(char *);
+
+   /* install:  put (name, defn) in hashtab */
+   struct nlist *install(char *name, char *defn)
+   {
+       struct nlist *np;
+       unsigned hashval;
+
+       if ((np = lookup(name)) == NULL) { /* not found */
+           np = (struct nlist *) malloc(sizeof(*np));
+           if (np == NULL || (np->name = strdup(name)) == NULL)
+               return NULL;
+           hashval = hash(name);
+           np->next = hashtab[hashval];
+           hashtab[hashval] = np;
+       } else       /* already there */
+           free((void *) np->defn);   /*free previous defn */
+       if ((np->defn = strdup(defn)) == NULL)
+           return NULL;
+       return np;
+   }
+```
+
+install函数借助lookup函数判断待加入的名字是否已经存在。如果已存在，则用新的定义取而代之；否则，创建一个新表项。如无足够空间创建新表项，则install函数返回NULL。
+
+```cpp
+   struct nlist *lookup(char *);
+   char *strdup(char *);
+
+   /* install:  put (name, defn) in hashtab */
+   struct nlist *install(char *name, char *defn)
+   {
+       struct nlist *np;
+       unsigned hashval;
+
+       if ((np = lookup(name)) == NULL) { /* not found */
+           np = (struct nlist *) malloc(sizeof(*np));
+           if (np == NULL || (np->name = strdup(name)) == NULL)
+               return NULL;
+           hashval = hash(name);
+           np->next = hashtab[hashval];
+           hashtab[hashval] = np;
+       } else       /* already there */
+           free((void *) np->defn);   /*free previous defn */
+       if ((np->defn = strdup(defn)) == NULL)
+           return NULL;
+       return np;
+   }
+```
+
+Exercise 6-5. Write a function undef that will remove a name and definition from the table maintained by lookup and install.
+
+练习6-5  编写函数undef，它将从由lookup和install维护的表中删除一个变量名及其定义。
+
+Exercise 6-6. Implement a simple version of the #define processor (i.e., no arguments) suitable for use with C programs, based on the routines of this section. You may also find getch and ungetch helpful.
+
+练习6-6  以本节介绍的函数为基础，编写一个适合C语言程序使用的#define处理器的简单版本(即无参数的情况)。你会发现getch和ungetch函数非常有用。    l

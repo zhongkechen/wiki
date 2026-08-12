@@ -1,0 +1,68 @@
+---
+title: "TCPL/1.04_Symbolic_Constants"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.4 Symbolic Constants 符号常量
+
+A final observation before we leave temperature conversion forever. It's bad practice to bury "magic numbers" like 300 and 20 in a program; they convey little information to someone who might have to read the program later, and they are hard to change in a systematic way. One way to deal with magic numbers is to give them meaningful names. A #define line defines a symbolic name or symbolic constant to be a particular string of characters:
+```
+  #define name replacement list
+```
+Thereafter, any occurrence of name (not in quotes and not part of another name) will be replaced by the corresponding replacement text. The name has the same form as a variable name: a sequence of letters and digits that begins with a letter. The replacement text can be any sequence of characters; it is not limited to numbers.
+```cpp
+   #include <stdio.h>
+
+   #define LOWER  0     /* lower limit of table */
+   #define UPPER  300   /* upper limit */
+   #define STEP   20    /* step size */
+
+   /* print Fahrenheit-Celsius table */
+   main()
+   {
+       int fahr;
+
+       for (fahr = LOWER; fahr <= UPPER; fahr = fahr + STEP)
+           printf("%3d %6.1f\n", fahr, (5.0/9.0)*(fahr-32));
+   }
+```
+The quantities LOWER, UPPER and STEP are symbolic constants, not variables, so they do not appear in declarations. Symbolic constant names are conventionally written in upper case so they can ber readily distinguished from lower case variable names. Notice that there is no semicolon at the end of a #define line.
+
+在结束讨论温度转换程序前，我们再来看一下符号常量。在程序中使用300、20等类似的“幻数”并不是一个好习惯，它们几乎无法向以后阅读该程序的人提供什么信息，而且使程序的修改变得更加困难。处理这种幻数的一种方法是赋予它们有意义的名字。#define指令可以
+把"符号名"(或称为"符号常量")定义为一个特定的字符串：
+
+```
+#define 名字 替换文本
+```
+
+在该定义以后，程序中出现的所有在#define中定义的*名字*(既没有用引号引起来，也
+不是其他名字的一部分)都将用相应的替换文本替换。其中，名字与普通变量名的形式相
+同：它们都是以字母打头的字母和数字序列；替换文本可以是任何字符序列．而不仅限于
+数字。
+
+```cpp
+#include <stdio.h>
+
+#define LOWER  0     /* lower limit of table */
+#define UPPER  300   /* upper limit */
+#define STEP   20    /* step size */
+
+/* print Fahrenheit-Celsius table */
+main()
+{
+    int fahr;
+
+    for (fahr = LOWER; fahr <= UPPER; fahr = fahr + STEP)
+        printf("%3d %6.1f\n", fahr, (5.0/9.0)*(fahr-32));
+}
+```
+
+其中，LOWER、UPPER与STEP都是符号常量，而非变量，因此不需要出现在声明中。符号常
+量名通常用大写字母拼写，这样可以很容易与用小写字母拼写的变量名相区别。注意，#define指令行的末尾没有分号。

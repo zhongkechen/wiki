@@ -1,0 +1,202 @@
+---
+title: "TCPL/4.02_Functions_Returning_Non-integers"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.2 Functions Returning Non-integers
+
+So far our examples of functions have returned either no value (void) or an int. What if a function must return some other type? many numerical functions like sqrt, sin, and cos return double; other specialized functions return other types. To illustrate how to deal with this, let us write and use the function atof(s), which converts the string s to its double-precision floating-point equivalent. atof if an extension of atoi, which we showed versions of in Chapters 2 and 3. It handles an optional sign and decimal point, and the presence or absence of either part or fractional part. Our version is not a high-quality input conversion routine; that would take more space than we care to use. The standard library includes an atof; the header &lt;stdlib.h&gt; declares it.
+
+到目前为止，我们所讨论的函数都是不返回任何值(void)或只返回int类型值的函数。假如果某个函数必须返回其他类型的值，该怎么办呢？许多数值函数(如sqrt、sin与cos等函数)返回的是double类型的值，某些专用函数则返回其他类型的值。我们通过函数atof(s)来说明函数返回非整型值的方法。该函数把字符串s转换为相应的双精度浮点数。atof函数是atoi函数的扩展，第2章与第3章已讨论了atoi函数的几个版本。atof函数需要处理可选的符号和小数点，并要考虑可能缺少整数部分或小数部分的情况。我们这里编写的版本并不是一个高质量的输入转换函数，它占用了过多的空间。标准库中包含类似功能的atof函数，在头文件&lt;stdlib.h&gt;中声明。
+
+First, atof itself must declare the type of value it returns, since it is not int. The type name precedes the function name:
+```cpp
+   #include <ctype.h>
+
+   /* atof:  convert string s to double */
+   double atof(char s[])
+   {
+       double val, power;
+       int i, sign;
+
+       for (i = 0; isspace(s[i]); i++)  /* skip white space */
+           ;
+       sign = (s[i] == '-') ? -1 : 1;
+       if (s[i] == '+' || s[i] == '-')
+           i++;
+       for (val = 0.0; isdigit(s[i]); i++)
+           val = 10.0 * val + (s[i] - '0');
+       if (s[i] == '.')
+           i++;
+       for (power = 1.0; isdigit(s[i]); i++) {
+           val = 10.0 * val + (s[i] - '0');
+           power *= 10;
+       }
+       return sign * val / power;
+   }
+```
+
+首先，由于atof函数的返回值类型不是int，因此该函数必须声明返回值的类型。返回值的类型名应放在函数名字之前，如下所示：
+
+```cpp
+   #include <ctype.h>
+
+   /* atof:  convert string s to double */
+   double atof(char s[])
+   {
+       double val, power;
+       int i, sign;
+
+       for (i = 0; isspace(s[i]); i++)  /* skip white space */
+           ;
+       sign = (s[i] == '-') ? -1 : 1;
+       if (s[i] == '+' || s[i] == '-')
+           i++;
+       for (val = 0.0; isdigit(s[i]); i++)
+           val = 10.0 * val + (s[i] - '0');
+       if (s[i] == '.')
+           i++;
+       for (power = 1.0; isdigit(s[i]); i++) {
+           val = 10.0 * val + (s[i] - '0');
+           power *= 10;
+       }
+       return sign * val / power;
+   }
+```
+
+Second, and just as important, the calling routine must know that atof returns a non-int value. One way to ensure this is to declare atof explicitly in the calling routine. The declaration is shown in this primitive calculator (barely adequate for check-book balancing), which reads one number per line, optionally preceded with a sign, and adds them up, printing the running sum after each input:
+```cpp
+   #include <stdio.h>
+
+   #define MAXLINE 100
+
+   /* rudimentary calculator */
+   main()
+   {
+       double sum, atof(char []);
+       char line[MAXLINE];
+       int getline(char line[], int max);
+
+       sum = 0;
+       while (getline(line, MAXLINE) > 0)
+           printf("\t%g\n", sum += atof(line));
+       return 0;
+   }
+```
+The declaration
+```
+   double sum, atof(char []);
+```
+says that sum is a double variable, and that atof is a function that takes one char[] argument and returns a double.
+
+其次，调用函数必须知道atof函数返回的是非整型值，这一点也是很重要的。为了达到该目的，一种方法是在调用函数中显式声明atof函数。下面所示的基本计算器程序(仅适用于支票薄计算)中有类似的声明。该程序在每行中读取一个数(数的前面可能有正负号)，并对它们求和，在每次输入完成后把这些数的累计总和打印出来：
+
+```cpp
+   #include <stdio.h>
+
+   #define MAXLINE 100
+
+   /* rudimentary calculator */
+   main()
+   {
+       double sum, atof(char []);
+       char line[MAXLINE];
+       int getline(char line[], int max);
+
+       sum = 0;
+       while (getline(line, MAXLINE) > 0)
+           printf("\t%g\n", sum += atof(line));
+       return 0;
+   }
+```
+
+其中，声明语句
+
+```
+   double sum, atof(char []);
+```
+
+表明sum是一个double类型的变量，atof函数带有一个char[]类型的参数，且返回一个double类型的值。
+
+The function atof must be declared and defined consistently. If atof itself and the call to it in main have inconsistent types in the same source file, the error will be detected by the compiler. But if (as is more likely) atof were compiled separately, the mismatch would not be detected, atof would return a double that main would treat as an int, and meaningless answers would result.
+
+函数atof的声明与定义必须一致。如果atof函数与调用它的主函数main放在同一源文件中，并且类型不一致，编译器就会检测到该错误。但是，如果atof函数是单独编译的(这种可能性更大)，这种不匹配的错误就无法检测出来，atof函数将返回double类型的值，而main函数却将返回值按照int类型处理，最后的结果值毫无意义。
+
+In the light of what we have said about how declarations must match definitions, this might seem surprising. The reason a mismatch can happen is that if there is no function prototype, a function is implicitly declared by its first appearance in an expression, such as
+```
+   sum += atof(line)
+```
+If a name that has not been previously declared occurs in an expression and is followed by a left parentheses, it is declared by context to be a function name, the function is assumed to return an int, and nothing is assumed about its arguments. Furthermore, if a function declaration does not include arguments, as in
+```
+   double atof();
+```
+that too is taken to mean that nothing is to be assumed about the arguments of atof; all parameter checking is turned off. This special meaning of the empty argument list is intended to permit older C programs to compile with new compilers. But it's a bad idea to use it with new C programs. If the function takes arguments, declare them; if it takes no arguments, use void.
+
+根据前面有关函数的声明如何与定义保持一致的讨论，发生不匹配现象似乎很令人吃惊。其中的一个原因是，如果没有函数原型，则函数将在第一次出现的表达式中被隐式声明，例如：
+```
+   sum += atof(line)
+```
+如果先前没有声明过的一个名字出现在某个表达式中，并且其后紧跟一个左圆括号，那么上下文就会认为该名字是一个函数名字，该函数的返回值将被假定为int类型，但上下文并不对其参数作任何假设。并且，如果函数声明中不包含参数，例如：
+
+```
+   double atof();
+```
+
+那么编译程序也不会对函数atof的参数作任何假设，并会关闭所有的参数检查。对空参数表的这种特殊处理是为了使新的编译器能编译比较老的C语言程序。不过，在新编写的程序中这么做是不提倡的。如果函数带有参数，则要声明它们；如果没有参数，则使用void进行声明。
+
+Given atof, properly declared, we could write atoi (convert a string to int) in terms of it:
+```cpp
+   /* atoi:  convert string s to integer using atof */
+   int atoi(char s[])
+   {
+       double atof(char s[]);
+
+       return (int) atof(s);
+   }
+```
+Notice the structure of the declarations and the return statement. The value of the expression in
+```
+   return expression;
+```
+is converted to the type of the function before the return is taken. Therefore, the value of atof, a double, is converted automatically to int when it appears in this return, since the function atoi returns an int. This operation does potentionally discard information, however, so some compilers warn of it. The cast states explicitly that the operation is intended, and suppresses any warning.
+
+在正确进行声明的函数atof的基础上，我们可以利用它编写出函数atoi(将字符串转换为int类型)：
+
+```cpp
+   /* atoi:  convert string s to integer using atof */
+   int atoi(char s[])
+   {
+       double atof(char s[]);
+
+       return (int) atof(s);
+   }
+```
+
+请注意其中的声明和return语句的结构。在下列形式的return语句中
+
+```
+   return expression;
+```
+
+其中，表达式的值在返回之前将被转换为函数的类型。因为函数atoi的返回值为int类型，所以，return语句中的atof函数的double类型只将被自动转换为int类型值。但是，这种操作可能会丢失信息，某些编译器可能会对此给出警告信息。在该函数中，由于采用了类型转换的方法显式表明了所要执行的转换操作，因此可以防止有关的警告信息。
+
+Exercise 4-2. Extend atof to handle scientific notation of the form
+```
+   123.45e-6
+```
+where a floating-point number may be followed by e or E and an optionally signed exponent.
+
+练习4-2 对atof函数进行扩充，使它可以处理形如
+
+```
+    123.45e-6
+```
+
+的科学表示法，其中，浮点数后面可能会紧跟一个e或E以及一个指数(可能有正负号)。

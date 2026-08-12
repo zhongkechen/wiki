@@ -1,0 +1,52 @@
+---
+title: "TCPL/2.05_Arithmetic_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.5 Arithmetic Operators 算术运算符
+
+The binary arithmetic operators are +, -, \*, /, and the modulus operator %. Integer division truncates any fractional part. The expression
+```
+   x % y
+```
+produces the remainder when x is divided by y, and thus is zero when y divides x exactly. For example, a year is a leap year if it is divisible by 4 but not by 100, except that years divisible by 400 are leap years. Therefore
+```
+   if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+       printf("%d is a leap year\n", year);
+   else
+       printf("%d is not a leap year\n", year);
+```
+
+二元算术运算符包括：+、-、\*、/、%(取模运算符)。整数除法会截断结果中的小数部分。表达式
+
+```
+   x % y
+```
+
+的结果是x除以y的余数，当x能被y整除时，其值为0。例如，如果某一年的年份能被4整除但不能被100整除，那么这一年就是闰年，此外，能被400整除的年份也是闰年。因此，可以用下列语句判断闰年：
+
+```
+   if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+       printf("%d is a leap year\n", year);
+   else
+       printf("%d is not a leap year\n", year);
+```
+
+The % operator cannot be applied to a float or double. The direction of truncation for / and the sign of the result for % are machine-dependent for negative operands, as is the action taken on overflow or underflow.
+
+取模运算符%不能应用于float或double类型。在有负操作数的情况下，整数除法截取的方向以及取模运算结果的符号取决于具体机器的实现，这和处理上溢或下溢的情况是一样的。
+
+The binary + and - operators have the same precedence, which is lower than the precedence of \*, / and %, which is in turn lower than unary + and -. Arithmetic operators associate left to right.
+
+二元运算符+和-具有相同的优先级，它们的优先级比运算符\*、/和%的优先级低，而运算\*、/和%的优先级又比一元运算符+和-的优先级低。算术运算符采用从左到右的结合规则。
+
+Table 2.1 at the end of this chapter summarizes precedence and associativity for all operators.
+
+本章末尾的表2-1完整总结了所有运算符的优先级和结合律。

@@ -1,0 +1,219 @@
+---
+title: "TCPL/1.01_Getting_Started"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.1 Getting Started 入门
+
+The only way to learn a new programming language is by writing programs in it. The first program to write is the same for all languages:
+
+学习一门新程序设计语言的惟一途径就是使用它编写程序。对于所有语言的初学者来说，编写的第一个程序几乎都是相同的，即：
+
+Print the words
+
+```
+hello, world
+```
+
+请打印出下列内容【czk注：这里print（打印）的意思就是指在屏幕上显示】
+
+```
+hello, world
+```
+
+This is a big hurdle; to leap over it you have to be able to create the program text somewhere, compile it successfully, load it, run it, and find out where your output went. With these mechanical details mastered, everything else is comparatively easy.
+
+尽管这个练习很简单，但对于初学语言的人来说，它仍然可能成为一大障碍，因为要实现这个目的，我们首先必须编写程序文本，然后成功地进行编译，并加载、运行，最后输出到某个地方。掌握了这些操作细节以后，其他事情就比较容易了。
+
+In C, the program to print "hello, world" is
+
+```cpp
+#include <stdio.h>
+
+main()
+{
+    printf("hello, world\n");
+}
+```
+
+在C语言中，我们可以用下列程序打印出“hello world”：
+
+```cpp
+#include <stdio.h>
+
+main()
+{
+    printf("hello, world\n");
+}
+```
+
+Just how to run this program depends on the system you are using. As a specific example, on the UNIX operating system you must create the program in a file whose name ends in ".c", such as hello.c, then compile it with the command
+
+```
+cc hello.c
+```
+
+If you haven't botched anything, such as omitting a character or misspelling something, the compilation will proceed silently, and make an executable file called a.out. If you run a.out by typing the command
+```
+a.out
+```
+it will print
+```
+hello, world
+```
+On other systems, the rules will be different; check with a local expert.
+
+如何运行这个程序取决于所使用的系统。这里举一个特殊的例子。在UNIX操作系统中，首先必须在某个文件中建立这个源程序，并以“.c”作为文件的扩展名，例如hello.c，然后再通过下列命令进行编译：
+
+```
+cc hello.c
+```
+
+如果源程序没有什么错误（例如漏掉字符或拼错字符）。编译过程将顺利进行，并生成一个可执行文件a.out。然后，我们输入：
+
+```
+a.out
+```
+
+即可运行a.out，打印出下列信息：
+
+```
+hello, world
+```
+
+在其他操作系统中，编译、加载、运行等规则会有所不同。
+
+Now, for some explanations about the program itself. A C program, whatever its size, consists of *functions* and *variables*. A function contains statements that specify the computing operations to be done, and variables store values used during the computation. C functions are like the subroutines and functions in Fortran or the procedures and functions of Pascal. Our example is a function named main. Normally you are at liberty to give functions whatever names you like, but "main" is special - your program begins executing at the beginning of main. This means that every program must have a main somewhere.
+
+下面对程序本身做些说明。一个C语言程序，无论其大小如何，都是由*函数*和*变量*组成的。函数中包含一些*语句*，以指定所要执行的计算操作；变量则用于存储计算过程中使用的值。C语言中的函数类似于Fortran语言中的子程序和函数，与Pascal语言中的过程和函数也很类似。在本例中，函数的名字为main。通常情况下，函数的命名没有限制，但main是一个特殊的函数名——每个程序都从main函数的起点开始执行，这意味着每个程序都必须在某个位置包含一个main函数。
+
+main will usually call other functions to help perform its job, some that you wrote, and others from libraries that are provided for you. The first line of the program,
+
+```
+#include <stdio.h>
+```
+
+tells the compiler to include information about the standard input/output library; the line appears at the beginning of many C source files. The standard library is described in Chapter 7 and Appendix B.
+
+main函数通常会调用其他函数来帮助完成某些工作，被调用的函数可以是程序设计人员自己编写的，也可以来自于函数库。上述程序段中的第一行语句
+
+```
+#include <stdio.h>
+```
+
+用于告诉编译器在本程序中包含标准输入/输出库的信息。许多C语言源程序的开始处都包含
+这一行语句。我们将在第7章和附录B中对标准库进行详细介绍。
+
+One method of communicating data between functions is for the calling function to provide a list of values, called *arguments*, to the function it calls. The parentheses after the function name surround the argument list. In this example, main is defined to be a function that expects no arguments, which is indicated by the empty list ( ).
+
+函数之间进行数据交换的一种方法是调用函数向被调用函数提供一个值(称为*参数*)列
+表。函数名后面的一对圆括号将参数列表括起来。在本例中，main函数不需要任何参数，因
+此用空参数表()表示。
+
+```
+#include <stdio.h>                 include information about standard library
+main()                                          define a function called main
+                                             that received no argument values
+{                                   statements of main are enclosed in braces
+    printf("hello, world\n");              main calls library function printf
+                                         to print this sequence of characters
+}                                         \n represents the newline character
+```
+The first C program
+
+```
+#include <stdio.h>                                           包含标准库的信息
+main()                                     定义名为main的函数，它不接受参数值
+
+{                                              main函数的语句都被括在花括号中
+    printf("hello, world\n");        main函数调用库函数printf以显示字符序列；
+                                                                 \n代表换行符
+}
+```
+第一个C语言程序
+
+The statements of a function are enclosed in braces { }. The function main contains only one statement,
+```
+   printf("hello, world\n");
+```
+A function is called by naming it, followed by a parenthesized list of arguments, so this calls the function printf with the argument "hello, world\\n". printf is a library function that prints output, in this case the string of characters between the quotes.
+
+函数中的语句用一对花括号{ }括起来。本例中的main函数仅包含下面一条语句：
+
+```
+    printf("hello, world\n");
+```
+
+调用函数时，只需要使用函数名加上用圆括号括起来的参数表即可。上面这条语句将"hello, world\\n"作为参数调用printf函数。printf是一个用于打印输出的库函数，在此处，它打印双引号中间的字符串。
+
+A sequence of characters in double quotes, like "hello, world\\n", is called a character string or string constant. For the moment our only use of character strings will be as arguments for printf and other functions.
+
+用双引号括起来的字符序列称为*字符串*或*字符串常量*，如"hello, world\\n"就是
+个字符串。目前我们仅使用字符串作为printf以及其他函数的参数。
+
+The sequence \\n in the string is C notation for the newline character, which when printed advances the output to the left margin on the next line. If you leave out the \\n (a worthwhile experiment), you will find that there is no line advance after the output is printed. You must use \\n to include a newline character in the printf argument; if you try something like
+```
+   printf("hello, world
+   ");
+```
+the C compiler will produce an error message.
+
+在C语言中，字符序列\\n表示*换行符*，在打印中遇到它时，输出打印将换行，从下一行的左端行首开始。如果去掉字符串中的\\n(这是个值得一做的练习)，即使输出打印完成后也不会换行。在printf函数的参数中，只能用\\n表示换行符。如果用程序的换行代替\\n，例如：
+
+```
+printf("hello, world
+");
+```
+
+C编译器将会产生一条错误信息。
+
+printf never supplies a newline character automatically, so several calls may be used to build up an output line in stages. Our first program could just as well have been written
+```cpp
+   #include <stdio.h>
+
+   main()
+   {
+     printf("hello, ");
+     printf("world");
+     printf("\n");
+   }
+```
+to produce identical output.
+
+printf函数永远不会自动换行，这样我们可以多次调用该函数以分阶段得到一个长的输
+出行。上面给出的第一个程序也可以改写成下列形式：
+```cpp
+#include <stdio.h>
+
+main()
+{
+    printf("hello, ");
+    printf("world");
+    printf("\n");
+}
+```
+
+这段程序与前面的程序的输出相同。
+
+Notice that \\n represents only a single character. An escape sequence like \\n provides a general and extensible mechanism for representing hard-to-type or invisible characters. Among the others that C provides are \\t for tab, \\b for backspace, \\" for the double quote and \\\\ for the backslash itself. There is a complete list in Section 2.3.
+
+请注意，\\n只代表一个字符。类似于\\n的*转义字符序列*为表示无法输入的字符或不可见
+字符提供了一种通用的可扩充的机制。除此之外，C语言提供的转义字符序列还包括：\\t表
+示制表符；\\b表示回退符；\\"表示双引号；\\\\表示反斜杠符本身。2.3节将给出转义字符序
+列的完整列表。
+
+Exercise 1-1. Run the "hello, world" program on your system. Experiment with leaving out parts of the program, to see what error messages you get.
+
+练习1-1 在你自己的系统中运行"hello, world"程序。再有意去掉程序中的部分内容，看看会得到什么出错信息。
+
+Exercise 1-2. Experiment to find out what happens when prints's argument string contains \\c, where c is some character not listed above.
+
+练习1-2 做个实验，当printf函数的参数字符串中包含\\c（其中c是上面的转义字符序
+列中未曾列出的某一个字符)时，观察一下会出现什么情况。

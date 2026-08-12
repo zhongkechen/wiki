@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.07.04.3_Indirection_Operator"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+##### A.7.4.3 Indirection Operator
+
+The unary \* operator denotes indirection, and returns the object or function to which its operand points. It is an lvalue if the operand is a pointer to an object of arithmetic, structure, union, or pointer type. If the type of the expression is ``pointer to T,'' the type of the result is T.

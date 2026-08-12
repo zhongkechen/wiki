@@ -25,3 +25,13 @@ One traditional example of a structure is the payroll record: an employee is des
 The main change made by the ANSI standard is to define structure assignment - structures may be copied and assigned to, passed to functions, and returned by functions. This has been supported by most compilers for many years, but the properties are now precisely defined. Automatic structures and arrays may now also be initialized.
 
 ANSI标准在结构方面最主要的变化是定义了结构的赋值操作——结构可以拷贝、赋值、传递给函数，函数也可以返回结构类型的返回值。多年以前，这一操作就已经被大多数的编译器所支持，但是，直到这一标准才对其属性进行了精确定义。在ANSI标准中，自动结构和数组现在也可以进行初始化。
+
+* [6.1 Basics of Structures 结构的基本知识](<6.1_Basics_of_Structures.qmd>)
+* [6.2 Structures and Functions 结构与函数](<6.2_Structures_and_Functions.qmd>)
+* [6.3 Arrays of Structures 结构数组](<6.3_Arrays_of_Structures.qmd>)
+* [6.4 Pointers to Structures 指向结构的指针](<6.4_Pointers_to_Structures.qmd>)
+* [6.5 Self-referential Structures 自引用结构](<6.5_Self-referential_Structures.qmd>)
+* [6.6 Table Lookup 表查找](<6.6_Table_Lookup.qmd>)
+* [6.7 Typedef 类型定义(typedef)](<6.7_Typedef.qmd>)
+* [6.8 Unions 联合](<6.8_Unions.qmd>)
+* [6.9 Bit-fields 位字段](<6.9_Bit-fields.qmd>)

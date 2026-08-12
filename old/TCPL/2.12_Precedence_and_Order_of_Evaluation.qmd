@@ -1,0 +1,130 @@
+---
+title: "TCPL/2.12_Precedence_and_Order_of_Evaluation"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.12 Precedence and Order of Evaluation 运算符优先级与求值次序
+
+Table 2.1 summarizes the rules for precedence and associativity of all operators, including those that we have not yet discussed. Operators on the same line have the same precedence; rows are in order of decreasing precedence, so, for example, \*, /, and % all have the same precedence, which is higher than that of binary + and -. The "operator" () refers to function call. The operators -&gt; and . are used to access members of structures; they will be covered in Chapter 6, along with sizeof (size of an object). Chapter 5 discusses \* (indirection through a pointer) and & (address of an object), and Chapter 3 discusses the comma operator.
+
+表2-1总结了所有运算符的优先级与结合性，其中的一些规则我们还没有讲述。同一行中的各运算符具有相同的优先级，各行间从上往下优先级逐行降低。例如，\*、/与%三者具有相同的优先级，它们的优先级都比二元运算符+、-高。运算符()表示函数调用。运算符-&gt;和.用于访问结构成员，第6章将讨论这两个运算符以及sizeof(对象长度)运算符。第5章将讨论运算符\*(通过指针间接访问)与&(对象地址)，第3章将讨论逗号运算符。
+
+```
+Operators 	Associativity
+() [] -> .	 left to right
+! ~ ++ -- + - * (type) sizeof	 right to left
+* / % 	 left to right
++ - 	 left to right
+<<  >> 	 left to right
+< <= > >= 	 left to right
+== != 	 left to right
+& 	 left to right
+^ 	 left to right
+| 	 left to right
+&&	 left to right
+|| 	 left to right
+?: 	 right to left
+= += -= *= /= %= &= ^= |= <<= >>=	 right to left
+, 	 left to right
+```
+Unary & +, -, and \* have higher precedence than the binary forms.
+
+Table 2.1: Precedence and Associativity of Operators
+
+```
+运算符 	结合性
+() [] -> .	 从左至右
+! ~ ++ -- + - * (type) sizeof	 从右至左
+* / % 	 从左至右
++ - 	 从左至右
+<<  >> 	 从左至右
+< <= > >= 	 从左至右
+== != 	 从左至右
+& 	 从左至右
+^ 	 从左至右
+| 	 从左至右
+&&	 从左至右
+|| 	 从左至右
+?: 	 从右至左
+= += -= *= /= %= &= ^= |= <<= >>=	 从右至左
+, 	 从左至右
+```
+注：一元运算符+、-、&与\*比相应的二元运算符+、-、&与\*的优先级高。
+
+表2.1: 运算符的优先级与结合性
+
+Note that the precedence of the bitwise operators &, ^, and | falls below == and !=. This implies that bit-testing expressions like
+```
+   if ((x & MASK) == 0) ...
+```
+must be fully parenthesized to give proper results.
+
+注意，位运算符&、^与|的优先级比运算符==与!=的低。这意味着，位测试表达式，如
+```
+   if ((x & MASK) == 0) ...
+```
+
+必须用圆括号括起来才能得到正确结果。
+
+C, like most languages, does not specify the order in which the operands of an operator are evaluated. (The exceptions are &&, ||, ?:, and `,'.) For example, in a statement like
+```
+   x = f() + g();
+```
+f may be evaluated before g or vice versa; thus if either f or g alters a variable on which the other depends, x can depend on the order of evaluation. Intermediate results can be stored in temporary variables to ensure a particular sequence.
+
+同大多数语言一样，C语言没有指定同一运算符中多个操作数的计算顺序(&&、||、?:和,运算符除外)。例如，在形如
+
+```
+   x = f() + g();
+```
+
+的语句中，f()可以在g()之前计算，也可以在g()之后计算。因此，如果函数f或g改变了另一个函数所使用的变量，那么x的结果可能会依赖于这两个函数的计算顺序。为了保证特定的计算顺序，可以把中间结果保存在临时变量中。
+
+Similarly, the order in which function arguments are evaluated is not specified, so the statement
+```
+   printf("%d %d\n", ++n, power(2, n));   /* WRONG */
+```
+can produce different results with different compilers, depending on whether n is incremented before power is called. The solution, of course, is to write
+```
+   ++n;
+   printf("%d %d\n", n, power(2, n));
+```
+
+类似地，C语言也没有指定函数各参数的求值顺序，因此，下列语句
+
+```
+   printf("%d %d\n", ++n, power(2, n));   /* WRONG */
+```
+
+在不同的编译器中可能会产生不同的结果，这取决于n的自增运算在power调用之前还是之后执行。解决的办法是把该语句改写成下列形式：
+
+```
+   ++n;
+   printf("%d %d\n", n, power(2, n));
+```
+
+Function calls, nested assignment statements, and increment and decrement operators cause "side effects" - some variable is changed as a by-product of the evaluation of an expression. In any expression involving side effects, there can be subtle dependencies on the order in which variables taking part in the expression are updated. One unhappy situation is typified by the statement
+```
+   a[i] = i++;
+```
+The question is whether the subscript is the old value of i or the new. Compilers can interpret this in different ways, and generate different answers depending on their interpretation. The standard intentionally leaves most such matters unspecified. When side effects (assignment to variables) take place within an expression is left to the discretion of the compiler, since the best order depends strongly on machine architecture. (The standard does specify that all side effects on arguments take effect before a function is called, but that would not help in the call to printf above.)
+
+函数调用、嵌套赋值语句、自增与自减运算符都有可能产生“副作用”——在对表达式求值的同时，修改了某些变量的值。在有副作用影响的表达式中，其执行结果同表达式中的变量被修改的顺序之间存在着微妙的依赖关系。下列语句就是一个典型的令人不愉快的情况：
+
+```
+   a[i] = i++;
+```
+
+问题是：数组下标i是引用旧值还是引用新值？对这种情况编译器的解释可能不同，并因此产
+生不同的结果。C语言标准对大多数这类问题有意未作具体规定。表达式何时会产生这种副作用(对变量赋值)，将由编译器决定，因为最佳的求值顺序同机器结构有很大关系。(ANSI C标准明确规定了所有对参数的副作用都必须在函数调用之前生效，但这对前面介绍的printf函数调用没有什么帮助。)
+
+The moral is that writing code that depends on order of evaluation is a bad programming practice in any language. Naturally, it is necessary to know what things to avoid, but if you don't know how they are done on various machines, you won't be tempted to take advantage of a particular implementation.
+
+在任何一种编程语言中，如果代码的执行结果与求值顺序相关，则都是不好的程序设计风格。很自然，有必要了解哪些问题需要避免，但是，如果不知道这些问题在各种机器上是如何解决的，就最好不要尝试运用某种特殊的实现方式。

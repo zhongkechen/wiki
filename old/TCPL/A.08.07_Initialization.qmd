@@ -1,0 +1,76 @@
+---
+title: "TCPL/A.08.07_Initialization"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.8.7 Initialization
+
+When an object is declared, its init-declarator may specify an initial value for the identifier being declared. The initializer is preceded by =, and is either an expression, or a list of initializers nested in braces. A list may end with a comma, a nicety for neat formatting.
+
+    initializer:
+      assignment-expression
+      { initializer-list }
+      { initializer-list , }
+
+    initializer-list:
+      initializer
+      initializer-list , initializer
+
+All the expressions in the initializer for a static object or array must be constant expressions as described in Par.A.7.19. The expressions in the initializer for an auto or register object or array must likewise be constant expressions if the initializer is a brace-enclosed list. However, if the initializer for an automatic object is a single expression, it need not be a constant expression, but must merely have appropriate type for assignment to the object.
+
+    The first edition did not countenance initialization of automatic structures, unions, or arrays. The ANSI standard allows it, but only by constant constructions unless the initializer can be expressed by a simple expression.
+
+A static object not explicitly initialized is initialized as if it (or its members) were assigned the constant 0. The initial value of an automatic object not explicitly intialized is undefined.
+
+The initializer for a pointer or an object of arithmetic type is a single expression, perhaps in braces. The expression is assigned to the object.
+
+The initializer for a structure is either an expression of the same type, or a brace-enclosed list of initializers for its members in order. Unnamed bit-field members are ignored, and are not initialized. If there are fewer initializers in the list than members of the structure, the trailing members are initialized with 0. There may not be more initializers than members. Unnamed bit-field members are ignored,and are not initialized.
+
+The initializer for an array is a brace-enclosed list of initializers for its members. If the array has unknown size, the number of initializers determines the size of the array, and its type becomes complete. If the array has fixed size, the number of initializers may not exceed the number of members of the array; if there are fewer, the trailing members are initialized with 0.
+
+As a special case, a character array may be initialized by a string literal; successive characters of the string initialize successive members of the array. Similarly, a wide character literal (Par.A.2.6) may initialize an array of type wchar_t. If the array has unknown size, the number of characters in the string, including the terminating null character, determines its size; if its size is fixed, the number of characters in the string, not counting the terminating null character, must not exceed the size of the array.
+
+The initializer for a union is either a single expression of the same type, or a brace-enclosed initializer for the first member of the union.
+
+    The first edition did not allow initialization of unions. The ``first-member'' rule is clumsy, but is hard to generalize without new syntax. Besides allowing unions to be explicitly initialized in at least a primitive way, this ANSI rule makes definite the semantics of static unions not explicitly initialized.
+
+An aggregate is a structure or array. If an aggregate contains members of aggregate type, the initialization rules apply recursively. Braces may be elided in the initialization as follows: if the initializer for an aggregate's member that itself is an aggregate begins with a left brace, then the succeding comma-separated list of initializers initializes the members of the subaggregate; it is erroneous for there to be more initializers than members. If, however, the initializer for a subaggregate does not begin with a left brace, then only enough elements from the list are taken into account for the members of the subaggregate; any remaining members are left to initialize the next member of the aggregate of which the subaggregate is a part.
+
+For example,
+
+   int x[] = { 1, 3, 5 };
+
+declares and initializes x as a 1-dimensional array with three members, since no size was specified and there are three initializers.
+
+   float y[4][3] = {
+       { 1, 3, 5 },
+       { 2, 4, 6 },
+       { 3, 5, 7 },
+   };
+
+is a completely-bracketed initialization: 1, 3 and 5 initialize the first row of the array y[0], namely y[0][0], y[0][1], and y[0][2]. Likewise the next two lines initialize y[1] and y[2]. The initializer ends early, and therefore the elements of y[3] are initialized with 0. Precisely the same effect could have been achieved by
+
+   float y[4][3] = {
+       1, 3, 5, 2, 4, 6, 3, 5, 7
+   };
+
+The initializer for y begins with a left brace, but that for y[0] does not; therefore three elements from the list are used. Likewise the next three are taken successively for y[1] and for y[2]. Also,
+
+   float y[4][3] = {
+       { 1 }, { 2 }, { 3 }, { 4 }
+   };
+
+initializes the first column of y (regarded as a two-dimensional array) and leaves the rest 0.
+
+Finally,
+
+   char msg[] = "Syntax error on line %s\\n";
+
+shows a character array whose members are initialized with a string; its size includes the terminating null character.

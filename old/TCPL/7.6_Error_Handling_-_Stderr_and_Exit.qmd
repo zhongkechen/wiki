@@ -1,0 +1,125 @@
+---
+title: "TCPL/7.6_Error_Handling_-_Stderr_and_Exit"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 7.6 Error Handling - Stderr and Exit 错误处理——stderr和exit
+
+The treatment of errors in cat is not ideal. The trouble is that if one of the files can't be accessed for some reason, the diagnostic is printed at the end of the concatenated output. That might be acceptable if the output is going to a screen, but not if it's going into a file or into another program via a pipeline.
+
+cat程序的错误处理功能并不完善。问题在于，如果因为某种原因而造成其中的一个文件无法访问，相应的诊断信息要在该连接的输出的末尾才能打印出来。当输出到屏幕时，这种处理方法尚可以接受，但如果输出到一个文件或通过管道输出到另一个程序时，就无法接受了。
+
+To handle this situation better, a second output stream, called stderr, is assigned to a program in the same way that stdin and stdout are. Output written on stderr normally appears on the screen even if the standard output is redirected.
+
+为了更好地处理这种情况，另一个输出流以与stdin和stdout相同的方式分派给程序，即stderr。即使对标准输出进行了重定向，写到stderr中的输出通常也会显示在屏幕上。
+
+Let us revise cat to write its error messages on the standard error.
+```cpp
+   #include <stdio.h>
+
+   /* cat:  concatenate files, version 2 */
+   main(int argc, char *argv[])
+   {
+       FILE *fp;
+       void filecopy(FILE *, FILE *);
+       char *prog = argv[0];  /* program name for errors */
+
+       if (argc == 1 ) /* no args; copy standard input */
+           filecopy(stdin, stdout);
+       else
+           while (--argc > 0)
+               if ((fp = fopen(*++argv, "r")) == NULL) {
+                   fprintf(stderr, "%s: can't open %s\n",
+                           prog, *argv);
+                   exit(1);
+               } else {
+                   filecopy(fp, stdout);
+                   fclose(fp);
+               }
+       if (ferror(stdout)) {
+           fprintf(stderr, "%s: error writing stdout\n", prog);
+           exit(2);
+       }
+       exit(0);
+   }
+```
+
+下面我们改写cat程序，将其出错信息写到标准错误文件上。
+
+```cpp
+   #include <stdio.h>
+
+   /* cat:  concatenate files, version 2 */
+   main(int argc, char *argv[])
+   {
+       FILE *fp;
+       void filecopy(FILE *, FILE *);
+       char *prog = argv[0];  /* program name for errors */
+
+       if (argc == 1 ) /* no args; copy standard input */
+           filecopy(stdin, stdout);
+       else
+           while (--argc > 0)
+               if ((fp = fopen(*++argv, "r")) == NULL) {
+                   fprintf(stderr, "%s: can't open %s\n",
+                           prog, *argv);
+                   exit(1);
+               } else {
+                   filecopy(fp, stdout);
+                   fclose(fp);
+               }
+       if (ferror(stdout)) {
+           fprintf(stderr, "%s: error writing stdout\n", prog);
+           exit(2);
+       }
+       exit(0);
+   }
+```
+
+The program signals errors in two ways. First, the diagnostic output produced by fprintf goes to stderr, so it finds its way to the screen instead of disappearing down a pipeline or into an output file. We included the program name, from argv[0], in the message, so if this program is used with others, the source of an error is identified.
+
+该程序通过两种方式发出出错信息。首先，将fprintf函数产生的诊断信息输出到stderr上，因此诊断信息将会显示在屏幕上，而不是仅仅输出到管道或输出文件中。诊断信息中包含argv[0]中的程序名，因此，当该程序和其他程序一起运行时，可以识别错误的来源。
+
+Second, the program uses the standard library function exit, which terminates program execution when it is called. The argument of exit is available to whatever process called this one, so the success or failure of the program can be tested by another program that uses this one as a sub-process. Conventionally, a return value of 0 signals that all is well; non-zero values usually signal abnormal situations. exit calls fclose for each open output file, to flush out any buffered output.
+
+其次，程序使用了标准库函数exit，当该函数被调用时，它将终止调用程序的执行。任何调用该程序的进程都可以获取exit的参数值，因此，可通过另一个将该程序作为子进程的程序来测试该程序的执行是否成功。按照惯例，返回值0表示一切正常，而非0返回值通常表示出现了异常情况。exit为每个已打开的输出文件调用fclose函数，以将缓冲区中的所有输出写到相应的文件中。
+
+Within main, return expr is equivalent to exit(expr). exit has the advantage that it can be called from other functions, and that calls to it can be found with a pattern-searching program like those in Chapter 5.
+
+在主程序main中，语句return  expr等价于exit(expr)。但是，使用函数exit有一个优点，它可以从其他函数中调用，并且可以用类似于第5章中描述的模式查找程序查找这些调用。
+
+The function ferror returns non-zero if an error occurred on the stream fp.
+```
+   int ferror(FILE *fp)
+```
+Although output errors are rare, they do occur (for example, if a disk fills up), so a production program should check this as well.
+
+如果流fp中出现错误，则函数ferror返回一个非0值：
+
+```
+   int ferror(FILE *fp)
+```
+
+尽管输出错误很少出现，但还是存在的(例如，当磁盘满时)，因此，成熟的产品程序应该检查这种类型的错误。
+
+The function feof(FILE \*) is analogous to ferror; it returns non-zero if end of file has occurred on the specified file.
+```
+   int feof(FILE *fp)
+```
+
+函数feof(FILE \*)与ferror类似。如果指定的文件到达文件结尾，它将返回一个非0值。
+
+```
+   int feof(FILE *fp)
+```
+
+We have generally not worried about exit status in our small illustrative programs, but any serious program should take care to return sensible, useful status values.
+
+在上面的小程序中，我们的目的是为了说明问题，因此并不太关心程序的退出状态，但对于任何重要的程序来说，都应该让程序返回有意义且有用的值。

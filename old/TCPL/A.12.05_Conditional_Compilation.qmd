@@ -1,0 +1,64 @@
+---
+title: "TCPL/A.12.05_Conditional_Compilation"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.5 Conditional Compilation
+
+Parts of a program may be compiled conditionally, according to the following schematic syntax.
+
+    preprocessor-conditional:
+      if-line text elif-parts else-partopt #endif
+
+    if-line:
+      # if constant-expression
+      # ifdef identifier
+      # ifndef identifier
+
+    elif-parts:
+      elif-line text
+      elif-partsopt
+
+    elif-line:
+      # elif constant-expression
+
+    else-part:
+      else-line text
+
+    else-line:
+      #else
+
+Each of the directives (if-line, elif-line, else-line, and #endif) appears alone on a line. The constant expressions in #if and subsequent #elif lines are evaluated in order until an expression with a non-zero value is found; text following a line with a zero value is discarded. The text following the successful directive line is treated normally. "Text" here refers to any material, including preprocessor lines, that is not part of the conditional structure; it may be empty. Once a successful #if or #elif line has been found and its text processed, succeeding #elif and #else lines, together with their text, are discarded. If all the expressions are zero, and there is an #else, the text following the #else is treated normally. Text controlled by inactive arms of the conditional is ignored except for checking the nesting of conditionals.
+
+The constant expression in #if and #elif is subject to ordinary macro replacement. Moreover, any expressions of the form
+
+    defined identifier
+
+or
+
+    defined (identifier)
+
+are replaced, before scanning for macros, by 1L if the identifier is defined in the preprocessor, and by 0L if not. Any identifiers remaining after macro expansion are replaced by 0L. Finally, each integer constant is considered to be suffixed with L, so that all arithmetic is taken to be long or unsigned long.
+
+The resulting constant expression (Par.A.7.19) is restricted: it must be integral, and may not contain sizeof, a cast, or an enumeration constant.
+
+The control lines
+
+    #ifdef identifier
+    #ifndef identifier
+
+are equivalent to
+
+    # if defined identifier
+    # if ! defined identifier
+
+respectively.
+
+    #elif is new since the first edition, although it has been available is some preprocessors. The defined preprocessor operator is also new.

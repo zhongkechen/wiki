@@ -1,0 +1,20 @@
+---
+title: "TCPL/A.04_Meaning_of_Identifiers"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.4 Meaning of Identifiers
+
+Identifiers, or names, refer to a variety of things: functions; tags of structures, unions, and enumerations; members of structures or unions; enumeration constants; typedef names; and objects. An object, sometimes called a variable, is a location in storage, and its interpretation depends on two main attributes: its storage class and its type. The storage class determines the lifetime of the storage associated with the identified object; the type determines the meaning of the values found in the identified object. A name also has a scope, which is the region of the program in which it is known, and a linkage, which determines whether the same name in another scope refers to the same object or function. Scope and linkage are discussed in Par.A.11.
+
+* [A.4.1 Storage Class](<A.04.1_Storage_Class.qmd>)
+* [A.4.2 Basic Types](<A.04.2_Basic_Types.qmd>)
+* [A.4.3 Derived types](<A.04.3_Derived_types.qmd>)
+* [A.4.4 Type Qualifiers](<A.04.4_Type_Qualifiers.qmd>)

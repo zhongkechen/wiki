@@ -1,0 +1,46 @@
+---
+title: "TCPL/A.08_Declarations"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.8 Declarations
+
+Declarations specify the interpretation given to each identifier; they do not necessarily reserve storage associated with the identifier. Declarations that reserve storage are called definitions. Declarations have the form
+
+    declaration:
+      declaration-specifiers init-declarator-listopt;
+
+The declarators in the init-declarator list contain the identifiers being declared; the declaration-specifiers consist of a sequence of type and storage class specifiers.
+
+    declaration-specifiers:
+      storage-class-specifier declaration-specifiersopt
+      type-specifier declaration-specifiersopt
+      type-qualifier declaration-specifiersopt
+
+    init-declarator-list:
+      init-declarator
+      init-declarator-list , init-declarator
+
+    init-declarator:
+      declarator
+      declarator = initializer
+
+Declarators will be discussed later (Par.A.8.5); they contain the names being declared. A declaration must have at least one declarator, or its type specifier must declare a structure tag, a union tag, or the members of an enumeration; empty declarations are not permitted.
+
+* [A.8.1 Storage Class Specifiers](<A.08.01_Storage_Class_Specifiers.qmd>)
+* [A.8.2 Type Specifiers](<A.08.02_Type_Specifiers.qmd>)
+* [A.8.3 Structure and Union Declarations](<A.08.03_Structure_and_Union_Declarations.qmd>)
+* [A.8.4 Enumerations](<A.08.04_Enumerations.qmd>)
+* [A.8.5 Declarators](<A.08.05_Declarators.qmd>)
+* [A.8.6 Meaning of Declarators](<A.08.06_Meaning_of_Declarators.qmd>)
+* [A.8.7 Initialization](<A.08.07_Initialization.qmd>)
+* [A.8.8 Type names](<A.08.08_Type_names.qmd>)
+* [A.8.9 Typedef](<A.08.09_Typedef.qmd>)
+* [A.8.10 Type Equivalence](<A.08.10_Type_Equivalence.qmd>)

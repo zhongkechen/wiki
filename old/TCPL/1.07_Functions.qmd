@@ -1,0 +1,240 @@
+---
+title: "TCPL/1.07_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.7 Functions 函数
+
+In C, a function is equivalent to a subroutine or function in Fortran, or a procedure or function in Pascal. A function provides a convenient way to encapsulate some computation, which can then be used without worrying about its implementation. With properly designed functions, it is possible to ignore how a job is done; knowing what is done is sufficient. C makes the sue of functions easy, convinient and efficient; you will often see a short function defined and called only once, just because it clarifies some piece of code.
+
+c语言中的函数等价于Fortran语言中的子程序或函数，也等价于Pascal语言中的过程或函数。函数为计算的封装提供丁一种简便的方法，此后使用函数时不需要考虑它是如何实现的。使用设计正确的函数，程序员无需考虑功能是如何实现的，而只需知道它具有哪些功能就够了。在C语言中可以简单、方便、高效地使用函数。我们经常会看到在定义后仅调用了一次的短函数，这样做可以使代码段更清晰易读。
+
+So far we have used only functions like printf, getchar and putchar that have been provided for us; now it's time to write a few of our own. Since C has no exponentiation operator like the \*\* of Fortran, let us illustrate the mechanics of function definition by writing a function power(m,n) to raise an integer m to a positive integer power n. That is, the value of power(2,5) is 32. This function is not a practical exponentiation routine, since it handles only positive powers of small integers, but it's good enough for illustration.(The standard library contains a function pow(x,y) that computes xy.)
+
+到目前为止，我们所使用的函数(如printf、getchar和putchar等)都是函数库中提供的函数。现在，让我们自己动手来编写一些函数。C语言没有像Fortran语言一样提供类似于\*\*的求幂运算符，我们现在通过编写个求幂的函数power(m,n)来说明函数定义的方法。power(m,n)函数用于计算整数m的n次幂，其中n是正整数。对函数调用power(2,5)来说，其结果值为32。该函数并非一个实用的求幂函数，它只能处理较小的整数的正整数次幂，但这对于说明问题己足够了。(标准库中提供了—个计算x^y^的函数pow(x,y)。)
+
+Here is the function power and a main program to exercise it, so you can see the whole structure at once.
+```cpp
+   #include <stdio.h>
+
+   int power(int m, int n);
+
+    /* test power function */
+    main()
+    {
+        int i;
+
+        for (i = 0; i < 10; ++i)
+            printf("%d %d %d\n", i, power(2,i), power(-3,i));
+        return 0;
+    }
+
+    /* power:  raise base to n-th power; n >= 0 */
+    int power(int base, int n)
+    {
+        int i,  p;
+
+        p = 1;
+        for (i = 1; i <= n; ++i)
+            p = p * base;
+        return p;
+    }
+```
+
+下面是函数power(m,n)的定义及调用它的主程序，这样我们可以看到一个完整的程序
+结构。
+
+```cpp
+   #include <stdio.h>
+
+   int power(int m, int n);
+
+    /* test power function */
+    main()
+    {
+        int i;
+
+        for (i = 0; i < 10; ++i)
+            printf("%d %d %d\n", i, power(2,i), power(-3,i));
+        return 0;
+    }
+
+    /* power:  raise base to n-th power; n >= 0 */
+    int power(int base, int n)
+    {
+        int i,  p;
+
+        p = 1;
+        for (i = 1; i <= n; ++i)
+            p = p * base;
+        return p;
+    }
+```
+
+A function definition has this form:
+```
+return-type function-name(parameter declarations, if any)
+{
+   declarations
+   statements
+}
+```
+Function definitions can appear in any order, and in one source file or several, although no function can be split between files. If the source program appears in several files, you may have to say more to compile and load it than if it all appears in one, but that is an operating system matter, not a language attribute. For the moment, we will assume that both functions are in the same file, so whatever you have learned about running C programs will still work.
+
+函数定义的一般形式为：
+
+```
+return-type function-name(parameter declarations, if any)
+{
+   declarations
+   statements
+}
+```
+
+函数定义可以以任意次序出现在一个源文件或多个源文件中，但同一函数不能分割存放在多个文件中。如果源程序分散在多个文件中，那么，在编译和加载时，就需要做更多的工作，但这是操作系统的原因，并不是语言的属性决定的。我们暂且假定main和power这两个函数放在同一文件中，这样前面所学的有关运行C语言程序的知识仍然有效。
+
+The function power is called twice by main, in the line
+```cpp
+   printf("%d %d %d\n", i, power(2,i), power(-3,i));
+```
+Each call passes two arguments to power, which each time returns an integer to be formatted and printed. In an expression, power(2,i) is an integer just as 2 and i are. (Not all functions produce an integer value; we will take this up in Chapter 4.)
+
+main函数在下列语句中调用了两次power函数：
+
+```cpp
+   printf("%d %d %d\n", i, power(2,i), power(-3,i));
+```
+
+每次调用时，main函数向power函数传递两个参数；在调用执行完成时，power函数向main函数返回一个格式化的整数并打印。在表达式中，power(2,i)同2和i一样都是整数(并不是所有函数的结果都是整型值，我们将在第4章中讨论)。
+
+The first line of power itself,
+```cpp
+    int power(int base, int n)
+```
+declares the parameter types and names, and the type of the result that the function returns. The names used by power for its parameters are local to power, and are not visible to any other function: other routines can use the same names without conflict. This is also true of the variables i and p: the i in power is unrelated to the i in main.
+
+power函数的第一行语句
+
+```cpp
+    int power(int base, int n)
+```
+
+声明参数的类型、名字以及该函数返回结果的类型。power函数的参数使用的名字只在power函数内部有效，对其他任何函数都是不可见的：其他函数可以使用与之相同的参数名字而不会引起冲突。【czk注：翻译和英文原意不同。原意是不单是其他函数的参数不会冲突，在其他函数中定义的任何名字都可以与这个参数同名而不冲突。】变量i与p也是这样；power函数中的i与main函数中的i无关。
+
+We will generally use parameter for a variable named in the parenthesized list in a function. The terms formal argument and actual argument are sometimes used for the same distinction.
+
+我们通常把函数定义中圆括号内列表中出现的变量称为*形式参数*，而把函数调用中与形
+式参数对应的值称为*实际参数*。
+
+The value that power computes is returned to main by the return: statement. Any expression may follow return:
+```cpp
+   return expression;
+```
+A function need not return a value; a return statement with no expression causes control, but no useful value, to be returned to the caller, as does "falling off the end" of a function by reaching the terminating right brace. And the calling function can ignore a value returned by a function.
+
+power函数计算所得的结果通过return语句返回给main函数。关键字return的后面可以跟任何表达式，形式为：
+
+```cpp
+   return expression;
+```
+
+函数不一定都有返回值。不带表达式的return语句将把控制权返回给调用者，但不返回有用
+的值。这等同于在到达函数的右终结花括号时，函数就“到达了尽头”。主调函数也可以忽略
+函数返回的值。
+
+You may have noticed that there is a return statement at the end of main. Since main is a function like any other, it may return a value to its caller, which is in effect the environment in which the program was executed. Typically, a return value of zero implies normal termination; non-zero values signal unusual or erroneous termination conditions. In the interests of simplicity, we have omitted return statements from our main functions up to this point, but we will include them hereafter, as a reminder that programs should return status to their environment.
+
+读者可能已经注意到，main函数的末尾有一个return语句。由于main本身也是函数，因此也可以向其调用者返回一个值，该调用者实际上就是程序的执行环境。一般来说，返回值为0表示正常终止，返回值为非0表示出现异常情况或出错结束条件。为简洁起见，前面的main函数都省略了return语句，但我们将在以后的main函数中包含return语句，以提醒大家注意，程序还要向其执行环境返回状态。
+
+The declaration
+```cpp
+    int power(int base, int n);
+```
+just before main says that power is a function that expects two int arguments and returns an int. This declaration, which is called a function prototype, has to agree with the definition and uses of power. It is an error if the definition of a function or any uses of it do not agree with its prototype.
+
+出现在main函数之前的声明语句
+
+```cpp
+    int power(int base, int n);
+```
+
+表明power函数有两个int类型的参数，并返回一个int类型的值。这种声明称为函数原型，它必须与power函数的定义和用法一致。如果函数的定义、用法与函数原型不—致，将出现错误。
+
+parameter names need not agree. Indeed, parameter names are optional in a function prototype, so for the prototype we could have written
+```cpp
+    int power(int, int);
+```
+Well-chosen names are good documentation however, so we will often use them.
+
+函数原型与函数声明中参数名不要求相同。事实上，函数原型中的参数名是可选的，这样上面的函数原型也可以写成以下形式：
+
+```cpp
+    int power(int, int);
+```
+
+但是，合适的参数名能够起到很好的说明性作用，因此我们在函数原型中总是指明参
+数名。
+
+A note of history: the biggest change between ANSI C and earlier versions is how functions are declared and defined. In the original definition of C, the power function would have been written like this:
+```cpp
+   /* power:  raise base to n-th power; n >= 0 */
+   /*         (old-style version) */
+   power(base, n)
+   int base, n;
+   {
+       int i, p;
+
+       p = 1;
+       for (i = 1; i <= n; ++i)
+           p = p * base;
+       return p;
+   }
+```
+The parameters are named between the parentheses, and their types are declared before opening the left brace; undeclared parameters are taken as int. (The body of the function is the same as before.)
+
+回顾一下，ANSI C同较早版本C语言之间的最大区别在于函数的声明与定义方式的不同。按照C语言的最初定义，power函数应该写成下列形式：
+
+```cpp
+   /* power:  raise base to n-th power; n >= 0 */
+   /*         (old-style version) */
+   power(base, n)
+   int base, n;
+   {
+       int i, p;
+
+       p = 1;
+       for (i = 1; i <= n; ++i)
+           p = p * base;
+       return p;
+   }
+```
+
+其中，参数名在圆括号内指定，参数类型在左花括号之前声明。如果没有声明某个参数的类
+型，则默认为int类型。函数体与ANSI C中形式相同。
+
+The declaration of power at the beginning of the program would have looked like this:
+```cpp
+    int power();
+```
+No parameter list was permitted, so the compiler could not readily check that power was being called correctly. Indeed, since by default power would have been assumed to return an int, the entire declaration might well have been omitted.
+
+在C语目的最初定义中，可以在程序的开头按照下面这种形式声明power函数：
+```cpp
+    int power();
+```
+函数声明中不允许包含参数列表，这样编译器就无法在此时检查power函数调用的合法性。事实上，power函数在默认情况下将被假定返回int类型的值，因此整个函数的声明可以全部省略。
+
+The new syntax of function prototypes makes it much easier for a compiler to detect errors in the number of arguments or their types. The old style of declaration and definition still works in ANSI C, at least for a transition period, but we strongly recommend that you use the new form when you have a compiler that supports it.
+
+在ANSI C中定义的函数原型语法中，编译器可以很容易检测出函数调用中参数数目和类型方面的错误。ANSI C仍然支持旧式的函数声明与定义，这样至少可以有一个过渡阶段。但我们还是强烈建议读者：在使用新式的编译器时，最好使用新式的函数原型声明方式。
+
+Exercise 1.15. Rewrite the temperature conversion program of Section 1.2 to use a function for conversion.
+
+练习1-15 重新编写1.2节中的温度转换程序，使用函数实现温度转换计算。

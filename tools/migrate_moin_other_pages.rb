@@ -15,7 +15,7 @@ SOURCE_SNAPSHOT_PATH = File.join(
   "data",
   "moin_other_page_sources.json"
 )
-ROOT_PAGE_CHILDREN = {
+BASE_ROOT_PAGE_CHILDREN = {
   "维基简介" => [],
   "浙大考博题" => [],
   "计算机体系结构" => [],
@@ -41,21 +41,6 @@ ROOT_PAGE_CHILDREN = {
     Cygwin
     MinGW
   ],
-  "TCPL" => %w[
-    TCPL/0_1_Preface
-    TCPL/0_2_Introduction
-    TCPL/1_A_Tutorial_Introduction
-    TCPL/2_Types_Operators_and_Expressions
-    TCPL/3_Control_Flow
-    TCPL/4_Functions_and_Program_Structure
-    TCPL/5_Pointers_and_Arrays
-    TCPL/6_Structures
-    TCPL/7_Input_and_Output
-    TCPL/8_The_UNIX_System_Interface
-    TCPL/A_Reference_Manual
-    TCPL/B_Standard_Library
-    TCPL/C_Summary_of_Changes
-  ],
   "毕业设计" => %w[
     在线判题题库建设
     开源许可证研究
@@ -67,10 +52,9 @@ ROOT_PAGE_CHILDREN = {
   "lzhongyue" => []
 }.freeze
 AUXILIARY_PAGE_NAMES = ["留言/PageCommentData"].freeze
-MIGRATED_PAGE_NAMES = ROOT_PAGE_CHILDREN.flat_map do |root_name, children|
-  [root_name, *children]
-end.freeze
-SOURCE_PAGE_NAMES = (MIGRATED_PAGE_NAMES + AUXILIARY_PAGE_NAMES).freeze
+EXCLUDED_PAGE_NAMES = [
+  "TCPL/B.01.2_Formatted_Output/ugczovkjkeluzdbrjicfhozvfajh"
+].freeze
 IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
 EXCLUDED_ATTACHMENTS = {
   "MSP430" => ["ebook 16M.rar"]
@@ -185,6 +169,20 @@ def page_uses_fallback_revision?(name)
     current_revision != selected_revision
 end
 
+tcpl_page_names = (PAGE_INDEX.keys | SOURCE_SNAPSHOT.keys).select do |name|
+  name.start_with?("TCPL/") &&
+    !EXCLUDED_PAGE_NAMES.include?(name) &&
+    page_has_readable_revision?(name)
+end.sort
+raise "No readable TCPL child pages were found" if tcpl_page_names.empty?
+
+ROOT_PAGE_CHILDREN =
+  BASE_ROOT_PAGE_CHILDREN.merge("TCPL" => tcpl_page_names).freeze
+MIGRATED_PAGE_NAMES = ROOT_PAGE_CHILDREN.flat_map do |root_name, children|
+  [root_name, *children]
+end.freeze
+SOURCE_PAGE_NAMES = (MIGRATED_PAGE_NAMES + AUXILIARY_PAGE_NAMES).freeze
+
 missing_pages = SOURCE_PAGE_NAMES.reject do |name|
   PAGE_INDEX.key?(name) || SOURCE_SNAPSHOT.key?(name)
 end
@@ -219,13 +217,18 @@ def output_relative_path(page_name)
   if page_name == root_name
     "#{root_name}.qmd"
   else
-    File.join(root_name, "#{File.basename(page_name)}.qmd")
+    basename = File.basename(page_name).delete("<>")
+    File.join(root_name, "#{basename}.qmd")
   end
 end
 
 OUTPUT_PATHS = MIGRATED_PAGE_NAMES.to_h do |page_name|
   [page_name, output_relative_path(page_name)]
 end.freeze
+duplicate_outputs = OUTPUT_PATHS.values.tally.select { |_path, count| count > 1 }
+unless duplicate_outputs.empty?
+  raise "Duplicate output paths: #{duplicate_outputs.keys.join(', ')}"
+end
 
 def markdown_target(path)
   "<#{path}>"
@@ -270,7 +273,9 @@ def matching_page_names(pattern, owner)
     rescue RegexpError
       /#{Regexp.escape(expression)}/
     end
-  MIGRATED_PAGE_NAMES.select { |page_name| page_name.match?(matcher) }.sort
+  MIGRATED_PAGE_NAMES.select do |page_name|
+    page_name.match?(matcher) || page_name.tr("_", " ").match?(matcher)
+  end.sort
 end
 
 def qmd_front_matter(title, number_sections: false)
@@ -386,7 +391,7 @@ def convert_link(raw, owner)
   return "[#{label}](#{target})" if target.match?(%r{\A(?:https?|ftp|mailto):})
   return "[#{label}](#{target})" if target.start_with?("#")
 
-  normalized_target = normalize_page_target(target, owner)
+  normalized_target = normalize_page_target(CGI.unescapeHTML(target), owner)
   target_path =
     OUTPUT_PATHS[normalized_target] || REUSED_OUTPUT_PATHS[normalized_target]
   return label unless target_path
@@ -485,7 +490,15 @@ end
 
 def render_page_list(pattern, owner)
   matching_page_names(pattern, owner).map do |page_name|
-    " * [[#{page_name}]]"
+    title = page_name
+    if page_name.start_with?("TCPL/")
+      title = page_source(page_name).lines.filter_map do |line|
+        heading = line.match(/^\s*(=+)\s*(.*?)\s*\1\s*$/)
+        heading && heading[2]
+      end.first
+      title = File.basename(page_name).tr("_", " ") if title.to_s.empty?
+    end
+    " * [[#{page_name}|#{title}]]"
   end.join("\n")
 end
 
@@ -528,17 +541,21 @@ end
 def table_cells(line)
   body = line.strip.delete_prefix("||").delete_suffix("||")
   body.split("||", -1).map do |cell|
-    cell.strip.sub(/\A(?:<[^>]+>\s*)+/, "")
+    cell.strip.sub(/\A(?:<(?:#[0-9a-fA-F]+|[^>]*=[^>]*)>\s*)+/, "")
   end
 end
 
 def convert_table_line(cells)
-  escaped = cells.map { |cell| cell.gsub("\\", "\\\\").gsub("|", "\\|") }
+  escaped = cells.map do |cell|
+    cell.gsub("\\") { "\\\\" }.gsub("|", "\\|")
+  end
   "| #{escaped.join(' | ')} |"
 end
 
 def escape_plain_moin_markup(source)
-  source.gsub!(/(\|\|)\s*(?:<[^>\n]+>\s*)+/) { Regexp.last_match(1) }
+  source.gsub!(
+    /(\|\|)\s*(?:<(?:#[0-9a-fA-F]+|[^>\n]*=[^>\n]*)>\s*)+/
+  ) { Regexp.last_match(1) }
 
   source.lines.map do |line|
     table = line.match?(/^\s*\|\|.*\|\|\s*$/)
@@ -597,6 +614,9 @@ def convert_moin(text, owner:)
     target = normalize_page_target(Regexp.last_match(1), owner)
     OUTPUT_PATHS.key?(target) ? "[[#{target}]]" : ""
   end
+  source.gsub!(/<<FootNote\((.*?)\)>>/m) do
+    "@@MOIN_FOOTNOTE_OPEN@@#{Regexp.last_match(1)}@@MOIN_FOOTNOTE_CLOSE@@"
+  end
 
   source, nowiki = protect_nowiki(source)
   source.gsub!(%r{</?center>}i, "")
@@ -616,10 +636,12 @@ def convert_moin(text, owner:)
   source.gsub!(/\[\[([^\]]+)\]\]/) do
     convert_link(Regexp.last_match(1), owner)
   end
+  source.gsub!(/\]\((?!<|(?:https?|ftp|mailto):|#)/, "] (")
+  source.gsub!("@@MOIN_FOOTNOTE_OPEN@@", "^[")
+  source.gsub!("@@MOIN_FOOTNOTE_CLOSE@@", "]")
   source.gsub!("<<BR>>", "<br>")
   source.gsub!(/<<(?:TableOfContents|Navigation\([^)]*\))>>/, "")
   source.gsub!(/<<Anchor\(([^)]+)\)>>/, '<a id="\1"></a>')
-  source.gsub!(/<<FootNote\(([^)]+)\)>>/, '^[\1]')
   source.gsub!(/<<[^>]+>>/, "")
   source = convert_moin_emphasis(source)
 

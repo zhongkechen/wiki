@@ -1,0 +1,67 @@
+---
+title: "TCPL/A.08.06.3_Function_Declarators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+##### A.8.6.3 Function Declarators
+
+In a new-style function declaration T D where D has the form
+
+    D1 (parameter-type-list)
+
+and the type of the identifier in the declaration T D1 is ``type-modifier T, *the type of the identifier of D is ``type-modifier function with arguments parameter-type-list returning T.*
+
+The syntax of the parameters is
+
+    parameter-type-list:
+      parameter-list
+      parameter-list , ...
+
+    parameter-list:
+      parameter-declaration
+      parameter-list , parameter-declaration
+
+    parameter-declaration:
+      declaration-specifiers declarator
+      declaration-specifiers abstract-declaratoropt
+
+In the new-style declaration, the parameter list specifies the types of the parameters. As a special case, the declarator for a new-style function with no parameters has a parameter list consisting soley of the keyword void. If the parameter list ends with an ellipsis ``, ...'', then the function may accept more arguments than the number of parameters explicitly described, see Par.A.7.3.2.
+
+The types of parameters that are arrays or functions are altered to pointers, in accordance with the rules for parameter conversions; see Par.A.10.1. The only storage class specifier permitted in a parameter's declaration is register, and this specifier is ignored unless the function declarator heads a function definition. Similarly, if the declarators in the parameter declarations contain identifiers and the function declarator does not head a function definition, the identifiers go out of scope immediately. Abstract declarators, which do not mention the identifiers, are discussed in Par.A.8.8.
+
+In an old-style function declaration T D where D has the form
+
+    D1(identifier-listopt)
+
+and the type of the identifier in the declaration T D1 is ``type-modifier T, *the type of the identifier of D is ``type-modifier function of unspecified arguments returning T.* The parameters (if present) have the form
+
+    identifier-list:
+      identifier
+      identifier-list , identifier
+
+In the old-style declarator, the identifier list must be absent unless the declarator is used in the head of a function definition (Par.A.10.1). No information about the types of the parameters is supplied by the declaration.
+
+For example, the declaration
+
+      int f(), \*fpi(), (\*pfi)();
+
+declares a function f returning an integer, a function fpi returning a pointer to an integer, and a pointer pfi to a function returning an integer. In none of these are the parameter types specified; they are old-style.
+
+In the new-style declaration
+
+      int strcpy(char \*dest, const char \*source), rand(void);
+
+strcpy is a function returning int, with two arguments, the first a character pointer, and the second a pointer to constant characters. The parameter names are effectively comments. The second function rand takes no arguments and returns int.
+
+    Function declarators with parameter prototypes are, by far, the most important language change introduced by the ANSI standard. They offer an advantage over the ``old-style'' declarators of the first edition by providing error-detection and coercion of arguments across function calls, but at a cost: turmoil and confusion during their introduction, and the necessity of accomodating both forms. Some syntactic ugliness was required for the sake of compatibility, namely void as an explicit marker of new-style functions without parameters.
+
+    The ellipsis notation ``, ...'' for variadic functions is also new, and, together with the macros in the standard header &lt;stdarg.h&gt;, formalizes a mechanism that was officially forbidden but unofficially condoned in the first edition.
+
+    These notations were adapted from the C++ language.

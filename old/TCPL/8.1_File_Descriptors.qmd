@@ -1,0 +1,39 @@
+---
+title: "TCPL/8.1_File_Descriptors"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 8.1 File Descriptors 文件描述符
+
+In the UNIX operating system, all input and output is done by reading or writing files, because all peripheral devices, even keyboard and screen, are files in the file system. This means that a single homogeneous interface handles all communication between a program and peripheral devices.
+
+在UNIX操作系统中，所有的外围设备(包括键盘和显示器)都被看作是文件系统中的文件，因此，所有的输入/输出都要通过读文件或写文件完成。也就是说，通过一个单一的接口就可以处理外围设备和程序之间的所有通信。
+
+In the most general case, before you read and write a file, you must inform the system of your intent to do so, a process called opening the file. If you are going to write on a file it may also be necessary to create it or to discard its previous contents. The system checks your right to do so (Does the file exist? Do you have permission to access it?) and if all is well, returns to the program a small non-negative integer called a file descriptor. Whenever input or output is to be done on the file, the file descriptor is used instead of the name to identify the file. (A file descriptor is analogous to the file pointer used by the standard library, or to the file handle of MS-DOS.) All information about an open file is maintained by the system; the user program refers to the file only by the file descriptor.
+
+通常情况下，在读或写文件之前，必须先将这个意图通知系统，该过程称为打开文件。如果是写一个文件，则可能需要先创建该文件，也可能需要丢弃该文件中原先已存在的内容。系统检查你的权力(该文件是否存在？是否有访问它的权限？)，如果一切正常，操作系统将向程序返回一个小的非负整数，该整数称为文件描述符。任何时候对文件的输入/输出都是通过文件描述符标识文件。(文件描述符类似于标准库中的文件指针或MS-DOS中的文件句柄。)系统负责维护已打开文件的所有信息，用户程序只能通过文件描述符引用文件。
+
+Since input and output involving keyboard and screen is so common, special arrangements exist to make this convenient. When the command interpreter (the "shell") runs a program, three files are open, with file descriptors 0, 1, and 2, called the standard input, the standard output, and the standard error. If a program reads 0 and writes 1 and 2, it can do input and output without worrying about opening files.
+
+因为大多数的输入/输出是通过键盘和显示器来实现的，为了方便起见，UNIX对此做了特别的安排。当命令解释程序(即“shell”)运行一个程序的时候，它将打开3个文件，对应的文件描述符分别为0、1、2，依次表示标准输入、标准输出和标准错误。如果程序从文件0中读，对1和2进行写，就可以进行输入/输出而不必关心打开文件的问题。
+
+The user of a program can redirect I/O to and from files with &lt; and &gt;:
+```
+   prog <infile >outfile
+```
+In this case, the shell changes the default assignments for the file descriptors 0 and 1 to the named files. Normally file descriptor 2 remains attached to the screen, so error messages can go there. Similar observations hold for input or output associated with a pipe. In all cases, the file assignments are changed by the shell, not by the program. The program does not know where its input comes from nor where its output goes, so long as it uses file 0 for input and 1 and 2 for output.
+
+程序的使用者可通过&lt;和&gt;重定向程序的I/O：
+
+```
+   prog <infile >outfile
+```
+
+这种情况下，shell把文件描述符0和1的默认值改为指定的文件。通常文件描述符2仍与显示器相关联，这样，出错信息会输出到显示器上。与管道相关的输入/输出也有类似的特性。在任何情况下，文件赋值的改变都不是由程序完成的，而是由shell完成的。只要程序使用文件0作为输入，文件1和2作为输出，它就不会知道程序的输入从哪里来，并输出到哪里去。

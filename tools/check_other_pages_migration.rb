@@ -65,8 +65,8 @@ expected_files = migrated_files(REPOSITORY_ROOT)
 qmd_files = expected_files.select { |path| path.end_with?(".qmd") }
 asset_files = expected_files - qmd_files
 
-assert(qmd_files.length == 46, "Expected 46 QMD pages, found #{qmd_files.length}")
-assert(asset_files.length == 62, "Expected 62 attachments, found #{asset_files.length}")
+assert(qmd_files.length == 254, "Expected 254 QMD pages, found #{qmd_files.length}")
+assert(asset_files.length == 82, "Expected 82 attachments, found #{asset_files.length}")
 
 Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
   FileUtils.cp_r(File.join(REPOSITORY_ROOT, "tools"), temporary_root)
@@ -96,9 +96,9 @@ Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
     chdir: temporary_root
   )
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 46 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Converted 254 pages"), "Unexpected page count:\n#{stdout}")
   assert(
-    stdout.include?("Copied 62 attachments"),
+    stdout.include?("Copied 82 attachments"),
     "Unexpected attachment count:\n#{stdout}"
   )
 
@@ -127,6 +127,10 @@ qmd_files.each do |relative_path|
   assert(
     !page.match?(/<<(?:AttachList|Include|PageList|TableOfContents)\b/),
     "MoinMoin macro leaked into #{relative_path}"
+  )
+  assert(
+    !page.include?("<<FootNote"),
+    "MoinMoin footnote macro leaked into #{relative_path}"
   )
 
   page.scan(/\]\((?:<([^>]+)>|([^)]+))\)/).each do |angle, plain|
@@ -314,6 +318,49 @@ assert(
   !tcpl.include?("#pragma section-numbers"),
   "TCPL section numbering pragma leaked into the generated page"
 )
+tcpl_pages = Dir[File.join(REPOSITORY_ROOT, "old", "TCPL", "*.qmd")]
+assert(
+  tcpl_pages.length == 221,
+  "Expected 221 valid TCPL child pages, found #{tcpl_pages.length}"
+)
+
+tcpl_reference_manual = File.read(
+  File.join(REPOSITORY_ROOT, "old", "TCPL", "A_Reference_Manual.qmd"),
+  encoding: "UTF-8"
+)
+assert(
+  tcpl_reference_manual.include?("[A.1 Introduction](<A.01_Introduction.qmd>)"),
+  "TCPL reference manual child index was not expanded"
+)
+
+tcpl_introduction = File.read(
+  File.join(REPOSITORY_ROOT, "old", "TCPL", "A.01_Introduction.qmd"),
+  encoding: "UTF-8"
+)
+assert(
+  tcpl_introduction.include?("This manual describes the C language"),
+  "TCPL child page content was not migrated"
+)
+
+tcpl_library = File.read(
+  File.join(REPOSITORY_ROOT, "old", "TCPL", "B_Standard_Library.qmd"),
+  encoding: "UTF-8"
+)
+assert(
+  tcpl_library.include?(
+    "[B.1 Input and Output: &lt;stdio.h&gt;]" \
+      "(<B.01_Input_and_Output:_stdio.h.qmd>)"
+  ),
+  "TCPL standard-library links with header names were not preserved"
+)
+
+tcpl_spam = File.join(
+  REPOSITORY_ROOT,
+  "old",
+  "TCPL",
+  "ugczovkjkeluzdbrjicfhozvfajh.qmd"
+)
+assert(!File.exist?(tcpl_spam), "TCPL spam subpage was migrated")
 
 graduation = File.read(
   File.join(REPOSITORY_ROOT, "old", "毕业设计.qmd"),

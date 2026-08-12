@@ -1,0 +1,465 @@
+---
+title: "TCPL/4.03_External_Variables"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.3 External Variables 外部变量
+
+A C program consists of a set of external objects, which are either variables or functions. The adjective "external" is used in contrast to "internal", which describes the arguments and variables defined inside functions. External variables are defined outside of any function, and are thus potentionally available to many functions. Functions themselves are always external, because C does not allow functions to be defined inside other functions. By default, external variables and functions have the property that all references to them by the same name, even from functions compiled separately, are references to the same thing. (The standard calls this property external linkage.) In this sense, external variables are analogous to Fortran COMMON blocks or variables in the outermost block in Pascal. We will see later how to define external variables and functions that are visible only within a single source file. Because external variables are globally accessible, they provide an alternative to function arguments and return values for communicating data between functions. Any function may access an external variable by referring to it by name, if the name has been declared somehow.
+
+C语言程序可以看成由一系列的外部对象构成，这些外部对象可能是变量或函数。形容词external与internal是相对的，internal用于描述定义在函数内部的函数参数及变量。外部变量定义在函数之外，因此可以在许多函数中使用。由于C语言不允许在一个函数中定义其他函数，因此函数本身是“外部的”。默认情况下，外部变量与函数具有下列性质：通过同一个名字对外部变量的所有引用(即使这种引用来自于单独编译的不同函数)实际上都是引用同一个对象(标准中把这一性质称为外部链接)。在这个意义上，外部变量类似于Fortran语言的COMMON块或Pascal语言中在最外层程序块中声明的变量。我们将在后面介绍如何定义只能在某一个源文件中使用的外部变量与函数。因为外部变量可以在全局范围内访问，这就为函数之间的数据交换提供了一种可以代替函数参数与返回值的方式。任何函数都可以通过名字访问一个外部变量，当然这个名字需要通过某种方式进行声明。
+
+If a large number of variables must be shared among functions, external variables are more convenient and efficient than long argument lists. As pointed out in Chapter 1, however, this reasoning should be applied with some caution, for it can have a bad effect on program structure, and lead to programs with too many data connections between functions.
+
+如果函数之间需要共享大量的变量，使用外部变星要比使用一个很长的参数表更方便、有效。但是，我们在第1章中已经指出，这样做必须非常谨慎，因为这种方式可能对程序结构产生不良的影响，而且可能会导致程序中各个函数之间具有太多的数据联系。
+
+External variables are also useful because of their greater scope and lifetime. Automatic variables are internal to a function; they come into existence when the function is entered, and disappear when it is left. External variables, on the other hand, are permanent, so they can retain values from one function invocation to the next. Thus if two functions must share some data, yet neither calls the other, it is often most convenient if the shared data is kept in external variables rather than being passed in and out via arguments.
+
+外部变量的用途还表现在它们与内部变量相比具有更大的作用域和更长的生存期。自动变量只能在函数内部使用，从其所在的函数被调用时变量开始存在，在函数退出时变量也将消失。而外部变量是永久存在的，它们的值在一次函数调用到下一次函数调用之间保持不变。因此，如果两个函数必须共享某些数据，而这两个函数互不调用对方，这种情况下最方便的方式便是把这些共享数据定义为外部变量，而不是作为函数参数传递。
+
+Let us examine this issue with a larger example. The problem is to write a calculator program that provides the operators +, -, \* and /. Because it is easier to implement, the calculator will use reverse Polish notation instead of infix. (Reverse Polish notation is used by some pocket calculators, and in languages like Forth and Postscript.)
+
+下面我们通过一个更复杂的例子来说明这一点。我们的目标是编写一个具有加(+)、减(-)、乘(\*)、除(/)四则运算功能的计算器程序。为了更容易实现，我们在计算器中使用逆波兰表示法代替普通的中缀表示法(逆波兰表示法用在某些袖珍计算器中，Forth与Postscript等语言也使用了逆波兰表不法)。
+
+In reverse Polish notation, each operator follows its operands; an infix expression like
+```
+   (1 - 2) * (4 + 5)
+```
+is entered as
+```
+   1 2 - 4 5 + *
+```
+Parentheses are not needed; the notation is unambiguous as long as we know how many operands each operator expects.
+
+在逆波兰表示法中，所有运算符都跟在操作数的后面。比如，下列中缀表达式：
+```
+   (1 - 2) * (4 + 5)
+```
+
+采用逆波兰表示法表示为：
+```
+   1 2 - 4 5 + *
+```
+逆波兰表示法中不需要圆括号，只要知道每个运算符需要几个操作数就不会引起歧义。
+
+The implementation is simple. Each operand is pushed onto a stack; when an operator arrives, the proper number of operands (two for binary operators) is popped, the operator is applied to them, and the result is pushed back onto the stack. In the example above, for instance, 1 and 2 are pushed, then replaced by their difference, -1. Next, 4 and 5 are pushed and then replaced by their sum, 9. The product of -1 and 9, which is -9, replaces them on the stack. The value on the top of the stack is popped and printed when the end of the input line is encountered.
+
+计算器程序的实现很简单。每个操作数都被依次压入到栈中；当一个运算符到达时，从栈中弹出相应数目的操作数(对二元运算符来说是两个操作数)，把该运算符作用于弹出的操作数，并把运算结果再压入到栈中。例如，对上面的逆波兰表达式来说．首先把1和2压入到栈中，再用两者之差-1取代它们；然后，将4和5压入到栈中，再用两者之和9取代它们。最后，从栈中取出栈顶的-1和9，并把它们的积-9压入到栈顶。到达输入行的末尾时，把栈顶的值弹出并打印。
+
+The structure of the program is thus a loop that performs the proper operation on each operator and operand as it appears:
+```
+   while (next operator or operand is not end-of-file indicator)
+       if (number)
+           push it
+       else if (operator)
+           pop operands
+           do operation
+           push result
+       else if (newline)
+           pop and print top of stack
+       else
+           error
+```
+
+这样，该程序的结构就构成一个循环，每次循环对—个运算符及相应的操作数执行一次操作：
+```
+   while (next operator or operand is not end-of-file indicator)
+       if (number)
+           push it
+       else if (operator)
+           pop operands
+           do operation
+           push result
+       else if (newline)
+           pop and print top of stack
+       else
+           error
+```
+
+The operation of pushing and popping a stack are trivial, but by the time error detection and recovery are added, they are long enough that it is better to put each in a separate function than to repeat the code throughout the whole program. And there should be a separate function for fetching the next input operator or operand.
+
+栈的压入与弹出操作比较简单，但是，如果把错误检测与恢复操作都加进来，该程序就显得很长了，最好把它们设计成独立的函数，而不要把它们作为程序中重复的代码段使用。另外还需要一个单独的函数来取下一个输入运算符或操作数。
+
+The main design decision that has not yet been discussed is where the stack is, that is, which routines access it directly. On possibility is to keep it in main, and pass the stack and the current stack position to the routines that push and pop it. But main doesn't need to know about the variables that control the stack; it only does push and pop operations. So we have decided to store the stack and its associated information in external variables accessible to the push and pop functions but not to main.
+
+到目前为止，我们还没有讨论设计中的一个重要问题：把栈放在哪儿？也就是说，哪些例程可以直接访问它？一种可能是把它放在主函数main中，把栈从其当前位置作为参数传递给对它执行压入或弹出操作的函数。但是，main函数不需要了解控制栈的变量信息，它只进行压入与弹出操作。因此，可以把栈及相关信息放在外部变量中，并只供push与pop函数访问，而不能被main函数访问。
+
+Translating this outline into code is easy enough. If for now we think of the program as existing in one source file, it will look like this:
+```
+    #includes
+    #defines
+
+    function declarations for main
+
+    main() { ... }
+
+    external variables for push and pop
+
+    void push( double f) { ... }
+    double pop(void) { ... }
+
+    int getop(char s[]) { ... }
+
+    routines called by getop
+```
+Later we will discuss how this might be split into two or more source files.
+
+把上面这段话转换成代码很容易。如果把该程序放在一个源文件中，程序可能类似于下列形式：
+
+```
+    #includes
+    #defines
+
+    function declarations for main
+
+    main() { ... }
+
+    external variables for push and pop
+
+    void push( double f) { ... }
+    double pop(void) { ... }
+
+    int getop(char s[]) { ... }
+
+    routines called by getop
+```
+
+我们在后面部分将讨论如何把该程序分割成两个或多个源文件。
+
+The function main is a loop containing a big switch on the type of operator or operand; this is a more typical use of switch than the one shown in Section 3.4.
+```cpp
+   #include <stdio.h>
+   #include <stdlib.h>  /* for  atof() */
+
+   #define MAXOP   100  /* max size of operand or operator */
+   #define NUMBER  '0'  /* signal that a number was found */
+
+   int getop(char []);
+   void push(double);
+   double pop(void);
+
+   /* reverse Polish calculator */
+   main()
+   {
+       int type;
+       double op2;
+       char s[MAXOP];
+
+       while ((type = getop(s)) != EOF) {
+           switch (type) {
+           case NUMBER:
+               push(atof(s));
+               break;
+           case '+':
+               push(pop() + pop());
+               break;
+           case '*':
+               push(pop() * pop());
+               break;
+           case '-':
+               op2 = pop();
+               push(pop() - op2);
+               break;
+           case '/':
+               op2 = pop();
+               if (op2 != 0.0)
+                   push(pop() / op2);
+               else
+                   printf("error: zero divisor\n");
+               break;
+           case '\n':
+               printf("\t%.8g\n", pop());
+               break;
+           default:
+               printf("error: unknown command %s\n", s);
+               break;
+           }
+       }
+       return 0;
+   }
+```
+
+main函数包括一个很大的switch循环，该循环根据运算符或操作数的类型控制程序的转移。这里的switch语句的用法比3.4节中的例子更为典型。
+
+```cpp
+   #include <stdio.h>
+   #include <stdlib.h>  /* for  atof() */
+
+   #define MAXOP   100  /* max size of operand or operator */
+   #define NUMBER  '0'  /* signal that a number was found */
+
+   int getop(char []);
+   void push(double);
+   double pop(void);
+
+   /* reverse Polish calculator */
+   main()
+   {
+       int type;
+       double op2;
+       char s[MAXOP];
+
+       while ((type = getop(s)) != EOF) {
+           switch (type) {
+           case NUMBER:
+               push(atof(s));
+               break;
+           case '+':
+               push(pop() + pop());
+               break;
+           case '*':
+               push(pop() * pop());
+               break;
+           case '-':
+               op2 = pop();
+               push(pop() - op2);
+               break;
+           case '/':
+               op2 = pop();
+               if (op2 != 0.0)
+                   push(pop() / op2);
+               else
+                   printf("error: zero divisor\n");
+               break;
+           case '\n':
+               printf("\t%.8g\n", pop());
+               break;
+           default:
+               printf("error: unknown command %s\n", s);
+               break;
+           }
+       }
+       return 0;
+   }
+```
+
+Because + and \* are commutative operators, the order in which the popped operands are combined is irrelevant, but for - and / the left and right operand must be distinguished. In
+```
+   push(pop() - pop());   /* WRONG */
+```
+the order in which the two calls of pop are evaluated is not defined. To guarantee the right order, it is necessary to pop the first value into a temporary variable as we did in main.
+
+因为+与\*两个运算符满足交换律，因此，操作数的弹出次序无关紧要。但是，-与/两个运算符的左右操作数必须加以区分。在函数调用
+
+```
+   push(pop() - pop());   /* WRONG */
+```
+
+中并没有定义两次pop调用的求值次序。为了保证正确的次序，必须像main函数中一样把第一个值弹出到一个临时变量中。
+
+```
+   #define MAXVAL  100  /* maximum depth of val stack */
+
+   int sp = 0;          /* next free stack position */
+   double val[MAXVAL];  /* value stack */
+
+   /* push:  push f onto value stack */
+   void push(double f)
+   {
+       if (sp < MAXVAL)
+           val[sp++] = f;
+       else
+           printf("error: stack full, can't push %g\n", f);
+   }
+
+   /* pop:  pop and return top value from stack */
+   double pop(void)
+   {
+       if (sp > 0)
+           return val[--sp];
+       else {
+           printf("error: stack empty\n");
+           return 0.0;
+       }
+   }
+```
+A variable is external if it is defined outside of any function. Thus the stack and stack index that must be shared by push and pop are defined outside these functions. But main itself does not refer to the stack or stack position - the representation can be hidden.
+
+```
+   #define MAXVAL  100  /* maximum depth of val stack */
+
+   int sp = 0;          /* next free stack position */
+   double val[MAXVAL];  /* value stack */
+
+   /* push:  push f onto value stack */
+   void push(double f)
+   {
+       if (sp < MAXVAL)
+           val[sp++] = f;
+       else
+           printf("error: stack full, can't push %g\n", f);
+   }
+
+   /* pop:  pop and return top value from stack */
+   double pop(void)
+   {
+       if (sp > 0)
+           return val[--sp];
+       else {
+           printf("error: stack empty\n");
+           return 0.0;
+       }
+   }
+```
+如果变量定义在任何函数的外部，则是外部变量。因此，我们把push和pop函数必须共享的栈和栈顶指针定义在这两个函数的外部。但是，main函数本身并没有引用栈或栈顶指针，因此，对main函数而言要将它们隐藏起来。
+
+Let us now turn to the implementation of getop, the function that fetches the next operator or operand. The task is easy. Skip blanks and tabs. If the next character is not a digit or a hexadecimal point, return it. Otherwise, collect a string of digits (which might include a decimal point), and return NUMBER, the signal that a number has been collected.
+```cpp
+   #include <ctype.h>
+
+   int getch(void);
+   void ungetch(int);
+
+   /* getop:  get next character or numeric operand */
+   int getop(char s[])
+   {
+       int i, c;
+
+       while ((s[0] = c = getch()) == ' ' || c == '\t')
+           ;
+       s[1] = '\0';
+       if (!isdigit(c) && c != '.')
+           return c;      /* not a number */
+       i = 0;
+       if (isdigit(c))    /* collect integer part */
+           while (isdigit(s[++i] = c = getch()))
+              ;
+       if (c == '.')      /* collect fraction part */
+           while (isdigit(s[++i] = c = getch()))
+              ;
+       s[i] = '\0';
+       if (c != EOF)
+           ungetch(c);
+       return NUMBER;
+   }
+```
+
+下面我们来看getop函数的实现。该函数获取下一个运算符或操作数。该任务实现起来比较容易。它需要跳过空格与制表符。如果下—个字符不是数字或小数点，则返回；否则，把这些数字字符串收集起来(其中可能包含小数点)，并返回NUMBER，以标识数已经收集起来了。
+
+```cpp
+   #include <ctype.h>
+
+   int getch(void);
+   void ungetch(int);
+
+   /* getop:  get next character or numeric operand */
+   int getop(char s[])
+   {
+       int i, c;
+
+       while ((s[0] = c = getch()) == ' ' || c == '\t')
+           ;
+       s[1] = '\0';
+       if (!isdigit(c) && c != '.')
+           return c;      /* not a number */
+       i = 0;
+       if (isdigit(c))    /* collect integer part */
+           while (isdigit(s[++i] = c = getch()))
+              ;
+       if (c == '.')      /* collect fraction part */
+           while (isdigit(s[++i] = c = getch()))
+              ;
+       s[i] = '\0';
+       if (c != EOF)
+           ungetch(c);
+       return NUMBER;
+   }
+```
+
+What are getch and ungetch? It is often the case that a program cannot determine that it has read enough input until it has read too much. One instance is collecting characters that make up a number: until the first non-digit is seen, the number is not complete. But then the program has read one character too far, a character that it is not prepared for.
+
+这段程序中的getch与ungetch两个函数有什么用途呢，程序中经常会出现这样的情况：程序不能确定它已经读入的输入是否足够，除非超前多读入一些输入。读入一些字符以合成一个数字的情况便是一例：在看到第一个非数字字符之前，已经读入的数的完整性是不能确定的。由于程序要超前读入一个字符，这样就导致最后有一个字符不属于当前所要读入的数。
+
+The problem would be solved if it were possible to "un-read" the unwanted character. Then, every time the program reads one character too many, it could push it back on the input, so the rest of the code could behave as if it had never been read. Fortunately, it's easy to simulate un-getting a character, by writing a pair of cooperating functions. getch delivers the next input character to be considered; ungetch will return them before reading new input.
+
+如果能“反读”不需要的字符，该问题就可以得到解决。每当程序多读入一个字符时，就把它压回到输入中，对代码其余部分而言就好像没有读入该字符一样。我们可以编写一对互相协作的函数来比较方便地模拟反取字符操作。getch函数用于读入下一个待处理的字符，而ungetch函数则用于把字符放回到输入中，这样，此后在调用getch函数时，在读入新的输入之前先返回ungetch函数放回的那个字符。
+
+How they work together is simple. ungetch puts the pushed-back characters into a shared buffer -- a character array. getch reads from the buffer if there is anything else, and calls getchar if the buffer is empty. There must also be an index variable that records the position of the current character in the buffer.
+
+这两个函数之间的协同工作也很简单。ungetch函数把要压回的字符放到一个共享缓冲区(字符数组)中，当该缓冲区不空时，getch函数就从缓冲区中读取字符；当缓冲区为空时，getch函数调用getchar函数直接从输入中读字符。这里还需要增加一个下标变量来记住缓冲区中当前字符的位置。
+
+Since the buffer and the index are shared by getch and ungetch and must retain their values between calls, they must be external to both routines. Thus we can write getch, ungetch, and their shared variables as:
+```cpp
+   #define BUFSIZE 100
+
+   char buf[BUFSIZE];    /* buffer for ungetch */
+   int bufp = 0;         /* next free position in buf */
+
+   int getch(void)  /* get a (possibly pushed-back) character */
+   {
+       return (bufp > 0) ? buf[--bufp] : getchar();
+   }
+
+   void ungetch(int c)   /* push character back on input */
+   {
+       if (bufp >= BUFSIZE)
+           printf("ungetch: too many characters\n");
+       else
+           buf[bufp++] = c;
+   }
+```
+
+由于缓冲区与下标变量是供getch与ungetch函数共享的，且在两次调用之间必须保持值不变，因此它们必须是这两个函数的外部变量。可以按照下列方式编写getch、ungetch函数及其共享变量：
+
+```cpp
+   #define BUFSIZE 100
+
+   char buf[BUFSIZE];    /* buffer for ungetch */
+   int bufp = 0;         /* next free position in buf */
+
+   int getch(void)  /* get a (possibly pushed-back) character */
+   {
+       return (bufp > 0) ? buf[--bufp] : getchar();
+   }
+
+   void ungetch(int c)   /* push character back on input */
+   {
+       if (bufp >= BUFSIZE)
+           printf("ungetch: too many characters\n");
+       else
+           buf[bufp++] = c;
+   }
+```
+
+The standard library includes a function ungetch that provides one character of pushback; we will discuss it in Chapter 7. We have used an array for the pushback, rather than a single character, to illustrate a more general approach.
+
+标准库中提供了函数ungetc，它将一个字符压回到栈中，我们将在第7章中讨论该函数。为了提供一种更通用的方法，我们在这里使用了一个数组而不是一个字符。
+
+Exercise 4-3. Given the basic framework, it's straightforward to extend the calculator. Add the modulus (%) operator and provisions for negative numbers.
+
+练习4-3  在有了基本框架后，对计算器程序进行扩充就比较简单了。在该程序中加入取模(%)运算符，并注意考虑负数的情况。
+
+Exercise 4-4. Add the commands to print the top elements of the stack without popping, to duplicate it, and to swap the top two elements. Add a command to clear the stack.
+
+练习4-4  在栈操作中添加几个命令，分别用于在不弹出元素的情况下打印栈顶元素；复制栈顶元素；交换栈顶两个元素的值。另外增加一个命令用于清空栈。
+
+Exercise 4-5. Add access to library functions like sin, exp, and pow. See &lt;math.h&gt; in Appendix B, Section 4.
+
+练习4-5  给计算器程序增加访问sin、exp与pow等库函数的操作。有关这些库函数的详细信息，参见附录B.4节中的头文件&lt;math.h&gt;。
+
+Exercise 4-6. Add commands for handling variables. (It's easy to provide twenty-six variables with single-letter names.) Add a variable for the most recently printed value.
+
+练习4-6  给计算器程序增加处理变量的命令(提供26个具有单个英文字母变量名的变量很容易)。增加一个变量存放最近打印的值。
+
+Exercise 4-7. Write a routine ungets(s) that will push back an entire string onto the input. Should ungets know about buf and bufp, or should it just use ungetch?
+
+练习4-7  编写一个函数ungets(s)，将整个字符串s压回到输入中。ungets函数需要使用buf和bufp吗？它能否仅使用ungetch函数？
+
+Exercise 4-8. Suppose that there will never be more than one character of pushback. Modify getch and ungetch accordingly.
+
+练习4-8  假定最多只压回一个字符。请相应地修改getch与ungetch这两个函数。
+
+Exercise 4-9. Our getch and ungetch do not handle a pushed-back EOF correctly. Decide what their properties ought to be if an EOF is pushed back, then implement your design.
+
+练习4-9  以上介绍的getch与ungetch函数不能正确地处理压回的EOF。考虑压回EOF时应该如何处理？请实现你的设计方案。
+
+Exercise 4-10. An alternate organization uses getline to read an entire input line; this makes getch and ungetch unnecessary. Revise the calculator to use this approach.
+
+练习4-10  另一种方法是通过getline函数读入整个输入行，这种情况下可以不使用getch与ungetch函数。请运用这一方法修改计算器程序。

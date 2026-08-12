@@ -31,7 +31,7 @@ broken_links = []
 
 html_files.each do |html_file|
   html = File.read(html_file, encoding: "UTF-8", invalid: :replace)
-  html.scan(/(?:href|src)=["']([^"']+)["']/i).flatten.each do |raw_target|
+  html.scan(/(?:href|src)=(["'])(.*?)\1/i).each do |_quote, raw_target|
     target = CGI.unescapeHTML(raw_target)
     next if target.empty? || target.start_with?("#", "//")
     next if target.match?(%r{\A(?:https?|ftp|mailto|data|javascript):}i)

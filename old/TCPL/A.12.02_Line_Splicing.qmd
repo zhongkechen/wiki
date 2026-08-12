@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.12.02_Line_Splicing"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.2 Line Splicing
+
+Lines that end with the backslash character \\ are folded by deleting the backslash and the following newline character. This occurs before division into tokens.

@@ -1,0 +1,195 @@
+---
+title: "TCPL/1.10_External_Variables_and_Scope"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.10 External Variables and Scope 外部变量与作用域
+
+The variables in main, such as line, longest, etc., are private or local to main. Because they are declared within main, no other function can have direct access to them. The same is true of the variables in other functions; for example, the variable i in getline is unrelated to the i in copy. Each local variable in a function comes into existence only when the function is called, and disappears when the function is exited. This is why such variables are usually known as automatic variables, following terminology in other languages. We will use the term automatic henceforth to refer to these local variables. (Chapter 4 discusses the static storage class, in which local variables do retain their values between calls.)
+
+main函数中的变量(如line、longest等)是main函数的私有变量或局部变量。由于它们是在main函数中声明的，因此其他函数不能直接访问它们。其他函数中声明的变量也同样如此。例如，getline函数中声明的变量i与copy函数中声明的变量i没有关系。函数中的每个局部变量只在函数被调用时存在，在函数执行完毕退出时消失。这也是其他语言通常把这类变量称为*自动*变量的原因。以后我们使用“自动变量”代表“局部变量”。(第4章将讨论static存储类，这种类型的局部变量在多次函数调用之间保持值不变。)
+
+Because automatic variables come and go with function invocation, they do not retain their values from one call to the next, and must be explicitly set upon each entry. If they are not set, they will contain garbage.
+
+由于自动变量只在函数调用执行期间存在，因此，在函数的两次调用之间，自动变量不保留前次调用时的赋值，且在每次进入函数时都要显式为其赋值。如果自动变量没有赋值，则其中存放的是无效值。
+
+As an alternative to automatic variables, it is possible to define variables that are external to all functions, that is, variables that can be accessed by name by any function. (This mechanism is rather like Fortran COMMON or Pascal variables declared in the outermost block.) Because external variables are globally accessible, they can be used instead of argument lists to communicate data between functions. Furthermore, because external variables remain in existence permanently, rather than appearing and disappearing as functions are called and exited, they retain their values even after the functions that set them have returned.
+
+除自动变量外，还可以定义位于所有函数外部的变量，也就是说，在所有函数中都可以通过变量名访问这种类型的变量(这一机制同Fortran语言中的COMMON变量或Pascal语言中最外层程序块声明的变量非常类似)。由于外部变量可以在全局范围内访问，因此，函数间可以通过外部变量交换数据，而不必使用参数表。再者，外部变量在程序执行期间一定存在，而不是在函数调用时产生、在函数执行完毕时消失。即使在对外部变量赋值的函数返回后，这些变员仍将保持原来的值不变。
+
+An external variable must be defined, exactly once, outside of any function; this sets aside storage for it. The variable must also be declared in each function that wants to access it; this states the type of the variable. The declaration may be an explicit extern statement or may be implicit from context. To make the discussion concrete, let us rewrite the longest-line program with line, longest, and max as external variables. This requires changing the calls, declarations, and bodies of all three functions.
+```cpp
+   #include <stdio.h>
+
+   #define MAXLINE 1000    /* maximum input line size */
+
+   int max;                /* maximum length seen so far */
+   char line[MAXLINE];     /* current input line */
+   char longest[MAXLINE];  /* longest line saved here */
+
+   int getline(void);
+   void copy(void);
+
+   /* print longest input line; specialized version */
+   main()
+   {
+       int len;
+       extern int max;
+       extern char longest[];
+
+       max = 0;
+       while ((len = getline()) > 0)
+           if (len > max) {
+               max = len;
+               copy();
+           }
+       if (max > 0)  /* there was a line */
+           printf("%s", longest);
+       return 0;
+   }
+
+   /* getline:  specialized version */
+   int getline(void)
+   {
+       int c, i;
+       extern char line[];
+
+       for (i = 0; i < MAXLINE - 1
+            && (c=getchar)) != EOF && c != '\n'; ++i)
+                line[i] = c;
+       if (c == '\n') {
+           line[i] = c;
+           ++i;
+       }
+       line[i] = '\0';
+       return i;
+   }
+
+   /* copy: specialized version */
+   void copy(void)
+   {
+       int i;
+       extern char line[], longest[];
+
+       i = 0;
+       while ((longest[i] = line[i]) != '\0')
+           ++i;
+   }
+```
+
+外部变量必须定义在所有函数之外，且只能定义一次，定义后编译程序将为它分配存储单元。在每个需要访问外部变量的函数中，必须声明相应的外部变量，此时说明其类型。声明时可以用extern语句显式声明，也可以通过上下文隐式声明。为了更详细地讨论外部变量，我们改写上述打印最长文本行的程序，把line、longest与max声明成外部变量。这需要修改这3个函数的调用、声明与函数体。
+
+```cpp
+   #include <stdio.h>
+
+   #define MAXLINE 1000    /* maximum input line size */
+
+   int max;                /* maximum length seen so far */
+   char line[MAXLINE];     /* current input line */
+   char longest[MAXLINE];  /* longest line saved here */
+
+   int getline(void);
+   void copy(void);
+
+   /* print longest input line; specialized version */
+   main()
+   {
+       int len;
+       extern int max;
+       extern char longest[];
+
+       max = 0;
+       while ((len = getline()) > 0)
+           if (len > max) {
+               max = len;
+               copy();
+           }
+       if (max > 0)  /* there was a line */
+           printf("%s", longest);
+       return 0;
+   }
+
+   /* getline:  specialized version */
+   int getline(void)
+   {
+       int c, i;
+       extern char line[];
+
+       for (i = 0; i < MAXLINE - 1
+            && (c=getchar)) != EOF && c != '\n'; ++i)
+                line[i] = c;
+       if (c == '\n') {
+           line[i] = c;
+           ++i;
+       }
+       line[i] = '\0';
+       return i;
+   }
+
+   /* copy: specialized version */
+   void copy(void)
+   {
+       int i;
+       extern char line[], longest[];
+
+       i = 0;
+       while ((longest[i] = line[i]) != '\0')
+           ++i;
+   }
+```
+
+The external variables in main, getline and copy are defined by the first lines of the example above, which state their type and cause storage to be allocated for them. Syntactically, external definitions are just like definitions of local variables, but since they occur outside of functions, the variables are external. Before a function can use an external variable, the name of the variable must be made known to the function; the declaration is the same as before except for the added keyword extern.
+
+在该例子中，前几行定义了main、getline与copy函数使用的几个外部变量，声明了各外部变量的类型，这样编译程序将为它们分配存储单元。从语法角度看，外部变量的定义与局部变量的定义是相同的，但由于它们位于各函数的外部，因此这些变量是外部变量。函数在使用外部变量之前，必须要知道外部变量的名字。要达到该目的，一种方式是在函数中使用extern类型的声明。这种类型的声明除了在前面加了一个关键字extern外，其他方面与普通变量的声明相同。
+
+In certain circumstances, the extern declaration can be omitted. If the definition of the external variable occurs in the source file before its use in a particular function, then there is no need for an extern declaration in the function. The extern declarations in main, getline and copy are thus redundant. In fact, common practice is to place definitions of all external variables at the beginning of the source file, and then omit all extern declarations.
+
+某些情况下可以省略extern声明。在源文件中，如果外部变量的定义出现在使用它的函数之前，那么在那个函数中就没有必要使用extern声明。因此，main、getline及copy中的几个extern声明都是多余的。在通常的做法中，所有外部变量的定义都放在源文件的开
+始处，这样就可以省略extern声明。
+
+If the program is in several source files, and a variable is defined in file1 and used in file2 and file3, then extern declarations are needed in file2 and file3 to connect the occurrences of the variable. The usual practice is to collect extern declarations of variables and functions in a separate file, historically called a header, that is included by #include at the front of each source file. The suffix .h is conventional for header names. The functions of the standard library, for example, are declared in headers like &lt;stdio.h&gt;. This topic is discussed at length in Chapter 4, and the library itself in Chapter 7 and Appendix B.
+
+如果程序包含在多个源文件中，而某个变量在file1文件中定义、在file2和file3文件中使用，那么在文件2与file3中就需要使用extern声明来建立该变量与其定义之间的联系。人们通常把变量和函数的extern声明放在一个单独的文件中(习惯上称之为头文件)，并在每个源文件的开头使用#include语句把所要用的头文件包含进来。后缀名.h约定为头文件名的扩展名。例如，标准库中的函数就是在类似于&lt;stdio.h&gt;的头文件中声明的。更详细的信息将在第4章中讨论，第7章及附录B将讨论函数库。
+
+Since the specialized versions of getline and copy have no arguments, logic would suggest that their prototypes at the beginning of the file should be getline() and copy(). But for compatibility with older C programs the standard takes an empty list as an old-style declaration, and turns off all argument list checking; the word void must be used for an explicitly empty list. We will discuss this further in Chapter 4.
+
+在上述特别版本中，由于getline与copy函数都不带参数，因此从逻辑上讲，在源文件开始处它们的原型应该是getline()与copy()。但为了与老版本的C语言程序兼容，ANSI C语言把空参数表看成老版本C语言的声明方式，并且对参数表不再进行任何检查。在ANSI C中，如果要声明空参数表，则必须使用关键字void进行显式声明。第4章将对此进一步讨论。
+
+You should note that we are using the words definition and declaration carefully when we refer to external variables in this section. "Definition" refers to the place where the variable is created or assigned storage; "declaration" refers to places where the nature of the variable is stated but no storage is allocated.
+
+读者应该注意到，这—节中我们在谈论外部变量时谨慎地使用了定义(define)与声明(declaration)这两个词。“定义”表示创建变量或分配存储单元，而“声明”指的是说明变量的性质，但并不分配存储单元。
+
+By the way, there is a tendency to make everything in sight an extern variable because it appears to simplify communications - argument lists are short and variables are always there when you want them. But external variables are always there even when you don't want them. Relying too heavily on external variables is fraught with peril since it leads to programs whose data connections are not all obvious - variables can be changed in unexpected and even inadvertent ways, and the program is hard to modify. The second version of the longest-line program is inferior to the first, partly for these reasons, and partly because it destroys the generality of two useful functions by writing into them the names of the variables they manipulate.
+
+顺便提一下，现在越来越多的人把用到的所有东西都作为外部变量使用，因为似乎这样可以简化数据的通信——参数表变短了，且在需要时总可以访问这些变量。但是，即使在不使用外部变量的时候，它们也是存在的。过分依赖外部变量会导致一定的风险，因为它会使程序中的数据关系模糊不清——外部变量的值可能会被意外地或不经意地修改，而程序的修改又变得十分困难。我们前面编写的打印最长文本行的程序的第2个版本就不如第1个版本好，原因有两方面，其一便是使用了外部变量；另—方面，第2个版本中的函数将它们所操纵的变量名直接写入了函数，从而使这两个有用的函数失去了通用性。
+
+At this point we have covered what might be called the conventional core of C. With this handful of building blocks, it's possible to write useful programs of considerable size, and it would probably be a good idea if you paused long enough to do so. These exercises suggest programs of somewhat greater complexity than the ones earlier in this chapter.
+
+到目前为止，我们已经对C语言的传统核心部分进行了介绍。借助于这些少量的语言元素，我们已经能够编写出相当规模的有用的程序。建议读者花一些时间编写程序作为练习。下面的几个练习比本章前面编写的程序要复杂一些。
+
+Exercise 1-20. Write a program detab that replaces tabs in the input with the proper number of blanks to space to the next tab stop. Assume a fixed set of tab stops, say every n columns. Should n be a variable or a symbolic parameter?
+
+练习1-20 编写程序detab，将输入中的制表符替换成适当数目的空格，使交格充满到下一个制表符终止位的地方。假设制表符终止位的位胃是固定的，比如每隔n列就会出现一个制表符终止位。n应该作为变量还是符号常量呢？
+
+Exercise 1-21. Write a program entab that replaces strings of blanks by the minimum number of tabs and blanks to achieve the same spacing. Use the same tab stops as for detab. When either a tab or a single blank would suffice to reach a tab stop, which should be given preference?
+
+练习1-21  编写程序entab，将空格串替换为最少数量的制表符和空格，但要保持单词之间的间隔不变。假设制表符终止位的位置与练习1-20的detab程序的情况相同。当使用一个制表符或者一个空格都可以到达下一个制表符终止位时，选用哪一种替换字符比较好？
+
+Exercise 1-22. Write a program to "fold" long input lines into two or more shorter lines after the last non-blank character that occurs before the n-th column of input. Make sure your program does something intelligent with very long lines, and if there are no blanks or tabs before the specified column.
+
+练习1-22  编写一个程序，把较长的输入行“折”成短一些的两行或多行，折行的位置在输入行的第n列之前的最后一个非空格之后。要保证程序能够智能地处理输入行很长以及在指定的列前没有空格或制表符时的情况。
+
+Exercise 1-23. Write a program to remove all comments from a C program. Don't forget to handle quoted strings and character constants properly. C comments don't nest.
+
+练习1-23  编写一个删除C语言程序中所有的注释语句。要正确处理带引号的字符串与字符常量。在C语言中，注释不允许嵌套。
+
+Exercise 1-24. Write a program to check a C program for rudimentary syntax errors like unmatched parentheses, brackets and braces. Don't forget about quotes, both single and double, escape sequences, and comments. (This program is hard if you do it in full generality.)
+
+练习1-24  编写一个程序，查找C语言程序中的基本语法错误，如圆括号、方括号、花括号不配对等。要正确处理引号(包括单引号和双引号)、转义字符序列与注释。(如果读者想把该程序编写成完全通用的程序，难度会比较大。)

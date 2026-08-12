@@ -1,0 +1,144 @@
+---
+title: "TCPL/8.2_Low_Level_IO_-_Read_and_Write"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 8.2 Low Level I/O - Read and Write 低级I/O——read和write
+
+Input and output uses the read and write system calls, which are accessed from C programs through two functions called read and write. For both, the first argument is a file descriptor. The second argument is a character array in your program where the data is to go to or to come from. The third argument is the number is the number of bytes to be transferred.
+```
+   int n_read = read(int fd, char *buf, int n);
+   int n_written = write(int fd, char *buf, int n);
+```
+Each call returns a count of the number of bytes transferred. On reading, the number of bytes returned may be less than the number requested. A return value of zero bytes implies end of file, and -1 indicates an error of some sort. For writing, the return value is the number of bytes written; an error has occurred if this isn't equal to the number requested.
+
+输入与输出是通过read和write系统调用实现的。在C语言程序中，可以通过函数read和write访问这两个系统调用。这两个函数中，第一个参数是文件描述符，第二个参数是程序中存放读或写的数据的字符数组，第三个参数是要传输的字节数。
+
+```
+   int n_read = read(int fd, char *buf, int n);
+   int n_written = write(int fd, char *buf, int n);
+```
+
+每个调用返回实际传输的字节数。在读文件时，函数的返回值可能会小于请求的字节数。如果返回值为0，则表示已到达文件的结尾；如果返回值为-1，则表示发生了某种错误。在写文件时，返回值是实际写入的字节数。如果返回值与请求写入的字节数不相等，则说明发生了错误。
+
+Any number of bytes can be read or written in one call. The most common values are 1, which means one character at a time ("unbuffered"), and a number like 1024 or 4096 that corresponds to a physical block size on a peripheral device. Larger sizes will be more efficient because fewer system calls will be made.
+
+在一次调用中，读出或写入的数据的字节数可以为任意大小。最常用的值为1，即每次读出或写入1个字符(无缓冲)，或是类似于1024或4096这样的与外围设备的物理块大小相应的值。用更大的值调用该函数可以获得更高的效率，因为系统调用的次数减少了。
+
+Putting these facts together, we can write a simple program to copy its input to its output, the equivalent of the file copying program written for Chapter 1. This program will copy anything to anything, since the input and output can be redirected to any file or device.
+```cpp
+   #include "syscalls.h"
+
+   main()  /* copy input to output */
+   {
+       char buf[BUFSIZ];
+       int n;
+
+       while ((n = read(0, buf, BUFSIZ)) > 0)
+           write(1, buf, n);
+       return 0;
+   }
+```
+
+结合以上的讨论，我们可以编写一个简单的程序，将输入复制到输出，这与第l章中的复制程序在功能上相同。程序可以将任意输入复制到任意输出，因为输入/输出可以重定向到任何文件或设备：
+
+```cpp
+   #include "syscalls.h"
+
+   main()  /* copy input to output */
+   {
+       char buf[BUFSIZ];
+       int n;
+
+       while ((n = read(0, buf, BUFSIZ)) > 0)
+           write(1, buf, n);
+       return 0;
+   }
+```
+
+We have collected function prototypes for the system calls into a file called syscalls.h so we can include it in the programs of this chapter. This name is not standard, however.
+
+我们已经将系统调用的函数原型集中放在一个头文件syscalls.h中，因此，本章中的程序都将包含该头文件。不过，该文件的名字不是标准的。
+
+The parameter BUFSIZ is also defined in syscalls.h; its value is a good size for the local system. If the file size is not a multiple of BUFSIZ, some read will return a smaller number of bytes to be written by write; the next call to read after that will return zero.
+
+参数BUFSIZE也已经在syscalls.h头文件中定义。对于所使用的操作系统来说，该值是一个较合适的数值。如果文件大小不是BUFSIZE的倍数，则对read的某次调用会返回—个较小的字节数，write再按这个字节数写，此后再调用read将返回0。
+
+It is instructive to see how read and write can be used to construct higher-level routines like getchar, putchar, etc. For example, here is a version of getchar that does unbuffered input, by reading the standard input one character at a time.
+```cpp
+   #include "syscalls.h"
+
+   /* getchar:  unbuffered single character input */
+   int getchar(void)
+   {
+       char c;
+
+       return (read(0, &c, 1) == 1) ? (unsigned char) c : EOF;
+   }
+```
+c must be a char, because read needs a character pointer. Casting c to unsigned char in the return statement eliminates any problem of sign extension.
+
+为了更好地掌握有关概念，下面来说明如何用read和write构造类似于getchar、putchar等的高级函数。例如，以下是getchar函数的一个版本，它通过每次从标准输入读入一个字符来实现无缓冲输入。
+
+```cpp
+   #include "syscalls.h"
+
+   /* getchar:  unbuffered single character input */
+   int getchar(void)
+   {
+       char c;
+
+       return (read(0, &c, 1) == 1) ? (unsigned char) c : EOF;
+   }
+```
+
+其中，c必须是一个char类型的变量，因为read函数需要一个字符指针类型的参数(&c)。在返回语句中将c转换为unsigned char类型可以消除符号扩展问题。
+
+The second version of getchar does input in big chunks, and hands out the characters one at a time.
+```cpp
+   #include "syscalls.h"
+
+   /* getchar:  simple buffered version */
+   int getchar(void)
+   {
+       static char buf[BUFSIZ];
+       static char *bufp = buf;
+       static int n = 0;
+
+       if (n == 0) {  /* buffer is empty */
+           n = read(0, buf, sizeof buf);
+           bufp = buf;
+       }
+       return (--n >= 0) ? (unsigned char) *bufp++ : EOF;
+   }
+```
+If these versions of getchar were to be compiled with &lt;stdio.h&gt; included, it would be necessary to #undef the name getchar in case it is implemented as a macro.
+
+getchar的第二个版本一次读入一组字符，但每次只输出—个字符。
+
+```cpp
+   #include "syscalls.h"
+
+   /* getchar:  simple buffered version */
+   int getchar(void)
+   {
+       static char buf[BUFSIZ];
+       static char *bufp = buf;
+       static int n = 0;
+
+       if (n == 0) {  /* buffer is empty */
+           n = read(0, buf, sizeof buf);
+           bufp = buf;
+       }
+       return (--n >= 0) ? (unsigned char) *bufp++ : EOF;
+   }
+```
+
+如果要在包含头文件&lt;stdio.h&gt;的情况下编译这些版本的getchar函数，就有必要用#undef预处理指令取消名字getchar的宏定义，因为在头文件中，getchar是以宏方式实现的。

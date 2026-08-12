@@ -1,0 +1,33 @@
+---
+title: "TCPL/A.07.03_Postfix_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.3 Postfix Expressions
+
+The operators in postfix expressions group left to right.
+
+    postfix-expression:
+      primary-expression
+      postfix-expression[expression]
+      postfix-expression(argument-expression-listopt)
+      postfix-expression.identifier
+      postfix-expression-&gt;identifier
+      postfix-expression++
+      postfix-expression--
+
+    argument-expression-list:
+      assignment-expression
+      assignment-expression-list , assignment-expression
+
+* [A.7.3.1 Array References](<A.07.03.1_Array_References.qmd>)
+* [A.7.3.2 Function Calls](<A.07.03.2_Function_Calls.qmd>)
+* [A.7.3.3 Structure References](<A.07.03.3_Structure_References.qmd>)
+* [A.7.3.4 Postfix Incrementation](<A.07.03.4_Postfix_Incrementation.qmd>)

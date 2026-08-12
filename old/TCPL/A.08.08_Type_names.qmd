@@ -1,0 +1,38 @@
+---
+title: "TCPL/A.08.08_Type_names"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.8.8 Type names
+
+In several contexts (to specify type conversions explicitly with a cast, to declare parameter types in function declarators, and as argument of sizeof) it is necessary to supply the name of a data type. This is accomplished using a type name, which is syntactically a declaration for an object of that type omitting the name of the object.
+
+    type-name:
+      specifier-qualifier-list abstract-declaratoropt
+
+    abstract-declarator:
+      pointer
+      pointeropt direct-abstract-declarator
+
+    direct-abstract-declarator:
+      ( abstract-declarator )
+      direct-abstract-declaratoropt [constant-expressionopt]
+      direct-abstract-declaratoropt (parameter-type-listopt)
+
+It is possible to identify uniquely the location in the abstract-declarator where the identifier would appear if the construction were a declarator in a declaration. The named type is then the same as the type of the hypothetical identifier. For example,
+
+   int
+   int \*
+   int \*[3]
+   int (\*)[]
+   int \*()
+   int (\*[])(void)
+
+name respectively the types ``integer, *``pointer to integer,* ``array of 3 pointers to integers, *``pointer to an unspecified number of integers,* ``function of unspecified parameters returning pointer to integer, *and ``array, of unspecified size, of pointers to functions with no parameters each returning an integer.*

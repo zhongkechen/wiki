@@ -1,0 +1,19 @@
+---
+title: "TCPL/A.07.13_Bitwise_Inclusive_OR_Operator"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.13 Bitwise Inclusive OR Operator
+
+    inclusive-OR-expression:
+      exclusive-OR-expression
+      inclusive-OR-expression | exclusive-OR-expression
+
+The usual arithmetic conversions are performed; the result is the bitwise inclusive OR function of the operands. The operator applies only to integral operands.

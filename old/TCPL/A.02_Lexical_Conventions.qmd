@@ -1,0 +1,22 @@
+---
+title: "TCPL/A.02_Lexical_Conventions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.2 Lexical Conventions
+
+A program consists of one or more translation units stored in files. It is translated in several phases, which are described in Par.A.12. The first phases do low-level lexical transformations, carry out directives introduced by the lines beginning with the # character, and perform macro definition and expansion. When the preprocessing of Par.A.12 is complete, the program has been reduced to a sequence of tokens.
+
+* [A.2.1 Tokens](<A.02.1_Tokens.qmd>)
+* [A.2.2 Comments](<A.02.2_Comments.qmd>)
+* [A.2.3 Identifiers](<A.02.3_Identifiers.qmd>)
+* [A.2.4 Keywords](<A.02.4_Keywords.qmd>)
+* [A.2.5 Constants](<A.02.5_Constants.qmd>)
+* [A.2.6 String Literals](<A.02.6_String_Literals.qmd>)

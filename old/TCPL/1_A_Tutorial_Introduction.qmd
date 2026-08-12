@@ -23,3 +23,14 @@ This approach and its drawbacks. Most notable is that the complete story on any 
 In any case, experienced programmers should be able to extrapolate from the material in this chapter to their own programming needs. Beginners should supplement it by writing small, similar programs of their own. Both groups can use it as a framework on which to hang the more detailed descriptions that begin in Chapter 2.
 
 无论是利还是弊，一个经验丰富的程序员应该可以从本章介绍的内容中推知他们自己进行程序设计所需要的一些基本元素。初学者应编写一些类似的小程序作为本章内容的补充练习。无论是经验丰富的程序员还是初学者，都可以把本章作为后续各章节详细讲解的内容框架。
+
+* [1.1 Getting Started 入门](<1.01_Getting_Started.qmd>)
+* [1.2 Variables and Arithmetic Expressions 变量与算术表达式](<1.02_Variables_and_Arithmetic_Expressions.qmd>)
+* [1.3 The for statement for语句](<1.03_The_for_statement.qmd>)
+* [1.4 Symbolic Constants 符号常量](<1.04_Symbolic_Constants.qmd>)
+* [1.5 Character Input and Output 字符输入输出](<1.05_Character_Input_and_Output.qmd>)
+* [1.6 Arrays 数组](<1.06_Arrays.qmd>)
+* [1.7 Functions 函数](<1.07_Functions.qmd>)
+* [1.8 Arguments - Call by Value 参数——传值调用](<1.08_Arguments_-_Call_by_Value.qmd>)
+* [1.9 Character Arrays 字符数组](<1.09_Character_Arrays.qmd>)
+* [1.10 External Variables and Scope 外部变量与作用域](<1.10_External_Variables_and_Scope.qmd>)

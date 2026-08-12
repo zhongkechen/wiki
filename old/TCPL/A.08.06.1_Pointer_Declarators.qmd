@@ -1,0 +1,32 @@
+---
+title: "TCPL/A.08.06.1_Pointer_Declarators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+##### A.8.6.1 Pointer Declarators
+
+In a declaration T D where D has the form
+
+* type-qualifier-listopt D1
+
+and the type of the identifier in the declaration T D1 is ``type-modifier T, *the type of the identifier of D is ``type-modifier type-qualifier-list pointer to T.* Qualifiers following \* apply to pointer itself, rather than to the object to which the pointer points.
+
+For example, consider the declaration
+
+      int \*ap[];
+
+Here, ap[] plays the role of D1; a declaration ``int ap[] *(below) would give ap the type ``array of int,* the type-qualifier list is empty, and the type-modifier is ``array of. *Hence the actual declaration gives ap the type ``array to pointers to int.*
+
+As other examples, the declarations
+
+      int i, \*pi, \*const cpi = &i;
+      const int ci = 3, \*pci;
+
+declare an integer i and a pointer to an integer pi. The value of the constant pointer cpi may not be changed; it will always point to the same location, although the value to which it refers may be altered. The integer ci is constant, and may not be changed (though it may be initialized, as here.) The type of pci is ``pointer to const int,'' and pci itself may be changed to point to another place, but the value to which it points may not be altered by assigning through pci.

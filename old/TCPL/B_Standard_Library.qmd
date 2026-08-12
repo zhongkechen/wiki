@@ -27,3 +27,15 @@ A header can be accessed by
 Headers may be included in any order and any number of times. A header must be included outside of any external declaration or definition and before any use of anything it declares. A header need not be a source file.
 
 External identifiers that begin with an underscore are reserved for use by the library, as are all other identifiers that begin with an underscore and an upper-case letter or another underscore.
+
+* [B.1 Input and Output: &lt;stdio.h&gt;](<B.01_Input_and_Output:_stdio.h.qmd>)
+* [B.2 Character Class Tests: &lt;ctype.h&gt;](<B.02_Character_Class_Tests:_ctype.h.qmd>)
+* [B.3 String Functions: &lt;string.h&gt;](<B.03_String_Functions:_string.h.qmd>)
+* [B.4 Mathematical Functions: &lt;math.h&gt;](<B.04_Mathematical_Functions:_math.h.qmd>)
+* [B.5 Utility Functions: &lt;stdlib.h&gt;](<B.05_Utility_Functions:_stdlib.h.qmd>)
+* [B.6 Diagnostics: &lt;assert.h&gt;](<B.06_Diagnostics:_assert.h.qmd>)
+* [B.7 Variable Argument Lists: &lt;stdarg.h&gt;](<B.07_Variable_Argument_Lists:_stdarg.h.qmd>)
+* [B.8 Non-local Jumps: &lt;setjmp.h&gt;](<B.08_Non-local_Jumps:_setjmp.h.qmd>)
+* [B.9 Signals: &lt;signal.h&gt;](<B.09_Signals:_signal.h.qmd>)
+* [B.10 Date and Time Functions: &lt;time.h&gt;](<B.10_Date_and_Time_Functions:_time.h.qmd>)
+* [B.11 Implementation-defined Limits: &lt;limits.h&gt; and &lt;float.h&gt;](<B.11_Implementation-defined_Limits:_limits.h_and_float.h.qmd>)

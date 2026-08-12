@@ -1,0 +1,20 @@
+---
+title: "TCPL/A.09.2_Expression_Statement"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.9.2 Expression Statement
+
+Most statements are expression statements, which have the form
+
+    expression-statement:
+      expressionopt;
+
+Most expression statements are assignments or function calls. All side effects from the expression are completed before the next statement is executed. If the expression is missing, the construction is called a null statement; it is often used to supply an empty body to an iteration statement to place a label.

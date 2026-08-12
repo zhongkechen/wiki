@@ -1,0 +1,239 @@
+---
+title: "TCPL/2.03_Constants"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.3 Constants 常量
+
+An integer constant like 1234 is an int. A long constant is written with a terminal l (ell) or L, as in 123456789L; an integer constant too big to fit into an int will also be taken as a long. Unsigned constants are written with a terminal u or U, and the suffix ul or UL indicates unsigned long.
+
+类似于1234的整数常量属于int类型。long类型的常量以字母l或L结尾，如123456789L。如果一个整数太大以至于无法用Int类型表示时，也将被当作long类型处理。无符号常量以字母u或U结尾。后缀ul或UL表明是unsigned long类型。
+
+Floating-point constants contain a decimal point (123.4) or an exponent (1e-2) or both; their type is double, unless suffixed. The suffixes f or F indicate a float constant; l or L indicate a long double.
+
+浮点数常量中包含一个小数点(如123.4)或一个指数(如1e-2)，也可以两者都有。没有后缀的浮点数常量为double类型。后缀f或F表示float类型，而后缀l或L则表示long double类型。
+
+The value of an integer can be specified in octal or hexadecimal instead of decimal. A leading 0 (zero) on an integer constant means octal; a leading 0x or 0X means hexadecimal. For example, decimal 31 can be written as 037 in octal and 0x1f or 0x1F in hex. Octal and hexadecimal constants may also be followed by L to make them long and U to make them unsigned: 0XFUL is an unsigned long constant with value 15 decimal.
+
+整型数除了用十进制表示外，还可以用八进制或十六进制表示。带前缀0的整型常量表示它为八进制形式；前缀为0x或0X，则表示它为十六进制形式。例如．十进制数31可以写成八进制形式037，也可以写成十六进制形式0x1f或0X1F。八进制与十六进制的常量也可以使用后缀L表示long类型，使用后缀u表示unsigned类型。例如．0XFUL是一个unsigned long类型(无符号长整型)的常量，其值等于十进制数15。
+
+A character constant is an integer, written as one character within single quotes, such as 'x'. The value of a character constant is the numeric value of the character in the machine's character set. For example, in the ASCII character set the character constant '0' has the value 48, which is unrelated to the numeric value 0. If we write '0' instead of a numeric value like 48 that depends on the character set, the program is independent of the particular value and easier to read. Character constants participate in numeric operations just as any other integers, although they are most often used in comparisons with other characters.
+
+一个字符常量是一个整数，书写时将一个字符括在单引号中，如'x'。字符在机器字符集中的数值就是字符常量的值。例如，在ASCII字符集中，字符'0'的值为48，它与数值0没有关系。如果用字符'0'代替这个与具体字符集有关的值(比如48)，那么，程序就无需关心该字符对应的具体值，增加了程序的易读性。字符常量一般用来与其他字符进行比较，但也可以像其他整数一样参与数值运算。
+
+Certain characters can be represented in character and string constants by escape sequences like \\n (newline); these sequences look like two characters, but represent only one. In addition, an arbitrary byte-sized bit pattern can be specified by
+```
+   '\ooo'
+```
+where ooo is one to three octal digits (0...7) or by
+```
+   '\xhh'
+```
+where hh is one or more hexadecimal digits (0...9, a...f, A...F). So we might write
+```
+   #define VTAB '\013'   /* ASCII vertical tab */
+   #define BELL '\007'   /* ASCII bell character */
+```
+or, in hexadecimal,
+```
+   #define VTAB '\xb'   /* ASCII vertical tab */
+   #define BELL '\x7'   /* ASCII bell character */
+```
+
+某些字符可以通过转义字符序列(例如，换行符\\n)表示为字符和字符串常量。转义字符序列看起来像两个字符，但只表示一个字符。另外，我们可以用
+
+```
+   '\ooo'
+```
+
+表示任意的字节大小的位模式。其中，ooo代表1～3个八进制数字(0…7)。这种位模式还可
+以用
+
+```
+   '\xhh'
+```
+
+表示，其中，hh是一个或多个十六进制数字(0…9、a…f，A…F)。因此，我们可以按照下
+列形式书写语句：
+
+```
+   #define VTAB '\013'   /* ASCII vertical tab */
+   #define BELL '\007'   /* ASCII bell character */
+```
+
+上述语句也可以用十六进制的形式书写为：
+
+```
+   #define VTAB '\xb'   /* ASCII vertical tab */
+   #define BELL '\x7'   /* ASCII bell character */
+```
+
+The complete set of escape sequences is
+```
+ \a 	 响铃符 	 \\	  反斜杠
+ \b 	 回退符	 \?	 问号
+ \f 	 换页符	  \'	 单引号
+ \n 	 换行符	 \" 	 双引号
+ \r 	 回车符	 \ooo 	 八进制数
+ \t 	 横向制表符	 \xhh 	 16进制数
+ \v 	 纵向制表符
+```
+
+ANSI C语言中的全部转义字符序列如下所示：
+
+```
+ \a 	 alert (bell) character 	 \\	  backslash
+ \b 	 backspace	 \?	 question mark
+ \f 	 formfeed	  \'	 single quote
+ \n 	 newline	 \" 	 double quote
+ \r 	 carriage return	 \ooo 	 octal number
+ \t 	 horizontal tab	 \xhh 	 hexadecimal number
+ \v 	 vertical tab
+```
+
+The character constant '\\0' represents the character with value zero, the null character. '\\0' is often written instead of 0 to emphasize the character nature of some expression, but the numeric value is just 0.
+
+字符常景'\\0'表示值为0的字符，也就是空字符(null)。我们通常用'\\0'的形式代替。以强调某些表达式的字符属性，但其数字值为0。
+
+A constant expression is an expression that involves only constants. Such expressions may be evaluated at during compilation rather than run-time, and accordingly may be used in any place that a constant can occur, as in
+```
+   #define MAXLINE 1000
+   char line[MAXLINE+1];
+```
+or
+```
+   #define LEAP 1 /* in leap years */
+   int days[31+28+LEAP+31+30+31+30+31+31+30+31+30+31];
+```
+
+常量表达式是仅仅只包含常量的表达式。这种表达式在编译时求值，而不在运行时求值。它可以出现在常量可以出现的任何位置，例如：
+
+```
+   #define MAXLINE 1000
+   char line[MAXLINE+1];
+```
+
+或
+
+```
+   #define LEAP 1 /* in leap years */
+   int days[31+28+LEAP+31+30+31+30+31+31+30+31+30+31];
+```
+
+A string constant, or string literal, is a sequence of zero or more characters surrounded by double quotes, as in
+```
+   "I am a string"
+```
+or
+```
+   "" /* the empty string */
+```
+The quotes are not part of the string, but serve only to delimit it. The same escape sequences used in character constants apply in strings; \\" represents the double-quote character. String constants can be concatenated at compile time:
+```
+   "hello, " "world"
+```
+is equivalent to
+```
+   "hello, world"
+```
+This is useful for splitting up long strings across several source lines.
+
+字符串常量也叫字符串字面值，是用双引号括起来的0个或多个字符组成的字符序列。例如：
+```
+   "I am a string"
+```
+或者
+```
+   "" /* the empty string */
+```
+
+都是字符串。双引导不是字符串的一部分，它只用于限定字符串。字符常量中使用的转义字符序列同样也可以用在字符串中。在字符串中使用\\"表示双引号字符。编译时可以将多个字符串常量连接起来，例如，下列形式：
+
+```
+   "hello, " "world"
+```
+
+等价于
+```
+   "hello, world"
+```
+
+字符串常量的连接为将较长的字符串分散在若干个源文件行中提供了支持。
+
+Technically, a string constant is an array of characters. The internal representation of a string has a null character '\\0' at the end, so the physical storage required is one more than the number of characters written between the quotes. This representation means that there is no limit to how long a string can be, but programs must scan a string completely to determine its length. The standard library function strlen(s) returns the length of its character string argument s, excluding the terminal '\\0'. Here is our version:
+```cpp
+   /* strlen:  return length of s */
+   int strlen(char s[])
+   {
+       int i;
+
+       while (s[i] != '\0')
+           ++i;
+       return i;
+   }
+```
+strlen and other string functions are declared in the standard header &lt;string.h&gt;.
+
+从技术角度看，字符串常量就是字符数组。字符串的内部表示使用一个空字符'\\0'作为串的结尾，因此，存储字符串的物理存储单元数比括在双引号中的字符数多一个。这种表示方法也说明，C语言对字符串的长度没有限制，但程序必须扫描完整个字符串后才能确定字符串的长度。标准库函数strlen(s)可以返回字符串参数s的长度，但长度不包括末尾的'\\0'。下面是我们设计的strlen函数的一个版本：
+
+```cpp
+   /* strlen:  return length of s */
+   int strlen(char s[])
+   {
+       int i;
+
+       while (s[i] != '\0')
+           ++i;
+       return i;
+   }
+```
+标谁头文件&lt;string.h&gt;中声明了strlen和其他字符串函数。
+
+Be careful to distinguish between a character constant and a string that contains a single character: 'x' is not the same as "x". The former is an integer, used to produce the numeric value of the letter x in the machine's character set. The latter is an array of characters that contains one character (the letter x) and a '\\0'.
+
+我们应该搞清楚字符常量与仅包含一个字符的字符串之间的区别：'x'与"x"是不同的。前者是一个整数，其值是字母x在机器字符集中对应的数值(内部表示值)；后者是一个包含一个字符(即字母x)以及一个结束符'\\0'的字符数组。
+
+There is one other kind of constant, the enumeration constant. An enumeration is a list of constant integer values, as in
+```
+   enum boolean { NO, YES };
+```
+The first name in an enum has value 0, the next 1, and so on, unless explicit values are specified. If not all values are specified, unspecified values continue the progression from the last specified value, as the second of these examples:
+```
+   enum escapes { BELL = '\a', BACKSPACE = '\b', TAB = '\t',
+                  NEWLINE = '\n', VTAB = '\v', RETURN = '\r' };
+
+   enum months { JAN = 1, FEB, MAR, APR, MAY, JUN,
+                 JUL, AUG, SEP, OCT, NOV, DEC };
+                       /* FEB = 2, MAR = 3, etc. */
+```
+Names in different enumerations must be distinct. Values need not be distinct in the same enumeration.
+
+枚举常量是另外一种类型的常量。枚举是一个常量整型值的列表，例如
+
+```
+   enum boolean { NO, YES };
+```
+
+在没有显式说明的情况下，enum类型中第一个枚举名的值为0，第二个为1，依此类推。如果只指定了部分枚举名的值，那么未指定值的枚举名的值将依着最后一个指定值向后递增，参看下面两个例子中的第二个例子：
+
+```
+   enum escapes { BELL = '\a', BACKSPACE = '\b', TAB = '\t',
+                  NEWLINE = '\n', VTAB = '\v', RETURN = '\r' };
+
+   enum months { JAN = 1, FEB, MAR, APR, MAY, JUN,
+                 JUL, AUG, SEP, OCT, NOV, DEC };
+                       /* FEB = 2, MAR = 3, etc. */
+```
+
+不同枚举中的名字必须互不相同。同一枚举中不同的名字可以具有相同的值。
+
+Enumerations provide a convenient way to associate constant values with names, an alternative to #define with the advantage that the values can be generated for you. Although variables of enum types may be declared, compilers need not check that what you store in such a variable is a valid value for the enumeration. Nevertheless, enumeration variables offer the chance of checking and so are often better than #defines. In addition, a debugger may be able to print values of enumeration variables in their symbolic form.
+
+枚举为建立常量值与名字之间的关联提供了—种便利的方式。相对于#define语句来说，它的优势在于常量值可以自动生成。尽管可以声明enum类型的变量，但编译器不检查这种类型的变量中存储的值是否为该枚举的有效值。不过，枚举变量提供这种检查，因此枚举比#define更具优势。【czk注：这样写为编译器提供了检查的机会，但是编译器不一定会做这样的检查。】此外，调试程序可以以符号形式打印出枚举变量的值。

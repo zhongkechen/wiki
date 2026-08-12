@@ -1,0 +1,273 @@
+---
+title: "TCPL/8.7_Example_-_A_Storage_Allocator"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 8.7 Example - A Storage Allocator 实例——存储分配程序
+
+In Chapter 5, we presented a vary limited stack-oriented storage allocator. The version that we will now write is unrestricted. Calls to malloc and free may occur in any order; malloc calls upon the operating system to obtain more memory as necessary. These routines illustrate some of the considerations involved in writing machine-dependent code in a relatively machine-independent way, and also show a real-life application of structures, unions and typedef.
+
+我们在第5章给出了一个功能有限的面向栈的存储分配程序。本节将要编写的版本没有限制，可以以任意次序调用malloc和free。malloc在必要时调用操作系统以获取更多的存储空间。这些程序说明了通过一种与系统无关的方式编写与系统有关的代码时应考虑的问题，同时也展示了结构、联合和typedef的实际应用。
+
+Rather than allocating from a compiled-in fixed-size array, malloc will request space from the operating system as needed. Since other activities in the program may also request space without calling this allocator, the space that malloc manages may not be contiguous. Thus its free storage is kept as a list of free blocks. Each block contains a size, a pointer to the next block, and the space itself. The blocks are kept in order of increasing storage address, and the last block (highest address) points to the first.
+
+![pic81.gif](<assets/TCPL/8.7_Example_-_A_Storage_Allocator/pic81.gif>)
+
+malloc并不是从一个在编译时就确定的固定大小的数组中分配存储串间，而是在需要时向操作系统申请空间。因为程序中的某些地方可能不通过malloc调用申请空间(也就是说，通过其他方式申请空间)，所以，malloc管理的空间不一定是连续的。这样，空闲存储空间以空闲块链表的方式组织，每个块包含一个长度、一个指向下一块的指针以及一个指向自身存储空间的指针。这些块按照存储地址的升序组织，最后一块(最高地址)指向第一块(参见图8-1)。
+
+![pic81.gif](<assets/TCPL/8.7_Example_-_A_Storage_Allocator/pic81.gif>)
+
+When a request is made, the free list is scanned until a big-enough block is found. This algorithm is called "first fit", by contrast with "best fit", which looks for the smallest block that will satisfy the request. If the block is exactly the size requested it is unlinked from the list and returned to the user. If the block is too big, it is split, and the proper amount is returned to the user while the residue remains on the free list. If no big-enough block is found, another large chunk is obtained by the operating system and linked into the free list.
+
+当有申请请求时，malloc将扫描空闲块链表，直到找到一个足够大的块为止。该算法称为“首次适应”(first fit)；与之相对的算法是“最佳适应”(best fit)，它寻找满足条件的最小块。如果该块恰好与请求的大小相符合，则将它从链表中移走并返回给用户。如果该块太大，则将它分成两部分；大小合适的块返回给用户，剩下的部分留在空闲块链表中。如果找不到一个足够大的块，则向操作系统申请一个大块并加入到空闲块链表中。
+
+Freeing also causes a search of the free list, to find the proper place to insert the block being freed. If the block being freed is adjacent to a free block on either side, it is coalesced with it into a single bigger block, so storage does not become too fragmented. Determining the adjacency is easy because the free list is maintained in order of decreasing address.
+
+释放过程也是首先搜索空闲块链表，以找到可以插入被释放块的合适位置。如果与被释放块相邻的任一边是—个空闲块，则将这两个块合成一个更大的块，这样存储空间不会有太多的碎片。因为空闲块链表是以地址的递增顺序链接在一起的．所以很容易判断相邻的块是否空闲。
+
+One problem, which we alluded to in Chapter 5, is to ensure that the storage returned by malloc is aligned properly for the objects that will be stored in it. Although machines vary, for each machine there is a most restrictive type: if the most restrictive type can be stored at a particular address, all other types may be also. On some machines, the most restrictive type is a double; on others, int or long suffices.
+
+我们在第5章中曾提出了这样的问题，即确保出malloc函数返回的存储空间满足将要保存的对象的对齐要求。虽然机器类型各异，但是，每个特定的机器都有一个最受限的类型：如果最受限的类型可以存储在某个特定的地址中，则其他所有的类型也可以存放在此地址中。在某些机器中，最受限的类型是double类型；而在另外一些机器中，最受限的类型是int或long类型。
+
+A free block contains a pointer to the next block in the chain, a record of the size of the block, and then the free space itself; the control information at the beginning is called the "header". To simplify alignment, all blocks are multiples of the header size, and the header is aligned properly. This is achieved by a union that contains the desired header structure and an instance of the most restrictive alignment type, which we have arbitrarily made a long:
+```cpp
+   typedef long Align;    /* for alignment to long boundary */
+
+   union header {         /* block header */
+       struct {
+           union header *ptr; /* next block if on free list */
+           unsigned size;     /* size of this block */
+       } s;
+       Align x;           /* force alignment of blocks */
+   };
+
+   typedef union header Header;
+```
+The Align field is never used; it just forces each header to be aligned on a worst-case boundary.
+
+空闲块包含一个指向链表中下一个块的指针、一个块大小的记录和一个指向空闲空间本身的指针。位于块开始处的控制信息称为“头部”。为了简化块的对齐，所有块的大小都必须是头部大小的整数倍，且头部已正确地对齐。这是通过一个联合实现的，该联合包含所需的头部结构以及一个对齐要求最受限的类型的实例，在下面这段程序中，我们假定long类型为最受限的类型：
+
+```cpp
+   typedef long Align;    /* for alignment to long boundary */
+
+   union header {         /* block header */
+       struct {
+           union header *ptr; /* next block if on free list */
+           unsigned size;     /* size of this block */
+       } s;
+       Align x;           /* force alignment of blocks */
+   };
+
+   typedef union header Header;
+```
+
+在该联合中，A1ign字段永远不会被使用，它仅仅用于强制每个头部在最坏的情况下满足对
+齐要求。
+
+In malloc, the requested size in characters is rounded up to the proper number of header-sized units; the block that will be allocated contains one more unit, for the header itself, and this is the value recorded in the size field of the header. The pointer returned by malloc points at the free space, not at the header itself. The user can do anything with the space requested, but if anything is written outside of the allocated space the list is likely to be scrambled.
+
+![pic82.gif](<assets/TCPL/8.7_Example_-_A_Storage_Allocator/pic82.gif>)
+
+在malloc函数中，请求的长度(以字符为单位)将被舍入，以保证它是头部大小的整数倍。实际分配的块将多包含一个单元，用于头部本身。实际分配的块的大小将被记录在头部的size字段中。malloc函数返回的指针将指向空闲空间，而不是块的头部。用户可对获得的存储空间进行任何操作，但是，如果在分配的存储空间之外写入数据，则可能会破坏块链表。图8-2表示出ma11oc返回的块。
+
+The size field is necessary because the blocks controlled by malloc need not be contiguous - it is not possible to compute sizes by pointer arithmetic.
+
+其中的size字段是必需的，因为由malloc函数控制的块不一定是连续的，这样就不可能通过指针算术运算计算其大小。
+
+The variable base is used to get started. If freep is NULL, as it is at the first call of malloc, then a degenerate free list is created; it contains one block of size zero, and points to itself. In any case, the free list is then searched. The search for a free block of adequate size begins at the point (freep) where the last block was found; this strategy helps keep the list homogeneous. If a too-big block is found, the tail end is returned to the user; in this way the header of the original needs only to have its size adjusted. In all cases, the pointer returned to the user points to the free space within the block, which begins one unit beyond the header.
+```cpp
+   static Header base;       /* empty list to get started */
+   static Header *freep = NULL;     /* start of free list */
+
+   /* malloc:  general-purpose storage allocator */
+   void *malloc(unsigned nbytes)
+   {
+       Header *p, *prevp;
+       Header *moreroce(unsigned);
+       unsigned nunits;
+
+       nunits = (nbytes+sizeof(Header)-1)/sizeof(header) + 1;
+       if ((prevp = freep) == NULL) {   /* no free list yet */
+           base.s.ptr = freeptr = prevptr = &base;
+           base.s.size = 0;
+       }
+       for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr) {
+           if (p->s.size >= nunits) {  /* big enough */
+               if (p->s.size == nunits)  /* exactly */
+                   prevp->s.ptr = p->s.ptr;
+               else {              /* allocate tail end */
+                   p->s.size -= nunits;
+                   p += p->s.size;
+                   p->s.size = nunits;
+               }
+               freep = prevp;
+               return (void *)(p+1);
+           }
+           if (p == freep)  /* wrapped around free list */
+               if ((p = morecore(nunits)) == NULL)
+                   return NULL;    /* none left */
+       }
+   }
+```
+
+变量base表示空闲块链表的头部。第一次调用malloc函数时，freep为NULL，系统将创建一个退化的空闲块链表，它只包含一个大小为0的块，且该块指向它自己。任何情况下，当请求空闲空间时，都将搜索空闲块链表。搜索从上一次找到空闲块的地方(freep)开始。该策略可以保证链表是均匀的。如果找到的块太大，则将其尾部返回给用户，这样，初始块的头部只需要修改size字段即可。在任何情况下，返回给用户的指针都指向块内的空闲存储空间，即比指向头部的指针大一个单元。
+
+```cpp
+   static Header base;       /* empty list to get started */
+   static Header *freep = NULL;     /* start of free list */
+
+   /* malloc:  general-purpose storage allocator */
+   void *malloc(unsigned nbytes)
+   {
+       Header *p, *prevp;
+       Header *moreroce(unsigned);
+       unsigned nunits;
+
+       nunits = (nbytes+sizeof(Header)-1)/sizeof(header) + 1;
+       if ((prevp = freep) == NULL) {   /* no free list yet */
+           base.s.ptr = freeptr = prevptr = &base;
+           base.s.size = 0;
+       }
+       for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr) {
+           if (p->s.size >= nunits) {  /* big enough */
+               if (p->s.size == nunits)  /* exactly */
+                   prevp->s.ptr = p->s.ptr;
+               else {              /* allocate tail end */
+                   p->s.size -= nunits;
+                   p += p->s.size;
+                   p->s.size = nunits;
+               }
+               freep = prevp;
+               return (void *)(p+1);
+           }
+           if (p == freep)  /* wrapped around free list */
+               if ((p = morecore(nunits)) == NULL)
+                   return NULL;    /* none left */
+       }
+   }
+```
+
+The function morecore obtains storage from the operating system. The details of how it does this vary from system to system. Since asking the system for memory is a comparatively expensive operation. we don't want to do that on every call to malloc, so morecore requests al least NALLOC units; this larger block will be chopped up as needed. After setting the size field, morecore inserts the additional memory into the arena by calling free.
+
+函数morecore用于向操作系统请求存储空间，其实现细节因系统的不同而不同。因为向系统请求存储空间是一个开销很大的操作，因此，我们不希望每次调用malloc函数时都执行该操作，基于这个考虑，morecore函数请求至少NALLOC个单元。这个较大的块将根据需要分成较小的块。在设置完size字段之后，morecore函数调用free函数把多余的存储空间插入到空闲区域中。
+
+The UNIX system call sbrk(n) returns a pointer to n more bytes of storage. sbrk returns -1 if there was no space, even though NULL could have been a better design. The -1 must be cast to char \* so it can be compared with the return value. Again, casts make the function relatively immune to the details of pointer representation on different machines. There is still one assumption, however, that pointers to different blocks returned by sbrk can be meaningfully compared. This is not guaranteed by the standard, which permits pointer comparisons only within an array. Thus this version of malloc is portable only among machines for which general pointer comparison is meaningful.
+```cpp
+   #define NALLOC  1024   /* minimum #units to request */
+
+   /* morecore:  ask system for more memory */
+   static Header *morecore(unsigned nu)
+   {
+       char *cp, *sbrk(int);
+       Header *up;
+
+       if (nu < NALLOC)
+           nu = NALLOC;
+       cp = sbrk(nu * sizeof(Header));
+       if (cp == (char *) -1)   /* no space at all */
+           return NULL;
+       up = (Header *) cp;
+       up->s.size = nu;
+       free((void *)(up+1));
+       return freep;
+   }
+```
+
+UNIX系统调用sbrk(n)返回一个指针，该指针指向n个字节的存储空间。如果没有空闲空间，尽管返回NULL可能更好一些．但sbrk调用返回-1。必须将-1强制转换为char \*类型，以便与返回值进行比较。而且，强制类型转换使得该函数不会受不同机器中指针表示的不同的影响。但是，这里仍然假定，由sbrk调用返回的指向不同块的多个指针之间可以进行有意义的比较。ANSI标准并没有保证这一点，它只允许指向同一个数组的指针间的比较。因此，只有在一般指针间的比较操作有意义的机器上，该版本的malloc函数才能够移植。
+
+```cpp
+   #define NALLOC  1024   /* minimum #units to request */
+
+   /* morecore:  ask system for more memory */
+   static Header *morecore(unsigned nu)
+   {
+       char *cp, *sbrk(int);
+       Header *up;
+
+       if (nu < NALLOC)
+           nu = NALLOC;
+       cp = sbrk(nu * sizeof(Header));
+       if (cp == (char *) -1)   /* no space at all */
+           return NULL;
+       up = (Header *) cp;
+       up->s.size = nu;
+       free((void *)(up+1));
+       return freep;
+   }
+```
+
+free itself is the last thing. It scans the free list, starting at freep, looking for the place to insert the free block. This is either between two existing blocks or at the end of the list. In any case, if the block being freed is adjacent to either neighbor, the adjacent blocks are combined. The only troubles are keeping the pointers pointing to the right things and the sizes correct.
+```cpp
+   /* free:  put block ap in free list */
+   void free(void *ap)
+   {
+       Header *bp, *p;
+
+       bp = (Header *)ap - 1;    /* point to  block header */
+       for (p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
+            if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
+                break;  /* freed block at start or end of arena */
+
+       if (bp + bp->size == p->s.ptr) {    /* join to upper nbr */
+           bp->s.size += p->s.ptr->s.size;
+           bp->s.ptr = p->s.ptr->s.ptr;
+       } else
+           bp->s.ptr = p->s.ptr;
+       if (p + p->size == bp) {            /* join to lower nbr */
+           p->s.size += bp->s.size;
+           p->s.ptr = bp->s.ptr;
+       } else
+           p->s.ptr = bp;
+       freep = p;
+   }
+```
+
+我们最后来看一下free函数。它从freep指向的地址开始，逐个扫描空闲块链表，寻找可以插入空闲块的地方。该位置可能在两个空闲块之间，也可能在链表的末尾。在任何一种情况下，如果被释放的块与另一空闲块相邻，则将这两个块合并起来。合并两个块的操作很简单，只需要设置指针指向正确的位置，并设量正确的块大小就可以了。
+
+```cpp
+   /* free:  put block ap in free list */
+   void free(void *ap)
+   {
+       Header *bp, *p;
+
+       bp = (Header *)ap - 1;    /* point to  block header */
+       for (p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
+            if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
+                break;  /* freed block at start or end of arena */
+
+       if (bp + bp->size == p->s.ptr) {    /* join to upper nbr */
+           bp->s.size += p->s.ptr->s.size;
+           bp->s.ptr = p->s.ptr->s.ptr;
+       } else
+           bp->s.ptr = p->s.ptr;
+       if (p + p->size == bp) {            /* join to lower nbr */
+           p->s.size += bp->s.size;
+           p->s.ptr = bp->s.ptr;
+       } else
+           p->s.ptr = bp;
+       freep = p;
+   }
+```
+
+Although storage allocation is intrinsically machine-dependent, the code above illustrates how the machine dependencies can be controlled and confined to a very small part of the program. The use of typedef and union handles alignment (given that sbrk supplies an appropriate pointer). Casts arrange that pointer conversions are made explicit, and even cope with a badly-designed system interface. Even though the details here are related to storage allocation, the general approach is applicable to other situations as well.
+
+虽然存储分配从本质上是与机器相关的，但是，以上的代码说明了如何控制与具体机器相关的部分，并将这部分程序控制到最少量。typedef和union的使用解决了地址的对齐(假定sbrk返回的是合适的指针)问题。类型的强制转换使得指针的转换是显式进行的，这样做甚至可以处理设计不够好的系统接口问题。虽然这里所讲的内容只涉及到存储分配，但是，这种通用方法也适用于其他情况。
+
+**Exercise 8-6**. The standard library function calloc(n,size) returns a pointer to n objects of size size, with the storage initialized to zero. Write calloc, by calling malloc or by modifying it.
+
+练习8-6  标准库函数calloc(n,size)返回—个指针，它指向n个长度为size的对象，且所有分配的存储空间都被初始化为0。通过调用或修改malloc函数来实现calloc函数。
+
+**Exercise 8-7**. malloc accepts a size request without checking its plausibility; free believes that the block it is asked to free contains a valid size field. Improve these routines so they make more pains with error checking.
+
+统习8-7  malloc接收对存储空间的请求时，并不检查请求长度的合理性；而free则认为被释放的块包含一个有效的长度字段。改进这些函数，使它们具有错误检查的功能。
+
+**Exercise 8-8**. Write a routine bfree(p,n) that will free any arbitrary block p of n characters into the free list maintained by malloc and free. By using bfree, a user can add a static or external array to the free list at any time.
+
+练习8-8  编写函数bfree(p,n)，释放一个包含n个字符的任意块p，并将它放入由malloc和free维护的空闲块链表中。通过使用bfree，用户可以在任意时刻向空闲块链表中添加一个静态或外部数组。

@@ -1,0 +1,25 @@
+---
+title: "TCPL/7.8_Miscellaneous_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 7.8 Miscellaneous Functions 其他函数
+
+The standard library provides a wide variety of functions. This section is a brief synopsis of the most useful. More details and many other functions can be found in Appendix B.
+
+标准库提供了很多功能各异的函数。本节将对其中特别有用的函数做一个简要的概述。更详细的信息以及其他许多没有介绍的函数清参见附录B。
+
+* [7.8.1 String Operations 字符串操作函数](<7.8.1_String_Operations.qmd>)
+* [7.8.2 Character Class Testing and Conversion 字符类别测试和转换函数](<7.8.2_Character_Class_Testing_and_Conversion.qmd>)
+* [7.8.3 Ungetc ungetc 函数](<7.8.3_Ungetc.qmd>)
+* [7.8.4 Command Execution 命令执行函数](<7.8.4_Command_Execution.qmd>)
+* [7.8.5 Storage Management 存储管理函数](<7.8.5_Storage_Management.qmd>)
+* [7.8.6 Mathematical Functions 数学函数](<7.8.6_Mathematical_Functions.qmd>)
+* [7.8.7 Random Number generation 随机数发生器函数](<7.8.7_Random_Number_generation.qmd>)

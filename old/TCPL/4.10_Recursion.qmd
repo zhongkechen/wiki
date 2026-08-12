@@ -1,0 +1,146 @@
+---
+title: "TCPL/4.10_Recursion"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.10 Recursion 递归
+
+C functions may be used recursively; that is, a function may call itself either directly or indirectly. Consider printing a number as a character string. As we mentioned before, the digits are generated in the wrong order: low-order digits are available before high-order digits, but they have to be printed the other way around.
+
+C语言中的函数可以递归调用，即函数可以直接或间接调用自身。我们考虑一下将一个数作为字符串打印的情况。前面讲过，数字是以反序生成的：低位数字先于高位数字生成，但它们必须以与此相反的次序打印。
+
+There are two solutions to this problem. On is to store the digits in an array as they are generated, then print them in the reverse order, as we did with itoa in section 3.6. The alternative is a recursive solution, in which printd first calls itself to cope with any leading digits, then prints the trailing digit. Again, this version can fail on the largest negative number.
+```cpp
+   #include <stdio.h>
+
+   /* printd:  print n in decimal */
+   void printd(int n)
+   {
+       if (n < 0) {
+           putchar('-');
+           n = -n;
+       }
+       if (n / 10)
+           printd(n / 10);
+       putchar(n % 10 + '0');
+   }
+```
+
+解决该问题有两种方法：一种方法是将生成的各个数字依次存储到一个数组中，然后再以相反的次序打印它们，这种方式与3.6节中itoa函数的处理方式相似。另一种方法则是使用递归，函数printd首先调用它自身打印前面的(高位)数字，然后再打印后面的数字。这里编写的函数不能处理最大的负数。
+
+```cpp
+   #include <stdio.h>
+
+   /* printd:  print n in decimal */
+   void printd(int n)
+   {
+       if (n < 0) {
+           putchar('-');
+           n = -n;
+       }
+       if (n / 10)
+           printd(n / 10);
+       putchar(n % 10 + '0');
+   }
+```
+
+When a function calls itself recursively, each invocation gets a fresh set of all the automatic variables, independent of the previous set. This in printd(123) the first printd receives the argument n = 123. It passes 12 to a second printd, which in turn passes 1 to a third. The third-level printd prints 1, then returns to the second level. That printd prints 2, then returns to the first level. That one prints 3 and terminates.
+
+函数递归调用自身时，每次调用都会得到一个与以前的自动变量集合不同的新的自动变量集合。因此，调用printd(123)时，第一次调用printd的参数n=123。它把12传递给printd的第二次调用，后者又把1传递给printd的第三次调用。第三次调用printd时首先将打印1，然后再返回到第二次调用。从第三次调用返回后的第二次调用同样也将先打印2，然后再返回到第一次调用。返回到第一次调用时将打印3，随之结束函数的执行。
+
+Another good example of recursion is quicksort, a sorting algorithm developed by C.A.R. Hoare in 1962. Given an array, one element is chosen and the others partitioned in two subsets - those less than the partition element and those greater than or equal to it. The same process is then applied recursively to the two subsets. When a subset has fewer than two elements, it doesn't need any sorting; this stops the recursion.
+
+另外一个能较好说明递归的例子是快速排序。快速排序算法是C.A.R. Hoare于1962年发明的。对于一个给定的数组，从中选择一个元素，以该元素为界将其余元素划分为两个子集，一个子集中的所有元素都小于该元素，另一个子集中的所有元素都大于或等于该元素。对这样两个子集递归执行这一过程，当某个子集中的元素数小于2时，这个子集就不需要再次排序，终止递归。
+
+Our version of quicksort is not the fastest possible, but it's one of the simplest. We use the middle element of each subarray for partitioning.
+```cpp
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(int v[], int left, int right)
+   {
+       int i, last;
+       void swap(int v[], int i, int j);
+
+       if (left >= right) /* do nothing if array contains */
+           return;        /* fewer than two elements */
+       swap(v, left, (left + right)/2); /* move partition elem */
+       last = left;                     /* to v[0] */
+       for (i = left + 1; i <= right; i++)  /* partition */
+           if (v[i] < v[left])
+               swap(v, ++last, i);
+       swap(v, left, last);            /* restore partition  elem */
+       qsort(v, left, last-1);
+       qsort(v, last+1, right);
+   }
+```
+
+We moved the swapping operation into a separate function swap because it occurs three times in qsort.
+```
+   /* swap:  interchange v[i] and v[j] */
+   void swap(int v[], int i, int j)
+   {
+       int temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+```
+The standard library includes a version of qsort that can sort objects of any type.
+
+从执行速度来讲，下列版本的快速排序函数可能不是最快的，但它是最简单的算法之一。在每次划分子集时，该算法总是选取各个子数组的中间元素。
+
+```cpp
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(int v[], int left, int right)
+   {
+       int i, last;
+       void swap(int v[], int i, int j);
+
+       if (left >= right) /* do nothing if array contains */
+           return;        /* fewer than two elements */
+       swap(v, left, (left + right)/2); /* move partition elem */
+       last = left;                     /* to v[0] */
+       for (i = left + 1; i <= right; i++)  /* partition */
+           if (v[i] < v[left])
+               swap(v, ++last, i);
+       swap(v, left, last);            /* restore partition  elem */
+       qsort(v, left, last-1);
+       qsort(v, last+1, right);
+   }
+```
+
+这里之所以将数组元素交换操作放在一个单独的函数swap中，是因为它在qsort函数冲要使
+用3次。
+
+```
+   /* swap:  interchange v[i] and v[j] */
+   void swap(int v[], int i, int j)
+   {
+       int temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+```
+
+标准库中提供了一个qsort函数，它可用于对任何类型的对象排序。
+
+Recursion may provide no saving in storage, since somewhere a stack of the values being processed must be maintained. Nor will it be faster. But recursive code is more compact, and often much easier to write and understand than the non-recursive equivalent. Recursion is especially convenient for recursively defined data structures like trees, we will see a nice example in Section 6.6.
+
+递归并不节省存储器的开销，因为递归调用过程中必须在某个地方维护一个存储处理值的栈。递归的执行速度并不快，但递归代码比较紧凑，并且比相应的非递归代码更易于编写与理解。在描述树等递归定义的数据结构时使用递归尤其方便。我们将在6.5节中介绍一个比较好的例子。
+
+Exercise 4-12. Adapt the ideas of printd to write a recursive version of itoa; that is, convert an integer into a string by calling a recursive routine.
+
+练习4-12  运用printd函数的设汁思想编写一个递归版本的itoa函数，即通过递归调用把整数转换为字符串。
+
+Exercise 4-13. Write a recursive version of the function reverse(s), which reverses the string s in place.
+
+练习4-13  编写一个递归版本的reverse(s)函数，以将字符串s倒置。

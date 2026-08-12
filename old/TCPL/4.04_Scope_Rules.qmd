@@ -1,0 +1,142 @@
+---
+title: "TCPL/4.04_Scope_Rules"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.4 Scope Rules 作用域规则
+
+The functions and external variables that make up a C program need not all be compiled at the same time; the source text of the program may be kept in several files, and previously compiled routines may be loaded from libraries. Among the questions of interest are
+
+* How are declarations written so that variables are properly declared during compilation?
+* How are declarations arranged so that all the pieces will be properly connected when the program is loaded?
+* How are declarations organized so there is only one copy?
+* How are external variables initialized?
+
+Let us discuss these topics by reorganizing the calculator program into several files. As a practical matter, the calculator is too small to be worth splitting, but it is a fine illustration of the issues that arise in larger programs.
+
+构成C语言程序的函数与外部变量可以分开进行编译。一个程序可以存放在几个文件中，原先已编译过的函数可以从库中进行加载。这里我们感兴趣的问题有：
+
+* 如何进行声明才能确保变量在编译时被正确声明？
+* 如何安排声明的位置才能确保程序在加载时各部分能正确连接？
+* 如何织织程序中的声明才能确保只有一份副本？
+* 如何初始化外部变量？
+
+为了讨论这些问题，我们重新组织前面的计算器程序，将它分散到多个文件中。从实践的角度来看，计算器程序比较小．不值得分成几个文件存放，但通过它可以很好地说明较大的程序中遇到的类似问题。
+
+The scope of a name is the part of the program within which the name can be used. For an automatic variable declared at the beginning of a function, the scope is the function in which the name is declared. Local variables of the same name in different functions are unrelated. The same is true of the parameters of the function, which are in effect local variables.
+
+名字的*作用域*指的是程序中可以使用该名字的部分。对于在函数开头声明的自动变量来说，其作用域是声明该变量名的函数。不同函数中声明的具有相同名字的各个局部变量之间没有任何关系。函数的参数也是这样的，实际上可以将它看作是局部变量。
+
+The scope of an external variable or a function lasts from the point at which it is declared to the end of the file being compiled. For example, if main, sp, val, push, and pop are defined in one file, in the order shown above, that is,
+```
+   main() { ... }
+
+   int sp = 0;
+   double val[MAXVAL];
+
+   void push(double f) { ... }
+
+   double pop(void) { ... }
+```
+then the variables sp and val may be used in push and pop simply by naming them; no further declarations are needed. But these names are not visible in main, nor are push and pop themselves.
+
+外部变量或函数的作用域从声明它的地方开始，到其所在的(待编译的)文件的末尾结束。例如，如果main、sp、val、push与pop是依次定义在某个文件中的5个函数或外部变量，如下所示：
+
+```
+   main() { ... }
+
+   int sp = 0;
+   double val[MAXVAL];
+
+   void push(double f) { ... }
+
+   double pop(void) { ... }
+```
+
+那么，在push与pop这两个函数中不需进行任何声明就可以通过名字访问变量sp与val，但是，这两个变量名不能用在main函数中，push与pop函数也不能用在main函数中。
+
+On the other hand, if an external variable is to be referred to before it is defined, or if it is defined in a different source file from the one where it is being used, then an extern declaration is mandatory.
+
+另一方面，如果要在外部变量的定义之前使用该变量，或者外部变量的定义与变量的使用不在同一个源文件中，则必须在相应的变量声明中强制性地使用关键宇extern。
+
+It is important to distinguish between the declaration of an external variable and its definition. A declaration announces the properties of a variable (primarily its type); a definition also causes storage to be set aside. If the lines
+```
+   int sp;
+   double val[MAXVAL];
+```
+appear outside of any function, they define the external variables sp and val, cause storage to be set aside, and also serve as the declarations for the rest of that source file. On the other hand, the lines
+```
+   extern int sp;
+   extern double val[];
+```
+declare for the rest of the source file that sp is an int and that val is a double array (whose size is determined elsewhere), but they do not create the variables or reserve storage for them.
+
+将外部变量的声明与定义严格区分开来很重要。少量声明用于说明变量的属性(主要是变量的类型)，而变量定义除此以外还将引起存储器的分配。如果将下列语句放在所有函数的外部：
+
+```
+   int sp;
+   double val[MAXVAL];
+```
+
+那么这两条语句将定义外部变量sp与val，并为之分配存储单元，同时这两条语句还可以作为该源文件中其余部分的声明。而下面的两行语句：
+
+```
+   extern int sp;
+   extern double val[];
+```
+
+为源文件的其余部分声明了一个int类型的外部变量sp以及一个double数组类型的外部变量val(该数组的长度在其他地方确定)，但这两个声明并没有建立变量或为它们分配存储单元。
+
+There must be only one definition of an external variable among all the files that make up the source program; other files may contain extern declarations to access it. (There may also be extern declarations in the file containing the definition.) Array sizes must be specified with the definition, but are optional with an extern declaration.
+
+在一个源程序的所有源文件中，一个外部变量只能在某个文件中定义一次，而其他文件可以通过extern声明来访问它(定义外部变量的源文件中也可以包含对该外部变量的extern声明)。外部变量的定义中必须指定数组的长度，但extern声明则不一定要指定数组的长度。
+
+Initialization of an external variable goes only with the definition.
+
+外部变量的初始化只能出现在其定义中。
+
+Although it is not a likely organization for this program, the functions push and pop could be defined in one file, and the variables val and sp defined and initialized in another. Then these definitions and declarations would be necessary to tie them together:
+```
+  in file1:
+
+      extern int sp;
+      extern double val[];
+
+      void push(double f) { ... }
+
+      double pop(void) { ... }
+
+  in file2:
+
+      int sp = 0;
+      double val[MAXVAL];
+```
+Because the extern declarations in file1 lie ahead of and outside the function definitions, they apply to all functions; one set of declarations suffices for all of file1. This same organization would also bee needed if the definition of sp and val followed their use in one file.
+
+假定函数push与pop定义在一个文件中，而变量val与sp在另一个文件中定义并被初始化(通常不大可能这样组织程序)，则需要通过下面这些定义与声明把这些函数和变量“绑定”在一起：
+
+```
+  in file1:
+
+      extern int sp;
+      extern double val[];
+
+      void push(double f) { ... }
+
+      double pop(void) { ... }
+
+  in file2:
+
+      int sp = 0;
+      double val[MAXVAL];
+```
+
+由于文件file1中的extern声明不仅放在函数定义的外面，而且还放在它们的前面，因此它们适用于该文件中的所有函数。对于以file1，这样一组声明就够了。如果要在同一个文件中先使用
+后定义变量sp与val，也需要按照这种方式来组织文件。

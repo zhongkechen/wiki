@@ -1,0 +1,22 @@
+---
+title: "TCPL/A.07.10_Equality_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.10 Equality Operators
+
+    equality-expression:
+      relational-expression
+      equality-expression == relational-expression
+      equality-expression != relational-expression
+
+The == (equal to) and the != (not equal to) operators are analogous to the relational operators except for their lower precedence. (Thus a&lt;b == c&lt;d is 1 whenever a&lt;b and c&lt;d have the same truth-value.)
+
+The equality operators follow the same rules as the relational operators, but permit additional possibilities: a pointer may be compared to a constant integral expression with value 0, or to a pointer to void. See Par.A.6.6.

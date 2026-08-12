@@ -1,0 +1,28 @@
+---
+title: "TCPL/A.02.4_Keywords"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.2.4 Keywords
+
+The following identifiers are reserved for the use as keywords, and may not be used otherwise:
+```
+     auto          double      int          struct
+     break         else        long         switch
+     case          enum        register     typedef
+     char          extern      return       union
+     const         float       short        unsigned
+     continue      for         signed       void
+     default       goto        sizeof       volatile
+     do            if          static       while
+```
+Some implementations also reserve the words fortran and asm.
+
+    The keywords const, signed, and volatile are new with the ANSI standard; enum and void are new since the first edition, but in common use; entry, formerly reserved but never used, is no longer reserved.

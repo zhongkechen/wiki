@@ -1,0 +1,21 @@
+---
+title: "TCPL/A.07.05_Casts"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.5 Casts
+
+A unary expression preceded by the parenthesized name of a type causes conversion of the value of the expression to the named type.
+
+    cast-expression:
+      unary expression
+      (type-name) cast-expression
+
+This construction is called a cast. The names are described in Par.A.8.8. The effects of conversions are described in Par.A.6. An expression with a cast is not an lvalue.

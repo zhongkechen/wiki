@@ -1,0 +1,67 @@
+---
+title: "TCPL/4.08_Block_Structure"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.8 Block Structure 程序块结构
+
+C is not a block-structured language in the sense of Pascal or similar languages, because functions may not be defined within other functions. On the other hand, variables can be defined in a block-structured fashion within a function. Declarations of variables (including initializations) may follow the left brace that introduces any compound statement, not just the one that begins a function. Variables declared in this way hide any identically named variables in outer blocks, and remain in existence until the matching right brace. For example, in
+```
+   if (n > 0) {
+       int i;  /* declare a new i */
+
+       for (i = 0; i < n; i++)
+           ...
+   }
+```
+the scope of the variable i is the "true" branch of the if; this i is unrelated to any i outside the block. An automatic variable declared and initialized in a block is initialized each time the block is entered.
+
+C语言并不是Pascal等语言意义上的程序块结构的语言，它不允许在函数中定义函数。但是，在函数中可以以程序块结构的形式定义变量。变量的声明(包括初始化)除了可以紧跟在函数开始的花括号之后，还可以紧跟在任何其他标识复合语句开始的左花括号之后。以这种方式声明的变量可以隐蔽程序块外与之同名的变量，它们之间没有任何关系，并在与左花括号匹配的右花括号出现之前一直存在。例如，在下面的程序段中：
+
+```
+   if (n > 0) {
+       int i;  /* declare a new i */
+
+       for (i = 0; i < n; i++)
+           ...
+   }
+```
+
+变量i的作用域是if语句的“真”分支，这个i与该程序块外声明的i无关。每次进入程序块时，在程序块内声明以及初始化的自动变量都将被初始化。静态变量只在第一次进入程序块时被初始化一次。
+
+Automatic variables, including formal parameters, also hide external variables and functions of the same name. Given the declarations
+```
+   int x;
+   int y;
+
+   f(double x)
+   {
+       double y;
+   }
+```
+then within the function f, occurrences of x refer to the parameter, which is a double; outside f, they refer to the external int. The same is true of the variable y.
+
+自动变量(包括形式参数)也可以隐藏同名的外部变量与函数。在下面的声明中
+
+```
+   int x;
+   int y;
+
+   f(double x)
+   {
+       double y;
+   }
+```
+
+函数f内的变量x引用的是函数的参数，类型为double；而在函数f外，x是int类型的外部变量。这段代码中的变量y也是如此。
+
+As a matter of style, it's best to avoid variable names that conceal names in an outer scope; the potential for confusion and error is too great.
+
+在一个好的程序设计风格中，应该避免出现变量名隐藏外部作用域中相同名字的情况，否则，很可能引起混乱和错误。

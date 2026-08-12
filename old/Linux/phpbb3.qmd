@@ -13,7 +13,7 @@ format:
 
 ### 简介
 
-phpBB是一个流行的互联网论坛系统，由PHP语言写成，使用GNU GPL协议，是一个自由软件。phpBB这个名字是PHP Bulletin Board的缩写。phpBB3在2007年12月发布，特性有
+phpBB^[简介：[http://en.wikipedia.org/wiki/Phpbb3](http://en.wikipedia.org/wiki/Phpbb3)]^[官方网址：[http://www.phpbb.com/](http://www.phpbb.com/)]是一个流行的互联网论坛系统，由PHP语言写成，使用GNU GPL协议，是一个自由软件。phpBB这个名字是PHP Bulletin Board的缩写。phpBB3在2007年12月发布，特性有^[特性列表：[http://www.phpbb.com/about/features/](http://www.phpbb.com/about/features/)]
 
 * 模块化的控制面板设计
 * 支持多种数据库系统，包括MySQL、Microsoft SQL Server、Oracle、PostgreSQL、SQLite、Firebird，以及其他ODBC可以访问的DBMS
@@ -24,12 +24,12 @@ phpBB是一个流行的互联网论坛系统，由PHP语言写成，使用GNU GP
 
 ### 安装
 
-安装apache2和php模块。<<FootNote(apache的安装方法参见[apache](<apache.qmd>))>>
+安装apache2和php模块。^[apache的安装方法参见[apache](<apache.qmd>)]
 ```
 aptitude install apache2 libapache2-mod-php5
 ```
 
-安装mysql-server。<<FootNote(mysql的安装方法参见[mysql](<mysql.qmd>))>>
+安装mysql-server。^[mysql的安装方法参见[mysql](<mysql.qmd>)]
 ```
 aptitude install mysql-server
 ```

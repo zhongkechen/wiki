@@ -1,0 +1,27 @@
+---
+title: "TCPL/7.8.4_Command_Execution"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 7.8.4 Command Execution 命令执行函数
+
+The function system(char \*s) executes the command contained in the character string s, then resumes execution of the current program. The contents of s depend strongly on the local operating system. As a trivial example, on UNIX systems, the statement
+```
+   system("date");
+```
+causes the program date to be run; it prints the date and time of day on the standard output. system returns a system-dependent integer status from the command executed. In the UNIX system, the status return is the value returned by exit.
+
+函数system(char \*s)执行包含在字符串s中的命令，然后继续执行当前程序。s的内容在很大程度上与所用的操作系统有关。下面来看一个UNIX操作系统环境的小例子。语句
+
+```
+   system("date");
+```
+
+将执行程序date，它在标准输出上打印当天的日期和时间。system函数返回一个整型的状态值，其值来自于执行的命令，并同具体系统有关。在UNIX系统中，返回的状态是exit的返回值。

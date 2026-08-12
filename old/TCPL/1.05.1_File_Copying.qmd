@@ -1,0 +1,160 @@
+---
+title: "TCPL/1.05.1_File_Copying"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 1.5.1 File Copying 文件复制
+
+Given getchar and putchar, you can write a surprising amount of useful code without knowing anything more about input and output. The simplest example is a program that copies its input to its output one character at a time:
+```
+read a character
+    while (charater is not end-of-file indicator)
+        output the character just read
+        read a character
+```
+Converting this into C gives:
+```cpp
+   #include <stdio.h>
+
+   /* copy input to output; 1st version  */
+   main()
+   {
+       int c;
+
+       c = getchar();
+       while (c != EOF) {
+           putchar(c);
+           c = getchar();
+       }
+   }
+```
+The relational operator != means "not equal to".
+
+借助于getchar与putchar函数，可以在不了解其他输入/输出知识的情况下编写出数量惊人的有用的代码。最简单的例子就是把输入一次一个字符地复制到输出，其基本思想如下：
+
+```
+read a character
+    while (charater is not end-of-file indicator)
+        output the character just read
+        read a character
+```
+
+将上述基本思想转换为C语言程序为：
+
+```cpp
+#include <stdio.h>
+
+/* copy input to output; 1st version  */
+main()
+{
+    int c;
+
+    c = getchar();
+    while (c != EOF) {
+        putchar(c);
+        c = getchar();
+    }
+}
+```
+
+其中，关系运算符!=表示“不等于”。
+
+What appears to be a character on the keyboard or screen is of course, like everything else, stored internally just as a bit pattern. The type char is specifically meant for storing such character data, but any integer type can be used. We used int for a subtle but important reason.
+
+字符在键盘、屏幕或其他的任何地方无论以什么形式表现，它在机器内部都是以位模式存储的。char类型专门用于存储这种字符型数据，当然任何整型(int)也可以用于存储字符型数据。因为某些潜在的重要原因，我们在此使用int类型。
+
+The problem is distinguishing the end of input from valid data. The solution is that getchar returns a distinctive value when there is no more input, a value that cannot be confused with any real character. This value is called EOF, for "end of file". We must declare c to be a type big enough to hold any value that getchar returns. We can't use char since c must be big enough to hold EOF in addition to any possible char. Therefore we use int.
+
+这里需要解决如何区分文件中有效数据与输入结束符的问题。C语言采取的解决方法是：在没有输入时，getchar函数将返回一个特殊值，这个特殊值与任何实际字符都不同。这个值称为EOF(end of f11e，文件结束)。我们在声明变量C的时候，必须让它大到足以存放
+getchar函数返回的任何值。这里之所以不把c声明成char类型，是因为它必须足够大，除
+了能存储任何可能的字符外还要能存储文件结束符EOF。因此，我们将c声明成int类型。
+
+EOF is an integer defined in &lt;stdio.h&gt;, but the specific numeric value doesn't matter as long as it is not the same as any char value. By using the symbolic constant, we are assured that nothing in the program depends on the specific numeric value.
+
+EOF定义在头文件&lt;stdio.h&gt;中，是一个整型数。其具体数值是什么并不重要，只要它与任何char类型的值都不相同即可。这里使用符号常量，可以确保程序不需要依赖于其对应的任何特定的数值。
+
+The program for copying would be written more concisely by experienced C programmers. In C, any assignment, such as
+```
+   c = getchar();
+```
+is an expression and has a value, which is the value of the left hand side after the assignment. This means that a assignment can appear as part of a larger expression. If the assignment of a character to c is put inside the test part of a while loop, the copy program can be written this way:
+```cpp
+   #include <stdio.h>
+
+   /* copy input to output; 2nd version  */
+   main()
+   {
+       int c;
+
+       while ((c = getchar()) != EOF)
+           putchar(c);
+   }
+```
+The while gets a character, assigns it to c, and then tests whether the character was the end-of-file signal. If it was not, the body of the while is executed, printing the character. The while then repeats. When the end of the input is finally reached, the while terminates and so does main.
+
+对于经验比较丰富的C语言程序员，可以把这个字符复制程序编写得更精炼一些。在C语言中，类似于
+
+```
+c = getchar()
+```
+
+之类的赋值操作是一个表达式，并且具有一个值，即赋值后左边变量保存的值。也就是说，赋值可以作为更大的表达式的一部分出现。如果将为c赋值的操作放在while循环语句的测试
+部分中，上述字符复制程序使可以改写成下列形式：
+
+```cpp
+#include <stdio.h>
+
+/* copy input to output; 2nd version  */
+main()
+{
+    int c;
+
+    while ((c = getchar()) != EOF)
+        putchar(c);
+}
+```
+
+在该程序中，while循环语句首先读一个字符并将其赋值给c，然后测试该字符是否为文件结束标志。如果该字符不是文件结束标志，则执行while语句体，并打印该字符。随后重复执行while语句。当到达输入的结尾位置时，while循环语句终止执行，从而整个main函数执行结束。
+
+This version centralizes the input - there is now only one reference to getchar - and shrinks the program. The resulting program is more compact, and, once the idiom is mastered, easier to read. You'll see this style often. (It's possible to get carried away and create impenetrable code, however, a tendency that we will try to curb.)
+
+以上这段程序将输入集中化，getchar函数在程序中只出现了一次，这样就缩短了程序，整个程序看起来更紧凑。习惯这种风格后，读者就会发现按照这种方式编写的程序更易阅读。我们经常会看到这种风格。(不过，如果我们过多地使用这种类型的复杂语句，编写的程序可能会很难理解，应尽量避免这种情况。)
+
+The parentheses around the assignment, within the condition are necessary. The precedence of != is higher than that of =, which means that in the absence of parentheses the relational test != would be done before the assignment =. So the statement
+```
+   c = getchar() != EOF
+```
+is equivalent to
+```
+   c = (getchar() != EOF)
+```
+This has the undesired effect of setting c to 0 or 1, depending on whether or not the call of getchar returned end of file. (More on this in Chapter 2.)
+
+对while语句的条件部分来说，赋值表达式两边的圆括号不能省略。不等于运算符!=的优先级比赋值运算符=的优先级要高，这样，在不使用圆括号的情况下关系测试!=将在赋值=操作之前执行。因此语句
+
+```
+c = getchar() != EOF
+```
+
+等价于语句
+
+```
+c = (getchar() != EOF)
+```
+
+该语句执行后，c的值将被置为0或1(取决于调用getchar函数时是否碰到文件结束标志)，这并不是我们所希望的结果(更详细的内容．请参见第2章的相关部分)。
+
+Exercise 1-6. Verify that the expression getchar() != EOF is 0 or 1.
+
+练习1-6 验证表达式getchar() != EOF的值是0还是1
+
+Exercise 1-7. Write a program to print the value of EOF.
+
+练习1-7 编写一个打印EOF值的程序。

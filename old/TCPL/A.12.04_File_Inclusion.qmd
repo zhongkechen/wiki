@@ -1,0 +1,33 @@
+---
+title: "TCPL/A.12.04_File_Inclusion"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.4 File Inclusion
+
+A control line of the form
+
+  # include &lt;filename&gt;
+
+causes the replacement of that line by the entire contents of the file filename. The characters in the name filename must not include &gt; or newline, and the effect is undefined if it contains any of ", ', \\, or /\*. The named file is searched for in a sequence of implementation-defined places.
+
+Similarly, a control line of the form
+
+  # include "filename"
+
+searches first in association with the original source file (a deliberately implementation-dependent phrase), and if that search fails, then as in the first form. The effect of using ', \\, or /\* in the filename remains undefined, but &gt; is permitted.
+
+Finally, a directive of the form
+
+  # include token-sequence
+
+not matching one of the previous forms is interpreted by expanding the token sequence as for normal text; one of the two forms with &lt;...&gt; or "..." must result, and is then treated as previously described.
+
+#include files may be nested.

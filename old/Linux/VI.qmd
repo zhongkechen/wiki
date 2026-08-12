@@ -88,7 +88,7 @@ format:
 | :nohlsearch | 取消上次查找结果的高亮显示 |
 | :set is | 增量搜索 |
 | :set nois | 取消增量搜索 |
-| :/abc\c | 临时忽略大小写查找字符串abc |
+| :/abc\\c | 临时忽略大小写查找字符串abc |
 
 #### 恢复
 
@@ -125,7 +125,7 @@ format:
 | :help w | 查看w命令帮助 |
 | :q | 退出帮助 |
 | Ctrl-w Ctrl-w | 切换窗口 |
-|  | 补全命令 |
+| &lt;Tab&gt; | 补全命令 |
 | Ctrl-d | 补全命令列表 |
 
 ## 参考资源

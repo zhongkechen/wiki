@@ -31,3 +31,15 @@ ANSI标准进一步明确了名字的作用域规则，特别要求每个外部�
 The C preprocessor has also been enhanced. New preprocessor facilities include a more complete set of conditional compilation directives, a way to create quoted strings from macro arguments, and better control over the macro expansion process.
 
 C语言预处理器的功能也得到了增强。新的预处理器包含一组更完整的条件编译指令(一种通过宏参数创建带引号的字符串的方法)，对宏扩展过程的控制更严格。
+
+* [4.1 Basics of Functions 函数的基本知识](<4.01_Basics_of_Functions.qmd>)
+* [4.2 Functions Returning Non-integers](<4.02_Functions_Returning_Non-integers.qmd>)
+* [4.3 External Variables 外部变量](<4.03_External_Variables.qmd>)
+* [4.4 Scope Rules 作用域规则](<4.04_Scope_Rules.qmd>)
+* [4.5 Header Files 头文件](<4.05_Header_Files.qmd>)
+* [4.6 Static Variables 静态变量](<4.06_Static_Variables.qmd>)
+* [4.7 Register Variables 寄存器变量](<4.07_Register_Variables.qmd>)
+* [4.8 Block Structure 程序块结构](<4.08_Block_Structure.qmd>)
+* [4.9 Initialization 初始化](<4.09_Initialization.qmd>)
+* [4.10 Recursion 递归](<4.10_Recursion.qmd>)
+* [4.11 The C Preprocessor C预处理器](<4.11_The_C_Preprocessor.qmd>)

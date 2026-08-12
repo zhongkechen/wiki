@@ -1,0 +1,17 @@
+---
+title: "TCPL/A.06.8_Pointers_to_Void"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.6.8 Pointers to Void
+
+Any pointer to an object may be converted to type void \* without loss of information. If the result is converted back to the original pointer type, the original pointer is recovered. Unlike the pointer-to-pointer conversions discussed in Par.A.6.6, which generally require an explicit cast, pointers may be assigned to and from pointers of type void \*, and may be compared with them.
+
+    This interpretation of void \* pointers is new; previously, char \* pointers played the role of generic pointer. The ANSI standard specifically blesses the meeting of void \* pointers with object pointers in assignments and relationals, while requiring explicit casts for other pointer mixtures.

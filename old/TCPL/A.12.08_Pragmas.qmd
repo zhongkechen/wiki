@@ -1,0 +1,19 @@
+---
+title: "TCPL/A.12.08_Pragmas"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.8 Pragmas
+
+A control line of the form
+
+    # pragma token-sequenceopt
+
+causes the preprocessor to perform an implementation-dependent action. An unrecognized pragma is ignored.

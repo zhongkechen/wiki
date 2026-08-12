@@ -1,0 +1,282 @@
+---
+title: "TCPL/2.07_Type_Conversions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.7 Type Conversions 类型转换
+
+When an operator has operands of different types, they are converted to a common type according to a small number of rules. In general, the only automatic conversions are those that convert a "narrower" operand into a "wider" one without losing information, such as converting an integer into floating point in an expression like f + i. Expressions that don't make sense, like using a float as a subscript, are disallowed. Expressions that might lose information, like assigning a longer integer type to a shorter, or a floating-point type to an integer, may draw a warning, but they are not illegal.
+
+当一个运算符的几个操作数类型不同时，就需要通过—些规则把它们转换为某种共同的类型。一般来说，自动转换是指把“比较窄的”操作数转换为“比较宽的”操作数，并且不丢失信息的转换，例如，在计算表达式f+i时，将整型变量i的值自动转换为浮点型(这里的变量f为浮点型)。不允许使用无意义的表达式，例如，不允许把float类型的表达式作为下标。针对可能导致信息丢失的表达式，编译器可能会给出警告信息，比如把较长的整型值赋给较短的整型变量，把浮点型值赋值给整型变量，等等，但这些表达式并不非法。
+
+A char is just a small integer, so chars may be freely used in arithmetic expressions. This permits considerable flexibility in certain kinds of character transformations. One is exemplified by this naive implementation of the function atoi, which converts a string of digits into its numeric equivalent.
+```
+   /* atoi:  convert s to integer */
+   int atoi(char s[])
+   {
+       int i, n;
+
+       n = 0;
+       for (i = 0; s[i] >= '0' && s[i] <= '9'; ++i)
+           n = 10 * n + (s[i] - '0');
+       return n;
+   }
+```
+As we discussed in Chapter 1, the expression
+```
+    s[i] - '0'
+```
+gives the numeric value of the character stored in s[i], because the values of '0', '1', etc., form a contiguous increasing sequence.
+
+由于char类型就是较小的整型，因此在算术表达式中可以自由使用char类型的变量，这就为实现某些字符转换提供了很大的灵活性。比如，下面的函数atoi就是一例，它将一串数字转换为相应的数值：
+
+```cpp
+   /* atoi:  convert s to integer */
+   int atoi(char s[])
+   {
+       int i, n;
+
+       n = 0;
+       for (i = 0; s[i] >= '0' && s[i] <= '9'; ++i)
+           n = 10 * n + (s[i] - '0');
+       return n;
+   }
+```
+
+我们在第1章讲过，表达式
+
+```
+    s[i] - '0'
+```
+
+能够计算出s[i]中存储的字符所对应的数字值，这是因为'0'、'l'等在字符集中对应的数值是一个连续的递增序列。
+
+Another example of char to int conversion is the function lower, which maps a single character to lower case for the ASCII character set. If the character is not an upper case letter, lower returns it unchanged.
+```
+   /* lower:  convert c to lower case; ASCII only */
+   int lower(int c)
+   {
+       if (c >= 'A' && c <= 'Z')
+           return c + 'a' - 'A';
+       else
+           return c;
+   }
+```
+This works for ASCII because corresponding upper case and lower case letters are a fixed distance apart as numeric values and each alphabet is contiguous -- there is nothing but letters between A and Z. This latter observation is not true of the EBCDIC character set, however, so this code would convert more than just letters in EBCDIC.
+
+函数lower是将char类型转换为int类型的另一个例子，它将ASCII字符集中的字符映射到对应的小写字母。如果待转换的字符不是大写字母，lower函数将返回字符本身。
+
+```cpp
+   /* lower:  convert c to lower case; ASCII only */
+   int lower(int c)
+   {
+       if (c >= 'A' && c <= 'Z')
+           return c + 'a' - 'A';
+       else
+           return c;
+   }
+```
+
+上述这个函数是为ASCII字符集设计的。在ASCII字符集中，大写字母与对应的小写字母作为数字值来说具有固定的间隔，并且每个字母表都是连续的——也就是说，在A～Z之间只有字母。但是，后面一点对EBCDIC字符集是不成立的，因此这一函数作用在EBCDIC字符集中就不仅限于转换字母的大小写。【czk注：翻译不准确，原文意思是会错误地转换字符集中非字母的字符为其他字符。】
+
+The standard header &lt;ctype.h&gt;, described in Appendix B, defines a family of functions that provide tests and conversions that are independent of character set. For example, the function tolower is a portable replacement for the function lower shown above. Similarly, the test
+```
+   c >= '0' && c <= '9'
+```
+can be replaced by
+```
+   isdigit(c)
+```
+We will use the &lt;ctype.h&gt; functions from now on.
+
+附录B介绍的标准头文件&lt;ctype.h&gt;定义了一组与字符集无关的测试和转换函数。例如tolower(c)函数将c转换为小写形式(如果c为大写形式的话)，可以使用tolower替代上述lower函数。类似地，测试语句
+
+```
+   c >= '0' && c <= '9'
+```
+可以用该标准库中的函数
+```
+   isdigit(c)
+```
+
+替代。在本书的后续内容中，我们将使用&lt;ctype.h&gt;中定义的函数。
+
+There is one subtle point about the conversion of characters to integers. The language does not specify whether variables of type char are signed or unsigned quantities. When a char is converted to an int, can it ever produce a negative integer? The answer varies from machine to machine, reflecting differences in architecture. On some machines a char whose leftmost bit is 1 will be converted to a negative integer ("sign extension"). On others, a char is promoted to an int by adding zeros at the left end, and thus is always positive.
+
+将字符类型转换为整型时，我们需要注意一点：C语言没有指定char类型的变量是无符号变量(signed)还是带符号变量(unsigned)。当把一个char类型的值转换为int类型的值时，其结果有没有可能为负整数？对于不同的机器，其结果也不同，这反映了不同机器结构之间的区别。在某些机器中，如果char类型值的最左一位为1，则转换为负整数(进行“符号扩展”)。而在另一些机器中，把char类型值转换为int类型时，在char类型值的左边添加0，这样导致的转换结果值总是正值。
+
+The definition of C guarantees that any character in the machine's standard printing character set will never be negative, so these characters will always be positive quantities in expressions. But arbitrary bit patterns stored in character variables may appear to be negative on some machines, yet positive on others. For portability, specify signed or unsigned if non-character data is to be stored in char variables.
+
+C语言的定义保证了机器的标准打印字符集中的字符不会是负值，因此，在表达式中这些字符总是正值。但是，存储在字符变量中的位模式在某些机器中可能是负的，而在另一些机器上可能是正的。为了保证程序的可移植性，如果要在char类型的变量中存储非字符数据，最好指定signed或unsigned限定符。
+
+Relational expressions like i &gt; j and logical expressions connected by && and || are defined to have value 1 if true, and 0 if false. Thus the assignment
+```
+   d = c >= '0' && c <= '9'
+```
+sets d to 1 if c is a digit, and 0 if not. However, functions like isdigit may return any non-zero value for true. In the test part of if, while, for, etc., "true" just means "non-zero", so this makes no difference.
+
+当关系表达式(如i&gt;j)以及由&&、||连接的逻辑表达式的判定结果为真时，表达式的值为1；当判定结果为假时，表达式的值为0。因此，对于赋值语句
+
+```
+   d = c >= '0' && c <= '9'
+```
+
+来说，当c为数字时，d的值为1，否则d的值为0。但是，某些函数(比如isdigit)在结果为真时可能返回任意的非0值。在if、while、for等语句的测试部分中，“真”就意昧着“非0”，这二者之间没有区别。
+
+Implicit arithmetic conversions work much as expected. In general, if an operator like + or \* that takes two operands (a binary operator) has operands of different types, the "lower" type is promoted to the "higher" type before the operation proceeds. The result is of the integer type. Section 6 of Appendix A states the conversion rules precisely. If there are no unsigned operands, however, the following informal set of rules will suffice:
+
+* If either operand is long double, convert the other to long double.
+* Otherwise, if either operand is double, convert the other to double.
+* Otherwise, if either operand is float, convert the other to float.
+* Otherwise, convert char and short to int.
+* Then, if either operand is long, convert the other to long.
+
+C语言中，很多情况下会进行隐式的算术类型转换。一般来说，如果二元运算符(具有两个操作数的运算符称为二元运算符．比如+或\*)的两个操作数具有不同的类型，那么在进行运算之前先要把“较低”的类型提升为“较高”的类型。运算的结果为较高的类型。附录A.6节详细地列出了这些转换规则。但是，如果没有unsigned类型的操作数，则只要使用下面这些非正式的规则就可以了：
+
+* 如果其中一个操作数的类型为long double，则将另一个操作数转换为long double类型；
+* 如果其中一个操作数的类型为double，则将另一个操作数转换为double类型；
+* 如果其中一个操作数的类型为float，则将另一个操作数转换为float类型；
+* 将char与short类型的操作数转换为int类型；
+* 如果其中一个操作数的类型为long，则将另一个操作数也转换为long类型。
+
+Notice that floats in an expression are not automatically converted to double; this is a change from the original definition. In general, mathematical functions like those in &lt;math.h&gt; will use double precision. The main reason for using float is to save storage in large arrays, or, less often, to save time on machines where double-precision arithmetic is particularly expensive.
+
+注意，表达式中float类型的操作数不会自动转换为double类型，这—点与最初的定义有所不同。一般来说，数学函数(如标准头文件&lt;math.h&gt;中定义的函数)使用双精度类型的变量。使用float类型主要是为了在使用较大的数组时节省存储空间，有时也为了节省机器执行时间(双精度算术运算特别费时)。
+
+Conversion rules are more complicated when unsigned operands are involved. The problem is that comparisons between signed and unsigned values are machine-dependent, because they depend on the sizes of the various integer types. For example, suppose that int is 16 bits and long is 32 bits. Then -1L &lt; 1U, because 1U, which is an unsigned int, is promoted to a signed long. But -1L &gt; 1UL because -1L is promoted to unsigned long and thus appears to be a large positive number.
+
+当表达式中包含unsigned类型的操作数时，转换规则要复杂一些。主要原因在于，带符号值与无符号值之间的比较运算是与机器相关的，因为它们取决于机器中不同整数类型的大小。例如，假定int类型占16位，long类型占32位，那么，-1L&lt;1U，这是因为unsigned  int类型的1U将被提升为signed  long类型；但-1L&gt;1UL，这是因为-1L将被提升为unsigned long类型，因而成为一个比较大的正数。
+
+Conversions take place across assignments; the value of the right side is converted to the type of the left, which is the type of the result.
+
+赋值时也要进行类型转换。赋值运算符右边的值需要转换为左边变量的类型，左边变量的类型即赋值表达式结果的类型。
+
+A character is converted to an integer, either by sign extension or not, as described above.
+
+前面提到过，无论是否进行符号扩展，字符型变量都将被转换为整型变量。
+
+Longer integers are converted to shorter ones or to chars by dropping the excess high-order bits. Thus in
+```
+   int  i;
+   char c;
+
+   i = c;
+   c = i;
+```
+the value of c is unchanged. This is true whether or not sign extension is involved. Reversing the order of assignments might lose information, however.
+
+当把较长的整数转换为较短的整数或char类型时，超出的高位部分将被丢弃。因此，下列程序段：
+
+```
+   int  i;
+   char c;
+
+   i = c;
+   c = i;
+```
+
+执行后，c的值将保持不变。无论是否进行符号扩展，该结论都成立。但是，如果把两个赋值语句的次序颠倒一下，则执行后可能会丢失信息。
+
+If x is float and i is int, then x = i and i = x both cause conversions; float to int causes truncation of any fractional part. When a double is converted to float, whether the value is rounded or truncated is implementation dependent.
+
+如果x是float类型，i是int类型，那么语句x=i与i=x在执行时都要进行类型转换。当把float类型转换为int类型时，小数部分将被截取掉；当把double类型转换为float类型时，是进行四舍五入还是截取取决于具体的实现。
+
+Since an argument of a function call is an expression, type conversion also takes place when arguments are passed to functions. In the absence of a function prototype, char and short become int, and float becomes double. This is why we have declared function arguments to be int and double even when the function is called with char and float.
+
+由于函数调用的参数是表达式，所以在把参数传递给函数时也可能进行类型转换。在没有函数原型的情况下，char与short类型都将被转换为int类型，float类型将被转换为double类型。因此，即使调用函数的参数为char或float类型，我们也把函数参数声明为int或double类型。
+
+Finally, explicit type conversions can be forced ("coerced") in any expression, with a unary operator called a cast. In the construction
+```
+  (type name) expression
+```
+the expression is converted to the named type by the conversion rules above. The precise meaning of a cast is as if the expression were assigned to a variable of the specified type, which is then used in place of the whole construction. For example, the library routine sqrt expects a double argument, and will produce nonsense if inadvertently handled something else. (sqrt is declared in &lt;math.h&gt;.) So if n is an integer, we can use
+```
+   sqrt((double) n)
+```
+to convert the value of n to double before passing it to sqrt. Note that the cast produces the value of n in the proper type; n itself is not altered. The cast operator has the same high precedence as other unary operators, as summarized in the table at the end of this chapter.
+
+最后，在任何表达式中部可以使用一个称为强制类型特换的一元运算符强制进行显式类型转换。在下列语句中，表达式将按照上述转换规则被转换为类型名指定的类型：
+
+```
+  (type name) expression
+```
+
+我们可以这样来理解强制类型转换的准确含义：在上述语句中，表达式首先被赋值给类型名指定的类型的某个变量，然后再用该变量替换上述整条语句。例如，库函数sqrt的参数为doubLe类型，如果处理不当，结果可能会无意义(sqrt在&lt;math.h&gt;中声明)。因此，如果n是整数，可以使用
+
+```
+   sqrt((double) n)
+```
+
+在把n传递给函数sqrt之前先将其转换为double类型。注意，强制类型转换只是生成一个指定类型的n的值，n本身的值并没有改变。强制类型转换运算符与其他一元运算符具有相同的优先级，表2-1对运算符优先级进行了总结。
+
+If arguments are declared by a function prototype, as the normally should be, the declaration causes automatic coercion of any arguments when the function is called. Thus, given a function prototype for sqrt:
+```
+   double sqrt(double)
+```
+the call
+```
+   root2 = sqrt(2)
+```
+coerces the integer 2 into the double value 2.0 without any need for a cast.
+
+在通常情况下，参数是通过函数原型声明的。这样，当函数被调用时，声明将对参数进行自动强制转换。例如，对于sqrt的函数原型
+
+```
+   double sqrt(double)
+```
+
+下列函数调用：
+
+```
+   root2 = sqrt(2)
+```
+
+不需要使用强制类型转换运算符就可以自动将整数2强制转换为double类型的值2.0。
+
+The standard library includes a portable implementation of a pseudo-random number generator and a function for initializing the seed; the former illustrates a cast:
+```
+   unsigned long int next = 1;
+
+   /* rand:  return pseudo-random integer on 0..32767 */
+   int rand(void)
+   {
+       next = next * 1103515245 + 12345;
+       return (unsigned int)(next/65536) % 32768;
+   }
+
+   /* srand:  set seed for rand() */
+   void srand(unsigned int seed)
+   {
+       next = seed;
+   }
+```
+
+标准库中包含一个可移植的实现伪随机数发生器的函数rand以及一个初始化种子数的函数srand。前一个函数rand使用了强制类型转换。
+
+```cpp
+   unsigned long int next = 1;
+
+   /* rand:  return pseudo-random integer on 0..32767 */
+   int rand(void)
+   {
+       next = next * 1103515245 + 12345;
+       return (unsigned int)(next/65536) % 32768;
+   }
+
+   /* srand:  set seed for rand() */
+   void srand(unsigned int seed)
+   {
+       next = seed;
+   }
+```
+
+Exercise 2-3. Write a function htoi(s), which converts a string of hexadecimal digits (including an optional 0x or 0X) into its equivalent integer value. The allowable digits are 0 through 9, a through f, and A through F.
+
+练习2-3  编写函数htoi(s)，把由十六进制数字组成的字符串(包含可选的前缀0x或0X)转换为与之等价的整型值。字符串中允许包含的数字包括：0～9、a～f以及A～F。

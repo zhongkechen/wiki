@@ -36,7 +36,7 @@ nslookup - 192.168.12.252
 
 ### 配置
 
-默认配置已经可以进行域名解析了。其他功能就需要进一步的配置来完成。
+默认配置已经可以进行域名解析了。其他功能就需要进一步的配置来完成。^[[BIND 9 Administrator Reference Manual](http://www.csd.uwo.ca/staff/magi/doc/bind9/) [BIND9 管理员参考手册](http://www.linux.gov.cn/netweb/mat/BIND9-CHS.pdf)]
 
 #### 限制客户端
 
