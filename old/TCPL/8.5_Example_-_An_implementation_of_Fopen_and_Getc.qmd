@@ -1,0 +1,302 @@
+---
+title: "TCPL/8.5_Example_-_An_implementation_of_Fopen_and_Getc"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 8.5 Example - An implementation of Fopen and Getc 实例——fopen和getc函数的实现
+
+Let us illustrate how some of these pieces fit together by showing an implementation of the standard library routines fopen and getc.
+
+下面以标准库函数fopen和getc的一种实现方法为例来说明如何将这些系统调用结合起来使用。
+
+Recall that files in the standard library are described by file pointers rather than file descriptors. A file pointer is a pointer to a structure that contains several pieces of information about the file: a pointer to a buffer, so the file can be read in large chunks; a count of the number of characters left in the buffer; a pointer to the next character position in the buffer; the file descriptor; and flags describing read/write mode, error status, etc.
+
+我们回忆一下，标准库中的文件不是通过文件描述符描述的，而是使用文件指针描述的。文件指针是一个指向包含文件各种信息的结构的指针，该结构包含下列内容：一个指向缓冲区的指针，通过它可以一次读入文件的一大块内容；一个记录缓冲区中剩余的字符数的计数器；一个指向缓冲区中下一个字符的指针；文件描述符；描述读/写模式的标志；描述错误状态的标志等。
+
+The data structure that describes a file is contained in &lt;stdio.h&gt;, which must be included (by #include) in any source file that uses routines from the standard input/output library. It is also included by functions in that library. In the following excerpt from a typical &lt;stdio.h&gt;, names that are intended for use only by functions of the library begin with an underscore so they are less likely to collide with names in a user's program. This convention is used by all standard library routines.
+```cpp
+   #define NULL      0
+   #define EOF       (-1)
+   #define BUFSIZ    1024
+   #define OPEN_MAX  20    /* max #files open at once */
+
+   typedef struct _iobuf {
+       int  cnt;       /* characters left */
+       char *ptr;      /* next character position */
+       char *base;     /* location of buffer */
+       int  flag;      /* mode of file access */
+       int  fd;        /* file descriptor */
+   } FILE;
+   extern FILE _iob[OPEN_MAX];
+
+   #define stdin   (&_iob[0])
+   #define stdout  (&_iob[1])
+   #define stderr  (&_iob[2])
+
+   enum _flags {
+       _READ   = 01,   /* file open for reading */
+       _WRITE  = 02,   /* file open for writing */
+       _UNBUF  = 04,   /* file is unbuffered */
+       _EOF    = 010,  /* EOF has occurred on this file */
+       _ERR    = 020   /* error occurred on this file */
+   };
+
+   int _fillbuf(FILE *);
+   int _flushbuf(int, FILE *);
+
+   #define feof(p)     ((p)->flag & _EOF) != 0)
+   #define ferror(p)   ((p)->flag & _ERR) != 0)
+   #define fileno(p)   ((p)->fd)
+
+   #define getc(p)   (--(p)->cnt >= 0 \
+                  ? (unsigned char) *(p)->ptr++ : _fillbuf(p))
+   #define putc(x,p) (--(p)->cnt >= 0 \
+                  ? *(p)->ptr++ = (x) : _flushbuf((x),p))
+
+   #define getchar()   getc(stdin)
+   #define putcher(x)  putc((x), stdout)
+```
+
+描述文件的数据结构包含在头文件&lt;stdio.h&gt;中，任何需要使用标准输入/输出库中函数的程序都必须在源文件中包含这个头文件(通过#include指令包含头文件)。此文件也被库中的其他函数包含。在下面这段典型的&lt;stdio.h)代码段中，只供标准库中其他函数所使用的名字以下划线开始，因此一般不会与用户程序中的名字冲突。所有的标准库函数都遵循该约定。
+
+```cpp
+   #define NULL      0
+   #define EOF       (-1)
+   #define BUFSIZ    1024
+   #define OPEN_MAX  20    /* max #files open at once */
+
+   typedef struct _iobuf {
+       int  cnt;       /* characters left */
+       char *ptr;      /* next character position */
+       char *base;     /* location of buffer */
+       int  flag;      /* mode of file access */
+       int  fd;        /* file descriptor */
+   } FILE;
+   extern FILE _iob[OPEN_MAX];
+
+   #define stdin   (&_iob[0])
+   #define stdout  (&_iob[1])
+   #define stderr  (&_iob[2])
+
+   enum _flags {
+       _READ   = 01,   /* file open for reading */
+       _WRITE  = 02,   /* file open for writing */
+       _UNBUF  = 04,   /* file is unbuffered */
+       _EOF    = 010,  /* EOF has occurred on this file */
+       _ERR    = 020   /* error occurred on this file */
+   };
+
+   int _fillbuf(FILE *);
+   int _flushbuf(int, FILE *);
+
+   #define feof(p)     ((p)->flag & _EOF) != 0)
+   #define ferror(p)   ((p)->flag & _ERR) != 0)
+   #define fileno(p)   ((p)->fd)
+
+   #define getc(p)   (--(p)->cnt >= 0 \
+                  ? (unsigned char) *(p)->ptr++ : _fillbuf(p))
+   #define putc(x,p) (--(p)->cnt >= 0 \
+                  ? *(p)->ptr++ = (x) : _flushbuf((x),p))
+
+   #define getchar()   getc(stdin)
+   #define putcher(x)  putc((x), stdout)
+```
+
+The getc macro normally decrements the count, advances the pointer, and returns the character. (Recall that a long #define is continued with a backslash.) If the count goes negative, however, getc calls the function _fillbuf to replenish the buffer, re-initialize the structure contents, and return a character. The characters are returned unsigned, which ensures that all characters will be positive.
+
+宏getc一般先将计数器减1，将指针移到下一个位置，然后返回字符。(前面讲过，一个长的#define语句可用反斜杠分成几行。)但是，如果计数值变为负值，getc就调用函数_fillbuf填充缓冲区，重新初始化结构的内容，并返回一个字符。返回的字符为unsigned类型，以确保所有的字符为正值。
+
+Although we will not discuss any details, we have included the definition of putc to show that it operates in much the same way as getc, calling a function _flushbuf when its buffer is full. We have also included macros for accessing the error and end-of-file status and the file descriptor.
+
+尽管在这里我们并不想讨论一些细节，但程序中还是给出了putc函数的定义，以表明它的操作与getc函数非常类似，当缓冲区满时，它将调用函数_flushbuf。此外，我们还在其中包含了访问错误输出、文件结束状态和文件描述符的宏。
+
+The function fopen can now be written. Most of fopen is concerned with getting the file opened and positioned at the right place, and setting the flag bits to indicate the proper state. fopen does not allocate any buffer space; this is done by _fillbuf when the file is first read.
+```cpp
+   #include <fcntl.h>
+   #include "syscalls.h"
+   #define PERMS 0666    /* RW for owner, group, others */
+
+   FILE *fopen(char *name, char *mode)
+   {
+       int fd;
+       FILE *fp;
+
+       if (*mode != 'r' && *mode != 'w' && *mode != 'a')
+           return NULL;
+       for (fp = _iob; fp < _iob + OPEN_MAX; fp++)
+           if ((fp->flag & (_READ | _WRITE)) == 0)
+               break;        /* found free slot */
+       if (fp >= _iob + OPEN_MAX)   /* no free slots */
+           return NULL;
+
+       if (*mode == 'w')
+           fd = creat(name, PERMS);
+       else if (*mode == 'a') {
+           if ((fd = open(name, O_WRONLY, 0)) == -1)
+               fd = creat(name, PERMS);
+           lseek(fd, 0L, 2);
+       } else
+           fd = open(name, O_RDONLY, 0);
+       if (fd == -1)         /* couldn't access name */
+           return NULL;
+       fp->fd = fd;
+       fp->cnt = 0;
+       fp->base = NULL;
+       fp->flag = (*mode == 'r') ? _READ : _WRITE;
+       return fp;
+   }
+```
+This version of fopen does not handle all of the access mode possibilities of the standard, though adding them would not take much code. In particular, our fopen does not recognize the "b" that signals binary access, since that is meaningless on UNIX systems, nor the "+" that permits both reading and writing.
+
+下面我们来着手编写函数fopen。fopen函数的主要功能是打开文件，定位到合适的位置，设置标志位以指示相应的状态。它不分配任何缓冲区空间，缓冲区的分配是在第一次读文件时由函数_fillbuf完成的。
+
+```cpp
+   #include <fcntl.h>
+   #include "syscalls.h"
+   #define PERMS 0666    /* RW for owner, group, others */
+
+   FILE *fopen(char *name, char *mode)
+   {
+       int fd;
+       FILE *fp;
+
+       if (*mode != 'r' && *mode != 'w' && *mode != 'a')
+           return NULL;
+       for (fp = _iob; fp < _iob + OPEN_MAX; fp++)
+           if ((fp->flag & (_READ | _WRITE)) == 0)
+               break;        /* found free slot */
+       if (fp >= _iob + OPEN_MAX)   /* no free slots */
+           return NULL;
+
+       if (*mode == 'w')
+           fd = creat(name, PERMS);
+       else if (*mode == 'a') {
+           if ((fd = open(name, O_WRONLY, 0)) == -1)
+               fd = creat(name, PERMS);
+           lseek(fd, 0L, 2);
+       } else
+           fd = open(name, O_RDONLY, 0);
+       if (fd == -1)         /* couldn't access name */
+           return NULL;
+       fp->fd = fd;
+       fp->cnt = 0;
+       fp->base = NULL;
+       fp->flag = (*mode == 'r') ? _READ : _WRITE;
+       return fp;
+   }
+```
+
+该版本的fopen函数没有涉及标准C的所有访问模式，但是，加入这些模式并不需要增加多少代码。特别是，该版本的fopen不能识别表示二进制访问方式的b标志，这是因为，在UNIX系统中这种方式是没有意义的。同时．它也不能识别允许同时进行读和写的+标志。
+
+The first call to getc for a particular file finds a count of zero, which forces a call of _fillbuf. If _fillbuf finds that the file is not open for reading, it returns EOF immediately. Otherwise, it tries to allocate a buffer (if reading is to be buffered).
+
+对于某一特定的文件，第一次调用getc函数时计数值为0，这样就必须调用一次函数_fillbuf。如果_fillbuf发现文件不是以读方式打开的，它将立即返回EOF；否则，它将试图分配一个缓冲区(如果读操作是以缓冲方式进行的话)。
+
+Once the buffer is established, _fillbuf calls read to fill it, sets the count and pointers, and returns the character at the beginning of the buffer. Subsequent calls to _fillbuf will find a buffer allocated.
+```cpp
+   #include "syscalls.h"
+
+   /* _fillbuf:  allocate and fill input buffer */
+   int _fillbuf(FILE *fp)
+   {
+       int bufsize;
+
+       if ((fp->flag&(_READ|_EOF_ERR)) != _READ)
+           return EOF;
+       bufsize = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
+       if (fp->base == NULL)     /* no buffer yet */
+           if ((fp->base = (char *) malloc(bufsize)) == NULL)
+               return EOF;       /* can't get buffer */
+       fp->ptr = fp->base;
+       fp->cnt = read(fp->fd, fp->ptr, bufsize);
+       if (--fp->cnt < 0) {
+           if (fp->cnt == -1)
+               fp->flag |= _EOF;
+           else
+               fp->flag |= _ERR;
+           fp->cnt = 0;
+           return EOF;
+       }
+       return (unsigned char) *fp->ptr++;
+   }
+```
+
+建立缓冲区后，_fillbuf调用read填充此缓冲区，设置计数值和指针，并返回缓冲区的第一个字符。随后进行的_fillbuf调用会发现缓冲区已经分配。
+```cpp
+   #include "syscalls.h"
+
+   /* _fillbuf:  allocate and fill input buffer */
+   int _fillbuf(FILE *fp)
+   {
+       int bufsize;
+
+       if ((fp->flag&(_READ|_EOF_ERR)) != _READ)
+           return EOF;
+       bufsize = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
+       if (fp->base == NULL)     /* no buffer yet */
+           if ((fp->base = (char *) malloc(bufsize)) == NULL)
+               return EOF;       /* can't get buffer */
+       fp->ptr = fp->base;
+       fp->cnt = read(fp->fd, fp->ptr, bufsize);
+       if (--fp->cnt < 0) {
+           if (fp->cnt == -1)
+               fp->flag |= _EOF;
+           else
+               fp->flag |= _ERR;
+           fp->cnt = 0;
+           return EOF;
+       }
+       return (unsigned char) *fp->ptr++;
+   }
+```
+
+The only remaining loose end is how everything gets started. The array _iob must be defined and initialized for stdin, stdout and stderr:
+```
+   FILE _iob[OPEN_MAX] = {    /* stdin, stdout, stderr */
+       { 0, (char *) 0, (char *) 0, _READ, 0 },
+       { 0, (char *) 0, (char *) 0, _WRITE, 1 },
+       { 0, (char *) 0, (char *) 0, _WRITE, | _UNBUF, 2 }
+   };
+```
+The initialization of the flag part of the structure shows that stdin is to be read, stdout is to be written, and stderr is to be written unbuffered.
+
+最后一件事情便是如何执行这些函数。我们必须定义和初始化数组_iob中的stdin、stdout和stderr值：
+
+```
+   FILE _iob[OPEN_MAX] = {    /* stdin, stdout, stderr */
+       { 0, (char *) 0, (char *) 0, _READ, 0 },
+       { 0, (char *) 0, (char *) 0, _WRITE, 1 },
+       { 0, (char *) 0, (char *) 0, _WRITE, | _UNBUF, 2 }
+   };
+```
+
+该结构中flag部分的初值表明，将对stdin执行读操作、对stdout执行写操作、对stderr执行缓冲方式的写操作。
+
+**Exercise 8-2**. Rewrite fopen and _fillbuf with fields instead of explicit bit operations. Compare code size and execution speed.
+
+练习8-2  用字段代替显式的按位操作，重写fopen和_fillbuf函数。比较相应代码的长度和执行速度。
+
+**Exercise 8-3**. Design and write _flushbuf, fflush, and fclose.
+
+练习8-3  设计并编写函数_flushbuf、fflush和fclose。
+
+**Exercise 8-4**. The standard library function
+```
+   int fseek(FILE *fp, long offset, int origin)
+```
+is identical to lseek except that fp is a file pointer instead of a file descriptor and return value is an int status, not a position. Write fseek. Make sure that your fseek coordinates properly with the buffering done for the other functions of the library.
+
+练习8-4 标准库函数
+
+```
+   int fseek(FILE *fp, long offset, int origin)
+```
+
+类似于函数lseek，所不同的是，该函数中的fp是一个文件指针而不是文件描述符，且返回值是一个int类型的状态而非位置值。编写函数fseek，并确保该函数与库中其他函数使用的缓冲能够协同工作。

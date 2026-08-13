@@ -1,0 +1,941 @@
+---
+title: "C++课程设计"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+课程设计完成后用压缩软件将源代码打包，以附件形式发送邮件到 czk19790827@gmail.com ，标题注明课程设计四个字并写上学号、姓名，比如"课程设计-0509005208-苏晶晶"。
+
+## 面向对象课程设计
+
+### 通讯录
+
+#### 需求
+
+数据定义：
+
+* 一个通讯录包含若干联系人的通讯信息
+* 每个联系人有姓名及其他自定义信息
+* 姓名：假定没有重复
+* 自定义信息：用户自己可以添加的信息字段，比如QQ，手机，生日等。自定义信息分为5类：电话、地址、日期、数字、文字。电话用于保存各种电话；日期用于保存年、月、日信息；地址包括国家、省份、城市、住址、邮编等信息；数字只能输入数字；文字可以输入任意文字。
+
+功能说明：
+
+* 用户可以添加、修改、删除联系人
+* 用户可以显示所有联系人列表
+* 用户可以输入姓名，显示这个联系人的详细信息
+* 用户可以在各种自定义信息中查找联系人，并给出找到的所有联系人列表
+* 可以存盘和读盘
+
+输入输出格式：程序以命令行方式交互式运行，命令包括：
+
+* list: 列出所有用户清单
+* show <name>: 列出某联系人的详细信息，name是联系人的名字，
+* add <name>: 添加指定的联系人，name是联系人的名字。新添加的联系人的名字与已有的联系人的名字不能重复。
+* remove <name>: 后面加联系人的名字，删除指定的联系人。
+* update <name> <action>: 修改联系人的信息，name是联系人的姓名，action可以是：
+    * add <type> <attribute> <value>: 添加属性，attribute表示属性的名字，value表示属性的值，type表示属性的类型，可以是date、text、phone、numeric、address。
+    * remove <attribute>: 删除属性，attribute表示属性的名字
+    * update <attribute> <value>:更新属性的值
+* search <keyword>: 查找联系人，列出所有包含keyword的联系人
+* save <filename>: 将所有信息写入filename文件
+* load <filename>: 从filename中载入联系人信息
+
+使用举例：
+```
+添加联系人，姓名叫做czk
+ * add czk
+为czk添加属性mobile
+ * update czk add phone mobile 13587654600
+为czk添加属性work
+ * update czk add phone work 614600
+为czk添加属性qq
+ * update czk add numeric qq 245149
+为czk添加属性birth
+ * update czk add date birth 1979 8 27
+为czk添加属性email
+ * update czk add text email czk@wzu.edu.cn
+添加联系人ymc
+ * add ymc
+ * update ymc add phone mobile 13958895577
+ * update ymc add phone work 665577
+ * update ymc add text email jsj_ymc@wzu.edu.cn
+显示所有的联系人
+ * list
+显示czk的详细信息
+ * show czk
+查找4600，应该可以找到czk
+ * search 4600
+查找wzu.edu.cn，应该可以找到czk和ymc
+ * search wzu.edu.cn
+把czk的email属性改为另一个值
+ * update czk update email czk19790827@gmail.com
+删除czk的mobile属性
+ * update czk remove mobile
+将所有联系人存入contact.dat文件
+ * save contact.dat
+删除联系人ymc
+ * remove ymc
+从contact.dat载入所有联系人信息（当前内存中的所有联系人被清空，替换成文件中所存储的联系人）
+ * load contact.dat
+```
+
+参考设计图：
+   ![OOPdesign1.png](<assets/C++课程设计/OOPdesign1.png>)
+
+#### 第一步
+
+首先，做一个可以运行的主程序框架，可以接受输入各种指令，但是还不能实现任何功能。
+```cplusplus
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string command;
+    string prompt = ">>> ";
+    cout << prompt;
+    while (cin >> command) {
+        if(command == "list") {
+
+        } else if(command == "show") {
+
+        } else if(command == "add") {
+
+        } else if(command == "remove") {
+
+        } else if(command == "update") {
+
+        } else if(command == "search") {
+
+        } else if(command == "save") {
+
+        } else if(command == "load") {
+
+        } else if(command == "exit") {
+            return 0;
+        } else {
+            cout << "Unknown command" << endl;
+        }
+        cout << prompt;
+    }
+}
+```
+运行这个程序，输入正确命令不会有结果，输入错误命令提示Unknown command，输入exit退出程序。
+
+#### 第二步
+
+接下来为程序增加添加联系人和列出联系人清单的功能。先定义一个简单的Contact类：
+```cplusplus
+class Contact {
+    string name; // the name of contact
+public:
+    /** 初始化联系人名字为n*/
+    Contact(string n) {
+        /*......*/
+    }
+    /** 取联系人的名字 */
+    string get_name() {
+        /*......*/
+    }
+
+};
+```
+然后定义ContactList类，实现添加联系人和取其中的联系人的功能
+```cplusplus
+class ContactList{
+    Contact *contacts[100]; ///< 联系人数组
+    int num; ///< 数组中的联系人总数
+public:
+    /** 初始化列表为空表 */
+    ContactList() {
+        /*......*/
+    }
+    /** 在列表中添加一个名字叫做name的联系人 */
+    void add(string name) {
+        /*......*/
+    }
+    /** 取第i个联系人 */
+    Contact* get(int i) {
+        /*......*/
+    }
+    /** 列表中联系人总数 */
+    int size() {
+        /*......*/
+    }
+};
+```
+最后修改main函数，使它可以完成添加、列出清单的功能
+```cplusplus
+int main() {
+    ContactList list;
+    //......
+        if(command == "list") {
+            for(int i = 0; i < list.size(); i++)
+                cout << list.get(i)->get_name() << endl;
+        } else if(command == "add") {
+            string name;
+            cin >> name;
+            list.add(name);
+        }
+    //......
+}
+```
+运行这个程序，可以完成add和list的功能
+
+#### 第三步
+
+为程序添加删除功能。为ContactList添加如下成员：
+```cplusplus
+//......
+    /** 删除位置在第i个的联系人 */
+    void remove(int i) {
+        /*......*/
+    }
+    /** 查找名字是name的联系人，返回联系人的位置。找不到返回-1 */
+    int find(string name) {
+        /*......*/
+    }
+
+    /** 删除名字是name的联系人 */
+    void remove(string name) {
+        int i = find(name);
+        if(i != -1)
+            remove(i);
+    }
+//......
+```
+然后修改main函数：
+```cplusplus
+//......
+        if(command == "remove") {
+            string name;
+            cin >> name;
+            list.remove(name);
+        }
+//......
+```
+运行这个程序，可以完成remove功能了。
+
+#### 第四步
+
+接下来，让程序可以为联系人添加属性。首先添加Item类：
+```cplusplus
+class Item {
+    string name; ///<属性项的名字
+public:
+    /// 初始化属性的名字是n
+    Item(string n) {
+        /*......*/
+    }
+    /// 获取属性的名字
+    string get_name() {
+        /*......*/
+    }
+};
+```
+
+然后为Contact类添加成员：
+```cplusplus
+//......
+    Item* items[100];
+    int num;
+//......
+    /// 添加属性项
+    void add(Item *item) {
+        items[num++] = item;
+    }
+
+    /// 添加类型是type，名字是name，值是value的属性项
+    void add(string type, string name, string value) {
+        add(new Item(name)); //这里暂时不区分类型，只是创建简单的Item类型对象添加进去
+    }
+
+    /// 属性项的总数
+    int size() {
+        /*......*/
+    }
+
+    /// 取某一项属性
+    Item *get(int i) {
+        /*......*/
+    }
+//......
+```
+然后修改main函数，处理输入的update命令
+```cplusplus
+        if(command == "update") {
+            string name, subcommand, item_name, item_type, item_value;
+            cin >> name;
+            int i = list.find(name);
+            if(i != -1) {
+                Contact *c =  list.get(i);
+                cin >> subcommand;
+                if(subcommand == "add") {
+                    cin >> item_type >> item_name;
+                    getline(cin, item_value);
+                    c->add(item_type, item_name, item_value);
+                } else if (subcommand == "remove") {
+
+                }
+            }
+        }
+```
+现在就可以运行程序，为联系人添加属性了。但是还不能看到添加进去的属性。
+
+#### 第五步
+
+为程序添加查看联系人详细信息的功能。
+```cplusplus
+//......
+        if(command == "show") {
+            string name;
+            cin >> name;
+            int i = list.find(name);
+            if(i!=-1) {
+                Contact *c = list.get(i);
+                for(int j = 0; j < c->size(); j++) {
+                    cout << c->get(j)->get_name() << endl;
+                }
+            }
+        }
+//......
+```
+运行程序，可以看到添加进去的属性的名字，但是还没有属性的值。
+
+#### 第六步
+
+删除联系人的属性。为Contact类添加成员：
+```cplusplus
+    /// 删除联系人的第i个属性项
+    void remove(int i) {
+        /*......*/
+    }
+    /// 查找属性名字是n的编号，找不到返回-1
+    int find(string n) {
+        /*......*/
+    }
+    /// 删除属性名称是n的属性
+    void remove(string n) {
+        int i = find(n);
+        if(i!=-1)
+            remove(i);
+    }
+```
+
+修改main函数
+```cplusplus
+//......
+                if(subcommand == "add") {
+                    cin >> item_type >> item_name;
+                    getline(cin, item_value);
+                    c->add(item_type, item_name, item_value);
+                } else if (subcommand == "remove") {
+                    cin >> item_name;
+                    c->remove(item_name);
+                }
+//......
+```
+
+#### 第七步
+
+添加各种不同类型的Item。定义Item的五个派生类
+```cplusplus
+#include <sstream>
+using namespace std;
+
+class DateItem : public Item{
+    int year, month, day;
+public:
+    ///构造一个名字是n，日期是value的日期项。value以字符串形式表示，比如"1979 8 27"。
+    DateItem(string n, string value) :Item(n) {
+        istringstream is(value);
+        is >> year >> month >> day;
+    }
+};
+
+class AddressItem : public Item {
+/*......*/
+};
+
+class PhoneItem : public Item {
+/*......*/
+};
+
+class NumericItem: public Item {
+/*......*/
+};
+
+class TextItem: public Item {
+/*......*/
+};
+```
+修改Contact的add函数：
+```cplusplus
+//......
+    /// 添加类型是type，名称是name，值是value的属性
+    void add(string type, string name, string value) {
+        if(type == "date") {
+            add(new DateItem(name, value);
+        } else if(type == "phone")
+            /*......*/
+    }
+//......
+```
+现在，添加的各种属性的值都能保存下来了。但是在查看详细信息的时候，还只有属性的名字，而没有属性的值。
+
+#### 第八步
+
+显示联系人所有详细信息。为Item各种派生类添加to_string函数，把属性值转换成字符串，比如：
+```cplusplus
+class DateItem : public Item{
+    int year, month, day;
+public:
+    DateItem(string n, string value) :Item(n) {
+        istringstream is(value);
+        is >> year >> month >> day;
+    }
+    ///把属性值转换成字符串
+    string to_string() {
+        ostringstream os;
+        os << get_name()<< " " << year << " " << month << " " << day;
+        return os.str();
+    }
+};
+
+class TextItem :public Item {
+//......
+    string to_string() {
+        /*......*/
+    }
+};
+
+class AddressItem :public Item {
+//......
+    string to_string() {
+        /*......*/
+    }
+};
+
+class PhoneItem :public Item {
+//......
+    string to_string() {
+        /*......*/
+    }
+};
+
+class NumericItem :public Item {
+//......
+    string to_string() {
+        /*......*/
+    }
+};
+```
+为Item类添加虚函数to_string：
+```cplusplus
+class Item {
+//......
+    virtual string to_string() {
+        return name;
+    }
+};
+```
+
+修改main函数，把show中get_name改成to_string：
+```cplusplus
+//......
+        if(command == "show") {
+            string name;
+            cin >> name;
+            int i = list.find(name);
+            if(i!=-1) {
+                Contact *c = list.get(i);
+                for(int j = 0; j < c->size(); j++) {
+                    cout << c->get(j)->to_string() << endl;
+                }
+            }
+        }
+//......
+```
+编译执行程序，现在可以使用show命令了。
+
+#### 第八点五步
+
+增加update属性的功能。在Item类中增加纯虚函数update
+```cplusplus
+    /// 显示更新Item的值为value
+    virtual void update(string value) = 0;
+```
+
+在Item的各个派生类中，实现update的功能
+```cplusplus
+class DateItem: public Item {
+//......
+    void update(string value) {
+        istringstream is(value);
+        is >> year >> month >> day;
+    }
+};
+
+class PhoneItem: public Item {
+//......
+    void update(string value) {
+        /*......*/
+    }
+};
+
+class TextItem :public Item {
+//......
+    void update(string value) {
+        /*......*/
+    }
+};
+
+class AddressItem :public Item {
+//......
+    void update(string value) {
+        /*......*/
+    }
+};
+
+class NumericItem :public Item {
+//......
+    void update(string value) {
+        /*......*/
+    }
+};
+```
+
+在Contact类中，增加update_item成员函数
+```cplusplus
+    //更新属性名字是item_name的属性，把它的值改为value
+    void update_item(string item_name, string value) {
+        /*......*/
+    }
+```
+
+在main函数中增加处理update的部分：
+```cplusplus
+//......
+                if(subcommand == "add") {
+                    string type, item_name, value;
+                    cin >>type >> item_name;
+                    getline(cin, value);
+                    c->add_item(type, item_name, value);
+                } else if(subcommand == "remove") {
+                    string item_name;
+                    cin >> item_name;
+                    c->remove_item(item_name);
+                } else if(subcommand == "update") {
+                    string item_name, value;
+                    cin >> item_name;
+                    getline(cin, value);
+                    c->update_item(item_name, value);
+                }
+//......
+```
+
+编译运行这个程序，这个时候已经可以更新已有属性的值了。
+
+注意，在每个Item的派生类中，构造函数的实现和update函数的实现类似，可以将构造函数改成调用update函数，比如：
+```cplusplus
+class DateItem: public Item {
+    int year, month, day;
+public:
+    DateItem(string n, string v)
+    :Item(n) {
+        update(v);
+    }
+    virtual void update(string value) {
+        istringstream is(value);
+        is >> year >> month >> day;
+    }
+//......
+};
+```
+
+#### 第九步
+
+添加搜索功能。首先为Contact类添加contain函数，判断一个联系人是否包含某个搜索的关键字，包含返回true，否则返回false。
+```cplusplus
+//.....
+    ///判断某个联系人是否包含key这个字符串，包含返回true，否则返回false。
+    bool contain(string key) {
+        /*......*/
+    }
+//.....
+```
+然后修改main函数，处理search命令：
+```cplusplus
+        if(command == "search") {
+            string key;
+            cin >> key;
+            for(int i = 0; i < list.size(); i++)
+                if(list.get(i)->contain(key))
+                    cout << list.get(i)->get_name() << endl;
+        }
+```
+
+#### 第十步
+
+存盘与读盘。要进行文件操作，可以使用ifstream和ofstream类，它们在头文件fstream中定义。修改main函数实现存盘功能：
+```cplusplus
+        if(command == "save") {
+            string filename;
+            cin >> filename;
+            ofstream f(filename.c_str());
+            f << list.size() << endl;
+            for(int i = 0; i < list.size(); i++) {
+                Contact *c = list.get(i);
+                f << c->get_name() << endl;
+                f << c->size() << endl;
+                for(int j = 0; j < c->size(); j++) {
+                    f << typeid(*c->get(j)).name() << endl;
+                    f << c->get(j)->to_string() << endl;
+                }
+            }
+        }
+```
+这时可以编译运行程序。用save命令把数据存到文件中。打开文件可以查看到文件的内容。
+
+修改main函数的实现读盘功能：
+```cplusplus
+        if(command == "load") {
+            string filename;
+            cin >> filename;
+            ifstream f(filename.c_str());
+            int size;
+            f >> size;
+            list.clear();
+            for(int i = 0; i < size; i++) {
+                string name;
+                int item_size;
+                f >> name >> item_size;
+                list.add(name);
+                Contact *c=list.get(list.find(name));
+                for(int j = 0; j < item_size; j++) {
+                    string type, item_name, value;
+                    f >> type;
+                    f >> item_name;
+                    getline(f, value);
+                    if(type == typeid(DateItem).name()) {
+                        c->add(new DateItem(item_name, value));
+                    } else if(type == typeid(AddressItem).name()) {
+                        /*....*/
+                    }
+                    /*....*/
+                }
+            }
+        }
+```
+为ContactList添加clear()函数：
+```cplusplus
+    /**清空列表里面的所有联系人*/
+    void clear() {
+
+    }
+```
+编译运行，这时可以存盘与读盘了。
+
+#### 第十一步
+
+消除内存漏洞。为需要的类添加析构函数。
+为ContactList添加析构函数
+```cplusplus
+//......
+    ~ContactList() {
+        /*......*/
+    }
+//......
+```
+
+为Contact添加析构函数
+```cplusplus
+//......
+    ~Contact() {
+        /*......*/
+    }
+//......
+```
+
+为Item添加虚析构函数
+```cplusplus
+//......
+    virtual ~Item() {
+        /*......*/
+    }
+//......
+```
+
+#### 第十二步
+
+让联系人总数和每个人的属性项数不受数组大小的限制。使用vector代替数组：
+```cplusplus
+    Contact *contacts[100];
+    int num;
+```
+改成
+```cplusplus
+    vector<Contact *> contacts;
+```
+读取num的地方用contacts.size()代替，在数组尾部添加一个元素用contacts.push_back(...)代替，
+
+### 个人财务软件
+
+#### 需求概述
+
+设计一个基于字符界面的个人财务软件Finance，基本功能包括：
+
+1. 账户Account管理。包括：添加、删除、修改账户
+    * 账户分为4类：资产Asset、债务Debt、收入Income、支出Expense。
+    * 资产账户是指个人所拥有的财产，比如现金、存款、借出款、股票等。
+    * 债务账户是指个人所欠的债务，比如借入款，贷款等。
+    * 支出账户是指个人的支出，比如交通、餐饮、购物、房租等
+    * 收入账户是指个人的收入，比如工资、奖金、利息等
+    * 每个资产账户和债务账户都有初始值。
+1. 交易Transaction管理（添加、删除交易，设置交易属性）
+    * 交易用于完成在各个帐户之间的财务的转移，每笔记录有时间、转出账户、转入账户、金额、说明等属性。
+    * 收入账户只能作为转出账户。支出账户只能作为转入账户。
+1. 统计功能
+    * 统计各个资产账户和债务帐户的当前状况
+    * 统计收入和支出状况
+    * 统计一个账户的所有历史交易
+1. 存盘和读取
+    * 所有操作能够自动存盘，下次打开程序时能够从磁盘读取，恢复到关闭程序前一样的状态。
+
+#### 使用举例
+
+刚开始使用可以设置如下账户：
+
+* 资产账户：现金、饭卡、招商银行卡、工商银行卡、借出
+* 债务账户：借入
+* 支出账户：交通支出、购物支出、吃饭支出
+* 收入账户：工资
+
+每个资产账户和债务账户设置好初始值。然后开始记录每一笔交易：
+
+* 从家里到学校坐公交花去2元：新建交易，从现金转移到交通支出2元
+* 吃早饭，饭卡上花去4元：新建交易，从饭卡转移到吃饭支出4元
+* 从别人那里借了300元：新建交易，从借入账户转移300元到现金帐户
+* 发工资，工商银行卡多出1080元：新建交易，从工资帐户转移到工商银行卡1080元
+* 借给朋友现金200元：新建交易，从现金帐户转移到借出账户200元
+* 把借别人的300元还掉：新建交易，从现金转移300元到借入账户
+
+```
+创建资产帐户"现金"，初始金额300
+ * create account asset 现金 300
+ * create account asset 饭卡 100
+ * create account asset 招行卡 1000
+ * create account asset 工行卡 500
+ * create account asset 借出 0
+创建债务帐户"借入"，初始金额0
+ * create account debt 借入 0
+创建支出帐户"交通支出"
+ * create account expense 交通支出
+ * create account expense 购物支出
+ * create account expense 吃饭支出
+创建收入帐户"工资"
+ * create account income 工资
+创建交易，从现金帐户转移2元到交通支出帐户
+ * create transaction 现金 交通支出 2.0
+ * create transaction 饭卡 吃饭支出 4.0
+ * create transaction 借入 现金 300.0
+ * create transaction 工资 工行卡 1080.0
+ * create transaction 现金 借出 200.0
+ * create transaction 现金 借入 300.0
+显示所有帐户的结余和总的收支状况
+ * show balance
+显示某帐户的交易清单
+ * show account 现金
+显示所有交易的清单
+ * show transaction
+删除第1条交易
+ * remove transaction 1
+删除吃饭支出帐户
+ * remove account 吃饭支出
+```
+
+#### 参考设计
+
+![OOPDesign2.png](<assets/C++课程设计/OOPDesign2.png>)
+
+#### 第一步
+
+首先建好主程序框架，接受各种输入指令，但是不做任何处理：
+```cplusplus
+#include <iostream>
+using namespace std;
+
+int main() {
+    while(true) {
+        string command, type, prompt = "finance>>";
+        cout << prompt;
+        cin >> command >> type;
+        if(command == "create") {
+            if(type == "account") {
+
+            } else if(type == "transaction") {
+
+            } else {
+                cout << "Parameter error: "<< type << endl;
+            }
+        } else if (command == "remove" ) {
+            if(type == "account") {
+
+            } else if(type == "transaction") {
+
+            } else {
+                cout << "Parameter error: "<< type << endl;
+            }
+        } else if (command == "show" ) {
+            if(type == "balance") {
+
+            } else if(type == "account") {
+
+            } else if(type == "transaction") {
+
+            } else {
+                cout << "Parameter error: "<< type << endl;
+            }
+        } else if (command == "modify") {
+            if(type == "account") {
+
+            } else if(type == "transaction") {
+
+            } else {
+                cout << "Parameter error: "<< type << endl;
+            }
+        } else if(command == "save"){
+
+        } else if(command == "load"){
+
+        } else if(command == "exit") {
+            break;
+        } else {
+            cout << "Command error: " << command << endl;
+        }
+    }
+}
+```
+编译运行这个程序
+
+#### 第二步
+
+编写必要的数据结构。撰写Account类：
+```cplusplus
+class Account {
+    string name_;   // 帐户名称
+    string type_;   // 帐户类型（4种类型之一）
+    double equity_; // 帐户金额初始值
+};
+```
+
+撰写Transaction类：
+```cplusplus
+class Transaction {
+    Account * from_; //从哪个帐户转出
+    Account * to_;   //转到哪个帐户中去
+    double amount_;  //转了多少金额
+};
+```
+
+撰写Finance类：
+```cplusplus
+class Finance{
+    vector<Transaction *> transactions_; //所有交易的列表
+    vector<Account *> accounts_;         //所有帐户的列表
+};
+```
+
+在main函数里面定义Finance对象：
+```cplusplus
+//...
+int main() {
+    Finance finance;        //所有财务信息存在finance对象中
+//...
+```
+
+#### 第三步
+
+编写添加帐户的功能。在Finance类中定义添加帐户的成员函数add_account，在main函数中处理添加帐户的命令并调用Finance的成员函数实现。
+```cplusplus
+    void add_account(string type, string name, double value) {
+        /*...*/
+    }
+```
+
+#### 第四步
+
+编写列出所有帐户的功能。在Finance泪中定义成员函数show_accounts，列出所有帐户
+```cplusplus
+    void show_accounts {
+        /*...*/
+    }
+```
+
+#### 第五步
+
+编写添加交易的功能。在Finance类中定义添加交易的成员函数add_transaction，在main函数中处理添加交易的命令并调用Finance的成员函数实现。
+```cplusplus
+    void add_transaction(string from, string to, double value) {
+        /*...*/
+    }
+```
+
+#### 第六步
+
+编写列出所有交易的功能。在Finance类中定义成员函数show_transactions，列出所有交易
+```cplusplus
+    void show_transactions() {
+        /*...*/
+    }
+```
+
+#### 第七步
+
+编写删除交易功能。在Finance类中实现remove_transaction，在main函数中处理删除交易的命令并调用Finance的成员函数函数实现。
+```cplusplus
+    void remove_transaction(int i) {
+        /*...*/
+    }
+```
+
+#### 第八步
+
+编写删除帐户功能。在Finance类中实现remove_account，在main函数中处理删除帐户的命令并调用Finance的成员函数函数实现。
+```cplusplus
+    void remove_account(string name) {
+        /*...*/
+    }
+```
+
+#### 第九步
+
+编写修改交易功能。
+
+#### 第十步
+
+编写修改帐户功能。
+
+#### 第十一步
+
+编写查询功能。在Finance类中定义show_account_detail，列出某帐户的详细信息（包括该帐户所有相关交易以及每次交易后的结余）。修改show_accounts，使其能够列出帐户的汇总信息（每个帐户的结余）。
+```cplusplus
+    void show_account_detail(string name) {
+        /*...*/
+    }
+```
+
+#### 第十二步
+
+编写存盘功能
+
+#### 第十三步
+
+编写读盘功能

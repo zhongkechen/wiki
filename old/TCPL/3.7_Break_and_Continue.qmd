@@ -1,0 +1,75 @@
+---
+title: "TCPL/3.7_Break_and_Continue"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 3.7 Break and Continue break语句与continue语句
+
+It is sometimes convenient to be able to exit from a loop other than by testing at the top or bottom. The break statement provides an early exit from for, while, and do, just as from switch. A break causes the innermost enclosing loop or switch to be exited immediately.
+
+不通过循环头部或尾部的条件测试而跳出循环，有时是很方便的。break语句可用于从for、while与do-while等循环中提前退出，就如同从switch语句中提前退出一样。break语句能使程序从switch语句或最内层循环中立即跳出。
+
+The following function, trim, removes trailing blanks, tabs and newlines from the end of a string, using a break to exit from a loop when the rightmost non-blank, non-tab, non-newline is found.
+```cpp
+   /* trim:  remove trailing blanks, tabs, newlines */
+   int trim(char s[])
+   {
+       int n;
+
+       for (n = strlen(s)-1; n >= 0; n--)
+           if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
+               break;
+       s[n+1] = '\0';
+       return n;
+   }
+```
+strlen returns the length of the string. The for loop starts at the end and scans backwards looking for the first character that is not a blank or tab or newline. The loop is broken when one is found, or when n becomes negative (that is, when the entire string has been scanned). You should verify that this is correct behavior even when the string is empty or contains only white space characters.
+
+下面的函数trim用于删除字符串尾部的空格符、制表符与换行符。当发现最右边的字符为非空格符、非制表符、非换行符时，就使用break语句从循环中退出。
+
+```cpp
+   /* trim:  remove trailing blanks, tabs, newlines */
+   int trim(char s[])
+   {
+       int n;
+
+       for (n = strlen(s)-1; n >= 0; n--)
+           if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
+               break;
+       s[n+1] = '\0';
+       return n;
+   }
+```
+
+strlen函数返回字符串的长度。for循环从字符串的末尾开始反方向扫描寻找第一个不是空格符、制表符以及换行符的字符。当找到符合条件的第一个字符，或当循环控制变量n变为负数时(即整个字符串都被扫描完时)，循环终止执行。读者可以验证，即使字符串为空或仅包含空白符，该函数也是正确的。
+
+The continue statement is related to break, but less often used; it causes the next iteration of the enclosing for, while, or do loop to begin. In the while and do, this means that the test part is executed immediately; in the for, control passes to the increment step. The continue statement applies only to loops, not to switch. A continue inside a switch inside a loop causes the next loop iteration.
+
+continue语句与break语句是相关联的，但它没有break语句常用。continue语句用于使for、while或do-while语句开始下一次循环的执行。在while与do-while语句中，continue语句的执行意味着立即执行测试部分；在for循环中，则意味着使控制转移到递增循环变量部分。contlnue语句只用于循环语句，不用于switch语句。某个循环包含的switch语句中的continue语句，将导致进入下一次循环。
+
+As an example, this fragment processes only the non-negative elements in the array a; negative values are skipped.
+```
+   for (i = 0; i < n; i++)
+       if (a[i] < 0)   /* skip negative elements */
+           continue;
+       ... /* do positive elements */
+```
+The continue statement is often used when the part of the loop that follows is complicated, so that reversing a test and indenting another level would nest the program too deeply.
+
+例如，下面这段程序用于处理数组a中的非负元素。如果某个元素的值为负，则跳过不处理。
+
+```
+   for (i = 0; i < n; i++)
+       if (a[i] < 0)   /* skip negative elements */
+           continue;
+       ... /* do positive elements */
+```
+
+当循环的后面部分比较复杂时，常常会用到continue语句。这种情况下，如果不使用continue语句，则可能需要把测试颠倒过来或者缩进另一层循环，这样做会使程序的嵌套更深。

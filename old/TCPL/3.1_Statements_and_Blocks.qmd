@@ -1,0 +1,35 @@
+---
+title: "TCPL/3.1_Statements_and_Blocks"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 3.1 Statements and Blocks 语句与程序块
+
+An expression such as x = 0 or i++ or printf(...) becomes a statement when it is followed by a semicolon, as in
+```
+   x = 0;
+   i++;
+   printf(...);
+```
+In C, the semicolon is a statement terminator, rather than a separator as it is in languages like Pascal.
+
+在x=0、i++或printf(...)这样的表达式之后加上一个分号(;)，它们就变成了*语句*。例如：
+
+```
+   x = 0;
+   i++;
+   printf(...);
+```
+
+在C语言中，分号是语句结束符，而Pascal等语言却把分号用作语句之间的分隔符。
+
+Braces { and } are used to group declarations and statements together into a compound statement, or block, so that they are syntactically equivalent to a single statement. The braces that surround the statements of a function are one obvious example; braces around multiple statements after an if, else, while, or for are another. (Variables can be declared inside any block; we will talk about this in Chapter 4.) There is no semicolon after the right brace that ends a block.
+
+用一对花括号“{”与“}”把一组声明和语句括在一起就构成了一个*复合语句*(也叫作*程序块*)，复合语句在语法上等价于单条语句。函数体中被花括号括起来的语句便是明显一例。(在任何程序块中都可以声明变量，第4章将对此进行讨论。)右花括号用于结束程序块，其后不需要分号。

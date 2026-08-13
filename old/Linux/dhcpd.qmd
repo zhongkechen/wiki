@@ -1,0 +1,93 @@
+---
+title: "dhcpd"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+Dynamic Host Configuration Protocol (DHCP) ^[介绍： http://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol ] ^[官方网址： http://www.isc.org/sw/dhcp/ ] 是一种网络协议，它让网络客户端可以获取连接网络所必要的参数。它可以减轻系统管理员的负担，让设备不用任何配置就可以添加网络当中。
+
+### 安装
+
+运行下述命令安装dhcp服务器
+```
+aptitude install dhcp3-server
+```
+
+启动服务
+
+```
+/etc/init.d/dhcp3-server start
+```
+
+重启服务
+
+```
+/etc/init.d/dhcp3-server restart
+```
+
+### 配置
+
+要配置dhcp服务器，需要编辑文件/etc/dhcp3/dhcpd.conf。^[配置文件： http://www.bind9.net/dhcpd.conf.5]在其中加入下面这行才可以授权给dhcp服务器工作：
+```
+authoritative;
+```
+
+然后可以加入需要提供服务的子网
+
+```
+subnet 192.168.12.0 netmask 255.255.255.0 {
+  range 192.168.12.2 192.168.12.253;
+}
+```
+
+ range参数指定供分配的ip地址池。
+
+在分配地址的同时，为客户端指定网关和dns服务器和所在的域名
+
+```
+option domain-name "example.com";
+option domain-name-servers 192.168.12.252, 61.153.177.199;
+subnet 192.168.12.0 netmask 255.255.255.0 {
+  range 192.168.12.2 192.168.12.250;
+  option routers 192.168.12.1;
+}
+```
+
+为某些计算机分配固定的ip：
+
+```
+host a01 {
+        hardware ethernet 00:04:61:97:6D:E2;
+        fixed-address 192.168.12.11;
+        option routers 192.168.12.1;
+}
+
+host a02 {
+        hardware ethernet 00:04:61:97:66:41;
+        fixed-address 192.168.12.12;
+        option routers 192.168.12.1;
+}
+```
+
+提供网络引导，其中pxelinux.0是网络引导文件的名称，next-server是存放引导文件的服务器名称：
+
+```
+subnet 192.168.12.0 netmask 255.255.255.0 {
+  range 192.168.12.2 192.168.12.253;
+  option routers 192.168.12.1;
+  next-server 192.168.12.252;
+  filename "pxelinux.0";
+}
+```
+
+如果next-server参数省略，默认的文件服务器和dhcp服务器相同。文件服务器上需要开启tftp服务器，并将引导所需文件放在服务器上。
+
+### 参考文献

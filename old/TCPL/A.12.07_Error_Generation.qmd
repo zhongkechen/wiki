@@ -1,0 +1,19 @@
+---
+title: "TCPL/A.12.07_Error_Generation"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.7 Error Generation
+
+A preprocessor line of the form
+
+    # error token-sequenceopt
+
+causes the preprocessor to write a diagnostic message that includes the token sequence.

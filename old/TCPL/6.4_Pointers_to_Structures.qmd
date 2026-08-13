@@ -1,0 +1,213 @@
+---
+title: "TCPL/6.4_Pointers_to_Structures"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 6.4 Pointers to Structures 指向结构的指针
+
+To illustrate some of the considerations involved with pointers to and arrays of structures, let us write the keyword-counting program again, this time using pointers instead of array indices.
+
+为了进一步说明指向结构的指针和结构数组，我们重新编写关键字统计程序，这次采用指针，而不使用数组下标。
+
+The external declaration of keytab need not change, but main and binsearch do need modification.
+
+```cpp
+   #include <stdio.h>
+   #include <ctype.h>
+   #include <string.h>
+   #define MAXWORD 100
+
+   int getword(char *, int);
+   struct key *binsearch(char *, struct key *, int);
+
+   /* count C keywords; pointer version */
+   main()
+   {
+       char word[MAXWORD];
+       struct key *p;
+
+       while (getword(word, MAXWORD) != EOF)
+           if (isalpha(word[0]))
+               if ((p=binsearch(word, keytab, NKEYS)) != NULL)
+                   p->count++;
+       for (p = keytab; p < keytab + NKEYS; p++)
+           if (p->count > 0)
+               printf("%4d %s\n", p->count, p->word);
+       return 0;
+   }
+
+   /* binsearch: find word in tab[0]...tab[n-1] */
+   struct key *binsearch(char *word, struck key *tab, int n)
+   {
+       int cond;
+       struct key *low = &tab[0];
+       struct key *high = &tab[n];
+       struct key *mid;
+
+       while (low < high) {
+           mid = low + (high-low) / 2;
+           if ((cond = strcmp(word, mid->word)) < 0)
+               high = mid;
+           else if (cond > 0)
+               low = mid + 1;
+           else
+               return mid;
+       }
+       return NULL;
+   }
+```
+
+keytab的外部声明不需要修改，但main和binsearch函数必须修改。修改后的程序如下：
+
+```cpp
+   #include <stdio.h>
+   #include <ctype.h>
+   #include <string.h>
+   #define MAXWORD 100
+
+   int getword(char *, int);
+   struct key *binsearch(char *, struct key *, int);
+
+   /* count C keywords; pointer version */
+   main()
+   {
+       char word[MAXWORD];
+       struct key *p;
+
+       while (getword(word, MAXWORD) != EOF)
+           if (isalpha(word[0]))
+               if ((p=binsearch(word, keytab, NKEYS)) != NULL)
+                   p->count++;
+       for (p = keytab; p < keytab + NKEYS; p++)
+           if (p->count > 0)
+               printf("%4d %s\n", p->count, p->word);
+       return 0;
+   }
+
+   /* binsearch: find word in tab[0]...tab[n-1] */
+   struct key *binsearch(char *word, struck key *tab, int n)
+   {
+       int cond;
+       struct key *low = &tab[0];
+       struct key *high = &tab[n];
+       struct key *mid;
+
+       while (low < high) {
+           mid = low + (high-low) / 2;
+           if ((cond = strcmp(word, mid->word)) < 0)
+               high = mid;
+           else if (cond > 0)
+               low = mid + 1;
+           else
+               return mid;
+       }
+       return NULL;
+   }
+```
+
+There are several things worthy of note here. First, the declaration of binsearch must indicate that it returns a pointer to struct key instead of an integer; this is declared both in the function prototype and in binsearch. If binsearch finds the word, it returns a pointer to it; if it fails, it returns NULL.
+
+这里需要注意几点。首先，binsearch函数在声明中必须表明：它返回的值类型是一个指向struct key类型的指针，而非整型，这在函数原型及binsearch函数中都要声明。如果binsearch找到与输入单词匹配的数组元素，它将返回一个指向该元素的指针，否则返回NULL。
+
+Second, the elements of keytab are now accessed by pointers. This requires significant changes in binsearch.
+
+其次，keytab的元素在这里是通过指针访问的。这就需要对binsearch做较大的修改。
+
+The initializers for low and high are now pointers to the beginning and just past the end of the table.
+
+在这里，low和high的初值分别是指向表头元素的指针和指向表后元素后面的一个元素的指针。
+
+The computation of the middle element can no longer be simply
+```
+   mid = (low+high) / 2    /* WRONG */
+```
+because the addition of pointers is illegal. Subtraction is legal, however, so high-low is the number of elements, and thus
+```
+   mid = low + (high-low) / 2
+```
+sets mid to the element halfway between low and high.
+
+这样，我们就无法简单地通过下列表达式计算中间元素的位置：
+
+```
+   mid = (low+high) / 2    /* WRONG */
+```
+
+这是因为，两个指针之间的加法运算是非法的。但是，指针的减法运算却是合法的，high-low的值就是数组元素的个数，因此，可以用下列表达式：
+
+```
+   mid = low + (high-low) / 2
+```
+
+将mid设置为指向位于high和low之间的中间元素的指针。
+
+The most important change is to adjust the algorithm to make sure that it does not generate an illegal pointer or attempt to access an element outside the array. The problem is that &tab[-1] and &tab[n] are both outside the limits of the array tab. The former is strictly illegal, and it is illegal to dereference the latter. The language definition does guarantee, however, that pointer arithmetic that involves the first element beyond the end of an array (that is, &tab[n]) will work correctly.
+
+对算法的最重要修改在于，要确保不会生成非法的指针，或者是试图访问数组范围之外的元素。问题在于，&tab[-1]和&tab[n]都超出了数组tab的范围。前者是绝对非法的，而对后者的间接引用也是非法的。但是，C语言的定义保证数组末尾之后的第一个元素(即&tab[n])的指针算术运算可以正确执行。
+
+In main we wrote
+```
+   for (p = keytab; p < keytab + NKEYS; p++)
+```
+If p is a pointer to a structure, arithmetic on p takes into account the size of the structure, so p++ increments p by the correct amount to get the next element of the array of structures, and the test stops the loop at the right time.
+
+主程序main中有下列语句：
+
+```
+   for (p = keytab; p < keytab + NKEYS; p++)
+```
+
+如果p是指向结构的指针，则对p的算术运算需要考虑结构的长度，所以，表达式p++执行时，将在p的基础上加上一个正确的值，以确保得到结构数组的下一个元素，这样，上述测试条件便可以保证循环正确终止。
+
+Don't assume, however, that the size of a structure is the sum of the sizes of its members. Because of alignment requirements for different objects, there may be unnamed "holes" in a structure. Thus, for instance, if a char is one byte and an int four bytes, the structure
+```
+   struct {
+       char c;
+       int i;
+   };
+```
+might well require eight bytes, not five. The sizeof operator returns the proper value.
+
+但是，千万不要认为结构的长度等于各成员长度的和。因为不同的对象有不同的对齐要求，所以．结构中可能会出现未命名的“字穴”(hole)。例如，假设char类型占用一个字节，int类型占用4个字节，则下列结构：
+
+```
+   struct {
+       char c;
+       int i;
+   };
+```
+
+可能需要8个字节的存储空问，而不是5个字节。使用sizeof运算符可以返回正确的对象长度。
+
+Finally, an aside on program format: when a function returns a complicated type like a structure pointer, as in
+```
+   struct key *binsearch(char *word, struct key *tab, int n)
+```
+the function name can be hard to see, and to find with a text editor. Accordingly an alternate style is sometimes used:
+```
+   struct key *
+   binsearch(char *word, struct key *tab, int n)
+```
+This is a matter of personal taste; pick the form you like and hold to it.
+
+最后，说明一点程序的格式问题：当函数的返回值类型比较复杂时(如结构指针)，例如
+
+```
+   struct key *binsearch(char *word, struct key *tab, int n)
+```
+
+很难看出函数名，也不太容易使用文本编辑器找到函数名。我们可以采用另一种格式书写上述语句：
+
+```
+   struct key *
+   binsearch(char *word, struct key *tab, int n)
+```
+
+具体采用哪种写法属于个人的习惯问题，可以选择自己喜欢的方式并始终保持自己的风格。

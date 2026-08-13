@@ -1,0 +1,42 @@
+---
+title: "VC++2003"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“C++集成开发环境”](<../C++集成开发环境.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000004 在备份中缺失；以下内容来自最新可读取版本 00000003。
+:::
+
+### Visual Studio.Net 2003集成开发环境
+
+创建工程
+
+1. 打开Visual Studio.net 2003集成开发环境
+1. 菜单File=&gt;New=&gt;Project
+1. 在弹出的对话框中：Project Types选择Visual C++ Projects，Templates选择Win32 Console Application，Name中输入工程名称，Location选择保存的路径。最后点OK
+1. 在接下来的工程向导中，选择Application Settings，选择Empty Project，最后按Finish
+1. 菜单View=&gt;Solution Explorer
+1. 在Solution Explorer中选中刚才建立的工程
+1. 菜单File=&gt;Add New Item
+1. 在弹出的对话框中：Categories选择Visual C++，Templates选择C++ File，Name中输入文件名，文件要以.c结尾，最后按Open。
+
+编译运行
+
+1. 菜单Build=&gt;Build Solution
+1. 如果编译通过，选择菜单Debug=&gt;Start Without Debugging
+
+调试
+
+* 开始调试：菜单Debug=&gt;Start
+* 设置断点：光标移动到要设置断点的地方，按F9
+* 单步执行：Debug菜单下的Step Into和Step Over
+* 查看变量：Debug菜单下的Quick Watch

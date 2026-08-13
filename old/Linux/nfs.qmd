@@ -1,0 +1,59 @@
+---
+title: "nfs"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+Network File System (NFS) 是一种网络文件系统协议，最初在1984年由Sun公司开发。它允许一个客户端上的用户非常方便地访问网络上的文件，好像这些文件就在本机上一样。NFS协议在RFC 1094、RFC 1813和RFC 3530中定义。
+
+### 安装
+
+```
+aptitude install nfs-user-server
+```
+
+编辑配置文件/etc/exports，比如
+```
+/               master(rw) trusty(rw,no_root_squash)
+/projects       proj*.local.domain(rw)
+/usr            *.local.domain(ro) @trusted(rw)
+/home/joe       pc001(rw,all_squash,anonuid=150,anongid=100)
+/pub            (ro,insecure,all_squash)
+/pub/private    (noaccess)
+```
+这个文件每一行的格式是：目录 主机1(权限) 主机2(权限) ……
+
+rw是可读写，ro是只读，noaccess是不可访问。带squash的参数涉及用户名映射。
+
+### 客户端
+
+#### Linux
+
+安装客户端
+```
+aptitude install nfs-common
+```
+
+然后可以直接挂载远程服务器上的目录
+```
+mount 192.168.12.252:/home/czk /mnt/
+```
+
+#### Windows
+
+可以安装[Windows Service for Unix](http://www.microsoft.com/downloads/details.aspx?familyid=896C9688-601B-44F1-81A4-02878FF11778&displaylang=en)
+
+### 参考文献
+
+* 概述：[http://en.wikipedia.org/wiki/Network_File_System_(protocol)](http://en.wikipedia.org/wiki/Network_File_System_(protocol))
+
+ *

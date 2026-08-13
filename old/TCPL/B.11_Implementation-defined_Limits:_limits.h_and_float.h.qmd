@@ -1,0 +1,51 @@
+---
+title: "TCPL/B.11_Implementation-defined_Limits:_<limits.h>_and_<float.h>"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### B.11 Implementation-defined Limits: &lt;limits.h&gt; and &lt;float.h&gt;
+
+The header &lt;limits.h&gt; defines constants for the sizes of integral types. The values below are acceptable minimum magnitudes; larger values may be used.
+```
+CHAR_BIT   	8	bits in a char
+CHAR_MAX 	UCHAR_MAX or SCHAR_MAX  	maximum value of char
+CHAR_MIN 	0 or SCHAR_MIN	maximum value of char
+INT_MAX 	32767	maximum value of int
+INT_MIN 	-32767	minimum value of int
+LONG_MAX 	2147483647	maximum value of long
+LONG_MIN 	-2147483647	minimum value of long
+SCHAR_MAX	+127	maximum value of signed char
+SCHAR_MIN	-127	minimum value of signed char
+SHRT_MAX 	+32767	maximum value of short
+SHRT_MIN 	-32767	minimum value of short
+UCHAR_MAX	255	maximum value of unsigned char
+UINT_MAX 	65535	maximum value of unsigned int
+ULONG_MAX	4294967295	maximum value of unsigned long
+USHRT_MAX	65535	maximum value of unsigned short
+```
+The names in the table below, a subset of &lt;float.h&gt;, are constants related to floating-point arithmetic. When a value is given, it represents the minimum magnitude for the corresponding quantity. Each implementation defines appropriate values.
+```
+FLT_RADIX 	2	radix of exponent, representation, e.g., 2, 16
+FLT_ROUNDS 		floating-point rounding mode for addition
+FLT_DIG 	6	decimal digits of precision
+FLT_EPSILON 	1E-5	smallest number x such that 1.0+x != 1.0
+FLT_MANT_DIG  		number of base FLT_RADIX in mantissa
+FLT_MAX 	1E+37  	maximum floating-point number
+FLT_MAX_EXP 		maximum n such that FLT_RADIXn-1 is representable
+FLT_MIN 	1E-37	minimum normalized floating-point number
+FLT_MIN_EXP 		minimum n such that 10n is a normalized number
+DBL_DIG 	10	decimal digits of precision
+DBL_EPSILON 	1E-9	smallest number x such that 1.0+x != 1.0
+DBL_MANT_DIG		number of base FLT_RADIX in mantissa
+DBL_MAX 	1E+37	maximum double floating-point number
+DBL_MAX_EXP 		maximum n such that FLT_RADIXn-1 is representable
+DBL_MIN 	1E-37	minimum normalized double floating-point number
+DBL_MIN_EXP 		minimum n such that 10^n^ is a normalized number
+```

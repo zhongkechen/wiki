@@ -1,0 +1,115 @@
+---
+title: "TCPL/2.06_Relational_and_Logical_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.6 Relational and Logical Operators 关系运算符与逻辑运算符
+
+The relational operators are
+```
+   >   >=   <   <=
+```
+They all have the same precedence. Just below them in precedence are the equality operators:
+```
+   ==   !=
+```
+Relational operators have lower precedence than arithmetic operators, so an expression like i &lt; lim-1 is taken as i &lt; (lim-1), as would be expected.
+
+关系运算符包括下列几个运算符：
+
+```
+   >   >=   <   <=
+```
+
+它们具有相同的优先级。优先级仅次于它们的是相等性运算符：
+
+```
+   ==   !=
+```
+
+关系运算符的优先级比算术运算符低。因此，表达式i &lt; lim-1等价于i &lt; (1im-1)。
+
+More interesting are the logical operators && and ||. Expressions connected by && or || are evaluated left to right, and evaluation stops as soon as the truth or falsehood of the result is known. Most C programs rely on these properties. For example, here is a loop from the input function getline that we wrote in Chapter 1:
+```
+   for (i=0; i < lim-1 && (c=getchar()) != '\n' && c != EOF; ++i)
+       s[i] = c;
+```
+Before reading a new character it is necessary to check that there is room to store it in the array s, so the test i &lt; lim-1 must be made first. Moreover, if this test fails, we must not go on and read another character.
+
+逻辑运算符&&与||有一些较为特殊的属性，由&&与||连接的表达式按从左到右的顺序进行求值，并且，在知道结果值为真或假后立即停止计算。绝大多数C语言程序运用了这些属性。例如，下列在功能上与第1章的输入函数getline中的循环语句等价的循环语句：
+
+```
+   for (i=0; i < lim-1 && (c=getchar()) != '\n' && c != EOF; ++i)
+       s[i] = c;
+```
+
+在读入一个新字符之前必须先检查数组s中是否还有空间存放这个字符，因此必须首先测试条件i&lt;lim-1。如果这一测试失败，就没有必要继续读入下一字符。
+
+Similarly, it would be unfortunate if c were tested against EOF before getchar is called; therefore the call and assignment must occur before the character in c is tested.
+
+类似地，如果在调用getchar函数之前就测试c是否为EOF，结果也是不正确的，因此，函数的调用与赋值都必须在对c中的字符进行测试之前进行。
+
+The precedence of && is higher than that of ||, and both are lower than relational and equality operators, so expressions like
+```
+   i < lim-1 && (c=getchar()) != '\n' && c != EOF
+```
+need no extra parentheses. But since the precedence of != is higher than assignment, parentheses are needed in
+```
+   (c=getchar()) != '\n'
+```
+to achieve the desired result of assignment to c and then comparison with '\\n'.
+
+运算符&&的优先级比||的优先级高，但两者都比关系运算符和相等性运算符的优先级低。因此，表达式
+
+```
+   i < lim-1 && (c=getchar()) != '\n' && c != EOF
+```
+
+就不需要另外加圆括号了。但是，出于运算符!=的优先级高于赋值运算符的优先级，因此，在表达式
+
+```
+   (c=getchar()) != '\n'
+```
+
+中，就需要使用圆括号，这样才能达到预期的目的：失把函数返回值赋值给c，然后再将c与
+'\\n'进行比较。
+
+By definition, the numeric value of a relational or logical expression is 1 if the relation is true, and 0 if the relation is false.
+
+根据定义，在关系表达式或逻辑表达式中，如果关系为真，则表达式的结果值为数值1；如果为假，则结果值为数值0。
+
+The unary negation operator ! converts a non-zero operand into 0, and a zero operand in 1. A common use of ! is in constructions like
+```
+   if (!valid)
+```
+rather than
+```
+   if (valid == 0)
+```
+It's hard to generalize about which form is better. Constructions like !valid read nicely ("if not valid"), but more complicated ones can be hard to understand.
+
+逻辑非运算符!的作用是将非0操作数转换为0，将操作数0转换为1。该运算符通常用于下列类似的结构中：
+
+```
+   if (!valid)
+```
+
+一般不采用下列形式：
+
+```
+   if (valid == 0)
+```
+
+当然，很难评判上述两种形式哪种更好。类似于!valid的用法读起来更直观一些(“如果不
+是有效的”)，但对于一些更复杂的结构可能会难于理解。
+
+Exercise 2-2. Write a loop equivalent to the for loop above without using && or ||.
+
+练习2-2 在不使用运算符&&或||的条件下编写一个与上面的for循环语句等价的循环语句。

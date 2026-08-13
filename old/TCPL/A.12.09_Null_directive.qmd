@@ -1,0 +1,19 @@
+---
+title: "TCPL/A.12.09_Null_directive"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.9 Null directive
+
+A control line of the form
+
+    #
+
+has no effect.

@@ -1,0 +1,25 @@
+---
+title: "TCPL/2.01_Variable_Names"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.1 Variable Names 变量名
+
+Although we didn't say so in Chapter 1, there are some restrictions on the names of variables and symbolic constants. Names are made up of letters and digits; the first character must be a letter. The underscore "_" counts as a letter; it is sometimes useful for improving the readability of long variable names. Don't begin variable names with underscore, however, since library routines often use such names. Upper and lower case letters are distinct, so x and X are two different names. Traditional C practice is to use lower case for variable names, and all upper case for symbolic constants.
+
+对变量的命名与符号常量的命名存在一些限制条件，这一点我们在第1章没有说明。名字是由字母和数字组成的序列，但其第一个字符必须为字母。下划线“_”被看做是字母，通常用于命名较长的变量名，以提高其可读性。由于库例程的名字通常以下划线开头，因此变量名不要以下划线开头。大写字母与小写字母是有区别的，所以，x与X是两个不同的名字。在传统的C语言用法中，变量名使用小写字母，符号常量名全部使用大写字母。
+
+At least the first 31 characters of an internal name are significant. For function names and external variables, the number may be less than 31, because external names may be used by assemblers and loaders over which the language has no control. For external names, the standard guarantees uniqueness only for 6 characters and a single case. Keywords like if, else, int, float, etc., are reserved: you can't use them as variable names. They must be in lower case.
+
+对于内部名而言，至少前31个字符是有效的。函数名与外部变量名包含的字符数目可能小于31，这是因为汇编程序和加载程序可能会使用这些外部名，而语言本身是无法控制加载和汇编程序的。对于外部名，ANSI标准仅保证前6个字符的唯一性，并且不区分大小写。类似于if、else、int、float等关键字是保留给语言本身使用的，不能把它们用作变量名。所有关键字中的字符都必须小写。
+
+It's wise to choose variable names that are related to the purpose of the variable, and that are unlikely to get mixed up typographically. We tend to use short names for local variables, especially loop indices, and longer names for external variables.
+
+选择的变量名要能够尽量从字面上表达变量的用途，这样做不容易引起混淆。局部变量一般使用较短的变量名(尤其是循环控制变量)，外部变量使用较长的名字。

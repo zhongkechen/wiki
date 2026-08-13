@@ -1,0 +1,29 @@
+---
+title: "TCPL/4.05_Header_Files"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.5 Header Files 头文件
+
+Let is now consider dividing the calculator program into several source files, as it might be is each of the components were substantially bigger. The main function would go in one file, which we will call main.c; push, pop, and their variables go into a second file, stack.c; getop goes into a third, getop.c. Finally, getch and ungetch go into a fourth file, getch.c; we separate them from the others because they would come from a separately-compiled library in a realistic program.
+
+下面我们来考虑把上述的计算器程序分割到若干个源文件中的情况。如果该程序的各组成部分很长，这么做还是有必要的。我们这样分割：将主函数main单独放在文件main.c中；将push与pop函数以及它们使用的外部变量放在第二个文件stack.c中；将getop函数放在第三个文件getop。c中：将getch与ungetch函数放在第四个文件getch.c中。之所以分割成多个文件，主要是考虑在实际的程序中，它们分别来自于单独编译的库。
+
+There is one more thing to worry about - the definitions and declarations shared among files. As much as possible, we want to centralize this, so that there is only one copy to get and keep right as the program evolves. Accordingly, we will place this common material in a header file, calc.h, which will be included as necessary. (The #include line is described in Section 4.11.) The resulting program then looks like this:
+
+![pic41.gif](<assets/TCPL/4.05_Header_Files/pic41.gif>)
+
+此外，还必须考虑定义和声明在这些文件之间的共享问题。我们尽可能把共享的部分集中在一起，这样就只需要一个副本，改进程序时也容易保证程序的正确性。我们把这些公共部分放在头文件calc.h中，在需要使用该头文件时通过#include指令将它包含进来(#include指令将在4.11节中介绍)。这样分割后，程序的形式如下所示：
+
+![pic41.gif](<assets/TCPL/4.05_Header_Files/pic41.gif>)
+
+There is a tradeoff between the desire that each file have access only to the information it needs for its job and the practical reality that it is harder to maintain more header files. Up to some moderate program size, it is probably best to have one header file that contains everything that is to be shared between any two parts of the program; that is the decision we made here. For a much larger program, more organization and more headers would be needed.
+
+我们对下面两个因素进行了折衷：一方面是我们期望每个文件只能访问它完成任务所需的信息；另一方面是现实中维护较多的头文件比较困难。我们可以得出这样一个结论：对于某些中等规模的程序，最好只用一个头文件存放程序中各部分共享的对象。较大的程序需要使用更多的头文件，我们需要精心地组织它们。

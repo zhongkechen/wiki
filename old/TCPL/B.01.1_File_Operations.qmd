@@ -1,0 +1,64 @@
+---
+title: "TCPL/B.01.1_File_Operations"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### B.1.1 File Operations
+
+The following functions deal with operations on files. The type size_t is the unsigned integral type produced by the sizeof operator.
+```
+FILE *fopen(const char *filename, const char *mode)
+```
+    fopen opens the named file, and returns a stream, or NULL if the attempt fails. Legal values for mode include:
+```
+    "r"	open text file for reading
+    "w"	create text file for writing; discard previous contents if any
+    "a"	append; open or create text file for writing at end of file
+    "r+"	open text file for update (i.e., reading and writing)
+    "w+"	create text file for update, discard previous contents if any
+    "a+"	append; open or create text file for update, writing at end
+```
+    Update mode permits reading and writing the same file; fflush or a file-positioning function must be called between a read and a write or vice versa. If the mode includes b after the initial letter, as in "rb" or "w+b", that indicates a binary file. Filenames are limited to FILENAME_MAX characters. At most FOPEN_MAX files may be open at once.
+```
+FILE *freopen(const char *filename, const char *mode, FILE *stream)
+```
+    freopen opens the file with the specified mode and associates the stream with it. It returns stream, or NULL if an error occurs. freopen is normally used to change the files associated with stdin, stdout, or stderr.
+```
+int fflush(FILE *stream)
+```
+    On an output stream, fflush causes any buffered but unwritten data to be written; on an input stream, the effect is undefined. It returns EOF for a write error, and zero otherwise. fflush(NULL) flushes all output streams.
+```
+int fclose(FILE *stream)
+```
+    fclose flushes any unwritten data for stream, discards any unread buffered input, frees any automatically allocated buffer, then closes the stream. It returns EOF if any errors occurred, and zero otherwise.
+```
+int remove(const char *filename)
+```
+    remove removes the named file, so that a subsequent attempt to open it will fail. It returns non-zero if the attempt fails.
+```
+int rename(const char *oldname, const char *newname)
+```
+    rename changes the name of a file; it returns non-zero if the attempt fails.
+```
+FILE *tmpfile(void)
+```
+    tmpfile creates a temporary file of mode "wb+" that will be automatically removed when closed or when the program terminates normally. tmpfile returns a stream, or NULL if it could not create the file.
+```
+char *tmpnam(char s[L_tmpnam])
+```
+    tmpnam(NULL) creates a string that is not the name of an existing file, and returns a pointer to an internal static array. tmpnam(s) stores the string in s as well as returning it as the function value; s must have room for at least L_tmpnam characters. tmpnam generates a different name each time it is called; at most TMP_MAX different names are guaranteed during execution of the program. Note that tmpnam creates a name, not a file.
+```
+int setvbuf(FILE *stream, char *buf, int mode, size_t size)
+```
+    setvbuf controls buffering for the stream; it must be called before reading, writing or any other operation. A mode of _IOFBF causes full buffering, _IOLBF line buffering of text files, and _IONBF no buffering. If buf is not NULL, it will be used as the buffer, otherwise a buffer will be allocated. size determines the buffer size. setvbuf returns non-zero for any error.
+```
+void setbuf(FILE *stream, char *buf)
+```
+    If buf is NULL, buffering is turned off for the stream. Otherwise, setbuf is equivalent to (void) setvbuf(stream, buf, _IOFBF, BUFSIZ).

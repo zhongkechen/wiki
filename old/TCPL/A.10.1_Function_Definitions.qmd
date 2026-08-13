@@ -1,0 +1,55 @@
+---
+title: "TCPL/A.10.1_Function_Definitions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.10.1 Function Definitions
+
+Function definitions have the form
+
+    function-definition:
+      declaration-specifiersopt declarator declaration-listopt compound-statement
+
+The only storage-class specifiers allowed among the declaration specifiers are extern or static; see Par.A.11.2 for the distinction between them.
+
+A function may return an arithmetic type, a structure, a union, a pointer, or void, but not a function or an array. The declarator in a function declaration must specify explicitly that the declared identifier has function type; that is, it must contain one of the forms (see Par.A.8.6.3).
+
+      direct-declarator ( parameter-type-list )
+      direct-declarator ( identifier-listopt )
+
+where the direct-declarator is an identifier or a parenthesized identifier. In particular, it must not achieve function type by means of a typedef.
+
+In the first form, the definition is a new-style function, and its parameters, together with their types, are declared in its parameter type list; the declaration-list following the function's declarator must be absent. Unless the parameter type list consists solely of void, showing that the function takes no parameters, each declarator in the parameter type list must contain an identifier. If the parameter type list ends with ``, ...'' then the function may be called with more arguments than parameters; the va_arg macro mechanism defined in the standard header &lt;stdarg.h&gt; and described in Appendix B must be used to refer to the extra arguments. Variadic functions must have at least one named parameter.
+
+In the second form, the definition is old-style: the identifier list names the parameters, while the declaration list attributes types to them. If no declaration is given for a parameter, its type is taken to be int. The declaration list must declare only parameters named in the list, initialization is not permitted, and the only storage-class specifier possible is register.
+
+In both styles of function definition, the parameters are understood to be declared just after the beginning of the compound statement constituting the function's body, and thus the same identifiers must not be redeclared there (although they may, like other identifiers, be redeclared in inner blocks). If a parameter is declared to have type ``array of type, *the declaration is adjusted to read ``pointer to type;* similarly, if a parameter is declared to have type ``function returning type, *the declaration is adjusted to read ``pointer to function returning type.* During the call to a function, the arguments are converted as necessary and assigned to the parameters; see Par.A.7.3.2.
+
+    New-style function definitions are new with the ANSI standard. There is also a small change in the details of promotion; the first edition specified that the declarations of float parameters were adjusted to read double. The difference becomes noticable when a pointer to a parameter is generated within a function.
+
+A complete example of a new-style function definition is
+
+   int max(int a, int b, int c)
+   {
+       int m;
+
+       m = (a &gt; b) ? a : b;
+       return (m &gt; c) ? m : c;
+   }
+
+Here int is the declaration specifier; max(int a, int b, int c) is the function's declarator, and { ... } is the block giving the code for the function. The corresponding old-style definition would be
+
+   int max(a, b, c)
+   int a, b, c;
+   {
+       /\* ... \*/
+   }
+
+where now int max(a, b, c) is the declarator, and int a, b, c; is the declaration list for the parameters.

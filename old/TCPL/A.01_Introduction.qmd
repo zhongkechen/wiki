@@ -1,0 +1,20 @@
+---
+title: "TCPL/A.01_Introduction"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.1 Introduction
+
+This manual describes the C language specified by the draft submitted to ANSI on 31 October, 1988, for approval as
+"American Standard for Information Systems - programming Language C, X3.159-1989." The manual is an interpretation of the proposed standard, not the standard itself, although care has been taken to make it a reliable guide to the language.
+
+For the most part, this document follows the broad outline of the standard, which in turn follows that of the first edition of this book, although the organization differs in detail. Except for renaming a few productions, and not formalizing the definitions of the lexical tokens or the preprocessor, the grammar given here for the language proper is equivalent to that of the standard.
+
+    Throughout this manual, commentary material is indented and written in smaller type, as this is. Most often these comments highlight ways in which ANSI Standard C differs from the language defined by the first edition of this book, or from refinements subsequently introduced in various compilers.

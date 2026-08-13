@@ -1,0 +1,95 @@
+---
+title: "phpbb3"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 简介
+
+phpBB^[简介：[http://en.wikipedia.org/wiki/Phpbb3](http://en.wikipedia.org/wiki/Phpbb3)]^[官方网址：[http://www.phpbb.com/](http://www.phpbb.com/)]是一个流行的互联网论坛系统，由PHP语言写成，使用GNU GPL协议，是一个自由软件。phpBB这个名字是PHP Bulletin Board的缩写。phpBB3在2007年12月发布，特性有^[特性列表：[http://www.phpbb.com/about/features/](http://www.phpbb.com/about/features/)]
+
+* 模块化的控制面板设计
+* 支持多种数据库系统，包括MySQL、Microsoft SQL Server、Oracle、PostgreSQL、SQLite、Firebird，以及其他ODBC可以访问的DBMS
+* 支持无限多层子论坛嵌套
+* 可创建自定义的BBCode
+* 可创建自定义的profile字段
+* 权限管理
+
+### 安装
+
+安装apache2和php模块。^[apache的安装方法参见[apache](<apache.qmd>)]
+```
+aptitude install apache2 libapache2-mod-php5
+```
+
+安装mysql-server。^[mysql的安装方法参见[mysql](<mysql.qmd>)]
+```
+aptitude install mysql-server
+```
+
+安装phpbb3。
+```
+aptitude install phpbb3
+```
+
+配置apache。phpbb3的安装包已经为我们准备了一个配置文件/etc/phpbb3/apache.conf，将它放在/etc/apache2/conf.d目录下就可以了。
+```
+ln -s /etc/phpbb3/apache.conf /etc/apache2/conf.d/phpbb3.conf
+```
+
+重新加载apache的配置
+
+```
+/etc/init.d/apache2 reload
+```
+
+假设服务器地址是192.168.12.252，现在就可以通过如下地址打开phpbb3了：
+
+```
+http://192.168.12.252/phpbb/
+```
+
+### 配置
+
+#### 管理员登录
+
+安装好后，phpbb中已有一个管理员帐号，帐号名称和密码都是admin。
+
+登录后，选择网页最下方的Administration Control Panel进入管理界面。
+
+#### 开启论坛
+
+在General标签页中选择Board settings，右侧修改Disable Board选项为No，即可开启论坛。
+
+#### 汉化
+
+在 http://www.phpbb.com/languages/ 上下载中文汉化包，总共有三个压缩包。Language列下载汉化包（主要是文字的汉化）解压缩后放在服务器上的/usr/share/phpbb3/www/language目录下，另外两个压缩包（主要是图片的汉化）解压缩后放在/usr/share/phpbb3/www/styles目录下。
+
+然后在管理界面中选择SYSTEM标签页，左侧选择Language Packs，右侧就会有中文列出，点后面的install链接。
+
+然后可以在General标签页中，左侧选择Board settings，右侧设置Default Language为简体中文。
+
+在论坛首页上选择User Control Panel，在Board Preferences里面选择admin用户的语言为简体中文。
+
+#### 换肤
+
+在管理界面中的风格标签页里面，可以看到可以使用的所有的界面风格。
+
+在论坛设定和用户控制面板中，可以选择论坛默认的界面风格和用户自选的界面风格。
+
+在 http://www.phpbb.com/styles/ 可以找到新的界面风格下载。
+
+#### 修改
+
+在这里 http://www.phpbb.com/mods/db/ 可以下载一些Mod，用以扩展phpbb3的功能。
+
+下载后，解压缩，用浏览器打开其中的install.xml文件，按照其中的安装说明一步一步安装。
+
+### 参考文献

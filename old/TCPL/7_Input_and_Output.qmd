@@ -1,0 +1,34 @@
+---
+title: "TCPL/7_Input_and_Output"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+## Chapter 7 - Input and Output 输入与输出
+
+Input and output are not part of the C language itself, so we have not emphasized them in our presentation thus far. Nonetheless, programs interact with their environment in much more complicated ways than those we have shown before. In this chapter we will describe the standard library, a set of functions that provide input and output, string handling, storage management, mathematical routines, and a variety of other services for C programs. We will concentrate on input and output
+
+输入/输出功能并不是C语言本身的组成部分，所以到目前为止，我们并没有过多地强调它们。但是，程序与环境之间的交互比我们在前面部分中描述的情况要复杂很多。本章将讲述标准库，介绍一些输入/输出函数、字符串处理函数、存储管理函数与数学函数，以及其他一些C语言程序的功能。本章讨论的重点将放在输入/输出上。
+
+The ANSI standard defines these library functions precisely, so that they can exist in compatible form on any system where C exists. Programs that confine their system interactions to facilities provided by the standard library can be moved from one system to another without change.
+
+ANSI标准精确地定义了这些库函数，所以，在任何可以使用C语言的系统中都有这些函数的兼容形式。如果程序的系统交互部分仅仅使用了标准库提供的功能，则可以不经修改地从一个系统移植到另一个系统中。
+
+The properties of library functions are specified in more than a dozen headers; we have already seen several of these, including &lt;stdio.h&gt;, &lt;string.h&gt;, and &lt;ctype.h&gt;. We will not present the entire library here, since we are more interested in writing C programs that use it. The library is described in detail in Appendix B.
+
+这些库函数的属性分别在十多个头文件中声明，前面已经遇到过一部分，如&lt;stdio.h&gt;、&lt;string.h&gt;和&lt;ctype.h&gt;。我们不打算把整个标准库都罗列于此，因为我们更关心如何使用标准库编写C语言程序。附录B对标准库进行了详细的描述。
+
+* [7.1 Standard Input and Output 标准输入/输出](<7.1_Standard_Input_and_Output.qmd>)
+* [7.2 Formatted Output - printf 格式化输出——printf函数](<7.2_Formatted_Output_-_printf.qmd>)
+* [7.3 Variable-length Argument Lists 变长参数表](<7.3_Variable-length_Argument_Lists.qmd>)
+* [7.4 Formatted Input - Scanf 格式化输入——scanf](<7.4_Formatted_Input_-_Scanf.qmd>)
+* [7.5 File Access 文件访问](<7.5_File_Access.qmd>)
+* [7.6 Error Handling - Stderr and Exit 错误处理——stderr和exit](<7.6_Error_Handling_-_Stderr_and_Exit.qmd>)
+* [7.7 Line Input and Output 行输入和行输出](<7.7_Line_Input_and_Output.qmd>)
+* [7.8 Miscellaneous Functions 其他函数](<7.8_Miscellaneous_Functions.qmd>)

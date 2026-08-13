@@ -19,6 +19,21 @@ SOURCE_SNAPSHOT =
 
 IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
 BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
+EXERCISE_PAGE_NAMES = %w[
+  C++实验
+  C++作业
+  C++课程设计
+  C++练习
+  05瓯电信本面向对象实验
+  05瓯信算面向对象实验
+].freeze
+SHARED_OUTPUT_PATHS = {
+  "C++" => File.join("程序设计语言", "C++.qmd"),
+  "C++集成开发环境" => "C++集成开发环境.qmd",
+  "温大机房优化脚本" => "温大机房优化脚本.qmd",
+  "C++类与对象" => File.join("程序设计语言", "C++类与对象.qmd"),
+  "C++继承与多态" => File.join("程序设计语言", "C++继承与多态.qmd")
+}.freeze
 
 def decode_page_name(entry)
   entry.gsub(/\(([0-9a-fA-F]+)\)/) do
@@ -101,7 +116,7 @@ end
 COURSE_SOURCE = page_source(COURSE_NAME)
 PRIMARY_PAGES = linked_page_names(COURSE_SOURCE).select do |page_name|
   page_name.start_with?("面向对象程序设计") || page_name == "面向对象课程老课件"
-end.freeze
+end.concat(EXERCISE_PAGE_NAMES).uniq.freeze
 MIGRATED_PAGES = ([COURSE_NAME] + PRIMARY_PAGES).uniq.freeze
 INCLUDED_PAGES = MIGRATED_PAGES.flat_map do |page_name|
   page_source(page_name).scan(/<<Include\(\^?([^)]+)\)>>/).flatten
@@ -131,6 +146,8 @@ end
 
 def page_link(target, context)
   clean_target = target.sub(/\A\^/, "")
+  shared_path = SHARED_OUTPUT_PATHS[clean_target]
+  return context == :course ? shared_path : "../#{shared_path}" if shared_path
 
   if clean_target == COURSE_NAME
     context == :course ? "#{COURSE_NAME}.qmd" : "../#{COURSE_NAME}.qmd"
@@ -450,6 +467,10 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   raise "Unexpanded MoinMoin block token" if rendered.match?(BLOCK_TOKEN_PATTERN)
 
   inline.each_with_index { |code, index| rendered.gsub!("@@MOIN_INLINE_#{index}@@") { code } }
+  rendered = rendered.lines(chomp: true).map do |line|
+    clean = line.rstrip
+    clean.sub(/\A[ \t]+/) { |indent| indent.gsub("\t", "    ") }
+  end.join("\n")
   rendered.gsub!(/\n{3,}/, "\n\n")
   rendered.strip + "\n"
 end

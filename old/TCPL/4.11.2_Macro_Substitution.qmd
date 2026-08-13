@@ -1,0 +1,199 @@
+---
+title: "TCPL/4.11.2_Macro_Substitution"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 4.11.2 Macro Substitution 宏替换
+
+A definition has the form
+```
+   #define name replacement text
+```
+It calls for a macro substitution of the simplest kind - subsequent occurrences of the token name will be replaced by the replacement text. The name in a #define has the same form as a variable name; the replacement text is arbitrary. Normally the replacement text is the rest of the line, but a long definition may be continued onto several lines by placing a \\ at the end of each line to be continued. The scope of a name defined with #define is from its point of definition to the end of the source file being compiled. A definition may use previous definitions. Substitutions are made only for tokens, and do not take place within quoted strings. For example, if YES is a defined name, there would be no substitution in printf("YES") or in YESMAN.
+
+宏定义的形式如下：
+
+```
+   #define name replacement text
+```
+
+这是一种最简单的宏替换——后续所有出现名字记号的地方都将被替换为替换文本。#define指令中的名字与变量名的命名方式相同，替换文本可以是任意字符串。通常情况下，#define指令占一行，替换文本是#define指令行尾部的所有剩余部分内容，但也可以把一个较长的宏定义分成若干行，这时需要在持续的行末尾加上一个反斜杠符\\。#define指令定义的名字的作用域从其定义点开始，到被编译的源文件的末尾处结束。宏定义中也可以使用前面出现的宏定义。替换只对记号进行，对括在引号中的字符串不起作用。例如，如果YES是一个通过#define指令定义过的名字，则在printf("YES")或YESMAN中将不执行替换。
+
+Any name may be defined with any replacement text. For example
+```
+   #define  forever  for (;;)    /* infinite loop */
+```
+defines a new word, forever, for an infinite loop.
+
+替换文本可以是任意的，例如：
+
+```
+   #define  forever  for (;;)    /* infinite loop */
+```
+
+该语句为无限循环定义了一个新名字forever。
+
+---
+
+It is also possible to define macros with arguments, so the replacement text can be different for different calls of the macro. As an example, define a macro called max:
+```
+   #define  max(A, B)  ((A) > (B) ? (A) : (B))
+```
+Although it looks like a function call, a use of max expands into in-line code. Each occurrence of a formal parameter (here `A` or `B`) will be replaced by the corresponding actual argument. Thus the line
+```
+   x = max(p+q, r+s);
+```
+will be replaced by the line
+```
+   x = ((p+q) > (r+s) ? (p+q) : (r+s));
+```
+
+宏定义也可以带参数，这样可以对不同的宏调用使用不同的替换文本。例如，下列宏定义定义了一个宏max：
+
+```
+   #define  max(A, B)  ((A) > (B) ? (A) : (B))
+```
+
+使用宏max看起来很像是函数调用，但宏调用直接将替换文本插入到代码中。形式参数(在此为A或B)的每次出现都将被替换成对应的实际参数。因此，语句：
+
+```
+   x = max(p+q, r+s);
+```
+
+将被替换为下列形式：
+
+```
+   x = ((p+q) > (r+s) ? (p+q) : (r+s));
+```
+
+---
+
+So long as the arguments are treated consistently, this macro will serve for any data type; there is no need for different kinds of max for different data types, as there would be with functions.
+
+如果对各种类型的参数的处理是一致的，则可以将同一个宏定义应用于任何数据类型，而无需针对不同的数据类型需要定义不同的max函数。
+
+---
+
+If you examine the expansion of max, you will notice some pitfalls. The expressions are evaluated twice; this is bad if they involve side effects like increment operators or input and output. For instance
+```
+   max(i++, j++)  /* WRONG */
+```
+will increment the larger twice. Some care also has to be taken with parentheses to make sure the order of evaluation is preserved; consider what happens when the macro
+```
+   #define square(x)  x * x  /* WRONG */
+```
+is invoked as square(z+1).
+
+仔细考虑一下max的展开式，就会发现它存在一些缺陷。其中，作为参数的表达式要重复计算两次，如果表达式存在副作用(比如含有自增运算符或输入/输出)，则会出现不正确的情况。例如：
+
+```
+   max(i++, j++)  /* WRONG */
+```
+
+它将对每个参数执行两次自增操作。同时还必须注意，要适当使用圆括号以保证计算次序的
+正确性。考虑下列宏定义：
+
+```
+   #define square(x)  x * x  /* WRONG */
+```
+
+当用square(z+1)调用该宏定义时会出现什么情况呢？
+
+---
+
+Nonetheless, macros are valuable. One practical example comes from &lt;stdio.h&gt;, in which getchar and putchar are often defined as macros to avoid the run-time overhead of a function call per character processed. The functions in &lt;ctype.h&gt; are also usually implemented as macros.
+
+但是，宏还是很有价值的。&lt;stdio.h&gt;头文件中有一个很实用的例子：getchar与putchar函数在实际中常常被定义为宏，这样可以避免处理字符时调用函数所需的运行时开销。&lt;ctype.h&gt;头文件中定义的函数也常常是通过宏实现的。
+
+---
+
+Names may be undefined with #undef, usually to ensure that a routine is really a function, not a macro:
+```
+   #undef getchar
+
+   int getchar(void) { ... }
+```
+
+可以通过#undef指令取消名字的宏定义，这样做可以保证后续的调用是函数调用，而不是定调用：
+
+```
+   #undef getchar
+
+   int getchar(void) { ... }
+```
+
+---
+
+Formal parameters are not replaced within quoted strings. If, however, a parameter name is preceded by a # in the replacement text, the combination will be expanded into a quoted string with the parameter replaced by the actual argument. This can be combined with string concatenation to make, for example, a debugging print macro:
+```
+   #define  dprint(expr)   printf(#expr " = %g\n", expr)
+```
+When this is invoked, as in
+```
+   dprint(x/y)
+```
+the macro is expanded into
+```
+   printf("x/y" " = &g\n", x/y);
+```
+and the strings are concatenated, so the effect is
+```
+   printf("x/y = &g\n", x/y);
+```
+Within the actual argument, each " is replaced by \\" and each \\ by \\\\, so the result is a legal string constant.
+
+形式参数不能用带引号的字符串替换。但是，如果在替换文本中，参数名以#作为前缀则结果将被扩展为由实际参数替换该参数的带引号的字符串。例如，可以将它与字符串连接运算结合起来编写一个调试打印宏：
+
+```
+   #define  dprint(expr)   printf(#expr " = %g\n", expr)
+```
+
+使用语句
+
+```
+   dprint(x/y)
+```
+
+调用该宏时，该宏将被扩展为：
+
+```
+   printf("x/y" " = &g\n", x/y);
+```
+
+其中的字符串被连接起来了，这样，该宏调用的效果等价于
+```
+   printf("x/y = &g\n", x/y);
+```
+
+---
+
+The preprocessor operator ## provides a way to concatenate actual arguments during macro expansion. If a parameter in the replacement text is adjacent to a ##, the parameter is replaced by the actual argument, the ## and surrounding white space are removed, and the result is re-scanned. For example, the macro paste concatenates its two arguments:
+```
+   #define  paste(front, back)  front ## back
+```
+so paste(name, 1) creates the token name1.
+
+预处理器运算符##为宏扩展提供了一种连接实际参数的手段。如果替换文本中的参数与##相邻，则该参数将被实际参数替换，##与前后的空白符将被删除，并对替换后的结果重新扫描。例如，下面定义的宏paste用于连接两个参数：
+
+```
+   #define  paste(front, back)  front ## back
+```
+
+因此，宏调用paste(name1)的结果将建立记号name1。
+
+---
+
+The rules for nested uses of ## are arcane; further details may be found in Appendix A.
+
+---
+
+Exercise 4-14. Define a macro swap(t,x,y) that interchanges two arguments of type t. (Block structure will help.)
+
+练习4-14  定义宏swap(t,x,y)以交换t类型的两个参数。(使用程序块结构会对你有所帮助。)

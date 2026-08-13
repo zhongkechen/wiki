@@ -1,0 +1,150 @@
+---
+title: "TCPL/6.8_Unions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 6.8 Unions 联合
+
+**A union is a variable that may hold (at different times) objects of different types and sizes**, with the compiler keeping track of size and alignment requirements. Unions provide a way to manipulate different kinds of data in a single area of storage, without embedding any machine-dependent information in the program. They are analogous to variant records in pascal.
+
+联合是可以(在不同时刻)保存不同类型和长度的对象的变量，编译器负责跟踪对象的长度和对齐要求。联合提供了一种方式，以在单块存储区中管理不同类型的数据，而不需要在程序中嵌入任何同机器有关的信息。它类似于Pascal语言中的变体记录。
+
+As an example such as might be found in a compiler symbol table manager, suppose that a constant may be an int, a float, or a character pointer. The value of a particular constant must be stored in a variable of the proper type, yet it is most convenient for table management if the value occupies the same amount of storage and is stored in the same place regardless of its type. This is the purpose of a union - a single variable that can legitimately hold any of one of several types. The syntax is based on structures:
+```cpp
+   union u_tag {
+       int ival;
+       float fval;
+       char *sval;
+   } u;
+```
+
+我们来看一个例子(可以在编译器的符号表管理程序中找到该例子)。假设一个常量可能是int、float或字符指针。特定类型的常量值必须保存在合适类型的变量中，然而，如果该常量的不同类型占据相同大小的存储空间，且保存在同一个地方的话，表管理将最方便。这就是联合的目的——一个变量可以合法地保存多种数据类型中任何—种类型的对象。其语法基于结构，如下所示：
+
+```cpp
+   union u_tag {
+       int ival;
+       float fval;
+       char *sval;
+   } u;
+```
+
+The variable u will be large enough to hold the largest of the three types; the specific size is implementation-dependent. Any of these types may be assigned to u and then used in expressions, so long as the usage is consistent: the type retrieved must be the type most recently stored. It is the programmer's responsibility to keep track of which type is currently stored in a union; the results are implementation-dependent if something is stored as one type and extracted as another.
+
+变量u必须足够大，以保存这3种类型中最大的一种，具体长度同具体的实现有关。这些类型中的任何一种类型的对象都可赋值给u，且可使用在随后的表达式中，但必须保证是一致的：读取的类型必须是最近一次存入的类型。程序员负责跟踪当前保存在联合中的类型。如果保存的类型与读取的类型不一致，其结果取决于具体的实现。
+
+Syntactically, members of a union are accessed as
+```
+  union-name.member
+```
+or
+```
+  union-pointer->member
+```
+just as for structures. If the variable utype is used to keep track of the current type stored in u, then one might see code such as
+```cpp
+   if (utype == INT)
+       printf("%d\n", u.ival);
+   if (utype == FLOAT)
+       printf("%f\n", u.fval);
+   if (utype == STRING)
+       printf("%s\n", u.sval);
+   else
+       printf("bad type %d in utype\n", utype);
+```
+
+可以通过下列语法访问联合中的成员：
+
+```
+  union-name.member
+```
+
+或
+
+```
+  union-pointer->member
+```
+
+它与访问结构的方式相同。如果用变量utype跟踪保存在u中的当前数据类型，则可以像下面这样使用联合：
+
+```cpp
+   if (utype == INT)
+       printf("%d\n", u.ival);
+   if (utype == FLOAT)
+       printf("%f\n", u.fval);
+   if (utype == STRING)
+       printf("%s\n", u.sval);
+   else
+       printf("bad type %d in utype\n", utype);
+```
+
+Unions may occur within structures and arrays, and vice versa. The notation for accessing a member of a union in a structure (or vice versa) is identical to that for nested structures. For example, in the structure array defined by
+```cpp
+   struct {
+       char *name;
+       int flags;
+       int utype;
+       union {
+           int ival;
+           float fval;
+           char *sval;
+       } u;
+   } symtab[NSYM];
+```
+the member ival is referred to as
+```
+   symtab[i].u.ival
+```
+and the first character of the string sval by either of
+```
+   *symtab[i].u.sval
+
+   symtab[i].u.sval[0]
+```
+
+联合可以使用在结构和数组中，反之亦可。访问结构中的联合(或反之)的某一成员的表示法与嵌套结构相同。例如，假定有下列的结构数组定义：
+
+```cpp
+   struct {
+       char *name;
+       int flags;
+       int utype;
+       union {
+           int ival;
+           float fval;
+           char *sval;
+       } u;
+   } symtab[NSYM];
+```
+
+可以通过下列语句引用其成员ival：
+
+```
+   symtab[i].u.ival
+```
+
+也可以通过下列语句之一引用字符串svsl的第一个字符：
+
+```
+   *symtab[i].u.sval
+
+   symtab[i].u.sval[0]
+```
+
+In effect, a union is a structure in which all members have offset zero from the base, the structure is big enough to hold the "widest" member, and the alignment is appropriate for all of the types in the union. The same operations are permitted on unions as on structures: assignment to or copying as a unit, taking the address, and accessing a member.
+
+实际上，联合就是一个结构，它的所有成员相对于基地址的偏移量都为0，此结构空间要大到足够容纳最“宽”的成员，并且，其对齐方式要适合于联合中所有类型的成员。对联合允许的操作与对结构允许的操作相同：作为一个整体单元进行赋值、复制、取地址及访问其中一个成员。
+
+A union may only be initialized with a value of the type of its first member; thus union u described above can only be initialized with an integer value.
+
+联合只能用其第一个成员类型的值进行初始化，因此，上述联合u只能用整数值进行初始化。
+
+The storage allocator in Chapter 8 shows how a union can be used to force a variable to be aligned on a particular kind of storage boundary.
+
+第8章的存储分配程序将说明如何使用联合来强制一个变量在特定类型的存储边界上对齐。

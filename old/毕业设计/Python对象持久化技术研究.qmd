@@ -1,0 +1,62 @@
+---
+title: "Python对象持久化技术研究"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“毕业设计”](<../毕业设计.qmd>)
+
+## Python对象持久化技术研究
+
+### 题目申报表
+
+#### 内容简介
+
+1. 对象持久化技术基本原理
+1. python的pickle模块、shelve模块
+1. ZODB、PyPerSyst对象数据库
+1. SQLObject对象持久化框架
+
+#### 意义（理论、实际）
+
+1. 使用对象持久化存储，可以在程序的多次执行之间保存对象。而各种对象持久化框架把对象如何保存和读取的细节封装起来，使得对象存储更加简单，摆脱数据库或者文件读写的细节。
+1. 在被存储的对象和存储的媒介之间在数据表示上存在差异，使得对象的保存和读取会存在一定的难度。如何解决这个困难成为对象持久化框架需要解决的问题。
+
+#### 技术要点与知识要求
+
+1. Python语言
+1. 数据库基本知识
+
+### 步骤
+
+#### 第一步
+
+1. 调查各种数据持久化技术，比较它们的特性
+1. 整理成文献综述
+1. 选择一种数据持久化技术，学习如何使用它
+1. 翻译一篇有关这种技术的文档
+1. 开题报告
+
+#### 第二步
+
+### 附件
+
+* 任务书： [管林为任务书.odt](<assets/Python对象持久化技术研究/管林为任务书.odt>)
+* 翻译原文：
+* 翻译译文：
+* 文献综述：
+* 开题报告：
+* 毕业论文：
+
+### 参考文献
+
+* http://en.wikipedia.org/wiki/Object-relational_mapping
+* http://docs.python.org/lib/module-pickle.html
+* http://www.sqlobject.org/
+* http://wiki.zope.org/ZODB/FrontPage
+
+### The end

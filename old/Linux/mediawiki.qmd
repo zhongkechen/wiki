@@ -1,0 +1,71 @@
+---
+title: "mediawiki"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+MediaWiki是一个基于web的wiki系统，最初开发用来提供Wikipedia百科全书服务，现在它已经被很多公司用来作为内部知识管理和内容管理系统。
+
+MediaWiki由PHP语言写成，可以使用MySQL或者PostgreSQL数据库。MediaWiki在GNU GPL协议下发布，是一个自由软件。
+
+### 安装
+
+安装apache2。参见：[apache2](<apache2.qmd>)
+```
+aptitude install apache2
+```
+
+安装mysql数据库。参见：[mysql](<mysql.qmd>)
+```
+aptitude install mysql-server
+```
+
+安装mediawiki
+
+```
+aptitude install mediawiki
+```
+
+如果需要，可以安装mediawiki的一些插件：
+```
+aptitude install mediawiki-extentions mediawiki-math
+```
+
+编辑配置文件/etc/apache2/conf.d/mediawiki.conf
+```
+nano /etc/apache2/conf.d/mediawiki.conf
+```
+
+重新加载apache配置文件
+
+```
+/etc/init.d/apache2 reload
+```
+
+假设服务器地址是192.168.12.252，在浏览器中打开如下地址
+
+```
+http://192.168.12.252/mediawiki/
+```
+按提示填入网站的一些配置信息。
+
+完成后，移动配置文件到指定目录：
+
+```
+mv /var/lib/mediawiki/config/LocalSettings.php /etc/mediawiki/
+```
+
+### 参考文献
+
+* 介绍：http://en.wikipedia.org/wiki/Mediawiki
+* 官方网站：http://www.mediawiki.org/
+* 帮助：http://meta.wikimedia.org/wiki/Help:Contents

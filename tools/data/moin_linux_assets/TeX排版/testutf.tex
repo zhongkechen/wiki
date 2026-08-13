@@ -1,0 +1,27 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[nocjkgb]{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[C10,T1]{fontenc}
+\usepackage{srcltx}
+\newcommand\chinesesimptext[1]{\bgroup\fontencoding{C10}\fontfamily{song}\selectfont\SetUnicodeOption{cjkgb}#1\egroup}
+%opening
+\title{}
+\author{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+
+\[
+q(x,t)=
+\begin{cases}(t-k+1)x^2,\quad \ \
+  t\in\big(k-1,k-\big],\\
+  (k-t)x^2, \quad \ \  t\in\big(k-1,k\big],
+\end{cases}
+\]
+
+\end{document}

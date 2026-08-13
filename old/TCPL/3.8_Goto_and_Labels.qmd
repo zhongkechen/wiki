@@ -1,0 +1,112 @@
+---
+title: "TCPL/3.8_Goto_and_Labels"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 3.8 Goto and labels goto语句与标号
+
+C provides the infinitely-abusable goto statement, and labels to branch to. Formally, the goto statement is never necessary, and in practice it is almost always easy to write code without it. We have not used goto in this book.
+
+C语言提供了可随意滥用的goto语句以及标记跳转位置的标号。从理论上讲，goto语句是没有必要的，实践中不使用goto语句也可以很容易地写出代码。至此，本书中还没有使用goto语句。
+
+Nevertheless, there are a few situations where gotos may find a place. The most common is to abandon processing in some deeply nested structure, such as breaking out of two or more loops at once. The break statement cannot be used directly since it only exits from the innermost loop. Thus:
+```
+       for ( ... )
+           for ( ... ) {
+               ...
+               if (disaster)
+                   goto error;
+           }
+       ...
+   error:
+       /* clean up the mess */
+```
+This organization is handy if the error-handling code is non-trivial, and if errors can occur in several places.
+
+但是，在某些场合下goto语句还是用得着的。最常见的用法是终止程序在某些深度嵌套的结构中的处理过程，例如一次跳出两层或多层循环。这种情况下使用break语句是不能达到目的的，它只能从最内层循环退出到上一级的循环。下面是使用goto语句的一个例子：
+
+```
+       for ( ... )
+           for ( ... ) {
+               ...
+               if (disaster)
+                   goto error;
+           }
+       ...
+   error:
+       /* clean up the mess */
+```
+
+在该例子中，如果错误处理代码很重要，并且错误可能出现在多个地方，使用goto语句将会比较方便。
+
+A label has the same form as a variable name, and is followed by a colon. It can be attached to any statement in the same function as the goto. The scope of a label is the entire function.
+
+标号的命名同变量命名的形式相同，标号的后面要紧跟一个冒号。标号可以位于对应的goto语句所在函数的任何语句的前面。标号的作用域是整个函数。
+
+As another example, consider the problem of determining whether two arrays a and b have an element in common. One possibility is
+```
+       for (i = 0; i < n; i++)
+           for (j = 0; j < m; j++)
+               if (a[i] == b[j])
+                   goto found;
+       /* didn't find any common element */
+       ...
+   found:
+       /* got one: a[i] == b[j] */
+       ...
+```
+
+我们来看另外一个例子。考虑判定两个数组a与b中是否具有相同元素的问题。一种可能的解决方法是：
+```
+       for (i = 0; i < n; i++)
+           for (j = 0; j < m; j++)
+               if (a[i] == b[j])
+                   goto found;
+       /* didn't find any common element */
+       ...
+   found:
+       /* got one: a[i] == b[j] */
+       ...
+```
+
+Code involving a goto can always be written without one, though perhaps at the price of some repeated tests or an extra variable. For example, the array search becomes
+```
+   found = 0;
+   for (i = 0; i < n && !found; i++)
+       for (j = 0; j < m && !found; j++)
+           if (a[i] == b[j])
+               found = 1;
+   if (found)
+       /* got one: a[i-1] == b[j-1] */
+       ...
+   else
+       /* didn't find any common element */
+       ...
+```
+
+所有使用了goto语句的程序代码都能改写成不带goto语句的程序，但可能会增加一些额外的重复测试或变量。例如，可将上面判定是否具有相同数组元素的程序段改写成下列形式：
+
+```
+   found = 0;
+   for (i = 0; i < n && !found; i++)
+       for (j = 0; j < m && !found; j++)
+           if (a[i] == b[j])
+               found = 1;
+   if (found)
+       /* got one: a[i-1] == b[j-1] */
+       ...
+   else
+       /* didn't find any common element */
+       ...
+```
+
+With a few exceptions like those cited here, code that relies on goto statements is generally harder to understand and to maintain than code without gotos. Although we are not dogmatic about the matter, it does seem that goto statements should be used rarely, if at all.
+
+大多数情况下，使用goto语句的程序段比不使用goto语句的程序段要难以理解和维护，少数情况除外，比如我们前面所举的几个例子。尽管该问题并不太严重，但我们还是建议尽可能少地使用goto语句。

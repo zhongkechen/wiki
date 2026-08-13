@@ -1,0 +1,137 @@
+---
+title: "TCPL/1.05.4_Word_Counting"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 1.5.4 Word Counting 单词计数
+
+The fourth in our series of useful programs counts lines, words, and characters, with the loose definition that a word is any sequence of characters that does not contain a blank, tab or newline. This is a bare-bones version of the UNIX program wc.
+```cpp
+   #include <stdio.h>
+
+   #define IN   1  /* inside a word */
+   #define OUT  0  /* outside a word */
+
+   /* count lines, words, and characters in input */
+   main()
+   {
+       int c, nl, nw, nc, state;
+
+       state = OUT;
+       nl = nw = nc = 0;
+       while ((c = getchar()) != EOF) {
+           ++nc;
+           if (c == '\n')
+               ++nl;
+           if (c == ' ' || c == '\n' || c = '\t')
+               state = OUT;
+           else if (state == OUT) {
+               state = IN;
+               ++nw;
+           }
+       }
+       printf("%d %d %d\n", nl, nw, nc);
+   }
+```
+Every time the program encounters the first character of a word, it counts one more word. The variable state records whether the program is currently in a word or not; initially it is "not in a word", which is assigned the value OUT. We prefer the symbolic constants IN and OUT to the literal values 1 and 0 because they make the program more readable. In a program as tiny as this, it makes little difference, but in larger programs, the increase in clarity is well worth the modest extra effort to write it this way from the beginning. You'll also find that it's easier to make extensive changes in programs where magic numbers appear only as symbolic constants.
+
+我们将介绍的第4个实用程序用于统计行数、单词数与字符数。这里对单词的定义比较宽松，它是任何其中不包含空格、制表符或换行符的字符序列。下面这段程序是UNIX系统中wc程序的骨干部分：
+
+```cpp
+#include <stdio.h>
+
+#define IN   1  /* inside a word */
+#define OUT  0  /* outside a word */
+
+/* count lines, words, and characters in input */
+main()
+{
+    int c, nl, nw, nc, state;
+
+    state = OUT;
+    nl = nw = nc = 0;
+    while ((c = getchar()) != EOF) {
+        ++nc;
+        if (c == '\n')
+            ++nl;
+        if (c == ' ' || c == '\n' || c = '\t')
+            state = OUT;
+        else if (state == OUT) {
+            state = IN;
+            ++nw;
+        }
+    }
+    printf("%d %d %d\n", nl, nw, nc);
+}
+```
+
+程序执行时，每当遇到单词的第一个字符，它就作为一个新单词加以统计。state变量记录程序当前是否正位于一个单词之中，它的初值是“不在单词中”，即初值被赋为OUT。我们在这里使用了符号常量IN与OUT，而没有使用其对应的数值1与0，这样程序更易读。在较小的程序中，这种做法也许看不出有什么优势，但在较大的程序中，如果从一开始就这样做，因此而增加的一点工作量与提高程序可读性带来的好处相比是值得的。读者也会发现，如果程序中的幻数都以符号常量的形式出现，对程序进行大量修改就会相对容易得多。
+
+The line
+```
+   nl = nw = nc = 0;
+```
+sets all three variables to zero. This is not a special case, but a consequence of the fact that an assignment is an expression with the value and assignments associated from right to left. It's as if we had written
+```
+   nl = (nw = (nc = 0));
+```
+The operator || means OR, so the line
+```
+   if (c == ' ' || c == '\n' || c = '\t')
+```
+says "if c is a blank or c is a newline or c is a tab". (Recall that the escape sequence \\t is a visible representation of the tab character.) There is a corresponding operator && for AND; its precedence is just higher than ||. Expressions connected by && or || are evaluated left to right, and it is guaranteed that evaluation will stop as soon as the truth or falsehood is known. If c is a blank, there is no need to test whether it is a newline or tab, so these tests are not made. This isn't particularly important here, but is significant in more complicated situations, as we will soon see.
+
+下列语句
+
+```
+   nl = nw = nc = 0;
+```
+
+将把其中的3个变量nl、nw与nc都设置为0。这种用法很常见，但要注意这样一个事实：在兼有值与赋值两种功能的表达式中，赋值结合次序是由右至左。所以上面这条语句等同于
+
+```
+   nl = (nw = (nc = 0));
+```
+
+运算符||代表OR(逻辑或)，所以下列语句
+
+```
+   if (c == ' ' || c == '\n' || c = '\t')
+```
+
+的意义是“如果c是空格，或c是换行符，或c是制表符”(前面讲过，转义字符序列\\t是制表符的可见表示形式)。相应地，运算符&&代表AND(逻辑与)，它仅比||高一个优先级。由&&或||连接的表达式由左至右求值，并保证在求值过程中只要能够判断最终的结果为真或假，求值就立即终止。如果c是空格，则没有必要再测试它是否为换行符或制表符，这样就不必执行后面两个测试。在这里，这一点并不特别至要，但在某些更复杂的情况下这样做就有必要了，不久我们将会看到这种例子。
+
+The example also shows an else, which specifies an alternative action if the condition part of an if statement is false. The general form is
+```cpp
+   if (expression)
+       statement1
+   else
+       statement2
+```
+One and only one of the two statements associated with an if-else is performed. If the expression is true, statement1 is executed; if not, statement2 is executed. Each statement can be a single statement or several in braces. In the word count program, the one after the else is an if that controls two statements in braces.
+
+这段程序中还包括一个else部分，它指定当if语句中的条件部分为假时所要执行的动作。其一般形式为：
+
+```
+if (expression)
+    statement1
+else
+    statement2
+```
+
+其中，if-else中的两条语句有且仅有一条语句被执行。如果表达式的值为真，则执行语句1，否则执行语句2。这两条语句都既可以是单条语句，也可以是括在花括号内的语句序列。在单词计数程序中，else之后的语句仍是一个if语句，该if语句控制了包含在花括号内的两条语句。
+
+Exercise 1-11. How would you test the word count program? What kinds of input are most likely to uncover bugs if there are any?
+
+练习1-11 你准备如何测试单词计数程序？如果程序中存在某种错误，那么什么样的输入最可能发现这类错误呢？
+
+Exercise 1-12. Write a program that prints its input one word per line.
+
+练习1-12 编写一个程序，以每行一个单词的形式打印其输入。

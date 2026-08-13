@@ -1,0 +1,431 @@
+---
+title: "debian服务器安装"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+Debian全称Debian GNU/Linux，是众多Linux发行版的一种。它的特色包括：
+
+* 坚守Unix和自由软件的精神
+* Debian采用开放的开发和测试过程，由全世界的志愿者共同维护。
+* Debian软件仓库中有大量的软件包可供选择
+* Debian支持众多的计算机架构，包括i386、amd64、arm、powerpc、mips等十多种。
+* 支持和鼓励在Debian基础上开发新的Linux发行版，产生众多的衍生Linux版本，包括Ubuntu、MEPIS、Dreamlinux、Damn Small Linux、Xandros、Knoppix、Linspire、sidux、Kanotix、LinEx等。
+* Debian采用APT包管理系统，包的格式是deb。这使得Debian版本升级和软件包安装、删除非常方便。
+* Debian对包采用严格的控制策略。进入Debian软件仓库的软件必须符合严格规定，所有软件包使用数字签名保证安全，软件包在进入各个分支时必须满足严格的规定。
+* Debian严格控制版本发布的质量。Debian包含Stable、Testing和Unstable三个分支。正在开发中的软件会被上载到unstable分支上，上载至这个分支上的软件通常是由软件的原开发者发布的稳定版本。一套软件在置于unstable分支一段时间后，如果没有发现严重的错误，而且它所依赖的软件也符合Testing分支的要求，该软件会自动被移至Testing分支上。在Testing分支中的软件成熟以及其发布目标达到后，Testing分支会成为下一个Stable版本。
+* Debian的官方软件仓库分为三个部分：main中的软件为完全自由的软件；contrib中的软件本身自由软件，但是依赖于非自由软件；non-free为非自由软件。
+* Debian有众多非官方的软件仓库，作为对官方仓库的补充。
+* Debian发行周期较长
+
+### 安装
+
+从 http://www.debian.org/distrib/netinst 下载Debian安装光盘镜像，安装拥有网络条件的服务器下载Small CD即可。将光盘镜像刻录成光盘。
+
+将光盘插入服务器光驱，从光驱上引导系统：
+
+![debian00.png](<assets/debian服务器安装/debian00.png>)
+
+此时可以选取一些高级的安装选项，一般情况下按回车即可。然后引导到Debian安装程序，提示选择语言：
+
+![debian01.png](<assets/debian服务器安装/debian01.png>)
+
+选择国家：
+
+![debian02.png](<assets/debian服务器安装/debian02.png>)
+
+选择键盘（中国的键盘和美国是一样的）：
+
+![debian03.png](<assets/debian服务器安装/debian03.png>)
+
+如果服务器有多块网卡，会提示你选择主网卡（能够连接到外网的网卡）：
+
+![debian04.png](<assets/debian服务器安装/debian04.png>)
+
+然后会用DHCP配置网络。如果没有DHCP会提示输入IP和网关等。然后提示输入服务器的主机名：
+
+![debian05.png](<assets/debian服务器安装/debian05.png>)
+
+然后是所在网络的域名：
+
+![debian06.png](<assets/debian服务器安装/debian06.png>)
+
+然后对硬盘进行分区。如果服务器硬盘没有其他任何数据，可以选择使用整个硬盘，否则只能使用手动。这里选择使用整个硬盘。对于LVM和软件RAID的用法参见：[lvm2](<lvm2.qmd>)、[linux_raid](<linux_raid.qmd>)。
+
+![debian07.png](<assets/debian服务器安装/debian07.png>)
+
+然后选择使用哪一个硬盘：
+
+![debian08.png](<assets/debian服务器安装/debian08.png>)
+
+然后选择分区的策略。第一个选项适合新手，第二个选项适合桌面电脑，第三个选项适合服务器。这里选第三项。
+
+![debian09.png](<assets/debian服务器安装/debian09.png>)
+
+然后显示向导生成的分区的结果，在这里还可以对各个分区的大小作调整。完成后选择写入磁盘：
+
+![debian10.png](<assets/debian服务器安装/debian10.png>)
+
+确认写入磁盘：
+
+![debian11.png](<assets/debian服务器安装/debian11.png>)
+
+然后设定root用户（根用户，超级管理员）的密码：
+
+![debian12.png](<assets/debian服务器安装/debian12.png>)
+
+重新输入一次密码：
+
+![debian13.png](<assets/debian服务器安装/debian13.png>)
+
+创建一个普通用户的名称：
+
+![debian14.png](<assets/debian服务器安装/debian14.png>)
+
+普通用户登录时所用的帐户名：
+
+![debian15.png](<assets/debian服务器安装/debian15.png>)
+
+普通用户的密码：
+
+![debian16.png](<assets/debian服务器安装/debian16.png>)
+
+再确认一次密码：
+
+![debian17.png](<assets/debian服务器安装/debian17.png>)
+
+然后选择是否使用网络镜像，选择是
+
+![debian18.png](<assets/debian服务器安装/debian18.png>)
+
+选择镜像所在的国家：
+
+![debian19.png](<assets/debian服务器安装/debian19.png>)
+
+选择镜像的服务器（这两个服务器都是中国电信的，电信用户速度比较快。网通用户可以直接选择美国的镜像，速度比电信的快。）：
+
+![debian20.png](<assets/debian服务器安装/debian20.png>)
+
+设置代理（不需要代理就空着）：
+
+![debian21.png](<assets/debian服务器安装/debian21.png>)
+
+![debian22.png](<assets/debian服务器安装/debian22.png>)
+
+接下来选择安装哪些软件。作为服务器，只需要一个干净的系统，所以什么都不要选。
+
+![debian23.png](<assets/debian服务器安装/debian23.png>)
+
+最后选择安装引导程序GRUB的位置，选择安装到MBR即可：
+
+![debian24.png](<assets/debian服务器安装/debian24.png>)
+
+安装完成，等待重新引导：
+
+![debian25.png](<assets/debian服务器安装/debian25.png>)
+
+参见：http://www.debian.org/releases/stable/i386/index.html.zh_CN
+
+### 配置
+
+#### 登录
+
+重新引导后，即可进入Debian登录界面：
+
+![debian26.png](<assets/debian服务器安装/debian26.png>)
+
+帐号输入root，密码输入安装时设置的密码即可登录。
+
+root帐号权限过大，用root帐号登录进行所有操作有较大风险。推荐使用普通用户登录，在需要管理员帐号进行操作的时候再用su切换到root帐号，使用完后再用exit退回到普通用户。
+
+也可以使用sudo用root用户权限执行一个命令，执行完后马上退回普通用户。要使用sudo，需要安装sudo包：
+```
+aptitude install sudo
+```
+如果需要进行管理操作的帐户名称是czk，在配置文件/etc/sudoers文件中加入：
+
+```
+czk    ALL=(ALL) ALL
+```
+
+这样普通帐户czk就可以用sudo执行管理命令了。然后可以用sudo进行管理操作，比如要进行包管理：
+
+```
+sudo aptitude
+```
+
+#### 配置网络
+
+作为服务器操作系统，最先需要配置的是网络。在安装过程中，已经配置好了网络。如果需要修改这个配置，输入如下命令
+
+```
+nano /etc/network/interfaces
+```
+
+可以编辑网络配置文件。
+
+eth0、eth1等是网卡的名称。iface设置网卡的地址类型。下面这一行
+
+```
+iface eth0 inet dhcp
+```
+
+将eth0网卡配置成通过dhcp自动获取ip的。如果要配置静态地址，可以改成这样写：
+
+```
+iface eth0 inet static
+    address 169.254.235.235
+    netmask 255.255.0.0
+    gateway 169.254.0.1
+```
+
+其中address后面为服务器的ip地址，netmask后面为子网掩码，gateway后面为网关地址。
+
+dns服务器的地址在/etc/resolv.conf文件中进行配置：
+
+```
+nano /etc/resolv.conf
+```
+
+将dns地址配置成61.153.177.199和61.153.177.198可以写成：
+
+```
+nameserver 61.153.177.199
+nameserver 61.153.177.198
+```
+
+#### 配置软件源
+
+debian从软件源指定的软件仓库中下载、安装软件包。软件源的配置在/etc/apt/sources.list中，用如下命令打开它：
+
+```
+nano /etc/apt/sources.list
+```
+
+去掉其中
+
+```
+deb cdrom....
+```
+
+一行，不再使用光盘安装软件包。
+
+如果是网通用户，可以直接使用美国服务器即可，不需要修改。如果是电信用户，将原来指定的其他软件源也去除（电信用户连接security.debian.org很慢），加上
+
+```
+deb http://debian.cn99.com/debian etch main non-free contrib
+deb http://debian.cn99.com/debian etch-proposed-updates main contrib non-free
+deb http://debian.cn99.com/debian-security etch/updates main contrib non-free
+```
+
+如果需要安装软件的源代码，再加上
+```
+deb-src http://debian.cn99.com/debian etch main non-free contrib
+deb-src http://debian.cn99.com/debian etch-proposed-updates main contrib non-free
+deb-src http://debian.cn99.com/debian-security etch/updates main contrib non-free
+```
+
+如果感觉stable版的debian中的软件太老了，或者缺少一些软件，可以加入下面这行试试看：
+
+```
+deb http://www.backports.org/debian etch-backports main contrib non-free
+```
+
+#### 寻找最快的debian源sources.list
+
+ .　ubuntu和debian都有很多的源和镜像，也有不少的国内镜像。一些爱好者为了寻找镜像已经自己“憋”出来了一些pl脚本用于寻找最快的镜像。实际上debian的爱好者早准备了更厉害的武器等你来用，就是apt-spy（是间谍还是小偷？哈哈）
+
+ .　切记先备份你机器里的源列表。误区：通常大家都在交流使用国内的哪个源速度比较快，实际上很多国外源的访问速度是国内的很多倍。记得曾经用过国外某大学的源，速度是200k以上。日本的部分源可以达到500k以上。最近发现台湾的主镜像在我这里下载速度居然是1084k，达到1M每秒。不忙的时候，试试看，如果时间够多，可以考虑不限定为亚洲，这样有可能找到更快的镜像源。
+
+ . 转自官方的一部分说明：
+
+　.　'apt-spy'会根据站点回应时间和带宽自动创建'sources.list'。
+　.　#sudo apt-get install apt-spy
+　.　#sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak //backup
+　.　#man apt-spy //获取详细的使用方法
+　.　#sudo apt-spy update //更新您的镜像列表文件 /var/lib/apt-spy/mirrors.txt
+　.　#sudo apt-spy -d testing -a Asia
+　.　//在亚洲区寻找速度最快的testing版镜像,并生成 sources.list文件,也可使用 -o 参数指定写入文件
+　.　apt-spy 是一个管理安装媒体的程序，使用方法简单介绍一下：
+
+　.　使用方法: apt-spy [options]
+
+　.　选项：
+　.　-d distribution 选择 debian 的发行版本，例如 stable 。除升级外，必须使用此参数。
+　.　-a area 选择进行测试的区域，例如 Aisa
+　.　-c config 指定配置文件。
+　.　-e number 指定测试的服务器数量。
+　.　-f file 测试时抓取制定的文件(文件相对 debian base 的路径)
+　.　-i file 指定输入的文件，配合 -w 参数使用。
+　.　-m mirror-list 指定要升级的镜像列表文件。
+　.　-o output-file 重定向输出到指定文件。
+　.　-p proxy 指定使用的代理服务器，需要遵从 [server]:[port] 的格式。
+　.　-s country_list 指定要进行测试的国家。不能和 -a 参数同时使用。
+　.　-t time 指定进行测试时每台服务器的超时时间，只能是正整数。
+　.　-u update-URL 从指定的 URL 获得镜像列表更新。
+　.　-w file 输出 -i 参数提供的服务器列表中速度最快的前几台镜像服务器(缺省是前 5 台)
+　.　-n number 制定 -w 参数输出的服务器数量。
+　.　-v 输出版本信息。
+　.　-h 输出当前帮助信息
+　.　update 升级镜像站点列表。
+　.　有意思的是网上常见的文档都只介绍了很少几个参数的作用，所以看到好多“二手文档”里面说测试镜像服务器速度的时候(apt-spy -d testing -A Asia)需要很长时间。其实，只要加一个参数 -t 指定超时时间就可以大大加速这个过程(至少快 10 倍)
+
+#### 安装和更新软件
+
+在配置完软件源后，就可以通过软件源来安装和更新软件了。首先需要更新软件的列表，即从服务器上下载最新软件的列表：
+
+```
+aptitude update
+```
+
+然后可以检查本地已经安装的软件有哪些需要更新的，并更新它们：
+
+```
+aptitude upgrade
+```
+
+然后会列出所有需要更新的软件，选择确定后会自动从服务器上下载最新的软件并安装。
+
+要安装新软件，可以使用命令：
+
+```
+aptitude install XXXX
+```
+
+其中XXXX为软件包的名称。例如，要安装ssh服务器，可以运行命令：
+
+```
+aptitude install ssh
+```
+
+注意：安装和更新内核(名字类似linux-image-2.6.xx-xxx的包)后，需要重启服务器。安装和更新其他软件都不需要重启。
+
+不带参数使用aptitude命令：
+
+```
+aptitude
+```
+
+可以出现全屏界面，用来查找、选择、安装、删除、更新软件包。
+
+![debian27.png](<assets/debian服务器安装/debian27.png>)
+
+常用的命令有：
+
+```
+上下: 移动光标
+回车: 查看软件包的详情或者展开软件目录
+q: 退出
+u: 更新软件列表(等同于aptitude update)
+U: 更新所有可以更新的软件(等同于aptitude upgrade)
++: 安装选中的软件包
+-: 删除选中的软件包
+/: 查找软件包
+g: 实施选中的操作
+```
+
+#### 安装远程控制
+
+作为服务器操作系统，最早需要安装的软件是远程控制。
+
+使用命令：
+
+```
+aptitude install ssh
+```
+
+即可安装ssh服务器。之后就可以离开服务器，到自己的电脑上对服务器进行管理了。
+
+参见：[ssh](<ssh.qmd>)
+
+#### 启动和停止服务
+
+要启动一个名字是ssh服务，可以用命令：
+
+```
+/etc/init.d/ssh start
+```
+
+要停止一个名字是ssh的服务，可以用命令：
+
+```
+/etc/init.d/ssh stop
+```
+
+要重启一个服务
+
+```
+/etc/init.d/ssh restart
+```
+
+要重新加载一个服务的配置文件，可以用命令：
+
+```
+/etc/init.d/ssh reload
+```
+
+#### 管理帐号
+
+要为服务器添加新的帐号，可以用adduser命令，例如添加名叫jack的用户
+
+```
+adduser jack
+```
+
+删除某个帐号，比如jack，可以用
+
+```
+deluser jack
+```
+
+要修改某个帐号的密码，可以用passwd命令。比如修改jack帐号的密码
+
+```
+passwd jack
+```
+
+用id命令可以查看一个用户的属性。比如
+
+```
+id czk
+```
+
+要修改帐号的属性，可以用usermod命令。比如要将czk用户加入到cdrom用户组中：
+
+```
+usermod -a -G cdrom czk
+```
+
+或者
+
+```
+gpasswd -a czk cdrom
+```
+
+要将czk用户从cdrom组中删掉，可以用
+
+```
+gpasswd -d czk cdrom
+```
+
+### 参考资源
+
+* Debian简介：http://en.wikipedia.org/wiki/Debian
+* Debian官方网站：http://www.debian.org/
+* Debian安装：http://www.debian.org/releases/stable/i386/index.html.zh_CN
+* Debian下载：http://www.debian.org/distrib/netinst
+* [Debian 参考手册](http://qref.sourceforge.net)
+
+### 相关条目
+
+* [lvm2](<lvm2.qmd>)
+* [linux_raid](<linux_raid.qmd>)

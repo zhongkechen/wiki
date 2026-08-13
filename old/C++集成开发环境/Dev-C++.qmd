@@ -1,0 +1,50 @@
+---
+title: "Dev-C++"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“C++集成开发环境”](<../C++集成开发环境.qmd>)
+
+### DEV-C++集成开发环境
+
+安装运行
+
+1. 下载安装程序： http://www.bloodshed.net/dev/devcpp.html (dev-c++ 4.9.9.2下载:[devcpp-4.9.9.2_setup.exe](<assets/Dev-C++/devcpp-4.9.9.2_setup.exe>))
+1. 运行安装程序进行安装
+1. 运行集成开发环境：开始菜单=〉Bloodshed Dev-C++ =〉Dev-C++
+
+工程创建
+
+1. 在Dev-C++菜单中选择File=&gt;New=&gt;Project
+1. 在弹出对话框中选择Console Application，选中C Project，Name框输入一个工程名字，最后按OK按钮
+1. 选择硬盘上某个路径保存你所建立的工程
+
+程序运行
+
+1. 选择菜单Execute=&gt;Compile编译程序
+1. 如果编译没有错误，选择Execute=&gt;Run运行程序，得到运行结果
+
+如果程序结果一闪而过，怎么办？
+
+* 在命令行窗口中运行可执行程序
+* 在代码中添加：system("PAUSE");一行使程序暂停（system函数在stdlib.h中定义）
+
+调试程序
+
+* 启动调试
+
+    选择菜单Debug=&gt;Debug
+* 设置断点
+
+    将光标移动到需要设置断点的行，选择Debug=&gt;Toggle Breakpoint
+* 单步执行
+
+    菜单Debug=&gt;Next Step和Step Into
+* 查看变量
+
+    菜单Debug=&gt;Add Watch

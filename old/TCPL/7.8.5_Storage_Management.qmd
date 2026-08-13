@@ -1,0 +1,88 @@
+---
+title: "TCPL/7.8.5_Storage_Management"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 7.8.5 Storage Management 存储管理函数
+
+The functions malloc and calloc obtain blocks of memory dynamically.
+```
+   void *malloc(size_t n)
+```
+returns a pointer to n bytes of uninitialized storage, or NULL if the request cannot be satisfied.
+```
+   void *calloc(size_t n, size_t size)
+```
+returns a pointer to enough free space for an array of n objects of the specified size, or NULL if the request cannot be satisfied. The storage is initialized to zero.
+
+函数malloc和calloc用于动态地分配存储块。函数malloc的声明如下：
+```
+   void *malloc(size_t n)
+```
+
+当分配成功时，它返回一个指针，该指针指向n字节长度的未初始化的存储空间NULL。函数calloc的声明为
+
+```
+   void *calloc(size_t n, size_t size)
+```
+
+当分配成功时，它返回一个指针，该指针指向的空闲空间足以容纳由n个指定长度的对象组成的数组，否则返回NULL。该存储空间被初始化为0。
+
+The pointer returned by malloc or calloc has the proper alignment for the object in question, but it must be cast into the appropriate type, as in
+```
+   int *ip;
+
+   ip = (int *) calloc(n, sizeof(int));
+```
+
+根据请求的对象类型，malloc或calloc函数返回的指针满足正确的对齐要求。下面的例子进行了类型转换：
+
+```
+   int *ip;
+
+   ip = (int *) calloc(n, sizeof(int));
+```
+
+free(p) frees the space pointed to by p, where p was originally obtained by a call to malloc or calloc. There are no restrictions on the order in which space is freed, but it is a ghastly error to free something not obtained by calling malloc or calloc.
+
+free(p)函数释放p指向的存储空间，其中，p是此前通过调用malloc或calloc函数得到的指针。存储空间的释放顺序没有什么限制，但是，如果释放一个不是通过调用malloc或calloc函数得到的指针所指向的存储空间，将是一个很严重的错误。
+
+It is also an error to use something after it has been freed. A typical but incorrect piece of code is this loop that frees items from a list:
+```
+   for (p = head; p != NULL; p = p->next) /* WRONG */
+       free(p);
+```
+The right way is to save whatever is needed before freeing:
+```
+   for (p = head; p != NULL; p = q) {
+       q = p->next;
+       free(p);
+   }
+```
+
+使用已经释放的存储空间同样是错误的。下面所示的代码是一个很典型的错误代码段，它通过一个循环释放列表中的项目：
+
+```
+   for (p = head; p != NULL; p = p->next) /* WRONG */
+       free(p);
+```
+
+正确的处理方法是，在释放项目之前先将一切必要的信息保存起来，如下所示：
+
+```
+   for (p = head; p != NULL; p = q) {
+       q = p->next;
+       free(p);
+   }
+```
+
+Section 8.7 shows the implementation of a storage allocator like malloc, in which allocated blocks may be freed in any order.
+
+8.7节给出了一个类似于malloc函数的存储分配程序的实现。该存储分配程序分配的存储块可以以任意顺序释放。

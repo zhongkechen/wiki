@@ -1,0 +1,21 @@
+---
+title: "TCPL/4.11_The_C_Preprocessor"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.11 The C Preprocessor C预处理器
+
+C provides certain language facilities by means of a preprocessor, which is conceptionally a separate first step in compilation. The two most frequently used features are #include, to include the contents of a file during compilation, and #define, to replace a token by an arbitrary sequence of characters. Other features described in this section include conditional compilation and macros with arguments.
+
+C语言通过预处理器提供了一些语言功能。从概念上讲，预处理器是编译过程中单独执行的第一个步骤。两个最常用的预处理器指令是：#include指令(用于在编译期间把指定文件的内容包含进当前文件中)和#define指令(用任意字符序列替代一个标记)。本节还将介绍预处理器的其他一些特性，如条件编译与带参数的宏。
+
+* [4.11.1 File Inclusion 文件包含](<4.11.1_File_Inclusion.qmd>)
+* [4.11.2 Macro Substitution 宏替换](<4.11.2_Macro_Substitution.qmd>)
+* [4.11.3 Conditional Inclusion 条件包含](<4.11.3_Conditional_Inclusion.qmd>)

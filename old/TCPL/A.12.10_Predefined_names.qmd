@@ -1,0 +1,23 @@
+---
+title: "TCPL/A.12.10_Predefined_names"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.10 Predefined names
+
+Several identifiers are predefined, and expand to produce special information. They, and also the preprocessor expansion operator defined, may not be undefined or redefined.
+
+__LINE__	A decimal constant containing the current source line number.
+__FILE__	A string literal containing the name of the file being compiled.
+__DATE__	A string literal containing the date of compilation, in the form "Mmmm dd yyyy"
+__TIME__	A string literal containing the time of compilation, in the form "hh:mm:ss"
+__STDC__	The constant 1. It is intended that this identifier be defined to be 1 only in standard-conforming implementations.
+
+    #error and #pragma are new with the ANSI standard; the predefined preprocessor macros are new, but some of them have been available in some implementations.

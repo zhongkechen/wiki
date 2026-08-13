@@ -1,0 +1,24 @@
+---
+title: "TCPL/A.06_Conversions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.6 Conversions
+
+Some operators may, depending on their operands, cause conversion of the value of an operand from one type to another. This section explains the result to be expected from such conversions. Par.6.5 summarizes the conversions demanded by most ordinary operators; it will be supplemented as required by the discussion of each operator.
+
+* [A.6.1 Integral Promotion](<A.06.1_Integral_Promotion.qmd>)
+* [A.6.2 Integral Conversions](<A.06.2_Integral_Conversions.qmd>)
+* [A.6.3 Integer and Floating](<A.06.3_Integer_and_Floating.qmd>)
+* [A.6.4 Floating Types](<A.06.4_Floating_Types.qmd>)
+* [A.6.5 Arithmetic Conversions](<A.06.5_Arithmetic_Conversions.qmd>)
+* [A.6.6 Pointers and Integers](<A.06.6_Pointers_and_Integers.qmd>)
+* [A.6.7 Void](<A.06.7_Void.qmd>)
+* [A.6.8 Pointers to Void](<A.06.8_Pointers_to_Void.qmd>)

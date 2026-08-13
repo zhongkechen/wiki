@@ -1,0 +1,136 @@
+---
+title: "TCPL/7.3_Variable-length_Argument_Lists"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 7.3 Variable-length Argument Lists 变长参数表
+
+This section contains an implementation of a minimal version of printf, to show how to write a function that processes a variable-length argument list in a portable way. Since we are mainly interested in the argument processing, minprintf will process the format string and arguments but will call the real printf to do the format conversions.
+
+本节以实现函数printf的一个最简单版本为例，介绍如何以可移植的方式编写可处理变长参数表的函数。因为我们的重点在于参数的处理，所以，函数minprintf只处理格式字符串和参数，格式转换则通过调用函数printf实现：
+
+The proper declaration for printf is
+```
+   int printf(char *fmt, ...)
+```
+where the declaration ... means that the number and types of these arguments may vary. The declaration ... can only appear at the end of an argument list. Our minprintf is declared as
+```
+   void minprintf(char *fmt, ...)
+```
+since we will not return the character count that printf does.
+
+函数printf的正确声明形式为：
+
+```
+   int printf(char *fmt, ...)
+```
+
+其中，省略号表示参数表中参数的数量和类型是可变的。省略号只能在出现在参数表的尾部。因为minprintf函数不需要像printf函数一样返回实际输出的字符数，因此，我们将它声明为下列形式：
+
+```
+   void minprintf(char *fmt, ...)
+```
+
+The tricky bit is how minprintf walks along the argument list when the list doesn't even have a name. The standard header &lt;stdarg.h&gt; contains a set of macro definitions that define how to step through an argument list. The implementation of this header will vary from machine to machine, but the interface it presents is uniform.
+
+编写函数minprintf的关键在于如何处理一个甚至连名字都没有的参数表。标准头文件&lt;stdarg.h&gt;中包含一组宏定义，它们对如何遍历参数表进行了定义。该头文件的实现因不同的机器而不同，但提供的接口是一致的。
+
+The type va_list is used to declare a variable that will refer to each argument in turn; in minprintf, this variable is called ap, for "argument pointer". The macro va_start initializes ap to point to the first unnamed argument. It must be called once before ap is used. There must be at least one named argument; the final named argument is used by va_start to get started.
+
+va_list类型用于声明一个变量，该变量将依次引用各参数。在函数minprintf中，我们将该变量称为ap，意思是“参数指针”。【czk注：ap代表argument pointer。】宏va_start将ap初始化为指向第一个无名参数的指针。在使用ap之前，该宏必须被调用一次。参数表必须至少包括一个有名参数，va_start将最后一个有名参数作为起点。
+
+Each call of va_arg returns one argument and steps ap to the next; va_arg uses a type name to determine what type to return and how big a step to take. Finally, va_end does whatever cleanup is necessary. It must be called before the program returns.
+
+每次调用va_arg，该函数都将返回一个参数，并将ap指向下一个参数。va_arg使用一个类型名来决定返回的对象类型、指针移动的步长。最后，必须在函数返回之前调用va_end，以完成一些必要的清理工作。
+
+These properties form the basis of our simplified printf:
+```cpp
+   #include <stdarg.h>
+
+   /* minprintf: minimal printf with variable argument list */
+   void minprintf(char *fmt, ...)
+   {
+       va_list ap; /* points to each unnamed arg in turn */
+       char *p, *sval;
+       int ival;
+       double dval;
+
+       va_start(ap, fmt); /* make ap point to 1st unnamed arg */
+       for (p = fmt; *p; p++) {
+           if (*p != '%') {
+               putchar(*p);
+               continue;
+           }
+           switch (*++p) {
+           case 'd':
+               ival = va_arg(ap, int);
+               printf("%d", ival);
+               break;
+           case 'f':
+               dval = va_arg(ap, double);
+               printf("%f", dval);
+               break;
+           case 's':
+               for (sval = va_arg(ap, char *); *sval; sval++)
+                   putchar(*sval);
+               break;
+           default:
+               putchar(*p);
+               break;
+           }
+       }
+       va_end(ap); /* clean up when done */
+   }
+```
+
+基于上面这些讨论，我们实现的简化printf函数如下所示：
+
+```cpp
+   #include <stdarg.h>
+
+   /* minprintf: minimal printf with variable argument list */
+   void minprintf(char *fmt, ...)
+   {
+       va_list ap; /* points to each unnamed arg in turn */
+       char *p, *sval;
+       int ival;
+       double dval;
+
+       va_start(ap, fmt); /* make ap point to 1st unnamed arg */
+       for (p = fmt; *p; p++) {
+           if (*p != '%') {
+               putchar(*p);
+               continue;
+           }
+           switch (*++p) {
+           case 'd':
+               ival = va_arg(ap, int);
+               printf("%d", ival);
+               break;
+           case 'f':
+               dval = va_arg(ap, double);
+               printf("%f", dval);
+               break;
+           case 's':
+               for (sval = va_arg(ap, char *); *sval; sval++)
+                   putchar(*sval);
+               break;
+           default:
+               putchar(*p);
+               break;
+           }
+       }
+       va_end(ap); /* clean up when done */
+   }
+```
+
+Exercise 7-3. Revise minprintf to handle more of the other facilities of printf.
+
+练习7-3  改写minprintf函数，使它能完成printf函数的更多功能

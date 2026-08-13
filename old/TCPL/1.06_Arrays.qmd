@@ -1,0 +1,207 @@
+---
+title: "TCPL/1.06_Arrays"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.6 Arrays 数组
+
+Let is write a program to count the number of occurrences of each digit, of white space characters (blank, tab, newline), and of all other characters. This is artificial, but it permits us to illustrate several aspects of C in one program.
+
+在这部分内容中，我们来编写一个程序，以统计各个数字、空白符(包括空格符、制表符及换行符)以及所有其他字符出现的次数。这个程序的实用意义并不大，但我们可以通过该程序讨论C语言多方面的问题。
+
+There are twelve categories of input, so it is convenient to use an array to hold the number of occurrences of each digit, rather than ten individual variables. Here is one version of the program:
+```cpp
+   #include <stdio.h>
+
+   /* count digits, white space, others */
+   main()
+   {
+       int c, i, nwhite, nother;
+       int ndigit[10];
+
+       nwhite = nother = 0;
+       for (i = 0; i < 10; ++i)
+           ndigit[i] = 0;
+
+       while ((c = getchar()) != EOF)
+           if (c >= '0' && c <= '9')
+               ++ndigit[c-'0'];
+           else if (c == ' ' || c == '\n' || c == '\t')
+               ++nwhite;
+           else
+               ++nother;
+
+       printf("digits =");
+       for (i = 0; i < 10; ++i)
+           printf(" %d", ndigit[i]);
+       printf(", white space = %d, other = %d\n",
+           nwhite, nother);
+   }
+```
+The output of this program on itself is
+```
+   digits = 9 3 0 0 0 0 0 0 0 1, white space = 123, other = 345
+```
+The declaration
+```cpp
+   int ndigit[10];
+```
+declares ndigit to be an array of 10 integers. Array subscripts always start at zero in C, so the elements are ndigit[0], ndigit[1], ..., ndigit[9]. This is reflected in the for loops that initialize and print the array.
+
+所有的输入字符可以分成12类，因此可以用一个数组存放各个数字出现的次数，这样比使用10个独立的变量更方便。下面是该程序的一种版本：
+
+```cpp
+   #include <stdio.h>
+
+   /* count digits, white space, others */
+   main()
+   {
+       int c, i, nwhite, nother;
+       int ndigit[10];
+
+       nwhite = nother = 0;
+       for (i = 0; i < 10; ++i)
+           ndigit[i] = 0;
+
+       while ((c = getchar()) != EOF)
+           if (c >= '0' && c <= '9')
+               ++ndigit[c-'0'];
+           else if (c == ' ' || c == '\n' || c == '\t')
+               ++nwhite;
+           else
+               ++nother;
+
+       printf("digits =");
+       for (i = 0; i < 10; ++i)
+           printf(" %d", ndigit[i]);
+       printf(", white space = %d, other = %d\n",
+           nwhite, nother);
+   }
+```
+
+当把这段程序本身作为输入时，输出结果为：
+
+```
+   digits = 9 3 0 0 0 0 0 0 0 1, white space = 123, other = 345
+```
+
+该程序中的声明语句
+
+```cpp
+   int ndigit[10];
+```
+
+将变量ndigit声明为由10个整型数构成的数组。在C语言中，数组下标总是从0开始，因此该数组的10个元素分别为ndigit[0]、ndigit[1]、…、ndigit[9]，这可以通过初始化和打印数组的两个for循环语句反映出来。
+
+A subscript can be any integer expression, which includes integer variables like i, and integer constants.
+
+数组下标可以是任何整型表达式，包括整型变量(如i)以及整型常量。
+
+This particular program relies on the properties of the character representation of the digits. For example, the test
+```
+   if (c >= '0' && c <= '9')
+```
+determines whether the character in c is a digit. If it is, the numeric value of that digit is
+```
+   c - '0'
+```
+This works only if '0', '1', ..., '9' have consecutive increasing values. Fortunately, this is true for all character sets.
+
+该程序的执行取决于数字的字符表示属性。例如，测试语句
+
+```
+   if (c >= '0' && c <= '9')
+```
+
+用于判断c中的字符是否为数字。如果它是数字，那么该数字对应的数值是
+
+```
+   c - '0'
+```
+
+只有当'0'、'1'、…、'9'具有连续递增的值时，这种做法才可行。幸运的是，所有的字符集都是这样的。
+
+By definition, chars are just small integers, so char variables and constants are identical to ints in arithmetic expressions. This is natural and convenient; for example c-'0' is an integer expression with a value between 0 and 9 corresponding to the character '0' to '9' stored in c, and thus a valid subscript for the array ndigit.
+
+由定义可知，char类型的字符是小整型，因此char类型的变量和常量在算术表达式中等价于int类型的变量和常量。这样做既自然又方便，例如，c-'0'是一个整型表达式，如果存储在c中的字符是'0'～'9'，其值将为0～9，因此可以充当数组ndiglt的合法下标。
+
+The decision as to whether a character is a digit, white space, or something else is made with the sequence
+```cpp
+   if (c >= '0' && c <= '9')
+       ++ndigit[c-'0'];
+   else if (c == ' ' || c == '\n' || c == '\t')
+       ++nwhite;
+   else
+       ++nother;
+```
+The pattern
+```cpp
+   if (condition1)
+       statement1
+   else if (condition2)
+       statement2
+       ...
+       ...
+   else
+       statementn
+```
+occurs frequently in programs as a way to express a multi-way decision. The conditions are evaluated in order from the top until some condition is satisfied; at that point the corresponding statement part is executed, and the entire construction is finished. (Any statement can be several statements enclosed in braces.) If none of the conditions is satisfied, the statement after the final else is executed if it is present. If the final else and statement are omitted, as in the word count program, no action takes place. There can be any number of
+```
+else if(condition)
+  statement
+```
+groups between the initial if and the final else.
+
+判断一个字符是数字、空白符还是其他字符的功能可以内下列语句序列完成：
+
+```cpp
+   if (c >= '0' && c <= '9')
+       ++ndigit[c-'0'];
+   else if (c == ' ' || c == '\n' || c == '\t')
+       ++nwhite;
+   else
+       ++nother;
+```
+
+程序中经常使用下列方式表示多路判定：
+
+```cpp
+   if (condition1)
+       statement1
+   else if (condition2)
+       statement2
+       ...
+       ...
+   else
+       statementn
+```
+
+在这种方式中，各条件从前往后依次求值，直到满足某个条件，然后执行对应的语句部分。这部分语句执行完成后，整个语句体执行结束(其中的任何语句都可以是括在花括号中的若干条语句)。如果所有条件都不满足，则执行位于最后一个else之后的语句(如果有的话)。类似于前面的单词计数程序，如果没有最后一个else及对应的语句，该语句体将不执行任何动作。在第一个if与最后一个else之间可以有0个或多个下列形式的语句序列：
+
+```
+else if(condition)
+  statement
+```
+
+As a matter of style, it is advisable to format this construction as we have shown; if each if were indented past the previous else, a long sequence of decisions would march off the right side of the page.
+
+就程序设计风格而言，我们建议读者采用上面所示的缩进格式以体现该结构的层次关系，否则，如果每个if都比前一个else向里缩进一些距离，那么较长的判定序列就可能超出页面的右边界。
+
+The switch statement, to be discussed in Chapter 4, provides another way to write a multi-way branch that is particulary suitable when the condition is whether some integer or character expression matches one of a set of constants. For contrast, we will present a switch version of this program in Section 3.4.
+
+第3章将讨论的switch语句提供了编写多路分支程序的另一种方式，它特别适合于判定某个整型或字符表达式是否与一个常量集合中的某个元素相匹配的情况。我们将在3.4节给出用switch语句编写的该程序的另一个版本，与此进行比较。
+
+Exercise 1-13. Write a program to print a histogram of the lengths of words in its input. It is easy to draw the histogram with the bars horizontal; a vertical orientation is more challenging.
+
+练习1-13 编写一个程序，打印输入中单词长度的直方图。水平方向的直方图比较容易绘制，垂直方向的直方图则要困难些。
+
+Exercise 1-14. Write a program to print a histogram of the frequencies of different characters in its input.
+
+练习1-14  编写一个程序，打印输入中各个字符出现频度的直方图。

@@ -1,0 +1,21 @@
+---
+title: "TCPL/A.07.15_Logical_OR_Operator"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.15 Logical OR Operator
+
+    logical-OR-expression:
+      logical-AND-expression
+      logical-OR-expression || logical-AND-expression
+
+The || operator groups left-to-right. It returns 1 if either of its operands compare unequal to zero, and 0 otherwise. Unlike |, || guarantees left-to-right evaluation: the first operand is evaluated, including all side effects; if it is unequal to 0, the value of the expression is 1. Otherwise, the right operand is evaluated, and if it is unequal to 0, the expression's value is 1, otherwise 0.
+
+The operands need not have the same type, but each must have arithmetic type or be a pointer. The result is int.

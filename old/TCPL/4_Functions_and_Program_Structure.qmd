@@ -1,0 +1,45 @@
+---
+title: "TCPL/4_Functions_and_Program_Structure"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+## Chapter 4 - Functions and Program Structure 函数与程序结构
+
+Functions break large computing tasks into smaller ones, and enable people to build on what others have done instead of starting over from scratch. Appropriate functions hide details of operation from parts of the program that don't need to know about them, thus clarifying the whole, and easing the pain of making changes.
+
+函数可以把大的计算任务分解成若干个较小的任务，程序设计人员可以基于函数进一步构造程序，而不需要重新编写一些代码。一个设计得当的函数可以把程序中不需要了解的具体操作细节隐藏起来，从而使整个程序结构更加清晰，并降低修改程序的难度。
+
+C has been designed to make functions efficient and easy to use; C programs generally consist of many small functions rather than a few big ones. A program may reside in one or more source files. Source files may be compiled separately and loaded together, along with previously compiled functions from libraries. We will not go into that process here, however, since the details vary from system to system.
+
+C语言在设计中考虑了函数的高效性与易用性这两个因素。C语言程序一般都由许多小的函数组成，而不是由少量较大的函数组成。一个程序可以保存在一个或者多个源文件中。各个文件可以单独编译，并可以与库中已编译过的函数一起加载。我们在这里不打算详细讨论这一过程，因为编译与加载的具体实现细节在各个编译系统中并不相同。
+
+Function declaration and definition is the area where the ANSI standard has made the most changes to C. As we saw first in Chapter 1, it is now possible to declare the type of arguments when a function is declared. The syntax of function declaration also changes, so that declarations and definitions match. This makes it possible for a compiler to detect many more errors than it could before. Furthermore, when arguments are properly declared, appropriate type coercions are performed automatically.
+
+ANSI标准对C语言所做的最明显的修改是函数声明与函数定义这两方面。第1章中我们曾经讲过，目前C语言已经允许在声明函数时声明参数的类型。为了使函数的声明与定义相适应，ANSI标准对函数定义的语法也做了修改。基于该原因，编译器就有可能检测出比以前的C语言版本更多的错误。并且，如果参数声明得当，程序可以自动地进行适当的强制类型转换。
+
+The standard clarifies the rules on the scope of names; in particular, it requires that there be only one definition of each external object. Initialization is more general: automatic arrays and structures may now be initialized.
+
+ANSI标准进一步明确了名字的作用域规则，特别要求每个外部对象只能有一个定义。初始化的适用范围也更加广泛了，自动数组与结构都可以进行初始化。
+
+The C preprocessor has also been enhanced. New preprocessor facilities include a more complete set of conditional compilation directives, a way to create quoted strings from macro arguments, and better control over the macro expansion process.
+
+C语言预处理器的功能也得到了增强。新的预处理器包含一组更完整的条件编译指令(一种通过宏参数创建带引号的字符串的方法)，对宏扩展过程的控制更严格。
+
+* [4.1 Basics of Functions 函数的基本知识](<4.01_Basics_of_Functions.qmd>)
+* [4.2 Functions Returning Non-integers](<4.02_Functions_Returning_Non-integers.qmd>)
+* [4.3 External Variables 外部变量](<4.03_External_Variables.qmd>)
+* [4.4 Scope Rules 作用域规则](<4.04_Scope_Rules.qmd>)
+* [4.5 Header Files 头文件](<4.05_Header_Files.qmd>)
+* [4.6 Static Variables 静态变量](<4.06_Static_Variables.qmd>)
+* [4.7 Register Variables 寄存器变量](<4.07_Register_Variables.qmd>)
+* [4.8 Block Structure 程序块结构](<4.08_Block_Structure.qmd>)
+* [4.9 Initialization 初始化](<4.09_Initialization.qmd>)
+* [4.10 Recursion 递归](<4.10_Recursion.qmd>)
+* [4.11 The C Preprocessor C预处理器](<4.11_The_C_Preprocessor.qmd>)

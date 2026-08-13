@@ -1,0 +1,35 @@
+---
+title: "TCPL/B.01.7_Error_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### B.1.7 Error Functions
+
+Many of the functions in the library set status indicators when error or end of file occur. These indicators may be set and tested explicitly. In addition, the integer expression errno (declared in &lt;errno.h&gt;) may contain an error number that gives further information about the most recent error.
+```
+void clearerr(FILE *stream)
+```
+    clearerr clears the end of file and error indicators for stream.
+```
+int feof(FILE *stream)
+```
+    feof returns non-zero if the end of file indicator for stream is set.
+```
+int ferror(FILE *stream)
+```
+    ferror returns non-zero if the error indicator for stream is set.
+```
+void perror(const char *s)
+```
+    perror(s) prints s and an implementation-defined error message corresponding to the integer in errno, as if by
+```
+        fprintf(stderr, "%s: %s\n", s, "error message");
+```
+    See strerror in Section B.3.

@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.07.03.1_Array_References"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+##### A.7.3.1 Array References
+
+A postfix expression followed by an expression in square brackets is a postfix expression denoting a subscripted array reference. One of the two expressions must have type ``pointer to T'', where T is some type, and the other must have integral type; the type of the subscript expression is T. The expression E1[E2] is identical (by definition) to \*((E1)+(E2)). See Par.A.8.6.2 for further discussion.

@@ -1,0 +1,101 @@
+---
+title: "apache2"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000015 在备份中缺失；以下内容来自最新可读取版本 00000014。
+:::
+
+### 概述
+
+Apache HTTP服务器，通常简称Apache，是一个在WWW发展起始时起关键作用的Web服务器，是第一个除Netscape Communications Corporation web服务器外的选择。从1996年4月起，Apache就已经成为世界上最流行的HTTP服务器，到2008年4月，世界上50.42%的网站由Apache提供服务。
+
+Apache支持很多功能，还有很多模块可以扩展核心功能，从服务端编程语言支持到用户认证等等。常用的语言包括perl、python、Tcl、PHP。常用的用户认证模块包括mod_access、mod_auth和mod_digest。其他特性包括SSL和TLS支持(mod_ssl)，代理模块，URL重写(mod_rewrite)，自定义日志文件(mod_log_config)，防火墙支持(mod_include和mod_ext_filter)。
+
+Apache上有外部扩展模块mod_gzip支持流行的压缩方法，来帮助减少网页的大小。虚拟主机可以让一个Apache同时为多个网站提供服务。比如，一台装了apache的计算机计算机可以同时架设www.example.com、www.test.com、test47.test-server.test.com、等等多个网站。
+
+### 安装
+
+安装apache2主程序：
+```
+aptitude install apache2
+```
+
+要在apache2上运行php程序，需要安装libapache2-mod-php5
+
+```
+aptitude install libapache2-mod-php5
+```
+
+要运行python程序，需要安装libapache2-mod-python
+
+```
+aptitude install libapache2-mod-python
+```
+
+或者安装
+
+```
+aptitude install libapache2-mod-wsgi
+```
+
+要运行perl程序，需要安装libapache2-mod-perl2
+
+```
+aptitude install libapache2-mod-perl2
+```
+
+要运行.net程序，需要安装libapache2-mod-mono
+
+```
+aptitude install libapache2-mod-mono
+```
+
+### 配置
+
+#### 虚拟主机
+
+```
+NameVirtualHost *:80
+
+<VirtualHost *:80>
+    ServerName www.wzwiki.org
+    ServerAlias wzwiki.org *.wzwiki.org
+    #...
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName www.wzpedia.cn
+    ServerAlias wzpedia.cn *.wzpedia.cn
+    #...
+</VirtualHost>
+```
+
+#### 虚拟目录
+
+```
+	Alias /icons/ "/usr/share/apache2/icons/"
+	<Directory "/usr/share/apache2/icons">
+	    Options Indexes MultiViews
+	    AllowOverride None
+	    Order allow,deny
+	    Allow from all
+	</Directory>
+```
+
+### 参考
+
+* 介绍：http://en.wikipedia.org/wiki/Apache
+* 官方网站：http://httpd.apache.org/
+* [文档中文版](http://man.chinaunix.net/newsoft/Apache2.2_chinese_manual/index.html)

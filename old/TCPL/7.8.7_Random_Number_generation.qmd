@@ -1,0 +1,35 @@
+---
+title: "TCPL/7.8.7_Random_Number_generation"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 7.8.7 Random Number generation 随机数发生器函数
+
+The function rand() computes a sequence of pseudo-random integers in the range zero to RAND_MAX, which is defined in &lt;stdlib.h&gt;. One way to produce random floating-point numbers greater than or equal to zero but less than one is
+```
+   #define frand() ((double) rand() / (RAND_MAX+1.0))
+```
+(If your library already provides a function for floating-point random numbers, it is likely to have better statistical properties than this one.)
+
+函数rand()生成介于0和RAND_MAX之间的伪随机整数序列。其中RAND_MAX是在头文件&lt;stdlib.h&gt;中定义的符号常量。下面是一种生成大于等于0但小于1的随机浮点数的方法：
+
+```
+   #define frand() ((double) rand() / (RAND_MAX+1.0))
+```
+
+(如果所用的函数库中已经提供了一个生成浮点随机数的函数，那么它可能比上面这个函数具有更好的统计学特性。)
+
+The function srand(unsigned) sets the seed for rand. The portable implementation of rand and srand suggested by the standard appears in Section 2.7.
+
+函数srand(unsigned)设置rand函数的种子数。我们在2.7节中给出了遵循标准的rand和srand函数的可移植的实现。
+
+Exercise 7-9. Functions like isupper can be implemented to save space or to save time. Explore both possibilities.
+
+练习7-9  类似于isupper这样的函数可以通过某种方式实现以达到节省空间或时间的目的。考虑节省空间或时间的实现方式。

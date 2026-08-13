@@ -1,0 +1,124 @@
+---
+title: "bind"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+BIND (Berkeley Internet Name Domain)^[介绍： http://en.wikipedia.org/wiki/BIND ] ^[官方网站： http://www.isc.org/products/BIND/ ]是一个Internet上使用最多的DNS服务器，尤其是在类UNIX系统上，它已经成为一种事实上的标准。BIND最早由加州大学伯克利分校的四个研究生创建，最早与BSD4.3一起发布。最新的BIND9已经被全部重写过，支持DNSSEC、TSIG、DNS notify、nsupdate、IPv6、rndc flush、views、多处理器，以及更好的可移植性。
+
+### 安装
+
+使用如下命令进行安装
+```
+aptitude install bind9
+```
+
+要重启服务，可以使用命令：
+
+```
+/etc/init.d/bind restart
+```
+
+要测试服务器是否工作正常，输入（假设服务器地址为192.168.12.252）：
+```
+nslookup - 192.168.12.252
+```
+
+然后输入域名，就应该可以查到对应的ip地址。
+
+### 配置
+
+默认配置已经可以进行域名解析了。其他功能就需要进一步的配置来完成。^[[BIND 9 Administrator Reference Manual](http://www.csd.uwo.ca/staff/magi/doc/bind9/) [BIND9 管理员参考手册](http://www.linux.gov.cn/netweb/mat/BIND9-CHS.pdf)]
+
+#### 限制客户端
+
+只允许某些ip的客户端访问，在/etc/bind/named.conf.options里面增加：
+```
+acl "corpnets" { 192.168.4.0/24; 192.168.7.0/24; };
+options {
+     allow-query { "corpnets"; };
+};
+```
+
+#### 配置域名
+
+如果拥有一个域名，并且注册了自己的域名服务器（或者只是希望在局域网中解析自己的域名），则可以架设自己的域名服务器来解析自己的域名。在 /etc/bind/named.conf.local 中添加：
+```
+zone "example.com" {
+     type master;
+     file "/etc/bind/db.com.example";
+};
+```
+
+在 /etc/bind/ 目录下新建 db.com.example 文件
+```
+$TTL    604800
+@	IN	SOA	dns.example.com.  ( 960072601 300 60 1209600 43200 )
+	IN	A	61.191.73.179
+	IN      NS      dns
+	IN      MX      mail
+localhost	IN	A	127.0.0.1
+dns		IN	A	61.191.73.179
+www		IN	A	61.191.73.179
+mail		IN	A	61.191.73.179
+```
+
+#### 配置view
+
+如果一个域名服务器同时为局域网和广域网提供服务，则对一个域名可能需要为局域网客户和广域网客户解析出不同的地址。这时可以用view来实现。在named.conf.local中添加：
+```
+view "internal" {
+  match-clients { 192.168.0.0/16; };
+  zone "example.com" {
+     type master;
+     file "/etc/bind/db.com.example-internal";
+  };
+};
+
+view "external" {
+  match-clients { any; };
+  recursion no;
+  zone "example.com" {
+    type master;
+    file "/etc/bind/db.com.example-external";
+  };
+};
+```
+
+在/etc/bind/目录下添加db.com.example-internal文件
+
+```
+$TTL    604800
+@       IN      SOA     dns.example.com. czk19790827.gmail.com.   ( 960072 601 300 60 1209600 43200 )
+        IN      A       192.168.12.252
+        IN      NS      dns
+	IN      MX      10 mail
+localhost	IN      A       127.0.0.1
+dns		IN      A        192.168.12.252
+www		IN      A       192.168.12.252
+mail		IN      A       192.168.12.252
+```
+
+在/etc/bind/目录下添加db.com.example-external文件
+
+```
+$TTL    604800
+@	IN	SOA	dns.example.com. czk19790827.gmail.com. ( 960072601 300 60 1209600 43200 )
+	IN	A	61.191.73.179
+	IN      NS      dns
+	IN      MX      10 mail
+localhost	IN	A	127.0.0.1
+dns		IN	A	61.191.73.179
+www		IN	A	61.191.73.179
+mail		IN	A	61.191.73.179
+```
+
+### 参考文献

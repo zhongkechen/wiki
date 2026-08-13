@@ -1,0 +1,29 @@
+---
+title: "TCPL/B.06_Diagnostics:_<assert.h>"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### B.6 Diagnostics: &lt;assert.h&gt;
+
+The assert macro is used to add diagnostics to programs:
+
+  void assert(int expression)
+
+If expression is zero when
+
+  assert(expression)
+
+is executed, the assert macro will print on stderr a message, such as
+
+  Assertion failed: expression, file filename, line nnn
+
+It then calls abort to terminate execution. The source filename and line number come from the preprocessor macros `__FILE__` and `__LINE__`.
+
+If NDEBUG is defined at the time &lt;assert.h&gt; is included, the assert macro is ignored.

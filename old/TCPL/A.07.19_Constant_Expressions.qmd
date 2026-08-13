@@ -1,0 +1,26 @@
+---
+title: "TCPL/A.07.19_Constant_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.19 Constant Expressions
+
+Syntactically, a constant expression is an expression restricted to a subset of operators:
+
+    constant-expression:
+      conditional-expression
+
+Expressions that evaluate to a constant are required in several contexts: after case, as array bounds and bit-field lengths, as the value of an enumeration constant, in initializers, and in certain preprocessor expressions.
+
+Constant expressions may not contain assignments, increment or decrement operators, function calls, or comma operators; except in an operand of sizeof. If the constant expression is required to be integral, its operands must consist of integer, enumeration, character, and floating constants; casts must specify an integral type, and any floating constants must be cast to integer. This necessarily rules out arrays, indirection, address-of, and structure member operations. (However, any operand is permitted for sizeof.)
+
+More latitude is permitted for the constant expressions of initializers; the operands may be any type of constant, and the unary & operator may be applied to external or static objects, and to external and static arrays subscripted with a constant expression. The unary & operator can also be applied implicitly by appearance of unsubscripted arrays and functions. Initializers must evaluate either to a constant or to the address of a previously declared external or static object plus or minus a constant.
+
+Less latitude is allowed for the integral constant expressions after #if; sizeof expressions, enumeration constants, and casts are not permitted. See Par.A.12.5.

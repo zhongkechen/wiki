@@ -1,0 +1,84 @@
+---
+title: "TCPL/B.10_Date_and_Time_Functions:_<time.h>"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### B.10 Date and Time Functions: &lt;time.h&gt;
+
+The header &lt;time.h&gt; declares types and functions for manipulating date and time. Some functions process local time, which may differ from calendar time, for example because of time zone. clock_t and time_t are arithmetic types representing times, and struct tm holds the components of a calendar time:
+```
+int tm_sec; 	seconds after the minute (0,61)
+int tm_min; 	minutes after the hour (0,59)
+int tm_hour; 	hours since midnight (0,23)
+int tm_mday; 	day of the month (1,31)
+int tm_mon; 	months since January (0,11)
+int tm_year; 	years since 1900
+int tm_wday; 	days since Sunday (0,6)
+int tm_yday; 	days since January 1 (0,365)
+int tm_isdst;	Daylight Saving Time flag
+```
+tm_isdst is positive if Daylight Saving Time is in effect, zero if not, and negative if the information is not available.
+
+clock_t clock(void)
+    clock returns the processor time used by the program since the beginning of execution, or -1 if unavailable. clock()/CLK_PER_SEC is a time in seconds.
+
+time_t time(time_t \*tp)
+    time returns the current calendar time or -1 if the time is not available. If tp is not NULL, the return value is also assigned to \*tp.
+
+double difftime(time_t time2, time_t time1)
+    difftime returns time2-time1 expressed in seconds.
+
+time_t mktime(struct tm \*tp)
+    mktime converts the local time in the structure \*tp into calendar time in the same representation used by time. The components will have values in the ranges shown. mktime returns the calendar time or -1 if it cannot be represented.
+
+The next four functions return pointers to static objects that may be overwritten by other calls.
+
+char \*asctime(const struct tm \*tp)
+    asctime&lt; converts the time in the structure \*tp into a string of the form
+
+          Sun Jan  3 15:14:13 1988\\n\\0
+
+char \*ctime(const time_t \*tp)
+    ctime converts the calendar time \*tp to local time; it is equivalent to
+
+          asctime(localtime(tp))
+
+struct tm \*gmtime(const time_t \*tp)
+    gmtime converts the calendar time \*tp into Coordinated Universal Time (UTC). It returns NULL if UTC is not available. The name gmtime has historical significance.
+
+struct tm \*localtime(const time_t \*tp)
+    localtime converts the calendar time \*tp into local time.
+
+size_t strftime(char \*s, size_t smax, const char \*fmt, const struct tm \*tp)
+    strftime formats date and time information from \*tp into s according to fmt, which is analogous to a printf format. Ordinary characters (including the terminating '\\0') are copied into s. Each %c is replaced as described below, using values appropriate for the local environment. No more than smax characters are placed into s. strftime returns the number of characters, excluding the '\\0', or zero if more than smax characters were produced.
+```
+%a	abbreviated weekday name.
+%A	full weekday name.
+%b	abbreviated month name.
+%B	full month name.
+%c	local date and time representation.
+%d	day of the month (01-31).
+%H	hour (24-hour clock) (00-23).
+%I	hour (12-hour clock) (01-12).
+%j	day of the year (001-366).
+%m	month (01-12).
+%M	minute (00-59).
+%p	local equivalent of AM or PM.
+%S	second (00-61).
+%U	week number of the year (Sunday as 1st day of week) (00-53).
+%w	weekday (0-6, Sunday is 0).
+%W	week number of the year (Monday as 1st day of week) (00-53).
+%x	local date representation.
+%X	local time representation.
+%y	year without century (00-99).
+%Y	year with century.
+%Z	time zone name, if any.
+%%  	%
+```

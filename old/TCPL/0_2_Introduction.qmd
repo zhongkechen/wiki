@@ -1,0 +1,109 @@
+---
+title: "TCPL/0_2_Introduction"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+## Introduction 引言
+
+C is a general-purpose programming language. It has been closely associated with the UNIX operating system where it was developed, since both the system and most of the programs that run on it are written in C. The language, however, is not tied to any one operating system or machine; and although it has been called a "system programming language" because it is useful for writing compilers and operating systems, it has been used equally well to write major programs in many different domains.
+
+C语言是一种通用的程序设计语言。它同UNIX系统之间具有非常密切的联系——C语言是在UNIX系统上开发的，并且，无论是UNIX系统本身还是其上运行的大部分程序，都是用C语言编写的。但是C语言并不受限于任何一种操作系统或机器。由于它很适合用来编写编译器和操作系统，因此被成为“系统编程语言”，但它同样适合于编写不同领域中的大多数程序。
+
+Many of the important ideas of C stem from the language BCPL, developed by Martin Richards. The influence of BCPL on C proceeded indirectly through the language B, which was written by Ken Thompson in 1970 for the first UNIX system on the DEC PDP-7.
+
+C语言的很多重要概念来源于由Martin Richards开发的BCPL语言。BCPL对C语言的影响间接地来自于B语言，它是由Ken Thompson为第一个UNIX系统而于1970年在DEC PDP-7计算机上开发的。
+
+BCPL and B are "typeless" languages. By contrast, C provides a variety of data types. The fundamental types are characters, and integers and floating point numbers of several sizes. In addition, there is a hierarchy of derived data types created with pointers, arrays, structures and unions. Expressions are formed from operators and operands; any expression, including an assignment or a function call, can be a statement. Pointers provide for machine-independent address arithmetic.
+
+BCPL和B语言都是“无类型”的语言。相比较而言，C语言提供了很多数据类型。其基本类型包括字符、具有多种长度的整型和浮点型等。另外，还有通过指针、数组、结构和联合派生的各种数据类型。表达式由运算符和操作数组成。任何一个表达式，包括赋值表达式或函数调用表达式，都可以是一个语句。指针提供了与具体机器无关的地址算术运算。
+
+C provides the fundamental control-flow constructions required for well-structured programs: statement grouping, decision making (if-else), selecting one of a set of possible values (switch), looping with the termination test at the top (while, for) or at the bottom (do), and early loop exit (break).
+
+C语言为实现结构良好的程序提供了基本的控制流结构：语句组、条件判断（if-else）、多路选择（switch）、终止测试在顶部的循环（while、for）、终止测试在底部的循环（do）、提前跳出循环（break）等。
+
+Functions may return values of basic types, structures, unions, or pointers. Any function may be called recursively. Local variables are typically "automatic", or created anew with each invocation. Function definitions may not be nested but variables may be declared in a block-structured fashion. The functions of a C program may exist in separate source files that are compiled separately. Variables may be internal to a function, external but known only within a single source file, or visible to the entire program.
+
+函数可以返回基本类型、结构、联合或指针类型的值。任何函数都可以递归调用。局部变量通常是“自动的”，即在每次函数调用时重新创建。函数定义可以不是嵌套的，【czk注：翻译错误，函数定义不可以是嵌套的】但可以用块结构的方式声明变量。一个C语言程序的不同函数可以出现在多个单独编译的不同源文件中。变量可以只在函数内部有效，也可以在函数外部但仅在一个源文件中有效，还可以在整个程序中都有效。
+
+A preprocessing step performs macro substitution on program text, inclusion of other source files, and conditional compilation.
+
+编译的预处理阶段将对程序文本进行宏替换、包含其他源文件以及进行条件编译。
+
+C is a relatively "low-level" language. This characterization is not pejorative; it simply means that C deals with the same sort of objects that most computers do, namely characters, numbers, and addresses. These may be combined and moved about with the arithmetic and logical operators implemented by real machines.
+
+C语言是一种相对“低级”的语言。这种说法并没有什么贬义，它仅仅意味着C语言可以处理大部分计算机能够处理的对象，比如字符、数组和地址。这些对象可以通过具体机器实现的算术运算符和逻辑运算符组合在一起并移动。
+
+C provides no operations to deal directly with composite objects such as character strings, sets, lists or arrays. There are no operations that manipulate an entire array or string, although structures may be copied as a unit. The language does not define any storage allocation facility other than static definition and the stack discipline provided by the local variables of functions; there is no heap or garbage collection. Finally, C itself provides no input/output facilities; there are no READ or WRITE statements, and no built-in file access methods. All of these higher-level mechanisms must be provided by explicitly called functions. Most C implementations have included a reasonably standard collection of such functions.
+
+C语言不提供直接处理诸如字符串、集合、列表或数组等复合对象的操作。虽然可以将整个结构作为一个单元进行拷贝，但C语言没有处理整个数组或字符串的操作。除了由函数的局部变量提供的静态定义和堆栈外，C语言没有定义任何存储器分配工具，也不提供堆和无用内存回收工具。最后，C语言本身没有提供输入/输出功能，没有READ或WRITE语句，也没有内置的文件访问方法。所有这些高层的机制必须由显示调用的函数提供。C语言的大部分实现已合理地包含了这些函数的标准集合。
+
+Similarly, C offers only straightforward, single-thread control flow: tests, loops, grouping, and subprograms, but not multiprogramming, parallel operations, synchronization, or coroutines.
+
+类似地，C语言只提供简单的单线程控制流，即测试、循环、分组和子程序，它不提供多道程序设计、并行操作、同步和协同例程。【czk注：测试的意思就是分支，分组的意思是语句块，而子程序在C语言中就是函数。多道程序设计、并行操作、同步、协同的概念参看操作系统相关资料。】
+
+Although the absence of some of these features may seem like a grave deficiency, ("You mean I have to call a function to compare two character strings?"), keeping the language down to modest size has real benefits. Since C is relatively small, it can be described in small space, and learned quickly. A programmer can reasonably expect to know and understand and indeed regularly use the entire language.
+
+尽管缺少其中的某些特性看起来好像是一个严重不足（“这就意味着必须通过调用函数来比较两个字符串吗？”），但是把语言保持在一个适度的规模会有很多益处。由于C语言相对较小【czk注：较小指的是语法特性较少】，因此可以用比较小的篇幅将它描述出来，这样也很容易学会。程序员有理由期望了解、理解并真正彻底地使用完整的语言。
+
+For many years, the definition of C was the reference manual in the first edition of The C Programming Language. In 1983, the American National Standards Institute (ANSI) established a committee to provide a modern, comprehensive definition of C. The resulting definition, the ANSI standard, or "ANSI C", was completed in late 1988. Most of the features of the standard are already supported by modern compilers.
+
+很多年来，C语言的定义就是《The C Programming Language》第1版中的参考手册。1983年，美国国家标准协会（ANSI）成立了一个委员会以制定一个现代的、全面的C语言定义。最后的结果就是1988年完成的ANSI标准，即“ANSI C”。该标准的大部分特性已被当前的编译器所支持。
+
+The standard is based on the original reference manual. The language is relatively little changed; one of the goals of the standard was to make sure that most existing programs would remain valid, or, failing that, that compilers could produce warnings of new behavior.
+
+这个标准是基于以前的参考手册指定的。语言本身只做了相对较少的改动。这个标准的目的之一就是确保现有的程序仍然有效，或者当程序无效时，编译器会【czk注：“会”改成“能够”更准确，有细微的区别。老的语法规则让编译器没有办法给出警告信息，而新的语法规则让编译器能够实现这个功能。】对新的定义发出警告信息。
+
+For most programmers, the most important change is the new syntax for declaring and defining functions. A function declaration can now include a description of the arguments of the function; the definition syntax changes to match. This extra information makes it much easier for compilers to detect errors caused by mismatched arguments; in our experience, it is a very useful addition to the language.
+
+对于大部分程序员来说，最重要的变化是函数声明和函数定义的新语法。现在，函数声明中可以包含描述函数实际参数的信息；相应地，定义的语法也做了改变。这些附加的信息使编译器很容易检测到因参数不匹配而导致的错误。根据我们的经验，这个扩充对语言非常有用。
+
+There are other small-scale language changes. Structure assignment and enumerations, which had been widely available, are now officially part of the language. Floating-point computations may now be done in single precision. The properties of arithmetic, especially for unsigned types, are clarified. The preprocessor is more elaborate. Most of these changes will have only minor effects on most programmers.
+
+新标准还对语言做了一些细微的改进：将广泛使用的结构赋值和枚举定义为语言的正式组成部分；可以进行单精度的浮点运算；明确定义了算术运算的属性，特别是无符号类型的运算；对预处理器进行了更详尽的说明。这些改进对大多数程序员的影响比较小。
+
+A second significant contribution of the standard is the definition of a library to accompany C. It specifies functions for accessing the operating system (for instance, to read and write files), formatted input and output, memory allocation, string manipulation, and the like. A collection of standard headers provides uniform access to declarations of functions in data types. Programs that use this library to interact with a host system are assured of compatible behavior. Most of the library is closely modeled on the "standard I/O library" of the UNIX system. This library was described in the first edition, and has been widely used on other systems as well. Again, most programmers will not see much change.
+
+该标准的第二个重要贡献是为C语言定义了一个函数库。它描述了诸如访问操作系统（如读写文件）、格式化输入/输出、内存分配和字符串操作等类似的很多函数。该标准还定义了一系列的标准头文件，它们为访问函数声明和数据类型声明提供了统一的方法。这就确保了使用这个函数库与宿主系统进行交互的程序之间具有兼容的行为。该函数库很大程度上与UNIX系统的“标准I/O”库相似。这个函数库已在本书的第1版中进行了描述，很多系统中都使用了它。这一点对大部分程序员来说，不会感觉到很大的变化。
+
+Because the data types and control structures provided by C are supported directly by most computers, the run-time library required to implement self-contained programs is tiny. The standard library functions are only called explicitly, so they can be avoided if they are not needed. Most can be written in C, and except for the operating system details they conceal, are themselves portable.
+
+由于大多数计算机本身就直接支持C语言提供的数据类型和控制结构，因此只需要一个很小的运行时库就可以实现自包含程序。由于程序只能够显式地调用标准库中的函数，因此在不需要的情况下就可以避免对这些函数的调用。【czk注：翻译错误，应该是避免了对这些不需要的函数的链接，减小了程序的体积。】除了其中隐藏的一些操作系统细节外，大部分库函数可以用C语言编写，并可以移植。
+
+Although C matches the capabilities of many computers, it is independent of any particular machine architecture. With a little care it is easy to write portable programs, that is, programs that can be run without change on a variety of hardware. The standard makes portability issues explicit, and prescribes a set of constants that characterize the machine on which the program is run.
+
+尽管C语言能够运行在大部分的计算机上，但它同具体的机器结构无关。【czk注：翻译错误，应该翻译为：尽管C语言能够发挥出大部分计算机的性能，但它同具体的机器结构无关。】只要稍加用心就可以编写出可移植的程序，即可以不加修改地运行于多种硬件上。ANSI标准明确地提出了可移植性问题，并预设了一个常量的集合，借以描述运行程序的机器的特性。
+
+C is not a strongly-typed language, but as it has evolved, its type-checking has been strengthened. The original definition of C frowned on, but permitted, the interchange of pointers and integers; this has long since been eliminated, and the standard now requires the proper declarations and explicit conversions that had already been enforced by good compilers. The new function declarations are another step in this direction. Compilers will warn of most type errors, and there is no automatic conversion of incompatible data types. Nevertheless, C retains the basic philosophy that programmers know what they are doing; it only requires that they state their intentions explicitly.
+
+C语言不是一种强类型的语言，但随着它的发展，其类型检查机制已经得到了加强。尽管C语言的最初定义不赞成在指针和整型变量之间交换值，但并没有禁止，不过现在的已经不允许这种做法了。ANSI标准要求对变量进行正确的声明和显式的强制类型转换，这在某些较完善的编译器中已经得到了实现。新的函数声明方式是另一个得到改进的地方。编程器将对大部分的数据类型错误发出警告，并且不自动执行不兼容数据类型之间的类型转换。不过，C语言保持了其初始的设计思想，即程序员了解他们在做什么，惟一的要求是程序员要明确地表达他们的意图。
+
+C, like any other language, has its blemishes. Some of the operators have the wrong precedence; some parts of the syntax could be better. Nonetheless, C has proven to ben an extremely effective and expressive language for a wide variety of programming applications.
+
+同任何其他语言一样，C语言也有不完美的地方。某些运算符的优先级是不正确的；语法的某些部分可以进一步优化。尽管如此，对于大量的程序设计应用来说，C语言是一种公认的非常高效的、表达能力很强的语言。
+
+The book is organized as follows. Chapter 1 is a tutorial on the central part of C. The purpose is to get the reader started as quickly as possible, since we believe strongly that the way to learn a new language is to write programs in it. The tutorial does assume a working knowledge of the basic elements of programming; there is no explanation of computers, of compilation, nor of the meaning of an expression like n=n+1. Although we have tried where possible to show useful programming techniques, the book is not intended to be a reference work on data structures and algorithms; when forced to make a choice, we have concentrated on the language.
+
+本书是按照下列结构编排的：第1章将对C语言的核心部分进行简要介绍。其目的是让读者能尽快开始编写C语言程序。因为我们深信，实际编写程序才是学习一种新语言的好方法。这部分内容的介绍假定读者对程序设计的基本元素有一定的了解。我们在这部分内容中没有解释计算机、编泽等概念，也没有解释诸如n=n+1这样的表达式。我们将尽量在合适的地方介绍一些实用的程序设计技术，但是，本书的中心目的并不是介绍数据结构和算法。在篇幅有限的情况下，我们将专注于讲解语言本身。
+
+Chapters 2 through 6 discuss various aspects of C in more detail, and rather more formally, than does Chapter 1, although the emphasis is still on examples of complete programs, rather than isolated fragments. Chapter 2 deals with the basic data types, operators and expressions. Chapter 3 threats control flow: if-else, switch, while, for, etc. Chapter 4 covers functions and program structure - external variables, scope rules, multiple source files, and so on - and also touches on the preprocessor. Chapter 5 discusses pointers and address arithmetic. Chapter 6 covers structures and unions.
+
+第2章到第6章将更详细地讨论C格言的各种特性，所采用的方式将比第1章更加形式化一些。其中的重点将放在一些完整的程序例子上，而并不仅仅只是一些孤立的程序段。第2章介绍基本的数据类型、运算符和表达式。第3章介绍控制流，如if-else、switch、while和for等。第4章介绍函数和程序结构——外部变量、作用域规则和多源文件等，同时还会讲述一些预处理器的知识。第5章介绍指针和地址运算。第6章介绍结构和联合。
+
+Chapter 7 describes the standard library, which provides a common interface to the operating system. This library is defined by the ANSI standard and is meant to be supported on all machines that support C, so programs that use it for input, output, and other operating system access can be moved from one system to another without change.
+
+第7章介绍标准库。标准库提供了一个与操作系统交互的公用接口。这个函数库是由ANSI标准定义的，这就意味看所有支持C语言的机器都会支持它，因此，使用这个库执行输入、输出或其他访问操作系统的操作的程序可以不加修改地运行在不同机器上。
+
+Chapter 8 describes an interface between C programs and the UNIX operating system, concentrating on input/output, the file system, and storage allocation. Although some of this chapter is specific to UNIX systems, programmers who use other systems should still find useful material here, including some insight into how one version of the standard library is implemented, and suggestions on portability.
+
+第8章介绍C语言程库和UNIX操作系统之间的接口，我们将把重点放在输入/输出、文件系统和存储分配上。尽管本章中的某些内容是针对UNIX系统所写的，但是使用其他系统的程序员仍然会从中获益，比如深入了解如何实现标准库以及布关可移植性方面的一些建议。
+
+Appendix A contains a language reference manual. The official statement of the syntax and semantics of the C language is the ANSI standard itself. That document, however, is intended foremost for compiler writers. The reference manual here conveys the definition of the language more concisely and without the same legalistic style. Appendix B is a summary of the standard library, again for users rather than implementers. Appendix C is a short summary of changes from the original language. In cases of doubt, however, the standard and one's own compiler remain the final authorities on the language.
+
+附录A是一个语言参考手册。虽然C语言的语法和语义的官方正式定义是ANSI标准本身，但是，ANSI标准的文档首先是写给编译器的编写者看的，因此，对程序员来说不一定最合适。本书中的参考手册采用了一种不很严格的形式，更简洁地对C语言的定义进行了介绍。附录B是对标准库的一个总结，它同样是为程库员而非编译器实现者准备的。附录C对标准C语言相对最初的C语言版本所做的变更做了一个简短的小结。但是，如果有不一致或疑问的地方．标准本身和各个特定的编译器则是解释语言的最终权威。本书的最后提供了本书的索引。

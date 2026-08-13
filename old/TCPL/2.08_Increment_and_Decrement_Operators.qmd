@@ -1,0 +1,178 @@
+---
+title: "TCPL/2.08_Increment_and_Decrement_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.8 Increment and Decrement Operators 自增运算符与自减运算符
+
+C provides two unusual operators for incrementing and decrementing variables. The increment operator ++ adds 1 to its operand, while the decrement operator -- subtracts 1. We have frequently used ++ to increment variables, as in
+```
+   if (c == '\n')
+       ++nl;
+```
+
+C语言提供了两个用于变量递增与递减的特殊运算符。自增运算符++使其操作数递增1，自减运算符--使其操作数递减1。我们经常使用++运算符递增变量的值，如下所示：
+
+```
+   if (c == '\n')
+       ++nl;
+```
+
+The unusual aspect is that ++ and -- may be used either as prefix operators (before the variable, as in ++n), or postfix operators (after the variable: n++). In both cases, the effect is to increment n. But the expression ++n increments n before its value is used, while n++ increments n after its value has been used. This means that in a context where the value is being used, not just the effect, ++n and n++ are different. If n is 5, then
+```
+   x = n++;
+```
+sets x to 5, but
+```
+   x = ++n;
+```
+sets x to 6. In both cases, n becomes 6. The increment and decrement operators can only be applied to variables; an expression like (i+j)++ is illegal.
+
+++与--这两个运算符特殊的地方主要表现在：它们既可以用作前缀运算符(用在变量前面，如++n)，也可以用作后缀运算符(用在变量后面，如n++)。在这两种情况下，其效果都是将变量n的值加1。但是，它们之间有一点不同。表达式++n先将n的值递增1，然后再使用变量n的值，而表达式n++则是先使用变量n的值，然后再将n的值递增1。也就是说，对于使用变量n的值的上下文来说．++n和n++的效果是不同的。如果n的值为5，那么
+
+```
+   x = n++;
+```
+
+执行后的结果是将x的值置为5，而
+
+```
+   x = ++n;
+```
+
+将x的值置为6。这两条语句执行完成后，变量n的值都是6。自增与自减运算符只能作用于变量，类似于表达式(i+j)++是非法的。
+
+In a context where no value is wanted, just the incrementing effect, as in
+```
+   if (c == '\n')
+       nl++;
+```
+prefix and postfix are the same. But there are situations where one or the other is specifically called for. For instance, consider the function squeeze(s,c), which removes all occurrences of the character c from the string s.
+```
+   /* squeeze:  delete all c from s */
+   void squeeze(char s[], int c)
+   {
+      int i, j;
+
+      for (i = j = 0; s[i] != '\0'; i++)
+          if (s[i] != c)
+              s[j++] = s[i];
+      s[j] = '\0';
+   }
+```
+Each time a non-c occurs, it is copied into the current j position, and only then is j incremented to be ready for the next character. This is exactly equivalent to
+```
+   if (s[i] != c) {
+       s[j] = s[i];
+       j++;
+   }
+```
+
+在不需要使用任何具体值且仅需要递增变量的情况下，前缀方式和后缀方式的效果相同。例如：
+
+```
+   if (c == '\n')
+       nl++;
+```
+
+但在某些情况下需要酌情考虑。例如，考虑下面的函数squeeze(s,c)，它删除字符串s中出现的所有字符c：
+
+```cpp
+   /* squeeze:  delete all c from s */
+   void squeeze(char s[], int c)
+   {
+      int i, j;
+
+      for (i = j = 0; s[i] != '\0'; i++)
+          if (s[i] != c)
+              s[j++] = s[i];
+      s[j] = '\0';
+   }
+```
+
+每当出现一个不是c的字符时，该函数把它拷贝到数组中下标为j的位置，随后才将j的值增加1，以准备处理下一个字符。其中的if语句完全等价于下列语句：
+
+```
+   if (s[i] != c) {
+       s[j] = s[i];
+       j++;
+   }
+```
+
+Another example of a similar construction comes from the getline function that we wrote in Chapter 1, where we can replace
+```
+   if (c == '\n') {
+       s[i] = c;
+       ++i;
+   }
+```
+by the more compact
+```
+   if (c == '\n')
+      s[i++] = c;
+```
+
+我们在第1章中编写的函数getline是类似结构的另外一个例子。我们可以将该函数中的if语句：
+
+```
+   if (c == '\n') {
+       s[i] = c;
+       ++i;
+   }
+```
+
+用下面这种更简洁的形式代替：
+
+```
+   if (c == '\n')
+      s[i++] = c;
+```
+
+As a third example, consider the standard function strcat(s,t), which concatenates the string t to the end of string s. strcat assumes that there is enough space in s to hold the combination. As we have written it, strcat returns no value; the standard library version returns a pointer to the resulting string.
+```
+   /* strcat:  concatenate t to end of s; s must be big enough */
+   void strcat(char s[], char t[])
+   {
+       int i, j;
+
+       i = j = 0;
+       while (s[i] != '\0') /* find end of s */
+           i++;
+       while ((s[i++] = t[j++]) != '\0') /* copy t */
+           ;
+   }
+```
+As each member is copied from t to s, the postfix ++ is applied to both i and j to make sure that they are in position for the next pass through the loop.
+
+我们再来看第三个例子。考虑标准函数strcat(s,t)，它将字符串t连接到字符串s的尾部。函数strcat假定字符串s中有足够的空间保存这两个字符串连接的结果。下面编写的这个函数没有任何返回值(标准库中的该函数返回一个指向新字符串的指针)：
+
+```cpp
+   /* strcat:  concatenate t to end of s; s must be big enough */
+   void strcat(char s[], char t[])
+   {
+       int i, j;
+
+       i = j = 0;
+       while (s[i] != '\0') /* find end of s */
+           i++;
+       while ((s[i++] = t[j++]) != '\0') /* copy t */
+           ;
+   }
+```
+
+在将t中的字符逐个拷贝到s的尾部时，变量i和j使用的都是后缀运算符++，从而保证在循环过程中i与j均指向下一个位置。
+
+Exercise 2-4. Write an alternative version of squeeze(s1,s2) that deletes each character in s1 that matches any character in the string s2.
+
+练习2-4  重新编写函数squeeze(s1,s2)，将字符串s1中任何与字符串s2中字符匹配的字符都删除。
+
+Exercise 2-5. Write the function any(s1,s2), which returns the first location in a string s1 where any character from the string s2 occurs, or -1 if s1 contains no characters from s2. (The standard library function strpbrk does the same job but returns a pointer to the location.)
+
+练习2-5  编写函数any(s1,s2)，将字符串s2中的任一字符在字符串s1中第一次出现的位置作为结果返回。如果s1中不包含s2中的字符，则返回-1。(标准库函数strpbrk具有同样的功能，但它返回的是指向该位置的指针。)

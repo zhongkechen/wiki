@@ -1,0 +1,17 @@
+---
+title: "TCPL/A.02.1_Tokens"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.2.1 Tokens
+
+There are six classes of tokens: identifiers, keywords, constants, string literals, operators, and other separators. Blanks, horizontal and vertical tabs, newlines, formfeeds and comments as described below (collectively, "white space") are ignored except as they separate tokens. Some white space is required to separate otherwise adjacent identifiers, keywords, and constants.
+
+If the input stream has been separated into tokens up to a given character, the next token is the longest string of characters that could constitute a token.

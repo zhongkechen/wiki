@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.07.04.7_Logical_Negation_Operator"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+##### A.7.4.7 Logical Negation Operator
+
+The operand of the ! operator must have arithmetic type or be a pointer, and the result is 1 if the value of its operand compares equal to 0, and 0 otherwise. The type of the result is int.

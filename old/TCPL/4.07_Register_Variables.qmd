@@ -1,0 +1,52 @@
+---
+title: "TCPL/4.07_Register_Variables"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.7 Register Variables 寄存器变量
+
+A register declaration advises the compiler that the variable in question will be heavily used. The idea is that register variables are to be placed in machine registers, which may result in smaller and faster programs. But compilers are free to ignore the advice.
+
+register声明告诉编译器，它所声明的变量在程序中使用频率较高。其思想是，将registor变量放在机器的寄存器中，这样可以使程序更小、执行速度更快。但编译器可以忽略此选项。
+
+The register declaration looks like
+```
+   register int  x;
+   register char c;
+```
+and so on. The register declaration can only be applied to automatic variables and to the formal parameters of a function. In this later case, it looks like
+```
+   f(register unsigned m, register long n)
+   {
+       register int i;
+       ...
+   }
+```
+
+register声明的形式如下所示：
+
+```
+   register int  x;
+   register char c;
+```
+
+register声明只适用于自动变量以及函数的形式参数。下而是后一种情况的例子：
+
+```
+   f(register unsigned m, register long n)
+   {
+       register int i;
+       ...
+   }
+```
+
+In practice, there are restrictions on register variables, reflecting the realities of underlying hardware. Only a few variables in each function may be kept in registers, and only certain types are allowed. Excess register declarations are harmless, however, since the word register is ignored for excess or disallowed declarations. And it is not possible to take the address of a register variable (a topic covered in Chapter 5), regardless of whether the variable is actually placed in a register. The specific restrictions on number and types of register variables vary from machine to machine.
+
+实际使用时，底层硬件环境的实际情况对寄存器变量的使用会有一些限制。每个函数中只有很少的变量可以保存在寄存器中，且只允许某些类型的变量。但是，过量的寄存器声明并没有什么害处，这是因为编译器可以忽略过量的或不支持的寄存器变量声明。另外，无论寄体器变量实际上是不是存放在寄存器中，它的地址都是不能访问的(有关这一点更详细的信息，我们将在第5章中讨论)。在不同的机器中，对寄存器变量的数目和类型的具体限制也是不同的。

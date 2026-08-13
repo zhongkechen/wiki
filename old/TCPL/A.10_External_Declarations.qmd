@@ -1,0 +1,28 @@
+---
+title: "TCPL/A.10_External_Declarations"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.10 External Declarations
+
+The unit of input provided to the C compiler is called a translation unit; it consists of a sequence of external declarations, which are either declarations or function definitions.
+
+    translation-unit:
+      external-declaration
+      translation-unit external-declaration
+
+    external-declaration:
+      function-definition
+      declaration
+
+The scope of external declarations persists to the end of the translation unit in which they are declared, just as the effect of declarations within the blocks persists to the end of the block. The syntax of external declarations is the same as that of all declarations, except that only at this level may the code for functions be given.
+
+* [A.10.1 Function Definitions](<A.10.1_Function_Definitions.qmd>)
+* [A.10.2 External Declarations](<A.10.2_External_Declarations.qmd>)

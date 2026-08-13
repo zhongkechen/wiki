@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.02.2_Comments"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.2.2 Comments
+
+The characters /\* introduce a comment, which terminates with the characters \*/. Comments do not nest, and they do not occur within a string or character literals.

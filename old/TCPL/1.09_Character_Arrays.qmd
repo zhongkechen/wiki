@@ -1,0 +1,219 @@
+---
+title: "TCPL/1.09_Character_Arrays"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.9 Character Arrays 字符数组
+
+The most common type of array in C is the array of characters. To illustrate the use of character arrays and functions to manipulate them, let's write a program that reads a set of text lines and prints the longest. The outline is simple enough:
+```cpp
+   while (there's another line)
+       if (it's longer than the previous longest)
+           (save it)
+           (save its length)
+   print longest line
+```
+This outline makes it clear that the program divides naturally into pieces. One piece gets a new line, another saves it, and the rest controls the process.
+
+字符数组是C语言中最常用的数组类型。下面我们通过编写一个程序，来说明字符数组以及操作字符数组的函数的用法。该程序读入一组文本行，并把最长的文本行打印出来。该算法的基本框架非常简单：
+
+```
+   while (there's another line)
+       if (it's longer than the previous longest)
+           (save it)
+           (save its length)
+   print longest line
+```
+
+从上而的框架中很容易看出，程序很自然地分成了若干片断，分别用于读入新行、测试读入
+的行、保存该行，其余部分则控制这一过程。
+
+Since things divide so nicely, it would be well to write them that way too. Accordingly, let us first write a separate function getline to fetch the next line of input. We will try to make the function useful in other contexts. At the minimum, getline has to return a signal about possible end of file; a more useful design would be to return the length of the line, or zero if end of file is encountered. Zero is an acceptable end-of-file return because it is never a valid line length. Every text line has at least one character; even a line containing only a newline has length 1.
+
+因为这种划分方式比较合理，所以可以按照这种方式编写程序。首先，我们编写—个独立的函数getline，它读取输入的下一行。我们尽量保持该函数在其他场合也有用。至少getline函数应该在读到文件末尾时返回一个信号；更为有用的设计是它能够在读入文本行时返回该行的长度，而在遇到文件结束符时返回0。由于0不是有效的行长度，因此可以作为标志文件结束的返回值。每一行至少包括一个字符，只包含换行符的行，其长度为1。
+
+When we find a line that is longer than the previous longest line, it must be saved somewhere. This suggests a second function, copy, to copy the new line to a safe place.
+
+当发现某个新读入的行比以前读入的最长行还要长时，就需要把该行保存起来。也就是说，我们需要用另一个函数copy把新行复制到一个安全的位置。
+
+Finally, we need a main program to control getline and copy. Here is the result.
+```cpp
+   #include <stdio.h>
+   #define MAXLINE 1000   /* maximum input line length */
+
+   int getline(char line[], int maxline);
+   void copy(char to[], char from[]);
+
+   /* print the longest input line */
+   main()
+   {
+       int len;            /* current line length */
+       int max;            /* maximum length seen so far */
+       char line[MAXLINE];    /* current input line */
+       char longest[MAXLINE]; /* longest line saved here */
+
+       max = 0;
+       while ((len = getline(line, MAXLINE)) > 0)
+           if (len > max) {
+               max = len;
+               copy(longest, line);
+           }
+       if (max > 0)  /* there was a line */
+           printf("%s", longest);
+       return 0;
+   }
+
+   /* getline:  read a line into s, return length  */
+   int getline(char s[],int lim)
+   {
+       int c, i;
+
+       for (i=0; i < lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
+           s[i] = c;
+       if (c == '\n') {
+           s[i] = c;
+           ++i;
+       }
+       s[i] = '\0';
+       return i;
+   }
+
+   /* copy:  copy 'from' into 'to'; assume to is big enough */
+   void copy(char to[], char from[])
+   {
+       int i;
+
+       i = 0;
+       while ((to[i] = from[i]) != '\0')
+           ++i;
+   }
+```
+
+最后，我们需要在主函数main中控制getline和copy这两个函数。以下便是我们编写的程序：
+
+```cpp
+   #include <stdio.h>
+   #define MAXLINE 1000   /* maximum input line length */
+
+   int getline(char line[], int maxline);
+   void copy(char to[], char from[]);
+
+   /* print the longest input line */
+   main()
+   {
+       int len;            /* current line length */
+       int max;            /* maximum length seen so far */
+       char line[MAXLINE];    /* current input line */
+       char longest[MAXLINE]; /* longest line saved here */
+
+       max = 0;
+       while ((len = getline(line, MAXLINE)) > 0)
+           if (len > max) {
+               max = len;
+               copy(longest, line);
+           }
+       if (max > 0)  /* there was a line */
+           printf("%s", longest);
+       return 0;
+   }
+
+   /* getline:  read a line into s, return length  */
+   int getline(char s[],int lim)
+   {
+       int c, i;
+
+       for (i=0; i < lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
+           s[i] = c;
+       if (c == '\n') {
+           s[i] = c;
+           ++i;
+       }
+       s[i] = '\0';
+       return i;
+   }
+
+   /* copy:  copy 'from' into 'to'; assume to is big enough */
+   void copy(char to[], char from[])
+   {
+       int i;
+
+       i = 0;
+       while ((to[i] = from[i]) != '\0')
+           ++i;
+   }
+```
+
+The functions getline and copy are declared at the beginning of the program, which we assume is contained in one file.
+
+程序的开始对getline和copy这两个函数进行了声明，这里假定它们都存放在同一个文件中。
+
+main and getline communicate through a pair of arguments and a returned value. In getline, the arguments are declared by the line
+```
+   int getline(char s[], int lim);
+```
+which specifies that the first argument, s, is an array, and the second, lim, is an integer. The purpose of supplying the size of an array in a declaration is to set aside storage. The length of an array s is not necessary in getline since its size is set in main. getline uses return to send a value back to the caller, just as the function power did. This line also declares that getline returns an int; since int is the default return type, it could be omitted.
+
+main与getline之间通过一对参数及一个返问值进行数据交换。在getline函数中，两个参数是通过程序行
+
+```
+   int getline(char s[], int lim);
+```
+
+声明的，它把第一个参数s声明为数组，把第二个参数lim声明为整型。声明中提供数组大小的目的是留出存储空间。在setline函数中没有必要指明数组s的长度，这是因为该数组的大小是main函数中设置的。如同power函数一样，getline函数使用了一个return语句将值返回给其调用者。上述程序行也声明了getline函数的返回值类型为int。由于函数的默认返回值类型为int，因此这里的int可以省略。
+
+Some functions return a useful value; others, like copy, are used only for their effect and return no value. The return type of copy is void, which states explicitly that no value is returned.
+
+有些函数返回有用的值，而有些函数(如copy)仅用于执行一些动作，并不返回值。copy函数的返回值类型为vold，它显式说明该函数不返回任何值。
+
+getline puts the character '\\0' (the null character, whose value is zero) at the end of the array it is creating, to mark the end of the string of characters. This conversion is also used by the C language: when a string constant like
+```
+   "hello\n"
+```
+appears in a C program, it is stored as an array of characters containing the characters in the string and terminated with a '\\0' to mark the end.
+
+![pic11.gif](<assets/TCPL/1.09_Character_Arrays/pic11.gif>)
+
+The %s format specification in printf expects the corresponding argument to be a string represented in this form. copy also relies on the fact that its input argument is terminated with a '\\0', and copies this character into the output.
+
+getline函数把字符'\\0'(即空字符，其值为0)插入到它创建的数组的末尾，以标记字符串的结束。这一约定已被C语言采用：当在C语言程序中出现类似于
+
+```
+   "hello\n"
+```
+
+的字符串常量时，它将以字符数组的形式存储，数组的各元素分别存储字符串的各个字符并以'\\0'标志字符串的结束。
+
+![pic11.gif](<assets/TCPL/1.09_Character_Arrays/pic11.gif>)
+
+printf函数中的格式规范%s规定。对应的参数必须是以这种形式表示的字符串。copy函数的实现正是依赖于输入参数由'\\0'结束这一事实，它将'\\0'拷贝到输出参数中。(也就是说，空字符'\\0'不是普通文本的一部分。)
+
+It is worth mentioning in passing that even a program as small as this one presents some sticky design problems. For example, what should main do if it encounters a line which is bigger than its limit? getline works safely, in that it stops collecting when the array is full, even if no newline has been seen. By testing the length and the last character returned, main can determine whether the line was too long, and then cope as it wishes. In the interests of brevity, we have ignored this issue.
+
+值得一提的是，即使是上述这样很小的程序，在传递参数时也会遇到一些麻烦的设计问题。例如，当读入的行长度大于允许的最大值时，main函数应该如何处理？getline函数的执行是安全的，无论是否到达换行符字符，当数组满时它将停止读字符。main函数可以通过测试行的长度以及检查返回的最后一个字符来判定当前行是否太长，然后再根据具体的情况处理。为了简化程序，我们在这里不考虑这个问题。
+
+There is no way for a user of getline to know in advance how long an input line might be, so getline checks for overflow. On the other hand, the user of copy already knows (or can find out) how big the strings are, so we have chosen not to add error checking to it.
+
+调用getline函数的程序无法预先知道输入行的长度，因此getline函数需要检查是否溢出。另一方面，调用copy函数的程序知道(也可以找出)字符串的长度，因此该函数不需要进行错误检查。
+
+Exercise 1-16. Revise the main routine of the longest-line program so it will correctly print the length of arbitrary long input lines, and as much as possible of the text.
+
+练习1-16  修改打印最长文本行的程序的主程序main，使之可以打印任意长度的输入行的长度，并尽可能多地打印文本。
+
+Exercise 1-17. Write a program to print all input lines that are longer than 80 characters.
+
+练习1-17 编写一个程序，打印长度大于80个字符的所有输入行。
+
+Exercise 1-18. Write a program to remove trailing blanks and tabs from each line of input, and to delete entirely blank lines.
+
+练习1-18 编写一个程序，删除每个输入行末尾的空格及制表符，并删除完全是空格的行。
+
+Exercise 1-19. Write a function reverse(s) that reverses the character string s. Use it to write a program that reverses its input a line at a time.
+
+练习1-19  编写函数reverse(s)，将字符申s中的字符顺序颠倒过来。使用该函数编写一个程序，每次颠倒一个输入行中的字符顺序。

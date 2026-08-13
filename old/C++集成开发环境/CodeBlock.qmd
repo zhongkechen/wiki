@@ -1,0 +1,59 @@
+---
+title: "CodeBlock"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“C++集成开发环境”](<../C++集成开发环境.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000005 在备份中缺失；以下内容来自最新可读取版本 00000004。
+:::
+
+Code::Blocks是一个免费的C++集成开发环境，跨平台，有很好的可扩展性和可配置性。
+
+* 开源，GPLv3协议
+* 跨平台，基于wxWidgets，可以在Linux、Mac、Windows上运行
+* 使用C++开发，不依赖于解释型语言或者私有的库。
+* 可以通过插件扩展功能
+
+* 支持多种编译器GCC (MingW / GNU GCC)、MSVC++、Digital Mars、Borland C++ 5.5、Open Watcom...
+* 非常快速的build系统，不需要于makefile
+* 支持并行build
+* 支持多目标平台的工程
+* 可以结合多个工程的工作区
+* 工作区中的工程间依赖关系
+* 导入MSVC工程和工作区
+* 导入Dev-C++工程
+
+* 图形化GNU GDB调试界面
+* 支持MS CDB调试器
+* 全功能的断点支持：代码断点、数据断点(read, write and read/write)、条件断点(break only when an expression is true)、记数断点(break only after certain number of hits)
+* 显示函数的局部变量和参数
+* 用户自定义的watch(支持用户自定义的类型)
+* 调用栈
+* 反汇编
+* 内存dump
+* 线程间切换
+* 查看CPU寄存器
+* 语法高亮，可自定义，可扩展
+* 代码折叠
+* 标签页式界面
+* 代码补全
+* 类导航
+* 智能缩进
+* 在.h和.c/.cpp单键切换
+* 已打开文件列表，可以快速切换
+* 可定制的外部工具
+* To-do列表
+
+### 相关资源
+
+* 官方网站： http://www.codeblocks.org/
+* 下载地址： http://www.codeblocks.org/downloads/5

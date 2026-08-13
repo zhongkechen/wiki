@@ -1,0 +1,56 @@
+---
+title: "TCPL/1.05_Character_Input_and_Output"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 1.5 Character Input and Output 字符输入输出
+
+We are going to consider a family of related programs for processing character data. You will find that many programs are just expanded versions of the prototypes that we discuss here.
+
+接下来我们看一组与字符型数据处理有关的程序。读者将会发现，许多程序只不过是这里所讨论的程序原型的扩充版本而已。
+
+The model of input and output supported by the standard library is very simple. Text input or output, regardless of where it originates or where it goes to, is dealt with as streams of characters. A text stream is a sequence of characters divided into lines; each line consists of zero or more characters followed by a newline character. It is the responsibility of the library to make each input or output stream confirm this model; the C programmer using the library need not worry about how lines are represented outside the program.
+
+标准库提供的输入/输出模型非常简单。无论文本从何处输入，输出到何处，其输人/输出都是按照字符流的方式处理。**文本流**是由多行字符构成的字符序列，而每行字符则由0个或多个字符组成，行末是一个换行符。标准库负责使每个输人/输出流都能够遵守这一模型。使用标准库的C语言程序员不必关心在程序之外这些行是如何表示的。
+
+The standard library provides several functions for reading or writing one character at a time, of which getchar and putchar are the simplest. Each time it is called, getchar reads the next input character from a text stream and returns that as its value. That is, after
+```
+   c = getchar();
+```
+the variable c contains the next character of input. The characters normally come from the keyboard; input from files is discussed in Chapter 7.
+
+标准库提供了一次读/写一个字符的函数，其中最简单的是getchar和putchar两个函数。每次调用时，getchar函数从文本流中读入下一个输入字符，并将其作为结果值返回。也就是说，在执行语句
+
+```
+c = getchar()
+```
+
+之后，变量c中将包含输入流中的下一个字符。这种字符通常是通过键盘输入的。关于从文件
+输入字符的方法，我们将在第7章巾讨论。
+
+The function putchar prints a character each time it is called:
+```
+   putchar(c);
+```
+prints the contents of the integer variable c as a character, usually on the screen. Calls to putchar and printf may be interleaved; the output will appear in the order in which the calls are made.
+
+每次调用putchar函数时将打印一个字符。例如，语句
+
+```
+putchar(c);
+```
+
+将把整型变量c的内容以字符的形式打印出来，通常是显示在屏幕上。putchar与printf这
+两个函数可以交替调用，输出的次序与调用的次序一致。
+
+* [1.5.1 File Copying 文件复制](<1.05.1_File_Copying.qmd>)
+* [1.5.2 Character Counting 字符计数](<1.05.2_Character_Counting.qmd>)
+* [1.5.3 Line Counting 行计数](<1.05.3_Line_Counting.qmd>)
+* [1.5.4 Word Counting 单词计数](<1.05.4_Word_Counting.qmd>)

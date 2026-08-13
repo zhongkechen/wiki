@@ -1,0 +1,21 @@
+---
+title: "TCPL/A.07.08_Shift_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.8 Shift Operators
+
+The shift operators  group left-to-right. For both operators, each operand must be integral, and is subject to integral the promotions. The type of the result is that of the promoted left operand. The result is undefined if the right operand is negative, or greater than or equal to the number of bits in the left expression's type.
+
+    shift-expression:
+      additive-expression
+      shift-expression  additive-expression
+
+The value of E1E2 is E1 right-shifted E2 bit positions. The right shift is equivalent to division by 2E2 if E1 is unsigned or it has a non-negative value; otherwise the result is implementation-defined.

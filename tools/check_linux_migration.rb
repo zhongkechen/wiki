@@ -29,8 +29,8 @@ Dir.mktmpdir("check-linux-migration") do |temporary_root|
   ]
   stdout, stderr, status = Open3.capture3(environment, *command, chdir: temporary_root)
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 7 pages"), "Unexpected page count:\n#{stdout}")
-  assert(stdout.include?("Copied 1 attachments"), "Attachment was not reproduced:\n#{stdout}")
+  assert(stdout.include?("Converted 39 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Copied 97 attachments"), "Attachments were not reproduced:\n#{stdout}")
 
   expected_files = [
     "old/Linux.qmd",
@@ -75,6 +75,109 @@ Dir.mktmpdir("check-linux-migration") do |temporary_root|
   )
   assert(registration_page.include?("czk19790827@gmail.com"), "MailTo content was lost")
   assert(!registration_page.include?("CategoryHomepage"), "MoinMoin category metadata leaked")
+
+  server_page = File.read(
+    File.join(temporary_root, "old", "Linux", "Linux服务器管理.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    server_page.include?("debian服务器安装.qmd"),
+    "Linux server child pages were not migrated"
+  )
+  assert(
+    server_page.include?("ftp_wu-ftpd.qmd"),
+    "Nested FTP page was not mapped to a valid output filename"
+  )
+
+  mysql_page = File.read(
+    File.join(temporary_root, "old", "Linux", "mysql.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    mysql_page.include?("源页面不可用"),
+    "Unreadable Linux source page is missing its warning"
+  )
+
+  ssh_page = File.read(
+    File.join(temporary_root, "old", "Linux", "ssh.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    ssh_page.include?("number-sections: true"),
+    "Linux section numbering pragma was not converted"
+  )
+
+  phpbb_page = File.read(
+    File.join(temporary_root, "old", "Linux", "phpbb3.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    phpbb_page.include?("^[简介：[http://en.wikipedia.org/wiki/Phpbb3]") &&
+      phpbb_page.include?("^[apache的安装方法参见[apache](<apache.qmd>)]"),
+    "Linked phpBB footnotes were not preserved"
+  )
+
+  bind_page = File.read(
+    File.join(temporary_root, "old", "Linux", "bind.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    bind_page.include?(
+      "^[[BIND 9 Administrator Reference Manual]" \
+        "(http://www.csd.uwo.ca/staff/magi/doc/bind9/)"
+    ),
+    "BIND reference footnote was not preserved"
+  )
+
+  vi_page = File.read(
+    File.join(temporary_root, "old", "Linux", "VI.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    vi_page.include?("| :/abc\\\\c | 临时忽略大小写查找字符串abc |"),
+    "VI backslash command was not escaped for Markdown tables"
+  )
+  assert(
+    vi_page.include?("| &lt;Tab&gt; | 补全命令 |"),
+    "VI literal <Tab> command was lost"
+  )
+
+  moinmoin_page = File.read(
+    File.join(temporary_root, "old", "Linux", "moinmoin.qmd"),
+    encoding: "UTF-8"
+  )
+  assert(
+    moinmoin_page.include?(
+      "[MoinMaster:HelpOnInstalling/WikiInstanceCreation]" \
+        "(<assets/moinmoin/createinstance.sh>)"
+    ),
+    "MoinMaster createinstance.sh link was not preserved"
+  )
+  assert(
+    File.exist?(
+      File.join(
+        temporary_root,
+        "old",
+        "Linux",
+        "assets",
+        "moinmoin",
+        "createinstance.sh"
+      )
+    ),
+    "MoinMaster createinstance.sh attachment was not copied"
+  )
+
+  actual_files.grep(/\.qmd\z/).each do |relative_path|
+    page = File.read(File.join(temporary_root, relative_path), encoding: "UTF-8")
+    assert(
+      !page.include?("#pragma section-numbers"),
+      "Section numbering pragma leaked into #{relative_path}"
+    )
+    assert(
+      !page.include?("<<FootNote"),
+      "MoinMoin footnote macro leaked into #{relative_path}"
+    )
+  end
 end
 
 puts "Linux migration snapshot replay passed"

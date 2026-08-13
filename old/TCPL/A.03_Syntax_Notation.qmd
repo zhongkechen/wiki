@@ -1,0 +1,21 @@
+---
+title: "TCPL/A.03_Syntax_Notation"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.3 Syntax Notation
+
+In the syntax notation used in this manual, syntactic categories are indicated by italic type, and literal words and characters in typewriter style. Alternative categories are usually listed on separate lines; in a few cases, a long set of narrow alternatives is presented on one line, marked by the phrase "one of." An optional terminal or nonterminal symbol carries the subscript "opt," so that, for example,
+
+{ expressionopt }
+
+means an optional expression, enclosed in braces. The syntax is summarized in Par.A.13.
+
+    Unlike the grammar given in the first edition of this book, the one given here makes precedence and associativity of expression operators explicit.

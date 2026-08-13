@@ -14,9 +14,9 @@ format:
 
 ### Provision
 
-* [debian服务器安装](<../debian服务器安装.html>)
+* [debian服务器安装](<debian服务器安装.qmd>)
 * [Software RAID and LVM](https://wiki.archlinux.org/index.php/Software_RAID_and_LVM)
-* [raid5](<../linux_raid.html>)
+* [raid5](<linux_raid.qmd>)
 * [Webmin](http://www.webmin.com/): a web-based interface for system administration
 * [Linux Network (TCP) Performance Tuning with Sysctl](https://www.slashroot.in/linux-network-tcp-performance-tuning-sysctl)
 * [Enhanced Networking on Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html)
@@ -34,42 +34,42 @@ format:
 
 #### 远程控制
 
-* [ssh](<../ssh.html>)
-* [vnc](<../vnc.html>)
+* [ssh](<ssh.qmd>)
+* [vnc](<vnc.qmd>)
 
 #### 文件和网络存储服务器
 
-* [samba](<../samba.html>) 与Windows共享文件（共享打印机）
-* [ftp](<../ftp.html>) （[vsftpd](<../ftp.html>)、[wu-ftpd](<../ftp/wu-ftpd.html>)）
-* [nfs](<../nfs.html>)
-* [sftp](<../ssh.html>)
-* [iscsi](<../iscsi.html>)
+* [samba](<samba.qmd>) 与Windows共享文件（共享打印机）
+* [ftp](<ftp.qmd>) （[vsftpd](<ftp.qmd>)、[wu-ftpd](<ftp_wu-ftpd.qmd>)）
+* [nfs](<nfs.qmd>)
+* [sftp](<ssh.qmd>)
+* [iscsi](<iscsi.qmd>)
 * netatalk: AFP
 
 #### Web服务器
 
-* [apache2](<../apache2.html>) (Mono、PHP、Python、Perl等）
-* Forum: [phpbb3](<../phpbb3.html>)
-* Wiki: [mediawiki](<../mediawiki.html>), [moinmoin](<../moinmoin.html>)
-* Blog: [drupal](<../drupal.html>), [wordpress](<../wordpress.html>)
+* [apache2](<apache2.qmd>) (Mono、PHP、Python、Perl等）
+* Forum: [phpbb3](<phpbb3.qmd>)
+* Wiki: [mediawiki](<mediawiki.qmd>), [moinmoin](<moinmoin.qmd>)
+* Blog: [drupal](<drupal.qmd>), [wordpress](<wordpress.qmd>)
 
 #### 数据库服务器
 
-* [mysql](<../mysql.html>)
-* [postgresql](<../postgresql.html>)
-* [sqlite](<../sqlite.html>)
-* [oracle](<../oracle.html>)
+* [mysql](<mysql.qmd>)
+* [postgresql](<postgresql.qmd>)
+* [sqlite](<sqlite.qmd>)
+* [oracle](<oracle.qmd>)
 
 #### 网络基础服务
 
-* DNS: [bind](<../bind.html>)
-* DHCP: [dhcpd](<../dhcpd.html>)
-* Proxy: [squid](<../squid.html>)
-* socks5: [danted](<../danted.html>)
-* wins: [samba](<../samba.html>)
-* vpn: [openvpn](<../openvpn.html>)
-* firewall: [iptables](<../iptables.html>)
-* router: [iproute2](<../iproute2.html>)
+* DNS: [bind](<bind.qmd>)
+* DHCP: [dhcpd](<dhcpd.qmd>)
+* Proxy: [squid](<squid.qmd>)
+* socks5: [danted](<danted.qmd>)
+* wins: [samba](<samba.qmd>)
+* vpn: [openvpn](<openvpn.qmd>)
+* firewall: [iptables](<iptables.qmd>)
+* router: [iproute2](<iproute2.qmd>)
 * [Linux路由器配置](<Linux路由器配置.qmd>)
 
 #### 电子邮件服务

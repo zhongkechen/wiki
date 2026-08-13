@@ -1,0 +1,100 @@
+---
+title: "vnc"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+Virtual Network Computing (VNC)是一个图形桌面共享工具，可以用它对另一台计算机进行远程控制。
+
+VNC是跨平台的，几乎所有操作系统以及Java平台上都有VNC客户端(viewer)和服务端。运行在任何操作系统上的VNC客户端都可以连接到运行在任何操作系统的VNC服务端上。
+
+### 安装
+
+服务端安装在Linux服务器上，运行以下命令即可：
+
+```
+aptitude install vnc4server
+```
+
+一般图形界面的Linux均已经安装vnc客户端，如果没有，可以用下述命令安装：
+```
+aptitude install xvnc4viewer
+```
+
+在windows下安装客户端，可以下载Realvnc Free Edition，只需安装其中viewer部分。参见：http://www.realvnc.com/
+
+### 使用
+
+在Linux服务器上输入下述命令即可启动服务端，：
+```
+vnc4server
+```
+第一次启动服务端会提示输入连接密码。可以启动多个服务端，以:1、:2等区分。
+
+不需要使用时，可以用下述命令关闭服务端：
+
+```
+vnc4server -kill :1
+```
+
+:1指定要关闭的服务端编号。
+
+在Linux上，可以用命令
+
+```
+vnc4viewer
+```
+
+启动客户端程序，输入ip和服务端编号（比如169.254.235.235:1）即可连接。
+
+在windows上，在开始菜单上启动VNC Viewer，然后输入服务器ip和端口即可（比如169.254.235.235:5901）。端口号为服务端编号加上5900，比如5901、5902等。
+
+如果在登录后什么东西都没有，可以在服务器上先装一个xterm
+```
+aptitude install xterm
+```
+
+### 配置
+
+用下述命令可以修改密码：
+
+```
+vnc4passwd
+```
+
+修改~/.vnc/xstartup可以修改vnc服务端启动时自动启动的应用程序。
+
+运行vnc4config可以进行几项简单的设置。
+
+### 加密传输
+
+在vnc客户端和服务端之间传输数据是不经过加密的，这样是很不安全的。RealVNC企业版支持加密，但那是收费的商业软件。另一种解决办法是使用SSH隧道。
+
+假设服务器ip是169.254.235.235，VNC服务端安装在5901端口上，则可以使用如下命令创建一条SSH隧道：
+
+```
+ssh -L 5901:127.0.0.1:5901 169.254.235.235
+```
+
+然后启动VNC客户端，连接本地的5901端口即可。参见[ssh](<ssh.qmd>)。
+
+同样的情况在putty下可以进行如下设置：
+
+![realvnc-ssh.jpg](<assets/vnc/realvnc-ssh.jpg>)
+
+单击Add，然后再连接。连接成功后，启动windows下vnc客户端连接本地5901端口即可。
+
+### 参考
+
+* 简介：http://en.wikipedia.org/wiki/Vnc
+* RealVNC：http://www.realvnc.com/
+* [ssh](<ssh.qmd>)

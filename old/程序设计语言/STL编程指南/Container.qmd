@@ -56,7 +56,7 @@ The type of iterator used to iterate through a container's
    elements.  The iterator's value type is expected to be the
    container's value type.  A conversion
    from the iterator type to the const iterator type must exist.
-   The iterator type must be an <A href="InputIterator.html">input iterator</A>. <A href="#3">[3]</A>
+   The iterator type must be an <A href="STL概述/InputIterator.html">input iterator</A>. <A href="#3">[3]</A>
 </TD>
 
 </TR>
@@ -636,7 +636,7 @@ appear in that range is unspecified.  If you iterate through a container
 twice, it is not guaranteed that the order will be the same both
 times.  This restriction is removed in <A href="Forward Container.html">Forward Container</A>.
 <h3>See also</h3>
-The <A href="Iterators.html">Iterator overview</A>, <A href="InputIterator.html">Input Iterator</A>, <A href="Sequence.html">Sequence</A>
+The <A href="Iterators.html">Iterator overview</A>, <A href="STL概述/InputIterator.html">Input Iterator</A>, <A href="Sequence.html">Sequence</A>
 
 <!-- start footer -->
 
@@ -656,20 +656,20 @@ font-family: Arial, helvetica, sans-serif;
 -->
 </STYLE>
 <P>
-<A CLASS="home" HREF="index.html">STL Home</A>
+<A CLASS="home" HREF="../STL编程指南.html">STL Home</A>
 <P>
     <table cellpadding="0" cellspacing="0" border="0" width="600">
     <tr valign="bottom">
-        <td align="right" class="footer"><a class="footer" href="/company_info/terms.html" TARGET="_top">Using this site means you accept its terms of use</a>&nbsp;|&nbsp;<a class="footer" href="/company_info/privacy.html" TARGET="_top">privacy policy</a></td>
+        <td align="right" class="footer"><a class="footer"  TARGET="_top">Using this site means you accept its terms of use</a>&nbsp;|&nbsp;<a class="footer"  TARGET="_top">privacy policy</a></td>
 
         <td align="center" class="footer">&nbsp;|&nbsp;</td>
-        <td align="left" class="footer"><a class="footer" href="/company_info/trademarks/" TARGET="_top">trademark information</a></td>
+        <td align="left" class="footer"><a class="footer"  TARGET="_top">trademark information</a></td>
     </tr>
     <tr>
         <td align="right" class="footer">Copyright &copy; 1993-2003 Silicon Graphics, Inc. All rights reserved.</td>
         <td align="center" class="footer">&nbsp;|&nbsp;</td>
 
-        <td align="left" class="footer"><a class="footer" href="/cgi-bin/feedback/index.cgi" TARGET="_top">contact us</a></td>
+        <td align="left" class="footer"><a class="footer"  TARGET="_top">contact us</a></td>
     </tr>
     </table>
 

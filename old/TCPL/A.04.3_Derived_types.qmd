@@ -1,0 +1,23 @@
+---
+title: "TCPL/A.04.3_Derived_types"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.4.3 Derived types
+
+Beside the basic types, there is a conceptually infinite class of derived types constructed from the fundamental types in the following ways:
+
+  arrays of objects of a given type;
+  functions returning objects of a given type;
+  pointers to objects of a given type;
+  structures containing a sequence of objects of various types;
+  unions capable of containing any of one of several objects of various types.
+
+In general these methods of constructing objects can be applied recursively.

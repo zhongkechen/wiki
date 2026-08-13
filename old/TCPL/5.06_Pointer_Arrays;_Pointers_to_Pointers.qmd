@@ -1,0 +1,297 @@
+---
+title: "TCPL/5.06_Pointer_Arrays;_Pointers_to_Pointers"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.6 Pointer Arrays; Pointers to Pointers 指针数组与指向指针的指针
+
+Since pointers are variables themselves, they can be stored in arrays just as other variables can. Let us illustrate by writing a program that will sort a set of text lines into alphabetic order, a stripped-down version of the UNIX program sort.
+
+由于指针本身也是变量，所以它们也可以像其他变量一样存储在数组中。下面通过编写UNIX程序sort的一个简化版本说明这一点。该程序按字母顺序对由文本行组成的集合进行排序。
+
+In Chapter 3, we presented a Shell sort function that would sort an array of integers, and in Chapter 4 we improved on it with a quicksort. The same algorithms will work, except that now we have to deal with lines of text, which are of different lengths, and which, unlike integers, can't be compared or moved in a single operation. We need a data representation that will cope efficiently and conveniently with variable-length text lines.
+
+我们在第3章中曾描述过一个用于对整型数组中的元素进行排序的shell排序函数，并在第4章中用快速排序算法对它进行了改进。这些排序算法在此仍然是有效的，但是，现在处理的是长度不一的文本行，并且，与整数不同的是，它们不能在单个运算中完成比较或移动操作。我们需要一个能够高效、方便地处理可变长度文本行的数据表示方法。
+
+This is where the array of pointers enters. If the lines to be sorted are stored end-to-end in one long character array, then each line can be accessed by a pointer to its first character. The pointers themselves can bee stored in an array. Two lines can be compared by passing their pointers to strcmp. When two out-of-order lines have to be exchanged, the pointers in the pointer array are exchanged, not the text lines themselves.
+
+![pic58.gif](<assets/TCPL/5.06_Pointer_Arrays;_Pointers_to_Pointers/pic58.gif>)
+
+我们引入指针数组处理这种问题。如果待排序的文本行首尾相连地存储在一个长字符数组中，那么每个文本行可通过指向它的第一个字符的指针来访问。这些指针本身可以存储在一个数组中。这样，将指向两个文本行的指针传递给函数strcmp就可实现对这两个文本行的比较。当交换次序颠倒的两个文本行时，实际上交换的是指针数组中与这两个文本行相对应的指针，而不是这两个文本行本身(参见图5-8)。
+
+![pic58.gif](<assets/TCPL/5.06_Pointer_Arrays;_Pointers_to_Pointers/pic58.gif>)
+
+This eliminates the twin problems of complicated storage management and high overhead that would go with moving the lines themselves.
+
+这种实现方法消除了因移动文本行本身所带来的复杂的存储管理和巨大的开销这两个孪生问题。
+
+The sorting process has three steps:
+```
+  read all the lines of input
+  sort them
+  print them in order
+```
+As usual, it's best to divide the program into functions that match this natural division, with the main routine controlling the other functions. Let us defer the sorting step for a moment, and concentrate on the data structure and the input and output.
+
+排序过程包括下列3个步骤：
+
+```
+  read all the lines of input
+  sort them
+  print them in order
+```
+
+通常情况下，最好将程序划分成若干个与问题的自然划分相一致的函数，并通过主函数控制其他函数的执行。关于对文本行排序这一步，我们稍后再做说明，现在主要考虑数据结构以及输入和输出函数。
+
+The input routine has to collect and save the characters of each line, and build an array of pointers to the lines. It will also have to count the number of input lines, since that information is needed for sorting and printing. Since the input function can only cope with a finite number of input lines, it can return some illegal count like -1 if too much input is presented.
+
+输入函数必须收集和保存每个文本行中的字符，并建立一个指向这些文本行的指针的数组。它同时还必须统计输入的行数，因为在排序和打印时要用到这一信息。由于输入函数只能处理有限数目的输入行，所以在输入行数过多而超过限定的最大行数时，该函数返回某个用于表示非法行数的数值，例如-l。
+
+The output routine only has to print the lines in the order in which they appear in the array of pointers.
+```cpp
+   #include <stdio.h>
+   #include <string.h>
+
+   #define MAXLINES 5000     /* max #lines to be sorted */
+
+   char *lineptr[MAXLINES];  /* pointers to text lines */
+
+   int readlines(char *lineptr[], int nlines);
+   void writelines(char *lineptr[], int nlines);
+
+   void qsort(char *lineptr[], int left, int right);
+
+   /* sort input lines */
+   main()
+   {
+       int nlines;     /* number of input lines read */
+
+       if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
+           qsort(lineptr, 0, nlines-1);
+           writelines(lineptr, nlines);
+           return 0;
+       } else {
+           printf("error: input too big to sort\n");
+           return 1;
+       }
+   }
+
+   #define MAXLEN 1000  /* max length of any input line */
+   int getline(char *, int);
+   char *alloc(int);
+
+   /* readlines:  read input lines */
+   int readlines(char *lineptr[], int maxlines)
+   {
+       int len, nlines;
+       char *p, line[MAXLEN];
+
+       nlines = 0;
+       while ((len = getline(line, MAXLEN)) > 0)
+           if (nlines >= maxlines || (p = alloc(len)) == NULL)
+               return -1;
+           else {
+               line[len-1] = '\0';  /* delete newline */
+               strcpy(p, line);
+               lineptr[nlines++] = p;
+           }
+       return nlines;
+   }
+
+   /* writelines:  write output lines */
+   void writelines(char *lineptr[], int nlines)
+   {
+       int i;
+
+       for (i = 0; i < nlines; i++)
+           printf("%s\n", lineptr[i]);
+   }
+```
+
+输出函数只需要按照指针数组中的次序依次打印这些文本行即可。
+```cpp
+   #include <stdio.h>
+   #include <string.h>
+
+   #define MAXLINES 5000     /* max #lines to be sorted */
+
+   char *lineptr[MAXLINES];  /* pointers to text lines */
+
+   int readlines(char *lineptr[], int nlines);
+   void writelines(char *lineptr[], int nlines);
+
+   void qsort(char *lineptr[], int left, int right);
+
+   /* sort input lines */
+   main()
+   {
+       int nlines;     /* number of input lines read */
+
+       if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
+           qsort(lineptr, 0, nlines-1);
+           writelines(lineptr, nlines);
+           return 0;
+       } else {
+           printf("error: input too big to sort\n");
+           return 1;
+       }
+   }
+
+   #define MAXLEN 1000  /* max length of any input line */
+   int getline(char *, int);
+   char *alloc(int);
+
+   /* readlines:  read input lines */
+   int readlines(char *lineptr[], int maxlines)
+   {
+       int len, nlines;
+       char *p, line[MAXLEN];
+
+       nlines = 0;
+       while ((len = getline(line, MAXLEN)) > 0)
+           if (nlines >= maxlines || (p = alloc(len)) == NULL)
+               return -1;
+           else {
+               line[len-1] = '\0';  /* delete newline */
+               strcpy(p, line);
+               lineptr[nlines++] = p;
+           }
+       return nlines;
+   }
+
+   /* writelines:  write output lines */
+   void writelines(char *lineptr[], int nlines)
+   {
+       int i;
+
+       for (i = 0; i < nlines; i++)
+           printf("%s\n", lineptr[i]);
+   }
+```
+
+The function getline is from Section 1.9.
+
+有关函数getline的详细信息参见1.9节。
+
+The main new thing is the declaration for lineptr:
+```cpp
+   char *lineptr[MAXLINES]
+```
+says that lineptr is an array of MAXLINES elements, each element of which is a pointer to a char. That is, lineptr[i] is a character pointer, and \*lineptr[i] is the character it points to, the first character of the i-th saved text line.
+
+在该例子中，指针数组lineptr的声明是新出现的重要概念：
+
+```cpp
+   char *lineptr[MAXLINES]
+```
+
+它表示lineptr是一个具有MAXLINES个元素的一维数组，其中数组的每个元素是一个指向字符类型对象的指针。也就是说，lineptr[i]是一个字符指针，而\*lineptr[i]是该指针指向的第i个文本行的首字符。
+
+Since lineptr is itself the name of an array, it can be treated as a pointer in the same manner as in our earlier examples, and writelines can be written instead as
+```cpp
+   /* writelines:  write output lines */
+   void writelines(char *lineptr[], int nlines)
+   {
+       while (nlines-- > 0)
+           printf("%s\n", *lineptr++);
+   }
+```
+
+由于lineptr本身是一个数组名，因此，可按照前面例子中相同的方法将其作为指针使用，这样，writelines函数可以改写为：
+
+```cpp
+   /* writelines:  write output lines */
+   void writelines(char *lineptr[], int nlines)
+   {
+       while (nlines-- > 0)
+           printf("%s\n", *lineptr++);
+   }
+```
+
+Initially, \*lineptr points to the first line; each element advances it to the next line pointer while nlines is counted down.
+
+循环开始执行时，\*lineptr指向第一行，每执行一次自增运算都使得\*lineptr指向下一行，同时对nlines进行自减运算。
+
+With input and output under control, we can proceed to sorting. The quicksort from Chapter 4 needs minor changes: the declarations have to be modified, and the comparison operation must be done by calling strcmp. The algorithm remains the same, which gives us some confidence that it will still work.
+```cpp
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(char *v[], int left, int right)
+   {
+       int i, last;
+       void swap(char *v[], int i, int j);
+
+       if (left >= right)  /* do nothing if array contains */
+           return;         /* fewer than two elements */
+       swap(v, left, (left + right)/2);
+       last = left;
+       for (i = left+1; i <= right; i++)
+           if (strcmp(v[i], v[left]) < 0)
+               swap(v, ++last, i);
+       swap(v, left, last);
+       qsort(v, left, last-1);
+       qsort(v, last+1, right);
+   }
+```
+
+在明确了输入和输出函数的实现方法之后，下面便可以着手考虑文本行的排序问题了。在这里需要对第4章的快速排序函数做一些小改动：首先，需要修改该函数的声明部分；其次，需要调用strcmp函数完成文本行的比较运算。但排序算法在这里仍然有效，不需要做任何改动。
+
+```cpp
+   /* qsort:  sort v[left]...v[right] into increasing order */
+   void qsort(char *v[], int left, int right)
+   {
+       int i, last;
+       void swap(char *v[], int i, int j);
+
+       if (left >= right)  /* do nothing if array contains */
+           return;         /* fewer than two elements */
+       swap(v, left, (left + right)/2);
+       last = left;
+       for (i = left+1; i <= right; i++)
+           if (strcmp(v[i], v[left]) < 0)
+               swap(v, ++last, i);
+       swap(v, left, last);
+       qsort(v, left, last-1);
+       qsort(v, last+1, right);
+   }
+```
+
+Similarly, the swap routine needs only trivial changes:
+```cpp
+   /* swap:  interchange v[i] and v[j] */
+   void swap(char *v[], int i, int j)
+   {
+       char *temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+```
+Since any individual element of v (alias lineptr) is a character pointer, temp must be also, so one can be copied to the other.
+
+同样．swap函数也只需要做一些很小的改动：
+
+```cpp
+   /* swap:  interchange v[i] and v[j] */
+   void swap(char *v[], int i, int j)
+   {
+       char *temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+```
+
+因为v(别名为lineptr)的所有元素都是字符指针，并且temp也必须是字符指针，因此temp与v的任意元索之间可以互相复制。
+
+**Exercise 5-7.** Rewrite readlines to store lines in an array supplied by main, rather than calling alloc to maintain storage. How much faster is the program?
+
+练习5-7  重写函数readlines，将输入的文本行存储到由main函数提供的一个数组中而不是存储到调用alloc分配的存储空间中。该函数的运行速度比改写前快多少？

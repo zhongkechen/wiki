@@ -1,0 +1,41 @@
+---
+title: "cchuang"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+### 黄长城
+
+温州大学计算机科学与工程学院 教师
+
+瑞安计算机协会:http://www.rait.org.cn 会长
+
+### 主讲课程
+
+* [计算机科学导论](<计算机科学导论.qmd>)
+* 电子商务概论
+* Oracle数据库系统基础
+* 现代数据库技术
+
+### 研究方向
+
+数据库技术与智能信息处理
+
+### 联系信息
+
+Email:
+
+QQ：25378802
+
+MSN: changchenghuang@hotmail.com
+
+其他教学支持站点：http://60.190.84.214:100/
+...
+
+---

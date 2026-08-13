@@ -1,0 +1,20 @@
+---
+title: "TCPL/A.12.06_Line_Control"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.6 Line Control
+
+For the benefit of other preprocessors that generate C programs, a line in one of the forms
+
+    # line constant "filename"
+    # line constant
+
+causes the compiler to believe, for purposes of error diagnostics, that the line number of the next source line is given by the decimal integer constant and the current input file is named by the identifier. If the quoted filename is absent, the remembered name does not change. Macros in the line are expanded before it is interpreted.

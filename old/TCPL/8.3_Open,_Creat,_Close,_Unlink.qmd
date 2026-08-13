@@ -1,0 +1,204 @@
+---
+title: "TCPL/8.3_Open,_Creat,_Close,_Unlink"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 8.3 Open, Creat, Close, Unlink open、creat、close和unlink
+
+Other than the default standard input, output and error, you must explicitly open files in order to read or write them. There are two system calls for this, open and creat [sic].
+
+除了默认的标准输入、标准输出和标准错误文件外，其他文件都必须在读或写之前显式地打开。系统调用open和creat用于实现该功能。
+
+open is rather like the fopen discussed in Chapter 7, except that instead of returning a file pointer, it returns a file descriptor, which is just an int. open returns -1 if any error occurs.
+```
+   #include <fcntl.h>
+
+   int fd;
+   int open(char *name, int flags, int perms);
+
+   fd = open(name, flags, perms);
+```
+As with fopen, the name argument is a character string containing the filename. The second argument, flags, is an int that specifies how the file is to be opened; the main values are
+```
+O_RDONLY	open for reading only
+O_WRONLY	open for writing only
+O_RDWR 	open for both reading and writing
+```
+
+open与第7章讨论的fopen很相似，不同的是，前者返回一个文件描述符，它仅仅只是一个int类型的数值，而后者返回一个文件指针。如果发生错误，open将返回-1。
+
+```
+   #include <fcntl.h>
+
+   int fd;
+   int open(char *name, int flags, int perms);
+
+   fd = open(name, flags, perms);
+```
+
+与fopen一样，参数name是一个包含文件名的字符串。第二个参数flags是一个int类型的值，它说明以何种方式打开文件，主要的几个值如下所示：
+
+```
+O_RDONLY	以只读方式打开文件
+O_WRONLY	以只写方式打开文件
+O_RDWR 	        以读写方式打开文件
+```
+
+These constants are defined in &lt;fcntl.h&gt; on System V UNIX systems, and in &lt;sys/file.h&gt; on Berkeley (BSD) versions.
+
+在Syskm V UNIX系统中，这些常量在头文件&lt;fcntl.h&gt;中定义，而在Berkeley(BSD)版本中则在&lt;sys/flle.h&gt;中定义。
+
+To open an existing file for reading,
+```
+   fd = open(name, O_RDONLY,0);
+```
+The perms argument is always zero for the uses of open that we will discuss.
+
+可以使用下列语句打开一个文件以执行读操作：
+
+```
+   fd = open(name, O_RDONLY,0);
+```
+
+在本章的讨论中，open的参数perms的值始终为O。
+
+It is an error to try to open a file that does not exist. The system call creat is provided to create new files, or to re-write old ones.
+```
+   int creat(char *name, int perms);
+
+   fd = creat(name, perms);
+```
+returns a file descriptor if it was able to create the file, and -1 if not. If the file already exists, creat will truncate it to zero length, thereby discarding its previous contents; it is not an error to creat a file that already exists.
+
+如果用open打开一个不存在的文件，则将导致错误。可以使用creat系统调用创建新文件或覆盖已有的旧文件，如下所示：
+
+```
+   int creat(char *name, int perms);
+
+   fd = creat(name, perms);
+```
+
+如果creat成功地创建了文件，它将返回—个文件描述符，否则返回-1。如果此文件已存在，creat将把该文件的长度截断为0，从而丢弃原先已有的内容。使用creat创建一个已存在的文件不会导致错误。
+
+If the file does not already exist, creat creates it with the permissions specified by the perms argument. In the UNIX file system, there are nine bits of permission information associated with a file that control read, write and execute access for the owner of the file, for the owner's group, and for all others. Thus a three-digit octal number is convenient for specifying the permissions. For example, 0775 specifies read, write and execute permission for the owner, and read and execute permission for the group and everyone else.
+
+如果要创建的文件不存在，则creat用参数perms指定的权限创建文件。在UNIX文件系统中，每个文件对应—个9比特的权限信息，它们分别控制文件的所有者、所有者组和其他成员对文件的读、写和执行访问。因此，通过—个3位的八进制数就可方便地说明不同的权限，例如，0755说明文件的所有者可以对它进行读、写和执行操作，而所有者组和其他成员只能进行读和执行操作。
+
+To illustrate, here is a simplified version of the UNIX program cp, which copies one file to another. Our version copies only one file, it does not permit the second argument to be a directory, and it invents permissions instead of copying them.
+```cpp
+   #include <stdio.h>
+   #include <fcntl.h>
+   #include "syscalls.h"
+   #define PERMS 0666     /* RW for owner, group, others */
+
+   void error(char *,  ...);
+
+   /* cp:  copy f1 to f2 */
+   main(int argc, char *argv[])
+   {
+       int f1, f2, n;
+       char buf[BUFSIZ];
+
+       if (argc != 3)
+           error("Usage: cp from to");
+       if ((f1 = open(argv[1], O_RDONLY, 0)) == -1)
+           error("cp: can't open %s", argv[1]);
+       if ((f2 = creat(argv[2], PERMS)) == -1)
+           error("cp: can't create %s, mode %03o",
+               argv[2], PERMS);
+       while ((n = read(f1, buf, BUFSIZ)) > 0)
+           if (write(f2, buf, n) != n)
+               error("cp: write error on file %s", argv[2]);
+       return 0;
+   }
+```
+This program creates the output file with fixed permissions of 0666. With the stat system call, described in Section 8.6, we can determine the mode of an existing file and thus give the same mode to the copy.
+
+下面通过一个简化的UNIX程序cp说明creat的用法。该程序将一个文件复制到另一个文件。我们编写的这个版本仅仅只能复制—个文件，不允许用目录作为第二个参数，并且，目标文件的权限不是通过复制获得的，而是重新定义的。
+```cpp
+   #include <stdio.h>
+   #include <fcntl.h>
+   #include "syscalls.h"
+   #define PERMS 0666     /* RW for owner, group, others */
+
+   void error(char *,  ...);
+
+   /* cp:  copy f1 to f2 */
+   main(int argc, char *argv[])
+   {
+       int f1, f2, n;
+       char buf[BUFSIZ];
+
+       if (argc != 3)
+           error("Usage: cp from to");
+       if ((f1 = open(argv[1], O_RDONLY, 0)) == -1)
+           error("cp: can't open %s", argv[1]);
+       if ((f2 = creat(argv[2], PERMS)) == -1)
+           error("cp: can't create %s, mode %03o",
+               argv[2], PERMS);
+       while ((n = read(f1, buf, BUFSIZ)) > 0)
+           if (write(f2, buf, n) != n)
+               error("cp: write error on file %s", argv[2]);
+       return 0;
+   }
+```
+
+该程序创建的输出文件具有固定的权限0666。利用8.6节中将要讨论的stat系统调用，可以获得一个已存在文件的模式，并将此模式贼值给它的副本。
+
+Notice that the function error is called with variable argument lists much like printf. The implementation of error illustrates how to use another member of the printf family. The standard library function vprintf is like printf except that the variable argument list is replaced by a single argument that has been initialized by calling the va_start macro. Similarly, vfprintf and vsprintf match fprintf and sprintf.
+```cpp
+   #include <stdio.h>
+   #include <stdarg.h>
+
+   /* error:  print an error message and die */
+   void error(char *fmt, ...)
+   {
+       va_list args;
+
+       va_start(args, fmt);
+       fprintf(stderr, "error: ");
+       vprintf(stderr, fmt, args);
+       fprintf(stderr, "\n");
+       va_end(args);
+       exit(1);
+   }
+```
+
+注意，函数error类似于函数printf，在调用时可带变长参数表。下面通过error函数的实现说明如何使用printf函数家族的另一个成员vprintf。标准库函数vprintf函数与printf函数类似，所不同的是，它用一个参数取代了变长参数表，且此参数通过调用va_start宏进行初姑化。同样，vfprintf和vsprintf函数分别与fprintf和sprintf函数类似。
+
+```cpp
+   #include <stdio.h>
+   #include <stdarg.h>
+
+   /* error:  print an error message and die */
+   void error(char *fmt, ...)
+   {
+       va_list args;
+
+       va_start(args, fmt);
+       fprintf(stderr, "error: ");
+       vprintf(stderr, fmt, args);
+       fprintf(stderr, "\n");
+       va_end(args);
+       exit(1);
+   }
+```
+
+There is a limit (often about 20) on the number of files that a program may open simultaneously. Accordingly, any program that intends to process many files must be prepared to re-use file descriptors. The function close(int fd) breaks the connection between a file descriptor and an open file, and frees the file descriptor for use with some other file; it corresponds to fclose in the standard library except that there is no buffer to flush. Termination of a program via exit or return from the main program closes all open files.
+
+一个程序同时打开的文件数是有限制的(通常为20)。相应地，如果一个程序需要同时处理许多文件，那么它必须重用文件描述符。函数close(int fd)用来断开文件描述符和已打开文件之间的连接，并释放此文件描述符，以供其他文件使用。close函数与标淮库中的fclose函数相对应，但它不需要清洗(flush)缓冲区。如果程序通过exit函数退出或从主程序中返回，所有打开的文件将被关闭。
+
+The function unlink(char \*name) removes the file name from the file system. It corresponds to the standard library function remove.
+
+函数unlink(char \*name)将文件name从文件系统中删除，它对应于标准库函数remove。
+
+**Exercise 8-1**. Rewrite the program cat from Chapter 7 using read, write, open, and close instead of their standard library equivalents. Perform experiments to determine the relative speeds of the two versions.
+
+练习8-1  用read、write、open和close系统调用代替标准库中功能等价的函数，重写第7章的cat程序，并通过实验比较两个版本的相对执行速度。

@@ -1,0 +1,29 @@
+---
+title: "TCPL/A.07.02_Primary_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.2 Primary Expressions
+
+Primary expressions are identifiers, constants, strings, or expressions in parentheses.
+
+    primary-expression
+      identifier
+      constant
+      string
+      (expression)
+
+An identifier is a primary expression, provided it has been suitably declared as discussed below. Its type is specified by its declaration. An identifier is an lvalue if it refers to an object (Par.A.5) and if its type is arithmetic, structure, union, or pointer.
+
+A constant is a primary expression. Its type depends on its form as discussed in Par.A.2.5.
+
+A string literal is a primary expression. Its type is originally ``array of char *(for wide-char strings, ``array of wchar_t*), but following the rule given in Par.A.7.1, this is usually modified to ``pointer to char'' (wchar_t) and the result is a pointer to the first character in the string. The conversion also does not occur in certain initializers; see Par.A.8.7.
+
+A parenthesized expression is a primary expression whose type and value are identical to those of the unadorned expression. The precedence of parentheses does not affect whether the expression is an lvalue.

@@ -1,0 +1,20 @@
+---
+title: "TCPL/A.11_Scope_and_Linkage"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.11 Scope and Linkage
+
+A program need not all be compiled at one time: the source text may be kept in several files containing translation units, and precompiled routines may be loaded from libraries. Communication among the functions of a program may be carried out both through calls and through manipulation of external data.
+
+Therefore, there are two kinds of scope to consider: first, the lexical scope of an identifier which is the region of the program text within which the identifier's characteristics are understood; and second, the scope associated with objects and functions with external linkage, which determines the connections between identifiers in separately compiled translation units.
+
+* [A.11.1 Lexical Scope](<A.11.1_Lexical_Scope.qmd>)
+* [A.11.2 Linkage](<A.11.2_Linkage.qmd>)

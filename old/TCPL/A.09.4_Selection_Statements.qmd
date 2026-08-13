@@ -1,0 +1,28 @@
+---
+title: "TCPL/A.09.4_Selection_Statements"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.9.4 Selection Statements
+
+Selection statements choose one of several flows of control.
+
+    selection-statement:
+      if (expression) statement
+      if (expression) statement else statement
+      switch (expression) statement
+
+In both forms of the if statement, the expression, which must have arithmetic or pointer type, is evaluated, including all side effects, and if it compares unequal to 0, the first substatement is executed. In the second form, the second substatement is executed if the expression is 0. The else ambiguity is resolved by connecting an else with the last encountered else-less if at the same block nesting level.
+
+The switch statement causes control to be transferred to one of several statements depending on the value of an expression, which must have integral type. The substatement controlled by a switch is typically compound. Any statement within the substatement may be labeled with one or more case labels (Par.A.9.1). The controlling expression undergoes integral promotion (Par.A.6.1), and the case constants are converted to the promoted type. No two of these case constants associated with the same switch may have the same value after conversion. There may also be at most one default label associated with a switch. Switches may be nested; a case or default label is associated with the smallest switch that contains it.
+
+When the switch statement is executed, its expression is evaluated, including all side effects, and compared with each case constant. If one of the case constants is equal to the value of the expression, control passes to the statement of the matched case label. If no case constant matches the expression, and if there is a default label, control passes to the labeled statement. If no case matches, and if there is no default, then none of the substatements of the swtich is executed.
+
+    In the first edition of this book, the controlling expression of switch, and the case constants, were required to have int type.

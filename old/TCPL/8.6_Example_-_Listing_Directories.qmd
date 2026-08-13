@@ -1,0 +1,466 @@
+---
+title: "TCPL/8.6_Example_-_Listing_Directories"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 8.6 Example - Listing Directories 实例——目录列表
+
+A different kind of file system interaction is sometimes called for - determining information about a file, not what it contains. A directory-listing program such as the UNIX command ls is an example - it prints the names of files in a directory, and, optionally, other information, such as sizes, permissions, and so on. The MS-DOS dir command is analogous.
+
+我们常常还需要对文件系统执行另一种操作，以获得文件的有关信息，而不是读取文件的具体内容。目录列表程序便是其中的一个例子，比如UNIX命令ls，它打印一个目录中的文件名以及其他一些可选信息，如文件长度、访问权限等等。MS-DOS操作系统中的dir命令也有类似的功能。
+
+Since a UNIX directory is just a file, ls need only read it to retrieve the filenames. But is is necessary to use a system call to access other information about a file, such as its size. On other systems, a system call may be needed even to access filenames; this is the case on MS-DOS for instance. What we want is provide access to the information in a relatively system-independent way, even though the implementation may be highly system-dependent.
+
+由于UNIX中的目录就是一种文件，因此，ls只需要读此文件就可获得所有的文件名。但是，如果需要获取文件的其他信息，比如长度等，就需要使用系统调用。在其他一些系统中，甚至获取文件名也需要使用系统调用，例如在MS-DOS系统中即如此。无论实现方式是否同具体的系统有关，我们需要提供一种与系统无关的访问文件信息的途径。
+
+We will illustrate some of this by writing a program called fsize. fsize is a special form of ls that prints the sizes of all files named in its commandline argument list. If one of the files is a directory, fsize applies itself recursively to that directory. If there are no arguments at all, it processes the current directory.
+
+以下将通过程序fsize说明这一点。fsize程序是ls命令的一个特殊形式，它打印命令行参数表中指定的所有文件的长度。如果其中一个文件是目录，则fslze程序将对此目录递归调用自身。如果命令行中没有任何参数，则fsize程序处理当前目录。
+
+Let us begin with a short review of UNIX file system structure. A directory is a file that contains a list of filenames and some indication of where they are located. The "location" is an index into another table called the "inode list". The inode for a file is where all information about the file except its name is kept. A directory entry generally consists of only two items, the filename and an inode number.
+
+我们首先回顾UNIX文件系统的结构。在UNIX系统中，目录就是文件，它包含了一个文件名列表和一些指示文件位置的信息。“位置”是一个指向其他表(即i结点表)的索引。【czk注：这里说的i结点就是inode。inode为一个词，不能这样分开翻译。】文件的i结点是存放除文件名以外的所有文件信息的地方。目录项通常仅包含两个条目：文件名和i结点编号。
+
+Regrettably, the format and precise contents of a directory are not the same on all versions of the system. So we will divide the task into two pieces to try to isolate the non-portable parts. The outer level defines a structure called a Dirent and three routines opendir, readdir, and closedir to provide system-independent access to the name and inode number in a directory entry. We will write fsize with this interface. Then we will show how to implement these on systems that use the same directory structure as Version 7 and System V UNIX; variants are left as exercises.
+
+遗憾的是，在不同版本的系统中，目录的格式和确切的内容是不一样的。因此，为了分离出不可移植的部分，我们把任务分成两部分。外层定义了一个称为Dirent的结构和3个函数opendir、readdir和closedir，它们提供与系统无关的对目录项中的名字和i结点编号的访问。我们将利用此接口编写fsize程序，然后说明如何在与Version 7和System V UNIX系统的目录结构相同的系统上实现这些函数。其他情况留作练习。
+
+The Dirent structure contains the inode number and the name. The maximum length of a filename component is NAME_MAX, which is a system-dependent value. opendir returns a pointer to a structure called DIR, analogous to FILE, which is used by readdir and closedir. This information is collected into a file called dirent.h.
+```cpp
+   #define NAME_MAX   14  /* longest filename component; */
+                                  /* system-dependent */
+
+   typedef struct {       /* portable directory entry */
+       long ino;                  /* inode number */
+       char name[NAME_MAX+1];     /* name + '\0' terminator */
+   } Dirent;
+
+   typedef struct {       /* minimal DIR: no buffering, etc. */
+       int fd;               /* file descriptor for the directory */
+       Dirent d;             /* the directory entry */
+   } DIR;
+
+   DIR *opendir(char *dirname);
+   Dirent *readdir(DIR *dfd);
+   void closedir(DIR *dfd);
+```
+
+结构Dirent包含i结点编号和文件名。文件名的最大长度由NAME_MAX设定，NAME_MAX的值由系统决定。opendir返回一个指向称为DIR的结构的指针，该结构与结构FILE类似，它将被readdir和closedir使用。所有这些信息存放在头文dirent.h中。
+
+```cpp
+   #define NAME_MAX   14  /* longest filename component; */
+                                  /* system-dependent */
+
+   typedef struct {       /* portable directory entry */
+       long ino;                  /* inode number */
+       char name[NAME_MAX+1];     /* name + '\0' terminator */
+   } Dirent;
+
+   typedef struct {       /* minimal DIR: no buffering, etc. */
+       int fd;               /* file descriptor for the directory */
+       Dirent d;             /* the directory entry */
+   } DIR;
+
+   DIR *opendir(char *dirname);
+   Dirent *readdir(DIR *dfd);
+   void closedir(DIR *dfd);
+```
+
+The system call stat takes a filename and returns all of the information in the inode for that file, or -1 if there is an error. That is,
+```
+   char *name;
+   struct stat stbuf;
+   int stat(char *, struct stat *);
+
+   stat(name, &stbuf);
+```
+fills the structure stbuf with the inode information for the file name. The structure describing the value returned by stat is in &lt;sys/stat.h&gt;, and typically looks like this:
+```cpp
+   struct stat   /* inode information returned by stat */
+   {
+       dev_t     st_dev;      /* device of inode */
+       ino_t     st_ino;      /* inode number */
+       short     st_mode;     /* mode bits */
+       short     st_nlink;    /* number of links to file */
+       short     st_uid;      /* owners user id */
+       short     st_gid;      /* owners group id */
+       dev_t     st_rdev;     /* for special files */
+       off_t     st_size;     /* file size in characters */
+       time_t    st_atime;    /* time last accessed */
+       time_t    st_mtime;    /* time last modified */
+       time_t    st_ctime;    /* time originally created */
+   };
+```
+Most of these values are explained by the comment fields. The types like dev_t and ino_t are defined in &lt;sys/types.h&gt;, which must be included too.
+
+系统调用stat以文件名作为参数，返回文件的i结点中的所有信息；若出错，则返回-1。如下所示：
+
+```
+   char *name;
+   struct stat stbuf;
+   int stat(char *, struct stat *);
+
+   stat(name, &stbuf);
+```
+
+它用文件name的i结点信息填充结构stbuf。头文件&lt;sys/stat.h&gt;中包含了描述stat的返回值的结构。该结构的一个典型形式如下所示：
+
+```cpp
+   struct stat   /* inode information returned by stat */
+   {
+       dev_t     st_dev;      /* device of inode */
+       ino_t     st_ino;      /* inode number */
+       short     st_mode;     /* mode bits */
+       short     st_nlink;    /* number of links to file */
+       short     st_uid;      /* owners user id */
+       short     st_gid;      /* owners group id */
+       dev_t     st_rdev;     /* for special files */
+       off_t     st_size;     /* file size in characters */
+       time_t    st_atime;    /* time last accessed */
+       time_t    st_mtime;    /* time last modified */
+       time_t    st_ctime;    /* time originally created */
+   };
+```
+
+该结构中大部分的值已在注释中进行了解释。dev_t和ino_t等类型在头文件&lt;sys/types.h&gt;中定义，程序中必须包含此文件。
+
+The st_mode entry contains a set of flags describing the file. The flag definitions are also included in &lt;sys/types.h&gt;; we need only the part that deals with file type:
+```cpp
+   #define S_IFMT    0160000  /* type of file: */
+   #define S_IFDIR   0040000  /* directory */
+   #define S_IFCHR   0020000  /* character special */
+   #define S_IFBLK   0060000  /* block special */
+   #define S_IFREG   0010000  /* regular */
+   /* ... */
+```
+
+st_mode项包含了描述文件的一系列标志，这些标志在&lt;sys/stat.h&gt;中定义。我们只需要处理文件类型的有关部分：
+
+```cpp
+   #define S_IFMT    0160000  /* type of file: */
+   #define S_IFDIR   0040000  /* directory */
+   #define S_IFCHR   0020000  /* character special */
+   #define S_IFBLK   0060000  /* block special */
+   #define S_IFREG   0010000  /* regular */
+   /* ... */
+```
+
+Now we are ready to write the program fsize. If the mode obtained from stat indicates that a file is not a directory, then the size is at hand and can be printed directly. If the name is a directory, however, then we have to process that directory one file at a time; it may in turn contain sub-directories, so the process is recursive.
+
+下面我们来着手编写程序fsize。如果由stat调用获得的模式说明某文件不是一个目录，就很容易获得该文件的长度，并直接输出。但是，如果文件是一个目录，则必须逐个处理目录中的文件。由于该目录可能包含子目录，因此该过程是递归的。
+
+The main routine deals with command-line arguments; it hands each argument to the function fsize.
+```cpp
+   #include <stdio.h>
+   #include <string.h>
+   #include "syscalls.h"
+   #include <fcntl.h>      /* flags for read and write */
+   #include <sys/types.h>  /* typedefs */
+   #include <sys/stat.h>   /* structure returned by stat */
+   #include "dirent.h"
+
+   void fsize(char *)
+
+   /* print file name */
+   main(int argc, char **argv)
+   {
+       if (argc == 1)  /* default: current directory */
+           fsize(".");
+       else
+           while (--argc > 0)
+               fsize(*++argv);
+       return 0;
+   }
+```
+
+主程序main处理命令行参数，并将每个参数传递给函数fsize。
+
+```cpp
+   #include <stdio.h>
+   #include <string.h>
+   #include "syscalls.h"
+   #include <fcntl.h>      /* flags for read and write */
+   #include <sys/types.h>  /* typedefs */
+   #include <sys/stat.h>   /* structure returned by stat */
+   #include "dirent.h"
+
+   void fsize(char *)
+
+   /* print file name */
+   main(int argc, char **argv)
+   {
+       if (argc == 1)  /* default: current directory */
+           fsize(".");
+       else
+           while (--argc > 0)
+               fsize(*++argv);
+       return 0;
+   }
+```
+
+The function fsize prints the size of the file. If the file is a directory, however, fsize first calls dirwalk to handle all the files in it. Note how the flag names S_IFMT and S_IFDIR are used to decide if the file is a directory. Parenthesization matters, because the precedence of & is lower than that of ==.
+```cpp
+   int stat(char *, struct stat *);
+   void dirwalk(char *, void (*fcn)(char *));
+
+   /* fsize:  print the name of file "name" */
+   void fsize(char *name)
+   {
+       struct stat stbuf;
+
+       if (stat(name, &stbuf) == -1) {
+           fprintf(stderr, "fsize: can't access %s\n", name);
+           return;
+       }
+       if ((stbuf.st_mode & S_IFMT) == S_IFDIR)
+           dirwalk(name, fsize);
+       printf("%8ld %s\n", stbuf.st_size, name);
+   }
+```
+
+函数fsize打印文件的长度。但是，如果此文件是一个目录，则fsize首先调用dirwalk函数处理它所包含的所有文件。注意如何使用文件&lt;sys/stat.h&gt;中的标志名S_IFMT和S_IFDIR来判定文件是不是一个目录。括号是必须的，因为&运算符的优先级低于==运算符的优先级。
+
+```cpp
+   int stat(char *, struct stat *);
+   void dirwalk(char *, void (*fcn)(char *));
+
+   /* fsize:  print the name of file "name" */
+   void fsize(char *name)
+   {
+       struct stat stbuf;
+
+       if (stat(name, &stbuf) == -1) {
+           fprintf(stderr, "fsize: can't access %s\n", name);
+           return;
+       }
+       if ((stbuf.st_mode & S_IFMT) == S_IFDIR)
+           dirwalk(name, fsize);
+       printf("%8ld %s\n", stbuf.st_size, name);
+   }
+```
+
+The function dirwalk is a general routine that applies a function to each file in a directory. It opens the directory, loops through the files in it, calling the function on each, then closes the directory and returns. Since fsize calls dirwalk on each directory, the two functions call each other recursively.
+```cpp
+   #define MAX_PATH 1024
+
+   /* dirwalk:  apply fcn to all files in dir */
+   void dirwalk(char *dir, void (*fcn)(char *))
+   {
+       char name[MAX_PATH];
+       Dirent *dp;
+       DIR *dfd;
+
+       if ((dfd = opendir(dir)) == NULL) {
+           fprintf(stderr, "dirwalk: can't open %s\n", dir);
+           return;
+       }
+       while ((dp = readdir(dfd)) != NULL) {
+           if (strcmp(dp->name, ".") == 0
+               || strcmp(dp->name, ".."))
+               continue;    /* skip self and parent */
+           if (strlen(dir)+strlen(dp->name)+2 > sizeof(name))
+               fprintf(stderr, "dirwalk: name %s %s too long\n",
+                   dir, dp->name);
+           else {
+               sprintf(name, "%s/%s", dir, dp->name);
+               (*fcn)(name);
+           }
+       }
+       closedir(dfd);
+   }
+```
+Each call to readdir returns a pointer to information for the next file, or NULL when there are no files left. Each directory always contains entries for itself, called ".", and its parent, ".."; these must be skipped, or the program will loop forever.
+
+函数dirwalk是一个通用的函数，它对目录中的每个文件都调用函数fcn一次。它首先打开目录，循环遍历其中的每个文件，并对每个文件调用该函数，然后关闭目录返回。因为fsize函数对每个目录都要调用dirwalk函数，所以这两个函数是相互递归调用的。
+
+```cpp
+   #define MAX_PATH 1024
+
+   /* dirwalk:  apply fcn to all files in dir */
+   void dirwalk(char *dir, void (*fcn)(char *))
+   {
+       char name[MAX_PATH];
+       Dirent *dp;
+       DIR *dfd;
+
+       if ((dfd = opendir(dir)) == NULL) {
+           fprintf(stderr, "dirwalk: can't open %s\n", dir);
+           return;
+       }
+       while ((dp = readdir(dfd)) != NULL) {
+           if (strcmp(dp->name, ".") == 0
+               || strcmp(dp->name, ".."))
+               continue;    /* skip self and parent */
+           if (strlen(dir)+strlen(dp->name)+2 > sizeof(name))
+               fprintf(stderr, "dirwalk: name %s %s too long\n",
+                   dir, dp->name);
+           else {
+               sprintf(name, "%s/%s", dir, dp->name);
+               (*fcn)(name);
+           }
+       }
+       closedir(dfd);
+   }
+```
+
+每次调用readdir都将返回一个指针，它指向下一个文件的信息。如果目录中已没有待处理的文件，该函数将返回NULL。每个目录都包含自身“.”和父目录“..”的项目，在处理时必须跳过它们，否则将会导致无限循环。
+
+Down to this last level, the code is independent of how directories are formatted. The next step is to present minimal versions of opendir, readdir, and closedir for a specific system. The following routines are for Version 7 and System V UNIX systems; they use the directory information in the header &lt;sys/dir.h&gt;, which looks like this:
+```cpp
+   #ifndef DIRSIZ
+   #define DIRSIZ  14
+   #endif
+   struct direct {   /* directory entry */
+       ino_t d_ino;           /* inode number */
+       char  d_name[DIRSIZ];  /* long name does not have '\0' */
+   };
+```
+Some versions of the system permit much longer names and have a more complicated directory structure.
+
+到现在这一步为止，代码与目录的格式无关。下一步要做的事情就是在某个具体的系统上提供一个opendir、readdir和closedir的最简单版本。以下的函数适用于Version 7和System V UNIX系统，它们使用了头文件&lt;sys/dir.h&gt;中的目录信息，如下所示：
+
+```cpp
+   #ifndef DIRSIZ
+   #define DIRSIZ  14
+   #endif
+   struct direct {   /* directory entry */
+       ino_t d_ino;           /* inode number */
+       char  d_name[DIRSIZ];  /* long name does not have '\0' */
+   };
+```
+
+某些版本的系统支持更长的文件名和更复杂的目录结构。
+
+The type ino_t is a typedef that describes the index into the inode list. It happens to be unsigned short on the systems we use regularly, but this is not the sort of information to embed in a program; it might be different on a different system, so the typedef is better. A complete set of "system" types is found in &lt;sys/types.h&gt;.
+
+类型ino_t是使用typedef定义的类型，它用于描述i结点表的索引。在我们通常使用的系统中，此类型为unsigned short，但是这种信息不应在程序中使用。因为不同的系统中该类型可能不同，所以使用typsdef定义要好一些。所有的“系统”类型可以在文件&lt;sys/types.h&gt;中找到。
+
+opendir opens the directory, verifies that the file is a directory (this time by the system call fstat, which is like stat except that it applies to a file descriptor), allocates a directory structure, and records the information:
+```cpp
+   int fstat(int fd, struct stat *);
+
+   /* opendir:  open a directory for readdir calls */
+   DIR *opendir(char *dirname)
+   {
+       int fd;
+       struct stat stbuf;
+       DIR *dp;
+
+       if ((fd = open(dirname, O_RDONLY, 0)) == -1
+        || fstat(fd, &stbuf) == -1
+        || (stbuf.st_mode & S_IFMT) != S_IFDIR
+        || (dp = (DIR *) malloc(sizeof(DIR))) == NULL)
+            return NULL;
+       dp->fd = fd;
+       return dp;
+   }
+```
+
+opendir函数首先打开目录，验证此文件是一个目录(调用系统调用fstat，它与stat类似，但它以文件描述符作为参数)，然后分配一个目录结构，并保存信息：
+
+```cpp
+   int fstat(int fd, struct stat *);
+
+   /* opendir:  open a directory for readdir calls */
+   DIR *opendir(char *dirname)
+   {
+       int fd;
+       struct stat stbuf;
+       DIR *dp;
+
+       if ((fd = open(dirname, O_RDONLY, 0)) == -1
+        || fstat(fd, &stbuf) == -1
+        || (stbuf.st_mode & S_IFMT) != S_IFDIR
+        || (dp = (DIR *) malloc(sizeof(DIR))) == NULL)
+            return NULL;
+       dp->fd = fd;
+       return dp;
+   }
+```
+
+closedir closes the directory file and frees the space:
+```cpp
+   /* closedir:  close directory opened by opendir */
+   void closedir(DIR *dp)
+   {
+       if (dp) {
+           close(dp->fd);
+           free(dp);
+       }
+   }
+```
+
+closedir函数用于关闭目录文件并释放内存空间：
+
+```cpp
+   /* closedir:  close directory opened by opendir */
+   void closedir(DIR *dp)
+   {
+       if (dp) {
+           close(dp->fd);
+           free(dp);
+       }
+   }
+```
+
+Finally, readdir uses read to read each directory entry. If a directory slot is not currently in use (because a file has been removed), the inode number is zero, and this position is skipped. Otherwise, the inode number and name are placed in a static structure and a pointer to that is returned to the user. Each call overwrites the information from the previous one.
+```cpp
+   #include <sys/dir.h>   /* local directory structure */
+
+   /* readdir:  read directory entries in sequence */
+   Dirent *readdir(DIR *dp)
+   {
+       struct direct dirbuf;  /* local directory structure */
+       static Dirent  d;      /* return: portable structure */
+
+       while (read(dp->fd, (char *) &dirbuf, sizeof(dirbuf))
+                       == sizeof(dirbuf)) {
+           if (dirbuf.d_ino == 0) /* slot not in use */
+               continue;
+           d.ino = dirbuf.d_ino;
+           strncpy(d.name, dirbuf.d_name, DIRSIZ);
+           d.name[DIRSIZ] = '\0';  /* ensure termination */
+           return &d;
+       }
+       return NULL;
+   }
+```
+
+最后，函数readdir使用read系统调用读取每个目录项。如果某个目录位置当前没有使用(因为删除了一个文件)，则它她结点编号为0，并跳过该位置。否则，将i结点编号和目录名放在一个static类型的结构中，并给用户返回一个指向此结构的指针。每次调用readdir函数将覆盖前一次调用获得的信息。
+
+```cpp
+   #include <sys/dir.h>   /* local directory structure */
+
+   /* readdir:  read directory entries in sequence */
+   Dirent *readdir(DIR *dp)
+   {
+       struct direct dirbuf;  /* local directory structure */
+       static Dirent  d;      /* return: portable structure */
+
+       while (read(dp->fd, (char *) &dirbuf, sizeof(dirbuf))
+                       == sizeof(dirbuf)) {
+           if (dirbuf.d_ino == 0) /* slot not in use */
+               continue;
+           d.ino = dirbuf.d_ino;
+           strncpy(d.name, dirbuf.d_name, DIRSIZ);
+           d.name[DIRSIZ] = '\0';  /* ensure termination */
+           return &d;
+       }
+       return NULL;
+   }
+```
+
+Although the fsize program is rather specialized, it does illustrate a couple of important ideas. First, many programs are not "system programs"; they merely use information that is maintained by the operating system. For such programs, it is crucial that the representation of the information appear only in standard headers, and that programs include those headers instead of embedding the declarations in themselves. The second observation is that with care it is possible to create an interface to system-dependent objects that is itself relatively system-independent. The functions of the standard library are good examples.
+
+尽管fsize程序非常特殊，但是它的确说明了一些重要的思想。首先，许多程序并不是“系统程序”，它们仅仅使用由操作系统维护的信息。对于这样的程序，很重要的一点是，信息的表示仅出现在标准头文件中，使用它们的程序只需要在文件中包含这些头文件即可，而不需要包含相应的声明。其次，有可能为与系统相关的对象创建一个与系统无关的接口。标准库中的函数就是很好的例子。
+
+**Exercise 8-5**. Modify the fsize program to print the other information contained in the inode entry.
+
+习题8-5  修改fsize程序，打印i结点项中包含的其他信息。

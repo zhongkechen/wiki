@@ -1,0 +1,26 @@
+---
+title: "TCPL/B.08_Non-local_Jumps:_<setjmp.h>"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### B.8 Non-local Jumps: &lt;setjmp.h&gt;
+
+The declarations in &lt;setjmp.h&gt; provide a way to avoid the normal function call and return sequence, typically to permit an immediate return from a deeply nested function call.
+
+int setjmp(jmp_buf env)
+    The macro setjmp saves state information in env for use by longjmp. The return is zero from a direct call of setjmp, and non-zero from a subsequent call of longjmp. A call to setjmp can only occur in certain contexts, basically the test of if, switch, and loops, and only in simple relational expressions.
+```
+      if (setjmp(env) == 0)
+          /* get here on direct call */
+      else
+          /* get here by calling longjmp */
+```
+void longjmp(jmp_buf env, int val)
+    longjmp restores the state saved by the most recent call to setjmp, using the information saved in env, and execution resumes as if the setjmp function had just executed and returned the non-zero value val. The function containing the setjmp must not have terminated. Accessible objects have the values they had at the time longjmp was called, except that non-volatile automatic variables in the function calling setjmp become undefined if they were changed after the setjmp call.

@@ -1,0 +1,84 @@
+---
+title: "TCPL/2.09_Bitwise_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 2.9 Bitwise Operators 按位运算符
+
+C provides six operators for bit manipulation; these may only be applied to integral operands, that is, char, short, int, and long, whether signed or unsigned.
+```
+& 	bitwise AND
+| 	bitwise inclusive OR
+^	bitwise exclusive OR
+<<  	left shift
+>>	right shift
+~ 	one's complement (unary)
+```
+
+C语言提供了6个位操作运算符。这些运算符只能作用于整型操作数，即只能作用于带符号或无符号的char、short、int与long类型：
+
+```
+& 	按位与(AND)
+| 	按位或(OR)
+^	按位异或(XOR)
+<<  	左移
+>>	右移
+~ 	按位求反(一元运算符)
+```
+
+The bitwise AND operator & is often used to mask off some set of bits, for example
+```
+   n = n & 0177;
+```
+sets to zero all but the low-order 7 bits of n.
+
+按位与运算符&经常用于屏蔽某些二进制位，例如：
+
+```
+   n = n & 0177;
+```
+
+该语句将n中除7个低二进制位外的其他各位均置为0。
+
+The bitwise OR operator | is used to turn bits on:
+```
+   x = x | SET_ON;
+```
+sets to one in x the bits that are set to one in SET_ON.
+
+按位或运算符常用于将某些二进制位置为1，例如：
+
+```
+   x = x | SET_ON;
+```
+
+该语句将x中对应于SET_ON中为1的那些二进制位置为1；
+
+The bitwise exclusive OR operator ^ sets a one in each bit position where its operands have different bits, and zero where they are the same.
+
+按位异或运算符`^`当两个操作数的对应位不相同时将该位设置为1，否则，将该位设置为0。
+
+One must distinguish the bitwise operators & and | from the logical operators && and ||, which imply left-to-right evaluation of a truth value. For example, if x is 1 and y is 2, then x & y is zero while x && y is one.
+
+我们必须将位运算符&、|同逻辑运算符&&、||区分开来，后者用于从左至右求表达式的真值。例如，如果x的值为1，y的值为2，那么，x&y的结果为0，而x&&y的值为1。
+
+The shift operators  perform left and right shifts of their left operand by the number of bit positions given by the right operand, which must be non-negative. Thus x  (p+1-n) moves the desired field to the right end of the word. ~0 is all 1-bits; shifting it left n positions with ~0 (p+1-n)将期望获得的字段移位到字的最右端。`~0`的所有位都为1，这里使用语句`~0<<n`将`~0`左移n位，并将最右边的n位用0填补。再使用`~`运算对它按位取反，这样就建立了最右边n位全为1的屏蔽码。
+
+Exercise 2-6. Write a function setbits(x,p,n,y) that returns x with the n bits that begin at position p set to the rightmost n bits of y, leaving the other bits unchanged.
+
+练习2-6  编写一个函数setbits(x,p,n,y)，该函数返回对x执行下列操作后的结果值：将x中从第p位开始的n个(二进制)位设置为y中最右边n位的值，x的其余各位保持不变。
+
+Exercise 2-7. Write a function invert(x,p,n) that returns x with the n bits that begin at position p inverted (i.e., 1 changed into 0 and vice versa), leaving the others unchanged.
+
+练习2-7  编写一个函数invert(x,,p,n)，该函数返回对x执行下列操作后的结果值：将x中从第p位开始的n个(二进制)位求反(即，1变为0，0变成1)，x的其余各位保持不变。
+
+Exercise 2-8. Write a function rightrot(x,n) that returns the value of the integer x rotated to the right by n positions.
+
+练习2-8  编写一个函数rightrot(x,n)，该函数返回将x循环右移(即从最右端移出的位将从最左端移入)n(二进制)位后所得到的值。

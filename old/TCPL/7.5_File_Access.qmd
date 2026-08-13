@@ -1,0 +1,217 @@
+---
+title: "TCPL/7.5_File_Access"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 7.5 File Access 文件访问
+
+The examples so far have all read the standard input and written the standard output, which are automatically defined for a program by the local operating system.
+
+到目前为止，我们讨论的例子都是从标准输入读取数据，并向标准输出输出数据。标准输入和标准输出是操作系统自动提供给程序访问的。
+
+The next step is to write a program that accesses a file that is not already connected to the program. One program that illustrates the need for such operations is cat, which concatenates a set of named files into the standard output. cat is used for printing files on the screen, and as a general-purpose input collector for programs that do not have the capability of accessing files by name. For example, the command
+```
+   cat x.c y.c
+```
+prints the contents of the files x.c and y.c (and nothing else) on the standard output.
+
+接下来，我们编写一个访问文件的程序，且它所访问的文件还没有连接到该程序。程序cat可以用来说明该问题，它把一批命名文件串联后输出到标准输出上。cat可用来在屏幕上打印文件，对于那些无法通过名字访问文件的程序来说，它还可以用作通用的输入收集器。例如，下列命令行；
+
+```
+   cat x.c y.c
+```
+
+将在标准输出上打印文件x.c和y.c的内容。
+
+The question is how to arrange for the named files to be read - that is, how to connect the external names that a user thinks of to the statements that read the data.
+
+问题在于，如何设计命名文件的读取过程呢？换句话说，如何将用户需要使用的文件的外部名同读取数据的语句关联起来。
+
+The rules are simple. Before it can be read or written, a file has to be opened by the library function fopen. fopen takes an external name like x.c or y.c, does some housekeeping and negotiation with the operating system (details of which needn't concern us), and returns a pointer to be used in subsequent reads or writes of the file.
+
+方法其实很简单。在读写一个文件之前，必须通过库函数fopen打开该文件。fopen用类似于x.c或y.c这样的外部名与操作系统进行某些必要的连接和通信(我们不必关心这些细节)，并返回一个随后可以用于文件读写操作的指针。
+
+This pointer, called the file pointer, points to a structure that contains information about the file, such as the location of a buffer, the current character position in the buffer, whether the file is being read or written, and whether errors or end of file have occurred. Users don't need to know the details, because the definitions obtained from &lt;stdio.h&gt; include a structure declaration called FILE. The only declaration needed for a file pointer is exemplified by
+```
+   FILE *fp;
+   FILE *fopen(char *name, char *mode);
+```
+This says that fp is a pointer to a FILE, and fopen returns a pointer to a FILE. Notice that FILE is a type name, like int, not a structure tag; it is defined with a typedef. (Details of how fopen can be implemented on the UNIX system are given in Section 8.5.)
+
+该指针称为文件指针，它指向一个包含文件信息的结构，这些信息包括：缓冲区的位置、缓冲区中当前字符的位置、文件的读或写状态、是否出错或是否已经到达文件结尾等等。用户不必关心这些细节，因为&lt;stdio.h&gt;中已经定义了一个包含这些信息的结构FILE。在程序中只需按照下列方式声明一个文件指针即可：
+
+```
+   FILE *fp;
+   FILE *fopen(char *name, char *mode);
+```
+
+在本例中，fp是一个指向结构FILE的指针，并且，fopen函数返回一个指向结构FILE的指针。注意，FILE像int一样是一个类型名，而不是结构标记。它是通过typedef定义的(UNIX系统中fopen的实现细节将在8.5节中讨论)。
+
+The call to fopen in a program is
+```
+   fp = fopen(name, mode);
+```
+The first argument of fopen is a character string containing the name of the file. The second argument is the mode, also a character string, which indicates how one intends to use the file. Allowable modes include read ("r"), write ("w"), and append ("a"). Some systems distinguish between text and binary files; for the latter, a "b" must be appended to the mode string.
+
+在程序中，可以这样调用fopen函数：
+
+```
+   fp = fopen(name, mode);
+```
+
+fopen的第一个参数是一个字符串，它包含文件名。第二个参数是访问模式，也是一个字符串，用于指定文件的使用方式。允许的模式包括：读(“r”)、写(“w”)及追加(“a”)。某些系统还区分文本文件和二进制文件，对后者的访问需要在模式字符串中增加字符“b”。
+
+If a file that does not exist is opened for writing or appending, it is created if possible. Opening an existing file for writing causes the old contents to be discarded, while opening for appending preserves them. Trying to read a file that does not exist is an error, and there may be other causes of error as well, like trying to read a file when you don't have permission. If there is any error, fopen will return NULL. (The error can be identified more precisely; see the discussion of error-handling functions at the end of Section 1 in Appendix B.)
+
+如果打开一个不存在的文件用于写或追加，该文件将被创建(如果可能的话)。当以写方式打开一个已存在的文件时，该文件原来的内容将被覆盖。但是，如果以追加方式打开一个文件，则该文件原来的内容将保留不变。读一个不存在的文件会导致错误，其他一些操作也可能导致错误，比如试图读取一个无读取权限的文件。如果发生错误，fopen将返回NULL。(可以更进一步地定位错误的类型，具体方法请参见附录B.1节中关于错误处理函数的讨论。)
+
+The next thing needed is a way to read or write the file once it is open. getc returns the next character from a file; it needs the file pointer to tell it which file.
+```
+   int getc(FILE *fp)
+```
+getc returns the next character from the stream referred to by fp; it returns EOF for end of file or error.
+
+文件被打开后，就需要考虑采用哪种方法对文件进行读写。有多种方法可供考虑，其中，getc和putc函数最为简单。getc从文件中返回下一个字符，它需要知道文件指针，以确定对哪个文件执行操作：
+
+```
+   int getc(FILE *fp)
+```
+
+getc函数返回fp指向的输入流中的下一个字符。如果到达文件尾或出现错误，该函数将返回EOF。
+
+putc is an output function:
+```
+   int putc(int c, FILE *fp)
+```
+putc writes the character c to the file fp and returns the character written, or EOF if an error occurs. Like getchar and putchar, getc and putc may be macros instead of functions.
+
+putc是一个输出函数，如下所示：
+
+```
+   int putc(int c, FILE *fp)
+```
+
+该函数将字符c写入到fp指向的文件中，并返回写入的字符。如果发生错误．则返回EOF。类似于getchar和putchar，getc和putc是宏而不是函数。
+
+When a C program is started, the operating system environment is responsible for opening three files and providing pointers for them. These files are the standard input, the standard output, and the standard error; the corresponding file pointers are called stdin, stdout, and stderr, and are declared in &lt;stdio.h&gt;. Normally stdin is connected to the keyboard and stdout and stderr are connected to the screen, but stdin and stdout may be redirected to files or pipes as described in Section 7.1.
+
+启动一个C语言程序时，操作系统环境负责打开3个文件，并将这3个文件的指针提供给该程序。这3个文件分别是标准输入、标准输出和标准错误，相应的文件指针分别为stdin、stdout和stderr，它们在&lt;stdio.h&gt;中声明。在大多数环境中，gtdin指向键盘，而stdout和stderr指向显示器。我们从7.1节的讨论中可以知道，stdin和stdout可以被重定向到文件或管道。
+
+getchar and putchar can be defined in terms of getc, putc, stdin, and stdout as follows:
+```
+   #define getchar()    getc(stdin)
+   #define putchar(c)   putc((c), stdout)
+```
+
+getchar和putchar函数可以通过getc、putc、stdin及stdout定义如下：
+
+```
+   #define getchar()    getc(stdin)
+   #define putchar(c)   putc((c), stdout)
+```
+
+For formatted input or output of files, the functions fscanf and fprintf may be used. These are identical to scanf and printf, except that the first argument is a file pointer that specifies the file to be read or written; the format string is the second argument.
+```
+   int fscanf(FILE *fp, char *format, ...)
+   int fprintf(FILE *fp, char *format, ...)
+```
+
+对于文件的格式化输人或输出，可以使用函数fscanf和fprintf。它们与scanf和printf函数的区别仅仅在于它们的第一个参数是一个指向所要读写的文件的指针，第二个参数是格式串。如下所示：
+
+```
+   int fscanf(FILE *fp, char *format, ...)
+   int fprintf(FILE *fp, char *format, ...)
+```
+
+With these preliminaries out of the way, we are now in a position to write the program cat to concatenate files. The design is one that has been found convenient for many programs. If there are command-line arguments, they are interpreted as filenames, and processed in order. If there are no arguments, the standard input is processed.
+```cpp
+   #include <stdio.h>
+
+   /* cat:  concatenate files, version 1 */
+   main(int argc, char *argv[])
+   {
+       FILE *fp;
+       void filecopy(FILE *, FILE *)
+
+       if (argc == 1) /* no args; copy standard input */
+           filecopy(stdin, stdout);
+       else
+          while(--argc > 0)
+              if ((fp = fopen(*++argv, "r")) == NULL) {
+                  printf("cat: can't open %s\n, *argv);
+                  return 1;
+              } else {
+                 filecopy(fp, stdout);
+                 fclose(fp);
+              }
+          return 0;
+   }
+
+    /* filecopy:  copy file ifp to file ofp */
+    void filecopy(FILE *ifp, FILE *ofp)
+    {
+        int c;
+
+        while ((c = getc(ifp)) != EOF)
+            putc(c, ofp);
+    }
+```
+The file pointers stdin and stdout are objects of type FILE \*. They are constants, however, not variables, so it is not possible to assign to them.
+
+掌握这些预备知识之后，我们现在就可以编写出将多个文件连接起来的cat程序了。该程序的设计思路和其他许多程序类似。如果有命令行参数，参数将被解释为文件名，并按顺序逐个处理。如果没有参数，则处理标准输入。
+
+```cpp
+   #include <stdio.h>
+
+   /* cat:  concatenate files, version 1 */
+   main(int argc, char *argv[])
+   {
+       FILE *fp;
+       void filecopy(FILE *, FILE *)
+
+       if (argc == 1) /* no args; copy standard input */
+           filecopy(stdin, stdout);
+       else
+          while(--argc > 0)
+              if ((fp = fopen(*++argv, "r")) == NULL) {
+                  printf("cat: can't open %s\n, *argv);
+                  return 1;
+              } else {
+                 filecopy(fp, stdout);
+                 fclose(fp);
+              }
+          return 0;
+   }
+
+    /* filecopy:  copy file ifp to file ofp */
+    void filecopy(FILE *ifp, FILE *ofp)
+    {
+        int c;
+
+        while ((c = getc(ifp)) != EOF)
+            putc(c, ofp);
+    }
+```
+
+文件指针stdin与stdout都是FILE \*类型的对象。但它们是常量，而非变量，因此不能对它们赋值。
+
+The function
+```
+   int fclose(FILE *fp)
+```
+is the inverse of fopen, it breaks the connection between the file pointer and the external name that was established by fopen, freeing the file pointer for another file. Since most operating systems have some limit on the number of files that a program may have open simultaneously, it's a good idea to free the file pointers when they are no longer needed, as we did in cat. There is also another reason for fclose on an output file - it flushes the buffer in which putc is collecting output. fclose is called automatically for each open file when a program terminates normally. (You can close stdin and stdout if they are not needed. They can also be reassigned by the library function freopen.)
+
+函数
+
+```
+   int fclose(FILE *fp)
+```
+
+执行和fopen相反的操作，它断开由fopen函数建立的文件指针和外部名之间的连接，并释放文件指针以供其他文件使用。因为大多数操作系统都限制了一个程序可以同时打开的文件数，所以，当文件指针不再需要时就应该释放，这是一个好的编程习惯，就像我们在cat程序中所做的那样。对输出文件执行fclose还有另外一个原因：它将把缓冲区中由putc函数正在收集的输出写到文件中。当程序正常终止时，程序会自动为每个打开的文件调用fclose函数。(如果不需要使用stdin与stdout，可以把它们关闭掉。也可以通过库函数freopen重新指定它们。)

@@ -1,0 +1,353 @@
+---
+title: "TCPL/5.10_Command-line_Arguments"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.10 Command-line Arguments 命令行参数
+
+In environments that support C, there is a way to pass command-line arguments or parameters to a program when it begins executing. When main is called, it is called with two arguments. The first (conventionally called argc, for argument count) is the number of command-line arguments the program was invoked with; the second (argv, for argument vector) is a pointer to an array of character strings that contain the arguments, one per string. We customarily use multiple levels of pointers to manipulate these character strings.
+
+在支持C语言的环境中，可以在程序开始执行时将命令行参数传递给程序。调用主函数main时，它带有两个参数。第一个参数(习惯上称为argc，用于参数计数【czk注：代表argument count。此处不应该翻译成中文。】)的值表示运行程序时命令行中参数的数目；第二个参数(称为argv，用于参数向量【czk注：代表argument vector。此处不应该翻译成中文。】)是一个指向字符串数组的指针．其中每个字符串对应一个参数。我们通常用多级指针处理这些字符串。
+
+The simplest illustration is the program echo, which echoes its command-line arguments on a single line, separated by blanks. That is, the command
+```cpp
+   echo hello, world
+```
+prints the output
+```cpp
+   hello, world
+```
+
+最简单的例子是程序echo，它将命令行参数回显在屏幕上的一行中，其中命令行中各参数之间用空格隔开。也就是说，命令
+
+```
+   echo hello, world
+```
+
+将打印下列输出：
+
+```
+   hello, world
+```
+
+By convention, argv[0] is the name by which the program was invoked, so argc is at least 1. If argc is 1, there are no command-line arguments after the program name. In the example above, argc is 3, and argv[0], argv[1], and argv[2] are "echo", "hello,", and "world" respectively. The first optional argument is argv[1] and the last is argv[argc-1]; additionally, the standard requires that argv[argc] be a null pointer.
+
+![pic511.gif](<assets/TCPL/5.10_Command-line_Arguments/pic511.gif>)
+
+按照C语言的约定，argv[0]的值是启动该程序的程序名，因此argc的值至少为1。如果argc的值为1，则说明程序名后面没有命令行参数。在上面的例子中，argc的值为3，argv[0]、argv[1]和argv[2]的值分别为“echo” 、“hello,”以及“world”。第一个可选参数为argv[1]，而最后一个可选参数为argv[argc-1]。另外，ANSI标准要求argv[argc]的值必须为一空指针(参见图5-11)。
+
+![pic511.gif](<assets/TCPL/5.10_Command-line_Arguments/pic511.gif>)
+
+The first version of echo treats argv as an array of character pointers:
+```cpp
+   #include <stdio.h>
+
+   /* echo command-line arguments; 1st version */
+   main(int argc, char *argv[])
+   {
+       int i;
+
+       for (i = 1; i < argc; i++)
+           printf("%s%s", argv[i], (i < argc-1) ? " " : "");
+       printf("\n");
+       return 0;
+   }
+```
+Since argv is a pointer to an array of pointers, we can manipulate the pointer rather than index the array. This next variant is based on incrementing argv, which is a pointer to pointer to char, while argc is counted down:
+```cpp
+   #include <stdio.h>
+
+   /* echo command-line arguments; 2nd version */
+   main(int argc, char *argv[])
+   {
+       while (--argc > 0)
+           printf("%s%s", *++argv, (argc > 1) ? " " : "");
+       printf("\n");
+       return 0;
+   }
+```
+Since argv is a pointer to the beginning of the array of argument strings, incrementing it by 1 (++argv) makes it point at the original argv[1] instead of argv[0]. Each successive increment moves it along to the next argument; \*argv is then the pointer to that argument. At the same time, argc is decremented; when it becomes zero, there are no arguments left to print.
+
+程序echo的第一个版本将argv看成是一个字符指针数组：
+
+```cpp
+   #include <stdio.h>
+
+   /* echo command-line arguments; 1st version */
+   main(int argc, char *argv[])
+   {
+       int i;
+
+       for (i = 1; i < argc; i++)
+           printf("%s%s", argv[i], (i < argc-1) ? " " : "");
+       printf("\n");
+       return 0;
+   }
+```
+
+因为argv是一个指向指针数组的指针，所以，可以通过指针而非数组下标的方式处理命令行参数。echo程序的第二个版本是在对argv进行自增运算、对argc进行自减运算的基础上实现的，其中argv是一个指向char类型的指针的指针：
+
+```cpp
+   #include <stdio.h>
+
+   /* echo command-line arguments; 2nd version */
+   main(int argc, char *argv[])
+   {
+       while (--argc > 0)
+           printf("%s%s", *++argv, (argc > 1) ? " " : "");
+       printf("\n");
+       return 0;
+   }
+```
+
+因为argv是一个指向参数字符串数组起始位置的指针，所以，自增运算(++argv)将使得它在最开始指向argv[1]而非argv[0]。每执行一次自增运算，就使得argv指向下一个参数，\*argv就是指向那个参数的指针。与此同时，argc执行自减运算，当它变成0时，就完成了所有参数的打印。
+
+Alternatively, we could write the printf statement as
+```cpp
+   printf((argc > 1) ? "%s " : "%s", *++argv);
+```
+This shows that the format argument of printf can be an expression too.
+
+也可以将printf语句写成下列形式：
+
+```cpp
+   printf((argc > 1) ? "%s " : "%s", *++argv);
+```
+
+这就说明，printf的格式化参数也可以是表达式。
+
+As a second example, let us make some enhancements to the pattern-finding program from Section 4.1. If you recall, we wired the search pattern deep into the program, an obviously unsatisfactory arrangement. Following the lead of the UNIX program grep, let us enhance the program so the pattern to be matched is specified by the first argument on the command line.
+```cpp
+   #include <stdio.h>
+   #include <string.h>
+   #define MAXLINE 1000
+
+   int getline(char *line, int max);
+
+   /* find:  print lines that match pattern from 1st arg */
+   main(int argc, char *argv[])
+   {
+       char line[MAXLINE];
+       int found = 0;
+
+       if (argc != 2)
+           printf("Usage: find pattern\n");
+       else
+           while (getline(line, MAXLINE) > 0)
+               if (strstr(line, argv[1]) != NULL) {
+                   printf("%s", line);
+                   found++;
+               }
+       return found;
+   }
+```
+The standard library function strstr(s,t) returns a pointer to the first occurrence of the string t in the string s, or NULL if there is none. It is declared in &lt;string.h&gt;.
+
+我们来看第二个例子。在该例子中，我们将增强4.1节中模式查找程序的功能。在4.1节中，我们将查找模式内置到程序中了，这种解决方法显然不能令人满意。下面我们来效仿UNIX程序grep的实现方法改写模式查找程序，通过命令行的第一个参数指定待匹配的模式。
+
+```cpp
+   #include <stdio.h>
+   #include <string.h>
+   #define MAXLINE 1000
+
+   int getline(char *line, int max);
+
+   /* find:  print lines that match pattern from 1st arg */
+   main(int argc, char *argv[])
+   {
+       char line[MAXLINE];
+       int found = 0;
+
+       if (argc != 2)
+           printf("Usage: find pattern\n");
+       else
+           while (getline(line, MAXLINE) > 0)
+               if (strstr(line, argv[1]) != NULL) {
+                   printf("%s", line);
+                   found++;
+               }
+       return found;
+   }
+```
+
+标准库函数strstr(s,t)返回一个指针，该指针指向字符串t在字符串s中第一次出现的位置；如果字符串t没有在字符串s中出现，函数返回NULl(空指针)。该函数声明在头文件&lt;string.h&gt;中。
+
+The model can now be elaborated to illustrate further pointer constructions. Suppose we want to allow two optional arguments. One says ``print all the lines except those that match the pattern; *the second says ``precede each printed line by its line number.*
+
+为了更进一步地解释指针结构，我们来改进模式查找程序。假定允许程序带两个可选参数。其中一个参数表示“打印除匹配模式之外的所有行”，另一个参数表示“每个打印的文本行前面加上相应的行号”。
+
+A common convention for C programs on UNIX systems is that an argument that begins with a minus sign introduces an optional flag or parameter. If we choose -x (for "except") to signal the inversion, and -n ("number") to request line numbering, then the command
+```
+   find -x -npattern
+```
+will print each line that doesn't match the pattern, preceded by its line number.
+
+UNIX系统中的C语言程序有一个公共的约定：以负号开头的参数表示一个可选标志或参数。假定用-x(代表“除……之外”【czk注：代表except。】)表示打印所有与模式不匹配的文本行，用-n(代表“行号”【czk注：代表number。】)表示打印行号，那么下列命令：
+
+```
+   find -x -n pattern
+```
+
+将打印所有与模式不匹配的行，并在每个打印行的前面加上行号。
+
+Optional arguments should be permitted in any order, and the rest of the program should be independent of the number of arguments that we present. Furthermore, it is convenient for users if option arguments can be combined, as in
+```
+   find -nx pattern
+```
+
+可选参数应该允许以任意次序出现，同时，程序的其余部分应该与命令行中参数的数目无关。此外，如果可选参数能够组合使用，将会给使用者带来更大的方便，比如：
+
+```
+   find -nx pattern
+```
+
+Here is the program:
+```cpp
+   #include <stdio.h>
+   #include <string.h>
+   #define MAXLINE 1000
+
+   int getline(char *line, int max);
+
+   /* find: print lines that match pattern from 1st arg */
+   main(int argc, char *argv[])
+   {
+       char line[MAXLINE];
+       long lineno = 0;
+       int c, except = 0, number = 0, found = 0;
+
+       while (--argc > 0 && (*++argv)[0] == '-')
+           while (c = *++argv[0])
+               switch (c) {
+               case 'x':
+                   except = 1;
+                   break;
+               case 'n':
+                   number = 1;
+                   break;
+               default:
+                   printf("find: illegal option %c\n", c);
+                   argc = 0;
+                   found = -1;
+                   break;
+               }
+       if (argc != 1)
+           printf("Usage: find -x -n pattern\n");
+       else
+           while (getline(line, MAXLINE) > 0) {
+               lineno++;
+               if ((strstr(line, *argv) != NULL) != except) {
+                   if (number)
+                       printf("%ld:", lineno);
+                   printf("%s", line);
+                   found++;
+               }
+           }
+       return found;
+   }
+```
+argc is decremented and argv is incremented before each optional argument. At the end of the loop, if there are no errors, argc tells how many arguments remain unprocessed and argv points to the first of these. Thus argc should be 1 and \*argv should point at the pattern. Notice that \*++argv is a pointer to an argument string, so (\*++argv)[0] is its first character. (An alternate valid form would be \*\*++argv.) Because [] binds tighter than \* and ++, the parentheses are necessary; without them the expression would be taken as \*++(argv[0]). In fact, that is what we have used in the inner loop, where the task is to walk along a specific argument string. In the inner loop, the expression \*++argv[0] increments the pointer argv[0]!
+
+改写后的模式查找程序如下所示：
+
+```cpp
+   #include <stdio.h>
+   #include <string.h>
+   #define MAXLINE 1000
+
+   int getline(char *line, int max);
+
+   /* find: print lines that match pattern from 1st arg */
+   main(int argc, char *argv[])
+   {
+       char line[MAXLINE];
+       long lineno = 0;
+       int c, except = 0, number = 0, found = 0;
+
+       while (--argc > 0 && (*++argv)[0] == '-')
+           while (c = *++argv[0])
+               switch (c) {
+               case 'x':
+                   except = 1;
+                   break;
+               case 'n':
+                   number = 1;
+                   break;
+               default:
+                   printf("find: illegal option %c\n", c);
+                   argc = 0;
+                   found = -1;
+                   break;
+               }
+       if (argc != 1)
+           printf("Usage: find -x -n pattern\n");
+       else
+           while (getline(line, MAXLINE) > 0) {
+               lineno++;
+               if ((strstr(line, *argv) != NULL) != except) {
+                   if (number)
+                       printf("%ld:", lineno);
+                   printf("%s", line);
+                   found++;
+               }
+           }
+       return found;
+   }
+```
+
+在处理每个可选参数之前，argc执行自减运算，argv执行自增运算。循环语句结束时，如果没有错误，则argc的值表示还没有处理的参数数目。而argv则指向这些未处理参数中的第一个参数。因此，这时argc的值应为1，而\*argv应该指向模式。注意，\*++argv是一个指向参数字符串的指针，因此(\*++argv)[0]是它的第一个字符(另一种有效形式是\*\*++argv)。因为[]与操作数的结合优先级比\*和++高，所以在上述表达式中必须使用圆括号，否则编译器将会把该表达式当做\*++(argv[0])。实际上，我们在内层循环中就使用了表达式\*++argv[0]，其目的是遍历一个特定的参数串。在内层循环中，表达式\*++argv[0]对指针argv[0]进行了自增运算。
+
+It is rare that one uses pointer expressions more complicated than these; in such cases, breaking them into two or three steps will be more intuitive.
+
+很少有人使用比这更复杂的指针表达式。如果遇到这种情况，可以将它们分为两步或三步来理解，这样会更直观一些。
+
+**Exercise 5-10.** Write the program expr, which evaluates a reverse Polish expression from the command line, where each operator or operand is a separate argument. For example,
+```
+   expr 2 3 4 + *
+```
+evaluates 2 \* (3+4).
+
+练习5-10  编写程序expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
+
+```
+   expr 2 3 4 + *
+```
+将计算表达式2\*(3+4)的值。
+
+**Exercise 5-11.** Modify the program entab and detab (written as exercises in Chapter 1) to accept a list of tab stops as arguments. Use the default tab settings if there are no arguments.
+
+练习5—11  修改程序e吠ab和detab(第1亭练习巾编丐的函数)，使它们接受一组作为
+参数的制表符停止位。如果启动程序时不带参数，则使用默认的制表符停止住设置。
+
+**Exercise 5-12.** Extend entab and detab to accept the shorthand
+```
+   entab -m +n
+```
+to mean tab stops every n columns, starting at column m. Choose convenient (for the user) default behavior.
+
+练习5-12  对程序entab和detab的功能做一些扩充，以接受下列缩写的命令：
+
+```cpp
+   entab -m +n
+```
+
+表示制表符从第m列开始，每隔n列停止。选择(对使用者而言)比较方便的默认行为。
+
+**Exercise 5-13.** Write the program tail, which prints the last n lines of its input. By default, n is set to 10, let us say, but it can be changed by an optional argument so that
+```
+   tail -n
+```
+prints the last n lines. The program should behave rationally no matter how unreasonable the input or the value of n. Write the program so it makes the best use of available storage; lines should be stored as in the sorting program of Section 5.6, not in a two-dimensional array of fixed size.
+
+练习5-13  编写程序tail，将其输入中的最后n行打印出来。默认情况下，n的值为10，但可通过—个可选参数改变n的值，因此，命令
+```
+   tail -n
+```
+将打印其输入的最后n行。无论输入或n的值是否合理，该程序都应该能正常运行。编写的程序要充分地利用存储空间；输入行的存储方式应该同5.6节中排序程序的存储方式一样，而不采用固定长度的二维数组。

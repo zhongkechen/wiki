@@ -1,0 +1,144 @@
+---
+title: "TCPL/3.2_If-Else"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 3.2 If-Else if-else语句
+
+The if-else statement is used to express decisions. Formally the syntax is
+```
+   if (expression)
+       statement1
+   else
+       statement2
+```
+where the else part is optional. The expression is evaluated; if it is true (that is, if expression has a non-zero value), statement1 is executed. If it is false (expression is zero) and if there is an else part, statement2 is executed instead.
+
+if-else语句用于条件判定。其语法如下所示：
+
+```
+   if (expression)
+       statement1
+   else
+       statement2
+```
+
+其中else部分是可选的。该语句执行时，先计算表达式的值，如果其值为真(即表达式的值为非0)，则执行语句1；如果其值为假(即表达式的值为0)，并且该语句包含else部分，则执行语句2。
+
+Since an if tests the numeric value of an expression, certain coding shortcuts are possible. The most obvious is writing
+```
+   if (expression)
+```
+instead of
+```
+   if (expression != 0)
+```
+Sometimes this is natural and clear; at other times it can be cryptic.
+
+由于if语句只是简单测试表达式的数值，因此可以对某些代码的编写进行简化。最明显的例子是用如下写法
+
+```
+   if (expression)
+```
+
+来代替
+
+```
+   if (expression != 0)
+```
+
+某些情况下这种形式是自然清晰的，但也有些情况下可能会含义不清。
+
+Because the else part of an if-else is optional,there is an ambiguity when an else if omitted from a nested if sequence. This is resolved by associating the else with the closest previous else-less if. For example, in
+```
+   if (n > 0)
+       if (a > b)
+           z = a;
+       else
+           z = b;
+```
+the else goes to the inner if, as we have shown by indentation. If that isn't what you want, braces must be used to force the proper association:
+```
+   if (n > 0) {
+       if (a > b)
+            z = a;
+   }
+   else
+       z = b;
+```
+
+因为if-else语句的else部分是可选的，所以在嵌套的if语句中省略它的else部分将导致歧义。解决的方法是将每个else与最近的前一个没有else配对的if进行匹配。例如，在下列语句中：
+
+```
+   if (n > 0)
+       if (a > b)
+           z = a;
+       else
+           z = b;
+```
+
+else部分与内层的if匹配，我们通过程序的缩进结构也可以看出来。如果这不符合我们的意图，则必须使用花括号强制实现正确的匹配关系：
+
+```
+   if (n > 0) {
+       if (a > b)
+            z = a;
+   }
+   else
+       z = b;
+```
+
+The ambiguity is especially pernicious in situations like this:
+```
+   if (n > 0)
+       for (i = 0; i < n; i++)
+           if (s[i] > 0) {
+               printf("...");
+               return i;
+           }
+   else        /* WRONG */
+       printf("error -- n is negative\n");
+```
+The indentation shows unequivocally what you want, but the compiler doesn't get the message, and associates the else with the inner if. This kind of bug can be hard to find; it's a good idea to use braces when there are nested ifs.
+
+歧义性在下面这种情况下尤为有害：
+
+```
+   if (n > 0)
+       for (i = 0; i < n; i++)
+           if (s[i] > 0) {
+               printf("...");
+               return i;
+           }
+   else        /* WRONG */
+       printf("error -- n is negative\n");
+```
+
+程序的缩进结构明确地表明了设计意图，但编译器无法获得这一信息，它会将else部分与内层的if配对。这种错误很难发现，因此我们建议在有if语句嵌套的情况下使用花括号。
+
+By the way, notice that there is a semicolon after z = a in
+```
+   if (a > b)
+       z = a;
+   else
+       z = b;
+```
+This is because grammatically, a statement follows the if, and an expression statement like "z = a;" is always terminated by a semicolon.
+
+顺便提醒读者注意，在语句
+
+```
+   if (a > b)
+       z = a;
+   else
+       z = b;
+```
+
+中，z=a后有一个分号。这是因为，从语法上讲，跟在if后面的应该是一条语句，而像“z=a;”这类的表达式语句总是以分号结束的。

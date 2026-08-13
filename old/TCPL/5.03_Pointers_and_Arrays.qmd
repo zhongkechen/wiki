@@ -1,0 +1,230 @@
+---
+title: "TCPL/5.03_Pointers_and_Arrays"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.3 Pointers and Arrays 指针与数组
+
+In C, there is a strong relationship between pointers and arrays, strong enough that pointers and arrays should be discussed simultaneously. Any operation that can be achieved by array subscripting can also be done with pointers. The pointer version will in general be faster but, at least to the uninitiated, somewhat harder to understand.
+
+在C语言中，指针和数组之间的关系十分密切，因此，在接下来的部分中，我们将同时讨论指针与数组。通过数组下标所能完成的任何操作都可以通过指针来实现。一般来说，用指针编写的程序比用数组下标编写的程序执行速度快，但另一方面，用指针实现的程序理解起来稍微困难一些，
+
+The declaration
+```cpp
+   int a[10];
+```
+defines an array of size 10, that is, a block of 10 consecutive objects named a[0], a[1], ...,a[9].
+
+![pic53.gif](<assets/TCPL/5.03_Pointers_and_Arrays/pic53.gif>)
+
+The notation a[i] refers to the i-th element of the array. If pa is a pointer to an integer, declared as
+```cpp
+   int *pa;
+```
+then the assignment
+```cpp
+   pa = &a[0];
+```
+sets pa to point to element zero of a; that is, pa contains the address of a[0].
+
+![pic54.gif](<assets/TCPL/5.03_Pointers_and_Arrays/pic54.gif>)
+
+Now the assignment
+```cpp
+   x = *pa;
+```
+will copy the contents of a[0] into x.
+
+声明
+
+```cpp
+   int a[10];
+```
+
+定义了—个长度为10的数组。换句话说，它定义了一个由10个对象组成的集合，这10个对象存储在相邻的内存区域中，名字分别为a[0]、a[1]、…、a[9] (参见图5-3)。
+
+![pic53.gif](<assets/TCPL/5.03_Pointers_and_Arrays/pic53.gif>)
+
+a[i]表示该数组的第i个元素。如果pa的声明为
+
+```cpp
+   int *pa;
+```
+
+则说明它是一个指向整型对象的指针，那么，赋值语句
+
+```cpp
+   pa = &a[0];
+```
+
+则可以将指针pa指向数组a的第0个元素，也就是说，pa的值为数组元素a[0]的地址(参见图5-4)。
+
+![pic54.gif](<assets/TCPL/5.03_Pointers_and_Arrays/pic54.gif>)
+
+这样，赋值语句
+
+```cpp
+   x = *pa;
+```
+
+将把数组元素a[0]中的内容复制到变量x中。
+
+If pa points to a particular element of an array, then by definition pa+1 points to the next element, pa+i points i elements after pa, and pa-i points i elements before. Thus, if pa points to a[0],
+```cpp
+   *(pa+1)
+```
+refers to the contents of a[1], pa+i is the address of a[i], and \*(pa+i) is the contents of a[i].
+
+![pic55.gif](<assets/TCPL/5.03_Pointers_and_Arrays/pic55.gif>)
+
+如果pa指向数组中的某个特定元素，那么，根据指针运算的定义，pa+1将指向下一个元素，pa-i将指向pa所指向数组元素之后的第i个元素，而pa-i将指向pa所指向数组元素之前的第i个元素。因此，如果指针pa指向a[0]，那么\*(pa+1)引用的是数组元素a[1]的内容，pa+i是数组元素a[i]的地址，\*(pa+i)引用的是数组元素a[i]的内容(参见图5.5)。
+
+![pic55.gif](<assets/TCPL/5.03_Pointers_and_Arrays/pic55.gif>)
+
+These remarks are true regardless of the type or size of the variables in the array a. The meaning of "adding 1 to a pointer", and by extension, all pointer arithmetic, is that pa+1 points to the next object, and pa+i points to the i-th object beyond pa.
+
+无论数组a中元素的类型或数组长度是什么，上面的结论都成立。“指针加1”就意味着，pa+1指向pa所指向的对象的下一个对象。相应地，pa+i指向pa所指向的对象之后的第i个对象。
+
+The correspondence between indexing and pointer arithmetic is very close. By definition, the value of a variable or expression of type array is the address of element zero of the array. Thus after the assignment
+```cpp
+   pa = &a[0];
+```
+pa and a have identical values. Since the name of an array is a synonym for the location of the initial element, the assignment pa=&a[0] can also be written as
+```cpp
+   pa = a;
+```
+
+下标和指针运算之间具有密切的对应关系。根据定义，数组类型的变量或表达式的值是该数组第0个元素的地址。执行赋值语句
+
+```cpp
+   pa = &a[0];
+```
+
+后，pa和a具有相同的值。因为数组名所代表的就是该数组最开始的一个元素的地址，所以赋值语句pa=&a[0]也可以写成下列形式：
+
+```cpp
+   pa = a;
+```
+
+Rather more surprising, at first sight, is the fact that a reference to a[i] can also be written as \*(a+i). In evaluating a[i], C converts it to \*(a+i) immediately; the two forms are equivalent. Applying the operator & to both parts of this equivalence, it follows that &a[i] and a+i are also identical: a+i is the address of the i-th element beyond a. As the other side of this coin, if pa is a pointer, expressions might use it with a subscript; pa[i] is identical to \*(pa+i). In short, an array-and-index expression is equivalent to one written as a pointer and offset.
+
+对数组元素a[i]的引用也可以写成\*(a+i)这种形式。对第一次接触这种写法的人来说，可能会觉得很奇怪。在计算数组元素a[i]的值时，C语言实际上先将其转换为\*(a+i)的形式，然后再进行求值，因此在程序中这两种形式是等价的。如果对这两种等价的表示形式分别施加地址运算符&，便可以得出这样的结论：&a[i]和a+i的含义也是相同的。a+i是a之后第i个元素的地址。相应地，如果pa是一个指针，那么，在表达式中也可以在它的后面加下标。pa[i]与\*(pa+i)是等价的。简而言之，一个通过数组和下标实现的表达式可等价地通过指针和偏移量实现。
+
+There is one difference between an array name and a pointer that must be kept in mind. A pointer is a variable, so pa=a and pa++ are legal. But an array name is not a variable; constructions like a=pa and a++ are illegal.
+
+但是，我们必须记住，数组名和指针之间有一个不同之处：指针是一个变量，因此，在C语言中，语句pa=a和pa++都是合法的。但数组名不是变量，因此，类似于a=pa和a++形式的语句是非法的。
+
+When an array name is passed to a function, what is passed is the location of the initial element. Within the called function, this argument is a local variable, and so an array name parameter is a pointer, that is, a variable containing an address. We can use this fact to write another version of strlen, which computes the length of a string.
+```cpp
+   /* strlen:  return length of string s */
+   int strlen(char *s)
+   {
+       int n;
+
+       for (n = 0; *s != '\0', s++)
+           n++;
+       return n;
+   }
+```
+Since s is a pointer, incrementing it is perfectly legal; s++ has no effect on the character string in the function that called strlen, but merely increments strlen's private copy of the pointer. That means that calls like
+```cpp
+   strlen("hello, world");   /* string constant */
+   strlen(array);            /* char array[100]; */
+   strlen(ptr);              /* char *ptr; */
+```
+all work.
+
+当把数组名传递给一个函数时，实际上传递的是该数组第一个元素的地址。在被调用函数中，该参数是一个局部变量，因此，数组名参数必须是—个指针，也就是一个存储地址值的变量。我们可以利用该特性编写strlen函数的另一个版本，该函数用于计算一个字符串的长度。
+
+```cpp
+   /* strlen:  return length of string s */
+   int strlen(char *s)
+   {
+       int n;
+
+       for (n = 0; *s != '\0', s++)
+           n++;
+       return n;
+   }
+```
+
+因为s是一个指针，所以对其执行自增运算是合法的。执行s++运算不会影响到strlen函数的调用者中的字符串，它仅对该指针在strlen函数中的私有副本进行自增运算。因此，类似于下面这样的函数调用：
+
+```cpp
+   strlen("hello, world");   /* string constant */
+   strlen(array);            /* char array[100]; */
+   strlen(ptr);              /* char *ptr; */
+```
+
+都可以正确地执行。
+
+As formal parameters in a function definition,
+```cpp
+   char s[];
+```
+and
+```cpp
+   char *s;
+```
+are equivalent; we prefer the latter because it says more explicitly that the variable is a pointer. When an array name is passed to a function, the function can at its convenience believe that it has been handed either an array or a pointer, and manipulate it accordingly. It can even use both notations if it seems appropriate and clear.
+
+在函数定义中，形式参数
+
+```cpp
+   char s[];
+```
+
+和
+
+```cpp
+   char *s;
+```
+
+是等价的。我们通常更习惯于使用后一种形式，因为它比前各更直观地表明了该参数是一个指针。如果将数组名传递给函数，函数可以根据情况判定是按照数组处理还是按照指针处理，随后根据相应的方式操作该参数。为了直观且恰当地描述函数，在函数中甚至可以同时使用数组和指针这两种表示方法。
+
+It is possible to pass part of an array to a function, by passing a pointer to the beginning of the subarray. For example, if a is an array,
+```cpp
+   f(&a[2])
+```
+and
+```cpp
+   f(a+2)
+```
+both pass to the function f the address of the subarray that starts at a[2]. Within f, the parameter declaration can read
+```cpp
+   f(int arr[]) { ... }
+```
+or
+```cpp
+   f(int *arr) { ... }
+```
+So as far as f is concerned, the fact that the parameter refers to part of a larger array is of no consequence.
+
+也可以将指向子数组起始位置的指针传递给函数，这样，就将数组的一部分传递给了函数。例如，如果a是一个数组，那么下面两个函数调用
+```cpp
+   f(&a[2])
+```
+与
+```cpp
+   f(a+2)
+```
+都将把起始于a[2]的子数组的地址传递给函数f。在函数f中，参数的声明形式可以为
+```cpp
+   f(int arr[]) { ... }
+```
+或
+```cpp
+   f(int *arr) { ... }
+```
+对于函数f来说，它并不关心所引用的是否只是—个更大数组的部分元素。
+
+If one is sure that the elements exist, it is also possible to index backwards in an array; p[-1], p[-2], and so on are syntactically legal, and refer to the elements that immediately precede p[0]. Of course, it is illegal to refer to objects that are not within the array bounds.
+
+如果确信相应的元素存在，也可以通过下标访问数组第一个元素之前的元素。类似于p[-1]、p[-2]这样的表达式在语法上都是合法的，它们分别引用位于p[0]之前的两个元素。当然，引用数组边界之外的对象是非法的。

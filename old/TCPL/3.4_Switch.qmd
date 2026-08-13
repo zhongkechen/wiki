@@ -1,0 +1,124 @@
+---
+title: "TCPL/3.4_Switch"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 3.4 Switch switch语句
+
+The switch statement is a multi-way decision that tests whether an expression matches one of a number of constant integer values, and branches accordingly.
+```
+   switch (expression) {
+       case const-expr: statements
+       case const-expr: statements
+       default: statements
+   }
+```
+Each case is labeled by one or more integer-valued constants or constant expressions. If a case matches the expression value, execution starts at that case. All case expressions must be different. The case labeled default is executed if none of the other cases are satisfied. A default is optional; if it isn't there and if none of the cases match, no action at all takes place. Cases and the default clause can occur in any order.
+
+switch语句是一种多路判定语句，它测试表达式是否与一些常量整数值中的某—个值匹配，并执行相应的分支动作。
+
+```
+   switch (expression) {
+       case const-expr: statements
+       case const-expr: statements
+       default: statements
+   }
+```
+
+每一个分支都由一个或多个整数值常量或常量表达式标记。如果某个分支与表达式的值匹配，则从该分支开始执行。各分支表达式必须互不相同。如果没有哪一分支能匹配表达式，则执行标记为default的分支。default分支是可选的。如果没有default分支也没有其他分支与表达式的值匹配，则该switch语句不执行任何动作。各分支及default分支的排列次序是任意的。
+
+In Chapter 1 we wrote a program to count the occurrences of each digit, white space, and all other characters, using a sequence of if ... else if ... else. Here is the same program with a switch:
+```cpp
+   #include <stdio.h>
+
+   main()  /* count digits, white space, others */
+   {
+       int c, i, nwhite, nother, ndigit[10];
+
+       nwhite = nother = 0;
+       for (i = 0; i < 10; i++)
+           ndigit[i] = 0;
+       while ((c = getchar()) != EOF) {
+           switch (c) {
+           case '0': case '1': case '2': case '3': case '4':
+           case '5': case '6': case '7': case '8': case '9':
+               ndigit[c-'0']++;
+               break;
+           case ' ':
+           case '\n':
+           case '\t':
+               nwhite++;
+               break;
+           default:
+               nother++;
+               break;
+           }
+       }
+       printf("digits =");
+       for (i = 0; i < 10; i++)
+           printf(" %d", ndigit[i]);
+       printf(", white space = %d, other = %d\n",
+           nwhite, nother);
+       return 0;
+   }
+```
+
+我们在第1章中曾用if…else if…else结构编写过一个程序以统计各个数字、空白符及其他所有字符出现的次数。下面我们用switch语句改写该程序如下：
+
+```cpp
+   #include <stdio.h>
+
+   main()  /* count digits, white space, others */
+   {
+       int c, i, nwhite, nother, ndigit[10];
+
+       nwhite = nother = 0;
+       for (i = 0; i < 10; i++)
+           ndigit[i] = 0;
+       while ((c = getchar()) != EOF) {
+           switch (c) {
+           case '0': case '1': case '2': case '3': case '4':
+           case '5': case '6': case '7': case '8': case '9':
+               ndigit[c-'0']++;
+               break;
+           case ' ':
+           case '\n':
+           case '\t':
+               nwhite++;
+               break;
+           default:
+               nother++;
+               break;
+           }
+       }
+       printf("digits =");
+       for (i = 0; i < 10; i++)
+           printf(" %d", ndigit[i]);
+       printf(", white space = %d, other = %d\n",
+           nwhite, nother);
+       return 0;
+   }
+```
+
+The break statement causes an immediate exit from the switch. Because cases serve just as labels, after the code for one case is done, execution falls through to the next unless you take explicit action to escape. break and return are the most common ways to leave a switch. A break statement can also be used to force an immediate exit from while, for, and do loops, as will be discussed later in this chapter.
+
+break语句将导致程序的执行立即从switch语句中退出。在switch语句中，case的作用只是一个标号，因此，某个分支中的代码执行完后，程序将进入下一分支继续执行，除非在程序中显式地跳转。跳出switch语句最常用的方法是使用break语句与return语句。break语句还可强制控制从while、for与do循环语句中立即退出，对于这一点，我们稍后还将做进一步介绍。
+
+Falling through cases is a mixed blessing. On the positive side, it allows several cases to be attached to a single action, as with the digits in this example. But it also implies that normally each case must end with a break to prevent falling through to the next. Falling through from one case to another is not robust, being prone to disintegration when the program is modified. With the exception of multiple labels for a single computation, fall-throughs should be used sparingly, and commented.
+
+依次执行各分支的做法有优点也有缺点。好的一面是它可以把若干个分支组合在一起完成一个任务，如上例中对数字的处理。但是，正常情况下为了防止直接进入下一个分支执行，每个分支后必须以一个break语句结束。从一个分支直接进入下一个分支执行的做法并不健全，这样做在程序修改时很容易出错。除了一个计算需要多个标号的情况外，应尽量减少从一个分支直接进入下一个分支执行这种用法，在不得不使用的情况下应该加上适当的程序注释。
+
+As a matter of good form, put a break after the last case (the default here) even though it's logically unnecessary. Some day when another case gets added at the end, this bit of defensive programming will save you.
+
+作为一种良好的程序设计风格，在switch语句最后一个分支(即default分支)的后面也加上一个break语句。【czk注：翻译错误，原意不是“即default分支”，而是说在这个例子中是default分支。其他情况下可能不是default。】这样做在逻辑上没有必要，但当我们需要向该switch语句后添加其他分支时，这种防范措施会降低犯错误的可能性。
+
+Exercise 3-2. Write a function escape(s,t) that converts characters like newline and tab into visible escape sequences like \\n and \\t as it copies the string t to s. Use a switch. Write a function for the other direction as well, converting escape sequences into the real characters.
+
+练习3-2 编写一个函数escape(s,t)，将字符串t复制到字符串s中，并在复制过程中将换行符、制表特等不可见字符分别转换为\\n、\\t等相应的可见的转义符序列。要求使用switch语句。再编写一个具有相反功能的函数，在复制过程中将转义字符序列转换为实际字符。

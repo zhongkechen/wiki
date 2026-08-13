@@ -1,0 +1,174 @@
+---
+title: "TCPL/6.1_Basics_of_Structures"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 6.1 Basics of Structures 结构的基本知识
+
+Let us create a few structures suitable for graphics. The basic object is a point, which we will assume has an x coordinate and a y coordinate, both integers.
+
+![pic61.gif](<assets/TCPL/6.1_Basics_of_Structures/pic61.gif>)
+
+我们首先来建立一些适用于图形领域的结构。点是最基本的对象，假定用x与y坐标表示它，且x、y的坐标值都为整数(参见图6-1)。
+
+![pic61.gif](<assets/TCPL/6.1_Basics_of_Structures/pic61.gif>)
+
+The two components can be placed in a structure declared like this:
+```cpp
+struct point {
+    int x;
+    int y;
+};
+```
+
+我们可以采用结构存放这两个坐标，其声明如下：
+
+```cpp
+struct point {
+    int x;
+    int y;
+};
+```
+
+The keyword struct introduces a structure declaration, which is a list of declarations enclosed in braces. An optional name called a structure tag may follow the word struct (as with point here). The tag names this kind of structure, and can be used subsequently as a shorthand for the part of the declaration in braces.
+
+关键字struct引入结构声明。结构声明由包含在花括号内的一系列声明组成。关键字struct后面的名字是可选的，称为结构标记(这里是point)。结构标记用于为结构命名，在定义之后，结构标记就代表花括号内的声明，可以用它作为该声明的简写形式。
+
+The variables named in a structure are called members. A structure member or tag and an ordinary (i.e., non-member) variable can have the same name without conflict, since they can always be distinguished by context. Furthermore, the same member names may occur in different structures, although as a matter of style one would normally use the same names only for closely related objects.
+
+结构中定义的变量称为成员。结构成员、结构标记和普通变量(即非成员)可以采用相同的名字，它们之间不会冲突，因为通过上下文分析总可以对它们进行区分。另外，不同结构中的成员可以使用相同的名字，但是，从编程风格方面来说，通常只有密切相关的对象才会使用相同的名字。
+
+A struct declaration defines a type. The right brace that terminates the list of members may be followed by a list of variables, just as for any basic type. That is,
+```
+struct { ... } x, y, z;
+```
+is syntactically analogous to
+```
+int x, y, z;
+```
+in the sense that each statement declares x, y and z to be variables of the named type and causes space to be set aside for them.
+
+struct声明定义了一种数据类型。在标志结构成员表结束的右花括号之后可以跟一个变量表，这与其他基本类型的变量声明是相同的。例如：
+
+```
+struct { ... } x, y, z;
+```
+
+从语法角度来说，这种方式的声明与声明
+
+```
+int x, y, z;
+```
+
+具有类似的意义。这两个声明都将x、y与z声明为指定类型的变量，并且为它们分配存储空间。
+
+A structure declaration that is not followed by a list of variables reserves no storage; it merely describes a template or shape of a structure. If the declaration is tagged, however, the tag can be used later in definitions of instances of the structure. For example, given the declaration of point above,
+```
+struct point pt;
+```
+defines a variable pt which is a structure of type struct point. A structure can be initialized by following its definition with a list of initializers, each a constant expression, for the members:
+```
+struct point maxpt = { 320, 200 };
+```
+An automatic structure may also be initialized by assignment or by calling a function that returns a structure of the right type.
+
+如果结构声明的后面不带变量表，则不需要为它分配存储空间，它仅仅描述了一个结构的模板或轮廓。但是，如果结构声明中带有标记，那么在以后定义结构实例时便可以使用该标记定义。例如，对于上面给出的结构声明point，语句
+
+```
+struct point pt;
+```
+
+定义了一个struct point类型的变员pt。结构的初始化可以在定义的后面使用初值表进行。初值表中同每个成员对应的初值必须是常量表达式，例如：
+
+```
+struct point maxpt = { 320, 200 };
+```
+
+自动结构也可以通过赋值初始化，还可以通过调用返回相应类型结构的函数进行初始化。
+
+A member of a particular structure is referred to in an expression by a construction of the form
+```
+structure-name.member
+```
+The structure member operator "." connects the structure name and the member name. To print the coordinates of the point pt, for instance,
+```
+printf("%d,%d", pt.x, pt.y);
+```
+or to compute the distance from the origin (0,0) to pt,
+```
+double dist, sqrt(double);
+
+dist = sqrt((double)pt.x * pt.x + (double)pt.y * pt.y);
+```
+
+在表达式中，可以通过下列形式引用某个特定结构中的成员：
+
+```
+structure-name.member
+```
+
+其中的结构成员运算符“.”将结构名与成员名连接起来。例如，可用下列语句打印点pt的坐标：
+
+```
+printf("%d,%d", pt.x, pt.y);
+```
+
+或者通过下列代码计算原点(0,0)到点pt的距离：
+
+```
+double dist, sqrt(double);
+
+dist = sqrt((double)pt.x * pt.x + (double)pt.y * pt.y);
+```
+
+Structures can be nested. One representation of a rectangle is a pair of points that denote the diagonally opposite corners:
+
+![pic62.gif](<assets/TCPL/6.1_Basics_of_Structures/pic62.gif>)
+
+```cpp
+struct rect {
+    struct point pt1;
+    struct point pt2;
+};
+```
+
+The rect structure contains two point structures. If we declare screen as
+```
+struct rect screen;
+```
+then
+```
+screen.pt1.x
+```
+refers to the x coordinate of the pt1 member of screen.
+
+结构可以嵌套。我们可以用对角线上的两个点来定义矩形〔参见图6-2)，相应的结构定义如下：
+
+![pic62.gif](<assets/TCPL/6.1_Basics_of_Structures/pic62.gif>)
+
+```cpp
+struct rect {
+    struct point pt1;
+    struct point pt2;
+};
+```
+结构rect包含两个point类型的成员。如果按照下列方式声明screen变量
+
+```
+struct rect screen;
+```
+
+则可以用语句
+
+```
+screen.pt1.x
+```
+
+引用screen的成员pt1的x坐标。

@@ -1,0 +1,31 @@
+---
+title: "TCPL/A.02.5.2_Character_Constants"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+##### A.2.5.2 Character Constants
+
+A character constant is a sequence of one or more characters enclosed in single quotes as in 'x'. The value of a character constant with only one character is the numeric value of the character in the machine's character set at execution time. The value of a multi-character constant is implementation-defined.
+
+Character constants do not contain the ' character or newlines; in order to represent them, and certain other characters, the following escape sequences may be used:
+```
+newline 	NL (LF) 	\n    	backslash 	\ 	\\
+horizontal tab 	HT 	\t	question mark	? 	\?
+vertical tab 	VT 	\v	single quote 	' 	\'
+backspace 	BS 	\b	double quote 	" 	\"
+carriage return	CR 	\r	octal number 	ooo	\ooo
+formfeed 	FF 	\f	hex number 	hh 	\xhh
+audible alert 	BEL 	\a
+```
+The escape \\ooo consists of the backslash followed by 1, 2, or 3 octal digits, which are taken to specify the value of the desired character. A common example of this construction is \\0 (not followed by a digit), which specifies the character NUL. The escape \\xhh consists of the backslash, followed by x, followed by hexadecimal digits, which are taken to specify the value of the desired character. There is no limit on the number of digits, but the behavior is undefined if the resulting character value exceeds that of the largest character. For either octal or hexadecimal escape characters, if the implementation treats the char type as signed, the value is sign-extended as if cast to char type. If the character following the \\ is not one of those specified, the behavior is undefined.
+
+In some implementations, there is an extended set of characters that cannot be represented in the char type. A constant in this extended set is written with a preceding L, for example L'x', and is called a wide character constant. Such a constant has type wchar_t, an integral type defined in the standard header &lt;stddef.h&gt;. As with ordinary character constants, hexadecimal escapes may be used; the effect is undefined if the specified value exceeds that representable with wchar_t.
+
+    Some of these escape sequences are new, in particular the hexadecimal character representation. Extended characters are also new. The character sets commonly used in the Americas and western Europe can be encoded to fit in the char type; the main intent in adding wchar_t was to accommodate Asian languages.

@@ -1,0 +1,105 @@
+---
+title: "TCPL/1.05.2_Character_Counting"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 1.5.2 Character Counting 字符计数
+
+The next program counts characters; it is similar to the copy program.
+```cpp
+   #include <stdio.h>
+
+   /* count characters in input; 1st version */
+   main()
+   {
+       long nc;
+
+       nc = 0;
+       while (getchar() != EOF)
+           ++nc;
+       printf("%ld\n", nc);
+   }
+```
+The statement
+```
+   ++nc;
+```
+presents a new operator, ++, which means increment by one. You could instead write nc = nc + 1 but ++nc is more concise and often more efficient. There is a corresponding operator -- to decrement by 1. The operators ++ and -- can be either prefix operators (++nc) or postfix operators (nc++); these two forms have different values in expressions, as will be shown in Chapter 2, but ++nc and nc++ both increment nc. For the moment we will will stick to the prefix form.
+
+下列程序用于对字符进行计数，它与上面的复制程序类似。
+
+```cpp
+#include <stdio.h>
+
+/* count characters in input; 1st version */
+main()
+{
+    long nc;
+
+    nc = 0;
+    while (getchar() != EOF)
+        ++nc;
+    printf("%ld\n", nc);
+}
+```
+
+其中，语句
+
+```
+++nc;
+```
+
+引人了一个新的运算符++，其功能是执行加1操作。可以用语句nc＝nc+1代替它，但语句++nc更精炼一些，且通常效率也更高。与该运算符相应的是自减运算符--。++与--这两个运算符既可以作为前缀运算符(如++nc)，也可以作为后缀运算符(如nc--)。我们在第2章中将看到，这两种形式在表达式中具有不同的值，但++nc与nc++都使nc的值增加1。目前，我们只使用前缀形式。
+
+The character counting program accumulates its count in a long variable instead of an int. long integers are at least 32 bits. Although on some machines, int and long are the same size, on others an int is 16 bits, with a maximum value of 32767, and it would take relatively little input to overflow an int counter. The conversion specification %ld tells printf that the corresponding argument is a long integer.
+
+该字符计数程序使用long类型的变量存放计数值，而没有使用int类型的变量。long整型数(长整型)至少要占用32位存储单元。在某些机器上int与long类型的长度相同，但在一些机器上，int类型的值可能只有16位存储单元的长度(最大值为32767)，这样，相当小的输入都可能使int类型的计数变量溢出。转换说明%ld告诉printf函数其对应的参数是long整型。
+
+It may be possible to cope with even bigger numbers by using a double (double precision float). We will also use a for statement instead of a while, to illustrate another way to write the loop.
+```cpp
+    #include <stdio.h>
+
+   /* count characters in input; 2nd version */
+   main()
+   {
+       double nc;
+
+       for (nc = 0; getchar() != EOF; ++nc)
+           ;
+       printf("%.0f\n", nc);
+   }
+```
+printf uses %f for both float and double; %.0f suppresses the printing of the decimal point and the fraction part, which is zero.
+
+使用double(双精度浮点数)类型可以处理更大的数字。我们在这里不使用while循环语句，而用for循环语句来展示编写此循环的另一种方法：
+
+```cpp
+#include <stdio.h>
+
+/* count characters in input; 2nd version */
+main()
+{
+    double nc;
+
+    for (nc = 0; getchar() != EOF; ++nc)
+        ;
+    printf("%.0f\n", nc);
+}
+```
+
+对于float与double类型，printf函数都使用%f进行说明。%.0f强制不打印小数点和小数部分，因此小数部分的位数为0。【czk注：翻译不准确】
+
+The body of this for loop is empty, because all the work is done in the test and increment parts. But the grammatical rules of C require that a for statement have a body. The isolated semicolon, called a null statement, is there to satisfy that requirement. We put it on a separate line to make it visible.
+
+在该程序段中，for循环语句的循环体是空的，这是因为所有工作都在测试(条件)部分与增加步长部分完成了。但C语言的语法规则要求for循环语句必须有一个循环体，因此用单独的分号代替。单独的分号称为*空语句*，它正好能满足for语句的这一要求。把它单独放在一行是为了更加醒目。
+
+Before we leave the character counting program, observe that if the input contains no characters, the while or for test fails on the very first call to getchar, and the program produces zero, the right answer. This is important. One of the nice things about while and for is that they test at the top of the loop, before proceeding with the body. If there is nothing to do, nothing is done, even if that means never going through the loop body. Programs should act intelligently when given zero-length input. The while and for statements help ensure that programs do reasonable things with boundary conditions.
+
+在结束讨论字符计数程序之前，我们考虑以下情况：如果输入中不包含字符，那么，在第一次调用getchar函数的时候，while语句或for语句中的条件测试从一开始就为假，程序的执行结果将为0，这也是正确的结果。这一点很重要。while语句与for语句的优点之一就是在执行循环体之前就对条件进行测试。如果条件不满足，则不执行循环体，这就可能出现循环体一次都不执行的情况。在出现0长度的输入时，程序的处理应该灵活一些。在出现边界条件时，while语句与for语句有助于确保程序执行合理的操作。

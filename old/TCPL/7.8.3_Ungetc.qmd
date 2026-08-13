@@ -1,0 +1,27 @@
+---
+title: "TCPL/7.8.3_Ungetc"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 7.8.3 Ungetc ungetc 函数
+
+The standard library provides a rather restricted version of the function ungetch that we wrote in Chapter 4; it is called ungetc.
+```
+   int ungetc(int c, FILE *fp)
+```
+pushes the character c back onto file fp, and returns either c, or EOF for an error. Only one character of pushback is guaranteed per file. ungetc may be used with any of the input functions like scanf, getc, or getchar.
+
+标准库提供了一个称为ungetc的函数，它与第4章中编写的函数ungetch相比功能更受限制。
+
+```
+   int ungetc(int c, FILE *fp)
+```
+
+该函数将字符写回到文件fp中。如果执行成功，则返回c，否则返回EOF。每个文件只能接收一个写回字符。ungetc函数可以和任何一个输入函数一起使用，比如scanf、getc或getchar。

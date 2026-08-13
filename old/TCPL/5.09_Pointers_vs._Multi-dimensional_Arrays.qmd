@@ -1,0 +1,61 @@
+---
+title: "TCPL/5.09_Pointers_vs._Multi-dimensional_Arrays"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 5.9 Pointers vs. Multi-dimensional Arrays 指针与多维数组
+
+Newcomers to C are sometimes confused about the difference between a two-dimensional array and an array of pointers, such as name in the example above. Given the definitions
+```cpp
+   int a[10][20];
+   int *b[10];
+```
+then a[3][4] and b[3][4] are both syntactically legal references to a single int. But a is a true two-dimensional array: 200 int-sized locations have been set aside, and the conventional rectangular subscript calculation 20 \* row +col is used to find the element a[row,col]. For b, however, the definition only allocates 10 pointers and does not initialize them; initialization must be done explicitly, either statically or with code. Assuming that each element of b does point to a twenty-element array, then there will be 200 ints set aside, plus ten cells for the pointers. The important advantage of the pointer array is that the rows of the array may be of different lengths. That is, each element of b need not point to a twenty-element vector; some may point to two elements, some to fifty, and some to none at all.
+
+对于C语言的初学者来说，很容易混淆二维数组与指针数组之间的区别，比如上面例子中的name。假如有下面两个定义：
+```cpp
+   int a[10][20];
+   int *b[10];
+```
+
+那么，从语法角度讲，a[3][4]和b[3][4]都是对一个int对象的合法引用。但a是一个真正的二维数组，它分配了200个int类型长度的存储空间，并且通过常规的矩阵下标计算公式20×row+col(其中，row表示行，col表示列)计算得到元素a[row][col]的位置。但是，对b来说，该定义仅仅分配了10个指针，并且没有对它们初始化，它们的初始化必须以显式的方式进行，比如静态初始化或通过代码初始化。假定b的每个元素都指向一个具有20个元素的数组，那么编译器就要为它分配200个int类型长度的存储空间以及10个指针的存储空间。指针数组的一个重要优点在于，数组的每一行长度可以不同，也就是说，b的每个元素不必都指向一个具有20个元素的向量，某些元素可以指向具有2个元素的向量，某些元素可以指向具有50个元素的向量，而某些元素可以不指向任何向量。
+
+Although we have phrased this discussion in terms of integers, by far the most frequent use of arrays of pointers is to store character strings of diverse lengths, as in the function month_name. Compare the declaration and picture for an array of pointers:
+```cpp
+   char *name[] = { "Illegal month", "Jan", "Feb", "Mar" };
+```
+
+![pic59.gif](<assets/TCPL/5.09_Pointers_vs._Multi-dimensional_Arrays/pic59.gif>)
+
+with those for a two-dimensional array:
+```cpp
+   char aname[][15] = { "Illegal month", "Jan", "Feb", "Mar" };
+```
+
+![pic510.gif](<assets/TCPL/5.09_Pointers_vs._Multi-dimensional_Arrays/pic510.gif>)
+
+尽管我们在上面的讨论中都是借助于整型进行讨论，但到目前为止，指针数组最频繁的用处是存放具有不同长度的字符串，比如函数month_name中的情况。结合下面的声明和图形化描述，我们可以做—个比较。下面是指针数组的声明和图形化描述(参见图5-9)：
+```cpp
+   char *name[] = { "Illegal month", "Jan", "Feb", "Mar" };
+```
+
+![pic59.gif](<assets/TCPL/5.09_Pointers_vs._Multi-dimensional_Arrays/pic59.gif>)
+
+下面是二维数组的声明和图形化描述(参见图5-10)：
+
+```cpp
+   char aname[][15] = { "Illegal month", "Jan", "Feb", "Mar" };
+```
+
+![pic510.gif](<assets/TCPL/5.09_Pointers_vs._Multi-dimensional_Arrays/pic510.gif>)
+
+**Exercise 5-9.** Rewrite the routines day_of_year and month_day with pointers instead of indexing.
+
+练习5-9  用指针方式代替数组下标方式改写函数day_of_year和month_day。

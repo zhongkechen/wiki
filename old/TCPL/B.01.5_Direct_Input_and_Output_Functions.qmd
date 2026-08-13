@@ -1,0 +1,22 @@
+---
+title: "TCPL/B.01.5_Direct_Input_and_Output_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### B.1.5 Direct Input and Output Functions
+
+```
+size_t fread(void *ptr, size_t size, size_t nobj, FILE *stream)
+```
+    fread reads from stream into the array ptr at most nobj objects of size size. fread returns the number of objects read; this may be less than the number requested. feof and ferror must be used to determine status.
+```
+size_t fwrite(const void *ptr, size_t size, size_t nobj, FILE *stream)
+```
+    fwrite writes, from the array ptr, nobj objects of size size on stream. It returns the number of objects written, which is less than nobj on error.

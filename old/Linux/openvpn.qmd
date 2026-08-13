@@ -1,0 +1,154 @@
+---
+title: "openvpn"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+### 概述
+
+OpenVPN^[官方站点： http://openvpn.net/ ] ^[简介： http://en.wikipedia.org/wiki/OpenVPN ] 自由的和开放源码的VPN（virtual private network）程序，可以用来在计算机主机间创建点到点的加密通道。
+
+OpenVPN允许节点间用事先约定的密钥、证书或者用户密码进行相互认证。它使用OpenSSL库进行加密，SSLv3/TLSv1协议。它可以在Solaris、Linux、OpenBSD、FreeBSD、NetBSD、Mac OS X和Windows上使用。它不是基于web的，它和IPsec或者其他VPN工具不兼容。
+
+### 安装
+
+```
+aptitude install openvpn
+```
+
+### 配置
+
+#### 证书
+
+在/usr/share/doc/openvpn/examples/easy-rsa/2.0 目录下有帮助生成证书的工具。将它整个拷贝到一个临时目录下，比如：
+```
+cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /root/
+cd /root/2.0
+```
+
+初始化
+```
+. vars
+./clean-all
+```
+
+创建根证书和密钥(在keys目录下生成ca.crt和ca.key)
+```
+./build-ca
+```
+
+创建 Diffie Hellman parameters(生成dh1024.pem)
+
+```
+./build-dh
+```
+
+为服务器创建证书(生成czkserver.crt和czkserver.key)
+
+```
+./build-key-server czkserver
+```
+
+为客户端创建证书，每个客户端一个证书。(生成czkclient.crt、czkclient.key)
+```
+./build-key czkclient
+```
+
+或者创建加密的证书，更安全：
+```
+./build-key-pass czkclient
+```
+
+keys目录下包含了所有需要的文件：
+
+* 将ca.crt、czkserver.crt、czkserver.key、dh1024.pem放在服务器上的/etc/openvpn目录下。
+* 将ca.crt、czkclient.crt、czkclient.key放在客户端的/etc/openvpn下。
+* 将ca.key妥善保管，创建新的证书时需要使用。
+
+#### 服务端
+
+服务端创建配置文件/etc/openvpn/server.conf:
+```
+port 1194
+
+proto udp
+
+dev tun
+
+ca ca.crt
+cert server.crt
+key server.key  # This file should be kept secret
+dh dh1024.pem
+
+server 10.8.0.0 255.255.255.0
+
+ifconfig-pool-persist ipp.txt
+
+keepalive 10 120
+
+comp-lzo
+
+persist-key
+persist-tun
+
+status openvpn-status.log
+
+verb 3
+```
+
+#### 客户端
+
+```
+client
+
+dev tun
+
+proto udp
+
+remote my-server-1 1194
+resolv-retry infinite
+
+nobind
+
+persist-key
+persist-tun
+
+ca ca.crt
+cert client.crt
+key client.key
+
+comp-lzo
+
+verb 3
+```
+
+#### Windows 10客户端
+
+Windows 10发布没有多久，在Windows 10下面使用OpenVPN有一点Tricky。
+
+1. 在[这里](https://openvpn.net/index.php/open-source/downloads.html)下载最新OpenVPN Windows版软件。Windows 10一般是用这个版本：Installer (64-bit), Windows Vista and later
+1. 双击安装，默认选项即可。
+1. 将.ovpn配置文件拷贝进C:\Program Files\OpenVPN\config目录中
+1. 从开始菜单上找到OpenVPN GUI程序，不能直接点击打开，要右键点击它，选择用管理员运行(Run as administrator)。托盘上会多出一个OpenVPN图标，右键点击这个图标，选择Connect就可以连上OpenVPN了。连上后，图标会变成绿色。鼠标放在图标上，可以看到通过VPN获得的IP地址。
+1. 从开始菜单上找到Powershell，同样用右键点击，选择用管理员运行。
+1. 在Powershell中运行 `Get-NetIPAddress 192.168.202.22`，这里192.168.202.22是之前看到的VPN的IP，请替换成你在右下角托盘上看到的IP值。记下输出中的InterfaceAlias后面的字符串，这个例子里是Ethernet 3。<br> ![ipconfig.png](<assets/openvpn/ipconfig.png>)
+1. 最后在Powershell中运行这个命令（请把其中的Ethernet 3替换成前面看到的InterfaceAlias）：`Set-NetIPInterface -InterfaceAlias "Ethernet 3" -InterfaceMetric 1`
+1. 大功告成。连接各种被墙网站测试是否正常。
+
+更新
+
+上面的方法不能持久化，重启后，又要重新运行一遍那个命令才能有效果。能持久化的是下面这种方法：
+
+1. 按Win-R，输入ncpa.cpl，打开网卡配置窗口
+1. 右键点击VPN对应的网卡（就是上面找到的Ethernet 3），点击属性
+1. 点击Internet Protocol Version 4 (TCP/IPv4)，再点属性
+1. 在弹出窗口中，点高级
+1. 最下面有一个Automatic Metric框，去掉框上的勾，然后在Interface Metric的框中写入数字1。
+
+### 参考文献

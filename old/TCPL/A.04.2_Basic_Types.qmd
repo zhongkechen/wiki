@@ -1,0 +1,35 @@
+---
+title: "TCPL/A.04.2_Basic_Types"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.4.2 Basic Types
+
+There are several fundamental types. The standard header &lt;limits.h&gt; described in Appendix B defines the largest and smallest values of each type in the local implementation. The numbers given in Appendix B show the smallest acceptable magnitudes.
+
+Objects declared as characters (char) are large enough to store any member of the execution character set. If a genuine character from that set is stored in a char object, its value is equivalent to the integer code for the character, and is non-negative. Other quantities may be stored into char variables, but the available range of values, and especially whether the value is signed, is implementation-dependent.
+
+Unsigned characters declared unsigned char consume the same amount of space as plain characters, but always appear non-negative; explicitly signed characters declared signed char likewise take the same space as plain characters.
+
+    unsigned char type does not appear in the first edition of this book, but is in common use. signed char is new.
+
+Besides the char types, up to three sizes of integer, declared short int, int, and long int, are available. Plain int objects have the natural size suggested by the host machine architecture; the other sizes are provided to meet special needs. Longer integers provide at least as much storage as shorter ones, but the implementation may make plain integers equivalent to either short integers, or long integers. The int types all represent signed values unless specified otherwise.
+
+Unsigned integers, declared using the keyword unsigned, obey the laws of arithmetic modulo 2n where n is the number of bits in the representation, and thus arithmetic on unsigned quantities can never overflow. The set of non-negative values that can be stored in a signed object is a subset of the values that can be stored in the corresponding unsigned object, and the representation for the overlapping values is the same.
+
+Any of single precision floating point (float), double precision floating point (double), and extra precision floating point (long double) may be synonymous, but the ones later in the list are at least as precise as those before.
+
+    long double is new. The first edition made long float equivalent to double; the locution has been withdrawn.
+
+Enumerations are unique types that have integral values; associated with each enumeration is a set of named constants (Par.A.8.4). Enumerations behave like integers, but it is common for a compiler to issue a warning when an object of a particular enumeration is assigned something other than one of its constants, or an expression of its type.
+
+Because objects of these types can be interpreted as numbers, they will be referred to as arithmetic types. Types char, and int of all sizes, each with or without sign, and also enumeration types, will collectively be called integral types. The types float, double, and long double will be called floating types.
+
+The void type specifies an empty set of values. It is used as the type returned by functions that generate no value.

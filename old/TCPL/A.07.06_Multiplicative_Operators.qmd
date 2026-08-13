@@ -1,0 +1,26 @@
+---
+title: "TCPL/A.07.06_Multiplicative_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.6 Multiplicative Operators
+
+The multiplicative operators \*, /, and % group left-to-right.
+
+    multiplicative-expression:
+      multiplicative-expression \* cast-expression
+      multiplicative-expression / cast-expression
+      multiplicative-expression % cast-expression
+
+The operands of \* and / must have arithmetic type; the operands of % must have integral type. The usual arithmetic conversions are performed on the operands, and predict the type of the result.
+
+The binary \* operator denotes multiplication.
+
+The binary / operator yields the quotient, and the % operator the remainder, of the division of the first operand by the second; if the second operand is 0, the result is undefined. Otherwise, it is always true that (a/b)\*b + a%b is equal to a. If both operands are non-negative, then the remainder is non-negative and smaller than the divisor, if not, it is guaranteed only that the absolute value of the remainder is smaller than the absolute value of the divisor.

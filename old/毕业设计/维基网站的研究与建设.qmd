@@ -1,0 +1,60 @@
+---
+title: "维基网站的研究与建设"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“毕业设计”](<../毕业设计.qmd>)
+
+## 维基网站的研究与建设
+
+### 题目申报表
+
+#### 内容简介
+
+1. 研究维基网站的特点与发展现状
+1. 比较各种维基软件的特点与发展状况
+1. 以某种维基软件为基础架设网站
+1. 建设一个维基网站，发展相应的网络社区
+
+#### 意义（理论、实际）
+
+1. 维基网站作为Web2.0的一种形式，以其独特的内容维护方式得到广泛的应用，特别是在知识聚集方面应用尤为突出
+1. 在无管理的条件下，很多人一起建设一个网站，是值得研究的一种社会现象
+
+#### 技术要点与知识要求
+
+* 服务器架设与维护技术
+* 基本的网络沟通能力，用于网络社区建设
+
+### 进度
+
+#### 第一阶段
+
+* 了解什么是wiki
+* 掌握wiki网站的使用方法
+* 了解各种wiki软件的特点
+* 文献翻译（翻译一种wiki软件的文档，比如 http://www.mediawiki.org/wiki/Help:FAQ ）
+* 文献综述
+* 开题报告
+
+### 附件
+
+* 任务书： [杨帆任务书.odt](<assets/维基网站的研究与建设/杨帆任务书.odt>)
+* 翻译原文： http://www.mediawiki.org/wiki/Help:FAQ
+* 翻译译文：
+* 文献综述：
+* 开题报告：
+* 毕业论文：
+
+### 参考资料
+
+* https://secure.wikimedia.org/wikipedia/zh/w/index.php?title=%E7%B6%AD%E5%9F%BA%E8%BB%9F%E9%AB%94&variant=zh-cn
+* http://www.mediawiki.org/
+*
+
+## The End

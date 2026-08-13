@@ -1,0 +1,78 @@
+---
+title: "TCPL/A.12.03_Macro_Definition_and_Expansion"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.3 Macro Definition and Expansion
+
+A control line of the form
+
+    # define identifier token-sequence
+
+causes the preprocessor to replace subsequent instances of the identifier with the given sequence of tokens; leading and trailing white space around the token sequence is discarded. A second #define for the same identifier is erroneous unless the second token sequence is identical to the first, where all white space separations are taken to be equivalent.
+
+A line of the form
+
+    # define identifier (identifier-list) token-sequence
+
+where there is no space between the first identifier and the (, is a macro definition with parameters given by the identifier list. As with the first form, leading and trailing white space arround the token sequence is discarded, and the macro may be redefined only with a definition in which the number and spelling of parameters, and the token sequence, is identical.
+
+A control line of the form
+
+    # undef identifier
+
+causes the identifier's preprocessor definition to be forgotten. It is not erroneous to apply #undef to an unknown identifier.
+
+When a macro has been defined in the second form, subsequent textual instances of the macro identifier followed by optional white space, and then by (, a sequence of tokens separated by commas, and a ) constitute a call of the macro. The arguments of the call are the comma-separated token sequences; commas that are quoted or protected by nested parentheses do not separate arguments. During collection, arguments are not macro-expanded. The number of arguments in the call must match the number of parameters in the definition. After the arguments are isolated, leading and trailing white space is removed from them. Then the token sequence resulting from each argument is substituted for each unquoted occurrence of the corresponding parameter's identifier in the replacement token sequence of the macro. Unless the parameter in the replacement sequence is preceded by #, or preceded or followed by ##, the argument tokens are examined for macro calls, and expanded as necessary, just before insertion.
+
+Two special operators influence the replacement process. First, if an occurrence of a parameter in the replacement token sequence is immediately preceded by #, string quotes (") are placed around the corresponding parameter, and then both the # and the parameter identifier are replaced by the quoted argument. A \\ character is inserted before each " or \\ character that appears surrounding, or inside, a string literal or character constant in the argument.
+
+Second, if the definition token sequence for either kind of macro contains a ## operator, then just after replacement of the parameters, each ## is deleted, together with any white space on either side, so as to concatenate the adjacent tokens and form a new token. The effect is undefined if invalid tokens are produced, or if the result depends on the order of processing of the ## operators. Also, ## may not appear at the beginning or end of a replacement token sequence.
+
+In both kinds of macro, the replacement token sequence is repeatedly rescanned for more defined identifiers. However, once a given identifier has been replaced in a given expansion, it is not replaced if it turns up again during rescanning; instead it is left unchanged.
+
+Even if the final value of a macro expansion begins with with #, it is not taken to be a preprocessing directive.
+
+    The details of the macro-expansion process are described more precisely in the ANSI standard than in the first edition. The most important change is the addition of the # and ## operators, which make quotation and concatenation admissible. Some of the new rules, especially those involving concatenation, are bizarre. (See example below.)
+
+For example, this facility may be used for ``manifest-constants,'' as in
+
+   #define TABSIZE 100
+   int table[TABSIZE];
+
+The definition
+
+   #define ABSDIFF(a, b)  ((a)&gt;(b) ? (a)-(b) : (b)-(a))
+
+defines a macro to return the absolute value of the difference between its arguments. Unlike a function to do the same thing, the arguments and returned value may have any arithmetic type or even be pointers. Also, the arguments, which might have side effects, are evaluated twice, once for the test and once to produce the value.
+
+Given the definition
+
+   #define tempfile(dir)    #dir "%s"
+
+the macro call tempfile(/usr/tmp) yields
+
+   "/usr/tmp" "%s"
+
+which will subsequently be catenated into a single string. After
+
+   #define cat(x, y)       x ## y
+
+the call cat(var, 123) yields var123. However, the call cat(cat(1,2),3) is undefined: the presence of ## prevents the arguments of the outer call from being expanded. Thus it produces the token string
+
+   cat  (  1  ,  2  )3
+
+and )3 (the catenation of the last token of the first argument with the first token of the second) is not a legal token. If a second level of macro definition is introduced,
+
+   #define xcat(x, y)      cat(x,y)
+
+things work more smoothly; xcat(xcat(1, 2), 3) does produce 123, because the expansion of xcat itself does not involve the ## operator.
+
+Likewise, ABSDIFF(ABSDIFF(a,b),c) produces the expected, fully-expanded result.

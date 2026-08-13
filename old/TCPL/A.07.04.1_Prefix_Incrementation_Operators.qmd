@@ -1,0 +1,15 @@
+---
+title: "TCPL/A.07.04.1_Prefix_Incrementation_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+##### A.7.4.1 Prefix Incrementation Operators
+
+A unary expression followed by a ++ or -- operator is a unary expression. The operand is incremented ++ or decremented -- by 1. The value of the expression is the value after the incrementation (decrementation). The operand must be an lvalue; see the discussion of additive operators (Par.A.7.7) and assignment (Par.A.7.17) for further constraints on the operands and details of the operation. The result is not an lvalue.

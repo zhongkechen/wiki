@@ -1,0 +1,40 @@
+---
+title: "TCPL/7.8.6_Mathematical_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### 7.8.6 Mathematical Functions 数学函数
+
+There are more than twenty mathematical functions declared in &lt;math.h&gt;; here are some of the more frequently used. Each takes one or two double arguments and returns a double.
+```
+sin(x) 	sine of x, x in radians
+cos(x) 	cosine of x, x in radians
+atan2(y,x)	arctangent of y/x, in radians
+exp(x) 	exponential function e^x^
+log(x) 	natural (base e) logarithm of x (x>0)
+log10(x) 	common (base 10) logarithm of x (x>0)
+pow(x,y) 	xy
+sqrt(x) 	square root of x (x>=0)
+fabs(x) 	absolute value of x
+```
+
+头文件&lt;math.h&gt;中声明了20多个数学函数。下面介绍一些常用的数学函数，每个函数带有一个或两个double类型的参数，并返回一个double类型的值。
+
+```
+sin(x) 	x的正弦函数，其中x用弧度表示
+cos(x) 	x的余弦函数，其中x用弧度表示
+atan2(y,x)	y/x的反正切函数，其中，x和y用弧度表示
+exp(x) 	指数函数e^x^
+log(x) 	x的自然对数(以e为底)，其中，x>0
+log10(x) 	x的常用对数(以10为底)，其中，x>0函数
+pow(x,y) 	计算x^y^的值
+sqrt(x) 	x的平方根(x>=0)
+fabs(x) 	x的绝对值
+```

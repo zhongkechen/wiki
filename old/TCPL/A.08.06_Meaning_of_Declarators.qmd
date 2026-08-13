@@ -1,0 +1,29 @@
+---
+title: "TCPL/A.08.06_Meaning_of_Declarators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.8.6 Meaning of Declarators
+
+A list of declarators appears after a sequence of type and storage class specifiers. Each declarator declares a unique main identifier, the one that appears as the first alternative of the production for direct-declarator. The storage class specifiers apply directly to this identifier, but its type depends on the form of its declarator. A declarator is read as an assertion that when its identifier appears in an expression of the same form as the declarator, it yields an object of the specified type.
+
+Considering only the type parts of the declaration specifiers (Par. A.8.2) and a particular declarator, a declaration has the form ``T D,'' where T is a type and D is a declarator. The type attributed to the identifier in the various forms of declarator is described inductively using this notation.
+
+In a declaration T D where D is an unadored identifier, the type of the identifier is T.
+
+In a declaration T D where D has the form
+
+      ( D1 )
+
+then the type of the identifier in D1 is the same as that of D. The parentheses do not alter the type, but may change the binding of complex declarators.
+
+* [A.8.6.1 Pointer Declarators](<A.08.06.1_Pointer_Declarators.qmd>)
+* [A.8.6.2 Array Declarators](<A.08.06.2_Array_Declarators.qmd>)
+* [A.8.6.3 Function Declarators](<A.08.06.3_Function_Declarators.qmd>)

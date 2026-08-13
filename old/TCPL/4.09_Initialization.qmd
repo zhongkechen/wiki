@@ -1,0 +1,123 @@
+---
+title: "TCPL/4.09_Initialization"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.9 Initialization 初始化
+
+Initialization has been mentioned in passing many times so far, but always peripherally to some other topic. This section summarizes some of the rules, now that we have discussed the various storage classes.
+
+前面我们多次提到过初始化的概念，不过始终没有详细讨论。本节将对前面讨论的各种存储类的初始化规则做一个总结。
+
+In the absence of explicit initialization, external and static variables are guaranteed to be initialized to zero; automatic and register variables have undefined (i.e., garbage) initial values.
+
+在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为0，而自动变量和寄存器变量的初值则没有定义(即初值为无用的信息)。
+
+Scalar variables may be initialized when they are defined, by following the name with an equals sign and an expression:
+```
+   int x = 1;
+   char squota = '\'';
+   long day = 1000L * 60L * 60L * 24L; /* milliseconds/day */
+```
+For external and static variables, the initializer must be a constant expression; the initialization is done once, conceptionally before the program begins execution.
+
+定义标量变量时，可以在变量名后紧跟一个等号和一个表达式来初始化变量
+
+```
+   int x = 1;
+   char squota = '\'';
+   long day = 1000L * 60L * 60L * 24L; /* milliseconds/day */
+```
+
+对于外部变量与静态变量来说，初始化表达式必须是常量表达式，且只初始化一次(从概念上讲是在程序开始执行前进行初始化)。对于自动变量与寄存器变量，则在每次进入函数或程序块时都将被初始化。
+
+For automatic and register variables, the initializer is not restricted to being a constant: it may be any expression involving previously defined values, even function calls. For example, the initialization of the binary search program in Section 3.3 could be written as
+```
+   int binsearch(int x, int v[], int n)
+   {
+       int low = 0;
+       int high = n - 1;
+       int mid;
+       ...
+   }
+```
+instead of
+```
+       int low, high, mid;
+
+       low = 0;
+       high = n - 1;
+```
+In effect, initialization of automatic variables are just shorthand for assignment statements. Which form to prefer is largely a matter of taste. We have generally used explicit assignments, because initializers in declarations are harder to see and further away from the point of use.
+
+对于自动变量与寄存器变量来说，初始化表达式可以不是常量表达式：表达式中可以包含任意在此表达式之前已经定义的值，包括函数调用。我们在3.3节中介绍的折半查找程序的初始化可以采用下列形式：
+
+```
+   int binsearch(int x, int v[], int n)
+   {
+       int low = 0;
+       int high = n - 1;
+       int mid;
+       ...
+   }
+```
+
+代替原来的形式：
+
+```
+       int low, high, mid;
+
+       low = 0;
+       high = n - 1;
+```
+
+实际上，自动变量的初始化等效于简写的赋值语句。究竟采用哪一种形式，还得看个人的习惯。考虑到变量声明中的初始化表达式容易被人忽略，且距使用的位置较远，我们一般使用显式的赋值语句。
+
+An array may be initialized by following its declaration with a list of initializers enclosed in braces and separated by commas. For example, to initialize an array days with the number of days in each month:
+```
+   int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
+```
+When the size of the array is omitted, the compiler will compute the length by counting the initializers, of which there are 12 in this case.
+
+数组的初始化可以在声明的后面紧跟一个初始化表达式列表，初始化表达式列表用花括号括起来，各初始化表达式之间通过逗号分隔。例如，如果要用一年中各月的天数初始化数组days，其变量的定义如下：
+
+```
+   int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
+```
+
+当省略数组的长度时，编译器将把花括号中初始化表达式的个数作为数组的长度。在本例中数组的长度为12。
+
+If there are fewer initializers for an array than the specified size, the others will be zero for external, static and automatic variables. It is an error to have too many initializers. There is no way to specify repetition of an initializer, nor to initialize an element in the middle of an array without supplying all the preceding values as well.
+
+如果初始化表达式的个数比数组元素数少，则对外部变量、静态变量和自动变量来说，没有初始化表达式的元素将被初始化为0。如果初始化表达式的个数比数组元素数多，则是错误的。不能一次将一个初始化表达式指定给多个数组元素，也不能跳过前面的数组元素而直接初始化后面的数组元素。
+
+Character arrays are a special case of initialization; a string may be used instead of the braces and commas notation:
+```
+   char pattern = "ould";
+```
+is a shorthand for the longer but equivalent
+```
+   char pattern[] = { 'o', 'u', 'l', 'd', '\0' };
+```
+In this case, the array size is five (four characters plus the terminating '\\0').
+
+字符数组的初始化比较特殊：可以用一个字待串来代替用花括号括起来并用逗号分隔的初始化表达式序列。例如：
+
+```
+   char pattern = "ould";
+```
+
+它同下面的声明是等价的：
+
+```
+   char pattern[] = { 'o', 'u', 'l', 'd', '\0' };
+```
+
+这种情况下，数组的长度是5(4个字符加上一个字符串结束符'\\0')。

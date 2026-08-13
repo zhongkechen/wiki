@@ -1,0 +1,262 @@
+---
+title: "TCPL/4.01_Basics_of_Functions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 4.1 Basics of Functions 函数的基本知识
+
+To begin with, let us design and write a program to print each line of its input that contains a particular "pattern" or string of characters. (This is a special case of the UNIX program grep.) For example, searching for the pattern of letters "ould" in the set of lines
+```
+   Ah Love! could you and I with Fate conspire
+   To grasp this sorry Scheme of Things entire,
+   Would not we shatter it to bits -- and then
+   Re-mould it nearer to the Heart's Desire!
+```
+will produce the output
+```
+   Ah Love! could you and I with Fate conspire
+   Would not we shatter it to bits -- and then
+   Re-mould it nearer to the Heart's Desire!
+```
+The job falls neatly into three pieces:
+```
+while (there's another line)
+    if (the line contains the pattern)
+        print it
+```
+
+首先我们来设计并编写一个程序，它将输入中包含特定“模式”或字符串的各行打印出来(这是UNIX程序grep的特例)。例如，在下列一组文本行中查找包含特定字符串“ould”的行：
+
+```
+   Ah Love! could you and I with Fate conspire
+   To grasp this sorry Scheme of Things entire,
+   Would not we shatter it to bits -- and then
+   Re-mould it nearer to the Heart's Desire!
+```
+
+程序执行后输出下列结果：
+
+```
+   Ah Love! could you and I with Fate conspire
+   Would not we shatter it to bits -- and then
+   Re-mould it nearer to the Heart's Desire!
+```
+
+该任务可以明确地划分成下列3部分：
+
+```
+while (there's another line)
+    if (the line contains the pattern)
+        print it
+```
+
+Although it's certainly possible to put the code for all of this in main, a better way is to use the structure to advantage by making each part a separate function. Three small pieces are better to deal with than one big one, because irrelevant details can be buried in the functions, and the chance of unwanted interactions is minimized. And the pieces may even be useful in other programs.
+
+尽管我们可以把所有的代码都放在主程序main中，但更好的做法是，利用其结构把每一部分设计成一个独立的函数。分别处理3个小的部分比处理一个大的整体更容易，因为这样可以把不相关的细节隐藏在函数中，从而减少了不必要的相互影响的机会，并且，这些函数也可以在其他程序中使用。
+
+"While there's another line" is getline, a function that we wrote in Chapter 1, and "print it" is printf, which someone has already provided for us. This means we need only write a routine to decide whether the line contains an occurrence of the pattern.
+
+我们用函数getline实现“还有末处理的行”，该函数已在第1章中介绍过；用printf函数实现“打印该行”，这个函数是现成的，别人已经提供了。也就是说，我们只需要编写一个判定“该行包含指定的模式”的函数。
+
+We can solve that problem by writing a function strindex(s,t) that returns the position or index in the string s where the string t begins, or -1 if s does not contain t. Because C arrays begin at position zero, indexes will be zero or positive, and so a negative value like -1 is convenient for signaling failure. When we later need more sophisticated pattern matching, we only have to replace strindex; the rest of the code can remain the same. (The standard library provides a function strstr that is similar to strindex, except that it returns a pointer instead of an index.)
+
+我们编写函数strindex(s,t)实现该目标。该函数返回字符串t在字符串s中出现的起始位置或索引。当s不包含t时，返回值为-1。由于C语言数组的下标从0开始，下标的值只可能为0或正数，因此可以用像-1这样的负数表示失败的情况。如果以后需要进行更复杂的模式匹配，只需替换strindex函数即可，程序的其余部分可保持不变。(标准库中提供的库函数strstr的功能类似于strindex函数，但该库函数返回的是指针而不是下标值。)
+
+Given this much design, filling in the details of the program is straightforward. Here is the whole thing, so you can see how the pieces fit together. For now, the pattern to be searched for is a literal string, which is not the most general of mechanisms. We will return shortly to a discussion of how to initialize character arrays, and in Chapter 5 will show how to make the pattern a parameter that is set when the program is run. There is also a slightly different version of getline; you might find it instructive to compare it to the one in Chapter 1.
+```cpp
+   #include <stdio.h>
+   #define MAXLINE 1000 /* maximum input line length */
+
+   int getline(char line[], int max)
+   int strindex(char source[], char searchfor[]);
+
+   char pattern[] = "ould";   /* pattern to search for */
+
+   /* find all lines matching pattern */
+   main()
+   {
+       char line[MAXLINE];
+       int found = 0;
+
+       while (getline(line, MAXLINE) > 0)
+           if (strindex(line, pattern) >= 0) {
+               printf("%s", line);
+               found++;
+           }
+       return found;
+   }
+
+   /* getline:  get line into s, return length */
+   int getline(char s[], int lim)
+   {
+       int c, i;
+
+       i = 0;
+       while (--lim > 0 && (c=getchar()) != EOF && c != '\n')
+           s[i++] = c;
+       if (c == '\n')
+           s[i++] = c;
+       s[i] = '\0';
+       return i;
+   }
+
+   /* strindex:  return index of t in s, -1 if none */
+   int strindex(char s[], char t[])
+   {
+       int i, j, k;
+
+       for (i = 0; s[i] != '\0'; i++) {
+           for (j=i, k=0; t[k]!='\0' && s[j]==t[k]; j++, k++)
+               ;
+           if (k > 0 && t[k] == '\0')
+               return i;
+       }
+       return -1;
+   }
+```
+
+完成这样的设计后，编写整个程序的细节就直截了当了。下面列出的就是一个完整的程序，读者可以查看各部分是怎样组合在一起的。我们现在查找的模式是字符串字面值，它不是一种最通用的机制。我们在这里只简单讨论字符数组的初始化方法，第5章将介绍如何在程序运行时将模式作为参数传递给函数。其中，getline函数较前面的版本也稍有不同，读者可将它与第1章中的版本进行比较，或许会得到一些启发。
+
+```cpp
+   #include <stdio.h>
+   #define MAXLINE 1000 /* maximum input line length */
+
+   int getline(char line[], int max)
+   int strindex(char source[], char searchfor[]);
+
+   char pattern[] = "ould";   /* pattern to search for */
+
+   /* find all lines matching pattern */
+   main()
+   {
+       char line[MAXLINE];
+       int found = 0;
+
+       while (getline(line, MAXLINE) > 0)
+           if (strindex(line, pattern) >= 0) {
+               printf("%s", line);
+               found++;
+           }
+       return found;
+   }
+
+   /* getline:  get line into s, return length */
+   int getline(char s[], int lim)
+   {
+       int c, i;
+
+       i = 0;
+       while (--lim > 0 && (c=getchar()) != EOF && c != '\n')
+           s[i++] = c;
+       if (c == '\n')
+           s[i++] = c;
+       s[i] = '\0';
+       return i;
+   }
+
+   /* strindex:  return index of t in s, -1 if none */
+   int strindex(char s[], char t[])
+   {
+       int i, j, k;
+
+       for (i = 0; s[i] != '\0'; i++) {
+           for (j=i, k=0; t[k]!='\0' && s[j]==t[k]; j++, k++)
+               ;
+           if (k > 0 && t[k] == '\0')
+               return i;
+       }
+       return -1;
+   }
+```
+
+Each function definition has the form
+```
+return-type function-name(argument declarations)
+{
+    declarations and statements
+}
+```
+Various parts may be absent; a minimal function is
+```
+   dummy() {}
+```
+which does nothing and returns nothing. A do-nothing function like this is sometimes useful as a place holder during program development. If the return type is omitted, int is assumed.
+
+函数的定义形式如下：
+
+```
+return-type function-name(argument declarations)
+{
+    declarations and statements
+}
+```
+
+函数定义中的各构成部分都可以省略。【czk注：不是都可以，而是某些可以。】最简单的函数如下所示：
+
+```
+   dummy() {}
+```
+
+该函数不执行任何操作也不返回任何值。这种不执行任何操作的函数有时很有用，它可以在程序开发期间用以保留位置(留待以后填充代码)。如果函数定义中省略了返回值类型，则默认为int类型。
+
+A program is just a set of definitions of variables and functions. Communication between the functions is by arguments and values returned by the functions, and through external variables. The functions can occur in any order in the source file, and the source program can be split into multiple files, so long as no function is split.
+
+程序可以看成是变量定义和函数定义的集合。函数之间的通信可以通过参数、函数返回值以及外部变量进行。函数在源文件中出现的次序可以是任意的。只要保证每一个函数不被分离到多个文件中，源程序就可以分成多个文件。
+
+The return statement is the mechanism for returning a value from the called function to its caller. Any expression can follow return:
+```
+   return expression;
+```
+The expression will be converted to the return type of the function if necessary. Parentheses are often used around the expression, but they are optional.
+
+被调用函数通过return语句向调用者返回值，return语句的后面可以跟任何表达式：
+
+```
+   return expression;
+```
+
+在必要时，表达式将被转换为函数的返回值类型。表达式两边通常加一对圆括号，此处的括
+号是可选的。
+
+The calling function is free to ignore the returned value. Furthermore, there need to be no expression after return; in that case, no value is returned to the caller. Control also returns to the caller with no value when execution "falls off the end" of the function by reaching the closing right brace. It is not illegal, but probably a sign of trouble, if a function returns a value from one place and no value from another. In any case, if a function fails to return a value, its "value" is certain to be garbage.
+
+调用函数可以忽略返回值。并且，return语句的后面也不一定需要表达式。当return语句的后面没有表达式时，函数将不向调用者返回值。当被调用函数执行到最后的右花括号而结束执行时，控制同样也会返回给调用者(不返回值)。如果某个函数从一个地方返回时有返回值，而从另一个地方返回时没有返回值，该函数并不非法，但可能是一种出问题的征兆。在任何情况下，如果函数没有成功地返回一个值，则它的”值”肯定是无用的。
+
+The pattern-searching program returns a status from main, the number of matches found. This value is available for use by the environment that called the program
+
+在上面的模式查找程序中，主程序main返回了一个状态，即匹配的数目。该返回值可以在调用该程序的环境中使用。
+
+The mechanics of how to compile and load a C program that resides on multiple source files vary from one system to the next. On the UNIX system, for example, the cc command mentioned in Chapter 1 does the job. Suppose that the three functions are stored in three files called main.c, getline.c, and strindex.c. Then the command
+```
+   cc main.c getline.c strindex.c
+```
+compiles the three files, placing the resulting object code in files main.o, getline.o, and strindex.o, then loads them all into an executable file called a.out. If there is an error, say in main.c, the file can be recompiled by itself and the result loaded with the previous object files, with the command
+```
+   cc main.c getline.o strindex.o
+```
+The cc command uses the ".c" versus ".o" naming convention to distinguish source files from object files.
+
+在不同的系统中，保存在多个源文件中的C语言程序的编译与加载机制是不同的。例如，在UNIX系统中，可以使用第1章中提到过的cc命令执行这一任务。假定有3个函数分别存放在名为main.c、getline.c与strindex.c的3个文件中，则可以使用命令
+
+```
+   cc main.c getline.c strindex.c
+```
+
+来编译这3个文件，并把生成的目标代码分别存放在文件main.o、getline.o与strindex.o中，然后再把这3个文件一起加载到可执行文件.out中。如果源程序中存在错误(比如文件main.c中存在错误)，则可以通过命令
+
+```
+   cc main.c getline.o strindex.o
+```
+
+对main.c文件重新编译，并将编译的结果与以前已编译过的目标文件getline.o和strindex.o一起加载到可执行文件中。cc命令使用“.c”与“.o”这两种扩展名来区分源文件与目标文件。
+
+Exercise 4-1. Write the function strindex(s,t) which returns the position of the rightmost occurrence of t in s, or -1 if there is none.
+
+练习4-1  编写函数strrindex(s,t)，它返回字符串t在s中最右边出现的位置。如果s中不包含t，则返回-1。

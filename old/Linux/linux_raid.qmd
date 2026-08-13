@@ -1,0 +1,152 @@
+---
+title: "linux_raid"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“Linux”](../Linux.qmd)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000022 在备份中缺失；以下内容来自最新可读取版本 00000021。
+:::
+
+本文描述在Linux下如何安装软RAID5磁盘阵列系统。
+
+### 概述
+
+RAID（Redundant Array of Independent Disks，独立磁盘冗余阵列）基本思想是把多个相对便宜的硬盘组合起来，成为一个磁盘阵列组，使性能达到甚至超过一个价格昂贵、容量巨大的硬盘。根据选择的版本不同，RAID比单颗硬盘有以下一个或多个方面的好处：增强容错功能，增加吞吐量，增加容量。另外，磁盘阵列组对于计算机来说，看起来就像一个单独的硬盘或逻辑存储单元。RAID分为RAID-0，RAID-1，RAID-5，RAID-6等。
+
+RAID-5是一种存储性能、数据安全和存储成本兼顾的存储解决方案。它使用的是Disk Striping(硬盘分割)技术。RAID-5至少需要三颗硬盘， RAID-5不对存储的数据进行备份，而是把数据和相对应的奇偶校验信息存储到组成RAID5的各个磁盘上，并且奇偶校验信息和相对应的数据分别存储于不同的磁盘上。当RAID5的一个磁盘数据发生损坏后，利用剩下的数据和相应的奇偶校验信息去恢复被损坏的数据。RAID-5可以理解为是RAID-0和RAID-1的折衷方案。RAID-5可以为系统提供数据安全保障，但保障程度要比Mirror低而磁盘空间利用率要比Mirror高。RAID-5具有和RAID-0相近似的数据读取速度，只是多了一个奇偶校验信息，写入数据的速度比对单个磁盘进行写入操作稍慢。同时由于多个数据对应一个奇偶校验信息，RAID-5的磁盘空间利用率要比RAID-1高，存储成本相对较低廉。
+
+![raid5.png](<assets/linux_raid/raid5.png>)
+
+当发生磁盘错误时，需要更换磁盘。但是任何单个磁盘的错误，不会损坏数据完整。当发生磁盘错误时，错误的磁盘被屏蔽，数据通过奇偶校验信息计算得到。这个时候阵列是很脆弱的，当发生第二个磁盘错误时，会导致数据丢失。而在更换错误的磁盘后，新磁盘上的数据需要被重建，在重建过程完成前，阵列也是很脆弱的。
+
+RAID可以由软件或者硬件实现。硬件实现的RAID不占用CPU资源，性能较好，对于操作系统透明，可以直接从RAID上启动任何操作系统。硬件实现需要使用一个专用的RAID控制器，不同厂商的控制器不能够通用。软件实现则由操作系统来实现，不需要专用硬件。微软的服务器操作系统支持RAID-0、RAID-1、RAID-5，苹果的Mac OS Server支持RAID-0、RAID-1、RAID-1+0，Linux操作系统支持RAID-0、RAID-1、RAID-1+0、RAID-4、RAID-5、RAID-6等。
+
+### 安装和配置
+
+如果你有多个容量近似的硬盘（至少3个），可以配置成RAID-5，增强磁盘的容错能力，但是需要牺牲一个磁盘的容量。
+
+#### 在光盘安装过程中安装raid5
+
+在debian安装过程中，进入磁盘分区阶段：
+
+![debian00.png](<assets/linux_raid/debian00.png>)
+
+由于grub不支持从raid-5磁盘阵列上启动，所以应该把linux内核放在磁盘阵列外的分区上，让grub可以引导它。这样需要新建一个分区作为/boot目录。
+
+![debian01.png](<assets/linux_raid/debian01.png>)
+
+然后将其它磁盘设置成RAID物理卷：
+
+![debian02.png](<assets/linux_raid/debian02.png>)
+
+![debian03.png](<assets/linux_raid/debian03.png>)
+
+![debian04.png](<assets/linux_raid/debian04.png>)
+
+![debian05.png](<assets/linux_raid/debian05.png>)
+
+![debian06.png](<assets/linux_raid/debian06.png>)
+
+![debian07.png](<assets/linux_raid/debian07.png>)
+
+![debian08.png](<assets/linux_raid/debian08.png>)
+
+![debian09.png](<assets/linux_raid/debian09.png>)
+
+其它用作RAID的磁盘，也做同样设置。至少要有三个大小相近的磁盘要配置成RAID物理卷（这里是4个）。然后选择**软件RAID设置**：
+
+![debian10.png](<assets/linux_raid/debian10.png>)
+
+![debian11.png](<assets/linux_raid/debian11.png>)
+
+创建MD设备：
+
+![debian12.png](<assets/linux_raid/debian12.png>)
+
+选择阵列的类型RAID-5：
+
+![debian13.png](<assets/linux_raid/debian13.png>)
+
+根据磁盘的数量设置活动分区的数量（RAID-5是至少3个）：
+
+![debian14.png](<assets/linux_raid/debian14.png>)
+
+如果还有更多的磁盘，可以设置让它们备用，一旦有磁盘坏掉，备用磁盘马上可以开始工作，不需要手动更换：
+
+![debian15.png](<assets/linux_raid/debian15.png>)
+
+选择加入阵列的磁盘：
+
+![debian16.png](<assets/linux_raid/debian16.png>)
+
+![debian17.png](<assets/linux_raid/debian17.png>)
+
+设置完成后，整个RAID-5阵列就可以作为一个磁盘来使用了。可以在上面创建普通分区，也可以在上面创建LVM：
+
+![debian18.png](<assets/linux_raid/debian18.png>)
+
+![debian19.png](<assets/linux_raid/debian19.png>)
+
+![debian20.png](<assets/linux_raid/debian20.png>)
+
+注：LVM的设置可以参见[lvm2](<lvm2.qmd>)
+
+#### 在已有系统上安装raid5
+
+创建阵列
+
+```
+mdadm --create --verbose /dev/md0 --level=5 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1 --spare-devices=1 /dev/sde1
+```
+
+组装已有的阵列
+```
+mdadm --scan --assemble
+```
+
+#### 配置已有的raid5
+
+查看已有的阵列：
+
+```
+mdadm --detail /dev/md0
+```
+
+可以看到是否有硬盘出现错误。
+
+换掉出错的硬盘（例如/dev/sdb1坏掉了）：
+
+```
+mdadm /dev/md0 -r /dev/sdb1
+```
+
+关机，换掉出错的硬盘，换上一个好的硬盘，重新开机，运行：
+
+```
+mdadm /dev/md0 -a /dev/sdb1
+```
+
+### 备注
+
+* 本文使用的硬件环境是Virtalbox虚拟机1.6。
+* 安装的操作系统是Debian Linux Lenny。安装过程也适用于Debian Linux Etch或者Sid、Ubuntu Server。
+
+### 参考文献
+
+* http://en.wikipedia.org/wiki/RAID
+* http://linux-raid.osdl.org/
+
+### 相关条目
+
+* [lvm2](<lvm2.qmd>)
+* [raid](<raid.qmd>)

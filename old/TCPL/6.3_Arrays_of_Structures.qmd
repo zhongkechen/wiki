@@ -1,0 +1,364 @@
+---
+title: "TCPL/6.3_Arrays_of_Structures"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 6.3 Arrays of Structures 结构数组
+
+Consider writing a program to count the occurrences of each C keyword. We need an array of character strings to hold the names, and an array of integers for the counts. One possibility is to use two parallel arrays, keyword and keycount, as in
+```
+   char *keyword[NKEYS];
+   int keycount[NKEYS];
+```
+
+考虑编写这样一个程序，它用来统计输入中各个C语言关键字出现的次数。我们需要用一个字符串数组存放关键字名，一个整型数组存放相应关键字的出现次数。一种实现方法是使用两个独立的数组keyword和keycount分别存放它们，如下所示：
+
+```
+   char *keyword[NKEYS];
+   int keycount[NKEYS];
+```
+
+But the very fact that the arrays are parallel suggests a different organization, an array of structures. Each keyword is a pair:
+```
+   char *word;
+   int count;
+```
+and there is an array of pairs. The structure declaration
+```cpp
+   struct key {
+       char *word;
+       int count;
+   } keytab[NKEYS];
+```
+declares a structure type key, defines an array keytab of structures of this type, and sets aside storage for them. Each element of the array is a structure. This could also be written
+```cpp
+   struct key {
+       char *word;
+       int count;
+   };
+
+   struct key keytab[NKEYS];
+```
+
+我们注意到，这两个数组的大小相同，考虑到该特点，可以采用另一种不同的组织方式，也就是我们这里所说的结构数组。每个关键字项包括一对变量：
+```
+   char *word;
+   int count;
+```
+
+这样的多个变量对共同构成一个数组。我们来看下面的声明：
+```cpp
+   struct key {
+       char *word;
+       int count;
+   } keytab[NKEYS];
+```
+
+它声明了一个结构类型key，并定义了该类型的结构数组keytab，同时为其分配存储空间。数组keytab的每个元素都是一个结构。上述声明也可以写成下列形式：
+```cpp
+   struct key {
+       char *word;
+       int count;
+   };
+
+   struct key keytab[NKEYS];
+```
+
+Since the structure keytab contains a constant set of names, it is easiest to make it an external variable and initialize it once and for all when it is defined. The structure initialization is analogous to earlier ones - the definition is followed by a list of initializers enclosed in braces:
+```cpp
+   struct key {
+       char *word;
+       int count;
+   } keytab[] = {
+       "auto", 0,
+       "break", 0,
+       "case", 0,
+       "char", 0,
+       "const", 0,
+       "continue", 0,
+       "default", 0,
+       /* ... */
+       "unsigned", 0,
+       "void", 0,
+       "volatile", 0,
+       "while", 0
+   };
+```
+The initializers are listed in pairs corresponding to the structure members. It would be more precise to enclose the initializers for each "row" or structure in braces, as in
+```
+   { "auto", 0 },
+   { "break", 0 },
+   { "case", 0 },
+   ...
+```
+but inner braces are not necessary when the initializers are simple variables or character strings, and when all are present. As usual, the number of entries in the array keytab will be computed if the initializers are present and the [] is left empty.
+
+因为结构keytab包含一个固定的名字集合，所以，最好将它声明为外部变量，这样，只需要初始化一次，所有的地方都可以使用。这种结构的初始化方法同前面所述的初始化方法类似——在定义的后面通过一个用圆括号括起来的初值表进行初始化，如下所示：
+```cpp
+   struct key {
+       char *word;
+       int count;
+   } keytab[] = {
+       "auto", 0,
+       "break", 0,
+       "case", 0,
+       "char", 0,
+       "const", 0,
+       "continue", 0,
+       "default", 0,
+       /* ... */
+       "unsigned", 0,
+       "void", 0,
+       "volatile", 0,
+       "while", 0
+   };
+```
+
+与结构成员相对应，初值也要按照成对的方式列出。更精确的做法是，将每一行(即每个结
+构)的初值都括在花括号内，如下所示：
+```
+   { "auto", 0 },
+   { "break", 0 },
+   { "case", 0 },
+   ...
+```
+
+但是，如果初值是简单变量或字符串，并且其中的任何值都不为空，则内层的花括号可以省略。通常情况下，如果初值存在并且方括号[]中没有数值，编译程序将计算数组keytab中的项数。
+
+The keyword counting program begins with the definition of keytab. The main routine reads the input by repeatedly calling a function getword that fetches one word at a time. Each word is looked up in keytab with a version of the binary search function that we wrote in Chapter 3. The list of keywords must be sorted in increasing order in the table.
+```cpp
+   #include <stdio.h>
+   #include <ctype.h>
+   #include <string.h>
+
+   #define MAXWORD 100
+
+   int getword(char *, int);
+   int binsearch(char *, struct key *, int);
+
+   /* count C keywords */
+   main()
+   {
+       int n;
+       char word[MAXWORD];
+
+       while (getword(word, MAXWORD) != EOF)
+           if (isalpha(word[0]))
+               if ((n = binsearch(word, keytab, NKEYS)) >= 0)
+                   keytab[n].count++;
+       for (n = 0; n < NKEYS; n++)
+           if (keytab[n].count > 0)
+               printf("%4d %s\n",
+                   keytab[n].count, keytab[n].word);
+       return 0;
+   }
+
+   /* binsearch:  find word in tab[0]...tab[n-1] */
+   int binsearch(char *word, struct key tab[], int n)
+   {
+       int cond;
+       int low, high, mid;
+
+       low = 0;
+       high = n - 1;
+       while (low <= high) {
+           mid = (low+high) / 2;
+           if ((cond = strcmp(word, tab[mid].word)) < 0)
+               high = mid - 1;
+           else if (cond > 0)
+               low = mid + 1;
+           else
+               return mid;
+       }
+       return -1;
+   }
+```
+
+在统计关键字出现次数的程序中，我们首先定义了keytab。主程序反复调用函数getword读取输入，每次读取一个单词。每个单词将通过折半查找函数(参见第3章)在keytab中进行查找。注意，关键字列表必须按升序存储在keytab中。
+```cpp
+   #include <stdio.h>
+   #include <ctype.h>
+   #include <string.h>
+
+   #define MAXWORD 100
+
+   int getword(char *, int);
+   int binsearch(char *, struct key *, int);
+
+   /* count C keywords */
+   main()
+   {
+       int n;
+       char word[MAXWORD];
+
+       while (getword(word, MAXWORD) != EOF)
+           if (isalpha(word[0]))
+               if ((n = binsearch(word, keytab, NKEYS)) >= 0)
+                   keytab[n].count++;
+       for (n = 0; n < NKEYS; n++)
+           if (keytab[n].count > 0)
+               printf("%4d %s\n",
+                   keytab[n].count, keytab[n].word);
+       return 0;
+   }
+
+   /* binsearch:  find word in tab[0]...tab[n-1] */
+   int binsearch(char *word, struct key tab[], int n)
+   {
+       int cond;
+       int low, high, mid;
+
+       low = 0;
+       high = n - 1;
+       while (low <= high) {
+           mid = (low+high) / 2;
+           if ((cond = strcmp(word, tab[mid].word)) < 0)
+               high = mid - 1;
+           else if (cond > 0)
+               low = mid + 1;
+           else
+               return mid;
+       }
+       return -1;
+   }
+```
+
+We will show the function getword in a moment; for now it suffices to say that each call to getword finds a word, which is copied into the array named as its first argument.
+
+函数getword将在稍后介绍，这里只需要了解它的功能是每调用一次该函数，将读入一个单词，并将其复制到名字为该函数的第一个参数的数组中。
+
+The quantity NKEYS is the number of keywords in keytab. Although we could count this by hand, it's a lot easier and safer to do it by machine, especially if the list is subject to change. One possibility would be to terminate the list of initializers with a null pointer, then loop along keytab until the end is found.
+
+NKEYS代表keytab中关键字的个数。尽管可以手工计算，但由机器实现会更简单、更安全，当列表可能变更时尤其如此。一种解决办法是，在初值表的结尾处加上一个空指针，然后循环遍历keytab，直到读到尾部的空指针为止。
+
+But this is more than is needed, since the size of the array is completely determined at compile time. The size of the array is the size of one entry times the number of entries, so the number of entries is just
+```
+  size of keytab / size of struct key
+```
+C provides a compile-time unary operator called sizeof that can be used to compute the size of any object. The expressions
+```
+   sizeof object
+```
+and
+```
+   sizeof (type name)
+```
+yield an integer equal to the size of the specified object or type in bytes. (Strictly, sizeof produces an unsigned integer value whose type, size_t, is defined in the header &lt;stddef.h&gt;.) An object can be a variable or array or structure. A type name can be the name of a basic type like int or double, or a derived type like a structure or a pointer.
+
+但实际上并不需要这样做，因为数组的长度在编译时已经完全确定，它等于数组项的长度乘以项数，因此，可以得出项数为：
+
+```
+  size of keytab / size of struct key
+```
+
+C语言提供了一个编译时(compile-time)一元运算符sizeof，它可用来计算任一对象的长度。表达式
+
+```
+   sizeof object
+```
+
+以及
+
+```
+   sizeof (type name)
+```
+
+将返回一个整型值，它等于指定对象或类型占用的存储空间字节数。(严格地说，sizeof的返回值是无符号整型值，其类型为size_t，该类型在头文件&lt;stddef.h&gt;中定义。)其中，对象可以是变量、数组或结构；类型可以是基本类型，如int、double，也可以是派生类型，如结构类型或指针类型。
+
+In our case, the number of keywords is the size of the array divided by the size of one element. This computation is used in a #define statement to set the value of NKEYS:
+```
+   #define NKEYS (sizeof keytab / sizeof(struct key))
+```
+Another way to write this is to divide the array size by the size of a specific element:
+```
+   #define NKEYS (sizeof keytab / sizeof(keytab[0]))
+```
+This has the advantage that it does not need to be changed if the type changes.
+
+在该例子中，关键宇的个数等于数组的长度除以单个元素的长度。下面的#define语句使用了这种方法设置KEYS的值：
+
+```
+   #define NKEYS (sizeof keytab / sizeof(struct key))
+```
+
+另一种方法是用数组的长度除以一个指定元素的长度，如下所示：
+
+```
+   #define NKEYS (sizeof keytab / sizeof(keytab[0]))
+```
+
+使用第二种方法，即使类型改变了，也不需要改动程序。
+
+A sizeof can not be used in a #if line, because the preprocessor does not parse type names. But the expression in the #define is not evaluated by the preprocessor, so the code here is legal.
+
+条件编译语句#if中不能使用sizeof，因为预处理器不对类型名进行分析。但预处理器并不计算#define语句中的表达式，因此，在#define中使用sizeof是合法的。
+
+Now for the function getword. We have written a more general getword than is necessary for this program, but it is not complicated. getword fetches the next "word" from the input, where a word is either a string of letters and digits beginning with a letter, or a single non-white space character. The function value is the first character of the word, or EOF for end of file, or the character itself if it is not alphabetic.
+```cpp
+   /* getword:  get next word or character from input */
+   int getword(char *word, int lim)
+   {
+       int c, getch(void);
+       void ungetch(int);
+       char *w = word;
+
+       while (isspace(c = getch()))
+           ;
+       if (c != EOF)
+           *w++ = c;
+       if (!isalpha(c)) {
+           *w = '\0';
+           return c;
+       }
+       for ( ; --lim > 0; w++)
+           if (!isalnum(*w = getch())) {
+               ungetch(*w);
+               break;
+           }
+       *w = '\0';
+       return word[0];
+   }
+```
+
+下面来讨论函数getword。我们这里给出一个更通用的getword函数。该函数的功能已超出这个示例程序的要求，不过，函数本身并不复杂。getword从输入中读取下一个单词，单词可以是以字母开头的字母和数字串，也可以是一个非空白符字符。函数返回值可能是单词的第一个字符、文件结束符EOF或字符本身(如果该字符不是字母字符的话)。
+
+```cpp
+   /* getword:  get next word or character from input */
+   int getword(char *word, int lim)
+   {
+       int c, getch(void);
+       void ungetch(int);
+       char *w = word;
+
+       while (isspace(c = getch()))
+           ;
+       if (c != EOF)
+           *w++ = c;
+       if (!isalpha(c)) {
+           *w = '\0';
+           return c;
+       }
+       for ( ; --lim > 0; w++)
+           if (!isalnum(*w = getch())) {
+               ungetch(*w);
+               break;
+           }
+       *w = '\0';
+       return word[0];
+   }
+```
+
+getword uses the getch and ungetch that we wrote in Chapter 4. When the collection of an alphanumeric token stops, getword has gone one character too far. The call to ungetch pushes that character back on the input for the next call. getword also uses isspace to skip whitespace, isalpha to identify letters, and isalnum to identify letters and digits; all are from the standard header &lt;ctype.h&gt;.
+
+getword函数使用了第4章中的函数getch和ungetch。当读入的字符不属于字母数字的集合时，说明getword多读入了一个字符。随后，调用ungetch将多读的一个字符放回到输入中，以便下一次调用使用。getword还使用了其他一些函数：isspace函数跳过空白符，isalpha函数识别字母，isalnum函数识别字母和数字。所有这些函数都定义在标准头文件&lt;ctype.h&gt;中。
+
+Exercise 6-1. Our version of getword does not properly handle underscores, string constants, comments, or preprocessor control lines. Write a better version.
+
+练习6-1  上述getword函数不能正确处理下划线、字符串常量、注释及预处理器控制指令。请编写一个更完善的getword函数。

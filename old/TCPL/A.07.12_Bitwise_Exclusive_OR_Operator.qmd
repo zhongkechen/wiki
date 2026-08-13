@@ -1,0 +1,19 @@
+---
+title: "TCPL/A.07.12_Bitwise_Exclusive_OR_Operator"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.12 Bitwise Exclusive OR Operator
+
+    exclusive-OR-expression:
+      AND-expression
+      exclusive-OR-expression ^ AND-expression
+
+The usual arithmetic conversions are performed; the result is the bitwise exclusive OR function of the operands. The operator applies only to integral operands.

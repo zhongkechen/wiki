@@ -1,0 +1,43 @@
+---
+title: "TCPL/A.08.02_Type_Specifiers"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.8.2 Type Specifiers
+
+The type-specifiers are
+
+    type specifier:
+      void
+      char
+      short
+      int
+      long
+      float
+      double
+      signed
+      unsigned
+      struct-or-union-specifier
+      enum-specifier
+      typedef-name
+
+At most one of the words long or short may be specified together with int; the meaning is the same if int is not mentioned. The word long may be specified together with double. At most one of signed or unsigned may be specified together with int or any of its short or long varieties, or with char. Either may appear alone in which case int is understood. The signed specifier is useful for forcing char objects to carry a sign; it is permissible but redundant with other integral types.
+
+Otherwise, at most one type-specifier may be given in a declaration. If the type-specifier is missing from a declaration, it is taken to be int.
+
+Types may also be qualified, to indicate special properties of the objects being declared.
+
+    type-qualifier:
+      const
+      volatile
+
+Type qualifiers may appear with any type specifier. A const object may be initialized, but not thereafter assigned to. There are no implementation-dependent semantics for volatile objects.
+
+    The const and volatile properties are new with the ANSI standard. The purpose of const is to announce objects that may be placed in read-only memory, and perhaps to increase opportunities for optimization. The purpose of volatile is to force an implementation to suppress optimization that could otherwise occur. For example, for a machine with memory-mapped input/output, a pointer to a device register might be declared as a pointer to volatile, in order to prevent the compiler from removing apparently redundant references through the pointer. Except that it should diagnose explicit attempts to change const objects, a compiler may ignore these qualifiers.

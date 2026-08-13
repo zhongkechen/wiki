@@ -1,0 +1,27 @@
+---
+title: "TCPL/A.02.5_Constants"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.2.5 Constants
+
+There are several kinds of constants. Each has a data type; Par.A.4.2 discusses the basic types:
+```
+    constant:
+      integer-constant
+      character-constant
+      floating-constant
+      enumeration-constant
+```
+
+* [A.2.5.1 Integer Constants](<A.02.5.1_Integer_Constants.qmd>)
+* [A.2.5.2 Character Constants](<A.02.5.2_Character_Constants.qmd>)
+* [A.2.5.3 Floating Constants](<A.02.5.3_Floating_Constants.qmd>)
+* [A.2.5.4 Enumeration Constants](<A.02.5.4_Enumeration_Constants.qmd>)

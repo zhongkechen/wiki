@@ -1,0 +1,26 @@
+---
+title: "C++作业"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+### 第一章
+
+1. 输入一些字符串，输出其中最长的字符串。
+1. 一组整数存在一个文件中（data.txt），请将这些整数从小到大排序，然后存到另一个文件（sorted.txt）中。
+
+### 第二章
+
+1. 写一个函数square_sum，可以求一组数的平方和。比如square_sum(5, 10)返回值是125，square_sum(5, 10, 2)返回值是129。square_sum还可以用一个vector作参数，返回vector中所有元素的平方和。试写出这个函数。
+1. 写一个函数square，它用一个vector作参数，它可以将vector中每个数变成原来的平方。
+
+### 第三章
+
+1. 写一个程序，输入一些整数，去掉其中重复的整数，输出不重复的部分。
+1. 调用transform函数将两个vector中元素的和存入另一个vector，然后调用for_each函数输出结果大于0的元素。

@@ -1,0 +1,112 @@
+---
+title: "TCPL/0_1_Preface"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+## Preface to the Chinese Edition 中文版序
+
+Since its original design and implementation by Dennis Ritchie in 1973, the C programming language has spread far beyond its origins at Bell Labs. It has become the common language for programmers throughout the world, and has given birth to two other major languages, C++ and Java, that build on its syntax and basic structure. C and its derivatives are the base upon which much of the world's software rests.
+
+C程序设计语言最早是由Dennis Ritchie于1973年设计并实现的。从那时开始，C语言已经从其位于贝尔实验室的发源地传播到世界各地。它已经成为全球程序员的公共语言，并由此诞生了两个新的主流语言C++与Java——他们都建立在C语言的语法和基本结构的基础上。现在世界上的许多软件都是在C语言及其衍生的各种语言的基础上开发出来的。
+
+The spread of C required action to describe the language itself completely, and to accommodate changes in the way it was being used. In 1988, the American National Standards Institute (ANSI) created a precise standard for C that preserved its expressiveness, efficiency, small size, and ultimate control over the machine, while at the same time providing assurance that programs conforming to the standard would be portable without change from one computer and operating system to another. This standard was also accepted as an international standard under the auspices of the International Standards Organization (ISO), and thus brought the benefits of standardization to a worldwide user community.
+
+C语言的传播需要我们对语言加以完整的描述，并适应它在使用过程中所进行的一些变化。1988年，美国国家标准协会(ANSI)为C语言指定了一个精确的标准，该标准保持了C的表达能力、效率、小规模以及对机器的最终控制，同时还保证符合标准的程序可以从一种计算机与操作系统移植到另一种计算机与操作系统而无需改变。【czk注：指定应该为制定。】这个标准同时也被国际标准化组织(ISO)接受为国际标准，使世界各地的用户团体都受益于这一标准。
+
+The standards committee was aware of the multi-national use of the C language, and thus provided, both in the language itself and in the library, support for "wide characters", which are needed to represent text in Chinese as well as other languages that do not use the Roman  character set.
+
+标准委员会考虑到C语言在多民族使用的情况，在语言本身以及库中都提供了对“宽字符”的支持，这是以中文以及其他不使用罗马字符集的语言来表示文本所需要的。
+
+In spite of these evolutionary changes, C remains as it was from its inception, a compact and efficient tool for programmers of all backgrounds.
+
+除了这些渐进的变化外，C仍保持着它原来的样子——具有各种背景的程序员的一种紧凑而有效的工具。
+
+The C language, and also the Unix technology from which it grew, have been present in China for many years, as we know from visits to universities and the Chinese Academy of Sciences. Students' learning has always been made more difficult by the lack of an authoritative translation of the material describing this work into a form convenient for study in China. We are delighted that Professor Xu has made this Chinese translation of "The C Programming Language" available so that C will be more readily accessible to our colleagues in the People's Republic of China.
+
+在我们访问中国的大学和中国科学院时，我们获悉，C语言以及基于它发展起来的UNIX技术引入中国已经有很多年了。由于缺少把描述这一工作的素材翻译成在中国易于学习的形式的权威译本，学生们在学习时遇到了许多困难。我们欣喜的看到徐宝文教授完成《C程序设计语言》的中译本，我们希望它的出版有助于我们在中华人民共和国的同行更容易地理解C语言。
+
+    Brian W. Kernighan
+
+    Dennis M. Ritchie
+
+## Preface 序
+
+The computing world has undergone a revolution since the publication of *The C Programming Language* in 1978. Big computers are much bigger, and personal computers have capabilities that rival mainframes of a decade ago. During this time, C has changed too, although only modestly, and it has spread far beyond its origins as the language of the UNIX operating system.
+
+自从1978年《The C Programming Language》一书出版以来，计算机领域经历了一场革命。大型计算机的功能越来越强大，而个人计算机的性能也可以与十多年前的大型机相媲美。在此期间，C语言也在悄悄的演进，其发展早已超出了它仅仅作为UNIX操作系统的编程语言的初衷。
+
+The growing popularity of C, the changes in the language over the years, and the creation of compilers by groups not involved in its design, combined to demonstrate a need for a more precise and more contemporary definition of the language than the first edition of this book provided. In 1983, the American National Standards Institute (ANSI) established a committee whose goal was to produce "an unambiguous and machine-independent definition of the language C", while still retaining its spirit. The result is the ANSI standard for C.
+
+C语言普及程度的逐渐增加以及该语言本身的发展，加之很多组织开发出了与其设计有所不同的编译器，所有这一切都要求对C语言有一个比本书第l版更精确、更适应其发展的定义。1983年，美国国家标准协会(ANSI)成立了一个委员会，其目标是制定“一个无歧义性的且与具体机器无关的C语言定义”，而同时又要保取语言原有的“精神”。结果产生了C语言的ANSI标准。
+
+The standard formalizes constructions that were hinted but not described in the first edition, particularly structure assignment and enumerations. It provides a new form of function declaration that permits cross-checking of definition with use. It specifies a standard library, with an extensive set of functions for performing input and output, memory management, string manipulation, and similar tasks. It makes precise the behavior of features that were not spelled out in the original definition, and at the same time states explicitly which aspects of the language remain machine-dependent.
+
+ANSI标准规范了一些在本书第l版中提及但没有具体描述的结构，特别是结构赋值和枚举。该标准还提供了一种新的函数声明形式，允许在使用过程中对函数的定义进行交叉检查。标准中还详细说明了一个具有标准输入／输出、内存管理和字符串操作等扩展函数集的标准库。它播确地说明了在C语言原始定义中并不明晰的某些特性的行为，同时还明确了C语言中与具体机器相关的一些特性。
+
+This Second Edition of The C Programming Language describes C as defined by the ANSI standard. Although we have noted the places where the language has evolved, we have chosen to write exclusively in the new form. For the most part, this makes no significant difference; the most visible change is the new form of function declaration and definition. Modern compilers already support most features of the standard.
+
+本书第2版介绍的是ANSI标准定义的C语言。尽管我们已经注意到了该语言中已经变化了的地方，但我们还是决定在这里只列出它们的新形式。最重要的原因是，新旧形式之间并没有太大的差别；最明显的变化是函数的声明和定义。目前的编译器已经能够支持该标准的大部分特性。
+
+We have tried to retain the brevity of the first edition. C is not a big language, and it is not well served by a big book. We have improved the exposition of critical features, such as pointers, that are central to C programming. We have refined the original examples, and have added new examples in several chapters. For instance, the treatment of complicated declarations is augmented by programs that convert declarations into words and vice versa. As before, all examples have been tested directly from the text, which is in machine-readable form.
+
+我们将尽力保持本书第1版的简洁性。c语言并不是一种大型语言，也不需要用一本很厚的书来描述。我们在讲解一些关键特性(比如指针)时做了改进，它是C语言程序设计的核心。我们重新对以前的例子进行了精炼，并在某些章节中增加了一些新例子。例如，我们通过实例程序对复杂的声明进行处理，以将复杂的声明转换为描述性的说明或反之。像前一版中的例子一样，本版中所有例子都可以被机器读取的文本形式直接通过了测试。【？？？】
+
+Appendix A, the reference manual, is not the standard, but our attempt to convey the essentials of the standard in a smaller space. It is meant for easy comprehension by programmers, but not as a definition for compiler writers -- that role properly belongs to the standard itself. Appendix B is a summary of the facilities of the standard library. It too is meant for reference by programmers, not implementers. Appendix C is a concise summary of the changes from the original version.
+
+附录A只是一个参考手册、而非标准，我们希望通过较少的篇幅概述标准中的要点。该附录的目的是帮助程序员更好地理解语言本身，而不是为编泽器的实现者提供一个料确的定义——这正是语言标准所应当扮演的角色。附录B对标准库提供的功能进行了总结，它同样是面向程序员而非编泽器实现者的。附录C对ANSI标准相对予以前版本所做的变更进行了小结。
+
+As we said in the preface to the first edition, C "wears well as one's experience with it grows". With a decade more experience, we still feel that way. We hope that this book will help you learn C and use it well.
+
+我们在第1版中曾说过：“随着使用经验的增加，使用者会越来越感到得心应手”。经过十几年的实践，我们仍然这么认为。我们希望这本书能够帮助读者学好并用好C语言。
+
+We are deeply indebted to friends who helped us to produce this second edition. Jon Bently, Doug Gwyn, Doug Mc``Ilroy, Peter Nelson, and Rob Pike gave us perceptive comments on almost every page of draft manuscripts. We are grateful for careful reading by Al Aho, Dennis Allison, Joe Campbell, G.R. Emlin, Karen Fortgang, Allen Holub, Andrew Hume, Dave Kristol, John Linderman, Dave Prosser, Gene Spafford, and Chris van Wyk. We also received helpful suggestions from Bill Cheswick, Mark Kernighan, Andy Koenig, Robin Lake, Tom London, Jim Reeds, Clovis Tondo, and Peter Weinberger. Dave Prosser answered many detailed questions about the ANSI standard. We used Bjarne Stroustrup's C++ translator extensively for local testing of our programs, and Dave Kristol provided us with an ANSI C compiler for final testing. Rich Drechsler helped greatly with typesetting.
+
+非常感谢帮助我们完成本书的朋友们：Jon Bentley、Doug Gwyn、Doug McIlroy、Peter
+Nelson和Rob Pike几乎对本书手稿的每一页尔提出了建议。我们非常感谢Al Aho、Dennis
+Allison、Joe Campbell、G. R. Emlin、Karen Fortgang、Allen Holub、Andrew Hume、Dave
+Kristol、John Linderman、Dave Prosser、Gene Spafford和Chris van Wyk等人，他们仔细阅读
+了本书。我们也收到了来自Bill Cheswick、Mark Kernighan、Andy Koenig、Robin Lake、Tom London、Jim Reeds、Clovis Tondo和Peter Weinberger等人很好的建议。Dave Prosser为我们回答了很多关于ANSI标准的细节问题。我们大量地使用了Bjarne Stroustrup的C++翻译程序进行程序的局部测试。Dave Kristol为我们提供了一个ANSI C编译器以进行最终的测试。Rich Dreshsler帮助我们进行了大量排版的工作。
+
+Our sincere thanks to all.
+
+真诚地感谢每个人。
+
+Brian W. Kernighan
+
+Dennis M. Ritchie
+
+## Preface to the first edition 第一版序
+
+C is a general-purpose programming language with features economy of expression, modern flow control and data structures, and a rich set of operators. C is not a "very high level" language, nor a "big" one, and is not specialized to any particular area of application. But its absence of restrictions and its generality make it more convenient and effective for many tasks than supposedly more powerful languages.
+
+C语言是一种通用的程序设计语言，其特点包括简洁的表达式、流行的控制流和数据结构、丰富的运算符集等。C语言不是一种“很高级”的语言，也不“庞大”，并且不专用于某一个特定的应用领域。但是，C语言的限制少，通用性强，这使得它比一些公认为功能强大的语言使用更方便、效率更高。
+
+C was originally designed for and implemented on the UNIX operating system on the DEC PDP-11, by Dennis Ritchie. The operating system, the C compiler, and essentially all UNIX applications programs (including all of the software used to prepare this book) are written in C. Production compilers also exist for several other machines, including the IBM System/370, the Honeywell 6000, and the Interdata 8/32. C is not tied to any particular hardware or system, however, and it is easy to write programs that will run without change on any machine that supports C.
+
+C语言最初是由Dennis Ritchie为UNIX操作系统设计的，并在DEC PDP-11计算机上实现。UNIX操作系统、C编译器和几乎所有的UNIX应用程序（包括编写本书时用到的所有软件）都是用C语言编写的。同时，还有一些适用于其他机器的编译器产品，比如IBM System/370、Honeywell 6000和Interdata 8/32等。但是，C语言不受限于任何特定的机器或系统，使用它可以很容易地编写出不经修改就可以运行在所有支持C语言的机器上的程序。
+
+This book is meant to help the reader learn how to program in C. It contains a tutorial introduction to get new users started as soon as possible, separate chapters on each major feature, and a reference manual. Most of the treatment is based on reading, writing and revising examples, rather than on mere statements of rules. For the most part, the examples are complete, real programs rather than isolated fragments. All examples have been tested directly from the text, which is in machine-readable form. Besides showing how to make effective use of the language, we have also tried where possible to illustrate useful algorithms and principles of good style and sound design.
+
+本书的目的是帮助读者学习如何用C语言编写程序。本书的开头有一个指南性的引言，目的是使新用户能尽快地开始学习；随后在不同的章节中介绍了C语言的各种主要特性；本书的附录中还包括一份参考手册。本书不仅仅只是讲述语言的一些规则，而是采用阅读别人的代码、自己编写代码、修改某些代码等不同的方式来指导读者进行学习。书中的大部分例子都可以直接完整地运行，而不只是孤立的程序段。所有例子的文本都以可被机器读取的文本形式直接通过了测试。除了演示如何有效地使用语言外，我们还尽可能地在适当的时候向读者介绍一些高效的算法、良好的程序设计风格以及正确的设计原则。
+
+The book is not an introductory programming manual; it assumes some familiarity with basic programming concepts like variables, assignment statements, loops, and functions. Nonetheless, a novice programmer should be able to read along and pick up the language, although access to more knowledgeable colleague will help.
+
+本书并不是一本有关程序设计的入门性手册，它要求读者熟悉基本的程序设计概念，如变量、赋值语句、循环和函数等。尽管如此，初级的程序员仍能够阅读本书，并借此学会C语言。当然，只是越丰富，学习起来就越容易。
+
+In our experience, C has proven to be a pleasant, expressive and versatile language for a wide variety of programs. It is easy to learn, and it wears well as on's experience with it grows. We hope that this book will help you to use it well.
+
+根据我们的经验，C语言是一种令人愉快的、具有很强表达能力的通用语言，适合于编写各种程序。它容易学习，并且随着使用经验的增加，使用者会越来越感到得心应手。我们希望本书能帮助读者用好C语言。
+
+The thoughtful criticisms and suggestions of many friends and colleagues have added greatly to this book and to our pleasure in writing it. In particular, Mike Bianchi, Jim Blue, Stu Feldman, Doug Mc``Ilroy Bill Roome, Bob Rosin and Larry Rosler all read multiple volumes with care. We are also indebted to Al Aho, Steve Bourne, Dan Dvorak, Chuck Haley, Debbie Haley, Marion Harris, Rick Holt, Steve Johnson, John Mashey, Bob Mitze, Ralph Muha, Peter Nelson, Elliot Pinson, Bill Plauger, Jerry Spivack, Ken Thompson, and Peter Weinberger for helpful comments at various stages, and to Mile Lesk and Joe Ossanna for invaluable assistance with typesetting.
+
+来自许多朋友和同事的中肯批评和建议对本书的帮助很大，也是我们在写作本书过程中受益非浅。在此特别感谢Mike Bianchi、Jim Blue、Stu Feldman、Doug Mc``Ilroy、Bill Roome、Bob Rosin和Larry Rosler等人，他们细心地阅读了本书的多次修改版本。我们在这里还要感谢Al Aho、Steve Bourne、Dan Dvorak、Chuck Haley、Debbie Haley、Marion Harris、Rick Holt、Steve Johnson、John Mashey、Bob Mitze、Ralph Muha、Peter Nelson、Elliot Pinson、Bill Plauger、Jerry Spivack、Ken Thompson和Peter Weinberger等人，他们在不同阶段提出了非常有益的意见，此外还要感谢Mile Lesk和Joe Ossanna，他们在排版方面给予了我们很宝贵的帮助。
+
+    Brian W. Kernighan
+    Dennis M. Ritchie

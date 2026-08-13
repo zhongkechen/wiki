@@ -1,0 +1,79 @@
+---
+title: "TCPL/8.4_Random_Access_-_Lseek"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 8.4 Random Access - Lseek 随机访问——lseek
+
+Input and output are normally sequential: each read or write takes place at a position in the file right after the previous one. When necessary, however, a file can be read or written in any arbitrary order. The system call lseek provides a way to move around in a file without reading or writing any data:
+```
+   long lseek(int fd, long offset, int origin);
+```
+sets the current position in the file whose descriptor is fd to offset, which is taken relative to the location specified by origin. Subsequent reading or writing will begin at that position. origin can be 0, 1, or 2 to specify that offset is to be measured from the beginning, from the current position, or from the end of the file respectively. For example, to append to a file (the redirection >> in the UNIX shell, or "a" for fopen), seek to the end before writing:
+```
+   lseek(fd, 0L, 2);
+```
+To get back to the beginning ("rewind"),
+```
+   lseek(fd, 0L, 0);
+```
+Notice the 0L argument; it could also be written as (long) 0 or just as 0 if lseek is properly declared.
+
+输入/输出通常是顺序进行的：每次调用read和write进行读写的位置紧跟在前一次操作的位置之后。但是，有时候需要以任意顺序访问文件，系统调用lseek可以在文件中任意移动位置而不实际读写任何数据：
+
+```
+   long lseek(int fd, long offset, int origin);
+```
+
+将文件描述符为fd的文件的当前位置设置为offset，其中，offset是相对于origin指定的位置而言的。随后进行的读写操作将从此位置开始。origin的值可以为0、1或2，分别用于指定offset从文件开始、从当前位置或从文件结束处开始算起。例如，为了向一个文件的尾部添加内容(在UNIX shell程序中使用重定向符>>或在系统调用fopen中使用参数“a”)，则在写操作之前必须使用下列系统调用找到文件的末尾：
+
+```
+   lseek(fd, 0L, 2);
+```
+
+若要返回文件的开始处(即反绕)，则可以使用下列调用：
+
+```
+   lseek(fd, 0L, 0);
+```
+
+请注意，参数0L也可写为(long)0，或仅仅写为0，但是系统调用lseek的声明必须保持一致。
+
+With lseek, it is possible to treat files more or less like arrays, at the price of slower access. For example, the following function reads any number of bytes from any arbitrary place in a file. It returns the number read, or -1 on error.
+```cpp
+   #include "syscalls.h"
+
+   /*get:  read n bytes from position pos */
+   int get(int fd, long pos, char *buf, int n)
+   {
+       if (lseek(fd, pos, 0) >= 0) /* get to pos */
+           return read(fd, buf, n);
+       else
+           return -1;
+   }
+```
+The return value from lseek is a long that gives the new position in the file, or -1 if an error occurs. The standard library function fseek is similar to lseek except that the first argument is a FILE \* and the return is non-zero if an error occurred.
+
+使用lseek系统调用时，可以将文件视为一个大数组，其代价是访问速度会慢一些。例如，下面的函数将从文件的任意位置读入任意数目的字节，它返回读入的字节数，若发生错误，则返回-1。
+
+```cpp
+   #include "syscalls.h"
+
+   /*get:  read n bytes from position pos */
+   int get(int fd, long pos, char *buf, int n)
+   {
+       if (lseek(fd, pos, 0) >= 0) /* get to pos */
+           return read(fd, buf, n);
+       else
+           return -1;
+   }
+```
+
+lseek系统调用返回一个long类型的值，此值表示文件的新位置，若发生错误．则返回-1。标准库函数fseek与系统调用lseek类似，所不同的是，前者的第一个参数是FILE \*类型，且在发生错误时返回一个非0值。

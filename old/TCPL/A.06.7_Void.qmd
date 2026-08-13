@@ -1,0 +1,19 @@
+---
+title: "TCPL/A.06.7_Void"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.6.7 Void
+
+The (nonexistent) value of a void object may not be used in any way, and neither explicit nor implicit conversion to any non-void type may be applied. Because a void expression denotes a nonexistent value, such an expression may be used only where the value is not required, for example as an expression statement (Par.A.9.2) or as the left operand of a comma operator (Par.A.7.18).
+
+An expression may be converted to type void by a cast. For example, a void cast documents the discarding of the value of a function call used as an expression statement.
+
+    void did not appear in the first edition of this book, but has become common since.

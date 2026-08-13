@@ -1,0 +1,30 @@
+---
+title: "TCPL/A.09_Statements"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.9 Statements
+
+Except as described, statements are executed in sequence. Statements are executed for their effect, and do not have values. They fall into several groups.
+
+    statement:
+      labeled-statement
+      expression-statement
+      compound-statement
+      selection-statement
+      iteration-statement
+      jump-statement
+
+* [A.9.1 Labeled Statements](<A.09.1_Labeled_Statements.qmd>)
+* [A.9.2 Expression Statement](<A.09.2_Expression_Statement.qmd>)
+* [A.9.3 Compound Statement](<A.09.3_Compound_Statement.qmd>)
+* [A.9.4 Selection Statements](<A.09.4_Selection_Statements.qmd>)
+* [A.9.5 Iteration Statements](<A.09.5_Iteration_Statements.qmd>)
+* [A.9.6 Jump statements](<A.09.6_Jump_statements.qmd>)

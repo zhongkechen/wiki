@@ -6,6 +6,9 @@ require "tmpdir"
 
 DEFAULT_SOURCE_ROOT = File.expand_path("../mywiki/data/pages", __dir__)
 SOURCE_ROOT = File.expand_path(ENV.fetch("MOIN_SOURCE_ROOT", DEFAULT_SOURCE_ROOT))
+DEFAULT_UNDERLAY_ROOT = File.expand_path("../mywiki/underlay/pages", __dir__)
+UNDERLAY_ROOT =
+  File.expand_path(ENV.fetch("MOIN_UNDERLAY_ROOT", DEFAULT_UNDERLAY_ROOT))
 OUTPUT_ROOT = File.expand_path("../old", __dir__)
 COURSE_NAME = "Linux"
 COURSE_OUTPUT = File.join(OUTPUT_ROOT, COURSE_NAME)
@@ -19,7 +22,54 @@ SOURCE_SNAPSHOT =
   end
 
 IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
+MOIN_MASTER_ATTACHMENTS = {
+  "MoinMaster:HelpOnInstalling/WikiInstanceCreation" => {
+    owner: "moinmoin",
+    filename: "createinstance.sh",
+    source: File.join(
+      "HelpOnInstalling(2f)WikiInstanceCreation",
+      "attachments",
+      "createinstance.sh"
+    )
+  }
+}.freeze
 BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
+SECTION_NUMBER_PRAGMA_PATTERN =
+  /^#pragma section-numbers (?:on|\d+)[ \t]*\r?$/
+RELATED_PAGE_NAMES = %w[
+  debian服务器安装
+  linux_raid
+  lvm2
+  raid
+  ssh
+  vnc
+  samba
+  ftp
+  ftp/wu-ftpd
+  nfs
+  iscsi
+  apache
+  apache2
+  phpbb3
+  mediawiki
+  moinmoin
+  drupal
+  wordpress
+  mysql
+  postgresql
+  sqlite
+  oracle
+  bind
+  dhcpd
+  squid
+  danted
+  openvpn
+  iptables
+  iproute2
+  Emacs
+  VI
+  TeX排版
+].freeze
 
 def decode_page_name(entry)
   entry.gsub(/\(([0-9a-fA-F]+)\)/) do
@@ -128,8 +178,8 @@ end
 
 COURSE_SOURCE = page_source(COURSE_NAME)
 direct_pages = linked_page_names(COURSE_SOURCE)
-primary_pages = direct_pages.dup
-queue = direct_pages.select { |page_name| page_has_readable_revision?(page_name) }
+primary_pages = (direct_pages + RELATED_PAGE_NAMES).uniq
+queue = primary_pages.select { |page_name| page_has_readable_revision?(page_name) }
 
 until queue.empty?
   page_name = queue.shift
@@ -187,24 +237,47 @@ if PAGE_INDEX.any?
       end
     end
 
+    MOIN_MASTER_ATTACHMENTS.each_value do |attachment|
+      destination = File.join(
+        temporary_asset_root,
+        attachment[:owner],
+        attachment[:filename]
+      )
+      source = File.join(UNDERLAY_ROOT, attachment[:source])
+      source = File.join(
+        SOURCE_ASSET_ROOT,
+        attachment[:owner],
+        attachment[:filename]
+      ) unless File.file?(source)
+      raise "Missing MoinMaster attachment #{attachment[:source]}" unless File.file?(source)
+
+      FileUtils.mkdir_p(File.dirname(destination))
+      FileUtils.cp(source, destination)
+    end
+
     FileUtils.rm_rf(SOURCE_ASSET_ROOT)
     FileUtils.mv(temporary_asset_root, SOURCE_ASSET_ROOT)
   end
 end
 
-def qmd_front_matter(title)
+def qmd_front_matter(title, number_sections: false)
   escaped = title.gsub("\\", "\\\\").gsub('"', '\\"')
+  number_sections_line = number_sections ? "number-sections: true\n" : ""
   <<~YAML
     ---
     title: "#{escaped}"
     lang: zh
     toc: true
-    format:
+    #{number_sections_line}format:
       html:
         code-copy: true
         html-math-method: mathjax
     ---
   YAML
+end
+
+def page_output_filename(page_name)
+  "#{page_name.tr('/', '_')}.qmd"
 end
 
 def page_link(target, context)
@@ -213,7 +286,8 @@ def page_link(target, context)
   if clean_target == COURSE_NAME
     context == :course ? "#{COURSE_NAME}.qmd" : "../#{COURSE_NAME}.qmd"
   elsif MIGRATED_PAGES.include?(clean_target)
-    context == :course ? "#{COURSE_NAME}/#{clean_target}.qmd" : "#{clean_target}.qmd"
+    filename = page_output_filename(clean_target)
+    context == :course ? "#{COURSE_NAME}/#{filename}" : filename
   else
     context == :course ? "#{clean_target}.html" : "../#{clean_target}.html"
   end
@@ -259,6 +333,15 @@ def convert_link(raw, owner, context)
 
   return "[#{label}](#{target})" if target.match?(%r{\A(?:https?|ftp|mailto):})
   return "[#{label}](#{target})" if target.start_with?("#")
+  if (attachment = MOIN_MASTER_ATTACHMENTS[target])
+    path = asset_target(
+      attachment[:owner],
+      attachment[:filename],
+      context
+    )
+    return "[#{label}](#{markdown_target(path)})"
+  end
+  return label if target.start_with?("MoinMaster:")
 
   "[#{label}](#{markdown_target(page_link(target, context))})"
 end
@@ -346,9 +429,21 @@ end
 def include_unlisted_attachments(source, owner)
   names = attachment_names(owner)
   return source if names.empty?
-  return source if source.include?("<<AttachList>>") || source.include?("attachment:")
+  return source if source.include?("<<AttachList>>")
 
-  [source.rstrip, "", "= 附件 =", render_attach_list(owner), ""].join("\n")
+  referenced = source.scan(/attachment:([^}\]\n]+)/).flatten.map do |spec|
+    spec.split("|", 2).first.strip
+  end
+  MOIN_MASTER_ATTACHMENTS.each do |target, attachment|
+    if attachment[:owner] == owner && source.include?("[[#{target}")
+      referenced << attachment[:filename]
+    end
+  end
+  unlisted = names - referenced
+  return source if unlisted.empty?
+
+  attachment_list = unlisted.map { |filename| " * [[attachment:#{filename}]]" }
+  [source.rstrip, "", "= 附件 =", attachment_list.join("\n"), ""].join("\n")
 end
 
 def external_image_markup(url, label)
@@ -426,13 +521,22 @@ end
 def convert_table_line(line)
   body = line.strip.delete_prefix("||").delete_suffix("||")
   cells = body.split("||").map do |cell|
-    cell.strip.sub(/\A(?:<[^>]+>\s*)+/, "")
+    cell.strip.sub(/\A(?:<(?:#[0-9a-fA-F]+|[^>]*=[^>]*)>\s*)+/, "")
   end
-  "| #{cells.join(' | ')} |"
+  escaped = cells.map do |cell|
+    cell.gsub("\\") { "\\\\" }
+        .gsub("|", "\\|")
+        .gsub(/(?<!\]\()<([^>\n]+)>(?!\))/) do
+          content = Regexp.last_match(1)
+          content.match?(/\Abr\s*\/?\z/i) ? "<#{content}>" : "&lt;#{content}&gt;"
+        end
+  end
+  "| #{escaped.join(' | ')} |"
 end
 
 def convert_moin(text, owner:, context:, expand_includes: false)
   source = text.gsub("\r\n", "\n")
+  source.gsub!(/^#pragma section-numbers (?:on|off|\d+)[ \t]*\n?/, "")
   source = include_unlisted_attachments(source, owner)
 
   source.gsub!(/<<Include\(\^?([^,)]+)(?:,[^)]*)?\)>>/) do
@@ -442,6 +546,9 @@ def convert_moin(text, owner:, context:, expand_includes: false)
     else
       "[[#{included_name}|#{included_name}]]"
     end
+  end
+  source.gsub!(/<<FootNote\((.*?)\)>>/m) do
+    "@@MOIN_FOOTNOTE_OPEN@@#{Regexp.last_match(1)}@@MOIN_FOOTNOTE_CLOSE@@"
   end
 
   source, blocks, inline = convert_blocks(source)
@@ -459,6 +566,9 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   source.gsub!(/\[\[([^\]]+)\]\]/) do
     convert_link(Regexp.last_match(1), owner, context)
   end
+  source.gsub!(/\]\((?!<|(?:https?|ftp|mailto):|#)/, "] (")
+  source.gsub!("@@MOIN_FOOTNOTE_OPEN@@", "^[")
+  source.gsub!("@@MOIN_FOOTNOTE_CLOSE@@", "]")
 
   source.gsub!("<<BR>>", "<br>")
   source.gsub!("<<和>>", "@@MOIN_SHIFT_OPERATORS@@")
@@ -466,7 +576,6 @@ def convert_moin(text, owner:, context:, expand_includes: false)
   source.gsub!("<<PageComment2>>") { render_page_comments(owner) }
   source.gsub!(/<<(?:TableOfContents|Navigation\([^)]*\))>>/, "")
   source.gsub!(/<<Anchor\(([^)]+)\)>>/, '<a id="\1"></a>')
-  source.gsub!(/<<FootNote\(([^)]+)\)>>/, '^[\1]')
   source.gsub!(/<<[^>]+>>/, "")
   source.gsub!("@@MOIN_SHIFT_OPERATORS@@", "`<<` 和 `>>`")
 
@@ -623,7 +732,10 @@ Dir.mktmpdir("migrate-moin-linux") do |temporary_root|
     context: :course
   )
   course_page = [
-    qmd_front_matter(COURSE_NAME),
+    qmd_front_matter(
+      COURSE_NAME,
+      number_sections: COURSE_SOURCE.match?(SECTION_NUMBER_PRAGMA_PATTERN)
+    ),
     "[返回旧版首页](首页.qmd)",
     "",
     course_body
@@ -667,12 +779,18 @@ Dir.mktmpdir("migrate-moin-linux") do |temporary_root|
       context: :child
     )
     page = [
-      qmd_front_matter(page_name),
+      qmd_front_matter(
+        page_name,
+        number_sections: source.match?(SECTION_NUMBER_PRAGMA_PATTERN)
+      ),
       "[返回“Linux”](../Linux.qmd)",
       "",
       body
     ].join("\n")
-    File.write(File.join(temporary_course_output, "#{page_name}.qmd"), page)
+    File.write(
+      File.join(temporary_course_output, page_output_filename(page_name)),
+      page
+    )
   end
 
   qmd_files = [temporary_course_page] +

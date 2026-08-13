@@ -1,0 +1,17 @@
+---
+title: "TCPL/A.06.2_Integral_Conversions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.6.2 Integral Conversions
+
+Any integer is converted to a given unsigned type by finding the smallest non-negative value that is congruent to that integer, modulo one more than the largest value that can be represented in the unsigned type. In a two's complement representation, this is equivalent to left-truncation if the bit pattern of the unsigned type is narrower, and to zero-filling unsigned values and sign-extending signed values if the unsigned type is wider.
+
+When any integer is converted to a signed type, the value is unchanged if it can be represented in the new type and is implementation-defined otherwise.

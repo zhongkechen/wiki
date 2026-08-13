@@ -1,0 +1,35 @@
+---
+title: "TCPL/A.07.04_Unary_Operators"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.4 Unary Operators
+
+Expressions with unary operators group right-to-left.
+
+    unary-expression:
+      postfix expression
+      ++unary expression
+      --unary expression
+      unary-operator cast-expression
+      sizeof unary-expression
+      sizeof(type-name)
+
+    unary operator: one of
+      & \* + - ~ !
+
+* [A.7.4.1 Prefix Incrementation Operators](<A.07.04.1_Prefix_Incrementation_Operators.qmd>)
+* [A.7.4.2 Address Operator](<A.07.04.2_Address_Operator.qmd>)
+* [A.7.4.3 Indirection Operator](<A.07.04.3_Indirection_Operator.qmd>)
+* [A.7.4.4 Unary Plus Operator](<A.07.04.4_Unary_Plus_Operator.qmd>)
+* [A.7.4.5 Unary Minus Operator](<A.07.04.5_Unary_Minus_Operator.qmd>)
+* [A.7.4.6 One's Complement Operator](<A.07.04.6_One's_Complement_Operator.qmd>)
+* [A.7.4.7 Logical Negation Operator](<A.07.04.7_Logical_Negation_Operator.qmd>)
+* [A.7.4.8 Sizeof Operator](<A.07.04.8_Sizeof_Operator.qmd>)

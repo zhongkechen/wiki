@@ -67,7 +67,7 @@ format:
 ### 存储器管理
 
 * [Software RAID and LVM](https://wiki.archlinux.org/index.php/Software_RAID_and_LVM)
-* [raid5](<../linux_raid.html>)
+* [raid5](<linux_raid.qmd>)
 * [Mount your widows Partitions and make it read/writable in ubuntu](http://www.debianadmin.com/mount-your-widows-partitions-and-make-it-readwritable-in-ubuntu.html)
 
 #### ubuntu读写ntfs分区
@@ -420,9 +420,9 @@ sudo chown root:root /etc/java-1.5.0-sun/fontconfig.properties
 
 ### 编辑排版
 
-* [Emacs](<../Emacs.html>)
-* [VI](<../VI.html>)
-* [TeX排版](<../TeX排版.html>)
+* [Emacs](<Emacs.qmd>)
+* [VI](<VI.qmd>)
+* [TeX排版](<TeX排版.qmd>)
 
 ### 聊天
 

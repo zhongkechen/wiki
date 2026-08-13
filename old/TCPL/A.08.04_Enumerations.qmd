@@ -1,0 +1,35 @@
+---
+title: "TCPL/A.08.04_Enumerations"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.8.4 Enumerations
+
+Enumerations are unique types with values ranging over a set of named constants called enumerators. The form of an enumeration specifier borrows from that of structures and unions.
+
+    enum-specifier:
+      enum identifieropt { enumerator-list }
+      enum identifier
+
+    enumerator-list:
+      enumerator
+      enumerator-list , enumerator
+
+    enumerator:
+      identifier
+      identifier = constant-expression
+
+The identifiers in an enumerator list are declared as constants of type int, and may appear wherever constants are required. If no enumerations with = appear, then the values of the corresponding constants begin at 0 and increase by 1 as the declaration is read from left to right. An enumerator with = gives the associated identifier the value specified; subsequent identifiers continue the progression from the assigned value.
+
+Enumerator names in the same scope must all be distinct from each other and from ordinary variable names, but the values need not be distinct.
+
+The role of the identifier in the enum-specifier is analogous to that of the structure tag in a struct-specifier; it names a particular enumeration. The rules for enum-specifiers with and without tags and lists are the same as those for structure or union specifiers, except that incomplete enumeration types do not exist; the tag of an enum-specifier without an enumerator list must refer to an in-scope specifier with a list.
+
+    Enumerations are new since the first edition of this book, but have been part of the language for some years.

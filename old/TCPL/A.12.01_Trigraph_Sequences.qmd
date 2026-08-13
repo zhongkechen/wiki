@@ -1,0 +1,23 @@
+---
+title: "TCPL/A.12.01_Trigraph_Sequences"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.12.1 Trigraph Sequences
+
+The character set of C source programs is contained within seven-bit ASCII, but is a superset of the ISO 646-1983 Invariant Code Set. In order to enable programs to be represented in the reduced set, all occurrences of the following trigraph sequences are replaced by the corresponding single character. This replacement occurs before any other processing.
+
+         ??=  #            ??(  [            ??&lt;  {
+         ??/  \\            ??)  ]            ??&gt;  }
+         ??'  ^            ??!  |            ??-  ~
+
+No other such replacements occur.
+
+    Trigraph sequences are new with the ANSI standard.

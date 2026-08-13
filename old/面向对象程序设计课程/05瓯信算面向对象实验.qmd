@@ -1,0 +1,182 @@
+---
+title: "05瓯信算面向对象实验"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“面向对象程序设计课程”](../面向对象程序设计课程.qmd)
+
+### 05瓯信算面向对象实验
+
+先打开实验报告模板，查看需要完成哪些题目，然后打开判题系统地址，在判题系统上做对相应题目，最后将正确的程序复制到实验报告中，发到邮箱。
+
+判题系统地址：[http://wzuacm.3322.org/](http://wzuacm.3322.org/)
+
+完成如下实验报告：
+
+* [面向对象实验1.doc](<assets/05瓯信算面向对象实验/面向对象实验1.doc>) 判题系统1、3题
+* [面向对象实验2.doc](<assets/05瓯信算面向对象实验/面向对象实验2.doc>) 判题系统5、7题
+* [面向对象实验3.doc](<assets/05瓯信算面向对象实验/面向对象实验3.doc>) 判题系统11题
+* [面向对象实验4.doc](<assets/05瓯信算面向对象实验/面向对象实验4.doc>) 判题系统11题，用C++的输入输出完成
+* [面向对象实验5.doc](<assets/05瓯信算面向对象实验/面向对象实验5.doc>) 判题系统16题
+* [面向对象实验6.doc](<assets/05瓯信算面向对象实验/面向对象实验6.doc>) 判题系统18题
+* [面向对象实验7.doc](<assets/05瓯信算面向对象实验/面向对象实验7.doc>) 判题系统20题
+* [面向对象实验8.doc](<assets/05瓯信算面向对象实验/面向对象实验8.doc>) 判题系统22题
+
+在实验报告文件名后添加你的学号姓名，比如“面向对象实验1-0530215288-张三.doc”，然后email到： czk.cpp@gmail.com
+
+#### 实验3
+
+1. 拷贝5.4节中的程序：
+
+   ```cplusplus
+      #define ALLOCSIZE 10000 /* size of available space */
+
+      static char allocbuf[ALLOCSIZE]; /* storage for alloc */
+      static char *allocp = allocbuf;  /* next free position */
+
+      char *alloc(int n)    /* return pointer to n characters */
+      {
+          if (allocbuf + ALLOCSIZE - allocp >= n) {  /* it fits */
+              allocp += n;
+              return allocp - n; /* old p */
+          } else      /* not enough room */
+              return 0;
+      }
+
+      void afree(char *p)  /* free storage pointed to by p */
+      {
+          if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+              allocp = p;
+      }
+   ```
+
+   或者可以将后面出现的alloc函数调用改成malloc函数调用
+1. 1.9节getline
+
+   ```cplusplus
+     /* getline:  read a line into s, return length  */
+      int getline(char s[],int lim)
+      {
+          int c, i;
+
+          for (i=0; i < lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
+              s[i] = c;
+          if (c == '\n') {
+              s[i] = c;
+              ++i;
+          }
+          s[i] = '\0';
+          return i;
+      }
+   ```
+1. 5.6节
+
+   ```cplusplus
+      #include <stdio.h>
+      #include <string.h>
+
+      #define MAXLINES 5000     /* max #lines to be sorted */
+
+      char *lineptr[MAXLINES];  /* pointers to text lines */
+
+      int readlines(char *lineptr[], int nlines);
+      void writelines(char *lineptr[], int nlines);
+
+      void qsort(char *lineptr[], int left, int right);
+
+      /* sort input lines */
+      main()
+      {
+          int nlines;     /* number of input lines read */
+
+          if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
+              qsort(lineptr, 0, nlines-1);
+              writelines(lineptr, nlines);
+              return 0;
+          } else {
+              printf("error: input too big to sort\n");
+              return 1;
+          }
+      }
+
+      #define MAXLEN 1000  /* max length of any input line */
+      int getline(char *, int);
+      char *alloc(int);
+
+      /* readlines:  read input lines */
+      int readlines(char *lineptr[], int maxlines)
+      {
+          int len, nlines;
+          char *p, line[MAXLEN];
+
+          nlines = 0;
+          while ((len = getline(line, MAXLEN)) > 0)
+              if (nlines >= maxlines || (p = alloc(len)) == NULL)
+                  return -1;
+              else {
+                  line[len-1] = '\0';  /* delete newline */
+                  strcpy(p, line);
+                  lineptr[nlines++] = p;
+              }
+          return nlines;
+      }
+
+      /* writelines:  write output lines */
+      void writelines(char *lineptr[], int nlines)
+      {
+          int i;
+
+          for (i = 0; i < nlines; i++)
+              printf("%s\n", lineptr[i]);
+      }
+   ```
+
+    及qsort和swap
+
+   ```cplusplus
+   void qsort(char *v[], int left, int right)
+   {
+       int i, last;
+       void swap(char *v[], int i, int j);
+
+       if (left >= right)  /* do nothing if array contains */
+           return;         /* fewer than two elements */
+       swap(v, left, (left + right)/2);
+       last = left;
+       for (i = left+1; i <= right; i++)
+           if (strcmp(v[i], v[left]) < 0)
+               swap(v, ++last, i);
+       swap(v, left, last);
+       qsort(v, left, last-1);
+       qsort(v, last+1, right);
+   }
+   /* swap:  interchange v[i] and v[j] */
+   void swap(char *v[], int i, int j)
+   {
+       char *temp;
+
+       temp = v[i];
+       v[i] = v[j];
+       v[j] = temp;
+   }
+   ```
+1. 所有的qsort换一个名字，比如qsort2
+1. 修改readlines函数
+
+   ```
+       while(scanf("%s", line)!=EOF) {
+           len = strlen(line)+1;
+   ```
+
+#### 实验6
+
+基础知识参看：[C++类与对象](<../程序设计语言/C++类与对象.qmd>)
+
+#### 实验7
+
+相关基础知识：[C++继承与多态](<../程序设计语言/C++继承与多态.qmd>)

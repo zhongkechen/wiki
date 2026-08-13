@@ -1,0 +1,41 @@
+---
+title: "TCPL/A.07_Expressions"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### A.7 Expressions
+
+The precedence of expression operators is the same as the order of the major subsections of this section, highest precedence first. Thus, for example, the expressions referred to as the operands of + (Par.A.7.7) are those expressions defined in Pars.A.7.1-A.7.6. Within each subsection, the operators have the same precedence. Left- or right-associativity is specified in each subsection for the operators discussed therein. The grammar given in Par.13 incorporates the precedence and associativity of the operators.
+
+The precedence and associativity of operators is fully specified, but the order of evaluation of expressions is, with certain exceptions, undefined, even if the subexpressions involve side effects. That is, unless the definition of the operator guarantees that its operands are evaluated in a particular order, the implementation is free to evaluate operands in any order, or even to interleave their evaluation. However, each operator combines the values produced by its operands in a way compatible with the parsing of the expression in which it appears.
+
+    This rule revokes the previous freedom to reorder expressions with operators that are mathematically commutative and associative, but can fail to be computationally associative. The change affects only floating-point computations near the limits of their accuracy, and situations where overflow is possible.
+
+The handling of overflow, divide check, and other exceptions in expression evaluation is not defined by the language. Most existing implementations of C ignore overflow in evaluation of signed integral expressions and assignments, but this behavior is not guaranteed. Treatment of division by 0, and all floating-point exceptions, varies among implementations; sometimes it is adjustable by a non-standard library function.
+
+* [A.7.1 Pointer Conversion](<A.07.01_Pointer_Conversion.qmd>)
+* [A.7.2 Primary Expressions](<A.07.02_Primary_Expressions.qmd>)
+* [A.7.3 Postfix Expressions](<A.07.03_Postfix_Expressions.qmd>)
+* [A.7.4 Unary Operators](<A.07.04_Unary_Operators.qmd>)
+* [A.7.5 Casts](<A.07.05_Casts.qmd>)
+* [A.7.6 Multiplicative Operators](<A.07.06_Multiplicative_Operators.qmd>)
+* [A.7.7 Additive Operators](<A.07.07_Additive_Operators.qmd>)
+* [A.7.8 Shift Operators](<A.07.08_Shift_Operators.qmd>)
+* [A.7.9 Relational Operators](<A.07.09_Relational_Operators.qmd>)
+* [A.7.10 Equality Operators](<A.07.10_Equality_Operators.qmd>)
+* [A.7.11 Bitwise AND Operator](<A.07.11_Bitwise_AND_Operator.qmd>)
+* [A.7.12 Bitwise Exclusive OR Operator](<A.07.12_Bitwise_Exclusive_OR_Operator.qmd>)
+* [A.7.13 Bitwise Inclusive OR Operator](<A.07.13_Bitwise_Inclusive_OR_Operator.qmd>)
+* [A.7.14 Logical AND Operator](<A.07.14_Logical_AND_Operator.qmd>)
+* [A.7.15 Logical OR Operator](<A.07.15_Logical_OR_Operator.qmd>)
+* [A.7.16 Conditional Operator](<A.07.16_Conditional_Operator.qmd>)
+* [A.7.17 Assignment Expressions](<A.07.17_Assignment_Expressions.qmd>)
+* [A.7.18 Comma Operator](<A.07.18_Comma_Operator.qmd>)
+* [A.7.19 Constant Expressions](<A.07.19_Constant_Expressions.qmd>)

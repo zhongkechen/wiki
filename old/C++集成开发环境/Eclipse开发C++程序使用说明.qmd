@@ -1,0 +1,81 @@
+---
+title: "Eclipse开发C++程序使用说明"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“C++集成开发环境”](<../C++集成开发环境.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000021 在备份中缺失；以下内容来自最新可读取版本 00000020。
+:::
+
+### Eclipse开发环境
+
+Windows下安装：（如果在以下网址下载太慢的话可以在本网页的附件中下载，不过可能版本会比较老旧）
+
+* 首先需要安装[Java开发环境](<Java开发环境.qmd>)
+* 下载Eclipse IDE for C/C++ Developers( http://www.eclipse.org/downloads/ )，解压缩到c:\\eclipse
+* 下载安装MinGW编译器和调试器：
+    * 在 http://sourceforge.net/project/showfiles.php?group_id=2435 下载MinGW-5.1.3.exe，运行该文件，依次选择download and install，选择current，在Mingw base tools和g++ compiler前面打勾，安装路径选择默认的C:\\MINGW，一直下一步到最后完成。在 http://sourceforge.net/project/showfiles.php?group_id=2435&package_id=20507 下载gdb-6.6.tar.bz2，将它解压缩在C:\\MinGW，提示覆盖文件时选是。
+    * 在系统环境变量PATH的末尾增加C:\\MinGW\\bin\\路径。
+* 运行c:\\eclipse\\eclipse.exe，将工作路径设置在非保护的盘，创建C++工程，验证安装是否正确。
+
+Linux下安装（以debian/ubuntu为例，需要管理员权限）:
+
+* 安装编译器、调试器： apt-get install build-essential
+* 安装JDK或者JRE： apt-get install sun-java5-\*
+* 安装Eclipse和CDT： apt-get install eclipse eclipse-cdt
+
+Fedora Core 4下安裝：
+
+* 下载Eclipse IDE for C/C++ Developers(http://www.eclipse.org/downloads/ )，解压缩
+* 下载JRE:http://www.java.com/zh_CN/download/manual.jsp, 安装
+* 运行eclipse（可能需要用参数-vm指定虚拟机，比如./eclipse -vm /usr/java/jre1.6.0_02/bin/java）
+
+工程创建：
+windows下：
+
+* 运行eclipse
+* 选择菜单File=&gt;New=&gt;C++ Project
+* 在Project Name中写上工程名称，左侧project types选择Executable下的Hello World C++ Project，右侧toolchain中选择MinGW，然后Finish
+* 打开src下的源代码文件进行编辑
+* 保存后自动编译
+* 按Ctrl-F11运行
+
+linux下：
+
+* 运行eclipse
+* 选择菜单File=&gt;New=&gt;Project
+* 在弹出的对话框中选择Managed Make C++ Project，然后Next
+* 在Project Name中写上工程名称，然后Finish
+* 在C/C++ Project子窗口中选择刚刚创建的工程，点右键，选择New=&gt;Source File
+* 在弹出的对话框中写上文件名（以.cc或者.cpp为扩展名）
+* 在中间主窗口中编写程序内容
+* 程序保存后自动编译
+
+第一次运行：
+
+* 编译成功后，选择菜单Run=&gt;Run...
+* 在弹出对话框中，左边选择C/C++ Local Application，点左下角的New按钮
+* 然后在右边点Search Project...，在弹出的对话框中选择要运行的可执行文件，确定
+* 在Debugger页中选择一个Debugger：GDB Debugger
+* 最后点击下面的Run按钮即可运行
+
+再运行：
+
+* 按Ctrl-F11
+
+调试：
+
+* 在运行出现错误的情况下，按F11进入调试界面
+* 在调试界面下，按F5为Step Into，F6为Step Over，按F8运行到底
+* 按Ctrl-Shift-B或者在一行最前面双击设置断点
+* 在Debug子窗口中查看函数调用栈
+* 在Variables子窗口中查看当前变量的值

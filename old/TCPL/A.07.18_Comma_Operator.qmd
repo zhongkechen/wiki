@@ -1,0 +1,23 @@
+---
+title: "TCPL/A.07.18_Comma_Operator"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.7.18 Comma Operator
+
+    expression:
+      assignment-expression
+      expression , assignment-expression
+
+A pair of expressions separated by a comma is evaluated left-to-right, and the value of the left expression is discarded. The type and value of the result are the type and value of the right operand. All side effects from the evaluation of the left-operand are completed before beginning the evaluation of the right operand. In contexts where comma is given a special meaning, for example in lists of function arguments (Par.A.7.3.2) and lists of initializers (Par.A.8.7), the required syntactic unit is an assignment expression, so the comma operator appears only in a parenthetical grouping, for example,
+
+   f(a, (t=3, t+2), c)
+
+has three arguments, the second of which has the value 5.

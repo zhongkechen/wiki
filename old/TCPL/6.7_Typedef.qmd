@@ -1,0 +1,135 @@
+---
+title: "TCPL/6.7_Typedef"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 6.7 Typedef 类型定义(typedef)
+
+C provides a facility called typedef for creating new data type names. For example, the declaration
+```
+   typedef int Length;
+```
+makes the name Length a synonym for int. The type Length can be used in declarations, casts, etc., in exactly the same ways that the int type can be:
+```
+   Length len, maxlen;
+   Length *lengths[];
+```
+Similarly, the declaration
+```
+   typedef char *String;
+```
+makes String a synonym for char \* or character pointer, which may then be used in declarations and casts:
+```
+   String p, lineptr[MAXLINES], alloc(int);
+   int strcmp(String, String);
+   p = (String) malloc(100);
+```
+
+C语言提供了一个称为typedef的功能，它用来建立新的数据类型名，例如，声明
+
+```
+   typedef int Length;
+```
+
+将Length定义为与int具有同等意义的名字。类型Length可用于类型声明、类型转换等，它和类型int完全相同，例如：
+
+```
+   Length len, maxlen;
+   Length *lengths[];
+```
+
+类似地，声明
+
+```
+   typedef char *String;
+```
+
+将String定义为与char \*或字符指针同义，此后，便可以在类型声明和类型转换中使用String，例如：
+
+```
+   String p, lineptr[MAXLINES], alloc(int);
+   int strcmp(String, String);
+   p = (String) malloc(100);
+```
+
+Notice that the type being declared in a typedef appears in the position of a variable name, not right after the word typedef. Syntactically, typedef is like the storage classes extern, static, etc. We have used capitalized names for typedefs, to make them stand out.
+
+注意，typedef中声明的类型在变量名的位置出现，而不是紧接在关键字typedef之后。typedef在语法上类似于存储类extern、static等。我们在这里以大写字母作为typedef定义的类型名的首字母，以尔区别。
+
+As a more complicated example, we could make typedefs for the tree nodes shown earlier in this chapter:
+```cpp
+   typedef struct tnode *Treeptr;
+
+   typedef struct tnode { /* the tree node: */
+       char *word;           /* points to the text */
+       int count;            /* number of occurrences */
+       struct tnode *left;   /* left child */
+       struct tnode *right;  /* right child */
+   } Treenode;
+```
+This creates two new type keywords called Treenode (a structure) and Treeptr (a pointer to the structure). Then the routine talloc could become
+```
+   Treeptr talloc(void)
+   {
+       return (Treeptr) malloc(sizeof(Treenode));
+   }
+```
+
+这里举一个更复杂的例子：用typedef定义本章前面介绍的树节点，如下所示：
+```cpp
+   typedef struct tnode *Treeptr;
+
+   typedef struct tnode { /* the tree node: */
+       char *word;           /* points to the text */
+       int count;            /* number of occurrences */
+       struct tnode *left;   /* left child */
+       struct tnode *right;  /* right child */
+   } Treenode;
+```
+
+上述类型定义创建了两个新类型关键字：Treenode(一个结构)和Treeptr〔一个指向该结构的指针)。这样，函数talloc可相应地修改为：
+
+```
+   Treeptr talloc(void)
+   {
+       return (Treeptr) malloc(sizeof(Treenode));
+   }
+```
+
+**It must be emphasized that a typedef declaration does not create a new type in any sense; it merely adds a new name for some existing type.**Nor are there any new semantics: variables declared this way have exactly the same properties as variables whose declarations are spelled out explicitly. In effect, typedef is like #define, except that since it is interpreted by the compiler, it can cope with textual substitutions that are beyond the capabilities of the preprocessor. For example,
+```
+   typedef int (*PFI)(char *, char *);
+```
+creates the type PFI, for "pointer to function (of two char \* arguments) returning int", which can be used in contexts like
+```
+   PFI strcmp, numcmp;
+```
+in the sort program of Chapter 5.
+
+这里必须强调的是，从任何意义上讲，typedef声明并没有创建一个新类型，它只是为某个已存在的类型增加了一个新的名称而已。typedef声明也没有增加任何新的语义：通过这种方式声明的变量与通过普通声明方式声明的变量具有完全相同的属性。实际上，typedef类似于#define语句，但由于typedef是由编译器解释的，因此它的文本替换功能要超过预处理器的能力。例如：
+
+```
+   typedef int (*PFI)(char *, char *);
+```
+
+该语句定义了类型PFI是“—个指向函数的指针，该函数具有两个char \*类型的参数，返
+回值类型为int”，它可用于某些上下文中，例如，可以用在第5章的排序程序中，如下所示：
+
+```
+   PFI strcmp, numcmp;
+```
+
+Besides purely aesthetic issues, there are two main reasons for using typedefs. The first is to parameterize a program against portability problems. If typedefs are used for data types that may be machine-dependent, only the typedefs need change when the program is moved. One common situation is to use typedef names for various integer quantities, then make an appropriate set of choices of short, int, and long for each host machine. Types like size_t and ptrdiff_t from the standard library are examples.
+
+除了表达方式更简洁之外，使用typedef还有另外两个重要原因。首先，它可以使程序参数化，以提高程序的可移植性。如果typedef声明的数据类型同机器有关，那么，当程序移植到其他机器上时，只需改变typedef类型定义就可以了。一个经常用到的情况是，对于各种不同大小的整型值来说，都使用通过typedef定义的类型名，然后，分别为各个不同的宿主机选择一组合适的short、int和long类型大小即可。标准库中有一些例子，例如size_t和ptrdiff_t等。
+
+The second purpose of typedefs is to provide better documentation for a program - a type called Treeptr may be easier to understand than one declared only as a pointer to a complicated structure.
+
+typedef的第二个作用是为程序提供更好的说明性——Treeptr类型显然比一个声明为指向复杂结构的指针更容易让人理解。

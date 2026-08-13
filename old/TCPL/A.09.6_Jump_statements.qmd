@@ -1,0 +1,38 @@
+---
+title: "TCPL/A.09.6_Jump_statements"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+#### A.9.6 Jump statements
+
+Jump statements transfer control unconditionally.
+
+    jump-statement:
+      goto identifier;
+      continue;
+      break;
+      return expressionopt;
+
+In the goto statement, the identifier must be a label (Par.A.9.1) located in the current function. Control transfers to the labeled statement.
+
+A continue statement may appear only within an iteration statement. It causes control to pass to the loop-continuation portion of the smallest enclosing such statement. More precisely, within each of the statements
+
+   while (...) {       do {                 for (...) {
+     ...                 ...                  ...
+   contin: ;           contin: ;            contin: ;
+   }                   } while (...);       }
+
+a continue not contained in a smaller iteration statement is the same as goto contin.
+
+A break statement may appear only in an iteration statement or a switch statement, and terminates execution of the smallest enclosing such statement; control passes to the statement following the terminated statement.
+
+A function returns to its caller by the return statement. When return is followed by an expression, the value is returned to the caller of the function. The expression is converted, as by assignment, to the type returned by the function in which it appears.
+
+Flowing off the end of a function is equivalent to a return with no expression. In either case, the returned value is undefined.

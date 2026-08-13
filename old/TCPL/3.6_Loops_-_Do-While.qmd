@@ -1,0 +1,92 @@
+---
+title: "TCPL/3.6_Loops_-_Do-While"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“TCPL”](<../TCPL.qmd>)
+
+### 3.6 Loops - Do-While do-while循环
+
+As we discussed in Chapter 1, the while and for loops test the termination condition at the top. By contrast, the third loop in C, the do-while, tests at the bottom after making each pass through the loop body; the body is always executed at least once.
+
+我们在第1章中曾经讲过，while与for这两种循环在循环体执行前对终止条件进行测试。与此相反，C语言中的第三种循环——do-while循环则在循环体执行后测试终止条件，这样循环体至少被执行一次。
+
+The syntax of the do is
+```
+   do
+       statement
+   while (expression);
+```
+The statement is executed, then expression is evaluated. If it is true, statement is evaluated again, and so on. When the expression becomes false, the loop terminates. Except for the sense of the test, do-while is equivalent to the Pascal repeat-until statement.
+
+do-while循环的语法形式如下
+
+```
+   do
+       statement
+   while (expression);
+```
+
+在这一结构中，先执行循环体中的语句部分，然后再求表达式的值。如果表达式的值为真，则再次执行语句，依此类推。当表达式的值变为假，则循环终止。除了条件测试的语义不同外，do-while循环与Pascal语言的repeat-until语句等价。
+
+Experience shows that do-while is much less used than while and for. Nonetheless, from time to time it is valuable, as in the following function itoa, which converts a number to a character string (the inverse of atoi). The job is slightly more complicated than might be thought at first, because the easy methods of generating the digits generate them in the wrong order. We have chosen to generate the string backwards, then reverse it.
+```cpp
+   /* itoa:  convert n to characters in s */
+   void itoa(int n, char s[])
+   {
+       int i, sign;
+
+       if ((sign = n) < 0)  /* record sign */
+           n = -n;          /* make n positive */
+       i = 0;
+       do {      /* generate digits in reverse order */
+           s[i++] = n % 10 + '0';  /* get next digit */
+       } while ((n /= 10) > 0);    /* delete it */
+       if (sign < 0)
+           s[i++] = '-';
+       s[i] = '\0';
+       reverse(s);
+   }
+```
+
+经验表明，do-while循环比while循环和for循环用得少得多。尽管如此，do-while循环语句有时还是很有用的，下面我们通过函数itoa来说明这一点。itoa函数是atoi函数的逆函数，它把数字转换为字符串。这个工作比最初想像的要复杂一些。如果按照atoi函数中生成数字的方法将数字转换为字符串，则生成的字符串的次序正好是颠倒的，因此，我们首先要生成反序的字符串，然后再把该字符串倒置。
+
+```cpp
+   /* itoa:  convert n to characters in s */
+   void itoa(int n, char s[])
+   {
+       int i, sign;
+
+       if ((sign = n) < 0)  /* record sign */
+           n = -n;          /* make n positive */
+       i = 0;
+       do {      /* generate digits in reverse order */
+           s[i++] = n % 10 + '0';  /* get next digit */
+       } while ((n /= 10) > 0);    /* delete it */
+       if (sign < 0)
+           s[i++] = '-';
+       s[i] = '\0';
+       reverse(s);
+   }
+```
+
+The do-while is necessary, or at least convenient, since at least one character must be installed in the array s, even if n is zero. We also used braces around the single statement that makes up the body of the do-while, even though they are unnecessary, so the hasty reader will not mistake the while part for the beginning of a while loop.
+
+这里有必要使用do-while语句，至少使用do-while语句会方便一些，因为即使n的值为0，也至少要把一个字符放到数组s中。其中的do-while语句体中只有一条语句，尽管没有必要，但我们仍然用花括号将该语句括起来了，这样做可以避免草率的读者将while部分误认为是另一个while循环的开始。
+
+Exercise 3-4. In a two's complement number representation, our version of itoa does not handle the largest negative number, that is, the value of n equal to -(2^wordsize-1^). Explain why not. Modify it to print that value correctly, regardless of the machine on which it runs.
+
+练习3-4  在数的对二的补码表示中，我们编写的itoa函数不能处理最大的负数，即n等于-(2^字长-1^)的情况。请解释其原因。修改该函数，使它在任何机器上运行时都能打印出正确的值。
+
+Exercise 3-5. Write the function itob(n,s,b) that converts the integer n into a base b character representation in the string s. In particular, itob(n,s,16) formats s as a hexadecimal integer in s.
+
+练习3-5  编写函数itob(n,s,b)，将整数n转换为以b为底的数，并将转换结果以字符的形式保存到字符串s中。例如，itob(n,s,16)把整数n格式化成十六进制整数保存在s中。
+
+Exercise 3-6. Write a version of itoa that accepts three arguments instead of two. The third argument is a minimum field width; the converted number must be padded with blanks on the left if necessary to make it wide enough.
+
+练习3-6  修改itoa函数，使得该函数可以接收三个参数。其中，第三个参数为最小字段宽度。为了保证转换后所得的结果至少具有第三个参数指定的最小宽度，在必要时应在所得结果的左边填充一定的空格。
