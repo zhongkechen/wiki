@@ -1,0 +1,33 @@
+---
+title: "ubuntu下安装L2TP VPN服务器"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+虽然已经有PPTP VPN服务器，但是我的Windows phone只支持L2TP，而且听说L2TP的安全性更好一些，所以打算在VPS上把L2TP装起来。于是Google了很多篇文章（比如， [#扶梯# Ubuntu 14.04下安装L2TP微皮恩](http://www.vmvps.com/ubuntu-1404-install-l2tp-ipsec-vpn-tutorial.html) [Debian/Ubuntu环境下架设L2TP/IPSec VPN](https://qiaodahai.com/debian-ubuntu-linux-vps-l2tp-ipsec-vpn.html) 等等），但是最终都没有成功。客户端总是提示服务器没有响应。
+
+于是开始仔细比对配置文件，没有错啊。
+
+是不是Mac的客户端有问题？尝试Windows phone和ipad也不行。
+
+是不是因为家里路由器的原因？尝试3G网络也没有用。
+
+是不是服务器IPSEC端口被墙了呢？在国内服务器上用同样的方法装了也没有用。
+
+开启调试模式，在/var/log/auth.log里面有很多错误信息，但是google这些错误信息都找不到正确的解决办法。
+
+有很多人也有类似问题，但是没有找到解决办法（比如： [http://citron.moe/?p=13](http://citron.moe/?p=13) ）
+
+一愁莫展的时候，搜索到这样一篇文章： [Openswan L2TP / IPSEC / PSK established connection, but no activity on XL2TPD](http://ubuntuforums.org/showthread.php?t=2211939&p=13003876#post13003876) 一试就好了。
+
+这应该是Openswan的版本不同造成的，网上多数文章都描述的老版本的配置方法。新版本需要对配置做一些改动。
+
+浪费了半天时间，休息！
+
+---

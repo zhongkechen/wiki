@@ -1,0 +1,17 @@
+---
+title: "关于本站"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+本站原为温州大学教学用所建网站，主要用于分享计算机相关课程的课件与相关资源，原域名为 czk.8866.org。
+
+现本站主要用于个人笔记，主要涉及计算机编程、运维、各种兴趣等，现域名为 wiki.ch3n2k.com。
+
+为避免spam暂时只有本人可编辑。

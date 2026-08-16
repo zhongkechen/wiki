@@ -1,0 +1,34 @@
+---
+title: "VirtualBoxChangelog"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000003 在备份中缺失；以下内容来自最新可读取版本 00000002。
+:::
+
+### 1.6.4
+
+* Telnet connection to VM's com port http://www.virtualbox.org/ticket/1851
+* top or bottom toolbar http://www.virtualbox.org/ticket/711#comment:3
+* Switch off menu/statusbar http://www.virtualbox.org/ticket/867
+* Guest Additions context menu http://www.virtualbox.org/ticket/1836
+* Visible indication as for which CD/DVD-ROM image is mounted http://www.virtualbox.org/ticket/1809
+* change machine from VirtualBox main window while the machine is running http://www.virtualbox.org/ticket/1804
+* GUI: Add several ISO CD images at once into Disk Manager http://www.virtualbox.org/ticket/1786
+* Encrypted virtual disk http://www.virtualbox.org/ticket/1765
+* Allow SMBIOS information to be copied from host http://www.virtualbox.org/ticket/1751
+* Mac OS X Guest http://www.virtualbox.org/ticket/1071
+
+### Official Changelog
+
+* http://www.virtualbox.org/wiki/Changelog include 1.6.2 or below

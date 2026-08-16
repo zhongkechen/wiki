@@ -1,0 +1,58 @@
+---
+title: "Mercurial"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000005 在备份中缺失；以下内容来自最新可读取版本 00000004。
+:::
+
+### 安装
+
+* TortoiseHG (Windows下图形客户端) http://tortoisehg.bitbucket.org/
+* 各种平台的安装包：http://mercurial.selenic.com/wiki/Download
+
+### 服务器
+
+创建一个hgweb.conf
+```
+[paths]
+/ = /path/to/repos/*
+
+[web]
+style = gitweb
+allow_push = *
+allow_archive = gz zip bz2
+contact = Zhongke Chen
+description = description for all repos
+```
+在每个repo目录下创建repo/.hg/hgrc文件：
+```
+[web]
+description = description for this repo
+```
+
+启动内建服务器
+```
+hg serve -d --webdir-conf path/to/hgweb.conf
+```
+
+### 参考资料
+
+* Mercurial 官方主页： http://mercurial.selenic.com/
+* Wikipedia介绍 http://zh.wikipedia.org/wiki/Mercurial
+* Mercurial: The Definitive Guide http://hgbook.red-bean.com/
+* 免费的Mercurial仓库服务: http://bitbucket.org/
+* Distributed Version Control (DVCS) With Mercurial: http://www.slideshare.net/tednaleid/distributed-version-control-dvcs-with-mercurial
+* Windows客户端tortoisehg http://tortoisehg.bitbucket.org/
+* Intro to Distributed Version Control http://betterexplained.com/articles/intro-to-distributed-version-control-illustrated/
+* Mercurial 非官方主页： http://hg-scm.org/

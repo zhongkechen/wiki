@@ -1,0 +1,913 @@
+---
+title: "Debian Apache2 配置"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000003 在备份中缺失；以下内容来自最新可读取版本 00000002。
+:::
+
+### DeBian Apache2 配置
+
+#### Apache的历史与前景
+
+1995年，美国国家计算机安全协会（NCSA）的开发者创建了NCSZ全球网络服务软件，其最大的特点是HTTP守护进程，它比当时的CERN服务器更容易由源码来配置和创建，又由于当时其他服务器软件的缺乏，他很快流行起来。但是后来，该服务器的核心开发人员几乎都离开了NCSA，一些使用者们自己成立了一个组织来管理他们编写的补丁，于是Apache Group应运而生。他们把该服务器软件称为Apache。Apache源于A patchy server的读音，意思是充满补丁的服务器。如今Apache慢慢地已经成为Internet上最流行的Web服务器软件了。在所有的Web服务器软件中，Apache占据绝对优势，远远领先排名第二的Microsoft IIS。如果你对它感兴趣，你可以访问Apache的官方网站：http://www.apache.org。Apache作为自由软件之一，像其他自由软件一样，他们都是由许许多多的自由开发人员投入了大量的时间和精力来实现并逐步完善的，所以我们有理由相信Apache的发展前景会更好。
+
+#### Apache 版本介绍
+
+现在Apache HTTP 存在三种版本, 1.3 2.0 和2.2
+
+Apache 1.3新的功能:
+
+http://httpd.apache.org/docs/1.3/new_features_1_3.html.
+
+Apache 2.0新的功能:
+
+http://httpd.apache.org/docs/2.0/new_features_2_0.html.
+
+Apache 2.2新的功能:　
+
+http://httpd.apache.org/docs/2.2/new_features_2_2.html.
+
+在它的1.X版本年代，虽然Apache已经足够稳定和强大并取得了举足轻重的地位，但仍然存在着它无法覆盖的区域而让一些非全功能型的WEB服务器取得了市场。在2.X中这一情况得到了很大的改善,编译和安装也变得简单了些，Apache使用了标准GNU自动设置工具，对于Windows平台，它也提供了图形化的安装界面。在设置方面，新版本去掉了一些易让人糊涂的指示符号，不过大部分工作仍然基于一个文件的设置文件。对那些习惯图形界面设置工具的用户可能有点麻烦。设置工具与核心的发布包是分离的，一些类似ApacheConf可以免费或以很低的价格的获取，利用这些工具可以很方便的对Apache进行各种设置。
+
+从运行的角度看，Apache2.X版本比老版本更加强大，更具可扩展性。一个多线程/多进程的混合模块使它可以充分利用各种规模的主机性能（从一台只运行小型站点的典型X86服务器到同时运行多个虚拟实例的大型主机），这正是Apache1.3所缺乏的。新版本以插件的形式提供了对一些特定平台和几个通用模块的支持。对IPV6的官方支持已经为互联网的升级做好了准备，对HTTP1.1的支持提高了代理服务器的性能。
+
+另外新版本的核心发布包中增加了几个加强安全和可管理性的模块：mod_auth_ldap引入了基于LDAP（Lightweight Directory Access Protocol）认证，mod_autoindex模块可以很方便的生成目录列表供访问者使用，而mod_deflate模块允许内容在发送前先进行压缩以节约带宽。
+
+考虑到稳定性和扩展性, 本文中使用的是 Apache 2.0
+
+#### Apache 的安装
+
+Apache 的安装无外乎两种方式: 源代码安装和DEB包安装。这两种安装类型各有特色，DEB包安装不需要编译，而源代码安装则需要先配置编译再安装，DEB包安装在一个固定的位置下，选择固定的模块，而源代码安装则可以让你选择安装路径，选择你想要的模块。本文主要介绍DEB安装方式。
+
+系统:GNU/Linux Debian/etch
+
+Apache当前版本: 2.0.55-4
+
+4.1 安装
+使用以下命令安装：
+
+        tony@tonybox:~$sudo aptitude update
+        tony@tonybox:~$sudo aptitude install apache2 apache2-utils
+
+其中apache2-utils提供了我们在配置维护过程中非常有用的一些工具
+
+安装完成后，可以使用下面的命令启动Apache 服务:
+
+        tony@tonybox:~$ sudo /etc/init.d/apache2 start
+
+停止Apache服务则是:
+
+        tony@tonybox:~$ sudo /etc/init.d/apache2 stop
+
+也可以只接用 kill 命令强制杀死apache2进程
+
+        tony@tonybox:~$ sudo killall apache2
+
+如有需要, 可以通过rcconf来控制是否在系统启动是加载Apache 服务
+
+启动完成后打开浏览器, 使用URL http://localhost/ 来访问已经启动的Apache服务器, 服务器将会将会跳转到 http://localhost/apache2-default/, 向浏览器返回一个Apache安装成功的页面.
+
+注: 这取决于/etc/apache2/sites-available/default 配置文件中, 是否取消了
+
+        RedirectMatch ^/$ /apache2-default/
+
+行的注释
+
+4.2 配置文件说明
+在Debian下, 安装完成后, 软件包为我们提供的配置文件位于/etc/apache2目录下:
+
+        tony@tonybox:/etc/apache2$ ls -l
+        total 72
+        -rw-r--r-- 1 root root 12482 2006-01-16 18:15 apache2.conf
+        drwxr-xr-x 2 root root  4096 2006-06-30 13:56 conf.d
+        -rw-r--r-- 1 root root   748 2006-01-16 18:05 envvars
+        -rw-r--r-- 1 root root   268 2006-06-30 13:56 httpd.conf
+        -rw-r--r-- 1 root root 12441 2006-01-16 18:15 magic
+        drwxr-xr-x 2 root root  4096 2006-06-30 13:56 mods-available
+        drwxr-xr-x 2 root root  4096 2006-06-30 13:56 mods-enabled
+        -rw-r--r-- 1 root root    10 2006-06-30 13:56 ports.conf
+        -rw-r--r-- 1 root root  2266 2006-01-16 18:15 README
+        drwxr-xr-x 2 root root  4096 2006-06-30 13:56 sites-available
+        drwxr-xr-x 2 root root  4096 2006-06-30 13:56 sites-enabled
+        drwxr-xr-x 2 root root  4096 2006-01-16 18:15 ssl
+
+其中
+
+apache2.conf
+
+为apache2服务器的主配置文件, 查看此配置文件, 你会发现以下内容
+
+        # Include module configuration:
+        Include /etc/apache2/mods-enabled/\*.load
+        Include /etc/apache2/mods-enabled/\*.conf
+
+        # Include all the user configurations:
+        Include /etc/apache2/httpd.conf
+
+        # Include ports listing
+        Include /etc/apache2/ports.conf
+
+        # Include generic snippets of statements
+        Include /etc/apache2/conf.d/[^.#]\*
+
+有此可见, apache2 根据配置功能的不同, 对配置文件进行了分割, 这样更利于管理
+
+conf.d
+
+下为配置文件的附加片断,默认情况下, 仅提供了 charset 片断,
+
+tony@tonybox:/etc/apache2/conf.d$ cat charset
+AddDefaultCharset UTF-8
+
+如有需要我们可以将默认编码修改为 GB2312, 即文件的内容为: AddDefaultCharset GB2312
+
+httpd.conf
+
+是个空文件
+
+magic
+
+文件中包含的是有关mod_mime_magic模块的数据, 一般不需要修改它.
+
+ports.conf
+
+则为服务器监听IP和端口设置的配置文件,
+
+tony@tonybox:/etc/apache2$ cat ports.conf
+Listen 80
+
+mods-available
+
+目录下是一些.conf和.load 文件, 为系统中可以使用的加载各种模块的配置文件, 而mods-enabled目录下则是指向这些配置文件的符号连接, 从配置文件apache2.conf 中可以看出, 系统通过mods-enabled目录来加载模块, 也就是说, 系统仅通过在此目录下创建了符号连接的mods-available 目录下的配置文件来加载模块。同时系统还提供了两个命令 a2enmod 和 a2dismod用于维护这些符号连接。这两个命令由 apache2-common 包提供。命令各式也非常简单： a2enmod [module] 或 a2dismod [module]
+
+sites-available
+
+目录下为配置好的站点的配置文件, sites-enabled 目录下则是指向这些配置文件的符号连接, 系统通过这些符号连接来起用站点 sites-enabled目录下的符号连接附有一个数字前缀, 如000-default, 这个数字用于决定启动顺序, 数字越小, 启动优先级越高. 系统提供了两个命令 a2ensite 和 a2dissite 用于维护这些符号连接。这两个命令由 apache2-common 包提供.
+
+/var/www
+
+默认情况下将要发布的网页文件应该置于/var/www目录下,这一默认值可以同过主配置文件中的DocumnetRoot 选项修改.
+
+#### 配置指令
+
+1. ServerRoot directory-path
+ServerRoot指令设置了服务器所在的目录。一般来说它将包含conf/和logs/子目录。使用DEB包安装的系统, 此项的默认值为 "/etc/apache2" 也就是说仅仅包括apache2的配置文件.必须注意, 该目录是受保护的, 不允许非root用户对其进行修改.
+
+2. LockFile filename
+指定httpd配置文件守护进程的加锁文件。由于httpd会经常进行并发的文件操作，就需要使用加锁的方式来保证文件操作不冲突，由于NFS（网络文件系统）在文件加锁方面能力有限，因此这个目录应该是本地磁盘文件系统，而不应该使用网络上的文件系统。一般不需要设置这个参数，Apache服务器将自动在ServerRoot下面的路径中进行操作。但如果ServerRoot为NFS文件系统，便需要使用这个参数指定本地文件系统中的路径。
+
+3. PidFile filename
+指定记录httpd配置文件守护进程的进程号的文件。由于httpd配置文件能自动复制其自身，因此系统中有多个httpd进程，但只有一个进程为最初启动的进程，它为其他进程的父进程。对这个进程发送信号将影响所有的httpd进程。PidFile定义的文件中就记录httpd父进程的进程号。示例: PidFile /var/run/apache.pid
+
+4. Timeout seconds
+设置连接请求的最大延时，超过这个设置，即自动断开。
+
+5. KeepAlive on|off
+提供了长效的HTTP会话，用以在同一个TCP连接中进行多次请求。在某些情况下，这样的方式会对包含大量图片的HTML文档造成的延时起到50%的加速作用。在Apache1.2版本以后，您可以设置 KeepAlive On 以启用持久链接。
+
+6. MaxKeepAliveRequests number
+指令限制了当启用KeepAlive时，每个连接允许的请求数量。如果将此值设为"0"，将不限制请求的数目。我们建议最好将此值设为一个比较大的值，以确保最优的服务器性能。默认为 100
+
+7. KeepAliveTimeout number
+设置第一连接后，下次发送请求的最大时间间隔，超过这个设定的时间，而没有下次传输请求，则断开连接。这个时间间隔不能设置太长，否则很很可能给服务器的整个连接性能造成影响，当然也不宜太短，否则用户端会经常出现连接中断现象。
+
+8. &lt; IfModule [ ! ] module-file | module-identifier &gt; ... &lt; / IfModule&gt;
+封装指令并根据指定的模块是否启用为条件而决定是否进行处理 &lt; IfModule test &gt; ... &lt; / IfModule &gt; 配置段用于封装根据指定的模块是否启用而决定是否生效的指令。 在 &lt; IfModule &gt; 配置段中的指令仅当test为真的时候才进行处理。如果test为假，所有其间的指令都将被忽略。
+
+9. StartServers number
+设置服务器启动时所建立的子进程数。
+
+10. MaxClients number
+设置服务器所允许运行的最多子进程数，当服务器所连接的进程数超过所设定的值时，任何客户都不能与服务器连接，只有等待。当有子进程断开连接后服务器才提供相应服务。
+
+11. MaxRequestsPerChild number
+设置单个子进程可以允许的最多请求数，当超过这个设定的值，子进程将被取消。0意味着无限, 即子进程用不消毁
+
+12. User / Group user-name / group-name
+服务器以root身份启动后, 改变为设置的用户/组身份进行运行, 以增强安全性.
+
+13. LogFormat format|nickname [ nickname ]
+本指令定义访问日志的记录格式。例如:
+
+LogFormat "%v %h %l %u %t \\"%r\\" %&gt;s %b" vhost_common
+
+14. ErrorLog file-path|syslog[:facility]
+指定了当服务器遇到错误时记录错误日志的文件。如果file-path不是一个以斜杠(/)开头的绝对路径，那么将被认为是一个相对于ServerRoot的相对路径。
+
+15. Include file-path | directory-path
+这个指令允许在服务器配置文件中加入其它配置文件。
+
+16. Alias URL-path file-path|directory-path
+Alias指令使文档可以被存储在DocumentRoot以外的本地文件系统中。以(%已解码的)url-path路径开头的URL可以被映射到以directory-path开头的本地文件。
+
+17. &lt; Directory directory-path &gt; ... &lt; / Directory &gt;
+&lt; Directory &gt; 和&lt; / Directory &gt; 用于封装一组指令，使之仅对某个目录及其子目录生效。Directory-path可以是一个目录的完整路径，或是包含了Unix shell匹配语法的通配符字符串。
+
+18. Options [+|-]option [[+|-]option] ...
+Options指令控制了在特定目录中将使用哪些服务器特性。默认为 All.
+
+19. AllowOverride All|None|directive-type [directive-type] ...
+当服务器发现一个.htaccess文件(由AccessFileName指定)时，它需要知道在这个文件中声明的哪些指令能覆盖在此之前指定的配置指令。仅允许存在于&lt; Directory &gt; 配置段
+
+20. Order ordering
+Order指令控制默认的访问状态与Allow和Deny指令生效的顺序。Ordering取值范围是以下几种范例之一：
+
+Deny,Allow
+Deny指令在Allow指令之前被评估。默认允许所有访问。
+Allow,Deny
+Allow指令在Deny指令之前被评估。默认拒绝所有访问。
+Mutual-failure
+
+只有出现在Allow列表并且不出现在Deny列表中的主机才被允许访问。这种顺序与"Order Allow,Deny"具有同样效果，不赞成使用。
+
+关键字只能用逗号分隔；它们之间不能有空格
+
+21. Allow from all|host|env=env-variable [host|env=env-variable] ...
+Allow指令控制哪些主机可以访问服务器的该区域。可以根据主机名、IP地址、 IP地址范围或其他环境变量中捕获的客户端请求特性进行控制。这个指令的第一个参数总是"from".
+
+22. Deny from all|host|env=env-variable [host|env=env-variable] ...
+条指令允许基于主机名、IP地址或者环境变量限制对服务器的访问。Deny指令的参数设置和Allow指令完全相同。
+
+23. ErrorDocument error-code document
+使用ErrorDocument指令后面跟随一个HTTP应答代码和一个URL或信息来进行配置。Apache有时会额外提供一些信息来描述所发生的问题/错误。
+
+24. DirectoryIndex local-url [local-url] ...
+设置了当客户端在请求的目录名的末尾刻意添加一个"/"以表示请求该目录的索引时，服务器需要寻找的资源列表。也就是设置目录的默认页
+
+25. AccessFileName filename [filename] ...
+指定所发布目录中的配置文件名,在向客户端返回其中的文档时，服务器将在这个文档所在的各级目录中查找此配置文件。 可以使用AllowOverride none来禁用
+
+26. UseCanonicalName On|Off|DNS
+配置服务器如何确定它自己的域名和端口.
+
+27. HostnameLookups On|Off|Double
+此指令启用了DNS查询，使得主机名能被记入日志. 参数Double指定进行一次双向DNS查询。也就是说在一次反向查询之后，再对返回的结果进行一次正向查询。
+
+28. IndexIgnore file [file] ...
+在列出目录内容时, 设置那些文件将被隐藏.
+
+29. AddEncoding MIME-enc extension [extension] ...
+在文件扩展名与特定的编码方式之间建立映射关系。
+
+示例
+
+AddEncoding x-gzip .gz
+AddEncoding x-compress .Z
+
+30. AddLanguage MIME-lang extension [extension] ...
+在文件扩展名与特定的语言之间建立映射。
+
+31. AddCharset charset extension [extension] ...
+在特定的文件扩展名与特定的字符集之间建立映射。
+
+32. AddType MIME-type extension [extension] ...
+在给定的文件扩展名与特定的内容类型之间建立映射关系。
+
+33. BrowserMatch
+BrowserMatch只是SetEnvIf的一种特殊情况，基于User-Agent头有条件地设置环境变量。下面的两行具有相同的效果：
+
+BrowserMatchNoCase Robot is_a_robot
+SetEnvIfNoCase User-Agent Robot is_a_robot
+
+34. SetEnvIf attribute regex [!]env-variable[=value] [[!]env-variable[=value]] ...
+据客户端的请求属性设置环境变量。
+
+5.2 ports.conf
+
+35. Listen [IP-address:]portnumber [protocol]
+指示Apache只在指定的IP地址和端口上监听；默认情况下Apache会在所有IP地址上监听。Listen是一个必须设置的指令。如果在配置文件中找不到这个指令，服务器将无法启动。这和先前的版本不一样。
+
+5.3 conf.d/charset
+
+36. AddDefaultCharset On|Off|charset
+当且仅当应答内容是text/ plain或text/ html时，此指令将会在HTTP应答头中加入的默认字符集。理论上这将覆盖在文档体中通过&lt; meta &gt; 标签指定的字符集，但是实际的行为通常取决于用户浏览器的设置。AddDefaultCharset Off 将会禁用此功能。AddDefaultCharset On 将启用Apache内部的默认字符集iso-8859-1 。
+
+5.4 mods-available/\*.load
+
+37. LoadModule module filename
+该指令加载目标文件或库filename并将模块结构名module添加到活动模块列表。
+
+5.5 mods-available/\*.conf
+
+38. UserDir directory-filename
+定了用户目录下的一个实实在在的目录，存放了该用户提供访问的文档。
+
+5.6 sites-available/
+
+39. NameVirtualHost
+为一个基于域名的虚拟主机指定一个IP地址(和端口)如果您要配置基于域名的虚拟主机，NameVirtualHost指令就是您必须的指令之一。尽管addr参数可以使用主机名，但建议您还是使用IP地址。
+
+40. &lt; VirtualHost addr[:port] [addr[:port]] ...&gt; ... &lt; / VirtualHost&gt;
+&lt; VirtualHost&gt;和&lt; / VirtualHost&gt; 用于封装一组仅作用于特定虚拟主机的指令。任何在虚拟主机配置中可以使用的指令也同样可以在这里使用。当服务器接受了一个特定虚拟主机的文档请求时，它会使用封装在&lt; VirtualHost&gt;配置段中的指令。
+
+41. ServerAdmin email-address|URL
+设置了在所有返回给客户端的错误信息中包含的管理员邮件地址。
+
+42. DocumentRoot
+设置站点的主目录。这个主目录不包括网站中的一些链接及虚拟目录。比如说：
+
+        DocumentRoot /usr/web
+
+于是对http://www.my.host.com/index.html的访问就会指向/usr/web/index.html 。如果directory-path不是绝对路径，则被假定为是相对于ServerRoot的路径。指定DocumentRoot时不应包括最后的"/"。
+
+43. LogLevel
+LogLevel用于调整记录在错误日志中的信息的详细程度。
+
+44. ServerSignature On|Off|EMail
+允许您配置服务器端生成文档的页脚(错误信息、mod_proxy的ftp目录列表、mod_info的输出)。您启用这个页脚的原因主要在于处于一个代理服务器链中的时候，用户基本无法辨识出究竟是链中的哪个服务器真正产生了返回的错误信息。
+
+#### 站点配置
+
+将网页文件置于/var/www/apache2-default目录下(现将已有的网页文件删除), 或者使用如下方法进行配置:
+
+配置
+修改默认站点配置文件/etc/apache2/sites-available/default, 内容如下:
+
+        NameVirtualHost \*
+        &lt;VirtualHost \*&gt;
+                ServerAdmin webmaster@localhost
+
+                DocumentRoot /var/www/mysite
+                &lt;Directory /&gt;
+                        Options FollowSymLinks
+                        AllowOverride None
+                &lt;/Directory&gt;
+                &lt;Directory /var/www/mysite/&gt;
+                        Options Indexes FollowSymLinks MultiViews
+                        AllowOverride None
+                        Order allow,deny
+                        allow from all
+                &lt;/Directory&gt;
+
+                ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+                &lt;Directory "/usr/lib/cgi-bin"&gt;
+                        AllowOverride None
+                        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+                        Order allow,deny
+                        Allow from all
+                &lt;/Directory&gt;
+
+                ErrorLog /var/log/apache2/mysite_error.log
+                LogLevel warn
+                CustomLog /var/log/apache2/mysite_access.log combined
+                ServerSignature On
+
+        &lt;/VirtualHost&gt;
+
+设置站点网页文件
+创建/var/www/mysite/目录:
+
+:/var/www# mkdir mysite
+tonybox:/var/www# ls -l
+total 12
+drwxr-xr-x 2 root root 4096 2006-06-30 13:56 apache2-default
+drwxr-xr-x 2 root root 4096 2006-07-15 14:53 mysite
+
+在/var/www/mysite/目录下创建测试文件index.html, 内容如下:
+
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01
+Transitional//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta content="text/html; charset=utf-8"
+ http-equiv="content-type"&gt;
+&lt;title&gt;测试&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+这是一个测试页面<br>
+&lt;/body&gt;
+&lt;/html&gt;
+
+注意index.html文件的权限设置:
+
+-rw-r--r-- 1 root root 287 2006-07-15 15:06 index.html
+
+重启Apache2服务器
+
+tony@tonybox:~$ sudo /etc/init.d/apache2 restart
+
+&lt;SECT2&gt;  测试
+&lt;P&gt;
+访问URL: http://localhost/
+将会出现测试页面
+
+&lt;SECT1&gt; 用户站点配置
+&lt;P&gt;
+为本地用户配置站点
+&lt;P&gt;
+&lt;SECT2&gt; 启用用户目录模块(默认情况下是未启用的)
+&lt;P&gt;
+&lt;tscreen&gt;&lt;verb&gt;
+# a2enmod  userdir
+Module userdir installed; run /etc/init.d/apache2 force-reload to enable.
+# /etc/init.d/apache2 force-reload
+强制重新加载配置文件
+
+创建网站目录
+在用户家目录下创建 public_html 目录, 并在其下放置网页文件, 比如, 为tony 用户创建主页目录:
+
+tony@tonybox:~$ mkdir public_html
+
+并创建测试页面index.html, 内容如下:
+
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01
+Transitional//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta content="text/html; charset=utf-8"
+ http-equiv="content-type"&gt;
+&lt;title&gt;测试&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+这是tony的个人网站<br>
+&lt;/body&gt;
+&lt;/html&gt;
+
+测试
+访问URL: http://localhost/ tony/ 将会出现测试页面注: 也可对默认目录进行调整, 具体参阅配置文件 /etc/apache2/mods-available/userdir.conf
+
+6.2 虚拟站点配置
+为测试主机分配域名: www.mydebian.com
+
+创建配置文件
+在 /etc/apache2/sites-available/ 目录下创建站点配置文件 wwwmydebian, 内容如下:
+
+&lt;VirtualHost \*&gt;
+        ServerAdmin master@mydebian.com
+        ServerName www.mydebian.com
+        DocumentRoot /var/www/www.mydebian.com
+        &lt;Directory /var/www/www.mydebian.com/&gt;
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        &lt;/Directory&gt;
+        ErrorLog /var/log/apache2/www_mydebian_com_error.log
+        LogLevel warn
+        CustomLog /var/log/apache2/www_mydebian_com_access.log combined
+        ServerSignature On
+
+&lt;/VirtualHost&gt;
+
+启用配置
+运行如下命令, 启用配置
+
+tonybox:/etc/apache2/sites-available# a2ensite wwwmydebian
+Site www.mydebian.com installed; run /etc/init.d/apache2 reload to enable.
+
+这时你会在/etc/apache2/sites-enabled目录下创建了一个对应符号连接
+
+$ ls -l
+total 0
+lrwxrwxrwx 1 root root 35 2006-07-15 14:49 mysite -&gt; /etc/apache2/sites-available/mysite
+lrwxrwxrwx 1 root root 42 2006-07-15 16:36 wwwmydebian -&gt; /etc/apache2/sites-available/wwwmydebian
+
+设置站点网页文件
+
+创建/var/www/www.mydebian.com/目录:
+
+/var/www# mkdir www.mydebian.com
+tonybox:/var/www# ls -l
+total 12
+drwxr-xr-x 2 root root 4096 2006-06-30 13:56 apache2-default
+drwxr-xr-x 2 root root 4096 2006-07-15 14:53 mysite
+drwxr-xr-x 2 root root 4096 2006-07-15 14:53 www.mydebian.com
+
+应用配置生效
+
+tony@tonybox:~$ sudo /etc/init.d/apache2 reload
+
+测试
+访问URL: http://www.mydebian.com/您会发现访问的为目录 /var/www/www.mydebian.com/ 访问URL: http://localhost/访问的目录仍为default配置文件设置的目录, 比如此例中为/var/www/mysite/目录
+
+#### 启用SSL
+
+http://mario.espaciolinux.com/apache2_ssl.html http://ilovett.com/blog/projects/installing-ssl-on-debian-apache2 http://blog.23corner.com/2005/09/14/1108/
+
+7.1 首先需要启用SSL模块, 默认未启用
+
+tonybox:/etc/apache2# a2enmod ssl
+tonybox:/etc/apache2# apache2-ssl-certificate
+
+creating selfsigned certificate
+replace it with one signed by a certification authority (CA)
+
+enter your ServerName at the Common Name prompt
+
+If you want your certificate to expire after x days call this programm
+with -days x
+Generating a 1024 bit RSA private key
+..............................++++++
+..++++++
+writing new private key to '/etc/apache2/ssl/apache.pem'
+
+---
+
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+
+---
+
+Country Name (2 letter code) [GB]:
+State or Province Name (full name) [Some-State]:GZ
+Locality Name (eg, city) []:GY
+Organization Name (eg, company; recommended) []:linuxsir
+Organizational Unit Name (eg, section) []:debian
+server name (eg. ssl.domain.tld; required!!!) []:www.mydebian.com
+Email Address []:etony@tom.com
+
+7.2 创建ssl站点配置文件
+
+#/etc/apache2/sites-available/ cp wwwmydebian ssl_site
+
+在/etc/apache2/ports.conf 中添加
+
+        Listen 443
+
+修改/etc/apache2/sites-available/ssl_site, 将监听端口 改为 443
+
+在配置文件中加入
+
+SSLEngine On
+SSLCertificateFile /etc/apache2/ssl/apache.pem
+
+监听端口设置为443
+
+例如:
+
+&lt;VirtualHost 192.168.1.254:443&gt;
+
+        ServerAdmin webmaster@mydebian.com
+        ServerName www.mydebian.com:443
+        DocumentRoot /var/www/mysite
+
+7.3 重启apache 服务
+
+# /etc/init.d/apache2 restart
+
+7.4 测试
+访问URL http://www.mydebian.com:443/
+
+#### 防止盗链
+
+此模块默认没有启用
+
+#a2enmod rewrite
+
+8.2 配置
+修改/etc/apache2/sites-available下对应站点的配置文件，将
+
+AllowOverride None
+修改为
+&lt;P&gt;
+&lt;tscreen&gt;&lt;verb&gt;
+AllowOverride All
+
+8.3 控制文件
+在站点的根目录下创建 .htaccess 文件内容如下：
+
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://(www\\.)?mydebian.com/.\*$ [NC]
+RewriteRule?.\*\\.(jpg|jpeg|gif|png|bmp|rar|zip|exe)$
+?http://www.mydebian.com/err.png?[R,NC]
+
+在站点的根目录下，创建err.png图片，当发生盗链时，对应显示将替换为err.png图片。
+
+#### 访问日志
+
+要有效地管理Web服务器，就有必要反馈服务器的活动、性能以及出现的问题。Apache HTTP服务器提供了非常全面而灵活的日志记录功能。
+
+9.1 日志的配置
+ErrorLog file-path|syslog[:facility] 指定了当服务器遇到错误时记录错误日志的文件。如果file-path不是一个以斜杠(/)开头的绝对路径，那么将被认为是一个相对于ServerRoot的相对路径。示例
+
+ErrorLog /var/log/apache2/error_log
+
+LogFormat format|nickname [nickname] 本指令定义访问日志的记录格式。例如: LogFormat "%v %h %l %u %t \\"%r\\" %&gt;s %b" vhost_common
+
+LogLevel LogLevel用于调整记录在错误日志中的信息的详细程度。可以选择下列level，依照重要性降序排列
+
+Level  描述  例子
+emerg  紧急(系统无法使用) "Child cannot open lock file. Exiting"
+alert  必须立即采取措施 "getpwuid: couldn't determine user name from uid"
+crit  致命情况 "socket: Failed to get a socket, exiting child"
+error  错误情况 "Premature end of script headers"
+warn  警告情况 "child process 1234 did not exit, sending another SIGHUP"
+notice  一般重要情况 "httpd: caught SIGBUS, attempting to dump core in ..."
+info  普通信息 "Server seems busy, (you may need to increase StartServers, or Min/MaxSpareServers)..."
+debug  调试信息 "Opening config file ..."
+
+CustomLog file|pipe format|nickname [env=[!]environment-variable] CustomLog指令用来对服务器的请求进行日志记录。可以指定日志的格式，也可以使用环境变量根据请求的特征来自由地组织日志。
+
+9.2 错误日志
+错误日志是最重要的日志文件，其文件名和位置取决于ErrorLog指令。Apache httpd将在这个文件中存放诊断信息和处理请求中出现的错误，由于这里经常包含了出错细节以及如何解决，如果服务器启动或运行中有问题，首先就应该查看这个错误日志。
+
+错误日志通常被写入一个文件(debian下是error.log)。
+
+错误日志的格式相对灵活，并可以附加文字描述。某些信息会出现在绝大多数记录中，一个典型的例子是：
+
+[Sat Jul 15 09:58:28 2006] [error] [client 192.168.1.254] File does not exist: /var/www/apache2-default/index.html.zh
+
+其中
+
+第一项是错误发生的日期和时间；
+
+第二项是错误的严重性，LogLevel指令使只有高于指定严重性级别的错误才会被记录；
+
+第三项是导致错误的IP地址；此后是信息本身，在此例中，提示客户端访问的文件在服务器上不存在。
+
+错误日志中会包含类似上述例子的多种类型的信息。此外，CGI脚本中任何输出到stderr的信息会作为调试信息原封不动地记录到错误日志中。
+
+用户可以增加或删除错误日志的项。但是对某些特殊请求，在访问日志(access log)中也会有相应的记录，比如上述例子在访问日志中也会有相应的记录，其状态码是404，因为访问日志也可以定制，所以可以从访问日志中得到错误事件的更多信息。
+
+9.3 访问日志
+正如其名字所示，访问日志access_log记录了所有对Web服务器的访问活动。
+
+下面是访问日志中一个典型的记录：
+
+192.168.1.254 - tony [22/Jul/2006:09:41:58 +0800] "GET /index.html HTTP/1.1" 200 438 "-" "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.4) Gecko/20060406 Firefox/1.5.0.4 (Debian-1.5.dfsg+1.5.0.4-1)"
+
+这行内容由9项构成，上面的例子中有两项空白，但整行内容仍旧分成了9项。
+
+第一项信息是远程主机的地址。如果你想知道这个IP地址的域名，可通过nslookup或者host命令来查看。如果你想让Apache自己找出这个IP的主机名，可以打开这个开关：HostnameLookups。（建议最好不要打开，会影响Apache记录服务器日志的速度）
+
+第二项是空白，用一个"-"占位符替代。实际上绝大多数时候这一项都是如此。这个位置用于记录浏览者的标识，这不只是浏览者的登录名字，而是浏览者的email地址或者其他唯一标识符。这个信息由identd返回，或者直接由浏览器返回。很早的时候，那时Netscape 0.9还占据着统治地位，这个位置往往记录着浏览者的email地址。然而，由于有人用它来收集邮件地址和发送垃圾邮件，所以它未能保留多久，很久之前市场上几乎所有的浏览器就取消了这项功能。因此，到了今天，我们在日志记录的第二项看到email地址的机会已经微乎其微了。
+
+第三项是tony。这个位置用于记录浏览者进行身份验证时提供的名字。当然，如果网站的某些内容要求用户进行身份验证，那么这项信息是不会空白的。但是，对于大多数网站来说，日志文件的大多数记录中这一项仍旧是空白的。
+
+日志记录的第四项是请求的时间。这个信息用方括号包围，而且采用所谓的"公共日志格式"或"标准英文格式"。因此，上例日志记录表示请求的时间是2006年7月22日09:41:58。时间信息最后的"+0800"表示服务器所处时区位于UTC之后的8小时。
+
+日志记录的第五项信息或许是整个日志记录中最有用的信息，它告诉我们服务器收到的是一个什么样的请求。该项信息的典型格式是"METHOD RESOURCE PROTOCOL"，即"方法 资源 协议"。
+
+RESOURCE是指浏览者向服务器请求的文档，或URL。在这个例子中，浏览者请求的是"/index.html "。
+
+在上例中，METHOD是GET，其他经常可能出现的METHOD还有POST和HEAD。此外还有不少可能出现的合法METHOD，但主要就是这三种。
+
+PROTOCOL通常是HTTP，后面再加上版本号。
+
+日志记录的第六项信息是状态代码。它告诉我们请求是否成功，或者遇到了什么样的错误。大多数时候，这项值是200，它表示服务器已经成功地响应浏览器的请求，一切正常。一般地说，以2开头的状态代码表示成功，以3开头的状态代码表示由于各种不同的原因用户请求被重定向到了其他位置，以4开头的状态代码表示客户端存在某种错误，以5开头的状态代码表示服务器遇到了某个错误。
+
+日志记录的第七项表示发送给客户端的总字节数。它告诉我们传输是否被打断（即，该数值是否和文件的大小相同）。把日志记录中的这些值加起来就可以得知服务器在一天、一周或者一月内发送了多少数据。
+
+日志记录的第八项记录的是客户在提出请求时所在的目录或URL。 这个例子里为空.
+
+日志记录的第九项表示客户端的详细信息，这样你就不难理解为什么有些网站能够在页面中显示你的IP、OS、Browser了。
+
+#### 访问控制
+
+如果网站上有些敏感信息或只希望为一个小群体所访问，您需要将服务器配置为用户只能访问被允许的资源。
+
+10.2 使用 .htaccess 控制
+这里涉及的配置方式主要是使用 .htaccess 文件， 要使用.htaccess文件，则必须设置服务器以允许在这些文件中使用认证指令，即用AllowOverride指令指定哪些指令在针对单个目录的配置文件中有效。首先将对应的AllowOverride这样设置：
+
+AllowOverride All
+
+首先，应该创建一个用于认证的密码文件，并且这个文件不应该置于DocumentRoot目录下，以避免被下载。例如可以创建/etc/apache2/passwd/目录，并将密码文件置于其下。
+
+Apache2 为我们提供了/usr/bin/htpasswd命令用于创建密码文件，命令的具体操作方法请参阅htpasswd的手册页：http://httpd.apache.org/docs/1.3/programs/htpasswd.html 这里仅做简单的应用。
+
+首次添加用户需要使用 ?c 参数，以创建密码文件，再次添加用户则不要 -c参数了：
+
+# mkdir /etc/apache2/passwd
+# htpasswd -c /etc/apache2/passwd/passwords  tony
+New password: [mypassword]
+Re-type new password: [mypassword]
+Adding password for user tony
+
+# htpasswd /etc/apache2/passwd/passwords  etony
+New password: [mypassword]
+Re-type new password: [mypassword]
+Adding password for user etony
+
+必要时，使用htpasswd 命令需要加入完整路径/usr/bin/htpasswd
+
+修改对应.htaccess文件，加入如下内容：
+
+AuthType Basic
+AuthName "Restricted Files"
+AuthUserFile /etc/apache2/passwd/passwords
+Require user tony
+
+让我们逐个解释这些指令。
+
+AuthType指令选择对用户实施认证的方法，最常用的是由mod_auth_basic提供的Basic 。AuthName指令设置了使用认证的域(Realm)，它起两个作用，首先，此域会出现在显示给用户的密码提问对话框中，其次，也帮助客户端程序确定应该发送哪个密码。
+
+AuthUserFile指令设置了密码文件的位置，也就是刚才我们用htpasswd建立的文件。
+
+最后，Require指令设置了允许访问受保护区域的用户。
+
+上述指令只允许一个人(一个叫tony的用户)访问这个目录，但是多数情况下。都需要允许多人访问，这时可以调整Require选项为：
+
+Require valid-user
+
+可以允许密码文件中的所有用户使用正确的密码进行访问。
+
+可能存在的问题
+
+由于采用了Basic认证的方法，每次向服务器请求甚至刷新一个受保护的页面或图片时都必须校验用户名和密码，为此，必须打开密码文件并逐行搜索用户名，因此，服务器响应速度会受一些影响，受影响的程度与密码文件的大小成正比。
+
+所以，对密码文件中的用户总数存在一个实际上的上限，此上限取决于特定的服务器机器的性能，但是一般有几百个用户就会对响应速度有非常明显的影响，在这种情况下，可以考虑用其他认证方法。
+
+10.3 使用MySQL数据库控制
+基于MySQL数据库的访问控制需要使用mod-auth-mysql认证模块, 首先安装认证模块
+
+tony@tonybox:~$sudo aptitude install libapache2-mod-auth-mysql
+
+然后启用该模块
+a2enmod    auth_mysql
+
+修改主配置文件/etc/apache2/apache2.conf,在文件尾部加入一下内容
+
+Auth_MySQL_Info    localhost    a2_user   password
+
+&lt;Directory "/var/www/apache2-default/"&gt;
+        Options +Indexes FollowSymLinks MultiViews
+        AllowOverride AuthConfig Options FileInfo Limit
+        Order allow,deny
+        Allow from all
+&lt;/Directory&gt;
+
+在/var/www/apache2-default/目录下创建.htaccess文件, 内容如下:
+
+AuthMYSQL on
+AuthMySQL_Authoritative on
+AuthMySQL_DB auth
+AuthMySQL_Password_Table clients
+AuthMySQL_Group_Table clients
+AuthMySQL_Empty_Passwords off
+AuthMySQL_Encryption_Types Plaintext Crypt_DES
+AuthBasicAuthoritative Off
+AuthName "default"
+AuthType Basic
+
+&lt;Limit GET POST&gt;
+        require group tony
+&lt;/Limit&gt;
+
+然后重启apache服务
+tonybox:~# /etc/init.d/apache2 restart
+
+在MySQL数据库中添加认证数据库
+$ mysql -uroot -p
+
+mysql&gt; grant all on auth.\* to a2_user@localhost identified by 'password';
+
+mysql&gt; flush privileges;
+
+mysql&gt; create database auth;
+
+CREATE TABLE `clients` (
+`username` varchar(25) NOT NULL default '',
+`passwd` varchar(25) NOT NULL default '',
+`groups` varchar(25) NOT NULL default '',
+PRIMARY KEY (`username`),
+KEY `groups` (`groups`)
+) ENGINE=MyISAM;
+
+INSERT INTO `clients` VALUES ('tony', '123456', 'tony');
+
+此时,访问访问web服务器的默认站点, 您会发现,需要输入用户名(tony),密码(123456)方可登录.
+
+10.4 其他认证方法
+基于用户名和密码的认证只是方法之一，时常会有不需要知道来访者是谁，只需要知道来自哪里的情况。
+
+Allow和Deny指令可以允许或拒绝来自特定主机名或主机地址的访问，同时，Order指令告诉Apache处理这两个指令的顺序，以改变过滤器。
+
+这些指令的用法：
+
+Allow from address
+
+address可以是一个IP地址(或者IP地址的一部分)，也可以是一个完整的域名(或者域名的一部分)，还可以同时指定多个IP地址和域名。
+
+比如，要拒绝不受欢迎的兜售垃圾的站点：
+
+Deny from 205.252.46.165
+
+这样，这个指令所管辖的区域将拒绝所有来自该地址的访问。除了指定IP地址，也可以指定域名，如：
+
+Deny from host.example.com
+
+另外，还可以指定地址或域名的一部分来阻止一个群体：
+
+Deny from 192.168.2 //这是我们隔壁部门使用的网段 :)
+Deny from msn.com microsoft.com //不喜欢它们
+Deny from du //对面的那个家伙
+
+Order可以组合Deny和Allow指令，以保证在允许一个群体访问的同时，对其中的一些又加以限制：
+
+Order deny,allow
+Deny from all
+Allow from dev.example.com
+
+只列出Allow指令不会得到你想要的结果，因为它在允许指定对象访问的同时并不禁止其他未列出的对象的访问。所以上例使用的方法是：首先拒绝任何人，然后允许来自特定主机的访问。
+
+#### 优化设置
+
+如果服务器访问量过大，将会导致页面打开迟缓，下载速度也降低，如果由于经费和环境问题，集群方案没有得以应用。可以通过对Apache2增加模块MPM来进行优化, 这里我们选择线程型MPM - worker 加以介绍
+
+11.1 worker的工作原理
+worker是2.0 版中全新的支持多线程和多进程混合模型的MPM。由于使用线程来处理，所以可以处理相对海量的请求，而系统资源的开销要小于基于进程的服务器。但是， worker也使用了多进程，每个进程又生成多个线程，以获得基于进程服务器的稳定性。这种MPM的工作方式将是Apache 2.0的发展趋势。
+
+worker的工作原理是，由主控制进程生成“StartServers”个子进程，每个子进程中包含固定的ThreadsPerChild 线程数，各个线程独立地处理请求。同样，为了不在请求到来时再生成线程，MinSpareThreads和MaxSpareThreads设置了最少和最多的空闲线程数；而MaxClients设置了所有子进程中的线程总数。如果现有子进程中的线程总数不能满足负载，控制进程将派生新的子进程。。系统默认已经启用了 worker mpm 模块这可以通过以下命令查看:
+
+# apache2 -l
+Compiled in modules:
+  core.c
+  mod_access.c
+  mod_auth.c
+  mod_log_config.c
+  mod_logio.c
+  mod_env.c
+  mod_setenvif.c
+  worker.c
+  http_core.c
+  mod_mime.c
+  mod_status.c
+  mod_autoindex.c
+  mod_negotiation.c
+  mod_dir.c
+  mod_alias.c
+  mod_so.c
+
+一个典型的针对workerMPM的配置如下：
+
+ServerLimit 16  //服务器允许配置的进程数上限, Apache在编译时内部有一个硬限制"ServerLimit 20000"。你不能超越这个限制。
+StartServers 2  //设置了服务器启动时建立的子进程数量, 默认值是"3"。
+MaxClients 150  //设置了允许同时伺服的最大接入请求数量。任何超过MaxClients限制的请求都将进入等候队列
+MinSpareThreads 25   //设置最小空闲线程数，用于处理可能到来的突发请求。默认值是"75"。
+MaxSpareThreads 75  //设置最大空闲线程数。不同的MPM对这个指令的处理是不一样的：默认值是"250"。这个MPM将基于整个服务器监视空闲线程数。如果服务器中总的空闲线程数太多，子进程将杀死多余的空闲线程。
+ThreadsPerChild 25 //设置了每个子进程建立的线程数。子进程在启动时建立这些线程后就不再建立新的线程了。默认值是25
+
+11.2 使用第三方模块增强安全性
+mod-security apache的一个模块，有请求过滤，日志审计等功能，可以防止SQL Injection，跨站脚本攻击.
+
+详细信息请参阅 http://www.modsecurity.org/projects/modsecurity/apache/index.html
+
+首先安装libapache2-mod-security包
+
+$ sudo apt-get install libapache2-mod-security
+
+将会安装libapache2-mod-security, mod-security-common
+
+启用该模块
+
+$ sudo cp /usr/share/doc/libapache2-mod-security/examples/httpd2.conf.example-full /etc/apache2/mods-available/mod-security.conf
+$ sudo a2enmod mod-security
+
+修改配置文件, 相关内容如下
+
+##### mod-security.conf 文件内容开始
+
+# 检测内容长度以避免堆溢出攻击
+SecFilterForceByteRange 32 254 =&gt;SecFilterForceByteRange 32 126
+
+# debug设置
+SecFilterDebugLevel 9 =&gt;SecFilterDebugLevel 0
+
+# 设置缺省的动作
+SecFilterDefaultAction "deny,log,status:499" =&gt;SecFilterDefaultAction "deny,log,status:404"
+
+# 把设置传递给子目录
+SecFilterInheritance Off
+
+# Redirect user on filter match
+# 当匹配sh的时候,重新定向到一个特殊的警告页面,该页面是自行编写的，写些警告的话让攻击者知难而退，该段先不要生效，等到相关配置配好之后再失效不迟。记住在配好之后要使之生效。
+#SecFilter sh redirect:http://localhost/hack/warning.htm
+
+# Prevent OS specific keywords
+#过滤一些敏感的东西，我们使用\*是为了攻击者使用/etc/./passwd来绕开检测
+SecFilter /etc/passwd =&gt;SecFilter /etc/\*passwd
+SecFilter /bin/\*sh
+
+# Very crude filters to prevent SQL injection attacks
+# 防止SQL插入(SQL Injection)攻击
+SecFilter "delete:space:+from"
+SecFilter "insert:space:+into"
+SecFilter "select.+from"
+SecFilter "select:space:+from"
+SecFilter "union:space:+from"
+
+##### mod-security.conf 文件内容结束
+
+重启apache2 服务即可.
+
+$ sudo /etc/init.d/apache2 start
+
+备注：第三步可能会引起部分网站不能正常运行，可以参照着去掉某些限制，由于是安全模块，所以参照的是防火墙的做法，关掉一切不安全的，再根据需要打开必要的。
+
+摘自: http://wiki.ubuntu.org.cn http://wiki.ubuntu.org.cn/Apache安装设置

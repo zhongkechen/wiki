@@ -1,0 +1,232 @@
+---
+title: "MS-Windows"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000105 在备份中缺失；以下内容来自最新可读取版本 00000104。
+:::
+
+经常会有人问我，自己的Windows出问题了怎么办。这里记下维护Windows不出问题的方法，以及出了问题后怎么处理的方法，还有Windows下一些常用的工具。
+
+### 怎么保证Windows安全
+
+* 升级到Windows 10，而不是用Windows 8、7、Vista或XP。
+* **打上所有Windows系统补丁，并经常检查有没有新的补丁**
+* 帐户设置：
+    * 所有管理员帐户（属于Administrators组的帐户）设置足够复杂的密码（由字母、数字和特殊字符组成）
+    * 禁用Guest帐户
+* 安装杀毒软件。Windows 10自带杀毒软件，不要关闭就可以了。
+* （可选）对于在不安全的局域网中使用的Windows系统，最好做好路由器地址的MAC-IP绑定，比如说`arp -s 192.168.0.1 00-04-61-25-22-6A`，这里192.168.0.1是路由器地址，00-04-61-25-22-6A是路由器的网卡MAC地址。
+* （可选）使用[Firefox](https://www.mozilla.org/zh-CN/firefox/)来代替IE，在Firefox中加装[NoScript](http://noscript.net/)插件。
+
+### Windows出问题了怎么办？
+
+* 拨打微软的售后服务电话：800-820-3800 (品牌机用户拨打品牌售后服务电话)
+* 用[Debian Linux](http://www.debian.org/)、[Ubuntu Linux](http://www.ubuntu.com/)、[FreeBSD](http://www.freebsd.org/)、[MacOSX](http://www.apple.com/macosx/)等代替Windows
+
+### Windows下软件安装
+
+优先使用以下方式安装软件：
+
+* Windows自带的App Store
+* Windows的包管理工具 https://chocolatey.org/
+
+### 常用软件
+
+* 常见软件价格
+* 开发环境
+    * [MinGW](http://www.mingw.org/)
+    * [Cygwin](https://www.cygwin.com/)
+* 媒体播放
+
+| 视频播放器 | [KODI](https://kodi.tv/) [VLC](https://www.videolan.org/vlc/index.html) [Media Player Classics](http://sourceforge.net/projects/guliverkli/) |
+| --- | --- |
+| 编解码器 | [ffdshow](http://www.free-codecs.com/download/FFDShow.htm) |
+| 音频播放器 | [foobar2000](http://www.foobar2000.org/) |
+| 网络点播 | [sopcast](http://www.sopcast.com/) |
+
+* 网络软件
+
+| WEB浏览器 | [firefox](http://www.mozilla.com/firefox/) [Tor Browser](https://www.torproject.org/download/) |
+| --- | --- |
+| IM软件 | [Skype](http://www.skype.com/) [Telegram](<Telegram.qmd>) |
+| Ftp/Sftp客户端 | [filezilla](http://filezilla-project.org/) [WinScp](http://winscp.net/eng/docs/lang:chs) |
+| 电驴 | [emule](http://www.emule-project.net/) |
+| ssh客户端 | [putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/) |
+| bt客户端 | [bitcomet](http://www.bitcomet.com/) |
+| 下载工具 | [flashget](http://www.flashget.com/) |
+| BBS客户端 | [fterm](http://fterm.zj001.net/) |
+| 远程管理软件 | [RealVNC](http://www.realvnc.com/) [Remote Desktop Client](http://www.microsoft.com/windowsxp/downloads/tools/rdclientdl.mspx) |
+| QOS | [tcmonlite动态改变ip包的QOS](http://connect.microsoft.com/WNDP/Downloads/DownloadDetails.aspx?DownloadID=9606) |
+
+* 系统工具
+
+| 查看CPU等硬件详细信息 | [cpu-z](http://www.cpuid.org/cpuz.php) |
+| --- | --- |
+| 系统外壳（代替Explorer.exe完成系统任务栏和窗口管理） | [bbLean](http://bb4win.sourceforge.net/bblean/) |
+| 文件管理器（代替Explorer.exe完成文件管理） | [Directory Opus（收费）](http://www.gpsoft.com.au/) |
+| 压缩 | [7-zip](http://www.7-zip.org/) |
+| 虚拟光驱 | [alcohol 120（收费软件）](http://www.alcohol-soft.com/) [Daemon Tools](http://www.daemon-tools.cc/) |
+| 进程管理器 | [process explorer](http://www.sysinternals.com/Utilities/ProcessExplorer.html) |
+| Windows下模拟Unix环境 | [Cygwin](http://www.cygwin.com/) |
+| 硬盘保护软件（每次重启时自动还原） | [Deep Freeze](http://www.faronics.com/) （收费） [Steadystate](http://www.microsoft.com/windows/products/winfamily/sharedaccess/default.mspx) |
+| 硬盘无损分区工具 | [GParted](http://gparted.sourceforge.net/) |
+| 硬盘分区的复制、备份、恢复（类似ghost） | [clonezilla](http://www.clonezilla.org/) |
+| Windows半开连接数破解 | [http://www.lvllord.de/](http://www.lvllord.de/) |
+| 虚拟机 | [VMware Player](http://www.vmware.com/products/player/)  [VirtalBox虚拟机](http://www.virtualbox.org/) |
+| 照片处理 | [Picasa](http://picasa.google.com/) |
+| 卫星地图 | [Google Earth](http://earth.google.com/) |
+| Java运行环境 | [JRE](http://java.sun.com/) |
+| .Net运行环境 | [.Net Framework](http://msdn.microsoft.com/netframework/) |
+| 数据库管理系统 | [MySQL](http://www.mysql.com/) |
+| 窗口总在前面 | [Push Pin](http://www.rosafamily.org/software/pushpin/index.htm) |
+
+* 办公软件
+
+| 输入法 | [https://rime.im/](https://rime.im/) |
+| --- | --- |
+| 字典 | [StarDict](http://stardict.sourceforge.net/) [EUDIC](https://www.eudic.net/v4/en/app/eudic) |
+| 文本编辑器 | [Notepad++](http://notepad-plus.sourceforge.net/) [Notepad2](http://www.flos-freeware.ch/notepad2.html) |
+| Office办公套件 | [OpenOffice](http://www.openoffice.org/) [Office 365](https://www.office.com/) |
+| pdf阅读器 | [Adobe Reader](http://www.adobe.com/products/acrobat/readstep2.html) |
+| Office阅读器 | [Word Viewer 2003](http://www.microsoft.com/downloads/details.aspx?familyid=95E24C87-8732-48D5-8689-AB826E7B8FDF&displaylang=en) [Excel Viewer 2003](http://www.microsoft.com/downloads/details.aspx?familyid=C8378BF4-996C-4569-B547-75EDBD03AAF0&displaylang=en) [PowerPoint Viewer 2007](http://www.microsoft.com/downloads/details.aspx?familyid=048DC840-14E1-467D-8DCA-19D2A8FD7485&displaylang=en) [Visio Viewer 2007](http://www.microsoft.com/downloads/details.aspx?familyid=D88E4542-B174-4198-AE31-6884E9EDD524&displaylang=en) |
+
+### Windows实用小技巧
+
+* 自动登录：运行
+
+  ```
+  rundll32 netplwiz.dll,UsersRunDll
+  ```
+* 修改smb的端口：在注册表中添加如下键值
+
+  ```
+  [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\SMB]
+
+  "SessionPort"=dword:00000c1d
+
+  "DatagramPort"=dword:00000c1d
+  ```
+
+  其中0c1d是端口号的16进制值。
+* 要运行网络邻居上的程序不弹出安全提示，可以在注册表中添加如下键值：
+
+  ```
+  [HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Download]
+
+  "CheckExeSignatures"="no"
+
+  "RunInvalidSignatures"=dword:00000001
+
+  [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments]
+
+  "SaveZoneInformation"=dword:00000000
+
+  [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Associations]
+
+  "LowRiskFileTypes"=".zip;.rar;.nfo;.txt;.exe;.bat;.com;.cmd;.reg;.msi;.htm;.html;.gif;.bmp;.jpg;.avi;.mpg;.mpeg;.mov;.mp3;.m3u;.wav"
+  ```
+* 修改收藏夹的目录，打开注册表中的：
+
+  ```
+  HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
+  ```
+
+  将其中的Favorites键值改成需要的目录。
+* 普通用户帐号登录后，需要执行管理操作（比如安装软件），可以运行：
+
+  ```
+  runas /user:Administrator XXXX
+  ```
+
+  其中XXXX是管理操作的命令
+* 开启WINDOWS高级软件安全策略:
+
+  ```
+  [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Safer\CodeIdentifiers]
+  "Levels"=dword:00035000
+  ```
+* 用vbscript脚本修改windows的默认Tos：
+
+  ```
+  strServer = "."
+
+  Set objWMI = GetObject("winmgmts:\\" & strServer & "\root\cimv2")
+
+  Set objInstance = objWMI.Get("Win32_NetworkAdapterConfiguration")
+
+  p_DefaultTOS = 0
+
+  intResult = objInstance.SetDefaultTOS(p_DefaultTOS)
+
+  Select case intResult
+    Case 0 : WScript.Echo "Successful completion, no reboot required"
+    Case 1 : WScript.Echo "Successful completion, reboot required"
+    Case 64 : WScript.Echo "Method not supported on this platform"
+    Case 65 : WScript.Echo "Unknown failure"
+    Case 66 : WScript.Echo "Invalid subnet mask"
+    Case 67 : WScript.Echo "An error occurred while processing an Instance that was returned"
+    Case 68 : WScript.Echo "Invalid input parameter"
+    Case 69 : WScript.Echo "More than 5 gateways specified"
+    Case 70 : WScript.Echo "Invalid IP  address"
+    Case 71 : WScript.Echo "Invalid gateway IP address"
+    Case 72 : WScript.Echo "An error occurred while accessing the Registry for the requested information"
+    Case 73 : WScript.Echo "Invalid domain name"
+    Case 74 : WScript.Echo "Invalid host name"
+    Case 75 : WScript.Echo "No primary/secondary WINS server defined"
+    Case 76 : WScript.Echo "Invalid file"
+    Case 77 : WScript.Echo "Invalid system path"
+    Case 78 : WScript.Echo "File copy failed"
+    Case 79 : WScript.Echo "Invalid security parameter"
+    Case 80 : WScript.Echo "Unable to configure TCP/IP service"
+    Case 81 : WScript.Echo "Unable to configure DHCP service"
+    Case 82 : WScript.Echo "Unable to renew DHCP lease"
+    Case 83 : WScript.Echo "Unable to release DHCP lease"
+    Case 84 : WScript.Echo "IP not enabled on adapter"
+    Case 85 : WScript.Echo "IPX not enabled on adapter"
+    Case 86 : WScript.Echo "Frame/network number bounds error"
+    Case 87 : WScript.Echo "Invalid frame type"
+    Case 88 : WScript.Echo "Invalid network number"
+    Case 89 : WScript.Echo "Duplicate network number"
+    Case 90 : WScript.Echo "Parameter out of bounds"
+    Case 91 : WScript.Echo "Access denied"
+    Case 92 : WScript.Echo "Out of memory"
+    Case 93 : WScript.Echo "Already exists"
+    Case 94 : WScript.Echo "Path, file or object not found"
+    Case 95 : WScript.Echo "Unable to notify service"
+    Case 96 : WScript.Echo "Unable to notify DNS service"
+    Case 97 : WScript.Echo "Interface not configurable"
+    Case 98 : WScript.Echo "Not all DHCP leases could be released/renewed"
+    Case 100 : WScript.Echo "DHCP not enabled on adapter"
+  End Select
+  ```
+* Hp Notebook Dmi Info
+
+  ```
+  #!/bin/sh
+  # usage: vboxportmap vmname
+
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSVendor" "Hewlett-Packard"
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSVersion" "68YHV Ver. F.0B"
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSReleaseDate"  "07/13/2007"
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSReleaseMajor"  15
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSReleaseMinor"  11
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMajor" 89
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMinor" 53
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiSystemVendor" "Hewlett-Packard"
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiSystemProduct" "HP Compaq nc4400 (RH136PA#AB5)"
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiSystemVersion" "F.0B"
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiSystemSerial"  "CND6370JW5"
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiSystemUuid" "025E295E-9643-DB11-129C-66990C3E1529"
+  VBoxManage setextradata $1 "VBoxInternal/Devices/pcbios/0/Config/DmiSystemFamily" "103C_5336AN"
+  ```

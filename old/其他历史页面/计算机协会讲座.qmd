@@ -1,0 +1,111 @@
+---
+title: "计算机协会讲座"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+## 在Web 2.0的时代程序员怎么办？
+
+### 流行网站举例
+
+当今流行网站的典型例子
+
+* 博客
+* 维基
+    * 维基百科
+* 资源共享
+    * del.icio.us
+    * youtube
+    * flickr
+    * http://www.douban.com/
+    * iTunes
+    * google map
+* 在线办公
+    * writely
+    * spreadsheet
+    * gmail
+
+### web2.0时代网站的主要特点
+
+* 共同创作，驾驭群体智慧，用户应该在网站上拥有他们自己的数据
+* 内容可重用
+* 强调用户体验
+* 将Web作为平台，取代传统只能在客户端由应用程序完成的工作
+* 网站不能是封闭的——它必须可以很方便地被其他系统获取或写入数据。
+* 完全地基于Web —— 大多数成功的Web 2.0网站可以几乎完全通过浏览器来使用
+
+http://zh.wikipedia.org/wiki/Web_2.0
+
+### 网站开发的特点
+
+技术方面：
+
+* CSS, 语义化有效的XHTML标记，和Microformats
+* 丰富应用技术（例如Ajax）
+* RSS/ATOM数据的聚合
+* 规则且有意义的URL
+* REST 或者是XML Web服务API
+* 某些社会性网络方面
+
+### 网站开发的主要工具
+
+新生工具
+
+* Ruby On Rails
+* Django
+* Turbo Gear
+* Pylon
+* ...
+
+### 工具背后所依赖的语言
+
+* 传统语言
+    * PHP
+    * Java
+    * .Net
+* 后起之秀：动态语言
+    * Ruby
+    * Python
+
+### Django特点和实例
+
+* Object-relational mapper
+* Automatic admin interface
+* Elegant URL design
+* Template system
+* Cache system
+* Internationalization
+
+### 客户端技术
+
+* AJAX
+* XML GUI( XML表示的GUI，在浏览器中运行)
+    * XUL:  MAB: http://faser.net/mab/chrome/content/mab.xul
+    * XAML
+
+### AJAX原理和特点
+
+AJAX全称为“Asynchronous JavaScript and XML”（异步JavaScript和XML）
+
+* 使用XHTML+CSS来表示信息；
+* 使用JavaScript操作DOM（Document Object Model）进行动态显示及交互
+* 使用 XML 和 XSLT 进行数据交换及相关操作；
+* 使用 XMLHttpRequest对象与Web服务器进行异步数据交换
+* 使用 JavaScript 将所有的东西绑定在一起。
+
+### AJAX 开发工具包
+
+* Atlas, 微软AJAX工具箱。
+* Dojo工具箱, AJAX/DHTML工具箱。
+* Prototype, 开放源代码框架。
+* PHPRPC, 开放源代码多语言支持的跨平台的安全的 Web 远程过程调用框架，让 Ajax 编程更容易。
+* ZK, 开放源代码AJAX/XUL框架，JAVA专用。
+* script.aculo.us 为Ruby on Rails量身打造的AJAX函式库，跨平台支援。
+* Rico 知名的开源码的AJAX函式库，跨平台支援。
+* Xajax 知名的开源码开发AJAX用PHP函式库。

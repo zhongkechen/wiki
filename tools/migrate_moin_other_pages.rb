@@ -6,6 +6,8 @@ require "json"
 require "pathname"
 require "tmpdir"
 
+require_relative "moin_additional_pages"
+
 REPOSITORY_ROOT = File.expand_path("..", __dir__)
 DEFAULT_SOURCE_ROOT = File.join(REPOSITORY_ROOT, "mywiki", "data", "pages")
 SOURCE_ROOT = File.expand_path(ENV.fetch("MOIN_SOURCE_ROOT", DEFAULT_SOURCE_ROOT))
@@ -15,6 +17,8 @@ SOURCE_SNAPSHOT_PATH = File.join(
   "data",
   "moin_other_page_sources.json"
 )
+ADDITIONAL_ARCHIVE_ROOT = "其他历史页面"
+SYNTHETIC_ROOT_PAGE_NAMES = [ADDITIONAL_ARCHIVE_ROOT].freeze
 BASE_ROOT_PAGE_CHILDREN = {
   "维基简介" => [],
   "浙大考博题" => [],
@@ -56,14 +60,34 @@ EXCLUDED_PAGE_NAMES = [
   "TCPL/B.01.2_Formatted_Output/ugczovkjkeluzdbrjicfhozvfajh"
 ].freeze
 IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
+NORMALIZED_TEXT_ATTACHMENT_EXTENSIONS = %w[.js].freeze
 EXCLUDED_ATTACHMENTS = {
   "MSP430" => ["ebook 16M.rar"]
 }.freeze
 REUSED_OUTPUT_PATHS = {
   "论坛" => File.join("ICPC", "论坛.qmd"),
   "Linux" => "Linux.qmd",
+  "Python" => File.join("程序设计语言", "Python.qmd"),
+  "C" => File.join("高级语言程序设计课程", "C.qmd"),
+  "C++" => File.join("程序设计语言", "C++.qmd"),
+  "Matlab" => File.join("程序设计语言", "Matlab.qmd"),
+  "程序设计语言" => "程序设计语言.qmd",
+  "算法" => "算法.qmd",
+  "高级语言程序设计课程" => "高级语言程序设计课程.qmd",
+  "面向对象程序设计课程" => "面向对象程序设计课程.qmd",
+  "数据结构" => "数据结构.qmd",
+  "数字图像处理" => "数字图像处理.qmd",
+  "Python游戏开发基础" => "Python游戏开发基础.qmd",
+  "ICPC" => "ICPC.qmd",
   "计算机科学导论" => "计算机科学导论.qmd",
-  "离散数学" => "离散数学.qmd"
+  "离散数学" => "离散数学.qmd",
+  "计算机图形学" => "计算机图形学.qmd",
+  "算法与数据结构" => "算法与数据结构.qmd",
+  "计算理论" => "计算理论.qmd",
+  "科学上网" => File.join("..", "wiki", "科学上网.md"),
+  "Tetris" => File.join("..", "wiki", "Tetris.md"),
+  "YubiKey" => File.join("..", "wiki", "YubiKey.md"),
+  "nostr" => File.join("..", "wiki", "Nostr.md")
 }.freeze
 COURSE_ROOT_NAVIGATION = {
   "C++集成开发环境" =>
@@ -177,11 +201,18 @@ end.sort
 raise "No readable TCPL child pages were found" if tcpl_page_names.empty?
 
 ROOT_PAGE_CHILDREN =
-  BASE_ROOT_PAGE_CHILDREN.merge("TCPL" => tcpl_page_names).freeze
+  BASE_ROOT_PAGE_CHILDREN
+    .merge("TCPL" => tcpl_page_names)
+    .merge(ADDITIONAL_ARCHIVE_ROOT => MOIN_ADDITIONAL_PAGE_NAMES)
+    .freeze
 MIGRATED_PAGE_NAMES = ROOT_PAGE_CHILDREN.flat_map do |root_name, children|
   [root_name, *children]
 end.freeze
-SOURCE_PAGE_NAMES = (MIGRATED_PAGE_NAMES + AUXILIARY_PAGE_NAMES).freeze
+SOURCE_PAGE_NAMES = (
+  MIGRATED_PAGE_NAMES -
+    SYNTHETIC_ROOT_PAGE_NAMES +
+    AUXILIARY_PAGE_NAMES
+).freeze
 
 missing_pages = SOURCE_PAGE_NAMES.reject do |name|
   PAGE_INDEX.key?(name) || SOURCE_SNAPSHOT.key?(name)
@@ -220,6 +251,25 @@ def output_relative_path(page_name)
     basename = File.basename(page_name).delete("<>")
     File.join(root_name, "#{basename}.qmd")
   end
+end
+
+def page_title(page_name)
+  MOIN_ADDITIONAL_PAGE_TITLES.fetch(page_name, page_name)
+end
+
+def normalize_mixed_indentation(content)
+  content.gsub(/^[ ]+\t+/) do |indentation|
+    indentation.gsub("\t", "  ")
+  end
+end
+
+def additional_archive_source
+  MOIN_ADDITIONAL_PAGE_GROUPS.map do |group_name, page_names|
+    links = page_names.map do |page_name|
+      " * [[#{page_name}|#{page_title(page_name)}]]"
+    end
+    ["= #{group_name} =", *links].join("\n")
+  end.join("\n\n")
 end
 
 OUTPUT_PATHS = MIGRATED_PAGE_NAMES.to_h do |page_name|
@@ -803,6 +853,8 @@ def render_page_comments(owner)
 end
 
 def source_with_revision_notice(page_name)
+  return additional_archive_source if SYNTHETIC_ROOT_PAGE_NAMES.include?(page_name)
+
   source = page_source(page_name)
   content =
     if !page_has_readable_revision?(page_name)
@@ -872,7 +924,7 @@ Dir.mktmpdir("migrate-moin-other-pages") do |temporary_root|
       end
     page = [
       qmd_front_matter(
-        page_name,
+        page_title(page_name),
         number_sections: page_source(page_name).match?(
           SECTION_NUMBER_PRAGMA_PATTERN
         )
@@ -881,6 +933,8 @@ Dir.mktmpdir("migrate-moin-other-pages") do |temporary_root|
       "",
       body
     ].join("\n")
+    page = normalize_mixed_indentation(page) \
+      if root_name == ADDITIONAL_ARCHIVE_ROOT
     destination =
       File.join(temporary_output_root, output_relative_path(page_name))
     FileUtils.mkdir_p(File.dirname(destination))
@@ -896,7 +950,17 @@ Dir.mktmpdir("migrate-moin-other-pages") do |temporary_root|
       destination =
         File.join(temporary_output_root, asset_output_relative(owner, filename))
       FileUtils.mkdir_p(File.dirname(destination))
-      FileUtils.cp(source, destination)
+      if root_page_name(owner) == ADDITIONAL_ARCHIVE_ROOT &&
+          NORMALIZED_TEXT_ATTACHMENT_EXTENSIONS.include?(
+            File.extname(filename).downcase
+          )
+        File.binwrite(
+          destination,
+          normalize_mixed_indentation(File.binread(source))
+        )
+      else
+        FileUtils.cp(source, destination)
+      end
       attachment_count += 1
     end
   end

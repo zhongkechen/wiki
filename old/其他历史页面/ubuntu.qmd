@@ -1,0 +1,97 @@
+---
+title: "ubuntu"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000005 在备份中缺失；以下内容来自最新可读取版本 00000004。
+:::
+
+### Ubuntu8.10下载
+
+#### Ubuntu CD
+
+ . i386 Desktop HTTP: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-desktop-i386.iso
+ . i386 Desktop BT: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-desktop-i386.iso.torrent
+ . AMD64 Desktop HTTP: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-desktop-amd64.iso
+ . AMD64 Desktop BT: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-desktop-amd64.iso.torrent
+ . i386 Alternate HTTP: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-alternate-i386.iso
+ . i386 Alternate BT: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-alternate-i386.iso.torrent
+ . AMD64 Alternate HTTP: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-alternate-amd64.iso
+ . AMD64 Alternate BT: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-alternate-amd64.iso.torrent
+ . i386 Server HTTP: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-server-i386.iso
+ . i386 Server BT: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-server-i386.iso.torrent
+ . AMD64 Server HTTP: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-server-amd64.iso
+ . AMD64 Server BT: http://cn.releases.ubuntu.com/8.10/ubuntu-8.10-server-amd64.iso.torrent
+ . Wubi: http://cn.releases.ubuntu.com/8.10/wubi.exe
+
+#### Ubuntu DVD
+
+ . i386 HTTP: http://cdimage.ubuntu.com/dvd/current/intrepid-dvd-i386.iso
+ . AMD64 HTTP: http://cdimage.ubuntu.com/dvd/current/intrepid-dvd-amd64.iso
+
+#### Kubuntu DVD(KDE桌面)
+
+ . i386 BT: http://torrent.ubuntu.com/kubuntu/releases/intrepid/release/dvd/kubuntu-8.10-dvd-i386.iso.torrent
+ . AMD64 BT: http://torrent.ubuntu.com/kubuntu/releases/intrepid/release/dvd/kubuntu-8.10-dvd-amd64.iso.torrent
+
+#### Kubuntu CD(KDE桌面)
+
+ . i386 Desktop HTTP: http://cn.releases.ubuntu.com/kubuntu/8.10/kubuntu-8.10-desktop-i386.iso
+ . i386 Desktop BT: http://cn.releases.ubuntu.com/kubuntu/8.10/kubuntu-8.10-desktop-i386.iso.torrent
+ . AMD64 Desktop HTTP: http://cn.releases.ubuntu.com/kubuntu/8.10/kubuntu-8.10-desktop-amd64.iso
+ . AMD64 Desktop BT: http://cn.releases.ubuntu.com/kubuntu/8.10/kubuntu-8.10-desktop-amd64.iso.torrent
+ . i386 Alternate HTTP: http://cn.releases.ubuntu.com/kubuntu/8.10/kubuntu-8.10-alternate-i386.iso
+ . i386 Alternate BT: http://cn.releases.ubuntu.com/kubuntu/8.10/kubuntu-8.10-alternate-i386.iso.torrent
+ . AMD64 Alternate HTTP: http://cn.releases.ubuntu.com/kubuntu/8.10/kubuntu-8.10-alternate-amd64.iso
+ . AMD64 Alternate BT: http://cn.releases.ubuntu.com/kubuntu/8.10/kubuntu-8.10-alternate-amd64.iso.torrent
+
+#### Edubuntu CD(教育版)
+
+ . i386 HTTP: http://cn.releases.ubuntu.com/edubuntu/8.10/edubuntu-8.10-addon-i386.iso
+ . i386 BT: http://cn.releases.ubuntu.com/edubuntu/8.10/edubuntu-8.10-addon-i386.iso.torrent
+ . AMD64 HTTP: http://cn.releases.ubuntu.com/edubuntu/8.10/edubuntu-8.10-addon-amd64.iso
+ . AMD64 BT: http://cn.releases.ubuntu.com/edubuntu/8.10/edubuntu-8.10-addon-amd64.iso.torrent
+
+#### Xubuntu CD(Xfce桌面)
+
+ . i386 Desktop HTTP: http://cdimage.ubuntu.com/xubuntu/releases/8.10/release/xubuntu-8.10-desktop-i386.iso
+ . i386 Desktop BT: http://cdimage.ubuntu.com/xubuntu/releases/8.10/release/xubuntu-8.10-desktop-i386.iso.torrent
+ . AMD64 Desktop HTTP: http://cdimage.ubuntu.com/xubuntu/releases/8.10/release/xubuntu-8.10-desktop-amd64.iso
+ . AMD64 Desktop BT: http://cdimage.ubuntu.com/xubuntu/releases/8.10/release/xubuntu-8.10-desktop-amd64.iso.torrent
+ . i386 Alternate HTTP: http://cdimage.ubuntu.com/xubuntu/releases/8.10/release/xubuntu-8.10-alternate-i386.iso
+ . i386 Alternate BT: http://cdimage.ubuntu.com/xubuntu/releases/8.10/release/xubuntu-8.10-alternate-i386.iso.torrent
+ . AMD64 Alternate HTTP: http://cdimage.ubuntu.com/xubuntu/releases/8.10/release/xubuntu-8.10-alternate-amd64.iso
+ . AMD64 Alternate BT: http://cdimage.ubuntu.com/xubuntu/releases/8.10/release/xubuntu-8.10-alternate-amd64.iso.torrent
+
+#### Mythbuntu CD(媒体中心版)
+
+ . i386 HTTP: http://cdimage.ubuntu.com/mythbuntu/releases/8.10/release/mythbuntu-8.10-alternate-i386.iso
+ . i386 BT: http://cdimage.ubuntu.com/mythbuntu/releases/8.10/release/mythbuntu-8.10-alternate-i386.iso.torrent
+ . AMD64 HTTP: http://cdimage.ubuntu.com/mythbuntu/releases/8.10/release/mythbuntu-8.10-alternate-amd64.iso
+ . AMD64 BT: http://cdimage.ubuntu.com/mythbuntu/releases/8.10/release/mythbuntu-8.10-alternate-amd64.iso.torrent
+
+#### Ubuntu Server CD(服务器版)
+
+ . i386 HTTP: http://cdimage.ubuntu.com/ubuntu-server/daily/current/intrepid-server-i386.iso
+ . AMD64 HTTP: http://cdimage.ubuntu.com/ubuntu-server/daily/current/intrepid-server-amd64.iso
+
+#### Ubuntu Studio DVD(多媒体编辑、图像工作等)
+
+ . i386 HTTP: http://cdimage.ubuntu.com/ubuntustudio/releases/8.10/release/ubuntustudio-8.10-alternate-i386.iso
+ . i386 BT: http://cdimage.ubuntu.com/ubuntustudio/releases/8.10/release/ubuntustudio-8.10-alternate-i386.iso.torrent
+ . AMD64 HTTP: http://cdimage.ubuntu.com/ubuntustudio/releases/8.10/release/ubuntustudio-8.10-alternate-amd64.iso
+ . AMD64 BT: http://cdimage.ubuntu.com/ubuntustudio/releases/8.10/release/ubuntustudio-8.10-alternate-amd64.iso.torrent
+
+#### Ubuntu-MIDUMPC IMG(小型设备专用)
+
+ . i386 HTTP: http://cdimage.ubuntu.com/ubuntu-mid/intrepid/current/ubuntu-mid.img

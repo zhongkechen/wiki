@@ -1,0 +1,363 @@
+---
+title: "常见操作系统"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000007 在备份中缺失；以下内容来自最新可读取版本 00000006。
+:::
+
+对与操作系统，我们大家平时了解更多的可能就是[Windows](<Windows.qmd>)、[Linux](<../Linux.qmd>)和Mac OS，但是就只有这些吗？肯定不至。现在我们就给大家介绍更多的操作系统。
+
+## UNIX家族及类UNIX系统
+
+　　1969年，在AT&T的Bell Labs，Ken Thompson和Dennis Ritchie（他们
+他的则根据需要加上去。这已经成为操作系统的一种设计哲学。现在许多公司有了自己的UNIX版本，但它们基本特性是一致的：开放性、多用户、多任务、功能强、实现高效、网络功能丰富。为了克服UNIX版本差异对可移植性的损害，1990年ISO制定了ISO/IEC 9945-1-1990标准，这是整个可移植操作系统界面（POSIX）的第一部分；系统应用程序界面即POSIX.1。这就是常说的UNIX操作系统的界面标准。
+　　AT&T：http://www.att.com/
+　　Bell Labs：http://www.bell-labs.com/
+　　Multics：http://www.multicians.org/
+　　UC Berkeley：http://www.berkeley.edu/
+　　ISO：http://www.iso.ch/
+　　POSIX：http://www.pasc.org/
+
+### BSD系列
+
+　　目前的x86平台上的BSD系统大多基于Berkeley的4.4 BSD Lite，这是去掉了那些来自AT&T的代码后公开发布的一个不完整的系统。其中最有名的当属FreeBSD（最新版为FreeBSD 5.2 [Jan-12-2004]），其他还有NetBSD（最新版为NetBSD 1.6.1 [Apr-21-2003]），OpenBSD（最新版为OpenBSD 3.4 [Nov-1-2003]）等版本，都是免费的，可以在相应的官方网站下载。
+　　FreeBSD
+　　由加州伯克利学校(Berkeley)编写，第一个版本由1993年正式推出。BSD Unix和Unix System V是Unix操作系统的两大主流，以后的Unix系统都是这两种系统的衍生产品。
+　　FreeBSD其实是一种地道的Unix系统，但是由于法律上的原因，它不能使用“Unix”字
+样作为商标。它同样是一个免费的操作系统，用户可以从互联网上得到它。
+
+#### FreeBSD的优点
+
+\*1、Unix兼容性强
+　　FreeBSD的免费并不是说FreeBSD就是个人用户的玩具。由于FreeBSD是Unix的一个分支系统，它具有Unix的特性，可以完成Unix可以完成的工作。由于专业Unix工作站十分昂贵，而FreeBSD就能够利用个人电脑软硬件的廉价，发挥自己的优势，在一定程度上替代 Unix系统。许多Unix系统的应用程序也能在FreeBSD正常运行。
+\*2、极其稳定、可靠
+　　FreeBSD是真正的32位操作系统，系统核心中不包含任何16位代码，这使得它成为个人电脑操作系统中最为稳定、可靠的系统。 FreeBSD工作站可以正常稳定地持续工作好几年，而不会有问题。它因此被成为“Rock-stable Performance”，就是“坚如磐石”的意思。
+\*3、强大的网络功能
+　　FreeBSD不仅被用来作为个人使用的工作站，还被一些ISP(Internet服务提供商)用来作为网络服务器，为广大用户提供网络服务。比如Yahoo主要的服务器都是使用FreeBSD，国内的“网易”也大范围使用的FreeBSD。一方面是由于FreeBSD的廉价，更重要的是因为它具有强大的网络功能和网络工作所必须的良好稳定性。FreeBSD同时也支持着互联网上最大的匿名Ftp服务器：Ftp.cdrom.com。互联网的前身阿帕网就是利用BSD Unix来实现，所以FreeBSD在网络方面显得十分成熟。
+\*4、多用户、多任务
+　　这是现代操作系统都具备的。FreeBSD具有能够进行控制、调整的动态优先级抢占式多任务功能。这使得即使在系统繁忙的时候也能够对多个任务进行正常切换，当个别任务没有相应或崩溃时也不会影响其他程序的运行。
+
+#### FreeBSD的不足
+
+　　FreeBSD主要是面向互联网，作为服务器系统来应用，所以它和普通用户还有很长的距离。它缺少商业数据库和应用软件厂商的支持，这都是影响它走进众多个人电脑的原因。
+
+　　一般的电脑用户可以不考虑采用FreeBSD作为操作系统，因为虽然它能运行的程序很多，但大都是Unix下的程序，对于Windows下的程序无法运行。
+
+### Sun Solaris
+
+Sun Microsystems公司早期的操作系统版本Sun OS是基于BSD的。在1993年，他们与AT&T合作，转向了UNIX System V，并发布了称作Solaris.System V release 4的系统，这是一个UNIX System V和BSD的整合体。Solaris系统主要是用在Sun公司自己的SPARC机器上，但他们也发布了相应的x86版本，并且免费。最新的测试版本 Software Express for Solaris(12/03) [Dec-?-2003]，在官方网站有下载。
+
+### SCO UNIX
+
+Santa Cruz Operation（SCO）公司的UNIX主要有两套。一方面，1980年的时候，Microsoft开始研制UNIX的PC版本XENIX，后来卖给了SCO。在这个基础上，SCO又不断引入AT&T的技术，后来发展成为了SCO Open Server系列。目前我国银行，邮政等系统很多都用的这个操作系统，最新的版本是SCO Open Server 5.0.7 [Feb-21-2003]。另一方面，1993年，AT&T把他们关于UNIX的整个队伍、技术包括版权卖给了Nowell公司，有了 UnixWare。1995年，Nowell又把这一套东东卖给了SCO，这样SCO就成了UNIX的嫡传正宗。SCO整合了自己的技术，发布了 UnixWare 7，之后被Caldera并购。Caldera这块招牌不够响，又换回了SCO。UnixWare最新版是UnixWare 7.1.3 [Nov-21-2002]。这些在ED上或许可以找到下载。
+Santa Cruz Operation（SCO） http://www.caldera.com/
+
+### Darwin
+
+    Darwin是Apple公司Macintosh电脑的操作系统Mac OS X的内核，在1999年的时候出的第一个版本。它基于FreeBSD和Mach 3.0技术，这两个都是开放源码的。Apple对Darwin也采用了开放源码的策略，制作发行版让人们自由下载，包括x86版本。最新版是Darwin 7.0.1 [Nov-14-2003]，可去官方网站免费下载。注意Darwin毕竟不是Mac OS X，少了那个漂亮的的Aqua用户界面。目前有一些添加了免费GUI的版本，如GNU-Darwin。
+
+### MINIX
+
+　　由于版权的问题，UNIX的源码不再适用于教学，为此1987年著名的荷兰计算机科学家Andrew Tanenbaum专门写了了个简化的类UNIX系统MINIX（mini-UNIX的意思）来给入门者学习。最新的版本是MINIX 2.0.4 [Nov-9-2003]，可以去官方网站免费下载。
+
+　　官方网站：http://www.cs.vu.nl/~ast/minix.html
+
+### Linux
+
+　　1991年，芬兰学生Linus Torvalds开始使用MINIX时，对MINIX提供的功能不满意。于是他自己写了一个类UNIX操作系统（尽管还是用MINIX编译的）并放到网上让人们自由下载，取名叫Linux。Linux刚出现的时候是被Tanenbaum所鄙视的，因为它是集成化内核，不是MINIX采用的代表先进思想的微内核；但由于遵循GPL协议，Linux仍得到了蓬勃发展。1994年，Linux的第一个商业发行版Slackware问世。1996年，NIST的计算机系统实验室确认Linux 1.2.13版符合POSIX标准。Linux的核心的最新稳定版是Linux 2.6.1 [Jan-9-2004]，可去官方网站下载。而它的发行版比比皆是，知名的有Red Hat，Mandrake，Lycoris等等，国内也有等，相应官方网站可以找到这些发行版的下载。
+　　相关链接：http://www.linux.org
+　　LINUX的特点
+　　Linux的优点
+　　Linux的流行是因为它具有许多诱人之处。
+
+#### 1、完全免费
+
+　　Linux是一款免费的操作系统，用户可以通过网络或其他途径免费获得，并可以任意修改其源代码。这是其他的操作系统所做不到的。正是由于这一点，来自全世界的无数程序员参与了Linux的修改、编写工作，程序员可以根据自己的兴趣和灵感对其进行改变。这让Linux吸收了无数程序员的精华，不断壮大。
+
+#### 2、完全兼容POSIX 1.0标准
+
+　　这使得可以在Linux下通过相应的模拟器运行常见的DOS、Windows的程序。这为用户从Windows转到Linux奠定了基础。许多用户在考虑使用Linux时，就想到以前在Windows下常见的程序是否能正常运行，这一点就消除了他们的疑虑。
+
+#### 3、多用户、多任务
+
+　　Linux支持多用户，各个用户对于自己的文件设备有自己特殊的权利，保证了各用户之间互不影响。多任务则是现在电脑最主要的一个特点，Linux可以使多个程序同时并独立地运行。
+
+#### 4、良好的界面
+
+　　Linux同时具有字符界面和图形界面。在字符界面用户可以通过键盘输入相应的指令来进行操作。它同时也提供了类似Windows图形界面的X -Windows系统，用户可以使用鼠标对其进行操作。在X-Windows环境中就和在Windows中相似，可以说是一个Linux版的 Windows。
+
+#### 5、丰富的网络功能
+
+　　互联网是在Unix的基础上繁荣起来的，Linux的网络功能当然不会逊色。它的网络功能和其内核紧密相连，在这方面Linux要优于其他操作系统。在Linux中，用户可以轻松实现网页浏览、文件传输、远程登陆等网络工作。并且可以作为服务器提供WWW、FTP、E-Mail等服务。
+
+#### 6、可靠的安全、稳定性能
+
+　　Linux采取了许多安全技术措施，其中有对读、写进行权限控制、审计跟踪、核心授权等技术，这些都为安全提供了保障。Linux由于需要应用到网络服务器，这对稳定性也有比较高的要求，实际上Linux在这方面也十分出色。
+
+#### 7、支持多种平台
+
+　　Linux可以运行在多种硬件平台上，如具有x86、680x0、SPARC、Alpha等处理器的平台。此外Linux还是一种嵌入式操作系统，可以运行在掌上电脑、机顶盒或游戏机上。2001年1月份发布的Linux 2.4版内核已经能够完全支持Intel 64位芯片架构。同时Linux也支持多处理器技术。多个处理器同时工作，使系统性能大大提高。
+\*Linux的不足
+　　由于在现在的个人电脑操作系统行业中，微软的Windows系统仍然占有大部分的份额，绝大多数的软件公司都支持Windows。这使得 Windows上的应用软件应有尽有，而其他的操作系统就要少一些。许多用户在换操作系统的时候都会考虑以前的软件能否继续使用，换了操作系统后是否会不方便。虽然Linux具有DOS、Windows模拟器，可以运行一些Windows程序，但Windows系统极其复杂，模拟器所模拟的运行环境不可能完全与真实的Windows环境一模一样，这就使得一些软件无法正常运行。
+　　许多硬件设备面对Linux的驱动程序也不足，不少硬件厂商是在推出Windows版本的驱动程序后才编写Linux版的。但一些大硬件厂商在这方面做得还不错，他们的Linux版驱动程序一般都推出得比较及时。
+
+## DOS和它的接班人
+
+### DOS
+
+　　DOS的全称是Disk Operation System。1973年，技术天才Cary Killdal和两名合作者一起开发出了第一个磁盘操作系统CP/M，这是70年代末、80年代初最有影响的8位操作系统。在此基础上，Seattle Computer Products（SCP）的Tim Patterson于1978年开始开发QDOS，此后又成功研制出16位微型机的实验性操作系统86-DOS。
+　　1980年，IBM公司推出新机型IBM PC，采用Intel 8086 CPU，需要一个16位的操作系统。他们和Killdal洽谈CP/M操作系统的合作不顺利，于是Microsoft有机可乘了。时间紧迫， Microsoft若是开发新的操作系统事不现实的，就找到SCP买下了DOS的使用权。终于MS-DOS打败了CP/M，1981年，花费半年时间编写的MS-DOS 1.0和IBM PC同时在IT界亮相，但其兼容性仍受到业界怀疑。1987年，MS-DOS 3.3发布，它的流行确立了MS-DOS的霸主地位。MS-DOS的最后的版本为MS-DOS 6.22 [May-31-1994]，这是一个相当成熟的系统。后来的DOS就整合到Windows 9x中了，在Windows的命令行模式中可以看到它的影子。Microsoft逐渐疏远DOS之后，IBM公司继续开发自己的PC-DOS，最后的版本是PC-DOS 2000 [May-29-1998]。
+　　另外有人开发了一些能兼容MS-DOS的操作系统，如FreeDOS。它利用了从1988开始开发的DOS-C内核，最新的版本是FreeDOS Beta9 pre-release 3 [Sep-28-2003]，可以从官方网站免费下载。
+　　IBM： http://www.ibm.com
+　　Intel：http://www.intel.com
+
+### Windows
+
+　　1970年，美国Xerox公司成立了著名的研究机构Palo Alto研究中心。Apple公司的创始人之一Steve Jobs参观该研究中心时看到了可以支持GUI（Graphical User Interfaces）和三键鼠标的Alto原型，便着手进行自己的GUI系统研究开发工作。1983年第一个GUI系统Apple Lisa开发出来了，第二年推出的Apple Macintosh是世界上第一个成功的商用GUI系统。当时Apple公司只开发了自己微机上的GUI系统，这样就给Microsoft开发 Windows提供了机会。
+　　Microsoft在1983年春季宣布开始研究开发Windows，希望它成为基于Intel x86微处理芯片计算机上的标准GUI操作系统。由于种种原因，Windows的交货时间不断推迟，一时成为笑柄。直到1985年11月20日，可以同时执行多个程序的窗口式系统Windows 1.0才正式上市。
+　　奠定Microsoft在操作系统上的垄断地位的是1990年5月份推出Windows 3.0。一年之后有了更稳定的Windows 3.1。1993年5月，Microsoft发布了Windows NT，主要针对网络和服务器市场。1995年8月推出的新一代操作系统Windows 95是第一个不要求用户预装MS-DOS的版本，这是Microsoft发展史上的一个里程碑，也是操作系统发展史上的一个里程碑。
+　　基于Windows 9X内核的最后一个Windows为Windows Millennium Edition [Sep-14-2000]，基于Windows NT内核的Windows最新版为Windows Server 2003 [Apr-14-2003]，以及下一代产品Windows Longhorn。
+　　Xerox ：http://www.xerox.com
+
+### OS/2
+
+　　早期的OS/2源自于多任务的DOS版本，Microsoft在1983年就开始研究多任务的DOS版本。但是由于80286 CPU设计上的问题，OS/2无法从286的保护模式下支持DOS程序。这个问题差一点让OS/2胎死腹中，此后对OS/2的研究一直处于相对缓慢的状态。这个系统还曾几度易名，直到1987年4月才被定名为OS/2。1991年，Microsoft由于在Windows方面获得了巨大成功而宣布退出 OS/2的研究开发。OS/2 2.0因此延期，尽管性能优越但销售量仍不及Windows 3.1，OS/2的光芒从此一直被Windows所掩盖。1996年，IBM发布了OS/2 Warp 4，然后就宣布不继续开发了。
+
+OS/2 的爱好者们不愿意看到一个如此优秀的操作系统就这样消失，经过一番努力，Serenity Systems公司取得了IBM的授权继续开发OS/2，新的产品命名为eComStation。最新的版本为eComStation 1.1 [May-23-2003]，ED上可以找到下载的。
+　　Serenity Systems：http://www.serenity-systems.com/
+
+## 其他商业化操作系统
+
+### Netware
+
+　　1981年，硬件公司Novell Data Systems的老板Jack Messman看到三个刚大学毕业的年轻人在玩一个他们自己编的叫“Snipes”的游戏，是在不同的机器上玩的同一个游戏，拿到今天来说就是网络游戏了。他敏锐的商业头脑让他马上雇了这三个人，开发出名叫NetWare的系统来实现不同机器间信息的共享。当时还有别的公司也有类似的动作，Novell 的成功得益于他们的产品和IBM PC的紧密结合。NetWare在80年代曾经辉煌一时，现在受到Windows NT Server系列的冲击在走下坡路。最新的版本是搭配了一些开放源代码软件的NetWare 6.5 [Aug-15-2003]，ED上有下载。
+
+### BeOS
+
+　　BeOS首次出现在1996年的电脑展上，它由一些离职的Apple工程师根据“媒体操作系统”的设计理念全新打造，并在后来移植到了x86平台。由于经营不善，Be公司宣布停止BeOS的开发，2001年BeOS的开发团队被Palm公司收购，BeOS的官方版本就此结束，最后的发行版为 2000年的BeOS 5，包括商业性的Pro版和免费的Personal版。
+　　之后有不少人在BeOS 5 Personal Edition的基础上做出了免费的开发版，如BeOS MAX Edition，BeOS Developer Edition，可去相应官方网站下载。而开发中的BeOS 5.1泄漏出来，称作Dano在网上流传，yellowTab公司又在这个基础上发行了BeOS的后续版本Zeta 1.0 RC-1 [Nov-3-2003]。此外还有爱好者开发OpenBeOS，试图能写出和BeOS相似的系统。
+　　BeOS以其出色的多媒体功能而闻名，它在多媒体制作、编辑、播放方面都表现其优越性，因此在多媒体领域，多媒体爱好者们都喜欢使用它。
+　　BeOS的优缺点
+　　看后面关于BEOS的相关阐述，以前说的BEOS在网络方面的特点不完全正确，谢谢TREO的指正。
+\*1、全图形结构BeOS的核心就是图形化，这使得BeOS是真正具有图形界面的操作系统。而Windows等都是以字符界面作为其基础，这样就让结构比较复杂，会在运行过程中存在一些不稳定的因素。具有全图形结构对提高稳定性和运行效率都很有帮助。
+\*2、拥有众多的多媒体软件作为一个面向广大多媒体爱好者的操作系统，BeOS拥有众多功能强大的多媒体软件，从制作到播放是应有尽有，并且许多软件都是内置在系统中的。其中有MediaPlayer、CD Burner、CDPlayer、MIDIPlayer等。当然也有一些专业的多媒体软件能够运行在BeOS环境中。
+\*3、先进的文件系统BeOS使用了64位的文件系统，这是个人电脑上的首次尝试。由于进行多媒体制作时需要进行大规模的数据交换，而64位的文件系统使其运行得更高效。
+\*4、多处理器支持和Linux、Windows NT一样，BeOS也能够支持多处理器。由于多媒体制作对系统的存储设备和处理器能力都是一个较大的考验，采用多处理器无疑能够大幅度提高工作效率，完成多媒体制作的高负荷工作。
+\*5、网络功能除了在多媒体方面出色外，BeOS的网络功能也不容轻视。它的网络功能十分完备，BeOS服务器能够提供WWW、Ftp、E- Mail、Telnet等网络服务。但BEOS的多媒体是特长，但网络则一定不是。原因很简单，BEOS不是unix。tcp/ip,internet都是在unix的基础上发展起来的，可以说unix在网络方面积累了许多年，BEOS正是因为不是unix，无法继承这些年那么多人的智慧和劳动。看看 BEOS的发展，为什么当初在internet booming的时候反应迟钝，半天才能将apache port过去，除了管理层的决策失误以外，更重要的原因就是BEOS NOT UNIX。
+　　BeOS的不足和Linux、FreeBSD等非Windows操作系统一样，BeOS的不足同样表现在面向一般用户的应用程序太少。这些操作系统虽然能够运行的程序十分多，但大部分对于一般的家庭、办公用户并不实用，而无法被大众用户所接受。Windows却拥有数量巨大的应用程序，除了面向专业领域的软件外，大部分都能适合一般用户的需要，并且许多软件已深入人心。这就是Windows在普通家庭、办公用户电脑中占有率巨大的主要原因之一。
+　　在BeOS的应用程序中，多媒体方面的软件占了大多数，并且它对某些硬件的支持也不尽人意。
+　　相关链接:
+　BeOS MAX Edition http://www.beosmax.org/
+
+### QNX
+
+　　两个加拿大人Gordon Bell和Dan Dodge在1980年成立了Quantum Software Systems公司，他们根据大学时代的一些设想写出了一个能在IBM PC上运行的名叫QUNIX（Quick UNIX）的系统，直到AT&T发律师函过来才把名字改成QNX。QNX在正式发行的1.0版就成功实现了多任务，而80年代中期 Microsoft年复一年的宣布他们新版的DOS将是真真正正的多任务系统的时候，QNX已经在各大公司用开了。POSIX出现后，QNX被重写了一遍，一方面避免了被指责用户界面与UNIX过于相似的尴尬，另一方面在保持特色的同时作了一些改进，变得更加优秀。为了与Microsoft抗衡，改名为 QNX Software Systems的公司又推出了基于微内核技术的Neutrino版本，这使得QNX在嵌入式应用方面有了广阔的前景。QNX的最新版本为QNX Neutrino RTOS Version 6.2.1 [Apr-7-2003]，国内的官方网站有非商业版的下载。
+　　相关链接：
+　　QNX Software Systems http://www.qnx.com/
+　　QNX官方网站 http://www.qnx.com.cn/
+
+### B-right/V
+
+　　B-right/V是基于称作TRON的体系结构的操作系统。1984年，日本有关部门正式启动了TRON项目，以满足对计算机实时处理能力的需求。BTRON是TRON中关于人机交互的子结构，是涉及到有关个人电脑、工作站以及掌上电脑的多任务实时操作系统的设计规范。最早的基于BTRON概念的机器发布于1985年。Personal Media公司于1994年发布了在x86平台上运行的符合BTRON规范的16位操作系统1B/V1，1998年又发布了32位的B-right/V。该系列最新的版本为B-right/V R4.101 [Jan-7-2004]，又称超漢字４。
+　　相关链接：
+　　TRON：http://www.tron.org/
+
+### Plan9 & Inferno
+
+　　Plan 9和Inferno这两个操作系统都出自UNIX的老家Bell Labs，目前由Vita Nuova公司负责发行。Bell Labs看到UNIX这样一个古老的分时系统有根本上的缺陷，很难和在它诞生之后出现的的新思想相适应，于80年代后期开始了Plan 9的研究。这样一个系统在吸收了UNIX设计思想的长处的同时，针对分布式应用有了许多创新。Plan 9在1993年第一次发行，目前仍主要用于研究目的，最新版为Plan 9 Fourth Edition [Apr-27-2002]，可以从其官方网站免费下载。Inferno是于90年代后期开始开发的分布式操作系统，
+与Plan 9不同的是它不仅可以独立运行，还可以作为一个应用软件在很多其他平台上运行。Inferno是一个商业软件，最新版为Inferno 4th Edition [Jun-14-2003]。
+
+　　相关链接
+　　官方网站：http://www.cs.bell-labs.com/plan9dist/index.html
+
+### TSX-32
+
+　　TSX-32是一个历史悠久的操作系统，1975年S&H Computer Systems公司就为PDP-11机开发了多用户、多任务的TSX操作系统；几年后更新为TSX-Plus，曾获得巨大的成功。1989年该系列的32 位版本TSX-32开始支持x86平台，现在它的最新版是TSX-32 Version 6.30 [Jun-?-2003]，S&H提供其试用版下载。
+　　&H Computer Systems：http://www.sandh.com/
+
+### TheOS
+
+　　从1977年开始由TheOS Software公司开发的TheOS是个人电脑上最早的多用户多任务操作系统之一，最新版的THEOS Corona 5.0140 [Apr-18-2003]可以从网上下载，但是安装前需要授权码。
+　　TheOS Software： http://www.theos-software.com/
+
+　　作为业余爱好的操作系统
+　　这些操作系统是由一个人或者几个人组成的小组利用业余时间完成的，但这并不意味着它们是业余级的。他们大多是免费的，但并不一定开放源码。
+
+### AmigaOS模拟器
+
+　　AmigaOS本身是运行在Amiga机器上的，目前使用这种机型人越来越少。在x86教ㄉ嫌泻芏郃miga模拟器，由德国Haage & Partner Computer GmbH发行的AmigaOS XL是其中较成功的一个，可以脱离其他操作系统单独运行，兼容AmigaOS 3.9。它又分为AMIthlon和AmigaXL for QNX两种，安装方式和性能有所不同；可惜原作者已经宣布不再开发它的后续版本了。
+1993年当Amiga初显颓势时，它的一些爱好者建立的 AOS项目，意图修正AmigaOS中的瑕疵，提高人们对它的认可度；1995年, Aaron Digulla正式开始了AROS的编写。发展到今天，兼容AmigaOS 3.1的AROS已能在包括x86平台在内的很多机型上运行。AROS几乎每天都有新的试用版放出，最近的稳定版为AROS [Nov-25-2003]，。
+　　Amiga官方站：http://www.amiga.com
+
+### SkyOS
+
+　　SkyOS是2003年类似的操作系统中最抢眼的一个，它拥有现代操作系统要求的多处理器支持，虚拟内存，多任务多线程等等功能，更令人耳目一新的是它漂亮的GUI系统SkyGI。首个SkyOS系统于1997年底发布，最新的SkyOS v4.0a [Aug-19-2003]可以从其官方网站下载。它的两名主要开发者Robert Szeleney 和Kelly Rush分别生于1980年和1981年。
+　　官方网站：http://www.skyos.org/
+
+### ReactOS
+
+　　1996年，一个叫FreeWin95的小组试图打破微软的垄断，写出Windows 95的复制品。几经周折，1998年该项目才由Jason Filby正式启动，更名为ReactOS，目标也改为模拟Windows NT系统。最新的版本为ReactOS 0.1.5 [Nov-20-2003]，可以从官方网站下载。
+　　官方网站：http://reactos.com/
+
+### MenuetOS
+
+　　MenuetOS是英国软件工程师Ville Mikael Turjanmaa开发的，完全由x86汇编语言于2000年写成的一款开放源码的32位操作系统。最新的版本为MenuetOS 0.75 [Nov-13-2003]，可以从其官方网站下载。由于全部使用汇编语言，MenuetOS虽然仅在软盘上使用，仍有非常完整的功能。
+　　官方网站：http://www.menuetos.org/
+
+### TriangleOS
+
+　　TriangleOS是2001年10月由18岁的荷兰人Wim Cools用C和汇编写出来的32位操作系统。在其官方网站有最新的TriangleOS 0.0.3 [Apr-30-2003]下载，安装在软盘上。
+　　官方网站：http://members.chello.nl/w.cools/
+
+### Visopsys
+
+　　Visopsys由加拿大人Andrew McLaughlin开发，有独特的GUI，开放源码。最新的Visopsys 0.33 [Jan-11-2004]，可以从其官方网站下载。
+　　官方网站：http://www.visopsys.org/
+
+### Storm OS
+
+　　Storm OS是由立陶宛的Thunder于2002年开始开发的，有简单的GUI,装在一张软盘上。最新版为Storm OS 0.14a [Dec-03-2003],从官方网站下载。
+　　官方网站：http://www.stormos.net/
+
+### 实验室中的操作系统
+
+　　这些系统多由高校中的实验室开发，作试验研究之用，如德国的DROPS等，不再一一详举。
+　　官方网站：http://os.inf.tu-dresden.de/drops/
+
+## 操作系统发展历程中的产品
+
+This article presents a timeline of events in the history of computer operating systems from 1960 to 2003. For a narrative explaining the overall developments, see the related History of computing.
+\*1961
+　　CTSS
+\*1964
+　　OS/360 (announced)
+\*1965
+　　Multics (announced)
+　　OS/360 (shipped)
+　　Tape Operating System (TOS)
+\*1966
+　　MS/8
+\*1967
+　　CP/CMS
+　　ITS
+　　WAITS
+\*1969
+　　ACP (IBM)
+　　TENEX
+　　Unix
+\*1970
+　　DOS/BATCH 11 (PDP-11)
+\*1971
+　　/A&gt;
+\*1972
+　　MFT
+　　MVT
+　　RDOS
+　　SVS
+　　VM/CMS
+\*1973
+　　Alto OS
+　　RSX-11D
+　　RT-11
+　　VME
+\*1974
+　　MVS (MVS/XA)
+\*1976
+　　/A&gt;TOPS-20
+\*1978
+　　Apple DOS 3.1 (first Apple OS)
+　　TripOS
+　　VMS
+\*1979
+　　Apple DOS 3.2
+\*1980
+　　Apple DOS 3.3
+　　OS-9
+　　QDOS
+　　SOS
+　　XDE (Tajo) (Xerox Development Environment)
+　　Xenix
+\*1981
+　　MS-DOS
+\*1982
+　　SunOS (1.0)
+　　Ultrix
+\*1983
+　　Lisa OS
+　　Coherent
+　　ProDOS
+\*1984
+　　Macintosh OS (System 1.0)
+　　QNX
+　　UniCOS
+\*1985
+　　AmigaOS
+　　Atari TOS
+　　MIPS OS
+　　Microsoft Windows 1.0
+\*1986
+　　GS-OS
+　　HP-UX
+\*1987
+　　Arthur
+　　IRIX (3.0 is first SGI version)
+　　Minix
+　　/A&gt;(1.0) Microsoft Windows 2.0
+\*1988
+　　A/UX (Apple Computer)
+　　LynxOS
+　　MVS/ESA
+　　OS/400
+\*1989
+　　AIX
+　　NeXTSTEP (1.0)
+　　RISC OS
+　　SCO Unix (release 3)
+\*1990
+　　BeOS (v1)
+　　O/A&gt;
+\*1991
+　　Linux
+\*1992
+　　Solaris (2.0 is first not called SunOS)
+　　Windows 3.1
+\*1993
+　　Plan 9
+　　FreeBSD
+　　NetBSD
+　　Windows NT 3.1 (First version of NT)
+\*1995
+　　Digital Unix (aka Tru64 )
+　　OpenBSD
+　　OS/390
+　　Windows 95
+\*1997
+　　Mac OS 7.6 (first officially-named Mac OS)
+\*1998
+　　Windows 98
+\*1999
+　　Mac OS 8
+\*2000
+　　AtheOS
+　　Mac OS 9
+　　Windows 2000
+　　Windows ME
+\*2001
+　　Mac OS X
+　　Windows XP
+　　z/OS
+\*2002
+　　Syllable
+\*2003
+　　Windows Server 2003

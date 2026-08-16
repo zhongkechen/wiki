@@ -1,0 +1,51 @@
+---
+title: "用Nikola在github上写博客"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+用blogger写博客一直很不爽，因为它的编辑器实在太烂了，也不能用markup language来写。而很早之前想用Jekyll部署博客到github上，尝试了很久也没有成功，只好放弃了。
+
+最近在 Awesome Python 上看到一组用Python实现的静态页面生成工具，其中就有既支持Markup又支持部署到github的[Pelican](http://blog.getpelican.com)，[Nikola](http://getnikola.com)和[Tinkerer](http://tinkerer.me)。
+
+简单对比了一下：Tinkerer的插件很少，首先淘汰；Pelican没有直接从blogger导入的插件，淘汰；最终就是Nikola了，能从blogger导入，插件很多，而且名字很喜欢。
+
+开始安装，非常容易，一条命令就完成了，前提是要有Python环境：
+
+```
+    pip install nikola
+```
+
+要创建一个目录存放博客，运行下面这个命令，然后回答一堆问题，就完成了。
+
+```
+    nikola init blogdir
+```
+
+用下面这个命令创建一篇新文章，文章默认是reStructuredText格式，也可以指定成MarkDown或者其他的。
+
+```
+    nikola new_post
+```
+
+本地预览效果的话，需要运行下面这个命令，然后在浏览器里面打开 http://localhost:8000 就能预览到效果了。
+
+```
+    nikola auto
+```
+
+预览完成后，就可以发布到github。
+
+```
+    nikola github_deploy
+```
+
+很简单。唯一要花时间的就是学习reStructuredText了。
+
+* [A Demonstration of ReStructuredText](https://www.youtube.com/watch?v=ZEmiRHWcYms)

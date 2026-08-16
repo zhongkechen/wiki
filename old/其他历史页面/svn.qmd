@@ -1,0 +1,117 @@
+---
+title: "svn"
+lang: zh
+toc: true
+number-sections: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000014 在备份中缺失；以下内容来自最新可读取版本 00000013。
+:::
+
+### 概述
+
+Subversion (SVN)是一个版本控制系统。它可以用来维护源代码、网页、文档等文件的当前以及历史上的所有版本。有很多开源软件的源代码是由Subversion来管理的，比如Apache、KDE、GNOME、GCC、Python、Samba等等。Sourceforge.net和Tigris.org也使用Subversion来提供服务。很多商业软件也使用Subversion。
+
+### 安装
+
+首先要安装apache，参看apache2
+
+安装subversion
+
+```
+aptitude install subversion
+```
+
+安装apache的svn模块libapache2-svn：
+
+```
+aptitude install libapache2-svn
+```
+
+### 配置
+
+首先要创建svn仓库。以下命令在/svroot/project中创建一个svn仓库，用于存放文件：
+
+```
+mkdir /svnroot/
+svnadmin create /svnroot/project
+chown -R www-data:www-data /svnroot/project/
+```
+
+在/etc/apache2/sites-available/default文件末尾添加：
+```
+      <Location /svn/project>
+          DAV svn
+          SVNPath /svnroot/project/
+      </Location>
+```
+
+上述配置，任何人都由完全的权限。要控制访问的权限，可以在上述&lt;Location&gt;块的中间添加：
+
+```
+          AuthType Basic
+          AuthName "Subversion repository"
+          AuthUserFile /etc/svnpasswd
+          Require valid-user
+```
+
+此时，对仓库的所有读写操作都需要先进行用户帐号的验证。其中，/etc/svnpasswd为用户帐号文件。
+
+如果希望仓库对于任何人可读，只有登录的帐户可写，则可以用如下配置
+
+```
+          AuthType Basic
+          AuthName "Subversion repository"
+          AuthUserFile /etc/svnpasswd
+          <LimitExcept GET PROPFIND OPTIONS REPORT>
+                 Require valid-user
+          </LimitExcept>
+```
+
+配置完后，需要重启apache。
+
+### 使用
+
+此时，在客户端就可以通过svn命令来访问这个svn仓库了。通过如下命令可以取出仓库里面最新的文件：
+```
+svn co http://user@169.254.235.235/svn/project/
+```
+
+在取出的文件夹内创建一个新的文件，比如test.txt，要将其添加到仓库中去使用：
+
+```
+svn add test.txt
+```
+
+要将原来有的文件从仓库中删除，可以用：
+
+```
+svn delete nouse.txt
+```
+
+要将修改递交到服务器上去，使用命令：
+
+```
+svn commit
+```
+
+要检查服务器上的文件有没有更新过：
+
+```
+svn update
+```
+
+### 参考
+
+* [TortoiseSVN](https://tortoisesvn.net/)
+* 介绍：[http://en.wikipedia.org/wiki/Subversion_(software)](http://en.wikipedia.org/wiki/Subversion_(software))
+* 官方网站：https://subversion.apache.org/

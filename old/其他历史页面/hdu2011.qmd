@@ -1,0 +1,40 @@
+---
+title: "hdu2011"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+## 多项式求和
+
+http://acm.hdu.edu.cn/showproblem.php?pid=2011
+```cpp
+#include "stdio.h"
+void main()
+{
+	int m,i,n;
+	float sum;
+	scanf("%d",&m);
+	for(i=0;i<m;i++)
+	{
+		sum=0;
+		scanf("%d",&n);
+
+		while(n>0)
+		{
+			if(n%2==1)
+				sum+=1/(double)n;
+			else
+				sum-=1/(double)n;
+			n--;
+		}
+		printf("%.2f\n",sum);
+	}
+
+}
+```

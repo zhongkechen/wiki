@@ -1,0 +1,66 @@
+---
+title: "Linux背景知识"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000050 在备份中缺失；以下内容来自最新可读取版本 00000049。
+:::
+
+## Linux背景知识
+
+### 基本概念
+
+* 什么是[操作系统](http://zh.wikipedia.org/w/index.php?title=%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F&variant=zh-cn)？
+* 什么是[UNIX](http://zh.wikipedia.org/w/index.php?title=Unix&variant=zh-cn)？
+* 什么是[Linux](http://zh.wikipedia.org/w/index.php?title=Linux&variant=zh-cn)？
+* 什么是[自由软件](http://zh.wikipedia.org/w/index.php?title=%E8%87%AA%E7%94%B1%E8%BB%9F%E9%AB%94&variant=zh-cn)？
+* 什么是[开放源代码](http://zh.wikipedia.org/w/index.php?title=%E9%96%8B%E6%94%BE%E6%BA%90%E4%BB%A3%E7%A2%BC&variant=zh-cn)？
+* 什么是[GNU](http://zh.wikipedia.org/w/index.php?title=GNU&variant=zh-cn)？
+* 有哪些[Linux发行版](http://zh.wikipedia.org/w/index.php?title=Linux%E7%99%BC%E8%A1%8C%E7%89%88&variant=zh-cn)？
+* 什么是[Debian](http://zh.wikipedia.org/w/index.php?title=Debian&variant=zh-cn)？
+* 什么是[红帽linux](http://zh.wikipedia.org/wiki/Red_Hat_Linux)？
+* 什么是[Ubuntu Linux](http://zh.wikipedia.org/w/index.php?title=Ubuntu_Linux&variant=zh-cn)？
+* Ubuntu[吾帮托](http://zh.wikipedia.org/w/index.php?title=%E5%90%BE%E5%B8%AE%E6%89%98&variant=zh-cn)？
+* 什么是[Kubuntu](http://zh.wikipedia.org/w/index.php?title=Kubuntu&variant=zh-cn)？
+* 什么是[Xubuntu](http://zh.wikipedia.org/w/index.php?title=Xubuntu&variant=zh-cn)？
+* 什么是[X Window系统](http://zh.wikipedia.org/w/index.php?title=X_Window_System&variant=zh-cn)？
+* 什么是[Gnome](http://zh.wikipedia.org/w/index.php?title=GNOME&variant=zh-cn)？
+* 什么是[KDE](http://zh.wikipedia.org/w/index.php?title=KDE&variant=zh-cn)？
+* 什么是[APT](http://zh.wikipedia.org/w/index.php?title=Debian_Apt&variant=zh-cn)？
+* 什么是[驱动程序](http://zh.wikipedia.org/w/index.php?title=%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F&variant=zh-cn)？
+* 什么是[mount](http://en.wikipedia.org/wiki/Mount_(Unix))？
+* 什么是[根目录](http://en.wikipedia.org/wiki/Root_directory)？
+* 什么是[root用户](http://en.wikipedia.org/wiki/Root_user)？
+* 什么是[VI](http://zh.wikipedia.org/w/index.php?title=Vi)和[VIM](http://zh.wikipedia.org/w/index.php?title=Vim)？
+* 什么是[WINE](http://zh.wikipedia.org/w/index.php?title=Wine)？
+* 什么是[Firefox](http://zh.wikipedia.org/w/index.php?title=Mozilla_Firefox)？
+
+### 人物
+
+* 谁是[Richard Stallman](http://zh.wikipedia.org/w/index.php?title=Richard_Stallman&variant=zh-cn)？
+
+* 谁是[Linus Torvalds](http://zh.wikipedia.org/w/index.php?title=%E6%9E%97%E7%B4%8D%E6%96%AF%C2%B7%E6%89%98%E7%93%A6%E8%8C%B2&variant=zh-cn)？
+
+* 谁是[Eric Raymond](http://zh.wikipedia.org/w/index.php?title=%E5%9F%83%E9%87%8C%E5%85%8B%C2%B7%E6%96%AF%E8%92%82%E8%8A%AC%C2%B7%E9%9B%B7%E8%92%99&variant=zh-cn)？
+
+### 对比
+
+* [微软视窗与Linux的比较](http://zh.wikipedia.org/w/index.php?title=%E8%A6%96%E7%AA%97%E8%88%87Linux%E7%9A%84%E6%AF%94%E8%BC%83&variant=zh-cn)
+* Linux不是Windows [英文版](http://linux.oneandoneis2.org/LNW.htm) [中文翻译版](https://forum.ubuntu.com.cn/viewtopic.php?t=67915) [中文翻译版](https://wiki.ubuntu.org.cn/Linux%E4%B8%8D%E6%98%AFWindows/zh)
+
+## 附件
+
+* [Linus_Torvalds.jpeg](<assets/Linux背景知识/Linus_Torvalds.jpeg>)
+* [Linux-SuSE-KDE.png](<assets/Linux背景知识/Linux-SuSE-KDE.png>)
+* [NewTux.svg](<assets/Linux背景知识/NewTux.svg>)
+* [Unix.png](<assets/Linux背景知识/Unix.png>)

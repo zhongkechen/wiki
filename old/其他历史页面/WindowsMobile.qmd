@@ -1,0 +1,80 @@
+---
+title: "WindowsMobile"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000029 在备份中缺失；以下内容来自最新可读取版本 00000028。
+:::
+
+### HTC Kaiser刷机
+
+![HTC_Kaiser_1.jpg](http://wiki.xda-developers.com/images/HTC_Kaiser_1.jpg)
+![HTC_Kaiser_2.jpg](http://wiki.xda-developers.com/images/HTC_Kaiser_2.jpg)
+
+* SPL: 刷SPL风险较大，需要非常小心。刷了Hard-SPL以后再刷Radio和Rom就不会有风险。推荐最新版 [Hard-SPL 3.56](http://forum.xda-developers.com/showthread.php?t=396922)
+* Radio: [Radio下载](http://www.52dopod.net/thread-101307-1-1.html)，推荐用最新的1.71.09.01
+* Rom: 太多了。。。可以去 [52dopod论坛](http://www.52dopod.net/forum-137-1.html)或者[ooppc论坛](http://www.ooppc.com/forum-90-1.html)找到最新的rom。美版机推荐用[这个rom](http://www.52dopod.net/thread-135608-1-1.html)
+
+### 常用软件
+
+#### 收费
+
+* [Foxit Reader](http://www.foxitsoftware.com/pdf/mobile/winmobile.htm) 1.1 build 1230
+* Office Mobile
+* 凯立德移动导航系统 G1036-083CM006ZF201001
+* 多普达领航者 Build 2008.0.12R 数据版本 8.3.11
+* [CorePlayer](http://www.coreplayer.com/)
+* [掌心万年历](http://www.pda01.com/blog/) 2.8RC 奥运版
+* [VITO Audio Notes](http://www.vitotechnology.com/en/products/audionotes.html)
+* [Resco explorer](http://www.resco.net/pocketpc/explorer/)
+* [Resco Photo Viewer Pro](http://www.resco.net/pocketpc/photoviewer/default.asp)
+* [CeleDial](http://www.efficasoft.com/celedial/index.html)
+* [GPRS Traffic Monitor](http://www.smartphone.net/software_detail.asp?id=1353)
+* [AddinTimer](http://classic.pocketgear.com/software_detail.asp?id=26595)
+* GPS端口扫描器
+* [My Converter Pro](http://www.softatics.com/mc/MyConverterPro.htm)
+* [Chronos](http://www.activekitten.com/en/games/detail.php?ID=351)
+
+#### 免费
+
+* [Active Sync](http://www.microsoft.com/windowsmobile/en-us/help/synchronize/activesync45.mspx)
+* [智能手机工作室](http://www.zhuae.com/club/index.jsp)
+* [掌智手机助手](http://www.mycnknow.com/smarthelper.html)
+* [HaaliReader](http://haali.cs.msu.ru/pocketpc/)
+* [MDict辞典](http://www.octopus-studio.com/product.en.htm)
+* [神网E通（申银万国手机版）](http://mob.sw2000.com.cn/)
+* Google Map
+* [谷歌地图（中国版）](http://www.google.cn/gmm/index.html)
+* [QQ](http://mobile.qq.com/) 2008 beta1 build 073
+* [UCWEB](http://www.ucweb.com/)
+* [Skype](http://www.skype.com/download/skype/windowsmobile/)
+* [3D Alt Tab](http://www.freewarepocketpc.net/ppc-download-3d-alt-tab.html)
+* [WkTask](http://soft.photoracer.net/docs/wktask_en.html)
+* [MoDaCo NoData](http://www.modaco.com/content/pocket-pc-software/246171/new-free-utility/)
+* [CallerLoc](http://wstart.cn/bbs/forums.php?forumid=3)
+* [FDCSoft Task Manager](http://www.dotfred.net/TaskMgr.htm)
+* [PIM Backup](http://www.dotfred.net/default.htm)
+* [Pocket Rar](http://www.rarlab.com/download.htm)
+* QShortCut快捷方式批量创建器
+* [Python](http://sourceforge.net/projects/pythonce/)
+* [Opera](http://www.opera.com/products/mobile/download/)
+
+* Adobe Flash Lite 2.1 (Player Version 7.2.14.99, Client Version 1.0.1.9)
+* 手滑图片册？
+* 音频管理器 1.2 build 1813.3129
+* 无驱优盘 1.8
+* 捕捉屏幕
+* 短信工具包 1.0 build 0022
+* AltTab
+* 新建菜单
+* 短信远程控制

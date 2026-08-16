@@ -1,0 +1,223 @@
+---
+title: "基于OpenWrt路由器的（不完全）自动翻墙方案"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000009 在备份中缺失；以下内容来自最新可读取版本 00000008。
+:::
+
+## 基于OpenWrt路由器的（不完全）自动翻墙方案
+
+```wiki
+此方法仅供参考，不推荐使用。请参考[[科学上网]]中的其它方法。
+```
+
+之前一直在用[这篇文章](<基于OpenWrt路由器的全自动翻墙方案.qmd>)(更早更过时)里面的方法配置OpenWRT路由器翻墙，
+但是最近伪大的防火墙又升级了，防DNS污染的招不管用了。所以紧急找了下面这个方法，需要一些人工维护工作，不完全自动了。
+
+### 方案
+
+这个方案使用如下的技术手段：
+
+* OpenWrt路由器软件
+* Shadowsocks加密Socks5代理
+* iptables geoip模块
+* shadowsocks tunnel转发DNS请求
+* --(iptables u32或string模块过滤错误的DNS结果)-- （已经失效）
+* dnsmasq带国内CDN列表，这个列表需要经常更新。
+* ChinaDNS-C智能分流DNS请求
+
+### 特点
+
+这个自动翻墙方案有如下特点：
+
+* 本方案基于路由器，所以任何连接该路由器的主机都可以自动翻墙。
+* 本方案使用shadowsocks翻墙，速度优于VPN和SSH。
+* 本方案基于目标IP的地理位置，决定是直接连接目标IP还是翻墙连接。对于所有中国IP会直接连接，所以不影响访问国内网站的速度。
+
+    即使是根据DNS查询做优化的网站也不会有影响，因为该方案优先使用国内DNS服务器的结果。所有非中国的IP都会选择翻墙连接。
+    有人觉得这样不是最有效率的因为不是所有国外IP都是被封的，但是我觉得凡是流过GFW的流量，都要翻墙加密才是安全的，
+    否则就有可能遭遇各种不幸。
+* 这个方案最大优点是可以使你完全感觉不到GFW的存在，这会使你的上网习惯有很大的变化。
+* 缺点是UDP包不能翻墙。这是Shadowsocks的特性决定的。
+
+### 准备工作
+
+开始前我们需要做的准备有：
+
+* 在路由器上安装OpenWrt。OpenWrt支持[这些硬件](http://wiki.openwrt.org/toh/start)。以TP-LINK TL-WDR4300为例，
+
+    在硬件列表上可以找到它的链接，点击后有详细的安装步骤。
+* 配置OpenWrt可以正常上网。[这里](http://wiki.openwrt.org/doc/howto/firstlogin)有刚安装进行第一次登录的帮助。
+
+    [这里](http://wiki.openwrt.org/doc/howto/basic.config)有基本配置帮助。
+* 准备一台安装了Shadowsocks的国外服务器。如果没有的话，可以去任何VPS提供商那里买一台廉价的VPS，在上面装上shadowsocks。
+
+    安装步骤在[这里](https://pypi.python.org/pypi/shadowsocks)有。
+* 要会用基本的VI编辑器操作，会最简单的打开编辑保存功能就可以了。
+
+### 安装步骤
+
+接下来我们开始动手安装
+
+1. 远程登录OpenWrt路由器。如果不知道如何登录，看之前的第一次登录帮助。
+1. 下载安装ShadowSocks for OpenWrt。在[这里](http://shadowsocks.org/en/download/clients.html)（可能需要翻墙才能打开）
+
+    可以找到源代码和编译好的安装包（只支持部分架构）。比如我的路由器是ar71xx架构，直接下载编译好的shadowsocks-libev-polarssl_1.4.6_ar71xx.ipk就可以了，可以运行：
+
+    ```
+            wget  http://shadowsocks.org/nightly/shadowsocks-libev-polarssl_1.4.6_ar71xx.ipk
+            opkg  update
+            opkg  install  libpolarssl
+            opkg  install  shadowsocks-libev-polarssl_1.4.6_ar71xx.ipk`
+    ```
+1. 尝试在路由器上运行ss-redir命令，如果打印出一堆帮助信息，说明安装正确了。如果打印出类似下面找不到链接库的错误：
+
+   ```
+           ss-redir: can't load library 'libpolarssl.so.5'
+   ```
+
+    这时就需要创建一个符号链接来解决这个问题：
+
+   ```
+           cd /usr/lib
+           ln -s libpolarssl.so.1.3.4 libpolarssl.so.6
+   ```
+1. 配置shadowsocks。编辑配置文件/etc/config/shadowsocks.json，将shadowsocks服务器参数写在这个配置文件里面。
+
+    修改/etc/init.d/shadowsocks，把所有ss-local替换为ss-redir。
+
+1. 然后重启shadowsocks。
+
+   ```
+           /etc/init.d/shadowsocks enable
+           /etc/init.d/shadowsocks restart
+   ```
+
+1. 下载中国CDN[域名列表](https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf)，放在/etc/dnsmasq.d/目录下。（如果没有这个目录，先创建它。）
+
+1. 在/etc/dnsmasq.conf文件中加入如下一行：
+
+   ```
+           conf-dir=/etc/dnsmasq.d
+   ```
+1. 重启dnsmasq：
+
+   ```
+           /etc/init.d/dnsmasq restart
+   ```
+1. 创建一个新文件/etc/init.d/ss-tunnel，带如下内容：
+
+   ```
+           #!/bin/sh /etc/rc.common
+
+           START=95
+
+           SERVICE_USE_PID=1
+           SERVICE_WRITE_PID=1
+           SERVICE_DAEMONIZE=1
+
+           CONFIG=/etc/shadowsocks.json
+
+           start() {
+               service_start /usr/bin/ss-tunnel -c $CONFIG -l 5353 -L 8.8.4.4:53 -u
+           }
+
+           stop() {
+               service_stop /usr/bin/ss-tunnel
+           }
+   ```
+1. 运行下面这个命令来启动ss-tunnel：
+
+   ```
+           /etc/init.d/ss-tunnel enable
+           /etc/init.d/ss-tunnel start
+   ```
+1. 安装iptables nat-extra、geoip模块。
+
+   ```
+           opkg update
+           opkg install iptables-mod-geoip
+           opkg install iptables-mod-nat-extra
+   ```
+1. 生成IP国家信息数据库。在某台Mac或者Linux上下载并解压缩[xtables-addons源码](http://sourceforge.net/projects/xtables-addons/files/) ，
+
+    然后按照[这篇文档](http://www.howtoforge.com/xtables-addons-on-centos-6-and-iptables-geoip-filtering)的步骤生成IP数据库。如果不介意较老的数据库，可以直接从[这里](http://ch3n2k.com/~czk/CNgeoip.tar.gz)下载一个生成好的。
+
+1. 将中国的IP信息（CN开始的文件）拷贝到路由器/usr/share/xt_geoip/BE或者/usr/share/xt_geoip/LE。
+
+    是BE还是LE取决于你的路由器的CPU架构是Big Endian还是Little Endian。如果你不确定你的路由器是什么架构类型，
+    可以两个目录都放进去。
+
+1. 将如下防火墙规则写入 /etc/firewall.user 。将TCP流量重定向到shadowsocks。（假设shadowsocks的本地端口是1080）
+
+   ```
+           iptables -N fuckgfw -t nat
+           iptables -F fuckgfw -t nat
+
+           #bypass DNS servers
+           iptables -A fuckgfw -t nat -p tcp -d 8.8.8.8 -j RETURN
+           iptables -A fuckgfw -t nat -p tcp -d 8.8.4.4 -j RETURN
+           iptables -A fuckgfw -t nat -p tcp -d 208.67.222.222 -j RETURN
+           iptables -A fuckgfw -t nat -p tcp -d 208.67.220.220 -j RETURN
+
+           #bypass local connections
+           iptables -A fuckgfw -t nat -p tcp -d 192.168.0.0/16 -j RETURN
+           iptables -A fuckgfw -t nat -p tcp -d 172.16.0.0/12 -j RETURN
+           iptables -A fuckgfw -t nat -p tcp -d 10.0.0.0/8 -j RETURN
+           iptables -A fuckgfw -t nat -p tcp -d 127.0.0.0/8 -j RETURN
+
+           #bypass iOS notification, PPTP and other connections
+           iptables -A fuckgfw -t nat -p tcp -d 17.0.0.0/8 --dport 5223 -j RETURN
+           iptables -A fuckgfw -t nat -p tcp --dport 1723 -j RETURN
+
+           #Redirect all others to Shadowsocks
+           iptables -A fuckgfw -t nat -p tcp -j REDIRECT --to-port 1080
+
+           #goto fuckgfw chain if the destination is not China IP
+           iptables -A prerouting_rule -t nat -m geoip -p tcp ! --destination-country CN -j fuckgfw
+   ```
+1. 重启firewall
+
+   ```
+        # /etc/init.d/firewall restart
+   ```
+1. 这时可以测试自动翻墙功能是否工作。可以打开 http://icanhazip.com/ 这个网页，看看现在IP是不是你的国外ShadowSocks
+
+    服务器的IP。然后打开 http://pv.sohu.com/cityjson 这个网页，看显示的是不是ISP提供的国内IP地址。
+    测试是否能打开facebook和youtube。如果都可以，大功告成！
+
+### 变化
+
+本方案可以有以下一些变化的方案
+
+* 可以用SSH Tunnel代替ShadowSocks。优点是国外的SSH服务器更容易找到，缺点是速度不如ShadowSocks。
+* 可以用VPN代替Shadowsocks。优点是UDP也能翻墙，缺点是，速度较慢，配置比较复杂。
+* 可以在ShadowSocks之上架设HTTP Proxy（比如polipo），然后在浏览器和其它应用中手动配置代理翻墙。
+* 可以配置自动代理发现，让浏览器不复杂配置就可以自动翻墙。路由器上添加一个主机名wpad，指向路由器的IP。在路由器 /www/ 目录下添加一个wpad.dat文件，内容类似：
+
+  ```
+         function FindProxyForURL(url,host) {
+             if( isPlainHostName(host) ||
+                  isInNet(host, "10.0.0.0", "255.0.0.0") ||
+                  isInNet(host, "192.168.0.0", "255.255.0.0") ||
+                  isInNet(host, "127.0.0.0", "255.0.0.0") ||
+                  dnsDomainIs(host, ".cn")
+              )  return "DIRECT;";
+              return "SOCKS 192.168.1.1:1080; PROXY 192.168.1.1:3128;";
+              //shadowsocks地址和http代理地址
+          }
+  ```
+
+  IE、Mac或者iPhone上都可以打开自动代理配置选项来自动发现这个配置。
+* 可以在ShadowSocks和Http代理之间，加一个[smartproxy](https://github.com/ch3n2k/smartproxy)，功能类似iptables geoip，让目标IP是国外的走上层ShadowSocks，否则就直连。

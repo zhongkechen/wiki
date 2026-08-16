@@ -1,0 +1,29 @@
+---
+title: "Linux环境编程"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000007 在备份中缺失；以下内容来自最新可读取版本 00000006。
+:::
+
+### linux 进程管理api
+
+* fork 创建新进程
+* exec\* 用一个新的程序代替当前运行的进程
+* wait 等待子进程结束
+
+### 内存管理
+
+* [sbrk](https://en.wikipedia.org/wiki/Sbrk)：sbrk是一个Unix系统调用，用来改变进程数据段的大小，是很多内存分配程序（malloc）的基础之一（另一个是mmap）
+
+* [Unikernel](https://en.wikipedia.org/wiki/Unikernel) a library OS

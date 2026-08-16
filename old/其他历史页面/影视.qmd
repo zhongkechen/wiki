@@ -1,0 +1,33 @@
+---
+title: "影视"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000013 在备份中缺失；以下内容来自最新可读取版本 00000012。
+:::
+
+* [反派影评](https://mp.weixin.qq.com/mp/homepage?__biz=MzIxMTMzNTc5OA==&hid=1)
+    * [反派影评长节目](https://mp.weixin.qq.com/s/V6LfeY6Mki8VDyFYyfud2Q) [长节目文件合集](https://drive.google.com/drive/folders/1fzC1aujxu6UrakIAK3Usoai-vpvBz-vh)
+    * [播客RSS](https://raw.githubusercontent.com/Reyshawn/FanpieFilmFeed/master/fanPieFilm.rss)
+    * [反派影评听众交流群](https://t.me/fanpaiyingping)
+
+* [我們已經生活在《攻殼機動隊》裏的未來嗎？](https://theinitium.com/article/20170331-culture-movie-ghost-shell-US/)
+* [https://t.me/shenkey](https://t.me/shenkey)
+* [中國大陸禁片](https://zh.wikipedia.org/wiki/Category:%E4%B8%AD%E5%9C%8B%E5%A4%A7%E9%99%B8%E7%A6%81%E7%89%87)
+* [10部文革反思类电影以及3部经典禁片](https://www.wenxuecity.com/blog/201610/29972/1414404.html)
+* [反映文革的22部电影](https://chuansongme.com/n/2579020)
+* [穹顶之下](https://zh.wikipedia.org/wiki/%E7%A9%B9%E9%A1%B6%E4%B9%8B%E4%B8%8B_(%E7%BA%AA%E5%BD%95%E7%89%87))
+* PT
+    * https://hdhome.org/
+    * https://hdtime.org/
+    * https://www.joyhd.net/

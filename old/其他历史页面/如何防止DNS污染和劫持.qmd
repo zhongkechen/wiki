@@ -1,0 +1,34 @@
+---
+title: "如何防止DNS污染和劫持"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+```wiki
+此页面已经过时，仅供参考。当前方法请参考[[科学上网]]。
+```
+
+由于国内的电信运营商和臭名昭著的墙的存在，在国内用运营商提供的域名服务器解析一个域名是有很大风险的：
+
+* 任何一个不存在的域名，都会被运营商解析到它的广告服务器上去
+* 任何一个存在的域名，都有一定的概率被运营商解析到它的广告服务器上去
+* 有些域名根本无法解析，比如说godaddy上注册的一些域名
+* 有些域名会解析到错误的无法访问的IP地址，比如说twitter.com, facebook.com
+
+如果不用电信的DNS服务器，将自己的DNS设置直接指向国外的DNS服务器，比如Google或者OPENDNS的，可以解决部分问题，但是不是全部。如何完美解决这个问题？据我所知有下面这些选择：
+
+* 通过TCP方式访问国外的DNS服务器可以解决所有问题。但是默认情况下，DNS客户端都是用UDP方式去访问的，除非遇到特殊情况。一般操作系统的DNS客户端也不能配置成强制使用TCP。一个办法是，用一个小程序（比如[这个](https://code.google.com/p/pydnsproxy/)），可以在本地建个DNS服务器，把所有的DNS请求用TCP方式转发到国外服务器。这种方法的缺点是性能比较差，因为TCP方式不如UDP快。
+* 用SSH Tunneling。SSH的端口转发功能（Port Forwarding）可以转发TCP端口，但是不能转发UDP端口所以不能用它来解决这个问题。不过SSH还有一个tunneling的功能，可以在两端建立一个tun设备，可以实现直连。你需要一台国外主机，有root权限，上面运行一个DNS服务器，国内的主机和这个服务器之间建立一个SSH tunnel，然后将国内主机上的域名服务器指向tunnel过来的IP地址即可。
+* 用SSH Dynamic Port Forwarding。SSH还有一个用法，就是建立在本地建立一个SOCKS5的代理，可以把所有请求通过服务器转发出去。SOCKS5本身有一个功能就是可以进行域名解析。再配合一个小程序（比如[这个](http://sourceforge.net/projects/dns2socks/)），建立一个DNS服务器，转发到SOCKS5代理进行域名解析。
+* 用DNSCrypt。[DNSCrypt](http://www.opendns.com/technology/dnscrypt/)是OpenDNS提供的一个客户端工具，可以将DNS客户端和DNS服务器之间的连接加密，不过需要特殊的客户端和服务器支持。现在只有OpenDNS服务器支持。
+* 如果你有IPV6的地址，可以直接用国外的IPV6的DNS服务器。
+* VPN连接到国外，直接用国外的DNS服务器。
+* 。。。
+
+这些方法都有一个共同的缺点，就是这些方法都将DNS请求以各种方法转向国外，除了速度慢以外，对于国内一些大型网站，可能解析出来的结果在国内访问会很慢。

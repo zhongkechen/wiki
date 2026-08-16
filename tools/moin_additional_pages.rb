@@ -1,0 +1,128 @@
+# frozen_string_literal: true
+
+MOIN_ADDITIONAL_PAGE_GROUPS = {
+  "编程与软件" => [
+    "AJAX综述",
+    "Ajax_教程",
+    "C++更多练习",
+    "C语言期中试卷",
+    "HTML",
+    "Latex",
+    "Mercurial",
+    "Postgre数据库",
+    "Python_Advocacy_HOWTO",
+    "Python与正则表达式",
+    "Python使用技巧",
+    "Python参考资料",
+    "Python相关软件",
+    "Python语法",
+    "Rust",
+    "Scons",
+    "VirtualBox",
+    "VirtualBoxChangelog",
+    "Why_Python",
+    "apache2/debianapache2",
+    "score",
+    "svn",
+    "zju_online_judge的常见问题",
+    "报表工具",
+    "开发工具",
+    "用Nikola在github上写博客",
+    "程序",
+    "程序设计语言课程设想",
+    "软件架构"
+  ],
+  "系统与设备" => [
+    "3DS",
+    "Android",
+    "Linux与Windows兼容性",
+    "Linux中文支持",
+    "Linux参考资源",
+    "Linux应用程序",
+    "Linux环境编程",
+    "Linux背景知识",
+    "MS-Windows",
+    "MacOS",
+    "NDS",
+    "NintendoSwitch",
+    "OpenWRT",
+    "WII",
+    "Wimax",
+    "Windows",
+    "WindowsMobile",
+    "gba",
+    "nds非官方FAQ",
+    "ubuntu"
+  ],
+  "网络与安全" => [
+    "Shadowsocks的OpenWrt LuCI图形界面",
+    "Telegram",
+    "ubuntu下安装L2TP VPN服务器",
+    "万维网",
+    "交换机、集线器、路由器区别和使用浅谈",
+    "入侵检测系统",
+    "基于OpenWrt路由器的全自动翻墙方案",
+    "基于OpenWrt路由器的（不完全）自动翻墙方案",
+    "如何加密邮件",
+    "如何防止DNS污染和劫持",
+    "将squid打造成能自动重试的代理服务",
+    "网桥与路由器的区别",
+    "网络安全",
+    "网络设备",
+    "防毒墙",
+    "防火墙",
+    "预防病毒的正确姿势"
+  ],
+  "计算机基础" => [
+    "64位CPU",
+    "CPU演义",
+    "CPU简史",
+    "人工智能",
+    "十六进制",
+    "原码、补码和反码",
+    "图灵奖获得者",
+    "字符的编码",
+    "常见操作系统",
+    "操作系统历史",
+    "数字电子技术",
+    "数据库DBA",
+    "有关语言的评论",
+    "机器的智能问题",
+    "机器语言",
+    "计算机中二进制",
+    "语言历史"
+  ],
+  "教学与站点历史" => [
+    "2007年南京比赛高挺拍的照片",
+    "czk",
+    "hdu2011",
+    "hdu2013",
+    "hdu2015",
+    "关于本站",
+    "关于温州百科",
+    "数字图像处理实验报告格式",
+    "温州大学计算机专业教师",
+    "程序设计竞赛相关网站",
+    "计算机协会讲座"
+  ],
+  "兴趣与个人知识库" => [
+    "书单",
+    "学习方法",
+    "少儿编程",
+    "影视",
+    "摄影",
+    "播客",
+    "数码产品",
+    "汽车",
+    "音乐",
+    "魔方"
+  ]
+}.freeze
+
+MOIN_ADDITIONAL_PAGE_NAMES =
+  MOIN_ADDITIONAL_PAGE_GROUPS.values.flatten.freeze
+
+MOIN_ADDITIONAL_PAGE_TITLES = {
+  "apache2/debianapache2" => "Debian Apache2 配置",
+  "score" => "温州第二实验中学学生成绩管理系统"
+}.freeze

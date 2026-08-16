@@ -1,0 +1,379 @@
+---
+title: "C++更多练习"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000007 在备份中缺失；以下内容来自最新可读取版本 00000006。
+:::
+
+以下内容来自05信技班上的复习题，本人对这些题目不负任何责任。
+TableOfContents
+
+### 选择题
+
+1. 以下关于C++特点的描述，错误的是：（   ）
+    A. C++支持多种程序设计范式，比如过程化程序设计、面向对象程序设计等。
+    A. C++支持多种操作系统和硬件平台，在Linux、Windows下均有编译器和开发环境
+    A. C++程序设计语言是国际标准，它的发展不受某个商业公司的控制
+    A. C++设计出来的程序运行速度比同样功能的C语言程序慢很多
+1. 有变量定义double f;下列哪种指针的定义表示指针变量中存放的地址不可变？
+    A. const double \*p = &f;
+    A. double \*const p = &f;
+    A. double \*p = &f;
+    A. static double \*P = &f;
+1. 以下流操纵符，哪一个表示换行并刷新流？（   ）
+    A. ends
+    A. setw
+    A. flush
+    A. endl
+1. 有这样的循环：（   ）
+
+   ```
+   int a;
+   while(cin >> a) { /*...*/ }
+   ```
+
+   请问这个循环在什么时候会终止？
+    A. 输入文件结束符EOF
+    A. 输入零0
+    A. 输入回车
+    A. 死循环，不会终止
+1. 有变量int a = 0; bool b = (a&gt;3);表达式a-b\*5||b-1的值是：（   ）
+    A. 1
+    A. false
+    A. true
+    A. 0
+1. 同时定义以下四个函数，函数调用print(true-1)会调用其中哪一个？（   ）
+    A. int print(double);
+    A. void print(int);
+    A. void print(bool);
+    A. int print(string);
+1. 有如下内存分配语句：
+
+   ```
+   int *a[2];
+   a[0] = new int;
+   a[1] = new int;
+   ```
+
+   则对分配的这些内存正确的释放方式是：（   ）
+    A. delete[] a;
+    A. delete a[0], a[1];
+    A. delete a[0]; delete a[1];
+    A. delete[] a[0]; delete[] a[1];
+1. 假设有两个字符串string s1, s2;，以下字符串的用法错误的是：（   ）
+    A. 比较大小：s1 &gt; s2
+    A. 字符串赋值：s1 = "hello";
+    A. 字符串连接：s1 + s2
+    A. 将一个整数转换成字符串转换：s1 = string(123);
+1. Point是一个类，它有一个成员函数（非静态）void move(int x, int y);，有定义Point p, \*q=&p;，则成员函数调用正确的是：（   ）
+    A. Point.move(3, 5)
+    A. p.move(3, 5)
+    A. q.move(3, 5)
+    A. Point::move(3, 5)
+1. Date类有一个静态成员函数static Date today();，有定义Date d, \*p=&d;，则如下访问静态成员函数today错误的是：（   ）
+    A. d.today()
+    A. Date.today()
+    A. Date::today()
+    A. p-&gt;today()
+1. 类T有如下数据成员：
+
+   ```
+   class T {
+       int a;
+       static int b;
+       int &c;
+   };
+   ```
+
+   则下列它的构造函数写法正确的是：（   ）
+    A. void T(int i) { a=3; b=i; c=a; }
+    A. T(int i) { a=3; b=4; c=a; }
+    A. T(int i) : a(3), b(i), c(a) { }
+    A. T(int i) : a(3), c(a) { b+=i; }
+1. Student类继承Person类，Teacher类继承Person类，Graduate类继承Student类，则以下赋值语句正确的是：（  ）
+    A. Student s; Graduate \*p = &s;
+    A. Graduate g; Teacher \*p = &g;
+    A. Person r; Teacher \*p = &r;
+    A. Graduate g; Person \*p = &g;
+1. 有类的定义：
+
+   ```
+   class Base {
+   public:
+       int a;
+   protected:
+       int b;
+   private:
+       int c;
+       void f();
+   };
+   ```
+
+   在Base的成员函数f中以下访问语句错误的是：
+    A. a
+    A. b
+    A. c
+    A. d
+1. 有类的定义
+
+   ```
+   struct B1{
+    int b1;
+   };
+   struct B2{
+    int b2;
+   };
+   struct B3{
+    int b3;
+   };
+   class D : public B1, protected B2, private B3 {
+    int d;
+   };
+   ```
+
+   在main函数里面有定义D d;，以下访问正确的是：
+    A. d.b1
+    A. d.b2
+    A. d.b3
+    A. d.d
+1. 有如下类的定义：
+
+   ```
+   class B {
+   public:
+       virtual void f(bool);
+       void f(int)
+   };
+   class D : public B {
+       void f(bool);
+   };
+   ```
+
+   以下函数调用属于动态绑定的是：
+    A. D d; B &b = d; b.f(5);
+    A. D d; B b = d; b.f(true);
+    A. D d; B &b = d; b.print(false);
+    A. D d; B b = d; b.print(5);
+1. 如下类型之间的关系中，哪个是组合关系？（   ）
+    A. 米-糙米
+    A. 香蕉-芒果
+    A. 显微镜-透镜
+    A. 刷子-画刷
+1. 为了实现面向对象程序设计三大基本概念，C++提供了必要的某些语法特性来支持，不必要的是：（    ）
+    A. 类
+    A. 继承
+    A. 运算符重载
+    A. 虚函数
+1. 以下运算符中不能被重载的是：（   ）
+    A. --
+    A. <<
+    A. ?:
+    A. ==
+1. 以下关于运算符的说法错误的是：（   ）
+    A. 重载[]运算符，可以让对象像数组一样使用
+    A. 重载()运算符，可以让对象像函数一样使用
+    A. 重载\*运算符和-&gt;运算符，可以让对象像指针一样使用
+    A. 重载=运算符，可以让对象赋值给基本数据类型（比如int等）
+1. 关于输入输出流错误的是：（   ）
+    A. istream是输入流类
+    A. cin是键盘输入流类
+    A. ifstream是文件输入流类
+    A. istringstream是字符串输入流类
+
+### 程序填空题
+
+1. 表示学生的类
+
+   ```
+   #include <iostream>
+   #include <string>
+   using namespace std;
+   class Person {
+       string name;
+   public:
+       Person(string n)
+       ①_________________
+       {
+       }
+       ②____________________________________{
+           os << name;
+       }
+   };
+
+   ③________________________(ostream&os, const Person&p) {
+       p.print(os);
+       return os;
+   }
+
+   class Student ④_______________________{
+       string id;
+   public:
+       Student(string n, string i)
+       ⑤_____________________
+       {
+       }
+       void print(ostream &os) const {
+           Person::print(os);
+           os << "\t" << id;
+       }
+   };
+
+   int main() {
+       Person *persons[2] = {
+           new Person("Tom"),
+           new Student("Jack", "12345")
+       };
+       for(int i = 0; i < 2; i++) {
+           cout << *persons[i] << endl;
+           delete persons[i];
+       }
+   }
+   ```
+
+   输出：
+
+   ```
+   Tom
+   Jack    12345
+   ```
+
+1. 表示数组的类IntArray
+
+   ```
+   #include <iostream>
+   using namespace std;
+   class IntArray {
+       int size;
+       int *data;
+   public:
+       IntArray(int n, int v):size(n), data(new int[n]) {
+           for(int i = 0; i < size; i++)
+               data[i] = v;
+       }
+       ⑥___________________ {
+           data = NULL;
+           clone(a);
+       }
+       ⑦____________________(IntArray &a) {
+           if(this != &a) {
+               ⑧____________;
+           }
+           return *this;
+       }
+       void clone(IntArray &a) {
+           delete[] data;
+           size = a.size;
+           ⑨______________________;
+           for(int i = 0; i < size; i++)
+               data[i] = a.data[i];
+       }
+       ~IntArray() {
+           ⑩____________________;
+       }
+       int &operator[](int i) {
+           return data[i];
+       }
+   };
+   int main() {
+       IntArray a(5, 0);
+       a[0] = 1;
+       a[1] = 2;
+       IntArray b(a);
+       b[2] = 3;
+       b[3] = 4;
+       for(int i = 0; i < 5; i++)
+           cout << a[i] << endl;
+       for(int i = 0; i < 5; i++)
+           cout << b[i] << endl;
+       a = b;
+       //加上下面两行可以测试出调用浅拷贝的错误
+        for(int i = 0; i < 5; i++)
+           b[i]=0;
+
+       for(int i = 0; i < 5; i++)
+           cout << a[i] << endl;
+   }
+   ```
+
+   输出：
+
+   ```
+   1
+   2
+   0
+   0
+   0
+   1
+   2
+   3
+   4
+   0
+   1
+   2
+   3
+   4
+   0
+   ```
+
+### 程序设计
+
+1. 设计一个表示时间的类Time，包含时分秒的属性，可以进行简单的时间运算。请实现这个类，并使以下程序可以正常运行：
+
+   ```
+   #include <iostream>
+   using namespace std;
+   int main() {
+       Time t1(10, 10, 30); // 10点10分30秒
+       Time t2(22, 22, 40); // 22点22分40秒
+       cout << t2 – t1 << endl; //输出t2和t1差多少秒，应该输出43930
+       cout << t1 – t2 << endl; // 应该输出-43930
+       cout << t1 << endl; //应该输出10:10:30
+       cout << t1 + 100 << endl; // 输出t1表示的时间过100秒后的时间10:12:10
+       cout << t1 – 100 << endl; // 输出t1表示的时间100秒前的时间 10:8:50
+       cout << ++t1 << endl; //++让时间变到下一秒钟，输出10:10:31
+       cout << t1++ << endl; //输出10:10:31
+       cout << --t1 << endl; //--让时间退到前一秒钟，输出10:10:31
+       cout << t1-- << endl; //输出10:10:31
+       cin >> t1; //输入时间到t1
+   }
+   ```
+
+1. 有两类不同的运货车Car：一种称作BoxCar，用来运送箱子，是以面积来计算容量的，最大容量是20平方米；另一种称作TankCar，用来运送液体，以体积来计算容量的，最大容量是5000升。请编写这几个类，使得如下程序可以正常运行。
+
+   ```
+   int main() {
+       Car *cars[4];
+       cars[0] = new BoxCar(15);
+       cars[1] = new BoxCar(10);
+       cars[2] = new TankCar(3000);
+       cars[3] = new BoxCar(20);
+       for(int i = 0; i < 4; i++) {
+           cout << "Car " << i<<":";
+           cars[i]->find_capacity(); // 输出剩余的容量
+           cout << endl;
+       }
+       for(int i = 0; i < 4; i++) {
+           delete cars[i];
+       }
+   }
+   ```
+
+   输出：
+
+   ```
+   Car 1: 剩余5平方米
+   Car 2: 剩余10平方米
+   Car 3: 剩余2000升
+   Car 4: 剩余0平方米
+   ```

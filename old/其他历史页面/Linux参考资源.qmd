@@ -1,0 +1,86 @@
+---
+title: "Linux参考资源"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000009 在备份中缺失；以下内容来自最新可读取版本 00000008。
+:::
+
+## 参考资源
+
+* [Debian Linux](http://www.debian.org/)
+    * [debian香港](http://planet.debian.org.hk/)
+    * [debian 安装手册](http://debian.linuxsir.org/main/?q=node/15)
+    * [debian FAQ](http://debian.linuxsir.org/book/faq/etony/)
+    * [debian 参考手册](http://debian.linuxsir.org/book/reference/lyoo/)
+    * [debian 安全手册](http://debian.linuxsir.org/book/securing-howto/etony/)
+    * [http://debian.ustc.edu.cn/](http://debian.ustc.edu.cn/)
+
+* [Ubuntu Linux](http://www.ubuntu.com/)
+    * [Ubuntu中文社区](http://www.ubuntu.org.cn/)
+    * [http://www.linuxsir.org/bbs/forumdisplay.php?f=100](http://www.linuxsir.org/bbs/forumdisplay.php?f=100)
+* [linuxsir论坛](http://www.linuxsir.org/)
+* [http://www.linuxfans.org/nuke/modules.php?name=Forums](http://www.linuxfans.org/nuke/modules.php?name=Forums)
+* [http://www.linuxforum.net/](http://www.linuxforum.net/)
+* [http://www-128.ibm.com/developerworks/cn/linux/](http://www-128.ibm.com/developerworks/cn/linux/)
+* [http://bbs.chinaunix.net/](http://bbs.chinaunix.net/)
+* [http://www.linuxedu.net/forum/](http://www.linuxedu.net/forum/)
+
+国际
+
+* [维基百科上的Linux](http://zh.wikipedia.org/wiki/Linux)
+* [开源软件大厅](http://sourceforge.net/)
+* [Linux文档计划](http://www.tldp.org/)
+* [Linux内核官方网站](http://www.kernel.org/)
+* [Linux新闻](http://www.linux.org/)
+* [Linux程序下载中心](http://www.freshmeat.net/)
+* [Linux.com](http://www.linux.com/)
+* [Linux Wiki](http://www.linuxwiki.org/)
+* [Linux-wiki.com](http://www.linux-wiki.com/)
+* [Gentoo Linux中文维基](http://zh.gentoo-wiki.com/)
+
+中国大陆
+
+* [中国最大的Linux/Unix技术社区](http://www.chinaunix.net/)
+* [Linuxsir.org](http://www.linuxsir.org/)
+* [中国Linux公社](http://www.linuxfans.org/)
+* [中国Linux论坛](http://www.linuxforum.net/)
+* [中国Linux教育网](http://www.linuxedu.net/)
+* [LUPA社区](http://www.lupaworld.com/)
+* [Linux大本营 简体版](http://www.linuxdby.com/) [繁体版](http://big5.linuxdby.com/)
+* [Linux伊甸园](http://www.linuxeden.com/)
+* [中国Linux技术中坚站](http://www.linuxaid.com.cn/)
+* [FreeWay 自由之路原创文档小组](http://freeway.linuxsir.org/)
+* [FreeWill 自由意志翻译小组](http://freewill.linuxsir.org/)
+* [Gentoo 中文文档集散地](http://gentoo.linuxsir.org/doc/cn/)
+* [LFS 中文用户小组](http://lfs.linuxsir.org/)
+* [Fcitx 小企鹅输入法](http://www.fcitx.org/)
+* [北京大学Linux俱乐部](http://linux.pku.edu.cn/)
+* [中科院自动化研究所自由软件协会](http://fsa.ia.ac.cn/)
+* [中文 GNOME 用户门户网站](http://www.gnome-cn.org/)
+* [海微 Hiweed-Debian Linux](http://linux.hiweed.com/)
+* [Linux Blog](http://www.linuxdby.com/blog.php)
+* [文泉驿中文字体计划](http://wqy.sourceforge.net/)
+* [LinuxRen专注与内核](http://www.linuxren.org/)
+* [Linews Linux新闻资讯](http://www.linews.cn/)
+* [Ubuntu命令说明](http://manpages.ubuntu.com/manpages)
+* [通用命令说明](http://linux.chinaitlab.com/special/linuxcom)
+
+中国Linux社区IRC资源
+
+* PCHOME #Unix IRC: irc.pchome.net 6667 #unix #geekbone.
+* 中国Linux公社 IRC: irc.linuxfans.org 6667~6669 7000 #linuxfans #linuxer etc.
+* LinuxFire IRC: irc.linuxfire.com.cn 6667 #linuxfire #pda #gondson2 #80s
+* LinuxSir IRC: www.linuxsir.org 6667~6669 7000 #debianer #gentooer #chatroom etc.
+* 北大Linux俱乐部IRC: linux.pku.edu.cn 6667 #club
+* LUPA社区IRC: irc.lupaworld.com 6665-6669

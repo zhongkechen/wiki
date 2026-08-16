@@ -1,0 +1,138 @@
+---
+title: "VirtualBox"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000016 在备份中缺失；以下内容来自最新可读取版本 00000015。
+:::
+
+### 概述
+
+VirtualBox^[VirtualBox官方网站：http://www.virtualbox.org/wiki/VirtualBox]是一个虚拟x86体系结构的虚拟机软件，由Innotek公司开发，现在被Sun公司收购。
+
+VirtualBox的特色^[VirtualBox介绍：http://www.virtualbox.org/wiki/VirtualBox] ^[VirtualBox介绍：http://en.wikipedia.org/wiki/VirtualBox]有：
+
+* 共享文件夹：在主机和Linux或Windows客户机之间共享文件
+* RDP支持：不需要客户机操作系统支持，就可以将虚拟机作为RDP服务器来控制。
+* 虚拟USB：将主机上的usb设备虚拟成客户机上的设备。并支持通过RDP访问远程USB。
+* 无缝模式：可以将主机和客户机的图形界面整合在一起显示。
+* 多国语言：图形界面包括多种语言支持，包括简体中文和繁体中文。
+* 共享剪切板：在客户机和主机之间双向共享剪切板
+* Guest Addition：为Windows和Linux客户机提供特别的客户端软件，支持动态分辨率调整、鼠标和键盘的集成、文件夹共享等功能。
+* 命令行控制：通过命令行对虚拟机进行完全控制，包括启动、停止、修改设置等。
+* 快照：对虚拟硬盘进行快照，可以在以后进行恢复。
+
+VirtualBox分为二进制版本和开源版本(OSE)。二进制版本功能完整，但是没有源代码。开源版本有源代码，但是缺少虚拟USB、RDP支持、iscsi、虚拟SATA的支持。
+
+### 安装
+
+在这里 https://www.virtualbox.org/wiki/Downloads 下载对应平台（包括Windows 32位、Windows 64位、Mac OS X Intel架构、Solaris、各种Linux等）的版本。
+
+Extension Pack包含USB2/3、远程控制等功能，按需安装。
+
+### 配置
+
+#### 配置端口映射
+
+用nat方式时，虚拟机和主机之间隔了一个nat路由，主机不能直接访问虚拟机的服务。不过可以在这个nat路由上配置端口映射。端口映射必须在命令行执行命令完成：
+```
+VBoxManage setextradata "Linux Guest"  "VBoxInternal/Devices/pcnet/0/LUN#0/Config/guestssh/Protocol" TCP
+VBoxManage setextradata "Linux Guest"  "VBoxInternal/Devices/pcnet/0/LUN#0/Config/guestssh/GuestPort" 22
+VBoxManage setextradata "Linux Guest"  "VBoxInternal/Devices/pcnet/0/LUN#0/Config/guestssh/HostPort" 2222
+```
+其中Linux Guest是虚拟机的名字，pcnet是虚拟百兆网卡的类型（如果虚拟网卡是千兆网卡，需要换成e1000），guestssh是映射的名字（可以是任取的一个名字），TCP是协议的类型（可以换成UDP），22是虚拟机中服务的端口，2222是映射以后主机上的端口。经过映射后，就可以连接主机的2222端口连上客户机中的22服务。
+
+端口映射脚本
+```text
+#!/bin/sh
+# usage: vboxportmap vmname portmapname hostport guestport
+
+CARDTYPE=e1000
+
+VBoxManage setextradata $1 "VBoxInternal/Devices/$CARDTYPE/0/LUN#0/Config/t$2/Protocol" TCP
+VBoxManage setextradata $1 "VBoxInternal/Devices/$CARDTYPE/0/LUN#0/Config/t$2/HostPort" $3
+VBoxManage setextradata $1 "VBoxInternal/Devices/$CARDTYPE/0/LUN#0/Config/t$2/GuestPort" $4
+
+VBoxManage setextradata $1 "VBoxInternal/Devices/$CARDTYPE/0/LUN#0/Config/u$2/Protocol" UDP
+VBoxManage setextradata $1 "VBoxInternal/Devices/$CARDTYPE/0/LUN#0/Config/u$2/HostPort" $3
+VBoxManage setextradata $1 "VBoxInternal/Devices/$CARDTYPE/0/LUN#0/Config/u$2/GuestPort" $4
+```
+
+#### 配置网桥
+
+在Ubuntu下配置网桥供VirtualBox中的虚拟机使用，首先要安装bridge-utils
+```
+sudo apt-get install bridge-utils
+```
+
+然后在网络配置文件/etc/network/interfaces中添加一个网桥：
+```
+auto br0
+iface br0 inet dhcp
+    bridge_ports eth0
+```
+这里eth0是主机上的网卡（注意不能用无线网卡）。网桥的地址配置成主机上网所用的地址，这里是dhcp的。也可以是静态的，比如：
+```
+auto br0
+iface br0 inet static
+    address 192.168.1.2
+    netmask 255.255.255.0
+    gateway 192.168.1.1
+    bridge_ports eth0
+```
+
+改好了以后启动这个网桥：
+
+```
+/etc/init.d/networking restart
+```
+
+然后创建虚拟机用的虚拟网卡，并把它加到网桥中，这可以用VirtualBox自带的一个脚本实现：
+
+```
+sudo VBoxAddIF vbox0 <user> br0
+```
+
+其中，vbox0是创建的虚拟网卡（要创建第二块，可以用vbox1、vbox2等），br0是前面创建的网桥的名字，&lt;user&gt;是使用虚拟机的Linux用户的名字。
+
+最后，在虚拟机的设置里面，网卡的属性里面选择Host Interface Networking，而Interface name设置成vbox0。
+
+注意：无线网卡不能做网桥。多个虚拟机要使用网桥，需要创建多块虚拟网卡vbox0、vbox1等，每个虚拟机使用不同的虚拟网卡。
+
+#### 配置DMI信息
+
+如果你的电脑是品牌机，预装Windows，那么用附带的OEM版Windows光盘重装时不需要输入序列号，也不需要激活。但是把这张光盘放在虚拟机中安装，就会需要输入序列号和激活。其中的区别是品牌机的BIOS中有额外的DMI信息，而虚拟机的BIOS没有。在VirtualBox中可以设置DMI信息。比如：
+```
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSVendor" "Hewlett-Packard"
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSVersion" "68YHV Ver. F.0B"
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSReleaseDate"  "07/13/2007"
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSReleaseMajor"  15
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSReleaseMinor"  11
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMajor" 89
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMinor" 53
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiSystemVendor" "Hewlett-Packard"
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiSystemProduct" "HP Compaq nc4400 (RH136PA#AB5)"
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiSystemVersion" "F.0B"
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiSystemSerial"  "xxxxxxxx"
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiSystemUuid" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+VBoxManage setextradata windowsxp "VBoxInternal/Devices/pcbios/0/Config/DmiSystemFamily" "xxxxxxxxx"
+```
+其中，windowsxp是虚拟机的名称。自己的电脑的DMI信息可以由dmidecode命令得到。
+
+#### 配置物理硬盘给虚拟机用
+
+* [Using a Physical Hard Drive with a VirtualBox VM](https://www.serverwatch.com/server-tutorials/using-a-physical-hard-drive-with-a-virtualbox-vm.html)
+
+#### 配置iscsi给虚拟机用
+
+### 参考文献

@@ -1,0 +1,163 @@
+---
+title: "书单"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000044 在备份中缺失；以下内容来自最新可读取版本 00000043。
+:::
+
+## 书单
+
+### 程序设计语言
+
+* [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book.html)
+* 计算机程序的构造和解释，裘宗燕译
+* **The C Programming Language (2nd Edition)**, Brian Kernighan and Dennis Ritchie
+* **C程序设计语言（第二版新版）**，Brian Kernighan and Dennis Ritchie著，徐宝文 李志译
+* **Java编程思想**, Bruce Eckel著,
+* **Perl语言入门（第三版）(Learning Perl)**, Randal Schwartz, Tom Phoenix著
+* **Python语言入门**（外借给陈雯）
+* **Essential C++中文版**, Stanley Lippman著, 侯捷译
+* **C++设计新思维——泛型编程与设计模式之应用**
+* **The C++ Programming Language (Special Edition)**, Bjarne Stroustrup
+* **C++程序设计语言（特别版）**，Bjarne Stroustrup著，裘宗燕译
+* **C++编程思想（第二版）第一卷：标准C++导引**，Bruce Eckel著
+* **C++ Templates**
+* **C++代码设计与重用**
+* **C++语言的设计与演化**，Bjarne Stroustrup著，裘宗燕译
+* **STL源码剖析** 侯捷著
+* **C++标准程序库——自修教程与参考手册** Nicolai Josuttis著，侯捷 孟岩译
+
+### 开发环境
+
+* Advanced Programming in the UNIX Environment, Richard Stevens
+* Advanced Programming in the UNIX Environment (2nd Edition), Richard Stevens
+* UNIX编程艺术 (The Art of UNIX Programming), Eric Steven Raymond
+* Windows程序设计（第五版）
+
+### 设计
+
+* 重构——改善既有代码的设计
+* 设计模式——可复用面向对象软件的基础
+
+### 软件工程
+
+* 最后期限
+* 人月神话
+* 人件
+* 软件企业的管理与文化
+* 软件工艺
+* 敏捷软件开发
+
+### 算法
+
+* Fundamentals of Data Structures in C
+* C++数值算法
+* Introduction to The Design and Analysis of Algorithms
+* 应用密码学——协议、算法与C源程序
+
+### 开发工具
+
+* CVS精髓
+* Mastering Regular Expressions (2nd Edition)
+* sed与awk(第二版)
+
+### 操作系统
+
+* 操作系统精髓与设计原理（第三版）
+
+### 编译原理
+
+* Compiler Construction Principles and Practice
+
+### 数据库
+
+### 计算机网络
+
+* 计算机网络（第四版）
+* TCP/IP详解第一卷：协议
+* C++网络编程卷1
+* C++网络编程卷2
+* SSL 与 TLS
+
+### 游戏
+
+* 游戏编程精粹1
+* 游戏编程精粹2
+* 游戏编程精粹3
+
+### 多媒体分析
+
+* 计算机视觉
+* 机器视觉
+
+### 其它计算机书
+
+* 交互式计算机图形学——基于OpenGL的自顶向下的方法（第3版）
+* HTML 4.0从入门到精通
+* C++面向对象程序设计，谭浩强
+* [数学之美](https://book.douban.com/subject/10750155/)，吴军
+
+### 英语
+
+* https://en.wikipedia.org/wiki/Comparison_of_English_dictionaries
+* Collins Cobuild Essential English Dictionary
+
+### 其他书
+
+* Trillion Dollar Coach
+* 牛奶可乐经济学 (The Economic Naturalist: In Search of Explanations for Everyday Enigmas) Robert H.Frank
+* 简单的逻辑学 （Being Logical: A Guide to Good Thinking） D·Q·McInerny 赵明燕
+* 萨姆劳埃德的数学趣题
+* 萨姆劳埃德的数学趣题续编
+* Borland传奇
+* 你的灯亮着吗？
+* 谁动了我的奶酪
+* 时间简史
+* 善待自己
+* 数字电路
+* [断舍离](https://www.amazon.cn/dp/B07PJPKSPV)
+* [软技能：代码之外的生存指南](https://www.amazon.cn/dp/B01J9MZPPO)
+
+### 待购书
+
+* 计算机程序设计艺术
+* Unix Network Programming, Vol. 1: The Sockets Networking API, Third Edition
+* Managing Projects with GNU Make,3e
+* Learning Python,2e
+* DNS and BIND
+* Learning the vi Editor,Sixth Edition
+* 学习GNU EMACS（第二版）
+* Lex & Yacc,Second Edition
+* Learning the bash shell
+* OpenGL Programming Guide : The Official Guide to Learning OpenGL,Version 2 (5th Edition)
+* C++ Coding Standards: 101 Rules, Guidelines, and Best Practices
+* Mathematics All Around
+* Guide to LaTeX (4th Edition)
+* Zope指南
+
+### 参考
+
+* [【编程随想】收藏的电子书清单（多个学科，含下载链接）](https://github.com/programthink/books)
+* [哪本书是对程序员最有影响、每个程序员都该阅读的书？](http://www.aqee.net/post/what-is-the-single-most-influential-book-every-programmer-should-read.html)
+* [3 分钟找书指南 v7.0](https://mp.weixin.qq.com/s/JVjokE_iAOnuymi6_onRZQ)
+* [https://www.yeahwu.com/cloud/books/](https://www.yeahwu.com/cloud/books/)
+* [【分享】C++电子书下载（PDF&CHM非影印）](https://forum.ubuntu.com.cn/viewtopic.php?p=438190#438190)
+* [给创业者读的十本书](https://www.bimuyu.com/blog/archives/279551391.shtml)
+* [2018儿童类Best书单集锦（附美亚链接）](https://shimo.im/docs/w6wNG3cWEIEa4DX5/read)
+* [这里有一份工程师“变软”的修炼攻略](https://mp.weixin.qq.com/s/uAHuPWiSPNXpwG--FP5dtQ)
+* [假期荐书：一份能够帮你拓宽认知边界的书单](https://36kr.com/p/5092542?ktm_source=feed)
+* [「装了啥」后续：推荐书单](https://sspai.com/post/41331)
+* [2018 年值得一看的科技書籍](https://tw.news.yahoo.com/2018-%E5%B9%B4%E5%80%BC%E5%BE%97-%E7%9C%8B%E7%9A%84%E7%A7%91%E6%8A%80%E6%9B%B8%E7%B1%8D-050052827.html)
+* [产品经理必读书单（2018史上最全）](https://zhuanlan.zhihu.com/p/35986350)
+* [这 7 份豆瓣以外的年度书单，想引导你拓宽阅读的边界](https://sspai.com/post/58218)

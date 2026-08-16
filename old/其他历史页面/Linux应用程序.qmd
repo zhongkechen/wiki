@@ -1,0 +1,271 @@
+---
+title: "Linux应用程序"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000018 在备份中缺失；以下内容来自最新可读取版本 00000017。
+:::
+
+## Linux应用程序
+
+### 安装java
+
+```
+apt-get install sun-java5-jdk
+apt-get install sun-java5-plugin
+update-alternatives --config java
+```
+
+配置java字体
+```
+wget http://paste.ubuntu.org.cn/d323
+sudo mv /etc/java-1.5.0-sun/fontconfig.properties /etc/java-1.5.0-sun/fontconfig.properties.old
+sudo mv d323 /etc/java-1.5.0-sun/fontconfig.properties
+sudo chown root:root /etc/java-1.5.0-sun/fontconfig.properties
+```
+
+### 虚拟机安装
+
+* Vmplayer虚拟机：安装vmware-player
+
+  ```
+  sudo apt-get install vmware-player
+  ```
+
+  在http://www.easyvmx.com/ 上创建一个虚拟机，然后用vmware-player运行它。
+* VirtualBox：先添加ubuntu-cn的源，然后安装virtualbox
+
+  ```
+  sudo apt-get install virtualbox
+  ```
+
+### 编辑排版
+
+* Emacs
+* VI
+* TeX排版
+
+### 聊天
+
+使用gaim来上msn messenger, yahoo messenger, icq, google talk, aol等
+```
+apt-get install gaim
+```
+skype:在/etc/apt/source.list中填加
+```
+deb http://debian.bootsplash.de unstable main
+```
+然后安装
+```
+apt-get install skype
+```
+
+使用qq：
+
+* 使用lumaqq来上qq: http://lumaqq.linuxsir.org/
+
+```
+cd;mkdir tmp;cd tmp
+wget -c http://download.ubuntu.org.cn/software/lumaqq_2005-linux_gtk2_x86_no_jre.tar.gz
+sudo tar zxvf lumaqq_2005-linux_gtk2_x86_no_jre.tar.gz -C /opt/
+wget -c http://download.ubuntu.org.cn/software/lumaqq_2005_patch_2006.02.02.15.00.zip
+sudo unzip -o lumaqq_2005_patch_2006.02.02.15.00.zip -d /opt/LumaQQ/lib
+sudo chown -R root:root /opt/LumaQQ/
+sudo chmod -R 755 /opt/LumaQQ/
+sudo vi /usr/share/applications/LumaQQ.desktop
+```
+添加如下行：
+
+代码:
+```
+[Desktop Entry]
+Name=LumaQQ
+Comment=QQ Client
+Exec=/opt/LumaQQ/lumaqq
+Icon=/opt/LumaQQ/QQ.png
+Terminal=false
+Type=Application
+Categories=Application;Network;
+```
+
+* 使用openq: http://openq.linuxsir.org/
+* 使用eva:  http://sourceforge.net/projects/evaq    ubuntu上可以直接使用`apt-get install eva`安装
+
+### 播放电影
+
+在/etc/apt/source.list中填加
+```
+deb ftp://ftp.nerim.net/debian-marillat/ sid main
+```
+安装mplayer和解码器
+```
+apt-get install mplayer w32codecs
+```
+
+### 切割cue/flac文件
+
+安装切割工具：
+
+```
+sudo aptitude install cuetools shntool
+```
+安装编解码器
+
+```
+sudo aptitude install flac wavpack
+```
+切割cue/flac文件：
+
+```
+cuebreakpoints sample.cue | shnsplit -o flac sample.flac
+```
+给切割好的文件加上歌名等tag：
+
+```
+cuetag sample.cue `ls split-track*.flac`
+```
+
+### 网络电视
+
+支持Linux的网络电视软件比较少，现在只有sopcast一个。
+
+首先在 http://www.sopcast.org/cn/ 下载安装播放核心sp-sc。
+
+然后要安装一个图形前端gsopcast： http://lianwei3.googlepages.com/home2
+
+### 对数码相机的支持
+
+命令行方式使用gphoto2
+```
+apt-get install gphoto2
+```
+图形界面使用gtkam
+```
+apt-get install gtkam
+```
+让普通用户有权限使用数码相机。比如让用户czk能用相机
+```
+gpasswd -a czk camera
+```
+
+### 网络银行
+
+支持Linux的网络银行比较少，不过还是有的，[浦发银行](http://www.spdb.com.cn/)还有很多外资银行都是支持的。
+
+### palm同步
+
+#### 用gnome-pilot同步
+
+1. 下载gnome-pilot通讯部分的源： "apt-get source pilot-link"
+1. 修改负责管道通讯的代码： "gedit ~/pilot-link-0.12.2/libpisync/util.c" （下载的版本是0.12.2）引用: 就在文件的开头可以看到：#define PILOT_CHARSET "CP1252" ，将CP1252改为GBK
+1. 重新编译："debuild -r fakeroot"，将生成几个以deb结尾的文件。这些就是要安装的软件包。
+1. 安装："sudo dpkg -i \*.deb" ，记得在相同目录下运行。
+
+### 游戏
+
+* [Top 10 Free Linux Games](https://techgage.com/print/top_10_free_linux_games/)
+
+### WINE
+
+使用WINE可以在linux下运行windows应用程序
+
+安装wine
+```
+apt-get install wine
+```
+对wine进行配置。配置比较麻烦。Sidenet提供了一个脚本自动进行配置：http://sidenet.ddo.jp/winetips/config.html
+
+当前在zh_CN.utf8的字符编码环境下，并启动了scim输入法，再运行wine就会很慢。解决办法在http://huangjiahua.livejournal.com/71157.html
+
+在 [http://www.linuxgame.org/](http://www.linuxgame.org/) 提供了一些脚本可以对wine进行方便的配置。
+
+### 关于 wine 在 zh_CN.UTF-8 , Ubuntu/Debian 下慢
+
+wine 在 zh_CN.UTF-8 , Ubuntu/Debian 下启动个 notepad 都非常慢， 而 SUSE 下的却没问题。
+看了下， 还是 请求 X core 字体的问题，在 zh_CN.UTF-8 下 wine 会请求 gbk-0 字体 ，
+而通常 Ubuntu/Debian 都没 gbk-0 字体的， 即使有的话， 用 \* 来匹配字体也是很慢的。
+
+一个比较容易想到的是添加 GBK 字体
+
+让 WQY 添加 GBK-0 字体
+安装 wqy 后，加个文件/etc/X11/fonts/misc/xfonts-wqy.alias
+写入
+```
+"-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-100-100-p-0-gbk-0" "-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-100-100-p-0-iso10646-1"
+"-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-75-75-p-0-gbk-0" "-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-75-75-p-0-iso10646-1"
+```
+
+再执行
+```
+sudo update-fonts-alias misc
+xset fp
+```
+这时候 wine 的反映速度就跟 zh_CN 下一样了 （ 启动个 notepad 或者 ms word 来看看 ）
+
+* 参考： https://huangjiahua.livejournal.com/71157.html
+
+### wine中文字体
+
+```
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Wine\Fonts\Replacements]
+
+"Arial Baltic,186"="simsun"
+
+"Arial CE,238"="simsun"
+
+"Arial CYR,204"="simsun"
+
+"Arial Greek,161"="simsun"
+
+"Arial TUR,162"="simsun"
+
+"Courier New Baltic,186"="simsun"
+
+"Courier New CE,238"="simsun"
+
+"Courier New CYR,204"="simsun"
+
+"Courier New Greek,161"="simsun"
+
+"Courier New TUR,162"="simsun"
+
+"Helv"="simsun"
+
+"Helvetica"="simsun"
+
+"MS Shell Dlg"="simsun"
+
+"MS Shell Dlg 2"="simsun"
+
+"Tahoma"="simsun"
+
+"Times"="simsun"
+
+"Times New Roman"="simsun"
+
+"Times New Roman Baltic,186"="simsun"
+
+"Times New Roman CE,238"="simsun"
+
+"Times New Roman CYR,204"="simsun"
+
+"Times New Roman Greek,161"="simsun"
+
+"Times New Roman TUR,162"="simsun"
+
+"Tms Rmn"="simsun"
+
+"Verdana"="simsun"
+```

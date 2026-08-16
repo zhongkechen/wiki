@@ -6,6 +6,8 @@ require "open3"
 require "rbconfig"
 require "tmpdir"
 
+require_relative "moin_additional_pages"
+
 REPOSITORY_ROOT = File.expand_path("..", __dir__)
 ROOT_PAGE_NAMES = %w[
   维基简介
@@ -23,6 +25,7 @@ ROOT_PAGE_NAMES = %w[
   cchuang
   ymc
   lzhongyue
+  其他历史页面
 ].freeze
 HOMEPAGE_PAGE_NAMES = %w[
   维基简介
@@ -38,6 +41,7 @@ HOMEPAGE_PAGE_NAMES = %w[
   cchuang
   ymc
   lzhongyue
+  其他历史页面
 ].freeze
 
 def assert(condition, message)
@@ -65,8 +69,55 @@ expected_files = migrated_files(REPOSITORY_ROOT)
 qmd_files = expected_files.select { |path| path.end_with?(".qmd") }
 asset_files = expected_files - qmd_files
 
-assert(qmd_files.length == 254, "Expected 254 QMD pages, found #{qmd_files.length}")
-assert(asset_files.length == 82, "Expected 82 attachments, found #{asset_files.length}")
+assert(qmd_files.length == 359, "Expected 359 QMD pages, found #{qmd_files.length}")
+assert(asset_files.length == 160, "Expected 160 attachments, found #{asset_files.length}")
+assert(
+  MOIN_ADDITIONAL_PAGE_NAMES.length == 104,
+  "Expected 104 additional source pages"
+)
+assert(
+  MOIN_ADDITIONAL_PAGE_NAMES.uniq.length == MOIN_ADDITIONAL_PAGE_NAMES.length,
+  "Additional source page list contains duplicates"
+)
+
+archive_index = File.read(
+  File.join(REPOSITORY_ROOT, "old", "其他历史页面.qmd"),
+  encoding: "UTF-8"
+)
+MOIN_ADDITIONAL_PAGE_GROUPS.each do |group_name, page_names|
+  assert(
+    archive_index.include?("## #{group_name}"),
+    "Archive index is missing the #{group_name} group"
+  )
+  page_names.each do |page_name|
+    basename = File.basename(page_name).delete("<>")
+    relative_path = File.join("old", "其他历史页面", "#{basename}.qmd")
+    assert(
+      File.file?(File.join(REPOSITORY_ROOT, relative_path)),
+      "Missing additional archive page #{relative_path}"
+    )
+    assert(
+      archive_index.include?("<其他历史页面/#{basename}.qmd>"),
+      "Archive index does not link to #{relative_path}"
+    )
+  end
+end
+
+%w[MacOSX vmware 通讯录].each do |excluded_name|
+  path = File.join(
+    REPOSITORY_ROOT,
+    "old",
+    "其他历史页面",
+    "#{excluded_name}.qmd"
+  )
+  assert(!File.exist?(path), "Excluded page was published: #{excluded_name}")
+end
+assert(
+  !File.exist?(
+    File.join(REPOSITORY_ROOT, "old", "其他历史页面", "MyOwn.qmd")
+  ),
+  "Private personal notes were published"
+)
 
 Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
   FileUtils.cp_r(File.join(REPOSITORY_ROOT, "tools"), temporary_root)
@@ -96,9 +147,9 @@ Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
     chdir: temporary_root
   )
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 254 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Converted 359 pages"), "Unexpected page count:\n#{stdout}")
   assert(
-    stdout.include?("Copied 82 attachments"),
+    stdout.include?("Copied 160 attachments"),
     "Unexpected attachment count:\n#{stdout}"
   )
 
@@ -133,7 +184,11 @@ qmd_files.each do |relative_path|
     "MoinMoin footnote macro leaked into #{relative_path}"
   )
 
-  page.scan(/\]\((?:<([^>]+)>|([^)]+))\)/).each do |angle, plain|
+  linkable_page = page.gsub(
+    /^[ \t]*(`{3,}|~{3,})[^\n]*\n.*?^[ \t]*\1[ \t]*$/m,
+    ""
+  )
+  linkable_page.scan(/\]\((?:<([^>]+)>|([^)]+))\)/).each do |angle, plain|
     target = angle || plain
     next if target.empty? || target.start_with?("#")
     next if target.match?(%r{\A(?:https?|ftp|mailto):})
