@@ -409,9 +409,11 @@ tony@tonybox:~$ sudo /etc/init.d/apache2 restart
 &lt;SECT2&gt; 启用用户目录模块(默认情况下是未启用的)
 &lt;P&gt;
 &lt;tscreen&gt;&lt;verb&gt;
+```text
 # a2enmod  userdir
 Module userdir installed; run /etc/init.d/apache2 force-reload to enable.
 # /etc/init.d/apache2 force-reload
+```
 强制重新加载配置文件
 
 创建网站目录
@@ -558,7 +560,9 @@ SSLCertificateFile /etc/apache2/ssl/apache.pem
 
 7.3 重启apache 服务
 
+```text
 # /etc/init.d/apache2 restart
+```
 
 7.4 测试
 访问URL http://www.mydebian.com:443/
@@ -683,6 +687,7 @@ Apache2 为我们提供了/usr/bin/htpasswd命令用于创建密码文件，命�
 
 首次添加用户需要使用 ?c 参数，以创建密码文件，再次添加用户则不要 -c参数了：
 
+```text
 # mkdir /etc/apache2/passwd
 # htpasswd -c /etc/apache2/passwd/passwords  tony
 New password: [mypassword]
@@ -693,6 +698,7 @@ Adding password for user tony
 New password: [mypassword]
 Re-type new password: [mypassword]
 Adding password for user etony
+```
 
 必要时，使用htpasswd 命令需要加入完整路径/usr/bin/htpasswd
 
@@ -825,6 +831,7 @@ worker是2.0 版中全新的支持多线程和多进程混合模型的MPM。由�
 
 worker的工作原理是，由主控制进程生成“StartServers”个子进程，每个子进程中包含固定的ThreadsPerChild 线程数，各个线程独立地处理请求。同样，为了不在请求到来时再生成线程，MinSpareThreads和MaxSpareThreads设置了最少和最多的空闲线程数；而MaxClients设置了所有子进程中的线程总数。如果现有子进程中的线程总数不能满足负载，控制进程将派生新的子进程。。系统默认已经启用了 worker mpm 模块这可以通过以下命令查看:
 
+```text
 # apache2 -l
 Compiled in modules:
   core.c
@@ -843,6 +850,7 @@ Compiled in modules:
   mod_dir.c
   mod_alias.c
   mod_so.c
+```
 
 一个典型的针对workerMPM的配置如下：
 
@@ -871,16 +879,17 @@ $ sudo a2enmod mod-security
 
 修改配置文件, 相关内容如下
 
-##### mod-security.conf 文件内容开始
+```text
+==== mod-security.conf 文件内容开始====
 
 # 检测内容长度以避免堆溢出攻击
-SecFilterForceByteRange 32 254 =&gt;SecFilterForceByteRange 32 126
+SecFilterForceByteRange 32 254 =>SecFilterForceByteRange 32 126
 
 # debug设置
-SecFilterDebugLevel 9 =&gt;SecFilterDebugLevel 0
+SecFilterDebugLevel 9 =>SecFilterDebugLevel 0
 
 # 设置缺省的动作
-SecFilterDefaultAction "deny,log,status:499" =&gt;SecFilterDefaultAction "deny,log,status:404"
+SecFilterDefaultAction "deny,log,status:499" =>SecFilterDefaultAction "deny,log,status:404"
 
 # 把设置传递给子目录
 SecFilterInheritance Off
@@ -890,19 +899,19 @@ SecFilterInheritance Off
 #SecFilter sh redirect:http://localhost/hack/warning.htm
 
 # Prevent OS specific keywords
-#过滤一些敏感的东西，我们使用\*是为了攻击者使用/etc/./passwd来绕开检测
-SecFilter /etc/passwd =&gt;SecFilter /etc/\*passwd
-SecFilter /bin/\*sh
+#过滤一些敏感的东西，我们使用*是为了攻击者使用/etc/./passwd来绕开检测
+SecFilter /etc/passwd =>SecFilter /etc/*passwd
+SecFilter /bin/*sh
 
 # Very crude filters to prevent SQL injection attacks
 # 防止SQL插入(SQL Injection)攻击
-SecFilter "delete:space:+from"
-SecFilter "insert:space:+into"
+SecFilter "delete[[:space:]]+from"
+SecFilter "insert[[:space:]]+into"
 SecFilter "select.+from"
-SecFilter "select:space:+from"
-SecFilter "union:space:+from"
-
-##### mod-security.conf 文件内容结束
+SecFilter "select[[:space:]]+from"
+SecFilter "union[[:space:]]+from"
+==== mod-security.conf 文件内容结束====
+```
 
 重启apache2 服务即可.
 

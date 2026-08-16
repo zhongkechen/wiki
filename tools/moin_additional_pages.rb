@@ -27,6 +27,7 @@ MOIN_ADDITIONAL_PAGE_GROUPS = {
     "zju_online_judge的常见问题",
     "报表工具",
     "开发工具",
+    "常见软件价格",
     "用Nikola在github上写博客",
     "程序",
     "程序设计语言课程设想",

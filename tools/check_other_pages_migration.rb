@@ -76,11 +76,11 @@ expected_files = migrated_files(REPOSITORY_ROOT)
 qmd_files = expected_files.select { |path| path.end_with?(".qmd") }
 asset_files = expected_files - qmd_files
 
-assert(qmd_files.length == 359, "Expected 359 QMD pages, found #{qmd_files.length}")
+assert(qmd_files.length == 360, "Expected 360 QMD pages, found #{qmd_files.length}")
 assert(asset_files.length == 160, "Expected 160 attachments, found #{asset_files.length}")
 assert(
-  MOIN_ADDITIONAL_PAGE_NAMES.length == 104,
-  "Expected 104 additional source pages"
+  MOIN_ADDITIONAL_PAGE_NAMES.length == 105,
+  "Expected 105 additional source pages"
 )
 assert(
   MOIN_ADDITIONAL_PAGE_NAMES.uniq.length == MOIN_ADDITIONAL_PAGE_NAMES.length,
@@ -154,7 +154,7 @@ Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
     chdir: temporary_root
   )
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 359 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Converted 360 pages"), "Unexpected page count:\n#{stdout}")
   assert(
     stdout.include?("Copied 160 attachments"),
     "Unexpected attachment count:\n#{stdout}"
@@ -321,6 +321,40 @@ windows_mobile = additional_page("WindowsMobile")
 assert(
   windows_mobile.scan(/\{width=350\}/).length == 2,
   "Windows Mobile image widths were not preserved"
+)
+
+debian_apache = additional_page("debianapache2")
+assert(
+  debian_apache.scan("[[:space:]]").length == 4 &&
+    !debian_apache.include?("delete:space:+from"),
+  "Apache POSIX character classes were not preserved"
+)
+debian_apache_prose = debian_apache.gsub(
+  /^```[^\n]*\n.*?^```[ \t]*$/m,
+  ""
+)
+assert(
+  debian_apache.include?("```text\n# a2enmod  userdir") &&
+    debian_apache.include?("```text\n# apache2 -l") &&
+    debian_apache.include?(
+      "```text\n==== mod-security.conf 文件内容开始===="
+    ) &&
+    !debian_apache_prose.match?(/^#\s/),
+  "Apache commands or configuration comments were rendered as headings"
+)
+
+software_prices = additional_page("常见软件价格")
+assert(
+  software_prices.include?("| 软件名称 | 价格 | 官方网址 |") &&
+    software_prices.include?("Adobe Photoshop CS3") &&
+    software_prices.include?("Microsoft Windows xp pro"),
+  "Software price table was not migrated"
+)
+assert(
+  additional_page("MS-Windows").include?(
+    "[常见软件价格](<常见软件价格.qmd>)"
+  ),
+  "MS-Windows page does not link to the migrated software price table"
 )
 
 assert(

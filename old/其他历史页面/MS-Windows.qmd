@@ -43,7 +43,7 @@ format:
 
 ### 常用软件
 
-* 常见软件价格
+* [常见软件价格](<常见软件价格.qmd>)
 * 开发环境
     * [MinGW](http://www.mingw.org/)
     * [Cygwin](https://www.cygwin.com/)

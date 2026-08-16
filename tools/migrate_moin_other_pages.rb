@@ -111,6 +111,21 @@ SOURCE_TEXT_REPLACEMENTS = {
         "xtables-addons源码]]"
   }
 }.freeze
+SOURCE_CODE_RANGES = {
+  "apache2/debianapache2" => [
+    ["# a2enmod  userdir", "# /etc/init.d/apache2 force-reload"],
+    ["# /etc/init.d/apache2 restart", "# /etc/init.d/apache2 restart"],
+    [
+      "# mkdir /etc/apache2/passwd",
+      "Adding password for user etony"
+    ],
+    ["# apache2 -l", "mod_so.c"],
+    [
+      "==== mod-security.conf 文件内容开始====",
+      "==== mod-security.conf 文件内容结束===="
+    ]
+  ]
+}.freeze
 COURSE_ROOT_NAVIGATION = {
   "C++集成开发环境" =>
     "[返回“高级语言程序设计课程”](<高级语言程序设计课程.qmd>)",
@@ -538,6 +553,26 @@ def convert_blocks(text)
   [converted, blocks, inline]
 end
 
+def wrap_source_code_ranges(source, owner)
+  ranges = SOURCE_CODE_RANGES.fetch(owner, [])
+  return source if ranges.empty?
+
+  lines = source.lines
+  ranges.each do |start_marker, end_marker|
+    start_index = lines.index { |line| line.strip == start_marker }
+    raise "Missing code range start for #{owner}: #{start_marker}" unless start_index
+
+    end_index = (start_index...lines.length).find do |index|
+      lines[index].strip == end_marker
+    end
+    raise "Missing code range end for #{owner}: #{end_marker}" unless end_index
+
+    body = lines[start_index..end_index].join.rstrip
+    lines[start_index..end_index] = ["{{{#!text\n#{body}\n}}}\n"]
+  end
+  lines.join
+end
+
 def convert_wiki_admonitions(text)
   types = {
     "caution" => "warning",
@@ -579,6 +614,16 @@ def protect_nowiki(text)
   converted = text.gsub(%r{<nowiki>(.*?)</nowiki>}mi) do
     token = "@@MOIN_NOWIKI_#{fragments.length}@@"
     fragments << CGI.escapeHTML(Regexp.last_match(1))
+    token
+  end
+  [converted, fragments]
+end
+
+def protect_posix_character_classes(text)
+  fragments = []
+  converted = text.gsub(/\[\[:[a-z]+:\]\]/i) do
+    token = "@@MOIN_POSIX_#{fragments.length}@@"
+    fragments << Regexp.last_match(0)
     token
   end
   [converted, fragments]
@@ -720,6 +765,7 @@ def convert_moin(text, owner:)
   SOURCE_TEXT_REPLACEMENTS.fetch(owner, {}).each do |before, after|
     source.gsub!(before, after)
   end
+  source = wrap_source_code_ranges(source, owner)
   source.gsub!(/^#pragma section-numbers (?:on|off|\d+)[ \t]*\n?/, "")
   source.gsub!("[[TableOfContents]]", "<<TableOfContents>>")
   source.gsub!("[[AttachList]]", "<<AttachList>>")
@@ -765,6 +811,7 @@ def convert_moin(text, owner:)
   ) do
     convert_legacy_external_link(Regexp.last_match(1), Regexp.last_match(2))
   end
+  source, posix_character_classes = protect_posix_character_classes(source)
   source.gsub!(/\[\[([^\]]+)\]\]/) do
     convert_link(Regexp.last_match(1), owner)
   end
@@ -914,6 +961,9 @@ def convert_moin(text, owner:)
   end
   nowiki.each_with_index do |content, index|
     rendered.gsub!("@@MOIN_NOWIKI_#{index}@@") { content }
+  end
+  posix_character_classes.each_with_index do |content, index|
+    rendered.gsub!("@@MOIN_POSIX_#{index}@@") { content }
   end
   rendered.gsub!(/\n{3,}/, "\n\n")
   rendered.strip + "\n"
