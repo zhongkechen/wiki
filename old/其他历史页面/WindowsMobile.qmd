@@ -18,8 +18,8 @@ format:
 
 ### HTC Kaiser刷机
 
-![HTC_Kaiser_1.jpg](http://wiki.xda-developers.com/images/HTC_Kaiser_1.jpg)
-![HTC_Kaiser_2.jpg](http://wiki.xda-developers.com/images/HTC_Kaiser_2.jpg)
+![HTC_Kaiser_1.jpg](http://wiki.xda-developers.com/images/HTC_Kaiser_1.jpg){width=350}
+![HTC_Kaiser_2.jpg](http://wiki.xda-developers.com/images/HTC_Kaiser_2.jpg){width=350}
 
 * SPL: 刷SPL风险较大，需要非常小心。刷了Hard-SPL以后再刷Radio和Rom就不会有风险。推荐最新版 [Hard-SPL 3.56](http://forum.xda-developers.com/showthread.php?t=396922)
 * Radio: [Radio下载](http://www.52dopod.net/thread-101307-1-1.html)，推荐用最新的1.71.09.01

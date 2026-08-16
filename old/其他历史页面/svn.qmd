@@ -23,7 +23,7 @@ Subversion (SVN)是一个版本控制系统。它可以用来维护源代码、�
 
 ### 安装
 
-首先要安装apache，参看apache2
+首先要安装apache，参看[apache2](<../Linux/apache2.qmd>)
 
 安装subversion
 

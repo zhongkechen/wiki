@@ -67,7 +67,15 @@ EXCLUDED_ATTACHMENTS = {
 REUSED_OUTPUT_PATHS = {
   "论坛" => File.join("ICPC", "论坛.qmd"),
   "Linux" => "Linux.qmd",
+  "apache2" => File.join("Linux", "apache2.qmd"),
+  "Emacs" => File.join("Linux", "Emacs.qmd"),
+  "VI" => File.join("Linux", "VI.qmd"),
+  "TeX排版" => File.join("Linux", "TeX排版.qmd"),
   "Python" => File.join("程序设计语言", "Python.qmd"),
+  "PythonLdap" => File.join("程序设计语言", "PythonLdap.qmd"),
+  "PyGtk" => File.join("程序设计语言", "PyGtk.qmd"),
+  "Django" => File.join("程序设计语言", "Django.qmd"),
+  "Pygame" => File.join("程序设计语言", "Pygame.qmd"),
   "C" => File.join("高级语言程序设计课程", "C.qmd"),
   "C++" => File.join("程序设计语言", "C++.qmd"),
   "Matlab" => File.join("程序设计语言", "Matlab.qmd"),
@@ -88,6 +96,20 @@ REUSED_OUTPUT_PATHS = {
   "Tetris" => File.join("..", "wiki", "Tetris.md"),
   "YubiKey" => File.join("..", "wiki", "YubiKey.md"),
   "nostr" => File.join("..", "wiki", "Nostr.md")
+}.freeze
+SOURCE_TEXT_REPLACEMENTS = {
+  "万维网" => {
+    "[CSS]]" => "[[CSS]]"
+  },
+  "程序" => {
+    "[[指令]" => "[[指令]]"
+  },
+  "基于OpenWrt路由器的全自动翻墙方案" => {
+    "[[http://sourceforge.net/projects/xtables-addons/files/|" \
+      "xtables-addons源码]" =>
+      "[[http://sourceforge.net/projects/xtables-addons/files/|" \
+        "xtables-addons源码]]"
+  }
 }.freeze
 COURSE_ROOT_NAVIGATION = {
   "C++集成开发环境" =>
@@ -413,16 +435,27 @@ def relative_asset_target(owner, filename)
 end
 
 def attachment_markup(spec, owner, image: false)
-  filename, label = spec.split("|", 2)
+  filename, label, *options = spec.split("|")
   clean_filename = safe_attachment_name(filename)
   visible = label.to_s.strip
   visible = File.basename(clean_filename) if visible.empty?
   target = markdown_target(relative_asset_target(owner, clean_filename))
   if image || IMAGE_EXTENSIONS.include?(File.extname(clean_filename).downcase)
-    "![#{visible}](#{target})"
+    "![#{visible}](#{target})#{image_attributes(options)}"
   else
     "[#{visible}](#{target})"
   end
+end
+
+def image_attributes(options)
+  attributes = options.filter_map do |option|
+    key, value = option.strip.split("=", 2)
+    next unless %w[width height].include?(key)
+    next unless value&.match?(/\A\d+(?:\.\d+)?(?:%|px)?\z/)
+
+    "#{key}=#{value}"
+  end
+  attributes.empty? ? "" : "{#{attributes.join(' ')}}"
 end
 
 def convert_link(raw, owner)
@@ -448,6 +481,16 @@ def convert_link(raw, owner)
 
   path = relative_output_path(owner, target_path)
   "[#{label}](#{markdown_target(path)})"
+end
+
+def convert_legacy_external_link(url, label)
+  clean_url = CGI.unescapeHTML(url)
+  extension = File.extname(clean_url.split(/[?#]/, 2).first).downcase
+  return external_image_markup(clean_url, "") if IMAGE_EXTENSIONS.include?(extension)
+
+  visible = label.to_s.strip
+  visible = clean_url if visible.empty?
+  "[#{visible}](#{clean_url})"
 end
 
 def normalize_latex(content)
@@ -495,6 +538,29 @@ def convert_blocks(text)
   [converted, blocks, inline]
 end
 
+def convert_wiki_admonitions(text)
+  types = {
+    "caution" => "warning",
+    "note" => "note",
+    "tip" => "tip"
+  }
+  text.gsub(/\{\{\{#!wiki\s+(caution|note|tip)\s*\n(.*?)\}\}\}/m) do
+    type = types.fetch(Regexp.last_match(1))
+    body = Regexp.last_match(2).rstrip
+    "::: {.callout-#{type}}\n#{body}\n:::"
+  end
+end
+
+def protect_raw_blocks(text)
+  fragments = []
+  converted = text.gsub(/\{\{\{#!raw\s*\n(.*?)\}\}\}/m) do
+    token = "@@MOIN_RAW_#{fragments.length}@@"
+    fragments << Regexp.last_match(1).rstrip
+    token
+  end
+  [converted, fragments]
+end
+
 def add_display_math_blocks(source, blocks)
   source.gsub(/<<latex\((.*?)\)>>/m) do
     formula = Regexp.last_match(1).strip
@@ -533,9 +599,9 @@ def normalize_indented_outline(source, owner)
   end.join
 end
 
-def external_image_markup(url, label)
+def external_image_markup(url, label, options = [])
   visible = label.to_s.empty? ? File.basename(url.split(/[?#]/, 2).first) : label
-  "![#{visible}](#{url})"
+  "![#{visible}](#{url})#{image_attributes(options)}"
 end
 
 def render_page_list(pattern, owner)
@@ -635,8 +701,11 @@ def convert_moin_emphasis(source)
     converted = line.gsub(/'''([^'\n]*?)'''/) do
       markdown_emphasis(Regexp.last_match(1), "**")
     end
-    converted.gsub(/''([^'\n]*?)''/) do
+    converted.gsub!(/''([^'\n]*?)''/) do
       markdown_emphasis(Regexp.last_match(1), "*")
+    end
+    converted.gsub(/--\((.*?)\)--/) do
+      markdown_emphasis(Regexp.last_match(1), "~~")
     end
   end.join
 end
@@ -648,7 +717,12 @@ end
 
 def convert_moin(text, owner:)
   source = text.gsub("\r\n", "\n")
+  SOURCE_TEXT_REPLACEMENTS.fetch(owner, {}).each do |before, after|
+    source.gsub!(before, after)
+  end
   source.gsub!(/^#pragma section-numbers (?:on|off|\d+)[ \t]*\n?/, "")
+  source.gsub!("[[TableOfContents]]", "<<TableOfContents>>")
+  source.gsub!("[[AttachList]]", "<<AttachList>>")
   source.gsub!("{{{{#!", "{{{#!")
   source.gsub!(/^(\s*)\{\{\{(?!#!)[ \t]*(\S[^\n]*)\n/) do
     "#{Regexp.last_match(1)}{{{\n#{Regexp.last_match(2)}\n"
@@ -668,6 +742,8 @@ def convert_moin(text, owner:)
     "@@MOIN_FOOTNOTE_OPEN@@#{Regexp.last_match(1)}@@MOIN_FOOTNOTE_CLOSE@@"
   end
 
+  source = convert_wiki_admonitions(source)
+  source, raw = protect_raw_blocks(source)
   source, nowiki = protect_nowiki(source)
   source.gsub!(%r{</?center>}i, "")
   source.gsub!(%r{<br\s*/?>}i, "<<BR>>")
@@ -680,8 +756,14 @@ def convert_moin(text, owner:)
   source.gsub!(/\{\{attachment:([^}\n]+)\}\}/) do
     attachment_markup(Regexp.last_match(1), owner, image: true)
   end
-  source.gsub!(/\{\{(https?:\/\/[^}|\n]+)(?:\|([^}|\n]*))?(?:\|[^}\n]*)?\}\}/) do
-    external_image_markup(Regexp.last_match(1), Regexp.last_match(2))
+  source.gsub!(/\{\{(https?:\/\/[^}\n]+)\}\}/) do
+    url, label, *options = Regexp.last_match(1).split("|")
+    external_image_markup(url, label, options)
+  end
+  source.gsub!(
+    /(?<!\[)\[((?:https?|ftp|mailto):[^\]\s]+)(?:\s+([^\]\n]+))?\](?!\])/
+  ) do
+    convert_legacy_external_link(Regexp.last_match(1), Regexp.last_match(2))
   end
   source.gsub!(/\[\[([^\]]+)\]\]/) do
     convert_link(Regexp.last_match(1), owner)
@@ -698,6 +780,7 @@ def convert_moin(text, owner:)
   result = []
   in_table = false
   list_indents = []
+  list_alpha_counters = []
   previous_line_was_list_item = false
 
   source.each_line do |raw_line|
@@ -714,6 +797,7 @@ def convert_moin(text, owner:)
       result << ""
       in_table = false
       list_indents.clear
+      list_alpha_counters.clear
       previous_line_was_list_item = false
       next
     elsif line.match?(/^\s*-{4,}\s*$/)
@@ -722,6 +806,7 @@ def convert_moin(text, owner:)
       result << ""
       in_table = false
       list_indents.clear
+      list_alpha_counters.clear
       previous_line_was_list_item = false
       next
     elsif line.match?(/^\s*\|\|.*\|\|\s*$/)
@@ -733,6 +818,7 @@ def convert_moin(text, owner:)
       end
       in_table = true
       list_indents.clear
+      list_alpha_counters.clear
       previous_line_was_list_item = false
       next
     end
@@ -755,17 +841,28 @@ def convert_moin(text, owner:)
 
       depth = list_indents.index(source_indent) || list_indents.length - 1
       indent = " " * (depth * 4)
+      list_alpha_counters = list_alpha_counters.take(depth + 1)
+      item_content = list[3].to_s
       marker =
         if list[2].end_with?("、") || list[2].match?(/\A[iI]\.\z/)
+          list_alpha_counters[depth] = nil
           "1."
+        elsif root_page_name(owner) == ADDITIONAL_ARCHIVE_ROOT &&
+            list[2].match?(/\A[a-z]\.\z/i)
+          counter = list_alpha_counters[depth].to_i
+          list_alpha_counters[depth] = counter + 1
+          base = list[2].match?(/\A[A-Z]/) ? "A".ord : "a".ord
+          item_content = "#{(base + counter).chr}. #{item_content}"
+          "*"
         else
+          list_alpha_counters[depth] = nil
           list[2]
         end
       prefix = "#{indent}#{marker} "
       continuation = " " * prefix.length
       result.concat(
         render_content_with_blocks(
-          list[3].to_s,
+          item_content,
           blocks,
           first_prefix: prefix,
           continuation_prefix: continuation
@@ -775,6 +872,7 @@ def convert_moin(text, owner:)
     elsif (definition = line.match(/^\s+(.+?)::\s*(.*)$/))
       append_blank_line(result) unless list_indents.empty?
       list_indents.clear
+      list_alpha_counters.clear
       result << "**#{definition[1]}**: #{definition[2]}"
       previous_line_was_list_item = false
     else
@@ -798,6 +896,7 @@ def convert_moin(text, owner:)
       else
         append_blank_line(result) unless list_indents.empty?
         list_indents.clear
+        list_alpha_counters.clear
         result.concat(render_content_with_blocks(line, blocks))
       end
       previous_line_was_list_item = false
@@ -809,6 +908,9 @@ def convert_moin(text, owner:)
 
   inline.each_with_index do |code, index|
     rendered.gsub!("@@MOIN_INLINE_#{index}@@") { code }
+  end
+  raw.each_with_index do |content, index|
+    rendered.gsub!("@@MOIN_RAW_#{index}@@") { content }
   end
   nowiki.each_with_index do |content, index|
     rendered.gsub!("@@MOIN_NOWIKI_#{index}@@") { content }

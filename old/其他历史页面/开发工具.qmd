@@ -61,9 +61,7 @@ format:
     * [Pro Git](https://git-scm.com/book/en/v2)
     * [merge tracking](https://stackoverflow.com/questions/2475831/merging-hg-git-vs-svn/2477089#2477089)
 
-```raw
 <iframe src="http://docs.google.com/present/embed?id=ajkvtgc93s3s_223cg88bwfz&size=m" frameborder="0" width="555" height="451"></iframe>
-```
 
 ### Design
 

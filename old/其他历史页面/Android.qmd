@@ -18,9 +18,9 @@ format:
 
 ## Android
 
-```wiki
-如果在国内使用手机，需要安装很多国产应用的话，强烈建议不要使用Android手机，存在国产Android手机可能存在后门，系统老旧缺少补丁，国产应用要求太多权限等等问题。 参考 [[https://www.solidot.org/story?sid=34681|为什么中国Android应用需要如此多的权限]]。
-```
+::: {.callout-warning}
+如果在国内使用手机，需要安装很多国产应用的话，强烈建议不要使用Android手机，存在国产Android手机可能存在后门，系统老旧缺少补丁，国产应用要求太多权限等等问题。 参考 [为什么中国Android应用需要如此多的权限](https://www.solidot.org/story?sid=34681)。
+:::
 
 ### 系统
 

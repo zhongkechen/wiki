@@ -16,9 +16,9 @@ format:
 当前版本 00000005 在备份中缺失；以下内容来自最新可读取版本 00000004。
 :::
 
-```wiki
-此文已过时,请到[[科学上网]]查看最新的有效方法。
-```
+::: {.callout-warning}
+此文已过时,请到[科学上网](<../../wiki/科学上网.md>)查看最新的有效方法。
+:::
 
 此方案DNS部分已经失效，请参考 https://github.com/felixonmars/dnsmasq-china-list
 
@@ -97,7 +97,7 @@ format:
       # opkg install iptables-mod-nat-extra
       # opkg install iptables-mod-u32
   ```
-* 生成IP国家信息数据库。在某台Mac或者Linux上下载并解压缩[[http://sourceforge.net/projects/xtables-addons/files/|xtables-addons源码]，然后按照[这篇文档](http://www.howtoforge.com/xtables-addons-on-centos-6-and-iptables-geoip-filtering)的步骤生成IP数据库。如果不介意较老的数据库，可以直接从[这里](http://ch3n2k.com/~czk/CNgeoip.tar.gz)下载一个生成好的。
+* 生成IP国家信息数据库。在某台Mac或者Linux上下载并解压缩[xtables-addons源码](http://sourceforge.net/projects/xtables-addons/files/)，然后按照[这篇文档](http://www.howtoforge.com/xtables-addons-on-centos-6-and-iptables-geoip-filtering)的步骤生成IP数据库。如果不介意较老的数据库，可以直接从[这里](http://ch3n2k.com/~czk/CNgeoip.tar.gz)下载一个生成好的。
 * 将中国的IP信息（CN开始的文件）拷贝到路由器/usr/share/xt_geoip/BE或者/usr/share/xt_geoip/LE。是BE还是LE取决于你的路由器的CPU架构是Big Endian还是Little Endian。如果你不确定你的路由器是什么架构类型，可以两个目录都放进去。
 * 将如下防火墙规则写入 /etc/firewall.user 。前面一半用以将TCP流量重定向到shadowsocks，后面一半用来解决DNS污染。粗体部分替换为你的shadowsocks的服务器地址和ShadowSocks本地端口（默认1080）。
 

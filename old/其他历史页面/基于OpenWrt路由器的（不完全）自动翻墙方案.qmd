@@ -18,9 +18,9 @@ format:
 
 ## 基于OpenWrt路由器的（不完全）自动翻墙方案
 
-```wiki
-此方法仅供参考，不推荐使用。请参考[[科学上网]]中的其它方法。
-```
+::: {.callout-warning}
+此方法仅供参考，不推荐使用。请参考[科学上网](<../../wiki/科学上网.md>)中的其它方法。
+:::
 
 之前一直在用[这篇文章](<基于OpenWrt路由器的全自动翻墙方案.qmd>)(更早更过时)里面的方法配置OpenWRT路由器翻墙，
 但是最近伪大的防火墙又升级了，防DNS污染的招不管用了。所以紧急找了下面这个方法，需要一些人工维护工作，不完全自动了。
@@ -33,7 +33,7 @@ format:
 * Shadowsocks加密Socks5代理
 * iptables geoip模块
 * shadowsocks tunnel转发DNS请求
-* --(iptables u32或string模块过滤错误的DNS结果)-- （已经失效）
+* ~~iptables u32或string模块过滤错误的DNS结果~~ （已经失效）
 * dnsmasq带国内CDN列表，这个列表需要经常更新。
 * ChinaDNS-C智能分流DNS请求
 

@@ -52,6 +52,13 @@ def digest(path)
   Digest::SHA256.file(path).hexdigest
 end
 
+def additional_page(name)
+  File.read(
+    File.join(REPOSITORY_ROOT, "old", "其他历史页面", "#{name}.qmd"),
+    encoding: "UTF-8"
+  )
+end
+
 def migrated_files(root)
   ROOT_PAGE_NAMES.flat_map do |page_name|
     page = File.join("old", "#{page_name}.qmd")
@@ -183,6 +190,10 @@ qmd_files.each do |relative_path|
     !page.include?("<<FootNote"),
     "MoinMoin footnote macro leaked into #{relative_path}"
   )
+  assert(
+    !page.match?(/^```(?:wiki|raw)\s*$/),
+    "MoinMoin processor was converted to a code block in #{relative_path}"
+  )
 
   linkable_page = page.gsub(
     /^[ \t]*(`{3,}|~{3,})[^\n]*\n.*?^[ \t]*\1[ \t]*$/m,
@@ -201,6 +212,125 @@ qmd_files.each do |relative_path|
     )
   end
 end
+
+cpp_exercises = additional_page("C++更多练习")
+assert(
+  !cpp_exercises.include?("TableOfContents"),
+  "Legacy table-of-contents macro leaked into C++ exercises"
+)
+assert(
+  cpp_exercises.scan(/^ {4}\* [A-D]\. /).length == 80,
+  "C++ exercise choices were not preserved as nested lists"
+)
+
+android = additional_page("Android")
+assert(
+  android.include?("::: {.callout-warning}") &&
+    android.include?(
+      "[为什么中国Android应用需要如此多的权限]" \
+        "(https://www.solidot.org/story?sid=34681)"
+    ),
+  "Android warning block was not converted with its link"
+)
+
+telegram = additional_page("Telegram")
+%w[note warning tip].each do |callout_type|
+  assert(
+    telegram.include?("::: {.callout-#{callout_type}}"),
+    "Telegram #{callout_type} block was not converted"
+  )
+end
+assert(
+  telegram.include?(
+    "![why telegram](<assets/Telegram/why_telegram.png>){width=90%}"
+  ),
+  "Telegram image width was not preserved"
+)
+
+full_openwrt = additional_page("基于OpenWrt路由器的全自动翻墙方案")
+assert(
+  full_openwrt.include?("[科学上网](<../../wiki/科学上网.md>)") &&
+    full_openwrt.include?(
+      "[xtables-addons源码]" \
+        "(http://sourceforge.net/projects/xtables-addons/files/)"
+    ),
+  "Full OpenWrt page links were not repaired"
+)
+
+partial_openwrt = additional_page("基于OpenWrt路由器的（不完全）自动翻墙方案")
+assert(
+  partial_openwrt.include?("~~iptables u32或string模块过滤错误的DNS结果~~") &&
+    partial_openwrt.include?("[科学上网](<../../wiki/科学上网.md>)"),
+  "Partial OpenWrt page formatting was not converted"
+)
+
+dns = additional_page("如何防止DNS污染和劫持")
+assert(
+  dns.include?("::: {.callout-warning}") &&
+    dns.include?("[科学上网](<../../wiki/科学上网.md>)"),
+  "DNS warning block was not converted with its link"
+)
+
+ajax = additional_page("AJAX综述")
+assert(
+  ajax.include?("[Google Suggest](http://www.google.com/webhp?complete=1&hl=en)") &&
+    ajax.include?(
+      "![ajax-fig1.png]" \
+        "(http://www.adaptivepath.com/images/publications/essays/ajax-fig1.png)"
+    ),
+  "Legacy AJAX links and images were not converted"
+)
+
+photos = additional_page("2007年南京比赛高挺拍的照片")
+assert(
+  !photos.include?("AttachList") &&
+    photos.scan(/^\* \[.+\.jpg\]\(<assets\//).length == 43,
+  "Photo attachment list was not expanded"
+)
+
+python_software = additional_page("Python相关软件")
+%w[PythonLdap PyGtk Django Pygame].each do |page_name|
+  assert(
+    python_software.include?("../程序设计语言/#{page_name}.qmd"),
+    "Python software page lost its #{page_name} link"
+  )
+end
+
+svn = additional_page("svn")
+assert(
+  svn.include?("[apache2](<../Linux/apache2.qmd>)"),
+  "SVN page lost its apache2 link"
+)
+
+linux_applications = additional_page("Linux应用程序")
+%w[Emacs VI TeX排版].each do |page_name|
+  assert(
+    linux_applications.include?("../Linux/#{page_name}.qmd"),
+    "Linux applications page lost its #{page_name} link"
+  )
+end
+
+development_tools = additional_page("开发工具")
+assert(
+  development_tools.include?("<iframe ") &&
+    !development_tools.include?("```raw"),
+  "Raw iframe was not preserved as HTML"
+)
+
+windows_mobile = additional_page("WindowsMobile")
+assert(
+  windows_mobile.scan(/\{width=350\}/).length == 2,
+  "Windows Mobile image widths were not preserved"
+)
+
+assert(
+  additional_page("万维网").include?("HTML、CSS和其他"),
+  "Malformed CSS link was not repaired"
+)
+assert(
+  additional_page("程序").include?("一组指示计算机每一步动作的指令"),
+  "Malformed instruction link was not repaired"
+)
 
 homepage = File.read(
   File.join(REPOSITORY_ROOT, "old", "首页.qmd"),

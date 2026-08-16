@@ -17,25 +17,24 @@ format:
 :::
 
 以下内容来自05信技班上的复习题，本人对这些题目不负任何责任。
-TableOfContents
 
 ### 选择题
 
 1. 以下关于C++特点的描述，错误的是：（   ）
-    A. C++支持多种程序设计范式，比如过程化程序设计、面向对象程序设计等。
-    A. C++支持多种操作系统和硬件平台，在Linux、Windows下均有编译器和开发环境
-    A. C++程序设计语言是国际标准，它的发展不受某个商业公司的控制
-    A. C++设计出来的程序运行速度比同样功能的C语言程序慢很多
+    * A. C++支持多种程序设计范式，比如过程化程序设计、面向对象程序设计等。
+    * B. C++支持多种操作系统和硬件平台，在Linux、Windows下均有编译器和开发环境
+    * C. C++程序设计语言是国际标准，它的发展不受某个商业公司的控制
+    * D. C++设计出来的程序运行速度比同样功能的C语言程序慢很多
 1. 有变量定义double f;下列哪种指针的定义表示指针变量中存放的地址不可变？
-    A. const double \*p = &f;
-    A. double \*const p = &f;
-    A. double \*p = &f;
-    A. static double \*P = &f;
+    * A. const double \*p = &f;
+    * B. double \*const p = &f;
+    * C. double \*p = &f;
+    * D. static double \*P = &f;
 1. 以下流操纵符，哪一个表示换行并刷新流？（   ）
-    A. ends
-    A. setw
-    A. flush
-    A. endl
+    * A. ends
+    * B. setw
+    * C. flush
+    * D. endl
 1. 有这样的循环：（   ）
 
    ```
@@ -44,20 +43,20 @@ TableOfContents
    ```
 
    请问这个循环在什么时候会终止？
-    A. 输入文件结束符EOF
-    A. 输入零0
-    A. 输入回车
-    A. 死循环，不会终止
+    * A. 输入文件结束符EOF
+    * B. 输入零0
+    * C. 输入回车
+    * D. 死循环，不会终止
 1. 有变量int a = 0; bool b = (a&gt;3);表达式a-b\*5||b-1的值是：（   ）
-    A. 1
-    A. false
-    A. true
-    A. 0
+    * A. 1
+    * B. false
+    * C. true
+    * D. 0
 1. 同时定义以下四个函数，函数调用print(true-1)会调用其中哪一个？（   ）
-    A. int print(double);
-    A. void print(int);
-    A. void print(bool);
-    A. int print(string);
+    * A. int print(double);
+    * B. void print(int);
+    * C. void print(bool);
+    * D. int print(string);
 1. 有如下内存分配语句：
 
    ```
@@ -67,25 +66,25 @@ TableOfContents
    ```
 
    则对分配的这些内存正确的释放方式是：（   ）
-    A. delete[] a;
-    A. delete a[0], a[1];
-    A. delete a[0]; delete a[1];
-    A. delete[] a[0]; delete[] a[1];
+    * A. delete[] a;
+    * B. delete a[0], a[1];
+    * C. delete a[0]; delete a[1];
+    * D. delete[] a[0]; delete[] a[1];
 1. 假设有两个字符串string s1, s2;，以下字符串的用法错误的是：（   ）
-    A. 比较大小：s1 &gt; s2
-    A. 字符串赋值：s1 = "hello";
-    A. 字符串连接：s1 + s2
-    A. 将一个整数转换成字符串转换：s1 = string(123);
+    * A. 比较大小：s1 &gt; s2
+    * B. 字符串赋值：s1 = "hello";
+    * C. 字符串连接：s1 + s2
+    * D. 将一个整数转换成字符串转换：s1 = string(123);
 1. Point是一个类，它有一个成员函数（非静态）void move(int x, int y);，有定义Point p, \*q=&p;，则成员函数调用正确的是：（   ）
-    A. Point.move(3, 5)
-    A. p.move(3, 5)
-    A. q.move(3, 5)
-    A. Point::move(3, 5)
+    * A. Point.move(3, 5)
+    * B. p.move(3, 5)
+    * C. q.move(3, 5)
+    * D. Point::move(3, 5)
 1. Date类有一个静态成员函数static Date today();，有定义Date d, \*p=&d;，则如下访问静态成员函数today错误的是：（   ）
-    A. d.today()
-    A. Date.today()
-    A. Date::today()
-    A. p-&gt;today()
+    * A. d.today()
+    * B. Date.today()
+    * C. Date::today()
+    * D. p-&gt;today()
 1. 类T有如下数据成员：
 
    ```
@@ -97,15 +96,15 @@ TableOfContents
    ```
 
    则下列它的构造函数写法正确的是：（   ）
-    A. void T(int i) { a=3; b=i; c=a; }
-    A. T(int i) { a=3; b=4; c=a; }
-    A. T(int i) : a(3), b(i), c(a) { }
-    A. T(int i) : a(3), c(a) { b+=i; }
+    * A. void T(int i) { a=3; b=i; c=a; }
+    * B. T(int i) { a=3; b=4; c=a; }
+    * C. T(int i) : a(3), b(i), c(a) { }
+    * D. T(int i) : a(3), c(a) { b+=i; }
 1. Student类继承Person类，Teacher类继承Person类，Graduate类继承Student类，则以下赋值语句正确的是：（  ）
-    A. Student s; Graduate \*p = &s;
-    A. Graduate g; Teacher \*p = &g;
-    A. Person r; Teacher \*p = &r;
-    A. Graduate g; Person \*p = &g;
+    * A. Student s; Graduate \*p = &s;
+    * B. Graduate g; Teacher \*p = &g;
+    * C. Person r; Teacher \*p = &r;
+    * D. Graduate g; Person \*p = &g;
 1. 有类的定义：
 
    ```
@@ -121,10 +120,10 @@ TableOfContents
    ```
 
    在Base的成员函数f中以下访问语句错误的是：
-    A. a
-    A. b
-    A. c
-    A. d
+    * A. a
+    * B. b
+    * C. c
+    * D. d
 1. 有类的定义
 
    ```
@@ -143,10 +142,10 @@ TableOfContents
    ```
 
    在main函数里面有定义D d;，以下访问正确的是：
-    A. d.b1
-    A. d.b2
-    A. d.b3
-    A. d.d
+    * A. d.b1
+    * B. d.b2
+    * C. d.b3
+    * D. d.d
 1. 有如下类的定义：
 
    ```
@@ -161,35 +160,35 @@ TableOfContents
    ```
 
    以下函数调用属于动态绑定的是：
-    A. D d; B &b = d; b.f(5);
-    A. D d; B b = d; b.f(true);
-    A. D d; B &b = d; b.print(false);
-    A. D d; B b = d; b.print(5);
+    * A. D d; B &b = d; b.f(5);
+    * B. D d; B b = d; b.f(true);
+    * C. D d; B &b = d; b.print(false);
+    * D. D d; B b = d; b.print(5);
 1. 如下类型之间的关系中，哪个是组合关系？（   ）
-    A. 米-糙米
-    A. 香蕉-芒果
-    A. 显微镜-透镜
-    A. 刷子-画刷
+    * A. 米-糙米
+    * B. 香蕉-芒果
+    * C. 显微镜-透镜
+    * D. 刷子-画刷
 1. 为了实现面向对象程序设计三大基本概念，C++提供了必要的某些语法特性来支持，不必要的是：（    ）
-    A. 类
-    A. 继承
-    A. 运算符重载
-    A. 虚函数
+    * A. 类
+    * B. 继承
+    * C. 运算符重载
+    * D. 虚函数
 1. 以下运算符中不能被重载的是：（   ）
-    A. --
-    A. <<
-    A. ?:
-    A. ==
+    * A. --
+    * B. <<
+    * C. ?:
+    * D. ==
 1. 以下关于运算符的说法错误的是：（   ）
-    A. 重载[]运算符，可以让对象像数组一样使用
-    A. 重载()运算符，可以让对象像函数一样使用
-    A. 重载\*运算符和-&gt;运算符，可以让对象像指针一样使用
-    A. 重载=运算符，可以让对象赋值给基本数据类型（比如int等）
+    * A. 重载[]运算符，可以让对象像数组一样使用
+    * B. 重载()运算符，可以让对象像函数一样使用
+    * C. 重载\*运算符和-&gt;运算符，可以让对象像指针一样使用
+    * D. 重载=运算符，可以让对象赋值给基本数据类型（比如int等）
 1. 关于输入输出流错误的是：（   ）
-    A. istream是输入流类
-    A. cin是键盘输入流类
-    A. ifstream是文件输入流类
-    A. istringstream是字符串输入流类
+    * A. istream是输入流类
+    * B. cin是键盘输入流类
+    * C. ifstream是文件输入流类
+    * D. istringstream是字符串输入流类
 
 ### 程序填空题
 

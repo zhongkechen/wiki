@@ -33,9 +33,9 @@ format:
 * comtypes http://starship.python.net/crew/theller/comtypes/
 * pyopengl http://pyopengl.sourceforge.net/
 * python-ldap http://www.python-ldap.org/
-    * PythonLdap
-* PyGtk
-* Django
-* Pygame
+    * [PythonLdap](<../程序设计语言/PythonLdap.qmd>)
+* [PyGtk](<../程序设计语言/PyGtk.qmd>)
+* [Django](<../程序设计语言/Django.qmd>)
+* [Pygame](<../程序设计语言/Pygame.qmd>)
 
 ### Python开发环境

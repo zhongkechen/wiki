@@ -51,9 +51,9 @@ sudo chown root:root /etc/java-1.5.0-sun/fontconfig.properties
 
 ### 编辑排版
 
-* Emacs
-* VI
-* TeX排版
+* [Emacs](<../Linux/Emacs.qmd>)
+* [VI](<../Linux/VI.qmd>)
+* [TeX排版](<../Linux/TeX排版.qmd>)
 
 ### 聊天
 

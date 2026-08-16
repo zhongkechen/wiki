@@ -16,15 +16,15 @@ format:
 
 Telegram（中文俗称：电报）自己是这样定义的：
 
-```wiki
+::: {.callout-note}
 Telegram是一个专注于安全和速度，基于云的移动和桌面消息应用。
-```
+:::
 
 参考：[维基百科上的详细定义](https://zh.wikipedia.org/wiki/Telegram)
 
 Telegram自己是这样宣传自己的：
 
-![why telegram|width=90%](<assets/Telegram/why_telegram.png>)
+![why telegram](<assets/Telegram/why_telegram.png>){width=90%}
 
 为什么已经有微信QQ等等了，还要推荐Telegram？对比微信，telegram有以下一些优势：
 
@@ -75,9 +75,9 @@ Telegram自己是这样宣传自己的：
 
 Telegram使用方式非常直接，打开app后使用手机号和短信验证码注册后即可使用。如果在中国大陆，注册过程可能会因为网络问题而无法成功，需要设置代理然后才能完成注册过程。请参考以下代理设置。
 
-```wiki
+::: {.callout-warning}
 注意：中国号码注册Telegram账户有私聊限制（详见下文），有更高的安全风险（详见下文）。推荐使用非中国区号码注册Telegram账户。Telegram并不限制使用国外虚拟号码注册账户，Google Voice、TextNow 等号码均可注册成功。
-```
+:::
 
 ### 相关设置
 
@@ -89,9 +89,9 @@ Telegram使用方式非常直接，打开app后使用手机号和短信验证码
 
 Telegram支持设置代理服务器，可以让你重新获得使用Telegram的自由。代理分为socks5和MTProxy两种类型。目前在中国大陆只有MTProxy类型并且密钥部分是ee开头的代理可以稳定正常使用。
 
-```wiki
+::: {.callout-tip}
 如果你习惯于全局翻墙（比如使用VPN），则不需要配置Telegram代理也能正常使用Telegram。
-```
+:::
 
 ##### 如何使用代理？
 
@@ -155,9 +155,9 @@ Telegram虽然没有内置中文，但是对于界面的多语言支持很好。
   设置(Settings) -> 隐私和安全(Privacy and Security) -> 两步验证(Two-Step Verification)
 ```
 
-```wiki
+::: {.callout-warning}
 注意: 请避免使用国内免费邮箱作为密码恢复邮箱
-```
+:::
 
 #### 非常重要的隐私权限设置
 
