@@ -1,0 +1,47 @@
+---
+title: "汽车"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000024 在备份中缺失；以下内容来自最新可读取版本 00000023。
+:::
+
+### 原理
+
+* [This Honda Has No Transmission](https://www.youtube.com/watch?v=fmMb45PPrmg)
+* [新能源汽车技术22-本田i-MMD混动E-CVT结构及各工作模式下的动力传递](https://nev.m.ofweek.com/2018-06/ART-71011-11000-30241632.html)
+* [一套令人震撼的汽车解剖图：让你对汽车结构了然于胸，轻松成为故障诊断专家](https://mp.weixin.qq.com/s?__biz=MjM5Njg2ODUyMQ==&mid=200105800&idx=1&sn=55ee3380f38f1e8c2daebb3a34df506c)
+* [CarPlay](https://www.apple.com/ios/carplay/)
+
+### 驾驶
+
+* [38号车评中心的驾驶讲堂](https://www.youtube.com/playlist?list=PLzt1E53BajsZ5UYUI0F_lav_yqUXK_ZSF)
+* [Smith5Keys](https://www.drivedifferent.com/smith5keys/)
+* [侃车《美国驾车注意事项》 01](https://www.youtube.com/watch?v=y3Mn0SsUxRQ) [02](https://www.youtube.com/watch?v=U7sBJwb0fxk)
+* [新车评网安全驾驶培训课程](https://www.youtube.com/watch?v=PeyD_Gkk3YI)
+* [【統哥駕駛教室】順暢駕駛的練習（基礎篇）](https://www.youtube.com/watch?v=lxfSHVqbjs0)
+* [轉向不足與轉向過度的差異 (究竟如何修正這種現象呢？)](https://www.youtube.com/watch?v=kzohYsxN-dM)
+* [視野死角及內輪差](https://www.youtube.com/watch?v=QA6-vNCIgyY)
+* [开车发生小事故 如何正确处理？](https://www.youtube.com/watch?v=m3PwQzZI2hU)
+* [John Nash Fatal Crash Renews Back Seat Seatbelt Warnings](https://www.youtube.com/watch?v=FU12n1sdLx0)
+* [保護車內兒童最佳守則](https://www.icbc.com/brochures/Pages/cn/child-car-seats.aspx)
+* [雅阁锐混动快速指南](https://www.ghac.cn/Layouts/Activity/2018/0829/manual/index.html)
+* [雅阁锐混动车辆操作指南](https://www.ghac.cn/Layouts/Activity/2018/0829/accord-sporthybrid)
+* [Combi Joytrip儿童座椅说明书](https://www.combi.com.tw/uploadfile/filedownload_list/2_1536726899.pdf)
+* [IIHS工程师告诉你：正确系好安全带对你有多重要？](https://www.d1ev.com/news/pinglun/63075)
+
+### 保养
+
+* [【統哥】DIY 換機油示範](https://www.youtube.com/watch?v=6mqZ5ljaPAE)
+* [【K-WAX】猛牛教室 洗車篇#1 洗車基本知識及步驟／洗車藥水詳解](https://www.youtube.com/watch?v=UpaOWySbF0E)
+* [正确更换汽车备胎 操作不当会毁车!](https://www.youtube.com/watch?v=6v0gZG-aU8s)

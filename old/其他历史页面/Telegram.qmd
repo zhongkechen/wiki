@@ -1,0 +1,210 @@
+---
+title: "Telegram"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+## Telegram
+
+### Telegram是什么？
+
+Telegram（中文俗称：电报）自己是这样定义的：
+
+::: {.callout-note}
+Telegram是一个专注于安全和速度，基于云的移动和桌面消息应用。
+:::
+
+参考：[维基百科上的详细定义](https://zh.wikipedia.org/wiki/Telegram)
+
+Telegram自己是这样宣传自己的：
+
+![why telegram](<assets/Telegram/why_telegram.png>){width=90%}
+
+为什么已经有微信QQ等等了，还要推荐Telegram？对比微信，telegram有以下一些优势：
+
+* 微信不安全，不支持端到端加密，客户端与服务端之间的协议不透明，客户端不开放源代码；
+
+    * Telegram客户端开放源代码，客户端与服务端之间通讯加密而且公开协议，支持端到端加密，更加安全。
+
+* 微信不开放接口，无法进行聊天机器人开发；
+
+    * Telegram客户端完全开源，服务端有强大的API进行机器人开发。
+
+* 微信用来进行用户交互的微信小程序开发需要使用专有、复杂的前端技术；
+
+    * Telegram提供简单的API进行用户交互开发，开发成本低。
+
+* 微信桌面版功能不完整，无法独立登录，web版同样功能不完整且新注册用户无法使用，也不能多设备同时登录；
+
+    * Telegram桌面版、网页版功能强大，多设备无缝同步，用户体验优秀。
+
+* 微信没有公开的讨论群，有些敏感话题不被允许；
+
+    * Telegam上有各种内容丰富的公开讨论组，比如数字货币、VPN、p2p技术等。
+
+* 微信无法永久保存聊天记录，无法传送大文件。
+
+    * Telegram云端保存无限量的聊天记录，并且可以多设备同步，单个文件最大支持1.5GB。
+
+* 微信群组上限500人；
+
+    * Telegram群组上限20万人。
+
+* 微信经常封号删帖，无法销号无法清除已发送的消息，并被国安24小时监控；
+
+    * Telegram尊重言论自由，随时销号彻底删除已发送消息，无人监控无人可破解。
+
+综上，我们必须要告别微信，而telegram是一个很好的替代品。
+
+### 如何安装和使用Telegram？
+
+各平台Telegram客户端下载地址如下
+
+* iOS平台： https://itunes.apple.com/us/app/telegram-messenger/id686449807?mt=8
+* Android平台 https://telegram.org/dl/android/apk
+* Android平台 不依赖谷歌框架的自由软件版 https://f-droid.org/en/packages/org.telegram.messenger/
+* Mac平台 https://itunes.apple.com/us/app/telegram/id747648890?mt=12
+* Windows平台 https://github.com/telegramdesktop/tdesktop/releases
+* 更多其它客户端 https://telegram.org/apps
+
+Telegram使用方式非常直接，打开app后使用手机号和短信验证码注册后即可使用。如果在中国大陆，注册过程可能会因为网络问题而无法成功，需要设置代理然后才能完成注册过程。请参考以下代理设置。
+
+::: {.callout-warning}
+注意：中国号码注册Telegram账户有私聊限制（详见下文），有更高的安全风险（详见下文）。推荐使用非中国区号码注册Telegram账户。Telegram并不限制使用国外虚拟号码注册账户，Google Voice、TextNow 等号码均可注册成功。
+:::
+
+### 相关设置
+
+#### 代理设置
+
+##### 为什么需要代理？
+
+如果你不幸在伊朗、俄罗斯或者中国大陆的话，国家防火墙封锁了Telegram，让你无法自由使用Telegram。如果你公司的网络防火墙封锁了Telegram，你也无法在公司自由使用Telegram。
+
+Telegram支持设置代理服务器，可以让你重新获得使用Telegram的自由。代理分为socks5和MTProxy两种类型。目前在中国大陆只有MTProxy类型并且密钥部分是ee开头的代理可以稳定正常使用。
+
+::: {.callout-tip}
+如果你习惯于全局翻墙（比如使用VPN），则不需要配置Telegram代理也能正常使用Telegram。
+:::
+
+##### 如何使用代理？
+
+代理通常以如下链接的形式表示：
+
+* tg://proxy?server=104.215.7.79&port=443&secret=ee000000000000000000000000000000017777772e62696e672e636f6d
+
+* https://t.me/proxy?server=13.75.109.157&port=443&secret=ee000000000000000000000000000000017777772e62696e672e636f6d
+
+使用这些代理链接的方式有多种：
+
+* 如果在Telegram的聊天对话中看到这样的代理链接，直接点击确定就可以开启。在其他地方看到这样的链接，也可以复制到Telegram的任意对话中发送，然后点击发送后的链接。
+* 可以在手机自带的浏览器中打开代理链接，会自动跳转到Telegram应用并设置代理。注意，https//t.me/ 开头的代理链接在中国无法直接打开，还有微信等国产app内置的浏览器无法打开这样的链接。
+* 可以在Telegram中找到代理设置进行手动添加，选择MTProto类型，并截取链接中的服务器地址、端口和密钥信息填写在相应的字段即可。
+    * 设置(Settings) -&gt; 数据(Data and Storage) -&gt; 代理(Proxy)
+* 在首次登录或者注册Telegram的过程中，也可以使用代理。但是不能通过点击链接的方式配置，只能手动添加。
+* 如果已经设置了代理，在Telegram聊天列表的最上方会出现盾牌图标，点击后可以在多个代理中切换。
+
+##### 如何获取更多最新的可用的免费的代理？
+
+公开的代理服务器会经常失效。
+
+* 要获取更多最新的可用的代理服务器信息，请在Telegram中添加 @onessr  @mtplinks @mtpclub 等，它们会收集公开可用的Telegram代理并推送给你。
+* 更多免费代理列表参考这里 https://telegra.ph/%E6%9C%80%E6%96%B0%E5%8F%AF%E7%94%A8TG%E4%BB%A3%E7%90%86%E5%88%97%E8%A1%A8-02-14
+
+##### 如何自建Telegram代理
+
+* python实现： https://github.com/alexbers/mtprotoproxy
+* 使用haproxy实现与nginx等web服务器共享443端口： https://github.com/alexbers/mtprotoproxy/pull/119
+
+#### 推送问题
+
+你在Android手机上无法收到Telegram新消息推送通知的时候查看此帮助。
+
+目前在 Android 设备有两种推送消息方式：谷歌的GCM 和Telegram自己的推送服务。注意：GCM 消息推送服务并不能在国内 Android 设备上运行。Telegram 自己的消息推送服务则相对可靠。
+
+* 到 Telegram 的“设置”：点击“通知与音效”，确认消息通知已启用，并且重要登记设置为“高”或以上。
+* 确认联系人或是群组没有被设置为静音。
+* 确保手机已经安装 Google Play Services 。
+* 在手机设定中检查Telegram的通知优先级。
+* 如果您的手机使用了一些节电软件，确保将Telegram加入节电软件的白名单中。比如华为：电话管理器应用程序&gt;受保护的应用程序&gt;添加Telegram到列表中。比如小米：服务&gt;安全&gt;权限&gt;自动启动，找到Telegram并启用自动启动。更多机型的具体方法参考这里：https://telegra.ph/Android-Notifications-FIX
+* 如果以上操作依然无法解决问题，请参考这里： https://telegra.ph/Notifications-FIX
+
+#### 汉化
+
+Telegram虽然没有内置中文，但是对于界面的多语言支持很好。在Telegram中点击这个链接就可以切换到中文： https://t.me/setlanguage/zhcncc
+
+#### 私信受限问题
+
+如果你的Telegram账户是中国大陆号码（即+86号码）注册的，私聊对方是非中国大陆手机账户并且对方通讯录中没有你的号码，则无法私聊。解决办法有：
+
+* 要么给自己Telegram账户换非中国号码
+* 要么用其它方式通知对方在手机里存下你的手机号
+* 另外还有一种办法是通过 @spambot 请求Telegram解除这种限制，具体过程如下图所示：  ![spambot.gif](<assets/Telegram/spambot.gif>)
+
+#### 两步验证（非常重要的安全设置）
+
+为了Telegram帐号安全，尤其是使用中国大陆手机号注册的Telegram账户，请立即设置两步验证密码，否则您的帐户将有很大的风险被盗用。该密码只会在新登录 Telegram 时被要求输入，不会带来任何麻烦。
+
+```
+  设置(Settings) -> 隐私和安全(Privacy and Security) -> 两步验证(Two-Step Verification)
+```
+
+::: {.callout-warning}
+注意: 请避免使用国内免费邮箱作为密码恢复邮箱
+:::
+
+#### 非常重要的隐私权限设置
+
+这些设置可以控制谁可以看到你的手机号、在线状态及拉你进群等。建议设置为“我的联系人”或者“没有人”
+
+```
+设置(Settings) -> 隐私和安全(Privacy and Security)
+```
+
+近期不打招呼就拉人入群的情况较为严重，甚至已经作为服务出售（是的，开始卖钱了），因此特制作此说明，建议对此权限进行调整。
+
+### Telegram资源推荐
+
+想在Telegram上加入区块链等中文讨论社区时，可以添加如下账户（或者打开链接）
+
+* 中文群组和频道索引 @zh_groups_bot
+* 台湾中文群组和频道广播 @TopicsTW
+* 台湾中文群组索引 http://www.telegram.url.tw/
+* 英语及其他语言的群组索引 https://tgram.io
+
+### 参考资料
+
+* https://zh.wikipedia.org/wiki/Telegram
+* [Telegram传奇：俄罗斯富豪、黑客高手、极权和阴谋…](http://telegra.ph/Telegram%E4%BC%A0%E5%A5%87%E4%BF%84%E7%BD%97%E6%96%AF%E5%AF%8C%E8%B1%AA%E9%BB%91%E5%AE%A2%E9%AB%98%E6%89%8B%E6%9E%81%E6%9D%83%E5%92%8C%E9%98%B4%E8%B0%8B-06-19)
+* [只想安静的聊个天？Telegram 就够了](https://www.sohu.com/a/42328407_115785)
+* [Telegram 简单入门使用教程](https://doubibackup.com/ma7f_p6p.html)
+* [Telegram实用技巧](https://telegra.ph/Telegram%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7-03-12)
+* [Telegram实用技巧](http://x.2129.n8.nabble.com/Telegram-td30.html)
+* [我订阅的 Telegram 频道和群组](https://blog.yitianshijie.net/2017/07/13/telegram-channels-and-groups-i-subscribe-to/)
+* [刷不出宝马广告也不要紧，玩点不一样的私密通讯：Telegram](https://webcache.googleusercontent.com/search?q=cache:EbRJWzDiJYsJ:https://neo.sspai.com/post/28068+&cd=1&hl=en&ct=clnk&gl=us)
+* [逃离微信宣言](https://freefromgfw.github.io/FreeFromWechat/)
+* [《逃离微信宣言》，天下苦微信久矣！](https://telegra.ph/tlwx-02-20)
+* [逃离微信2.0: 数字移民Telegram，不要再让404变成404.](https://telegra.ph/%E9%80%83%E7%A6%BB%E5%BE%AE%E4%BF%A120-%E6%95%B0%E5%AD%97%E7%A7%BB%E6%B0%91Telegram-04-01)
+* [《數字極權時代生存手記》10. Telegram不完全指南](https://matters.news/@Luterngun/%E6%95%B8%E5%AD%97%E6%A5%B5%E6%AC%8A%E6%99%82%E4%BB%A3%E7%94%9F%E5%AD%98%E6%89%8B%E8%A8%98-10-telegram%E4%B8%8D%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97-bafyreidtgrexkaoeukuhzskdbzpbbw5yg3ae4gt36j47nahayzlhpbwg3e)
+* [Why You Should Stop Reading Gizmodo Right Now?](https://telegra.ph/Why-you-should-stop-reading-Gizmodo-right-now-Long)
+* [Page Verification Guidelines](https://telegram.org/verify)
+* [电报Telegram 的优势以及必须的安全设置](https://telegra.ph/telegramyoushianquan-02-29)
+* [已经 4 岁的 Telegram 不只是聊天工具，这 30+ Channel 和 Bot 你值得关注](http://www.myzaker.com/article/599283701bc8e09579000035/)
+* [Keep Calm and Send Telegrams!](https://telegram.org/blog/15million-reuters)
+
+微信
+
+* [咱们好好打字，别发微信语音行吗](https://sspai.com/post/47554)
+* [为什么不能用微信或米聊这类的软件](https://itindex.net/detail/40743-%E5%BE%AE%E4%BF%A1-%E7%B1%B3%E8%81%8A-%E8%BD%AF%E4%BB%B6)
+* [微信十条严管即时通讯工具](https://chinadigitaltimes.net/chinese/2014/08/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5-%E5%BE%AE%E4%BF%A1%E5%8D%81%E6%9D%A1%E4%B8%A5%E7%AE%A1%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF%E5%B7%A5%E5%85%B7/)
+* [微信大數據報告揭用家細節 網民質疑被監控](https://hd.stheadline.com/news/realtime/chi/1409001/%E5%8D%B3%E6%99%82-%E4%B8%AD%E5%9C%8B-%E5%BE%AE%E4%BF%A1%E5%A4%A7%E6%95%B8%E6%93%9A%E5%A0%B1%E5%91%8A%E6%8F%AD%E7%94%A8%E5%AE%B6%E7%B4%B0%E7%AF%80-%E7%B6%B2%E6%B0%91%E8%B3%AA%E7%96%91%E8%A2%AB%E7%9B%A3%E6%8E%A7)
+* [“未阅先焚” 微信朋友圈图片过滤功能分析](https://citizenlab.ca/2018/08/%E6%9C%AA%E9%98%85%E5%85%88%E7%84%9A%EF%BC%9A%E5%BE%AE%E4%BF%A1%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%9B%BE%E7%89%87%E8%BF%87%E6%BB%A4%E5%8A%9F%E8%83%BD%E5%88%86%E6%9E%90/)
+* [中国加紧控制移动即时通信工具](https://www.chinagfw.org/2014/08/blog-post_12.html)
+* [央视称微信涉色情，官方扩大“清网”？](https://www.dw.com/zh/%E5%A4%AE%E8%A7%86%E7%A7%B0%E5%BE%AE%E4%BF%A1%E6%B6%89%E8%89%B2%E6%83%85%E5%AE%98%E6%96%B9%E6%89%A9%E5%A4%A7%E6%B8%85%E7%BD%91/a-17239196)
+* [Outside the Green Bubble of China's Super-App](https://www.sixthtone.com/news/1002502/outside-the-green-bubble-of-chinas-super-app)

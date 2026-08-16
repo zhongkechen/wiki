@@ -1,0 +1,45 @@
+---
+title: "常见软件价格"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000011 在备份中缺失；以下内容来自最新可读取版本 00000010。
+:::
+
+| 软件名称 | 价格 | 官方网址 |
+| --- | --- | --- |
+| Adobe Photoshop CS3 | 835USD | http://www.adobe.com/go/buyphotoshop |
+| Adobe Premiere Pro CS3 | 1025USD |  |
+| altova xmlspy 2008 enterprise | 1090usd | https://shop.altova.com/pricelist.asp |
+| autodesk 3ds max 2009 | $3495 | http://store.autodesk.com/DRHM/servlet/ControllerServlet?Action=DisplayProductDetailsPage&SiteID=adsk&Locale=en_US&ThemeID=516200&Env=BASE&productID=103837600 |
+| backburner |  |  |
+| charater studio 4.2 |  |  |
+| cool edit pro 2.0 |  |  |
+| CorelDRAW Graphics Suite X4  - Download | 385USD | http://store.corel.com/webapp/wcs/stores/servlet/ProductDisplay?productId=87924&catalogId=10103&storeId=10302&langId=-1 |
+| leap ftp | 30usd | http://www.leapware.com/order.html |
+| macromedia authorware 7 | 3425USD |  |
+| macromedia dreamweaver CS3 | 515USD |  |
+| macromedia Flash CS3 Professional | 899USD |  |
+| matlab 6.5 |  |  |
+| microsoft office 2007 home and student | $119.99(20%off) | http://www.amazon.com/gp/product/B000HCZ8EO/ref=amb_link_4206462_/105-5857237-8887665?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=0PHWKX27K28SE3CNQDWJ&pf_rd_t=101&pf_rd_p=276801201&pf_rd_i=203104011 |
+| microsoft sql server 2000 |  |  |
+| microsoft visual studio .net 2003 architecture | ￥24375 |  |
+| microsoft visual studio 6.0 enterprise | ￥18500＋ |  |
+| Microsoft Windows xp pro | ￥1998 |  |
+| msdn library for .net 2003 |  |  |
+| nero8 下载版 | ￥618 | http://www.nero.com/chs/store.html |
+| symantec antivirus corporate | 51.6USD | http://shop.symantecstore.com/store/symnasmb/ContentTheme/pbPage.SEPmigration/pgm.13197500/ThemeID.362200 |
+| ulead videostudio 11 | 69.99usd | http://www.ulead.com/store/vs/runme.htm |
+| winrar | ￥290 | http://www.winrar.com.cn/buy.htm |
+| win tc 1.9.1 |  |  |
+| 尚书6号表格文字识别系统 |  |  |

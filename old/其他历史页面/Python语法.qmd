@@ -1,0 +1,260 @@
+---
+title: "Python语法"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000003 在备份中缺失；以下内容来自最新可读取版本 00000002。
+:::
+
+## Python语法
+
+The syntax of the Python programming language is the set of rules that defines how a Python program will be written and interpreted (by both the runtime system and by human readers). Python was designed to be a highly readable language. It aims toward an uncluttered visual layout, uses English keywords frequently where other languages use punctuation, and has notably fewer syntactic constructions than many structured languages such as C, Perl, or Pascal. A program that does not conform to these rules will not run, or it will produce unexpected results.
+
+### Indentation
+
+One oft noted element of Python's syntax is its use of whitespace to delimit program blocks (the off-side rule). Sometimes termed "the whitespace thing", it is one aspect of Python syntax that many programmers otherwise unfamiliar with Python have heard of, since it is unusual among most commonly used programming languages.
+
+In so-called "free-format" languages, that use the block structure ultimately derived from ALGOL, blocks of code are set off with braces ({ }) or keywords. In all these languages, however, programmers conventionally indent the code within a block, to set it off visually from the surrounding code.
+
+Python, instead, borrows a feature from its predecessor ABC — instead of punctuation or keywords, it uses this indentation itself to indicate the run of a block. A brief example will make this clear.
+
+Here are C and Python recursive functions which do the same thing—computing the factorial of an integer:
+
+Factorial function in C:
+```cpp
+int factorial(int x)
+{
+    if (x == 0) {
+        return 1;
+    }
+    else {
+        return x * factorial(x-1);
+    }
+}
+```
+Factorial function in Python:
+```python
+def factorial(x):
+    if x == 0:
+        return 1
+    else:
+        return x * factorial(x-1)
+```
+Some programmers used to ALGOL-style languages, in which whitespace is semantically empty, find this confusing or even offensive. A few have drawn an unflattering comparison to the column-oriented style used on punched-card Fortran systems. When ALGOL was new, it was a major development to have "free-form" languages in which only symbols mattered and not their position on the line.
+
+To Python programmers, however, "the whitespace thing" is simply the enforcement of a convention that programmers in ALGOL-style languages already follow anyway. They also point out that the free-form syntax has the disadvantage that, since indentation is ignored, good indentation cannot be enforced. Thus, incorrectly indented code may be misleading, since a human reader and a compiler could interpret it differently. Here is an example:
+
+Misleading indentation in C:
+```cpp
+for (i = 0; i < 20; ++i)
+   a();
+   b();
+   c();
+```
+
+This code is intended to call functions a(), b(), and c() 20 times — and at first glance, that's what it appears to do. However, the interpreted code block is just {a();}. The code calls a() 20 times, and then calls b() and c() one time each. This can be confusing to novice programmers.
+
+The 'whitespace thing' has minor disadvantages. Both space characters and tab characters are currently accepted as forms of indentation. Since they are not visually distinguishable (in many tools), mixing spaces and tabs can create bugs that take specific efforts to find (a perennial suggestion among Python users has been removing tabs as block markers—except, of course, among those Python users who propound removing spaces instead).
+
+Because whitespace is syntactically significant, it is not always possible for a program to automatically correct the indentation in Python code as can be done with C or Lisp code. Moreover, formatting routines which remove whitespace - for instance, many Internet forums — can completely destroy the syntax of a Python program, whereas a program in a bracketed language would merely become more difficult to read. Similarly, it is generally easier for an editing tool to detect and show matching (or mismatched) delimiters in an ALGOL-style language than to help a programmer with his or her Python indentation, and multiple indentation levels can be confusing when a function spans a page boundary.
+
+### Data structures
+
+Since Python is a dynamically typed language, Python values, not variables, carry type. This has implications for many aspects of the way the language functions.
+
+All variables in Python hold references to objects, and these references are passed to functions by value; a function cannot change the value a variable references in its calling function. Some people (including Guido van Rossum himself) have called this parameter-passing scheme "Call by object reference."
+
+Among dynamically typed languages, Python is moderately type-checked. Implicit conversion is defined for numeric types, so one may validly multiply a complex number by a long integer (for instance) without explicit casting. However, there is no implicit conversion between (e.g.) numbers and strings; a string is an invalid argument to a mathematical function expecting a number.
+
+#### Base types
+
+Python has a broad range of basic data types. Alongside conventional integer and floating point arithmetic, it transparently supports arbitrary-precision arithmetic and complex numbers.
+
+Python supports a panoply of string operations. Strings in Python are immutable, so a string operation such as a substitution of characters, that in other programming languages might alter a string in place, returns a new string in Python. Performance considerations sometimes push for using special techniques in programs that modify strings intensively, such as joining character arrays into strings only as needed.
+
+#### Collection types
+
+One of the very useful aspects of Python is the concept of collection (or container) types. In general a collection is an object that contains other objects in a way that is easily referenced or indexed. Collections come in two basic forms: sequences and mappings.
+
+The ordered sequential types are lists (dynamic arrays), tuples, and strings. All sequences are indexed positionally (0 through length − 1) and all but strings can contain any type of object, including multiple types in the same sequence. Both strings and tuples are immutable, making them perfect candidates for dictionary keys (see below). Lists, on the other hand, are mutable; elements can be inserted, deleted, modified, appended, or sorted in-place.
+
+On the other side of the collections coin are mappings, which are unordered types implemented in the form of dictionaries which "map" a set of immutable keys, to corresponding elements much like a mathematical function. The keys in a dictionary must be of an immutable Python type such as an integer or a string. For example, one could define a dictionary having a string "toast" mapped to the integer 42 or vice versa. This is done under the covers via a hash function which makes for faster lookup times, but is also the culprit for a dictionary's lack of order and is the reason mutable objects (i.e. other dictionaries or lists) cannot be used as keys. Dictionaries are also central to the internals of the language as they reside at the core of all Python objects and classes: the mapping between variable names (strings) and the values which the names reference is stored as a dictionary (see Object system). Since these dictionaries are directly accessible (via an object's __dict__ attribute), meta-programming is a straightforward and natural process in Python.
+
+A set collection type was added to the core language in version 2.4. A set is an unindexed, unordered collection that contains no duplicates, and implements set theoretic operations such as union, intersection, difference, symmetric difference, and subset testing. There are two types of sets: set and frozenset, the only difference being that set is mutable and frozenset is immutable. Elements in a set must be hashable and immutable. Thus, for example, a frozenset can be an element of a regular set whereas the opposite is not true.
+
+Python also provides extensive collection manipulating abilities such as built in containment checking and a generic iteration protocol.
+
+#### Object system
+
+In Python, everything is an object, even classes. Classes, as objects, have a class, which is known as their metaclass. Python also supports multiple inheritance and mixins (see also MixinsForPython).
+
+The language supports extensive introspection of types and classes. Types can be read and compared— types are instances of type. The attributes of an object can be extracted as a dictionary.
+
+Operators can be overloaded in Python by defining special member functions—for instance, defining __add__ on a class permits one to use the + operator on members of that class.
+
+### Operators
+
+#### Comparison operators
+
+The basic comparison operators such as ==, &lt;, &gt;=, and so forth, are used on all manner of values. Numbers, strings, sequences, and mappings can all be compared. Although disparate types (such as a str and a int) are defined to have a consistent relative ordering, this is considered a historical design quirk, and will no longer be allowed in Python 3000.
+
+Chained comparison expressions such as a &lt; b &lt; c have roughly the meaning that they have in mathematics, rather than the unusual meaning found in C and similar languages. The terms are evaluated and compared in order. The operation has short-circuit semantics, meaning that evaluation is guaranteed to stop as soon as a verdict is clear: if a &lt; b is false, c is never evaluated as the expression cannot possibly be true anymore.
+
+For expressions without side effects, a &lt; b &lt; c is equivalent to a &lt; b and b &lt; c. However, there is a substantial difference when the expressions have side effects. a &lt; f(x) &lt; b will evaluate f(x) exactly once, whereas a &lt; f(x) and f(x) &lt; b will evaluate it once if the value of a is less than f(x) and twice otherwise.
+
+#### Logical operators
+
+Python 2.2 and earlier does not have an explicit boolean type. In all versions of Python, boolean operators treat zero values or empty values such as "", 0, None, 0.0, [], and {} as false, while in general treating non-empty, non-zero values as true. In Python 2.2.1 the boolean constants True and False were added to the language (subclassed from 1 and 0). The binary comparison operators such as == and &gt; return either True or False.
+
+The boolean operators and and or use minimal evaluation. For example, y == 0 or x/y &gt; 100 will never raise a divide-by-zero exception. For backward compatibility, these operators return the value of the last operand evaluated. Thus the expression (4 and 5) evaluates to 5, and (4 or 5) evaluates to 4.
+
+### Functional programming
+
+As mentioned above, another strength of Python is the availability of a functional programming style. As may be expected, this makes working with lists and other collections much more straightforward. One such construction is the list comprehension, as seen here in calculating the first five powers of two:
+```python
+numbers = [1, 2, 3, 4, 5]
+powers_of_two = [2**n for n in numbers]
+```
+The Quicksort algorithm can be expressed elegantly using list comprehensions:
+```python
+def qsort(L):
+  if L == []: return []
+  pivot = L[0]
+  return qsort([x for x in L[1:] if x < pivot]) + [pivot] + \
+         qsort([y for y in L[1:] if y >= pivot])
+```
+Although execution of this naïve form of Quicksort is less space-efficient than forms which alter the sequence in-place, it is often cited as an example of the expressive power of list comprehensions.
+
+#### First-class functions
+
+In Python, functions are first-class objects that can be created and passed around dynamically.
+
+Python's lambda construct can be used to create anonymous functions within expressions. Lambdas are however limited to containing expressions; statements can only be used in named functions created with the def statement. (However, any type of control flow can in principle be implemented within lambda expressions[1] by short-circuiting the and and or operators.)
+
+#### Closures
+
+Python has had support for lexical closures since version 2.2. Python's syntax, though, sometimes leads programmers of other languages to think that closures are not supported. Since names are bound locally, the trick to creating a closure is using a mutable container within enclosing scope. Many Python tutorials explain this usage, but it is an atypical style in Python programs.
+
+#### Generators
+
+Introduced in Python 2.2 as an optional feature and finalized in version 2.3, generators are Python's mechanism for lazy evaluation of a function that would otherwise return a space-prohibitive or computationally intensive list.
+
+This is an example to lazily generate the prime numbers:
+```python
+from itertools import count
+def generate_primes(stop_at=None):
+    primes = []
+    for n in count(2):
+        if stop_at is not None and n > stop_at:
+            return
+        composite = False
+        for p in primes:
+            if not n % p:
+                composite = True
+                break
+            elif p**2 > n:
+                break
+        if not composite:
+            primes.append(n)
+            yield n
+```
+
+To use this function simply call, e.g.:
+```python
+for i in generate_primes():  # iterate over ALL primes
+    if i > 100: break
+    print i
+```
+The definition of a generator appears identical to that of a function, except the keyword yield is used in place of return. However, a generator is an object with persistent state, which can repeatedly enter and leave the same scope. A generator call can then be used in place of a list, or other structure whose elements will be iterated over. Whenever the for loop in the example requires the next item, the generator is called, and yields the next item.
+
+Generators don't have to be infinite like the prime-number example above. When a generator terminates, an internal exception is raised which indicates to any calling context that there are no more values. A for loop or other iteration will then terminate.
+
+#### Generator expressions
+
+Introduced in Python 2.4, generator expressions are the lazy evaluation equivalent of list comprehensions. Using the prime number generator provided in the above section, we might define a lazy, but not quite infinite collection.
+```python
+from itertools import islice
+first_million_primes = (i for i in generate_primes() if i < 1000000)
+two_thousandth_prime = list(islice(first_million_primes,2001))[2000]
+```
+Most of the memory and time needed to generate this many primes will not be used until the needed element is actually accessed. Unfortunately, you cannot perform simple indexing and slicing of generators, but must use the itertools modules or "roll your own" loops. In contrast, a list comprehension is functionally equivalent, but is greedy in performing all the work:
+```python
+first_million_primes = [i for i in generate_primes(2000000) if i < 1000000]
+two_thousandth_prime = first_million_primes[2000]
+```
+The list comprehension will immediately create a large list (with 78498 items, in the example, but transiently creating a list of primes under two million), even if most elements are never accessed. The generator comprehension is more parsimonious.
+
+### Objects
+
+Python supports most object oriented programming techniques. It allows polymorphism, not only within a class hierarchy but also by duck typing. Any object can be used for any type, and it will work so long as it has the proper methods and attributes. And everything in Python is an object, including classes, functions, numbers and modules. Python also has support for metaclasses, an advanced tool for enhancing classes' functionality. Naturally, inheritance, including multiple inheritance, is supported. It has limited support for private variables using name mangling. See the "Classes" section of the tutorial for details. Many Python users don't feel the need for private variables, though. The slogan "We're all consenting adults here" is used to describe this attitude. Some consider information hiding to be unpythonic, in that it suggests that the class in question contains unaesthetic or ill-planned internals.
+
+From the tutorial: As is true for modules, classes in Python do not put an absolute barrier between definition and user, but rather rely on the politeness of the user not to "break into the definition."
+
+OOP doctrines such as the use of accessor methods to read data members are not enforced in Python. Just as Python offers functional-programming constructs but does not attempt to demand referential transparency, it offers (and extensively uses!) its object system but does not demand OOP behavior. Moreover, it is always possible to redefine the class using properties so that when a certain variable is set or retrieved in calling code, it really invokes a function call, so that spam.eggs = toast might really invoke spam.set_eggs(toast). This nullifies the practical advantage of accessor functions, and it remains OOP because the property 'x' becomes a legitimate part of the object's interface: it need not reflect an implementation detail.
+
+In version 2.2 of Python, "new-style" classes were introduced. With new-style classes, objects and types were unified, allowing the subclassing of types. Even entirely new types can be defined, complete with custom behavior for infix operators. This allows for many radical things to be done syntactically within Python. A new method resolution order for multiple inheritance was also adopted with Python 2.3. It is also possible to run custom code while accessing or setting attributes, though the details of those techniques have evolved between Python versions.
+
+### Exceptions
+
+Python supports (and extensively uses) exception handling as a means of testing for error conditions and other "exceptional" events in a program. Indeed, it is even possible to trap the exception caused by a syntax error.
+
+Python style calls for the use of exceptions whenever an error condition might arise. Indeed, rather than testing for access to a file or resource before actually using it, it is conventional in Python to just go ahead and try to use it, catching the exception if access is rejected.
+
+Exceptions can also be used as a more general means of non-local transfer of control, even when an error is not at issue. For instance, the Mailman mailing list software, written in Python, uses exceptions to jump out of deeply-nested message-handling logic when a decision has been made to reject a message or hold it for moderator approval.
+
+Exceptions are often, especially in threaded situations, used as an alternative to the if-block. A commonly-invoked motto is EAFP, or "It is Easier to Ask for Forgiveness than to ask for Permission." In this first code sample, there is an explicit check for the attribute (i.e., "asks permission"):
+```python
+if hasattr(spam, 'eggs'):
+    baz = spam.eggs
+else:
+    handle_error()
+```
+This second sample follows the EAFP paradigm:
+```python
+try:
+    baz = spam.eggs
+except AttributeError:
+    handle_error()
+```
+These two code samples have the same effect, although there will be performance differences. When spam has the attribute eggs, the EAFP sample will run faster. When spam does not have the attribute eggs (the "exceptional" case), the EAFP sample will run significantly slower. The Python programmer usually writes for code readability first, then uses Python's code profiling tools for performance analysis to determine if further optimization is required. In most cases, the EAFP paradigm results in faster and more readable code.
+
+### Comments and docstrings
+
+Python has two ways to annotate Python code. One is by using comments to indicate what some part of the code does.
+```python
+def getline():
+    return sys.stdin.readline() # Get one line and return it
+```
+Comments begin with the hash character ("#") and are terminated by the end of line. Python does not support comments that span more than one line. The other way is to use docstrings (documentation string), that is a string that is located alone without assignment as the first line within a module, class, method or function. Such strings can be delimited with " or ' for single line strings, or may span multiple lines if delimited with either """ or ''' which is Python's notation for specifying multi-line strings. However, the style guide for the language specifies that triple double quotes (""") are preferred for both single and multi-line docstrings.
+
+Single line docstring:
+```python
+def getline():
+    """Get one line from stdin and return it."""
+    return sys.stdin.readline()
+```
+
+Multi-line docstring:
+```python
+def getline():
+    """Get one line
+       from stdin
+       and return it."""
+    return sys.stdin.readline()
+```
+
+Docstrings can be as large as the programmer wants and contain line breaks (if multi-line strings are used). In contrast with comments, docstrings are themselves Python objects and are part of the interpreted code that Python runs. That means that a running program can retrieve its own docstrings and manipulate that information. But the normal usage is to give other programmers information about how to invoke the object being documented in the docstring.
+
+There are tools available that can extract the docstrings to generate an API documentation from the code. Docstring documentation can also be accessed from the interpreter with the help() function, or from the shell with the pydoc command.
+
+The doctest standard module uses interactions copied from Python shell sessions into docstrings, to create tests.

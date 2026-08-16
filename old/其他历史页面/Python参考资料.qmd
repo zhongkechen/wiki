@@ -1,0 +1,46 @@
+---
+title: "Python参考资料"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000010 在备份中缺失；以下内容来自最新可读取版本 00000009。
+:::
+
+* [Python Official Web](http://www.python.org/)
+* [Python中文社区](http://python.cn/)
+* [Wikipedia:Python_programming_language](http://en.wikipedia.org/wiki/Python_%28programming_language%29) ([Wikipedia上的Python编程语言简介](http://zh.wikipedia.org/wiki/Python))
+* [Python Tutorial](http://docs.python.org/tut/tut.html) (中文版: [Python教学文件2.0繁体中文版](http://www.freebsd.org.hk/html/python/tut_tw/tut.html) [Python指南2.4简体中文版](http://www.woodpecker.org.cn:9081/doc/Python/Py2.4tut/html/))
+* [Dive Into Python](http://diveintopython.org/) (中文版: [Python研究](http://www.woodpecker.org.cn/diveintopython/))
+* [A Byte of Python](http://www.byteofpython.info/read/index.html) (中文版: [简明Python教程](http://www.byteofpython.info/language/chinese/index.html))
+* [Python Reference Manual](http://docs.python.org/ref/ref.html) (中文版: [Python语言参考手册](http://chinesepython.org/pythonfoundry/ref2.3/tmp/) )
+* [Python Library Reference](http://docs.python.org/lib/lib.html) (中文版: [Python库参考手册](http://chinesepython.org/pythonfoundry/lib2.3/tmp/))
+* [One Day of IDLE Toying](http://hkn.eecs.berkeley.edu/~dyoo/python/idle_intro/index.html) (中文版: [摆弄一天IDLE](http://hkn.eecs.berkeley.edu/~dyoo/python/idle_intro/IDLE-chinese.htm))
+* [ibm上的python专题](http://www-128.ibm.com/developerworks/cn/linux/theme/special/index.html#python)
+* [How to Think Like a Computer Scientist (Learning with Python)](http://www.ibiblio.org/obp/thinkCSpy/)
+* [Instant Hacking](http://www.hetland.org/python/instant-hacking.php) and [Instant Python](http://hetland.org/python/instant-python.php)
+* [Intro to programming with Python in Tkinter(Video Lesson)](http://wiki.python.org/moin/Intro_to_programming_with_Python_and_Tkinter)
+* [Non-Programmers Tutorial For Python](http://www.honors.montana.edu/~jjc/easytut/easytut/)
+* [Handbook of the Physics Computing Course](http://www.pentangle.net/python/handbook/)
+* [Beginning Python for Bioinformatics](http://www.onlamp.com/pub/a/python/2002/10/17/biopython.html)
+* [Python course in Bioinformatics](http://www.pasteur.fr/recherche/unites/sis/formation/python/)
+* [Introduction to Programming using Python](http://www.pasteur.fr/formation/infobio/python/)
+* [The LiveWires Python Course](http://www.livewires.org.uk/python/)
+* [The Guido van Robot](http://gvr.sourceforge.net/)
+* [Python Programming for Beginners](http://www.linuxjournal.com/article/3946)
+* [Python 101 -- Introduction to Python](http://www.rexx.com/~dkuhlman/python_101/python_101.html) [Python 201 -- (Slightly) Advanced Python Topics](http://www.rexx.com/~dkuhlman/python_201/python_201.html)
+* [Python Short Course](http://www.wag.caltech.edu/home/rpm/python_course/)
+* [Scripting for Computational Science](http://www.ifi.uio.no/in228/lecsplit/)
+* [Python for Science](http://starship.python.net/crew/hinsen/)
+* [Code Teacher](http://www.codeteacher.com/category.php?ID=8)
+* [Python讨论组comp.lang.python](http://groups.google.com/group/comp.lang.python)
+* [Learn to Program(ruby)](http://pine.fm/LearnToProgram/)

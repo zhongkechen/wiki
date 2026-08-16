@@ -1,0 +1,107 @@
+---
+title: "MacOS"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000018 在备份中缺失；以下内容来自最新可读取版本 00000017。
+:::
+
+## MacOS
+
+### 电脑准备
+
+* Mac购买指南： https://buyersguide.macrumors.com/
+* 开机进Recovery，开启固件密码。固件密码可以阻止其他人从外部磁盘启动电脑或者进recovery修改设置。 https://support.apple.com/zh-cn/HT204455
+* 如果需要安装Linux等第三方系统，进Recovery，关闭引导保护。
+* 用Linux跑Mac应用 https://www.darlinghq.org/
+* 黑苹果 https://sourceforge.net/p/cloverefiboot/wiki/Home/ https://www.tonymacx86.com/  https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/ http://www.osx86project.org/
+* 安全设置 https://support.apple.com/en-us/HT210108
+* [HHKB 说明书](https://hhkeyboard.us/wp-content/uploads/2018/11/HHKB-Settings_and_Layout-1.pdf)
+
+### 安装软件
+
+* Homebrew https://brew.sh/
+* [macOS Setup Guide](https://sourabhbajaj.com/mac-setup/)
+* [MacOS 的安全和隐私指南](https://github.com/xitu/macOS-Security-and-Privacy-Guide)
+* [写给 Mac 新手的入门 App 指南](https://sspai.com/post/48380)
+
+常用软件
+
+* brew
+    * zsh, zsh-autosuggestions, zsh-syntax-highlighting, antigen, brew-cask-completion
+    * mackup
+    * mas
+    * youtube-dl
+    * yubico-piv-tool
+    * wireguard-tools
+    * git
+    * certbot
+    * tmux
+    * python, pyenv, pipenv
+    * [Karabiner Elements](https://karabiner-elements.pqrs.org/)：键盘按键映射，比如可以把Shift映射成Capslock进行中英文切换
+
+* cask
+    * adoptopenjdk8, java
+    * iterm2
+    * istat-menus
+    * telegram
+    * virtualbox, virtualbox-extension-pack
+    * v2rayx
+    * zoomus
+    * zerotier-one
+    * yubico-authenticator, yubico-yubikey-manager, yubico-yubikey-personalization-gui, yubico-yubikey-piv-manager
+    * xquartz
+    * tor-browser
+    * transmission
+    * steam
+    * keka, kekadefaultapp
+    * kodi
+    * logitech-options, logitech-unifying
+    * microsoft-office
+    * flux
+    * firefox
+    * eve
+    * dash
+    * charles
+    * balenaetcher
+    * chrome-remote-desktop-host
+    * calibre
+    * cheatsheet
+    * gpg-suite
+    * handbrake-nightly, makemkv
+    * hex-fiend
+    * iina
+    * intellij-idea, pycharm
+    * postman
+    * sdformatter
+    * visual-studio-code
+* app store
+    * Reader
+    * Numbers, Pages, Keynote
+    * Microsoft Remote Desktop
+    * WiFi Explorer
+    * 1Password
+    * Window Tidy
+* 其它
+
+### 备份
+
+* 购买大容量iCloud Drive，可以备份整个Desktop、Documents，但不能做全盘备份。可以结合mackup把更多东西备份到云端。
+* 使用TimeMachine。最简单就是买一个USB外接硬盘。或者使用NAS，可以做远程备份。
+
+### 参考
+
+* [Mac下提升工作效率的方式](http://mrpeak.cn/blog/mac-efficiency/)
+* Mac OS 小白入门 https://www.youtube.com/watch?v=ecrbLEGzN9w
+* [Mac 开发配置学习手册](https://github.com/mba811/mac-dev)
+* [高效 MacBook 工作环境配置](https://zhuanlan.zhihu.com/p/24868436)

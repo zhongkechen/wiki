@@ -1,0 +1,98 @@
+---
+title: "Scons"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000009 在备份中缺失；以下内容来自最新可读取版本 00000008。
+:::
+
+### 介绍
+
+SCons是一种make的替代品，下一代的软件构建工具。SCons太慢了，试试Waf
+
+### 安装
+
+debian/ubuntu
+
+```
+sudo aptitude install scons
+```
+
+Windows: http://www.scons.org/download.php
+
+### 命令
+
+在程序目录下创建一个SConstruct文件，写上脚本，然后执行
+
+```
+% scons
+```
+
+就可以进行编译了。执行
+
+```
+% scons -c
+```
+
+清除生成的文件。如果要在编译时，少输出一些调试信息，可以用
+
+```
+% scons -Q
+```
+
+如果要在一个子目录中编译，可以用
+
+```
+% scons -u
+```
+
+### 脚本
+
+最简单的脚本，编译main.cc为可执行程序：
+```python
+Program("main.cc")
+```
+
+编译多个程序为一个可执行程序：
+```python
+Program(["main.cc", "hello.cc"])
+```
+
+编译为目标文件，然后链接成可执行程序：
+```python
+objs = Object(["hello.cc", "main.cc"])
+Program(objs)
+```
+
+编译为静态库文件：
+```python
+Library("hello.cc")
+```
+
+或者
+
+```python
+StaticLibrary("hello.cc")
+```
+
+或者
+
+```python
+SharedLibrary("hello.cc")
+```
+
+链接库文件到程序
+```python
+lib = StaticLibrary("hello.cc")
+Program("main.cc", LIBS=lib)
+```

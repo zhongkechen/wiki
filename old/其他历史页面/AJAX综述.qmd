@@ -1,0 +1,73 @@
+---
+title: "AJAX综述"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000008 在备份中缺失；以下内容来自最新可读取版本 00000007。
+:::
+
+## Ajax: A New Approach to Web Applications
+
+If anything about current interaction design can be called “glamorous,” it’s creating Web applications. After all, when was the last time you heard someone rave about the interaction design of a product that wasn’t on the Web? (Okay, besides the iPod.) All the cool, innovative new projects are online.
+
+Despite this, Web interaction designers can’t help but feel a little envious of our colleagues who create desktop software. Desktop applications have a richness and responsiveness that has seemed out of reach on the Web. The same simplicity that enabled the Web’s rapid proliferation also creates a gap between the experiences we can provide and the experiences users can get from a desktop application.
+
+That gap is closing. Take a look at [Google Suggest](http://www.google.com/webhp?complete=1&hl=en). Watch the way the suggested terms update as you type, almost instantly. Now look at [Google Maps](http://maps.google.com/). Zoom in. Use your cursor to grab the map and scroll around a bit. Again, everything happens almost instantly, with no waiting for pages to reload.
+
+Google Suggest and Google Maps are two examples of a new approach to web applications that we at Adaptive Path have been calling Ajax. The name is shorthand for Asynchronous JavaScript + XML, and it represents a fundamental shift in what’s possible on the Web.
+
+### Defining Ajax
+
+Ajax isn’t a technology. It’s really several technologies, each flourishing in its own right, coming together in powerful new ways. Ajax incorporates:
+
+* [standards-based presentation](http://www.adaptivepath.com/publications/essays/archives/000266.php) using XHTML and CSS;
+* dynamic display and interaction using the [Document Object Model](http://www.scottandrew.com/weblog/articles/dom_1);
+* data interchange and manipulation using [XML and XSLT](http://www-106.ibm.com/developerworks/xml/library/x-xslt/?article=xr);
+* asynchronous data retrieval using [XMLHttpRequest](http://www.xml.com/pub/a/2005/02/09/xml-http-request.html);
+* and [JavaScript](http://www.crockford.com/javascript/javascript.html) binding everything together.
+
+The classic web application model works like this: Most user actions in the interface trigger an HTTP request back to a web server. The server does some processing — retrieving data, crunching numbers, talking to various legacy systems — and then returns an HTML page to the client. It’s a model adapted from the Web’s original use as a hypertext medium, but as fans of [The Elements of User Experience](http://www.jjg.net/elements/) know, what makes the Web good for hypertext doesn’t necessarily make it good for software applications.
+
+![ajax-fig1.png](http://www.adaptivepath.com/images/publications/essays/ajax-fig1.png)
+
+*Figure 1: The traditional model for web applications (left) compared to the Ajax model (right).*
+
+This approach makes a lot of technical sense, but it doesn’t make for a great user experience. While the server is doing its thing, what’s the user doing? That’s right, waiting. And at every step in a task, the user waits some more.
+
+Obviously, if we were designing the Web from scratch for applications, we wouldn’t make users wait around. Once an interface is loaded, why should the user interaction come to a halt every time the application needs something from the server? In fact, why should the user see the application go to the server at all?
+
+### How Ajax is Different
+
+An Ajax application eliminates the start-stop-start-stop nature of interaction on the Web by introducing an intermediary — an Ajax engine — between the user and the server. It seems like adding a layer to the application would make it less responsive, but the opposite is true.
+
+Instead of loading a webpage, at the start of the session, the browser loads an Ajax engine — written in JavaScript and usually tucked away in a hidden frame. This engine is responsible for both rendering the interface the user sees and communicating with the server on the user’s behalf. The Ajax engine allows the user’s interaction with the application to happen asynchronously — independent of communication with the server. So the user is never staring at a blank browser window and an hourglass icon, waiting around for the server to do something.
+
+![ajax-fig2.png](http://www.adaptivepath.com/images/publications/essays/ajax-fig2.png)
+
+*Figure 2: The synchronous interaction pattern of a traditional web application (top) compared with the asynchronous pattern of an Ajax application (bottom).*
+
+Every user action that normally would generate an HTTP request takes the form of a JavaScript call to the Ajax engine instead. Any response to a user action that doesn’t require a trip back to the server — such as simple data validation, editing data in memory, and even some navigation — the engine handles on its own. If the engine needs something from the server in order to respond — if it’s submitting data for processing, loading additional interface code, or retrieving new data — the engine makes those requests asynchronously, usually using XML, without stalling a user’s interaction with the application.
+
+### Who’s Using Ajax
+
+Google is making a huge investment in developing the Ajax approach. All of the major products Google has introduced over the last year — [Orkut](http://www.orkut.com/), [Gmail](http://www.gmail.com/), the latest beta version of [Google Groups](http://groups-beta.google.com/), [Google Suggest](http://www.google.com/webhp?complete=1&hl=en), and [Google Maps](http://maps.google.com/) — are Ajax applications. (For more on the technical nuts and bolts of these Ajax implementations, check out these excellent analyses of [Gmail](http://johnvey.com/features/gmailapi/), [Google Suggest](http://serversideguy.blogspot.com/2004/12/google-suggest-dissected.html), and [Google Maps](http://web.archive.org/web/20050331002145/jgwebber.blogspot.com/2005/02/mapping-google.html).) Others are following suit: many of the features that people love in [Flickr](http://www.flickr.com/) depend on Ajax, and Amazon’s [A9.com](http://www.a9.com/) search engine applies similar techniques.
+
+These projects demonstrate that Ajax is not only technically sound, but also practical for real-world applications. This isn’t another technology that only works in a laboratory. And Ajax applications can be any size, from the very simple, single-function Google Suggest to the very complex and sophisticated Google Maps.
+
+At Adaptive Path, we’ve been doing our own work with Ajax over the last several months, and we’re realizing we’ve only scratched the surface of the rich interaction and responsiveness that Ajax applications can provide. Ajax is an important development for Web applications, and its importance is only going to grow. And because there are so many developers out there who already know how to use these technologies, we expect to see many more organizations following Google’s lead in reaping the competitive advantage Ajax provides.
+
+### Moving Forward
+
+The biggest challenges in creating Ajax applications are not technical. The core Ajax technologies are mature, stable, and well understood. Instead, the challenges are for the designers of these applications: to forget what we think we know about the limitations of the Web, and begin to imagine a wider, richer range of possibilities.
+
+It’s going to be fun.

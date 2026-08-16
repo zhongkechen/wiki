@@ -6,6 +6,8 @@ require "json"
 require "pathname"
 require "tmpdir"
 
+require_relative "moin_additional_pages"
+
 REPOSITORY_ROOT = File.expand_path("..", __dir__)
 DEFAULT_SOURCE_ROOT = File.join(REPOSITORY_ROOT, "mywiki", "data", "pages")
 SOURCE_ROOT = File.expand_path(ENV.fetch("MOIN_SOURCE_ROOT", DEFAULT_SOURCE_ROOT))
@@ -15,6 +17,8 @@ SOURCE_SNAPSHOT_PATH = File.join(
   "data",
   "moin_other_page_sources.json"
 )
+ADDITIONAL_ARCHIVE_ROOT = "其他历史页面"
+SYNTHETIC_ROOT_PAGE_NAMES = [ADDITIONAL_ARCHIVE_ROOT].freeze
 BASE_ROOT_PAGE_CHILDREN = {
   "维基简介" => [],
   "浙大考博题" => [],
@@ -56,14 +60,71 @@ EXCLUDED_PAGE_NAMES = [
   "TCPL/B.01.2_Formatted_Output/ugczovkjkeluzdbrjicfhozvfajh"
 ].freeze
 IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
+NORMALIZED_TEXT_ATTACHMENT_EXTENSIONS = %w[.js].freeze
 EXCLUDED_ATTACHMENTS = {
   "MSP430" => ["ebook 16M.rar"]
 }.freeze
 REUSED_OUTPUT_PATHS = {
   "论坛" => File.join("ICPC", "论坛.qmd"),
   "Linux" => "Linux.qmd",
+  "apache2" => File.join("Linux", "apache2.qmd"),
+  "Emacs" => File.join("Linux", "Emacs.qmd"),
+  "VI" => File.join("Linux", "VI.qmd"),
+  "TeX排版" => File.join("Linux", "TeX排版.qmd"),
+  "Python" => File.join("程序设计语言", "Python.qmd"),
+  "PythonLdap" => File.join("程序设计语言", "PythonLdap.qmd"),
+  "PyGtk" => File.join("程序设计语言", "PyGtk.qmd"),
+  "Django" => File.join("程序设计语言", "Django.qmd"),
+  "Pygame" => File.join("程序设计语言", "Pygame.qmd"),
+  "C" => File.join("高级语言程序设计课程", "C.qmd"),
+  "C++" => File.join("程序设计语言", "C++.qmd"),
+  "Matlab" => File.join("程序设计语言", "Matlab.qmd"),
+  "程序设计语言" => "程序设计语言.qmd",
+  "算法" => "算法.qmd",
+  "高级语言程序设计课程" => "高级语言程序设计课程.qmd",
+  "面向对象程序设计课程" => "面向对象程序设计课程.qmd",
+  "数据结构" => "数据结构.qmd",
+  "数字图像处理" => "数字图像处理.qmd",
+  "Python游戏开发基础" => "Python游戏开发基础.qmd",
+  "ICPC" => "ICPC.qmd",
   "计算机科学导论" => "计算机科学导论.qmd",
-  "离散数学" => "离散数学.qmd"
+  "离散数学" => "离散数学.qmd",
+  "计算机图形学" => "计算机图形学.qmd",
+  "算法与数据结构" => "算法与数据结构.qmd",
+  "计算理论" => "计算理论.qmd",
+  "科学上网" => File.join("..", "wiki", "科学上网.md"),
+  "Tetris" => File.join("..", "wiki", "Tetris.md"),
+  "YubiKey" => File.join("..", "wiki", "YubiKey.md"),
+  "nostr" => File.join("..", "wiki", "Nostr.md")
+}.freeze
+SOURCE_TEXT_REPLACEMENTS = {
+  "万维网" => {
+    "[CSS]]" => "[[CSS]]"
+  },
+  "程序" => {
+    "[[指令]" => "[[指令]]"
+  },
+  "基于OpenWrt路由器的全自动翻墙方案" => {
+    "[[http://sourceforge.net/projects/xtables-addons/files/|" \
+      "xtables-addons源码]" =>
+      "[[http://sourceforge.net/projects/xtables-addons/files/|" \
+        "xtables-addons源码]]"
+  }
+}.freeze
+SOURCE_CODE_RANGES = {
+  "apache2/debianapache2" => [
+    ["# a2enmod  userdir", "# /etc/init.d/apache2 force-reload"],
+    ["# /etc/init.d/apache2 restart", "# /etc/init.d/apache2 restart"],
+    [
+      "# mkdir /etc/apache2/passwd",
+      "Adding password for user etony"
+    ],
+    ["# apache2 -l", "mod_so.c"],
+    [
+      "==== mod-security.conf 文件内容开始====",
+      "==== mod-security.conf 文件内容结束===="
+    ]
+  ]
 }.freeze
 COURSE_ROOT_NAVIGATION = {
   "C++集成开发环境" =>
@@ -177,11 +238,18 @@ end.sort
 raise "No readable TCPL child pages were found" if tcpl_page_names.empty?
 
 ROOT_PAGE_CHILDREN =
-  BASE_ROOT_PAGE_CHILDREN.merge("TCPL" => tcpl_page_names).freeze
+  BASE_ROOT_PAGE_CHILDREN
+    .merge("TCPL" => tcpl_page_names)
+    .merge(ADDITIONAL_ARCHIVE_ROOT => MOIN_ADDITIONAL_PAGE_NAMES)
+    .freeze
 MIGRATED_PAGE_NAMES = ROOT_PAGE_CHILDREN.flat_map do |root_name, children|
   [root_name, *children]
 end.freeze
-SOURCE_PAGE_NAMES = (MIGRATED_PAGE_NAMES + AUXILIARY_PAGE_NAMES).freeze
+SOURCE_PAGE_NAMES = (
+  MIGRATED_PAGE_NAMES -
+    SYNTHETIC_ROOT_PAGE_NAMES +
+    AUXILIARY_PAGE_NAMES
+).freeze
 
 missing_pages = SOURCE_PAGE_NAMES.reject do |name|
   PAGE_INDEX.key?(name) || SOURCE_SNAPSHOT.key?(name)
@@ -220,6 +288,25 @@ def output_relative_path(page_name)
     basename = File.basename(page_name).delete("<>")
     File.join(root_name, "#{basename}.qmd")
   end
+end
+
+def page_title(page_name)
+  MOIN_ADDITIONAL_PAGE_TITLES.fetch(page_name, page_name)
+end
+
+def normalize_mixed_indentation(content)
+  content.gsub(/^[ ]+\t+/) do |indentation|
+    indentation.gsub("\t", "  ")
+  end
+end
+
+def additional_archive_source
+  MOIN_ADDITIONAL_PAGE_GROUPS.map do |group_name, page_names|
+    links = page_names.map do |page_name|
+      " * [[#{page_name}|#{page_title(page_name)}]]"
+    end
+    ["= #{group_name} =", *links].join("\n")
+  end.join("\n\n")
 end
 
 OUTPUT_PATHS = MIGRATED_PAGE_NAMES.to_h do |page_name|
@@ -363,16 +450,27 @@ def relative_asset_target(owner, filename)
 end
 
 def attachment_markup(spec, owner, image: false)
-  filename, label = spec.split("|", 2)
+  filename, label, *options = spec.split("|")
   clean_filename = safe_attachment_name(filename)
   visible = label.to_s.strip
   visible = File.basename(clean_filename) if visible.empty?
   target = markdown_target(relative_asset_target(owner, clean_filename))
   if image || IMAGE_EXTENSIONS.include?(File.extname(clean_filename).downcase)
-    "![#{visible}](#{target})"
+    "![#{visible}](#{target})#{image_attributes(options)}"
   else
     "[#{visible}](#{target})"
   end
+end
+
+def image_attributes(options)
+  attributes = options.filter_map do |option|
+    key, value = option.strip.split("=", 2)
+    next unless %w[width height].include?(key)
+    next unless value&.match?(/\A\d+(?:\.\d+)?(?:%|px)?\z/)
+
+    "#{key}=#{value}"
+  end
+  attributes.empty? ? "" : "{#{attributes.join(' ')}}"
 end
 
 def convert_link(raw, owner)
@@ -398,6 +496,16 @@ def convert_link(raw, owner)
 
   path = relative_output_path(owner, target_path)
   "[#{label}](#{markdown_target(path)})"
+end
+
+def convert_legacy_external_link(url, label)
+  clean_url = CGI.unescapeHTML(url)
+  extension = File.extname(clean_url.split(/[?#]/, 2).first).downcase
+  return external_image_markup(clean_url, "") if IMAGE_EXTENSIONS.include?(extension)
+
+  visible = label.to_s.strip
+  visible = clean_url if visible.empty?
+  "[#{visible}](#{clean_url})"
 end
 
 def normalize_latex(content)
@@ -445,6 +553,49 @@ def convert_blocks(text)
   [converted, blocks, inline]
 end
 
+def wrap_source_code_ranges(source, owner)
+  ranges = SOURCE_CODE_RANGES.fetch(owner, [])
+  return source if ranges.empty?
+
+  lines = source.lines
+  ranges.each do |start_marker, end_marker|
+    start_index = lines.index { |line| line.strip == start_marker }
+    raise "Missing code range start for #{owner}: #{start_marker}" unless start_index
+
+    end_index = (start_index...lines.length).find do |index|
+      lines[index].strip == end_marker
+    end
+    raise "Missing code range end for #{owner}: #{end_marker}" unless end_index
+
+    body = lines[start_index..end_index].join.rstrip
+    lines[start_index..end_index] = ["{{{#!text\n#{body}\n}}}\n"]
+  end
+  lines.join
+end
+
+def convert_wiki_admonitions(text)
+  types = {
+    "caution" => "warning",
+    "note" => "note",
+    "tip" => "tip"
+  }
+  text.gsub(/\{\{\{#!wiki\s+(caution|note|tip)\s*\n(.*?)\}\}\}/m) do
+    type = types.fetch(Regexp.last_match(1))
+    body = Regexp.last_match(2).rstrip
+    "::: {.callout-#{type}}\n#{body}\n:::"
+  end
+end
+
+def protect_raw_blocks(text)
+  fragments = []
+  converted = text.gsub(/\{\{\{#!raw\s*\n(.*?)\}\}\}/m) do
+    token = "@@MOIN_RAW_#{fragments.length}@@"
+    fragments << Regexp.last_match(1).rstrip
+    token
+  end
+  [converted, fragments]
+end
+
 def add_display_math_blocks(source, blocks)
   source.gsub(/<<latex\((.*?)\)>>/m) do
     formula = Regexp.last_match(1).strip
@@ -468,6 +619,16 @@ def protect_nowiki(text)
   [converted, fragments]
 end
 
+def protect_posix_character_classes(text)
+  fragments = []
+  converted = text.gsub(/\[\[:[a-z]+:\]\]/i) do
+    token = "@@MOIN_POSIX_#{fragments.length}@@"
+    fragments << Regexp.last_match(0)
+    token
+  end
+  [converted, fragments]
+end
+
 def normalize_indented_outline(source, owner)
   return source unless owner == "计算机体系结构"
 
@@ -483,9 +644,9 @@ def normalize_indented_outline(source, owner)
   end.join
 end
 
-def external_image_markup(url, label)
+def external_image_markup(url, label, options = [])
   visible = label.to_s.empty? ? File.basename(url.split(/[?#]/, 2).first) : label
-  "![#{visible}](#{url})"
+  "![#{visible}](#{url})#{image_attributes(options)}"
 end
 
 def render_page_list(pattern, owner)
@@ -585,8 +746,11 @@ def convert_moin_emphasis(source)
     converted = line.gsub(/'''([^'\n]*?)'''/) do
       markdown_emphasis(Regexp.last_match(1), "**")
     end
-    converted.gsub(/''([^'\n]*?)''/) do
+    converted.gsub!(/''([^'\n]*?)''/) do
       markdown_emphasis(Regexp.last_match(1), "*")
+    end
+    converted.gsub(/--\((.*?)\)--/) do
+      markdown_emphasis(Regexp.last_match(1), "~~")
     end
   end.join
 end
@@ -598,7 +762,13 @@ end
 
 def convert_moin(text, owner:)
   source = text.gsub("\r\n", "\n")
+  SOURCE_TEXT_REPLACEMENTS.fetch(owner, {}).each do |before, after|
+    source.gsub!(before, after)
+  end
+  source = wrap_source_code_ranges(source, owner)
   source.gsub!(/^#pragma section-numbers (?:on|off|\d+)[ \t]*\n?/, "")
+  source.gsub!("[[TableOfContents]]", "<<TableOfContents>>")
+  source.gsub!("[[AttachList]]", "<<AttachList>>")
   source.gsub!("{{{{#!", "{{{#!")
   source.gsub!(/^(\s*)\{\{\{(?!#!)[ \t]*(\S[^\n]*)\n/) do
     "#{Regexp.last_match(1)}{{{\n#{Regexp.last_match(2)}\n"
@@ -618,6 +788,8 @@ def convert_moin(text, owner:)
     "@@MOIN_FOOTNOTE_OPEN@@#{Regexp.last_match(1)}@@MOIN_FOOTNOTE_CLOSE@@"
   end
 
+  source = convert_wiki_admonitions(source)
+  source, raw = protect_raw_blocks(source)
   source, nowiki = protect_nowiki(source)
   source.gsub!(%r{</?center>}i, "")
   source.gsub!(%r{<br\s*/?>}i, "<<BR>>")
@@ -630,9 +802,16 @@ def convert_moin(text, owner:)
   source.gsub!(/\{\{attachment:([^}\n]+)\}\}/) do
     attachment_markup(Regexp.last_match(1), owner, image: true)
   end
-  source.gsub!(/\{\{(https?:\/\/[^}|\n]+)(?:\|([^}|\n]*))?(?:\|[^}\n]*)?\}\}/) do
-    external_image_markup(Regexp.last_match(1), Regexp.last_match(2))
+  source.gsub!(/\{\{(https?:\/\/[^}\n]+)\}\}/) do
+    url, label, *options = Regexp.last_match(1).split("|")
+    external_image_markup(url, label, options)
   end
+  source.gsub!(
+    /(?<!\[)\[((?:https?|ftp|mailto):[^\]\s]+)(?:\s+([^\]\n]+))?\](?!\])/
+  ) do
+    convert_legacy_external_link(Regexp.last_match(1), Regexp.last_match(2))
+  end
+  source, posix_character_classes = protect_posix_character_classes(source)
   source.gsub!(/\[\[([^\]]+)\]\]/) do
     convert_link(Regexp.last_match(1), owner)
   end
@@ -648,6 +827,7 @@ def convert_moin(text, owner:)
   result = []
   in_table = false
   list_indents = []
+  list_alpha_counters = []
   previous_line_was_list_item = false
 
   source.each_line do |raw_line|
@@ -664,6 +844,7 @@ def convert_moin(text, owner:)
       result << ""
       in_table = false
       list_indents.clear
+      list_alpha_counters.clear
       previous_line_was_list_item = false
       next
     elsif line.match?(/^\s*-{4,}\s*$/)
@@ -672,6 +853,7 @@ def convert_moin(text, owner:)
       result << ""
       in_table = false
       list_indents.clear
+      list_alpha_counters.clear
       previous_line_was_list_item = false
       next
     elsif line.match?(/^\s*\|\|.*\|\|\s*$/)
@@ -683,6 +865,7 @@ def convert_moin(text, owner:)
       end
       in_table = true
       list_indents.clear
+      list_alpha_counters.clear
       previous_line_was_list_item = false
       next
     end
@@ -705,17 +888,28 @@ def convert_moin(text, owner:)
 
       depth = list_indents.index(source_indent) || list_indents.length - 1
       indent = " " * (depth * 4)
+      list_alpha_counters = list_alpha_counters.take(depth + 1)
+      item_content = list[3].to_s
       marker =
         if list[2].end_with?("、") || list[2].match?(/\A[iI]\.\z/)
+          list_alpha_counters[depth] = nil
           "1."
+        elsif root_page_name(owner) == ADDITIONAL_ARCHIVE_ROOT &&
+            list[2].match?(/\A[a-z]\.\z/i)
+          counter = list_alpha_counters[depth].to_i
+          list_alpha_counters[depth] = counter + 1
+          base = list[2].match?(/\A[A-Z]/) ? "A".ord : "a".ord
+          item_content = "#{(base + counter).chr}. #{item_content}"
+          "*"
         else
+          list_alpha_counters[depth] = nil
           list[2]
         end
       prefix = "#{indent}#{marker} "
       continuation = " " * prefix.length
       result.concat(
         render_content_with_blocks(
-          list[3].to_s,
+          item_content,
           blocks,
           first_prefix: prefix,
           continuation_prefix: continuation
@@ -725,6 +919,7 @@ def convert_moin(text, owner:)
     elsif (definition = line.match(/^\s+(.+?)::\s*(.*)$/))
       append_blank_line(result) unless list_indents.empty?
       list_indents.clear
+      list_alpha_counters.clear
       result << "**#{definition[1]}**: #{definition[2]}"
       previous_line_was_list_item = false
     else
@@ -748,6 +943,7 @@ def convert_moin(text, owner:)
       else
         append_blank_line(result) unless list_indents.empty?
         list_indents.clear
+        list_alpha_counters.clear
         result.concat(render_content_with_blocks(line, blocks))
       end
       previous_line_was_list_item = false
@@ -760,8 +956,14 @@ def convert_moin(text, owner:)
   inline.each_with_index do |code, index|
     rendered.gsub!("@@MOIN_INLINE_#{index}@@") { code }
   end
+  raw.each_with_index do |content, index|
+    rendered.gsub!("@@MOIN_RAW_#{index}@@") { content }
+  end
   nowiki.each_with_index do |content, index|
     rendered.gsub!("@@MOIN_NOWIKI_#{index}@@") { content }
+  end
+  posix_character_classes.each_with_index do |content, index|
+    rendered.gsub!("@@MOIN_POSIX_#{index}@@") { content }
   end
   rendered.gsub!(/\n{3,}/, "\n\n")
   rendered.strip + "\n"
@@ -803,6 +1005,8 @@ def render_page_comments(owner)
 end
 
 def source_with_revision_notice(page_name)
+  return additional_archive_source if SYNTHETIC_ROOT_PAGE_NAMES.include?(page_name)
+
   source = page_source(page_name)
   content =
     if !page_has_readable_revision?(page_name)
@@ -872,7 +1076,7 @@ Dir.mktmpdir("migrate-moin-other-pages") do |temporary_root|
       end
     page = [
       qmd_front_matter(
-        page_name,
+        page_title(page_name),
         number_sections: page_source(page_name).match?(
           SECTION_NUMBER_PRAGMA_PATTERN
         )
@@ -881,6 +1085,8 @@ Dir.mktmpdir("migrate-moin-other-pages") do |temporary_root|
       "",
       body
     ].join("\n")
+    page = normalize_mixed_indentation(page) \
+      if root_name == ADDITIONAL_ARCHIVE_ROOT
     destination =
       File.join(temporary_output_root, output_relative_path(page_name))
     FileUtils.mkdir_p(File.dirname(destination))
@@ -896,7 +1102,17 @@ Dir.mktmpdir("migrate-moin-other-pages") do |temporary_root|
       destination =
         File.join(temporary_output_root, asset_output_relative(owner, filename))
       FileUtils.mkdir_p(File.dirname(destination))
-      FileUtils.cp(source, destination)
+      if root_page_name(owner) == ADDITIONAL_ARCHIVE_ROOT &&
+          NORMALIZED_TEXT_ATTACHMENT_EXTENSIONS.include?(
+            File.extname(filename).downcase
+          )
+        File.binwrite(
+          destination,
+          normalize_mixed_indentation(File.binread(source))
+        )
+      else
+        FileUtils.cp(source, destination)
+      end
       attachment_count += 1
     end
   end

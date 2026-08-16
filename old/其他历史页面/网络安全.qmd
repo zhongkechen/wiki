@@ -1,0 +1,60 @@
+---
+title: "网络安全"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000037 在备份中缺失；以下内容来自最新可读取版本 00000036。
+:::
+
+## 网络安全
+
+### 综合
+
+* [Surveillance Self-Defense: Tips, Tools and How-tos for Safer Online Communications](https://ssd.eff.org/)
+* [《數字極權時代生存手記》2.0 版](https://matters.news/@Luterngun/%E6%95%B8%E5%AD%97%E6%A5%B5%E6%AC%8A%E6%99%82%E4%BB%A3%E7%94%9F%E5%AD%98%E6%89%8B%E8%A8%98-2-0-%E7%89%88-%E5%89%8D%E8%A8%80%E5%8F%8A%E7%9B%AE%E9%8C%84-bafyreiedarompaldgqpw4omixzj6gvqcv47zswok46bclawjj6kke6yjre)
+* [Security in a Box - Digital security tools and tactics](https://securityinabox.org/en/)
+* [数字安全实用手册](https://safeguarddefenders.com/zh-hans/node/18)
+* [Privacy Tools](https://www.privacytools.io/)
+* [Digital Security & Privacy for Human Rights Defenders](https://www.frontlinedefenders.org/en/resource-publication/digital-security-privacy-human-rights-defenders)
+* [Everyone's Guide to By-Passing Internet Censorship](https://citizenlab.ca/guides/everyones-guide-english.pdf)
+
+### 二步验证
+
+* [双因素验证](https://www.ruanyifeng.com/blog/2017/11/2fa-tutorial.html)
+* [什么是两步验证？ by godaddy](https://sg.godaddy.com/zh/help/what-is-two-step-verification-31995)
+* [Two Factor Auth List](https://twofactorauth.org/)
+* [U2Fishing: Potential Security Threat Introduced by U2F Key Wrapping Mechanism](https://github.com/scateu/U2Fishing/)
+* [Evilginx - Advanced Phishing with Two-factor Authentication Bypass](https://breakdev.org/evilginx-advanced-phishing-with-two-factor-authentication-bypass/)
+
+### 加密
+
+* [Qualys SSL Labs](https://www.ssllabs.com/) 测试服务器和浏览器的加密安全性
+* [如何加密邮件](<如何加密邮件.qmd>)
+* [The GNU Privacy Handbook](https://gnupg.org/gph/en/manual.html)
+* [有关密码学的科普内容](https://cryptoboy.home.blog/)
+* [加密入门（四）：Gpg4win](http://terrychen.info/encryption-gpg4win/)
+* [Secure Messaging? More Like A Secure Mess.](https://www.eff.org/deeplinks/2018/03/secure-messaging-more-secure-mess)
+* [走過不留痕跡：用半小時加密你的一切](https://tuna.to/%E8%B5%B0%E9%81%8E%E4%B8%8D%E7%95%99%E7%97%95%E8%B7%A1-%E7%94%A8%E5%8D%8A%E5%B0%8F%E6%99%82%E5%8A%A0%E5%AF%86%E4%BD%A0%E7%9A%84%E4%B8%80%E5%88%87-quincy-larson-f114c910cc8)
+* [Web of Trust](https://en.wikipedia.org/wiki/Web_of_trust)
+
+### 其他
+
+* [预防病毒的正确姿势](<预防病毒的正确姿势.qmd>)
+
+* [AV Comparatives](https://www.av-comparatives.org/)
+* [Email Comparison](https://thatoneprivacysite.net/email-comparison/)
+* [iYouPort](https://www.iyouport.org/)
+* [数字移民](https://shuziyimin.org/)
+* [Is BGP safe yet?](https://isbgpsafeyet.com/)
+* [What is BGP Hijacking?](https://www.cloudflare.com/learning/security/glossary/bgp-hijacking/)
+* [Is Your New TCL HDTV (Made In China) A Security Risk? | ZeroHedge](https://www.zerohedge.com/technology/your-new-tcl-hdtv-made-china-security-risk)

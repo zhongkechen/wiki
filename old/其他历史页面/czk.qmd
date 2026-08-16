@@ -1,0 +1,40 @@
+---
+title: "czk"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+联系方式
+
+* twitter: ch3n2k
+* telegram: ch3n2k
+
+主要教授
+
+* [数据结构](<../数据结构.qmd>)
+* 高级语言程序设计（使用[C](<../高级语言程序设计课程/C.qmd>)语言）
+* 面向对象程序设计（使用[C++](<../程序设计语言/C++.qmd>)语言）
+* [Python](<../程序设计语言/Python.qmd>)语言程序设计
+* [数字图像处理](<../数字图像处理.qmd>)
+
+研究方向
+
+* 多媒体信息分析与处理
+
+兴趣爱好
+
+* 太多了列举不过来
+
+---
+
+## 附件
+
+* [czk.jpg](<assets/czk/czk.jpg>)
+* [snapshot.jpg](<assets/czk/snapshot.jpg>)
+* [snapshot20080308221359.JPG](<assets/czk/snapshot20080308221359.JPG>)

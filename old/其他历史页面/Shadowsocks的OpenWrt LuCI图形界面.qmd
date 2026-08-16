@@ -1,0 +1,45 @@
+---
+title: "Shadowsocks的OpenWrt LuCI图形界面"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+抽空做了一个Shadowsocks在OpenWrt上的图形管理界面，这是我做的第一个OpenWrt模块，第三个lua程序，可能会有很多错误，欢迎大家反馈给我。
+
+这个包的功能包括
+
+* ShadowSocks配置，支持Socks5代理和重定向两种方式
+* 带CN geoip数据库，供iptable-mod-geoip模块使用
+* 自动重定向所有非中国流量到ShadowSocks代理
+* 自动去除DNS污染
+* 在自动重定向模式下，自定义不需要走代理的国外IP （尚未实现）
+* 手动添加GFW返回的错误IP （尚未实现）
+* 英文、中文本地化（中文尚未实现）
+
+![screenshot.png](<assets/Shadowsocks的OpenWrt LuCI图形界面/screenshot.png>)
+
+使用方法：
+
+* 先安装shadowsocks, iptables-mod-geoip, iptables-mod-u32包
+* 下载这个包，并安装。可以在OpenWrt上运行：
+
+  ```
+          wget http://ch3n2k.com/~czk/luci-app-shadowsocks_svn-r10457-1_ar71xx.ipk
+          opkg install luci-app-shadowsocks_svn-r10457-1_ar71xx.ipk
+  ```
+* 打开OpenWrt图形配置界面，在Service-&gt;Shadowsocks下可以看到配置界面
+* 前三个打勾，并填写Shadowsocks信息（地址，端口，密码），然后应用就可以了。
+
+下载链接：暂时只有ar71xx架构的包
+
+* http://ch3n2k.com/~czk/luci-app-shadowsocks_svn-r10457-1_ar71xx.ipk
+
+源代码：
+
+* https://github.com/chnnnkk/luci

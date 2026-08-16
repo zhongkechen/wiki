@@ -1,0 +1,106 @@
+---
+title: "zju_online_judge的常见问题"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000002 在备份中缺失；以下内容来自最新可读取版本 00000001。
+:::
+
+出自 http://acm.zju.edu.cn/faq.php
+
+其中比较重要的是：
+```
+Q:What is the compiler the judge is using and what are the compiler options?
+A:The online judge system is running on Redhat Linux. We are using GNU GCC/G++ for C/C++ compile and GPC/Free Pascal for pascal compile.
+```
+
+```
+Q:What is the meaning of the judge's reply XXXXX?
+A:Here is a list of the judge's replies and their meaning:
+
+Queuing : The judge is so busy that it can't judge your submit at the moment, usualy you just need to wait a minute and your submit will be judged.
+
+Accepted : OK! Your program is correct!.
+
+Presentation Error : Your output format is not exactly the same as the judge's output, although your answer to the problem is correct. Check your output for spaces, blank lines,etc against the problem output specification.
+
+Wrong Answer : Correct solution not reached for the inputs. The inputs and outputs that we use to test the programs are not public (it is recomendable to get accustomed to a true contest dynamic ;-).
+
+Runtime Error : Your program failed during the execution (segmentation fault, floating point exception...). The exact cause is reported to the user.
+
+Time Limit Exceeded : Your program tried to run during too much time.
+
+Memory Limit Exceeded : Your program tried to use more memory than the judge default settings.
+
+Output Limit Exceeded: Your program tried to write too much information. This usually occurs if it goes into a infinite loop. Currently the output limit is 1M bytes.
+
+Compile Error : The compiler (gcc/g++/gpc) could not compile your ANSI program. Of course, warning messages are not error messages. Click the link at the judge reply to see the actual error message.
+
+Out Of Contest Time: this message can only appear during a contest, if a program is submitted out of contest time.
+
+No such problem: Either you have submitted a wrong problem id or the problem is unavailable.
+
+Restricted Function: Your program tried to call restricted functions. For example, maybe you have tried to open a file which is forbidden on ZOJ.
+```
+
+```
+Q:Why did I get a Compile Error? It's well done!
+A:There are some differences between GNU and MS-VC++, such as:
+    * main must be declared as int, void main will end up with a Compile Error.
+    * i is out of definition after block "for(int i=0...){...}"
+    * itoa is not an ANSI function.
+    * __int64 of VC is not ANSI, but you can use long long for 64-bit integer.
+```
+
+```
+Q:What does SIGSEGV in Runtime Error stand for?
+A:The following messages will not be shown to you in contest. Here we just provide some tips:
+SIGSEGV --- Segment Fault. The possible cases of your encountering this error are:
+
+    * 1.buffer overflow --- usually caused by a pointer reference out of range.
+    * 2.stack overflow --- please keep in mind that the default stack size is 8192K.
+    * 3.illegal file access --- file operations are forbidden on our judge system.
+
+SIGFPE  --- Divided by 0
+SIGBUS  --- Hardware Error. //please contact us
+SIGABRT --- Programme aborted before it should be finished.
+man 7 signal under Linux for more information
+```
+
+```
+Q:Where is the input and the output?
+A:Your program shall read input from stdin('Standard Input') and write output to stdout('Standard Output').For example,you can use 'scanf' in C or 'cin' in C++ to read from stdin,and use 'printf' in C or 'cout' in C++ to write to stdout.
+User programs are not allowed to open and read from/write to files, you will get a "Runtime Error" if you try to do so.
+Here is a sample solution for problem 1001 using C++:
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int a,b;
+    while(cin >> a >> b)
+        cout << a+b << endl;
+}
+
+Here is a sample solution for problem 1001 using C:
+
+#include <stdio.h>
+
+int main()
+{
+    int a,b;
+    while(scanf("%d %d",&a, &b) != EOF)
+        printf("%d\n",a+b);
+}
+```

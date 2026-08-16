@@ -1,0 +1,106 @@
+---
+title: "将squid打造成能自动重试的代理服务"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+我希望有这样一种HTTP代理服务软件，它首先会尝试直接连接目标服务器，当连接出现问题时，自动通过另外一个上级代理进行重试。Squid是个很有名很强大的代理服务软件，所以我先想到能不能把它配置成这样。
+
+翻看Squid的文档，一下子就看到了这样两个参数：
+
+* [prefer_direct](http://www.squid-cache.org/Doc/config/prefer_direct/): Normally Squid tries to use parents for most requests. If you for some reason like it to first try going direct and only use a parent if going direct fails set this to on. By combining nonhierarchical_direct off and prefer_direct on you can set up Squid to use a parent as a backup path if going direct fails. Note: If you want Squid to use parents for all requests see the never_direct directive. prefer_direct only modifies how Squid acts on cacheable requests.
+* [retry_on_error](http://www.squid-cache.org/Doc/config/prefer_direct/): If set to ON Squid will automatically retry requests when receiving an error response with status 403 (Forbidden), 500 (Internal Error), 501 or 503 (Service not available). Status 502 and 504 (Gateway errors) are always retried. This is mainly useful if you are in a complex cache hierarchy to work around access control errors. NOTE: This retry will attempt to find another working destination. Which is different from the server which just failed.
+
+在squid中如果配置了上级代理，默认会优先走上级代理，再尝试直连。prefer_direct参数让squid优先选择直连。squid会通过一个叫peerSelect函数，检查所有的acl规则后，产生一个可用的上级代理列表，如果有prefer_direct参数，表示直连的DIRECT会在列表的最前面，否则在最后面。另外squid还有个never_direct参数，如果加了这个参数，这个列表里面就没有DIRECT了。
+
+squid默认只会在连接代理出现502(bad gateway)和504(gateway timeout)时，换个代理进行重试。如果是直连没有成功，不是这两个错误，通常是503（Service Unavailable）。加上retry_on_error参数后，对于直连失败也会换代理进行重试。
+
+貌似加上这两个参数，就可以让squid达到我的效果了。我在ubuntu自带的squid3.1.14上尝试了以后，发现这组参数对于HTTP请求工作得很好，但是对于HTTPS（通过CONNECT方法）的请求没有用。看了内部实现后，发现squid内部在处理HTTPS （CONNECT方法）时，peerSelect是共用的，prefer_direct有效。但是连接处理是完全分开的，处理http请求在forward模块中，处理https请求在一个叫tunnel的模块中，完全不理会retry_on_error参数。
+
+继续看文档，发现SQUID3.2版本新增了这样一个新功能：
+
+* CONNECT tunnel method retries. Are possible up until some bytes get transferred. (1)
+
+换squid3.2再试。squid3.2还是beta版，所有linux发行版中都没有，可以从官网下载源代码编译安装。装完后发现这个功能并不能正常工作。看squid的debug log发现，第一次直接连接一个IP没有连上，底层通讯模块会尝试重连这个IP地址，重连竟然显示成功，但是后续所有读写操作失败。此时上层模块并不会换个代理服务器再连，因为底层报告成功后，上层就会给客户端发送HTTP200的返回表示成功了，此时如果底层再产生通讯问题，上层就没有办法换代理重试了。
+
+这个问题出现在src/comm/ConnOpener.cc里面的timeout函数里：
+
+```
+    void
+    Comm::ConnOpener::timeout(const CommTimeoutCbParams &)
+    {
+         connect();
+    }
+```
+这个函数处理连接超时的情况，连接超时后，直接调用connect，connect函数会调用更底层的comm_connect_addr进行连接，但这时是第二次调用，底层会说你以前调用过了直接返回状态OK，然后上层就以为连接成功了。一个workaround的办法（更好的办法还没想到，可以给squid报bug先）是，timeout这里不要对同一个IP进行重试了，直接返回失败。做法是这样的：
+
+```
+    void
+    Comm::ConnOpener::timeout(const CommTimeoutCbParams &io)
+    {
+        debugs(5, 5, HERE << conn_ << ": * - ERR took too long to connect. (czk)");
+        calls_.earlyAbort_->cancel("Comm::ConnOpener::connect timed out");
+        calls_.earlyAbort_ = NULL;
+        conn_->close();
+        doneConnecting(COMM_ERR_CONNECT, io.xerrno);
+    }
+```
+改完代码再试一次。这里发现squid的编译系统也有点问题，改完这个文件需要make clean然后再make all否则不会生效。编译安装完后进行测试，发现这样确实解决了https重试的问题。
+
+但是发现切换到squid3.2以后，http重试不如以前稳定了。看debug log发现，squid3.2的peerSelect准备了一张很长的重试列表，也不再称作server list或者peer list了，而是叫做path list。它会和3.1一样，先准备一个服务器列表，根据我们的需求，里面只会放两个服务器，一个DIRECT，和一个上级代理。然后它做了更多的事情，它把这个列表里面的域名拿去做dns解析，然后把每个服务器解析出来的所有IP地址都放在path列表里面。然后tunnel或者forward模块会根据path列表进行重试。比如连接www.youtube.com，DNS解析返回6个IP地址，peerSelect就返回了一张这样的重试列表：
+
+```
+    DIRECT = local=0.0.0.0 remote=72.14.203.102:80 flags=1
+    DIRECT = local=0.0.0.0 remote=72.14.203.101:80 flags=1
+    DIRECT = local=0.0.0.0 remote=72.14.203.139:80 flags=1
+    DIRECT = local=0.0.0.0 remote=72.14.203.100:80 flags=1
+    DIRECT = local=0.0.0.0 remote=72.14.203.113:80 flags=1
+    DIRECT = local=0.0.0.0 remote=72.14.203.138:80 flags=1
+    cache_peer = local=0.0.0.0 remote=127.0.0.1:58118 flags=1
+    cache_peer = local=0.0.0.0 remote=127.0.0.1:58118 flags=1
+    cache_peer = local=0.0.0.0 remote=127.0.0.1:58118 flags=1
+```
+这个列表的总长度受一个叫forward_max_tries的参数控制，如果不幸这个域名返回的IP地址个数大于forward_max_tries，那么就不会有上级代理出现在这个列表里面了。查看代码src/peer_select.cc里面的peerSelectDnsResults函数，里面有一个循环把每一个IP加入path列表：
+
+```
+    for (int n = 0; n < ia->count; n++, ip++) {
+```
+简单的做法就是在这里加个限制，每个域名最多2个IP加入path列表：
+
+```
+    for (int n = 0; n < (ia->count>2?2:ia->count); n++, ip++) {
+```
+当然更好的做法是有一个参数能控制这个事情，可以给squid发个feature request。
+
+改了这么多，还没有完。发现HTTPS重试的功能在twitter、facebook等网站上工作得都很好，但是对于google的网站，经常会失败。检查debug log发现，是臭名昭著的墙的随机RESET谷歌的HTTPS连接的问题。这个问题没有好的解决办法，因为连接已经建立再断开的，和前面说的那个bug产生的效果一样。解决的办法只能是把google网站的https链接手动加入never_direct。最简单配置是这样的：
+```
+    acl CONNECT method CONNECT
+    acl google dstdomain .google.com
+    acl google dstdomain .blogger.com
+    never_direct allow CONNECT google
+```
+
+加上下面一些必要的参数，就是一个最简单的可以自动重试的squid配置了：
+```
+    http_access allow all
+    http_port 3128
+    cache_peer 127.0.0.1 parent 8123 0 no-query default name=polipo
+    forward_timeout 15 seconds
+    connect_timeout 3 seconds
+    nonhierarchical_direct off
+    prefer_direct on
+    dns_nameservers 127.0.0.1
+    retry_on_error on
+    forward_max_tries 5
+```
+其中有些参数需要说明一下，connect_timeout控制重试列表里面每一项的连接超时时间，forward_timeout控制整个重试列表的尝试时间，如果超过这个时间，直接就会返回失败不会继续尝试重试列表中剩余项。dns_nameservers用来指定一个与系统配置不同的域名服务器，这里用它指向一个没有被污染的安全的域名服务器。
+
+补充：后来发现，POST方法也会遭遇CONNECT方法一样的待遇，当内容传输到一半连接被RESET时，不会重试。解决办法也只能和CONNECT一样。
+
+---

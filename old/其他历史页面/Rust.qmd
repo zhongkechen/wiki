@@ -1,0 +1,28 @@
+---
+title: "Rust"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000008 在备份中缺失；以下内容来自最新可读取版本 00000007。
+:::
+
+## Rust
+
+### 参考资料
+
+* [The Rust Programming Language](https://doc.rust-lang.org/book/)
+* https://doc.rust-lang.org/rust-by-example/
+* https://rust.cc/
+* https://wayslog.com/2017/03/28/Rust-Type-System/
+* [Rust and Go](https://medium.com/@adamhjk/rust-and-go-e18d511fbd95) （[中文](https://github.com/ScottHuangZL/Rust-Articles-Translation/blob/master/Rust%20and%20GO.md)）
+* gRPC https://github.com/hyperium/tonic

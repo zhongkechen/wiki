@@ -1,0 +1,37 @@
+---
+title: "WII"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000013 在备份中缺失；以下内容来自最新可读取版本 00000012。
+:::
+
+### WII游戏
+
+| 名称 | 分区 | 翻译 | 评测 |
+| --- | --- | --- | --- |
+| Bust-A-Move Bash | (U) | 泡泡龙 |  |
+| Cooking Mama | (U) | 烹饪老妈 （料理妈妈：大家一起料理大会） |  |
+| Elebits | (U) | 能源小精灵 | [WIIBBS](http://bbs.wiibbs.com/read.php?tid=5459) |
+| Excite Truck | (U) | 疯狂卡车 （激情卡车） | [WIIBBS](http://bbs.wiibbs.com/read.php?tid=4535) |
+| GT Pro Series | (U) | GT职业赛车 |  |
+| Need For Speed - Carbon | (U) | 极品飞车:碳元素 |  |
+| Prince of Persia Rival Swords | (U) | 波斯王子 宿敌之剑 | [WIIBBS](http://bbs.wiibbs.com/read.php?tid=7567) |
+| Super Paper Mario | (U) | 超级纸片马里奥 |  |
+| The Legend of Zelda - Twilight Princess | (U) | 塞尔达传说：黎明公主 | [WIIBBS](http://bbs.wiibbs.com/read.php?tid=2706) [WIIBBS](http://bbs.wiibbs.com/read.php?tid=2692) |
+| Wario Ware Smooth Moves | (U) | 手舞足蹈：瓦里奥制造  （瓦里奥制造 平滑移动） | [WIIBBS](http://bbs.wiibbs.com/read.php?tid=3247) |
+| WII Play | (U) | 初次见面Wii | [WIIBBS](http://bbs.wiibbs.com/read.php?tid=5696) |
+| WII Sport | (J) | Wii运动 | [WIIBBS](http://bbs.wiibbs.com/read.php?tid=2628) |
+| Medal Of Honor Vanguard | U | 荣誉勋章 |  |
+| Barnyard | U | 疯狂农场 |  |
+| Tom Clancys' Splinter Cell Double Agent | U | 细胞分裂 |  |

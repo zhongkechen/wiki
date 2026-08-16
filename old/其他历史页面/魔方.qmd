@@ -1,0 +1,15 @@
+---
+title: "魔方"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+* http://www.rubiks.com/
+* http://www.randelshofer.ch/rubik/virtual_cubes/rubik/instructions/instructions.html
+* 魔方小站 http://www.rubik.com.cn/

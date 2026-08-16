@@ -23,6 +23,8 @@ project:
     - old/美食.qmd
     - old/有趣的小东东.qmd
     - old/有趣的小东东/*.qmd
+    - old/其他历史页面.qmd
+    - old/其他历史页面/*.qmd
     - old/留言.qmd
     - old/SICP的Python实现.qmd
     - old/SICP的Python实现/*.qmd

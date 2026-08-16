@@ -1,0 +1,223 @@
+---
+title: "C语言期中试卷"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000009 在备份中缺失；以下内容来自最新可读取版本 00000008。
+:::
+
+## 读程序，写出程序运行的结果
+
+1.
+
+   ```cpp
+   #include <stdio.h>
+   int min(int a, int b) {
+       return a < b ? a : b;
+   }
+   main() {
+       int x = -1, y = -2;
+       printf("%d", min(x, y));
+   }
+   ```
+1.
+
+   ```cpp
+   #include <stdio.h>
+   int inc(int a) {
+       return ++a;
+   }
+   main() {
+       int x = -1, y;
+       y = inc(x);
+       printf("%d\n%d", x, y);
+   }
+   ```
+1.
+
+   ```cpp
+   #include <stdio.h>
+   #include <math.h>
+   #define FALSE 0
+   #define TRUE 1
+   #define BOOL int
+
+   BOOL prime(int a) {
+       int i;
+       for( i = 2; i <= sqrt((double)a); i++)
+           if( a % i == 0)
+               return FALSE;
+       return TRUE;
+   }
+   main() {
+       int x = 37, y = 91;
+       printf("%d\n%d", prime(x), prime(y));
+   }
+   ```
+1.
+
+   ```cpp
+   #include <stdio.h>
+   int fibonacci(int a) {
+       int i, curr = 1, next = 1, temp;
+       for( i = 1; i < a; i++) {
+           temp = next + curr;
+           curr = next;
+           next = temp;
+       }
+       return curr;
+   }
+   main() {
+       int i;
+       for(i = 1; i < 10; i++)
+           printf("%d\t", fibonacci(i));
+   }
+   ```
+1.
+
+   ```cpp
+   #include <stdio.h>
+   main() {
+       int x = 2, y = 1; /*assume int is 32-bit*/
+       printf("%d", (~x | ~y) + (x ^ y) );
+   }
+   ```
+1.
+
+   ```cpp
+   #include <stdio.h>
+
+   main() {
+       int flag = 0;
+       int count = 0;
+       int c;
+       while( (c = getchar()) != EOF ) {
+           if(flag == 0) {
+               if(c =='c')
+                   flag ++;
+           }
+           else if( flag == 1) {
+               if( c == 'z')
+                   flag ++;
+               else
+                   flag = 0;
+           }
+           else if( flag == 2) {
+               if( c == 'k')
+                   count ++;
+               flag = 0;
+           }
+       }
+       printf("%d", count);
+   }
+   ```
+
+   程序运行后输入`czk loves c programming language! czk programs every day!`
+1.
+
+   ```cpp
+   #include <stdio.h>
+
+   main() {
+       int x, y;
+       x = 0!=4<=1+2*3/4<<1;
+       y = (1 << 2 | 0xF0 ) ^ 071 & 8;
+       printf("%d\n%d", x, y);
+   }
+   ```
+1.
+
+   ```cpp
+   #include <stdio.h>
+   #define PI 3.14
+   main() {
+       double r;
+       for( r  = 1.0; r <= 4.5; r += 1.0) {
+           printf("%6.0f%6.2f%6.2f\n", r, PI*r*2, PI*r*r);
+   }
+   }
+   ```
+1.
+
+   ```cpp
+   #include <stdio.h>
+   enum months{JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC};
+   main() {
+       int days[12];
+       int i;
+       days[JAN] = 31;
+       days[FEB] = 28;
+       days[MAR] = 31;
+       days[APR] = 30;
+       days[MAY] = 31;
+       days[JUN] = 30;
+       days[JUL] = 31;
+       days[AUG] = 31;
+       days[SEP] = 30;
+       days[OCT] = 31;
+       days[NOV] = 30;
+       days[DEC] = 31;
+       for( i  = JAN; i <= DEC; ++i) {
+           printf("month %6d has %6d days\n", i, days[i]);
+       }
+   }
+   ```
+1.
+
+   ```cpp
+   #include <stdio.h>
+   enum BOOL {FALSE, TRUE};
+   int isdigit(int c) {
+       return c >='0' && c<='9';
+   }
+   int islower(int c) {
+       return c >='a' && c<='z';
+   }
+   int isupper(int c) {
+       return c >='A' && c<='Z';
+   }
+   int isalpha(int c) {
+       return isupper(c) || islower(c);
+   }
+   int isspace(int c) {
+       return c=='\n' || c=='\t' || c==' ' || c=='\r' || c=='\v' || c=='\f';
+   }
+   int isxdigit(int c) {
+       return isdigit(c) || (c>='a' && c <='f') || (c>='A' && c<='F');
+   }
+   int isalnum(int c) {
+       return isalpha(c) || isdigit(c);
+   }
+   main() {
+   int c;
+       while( (c = getchar())!=EOF) {
+           printf("%2d%2d%2d%2d%2d%2d%2d\n", isdigit(c), islower(c), isupper(c),
+               isalpha(c), isspace(c), isxdigit(c), isalnum(c));
+       }
+   }
+   ```
+
+输入(共计7个字符)：`b =0XF;`
+
+## 按要求编写程序
+
+1. 写一个函数reverse(s)，将字符串s反转。比如
+
+   ```
+   char s[]="hello";
+   reverse(s);
+   ```
+
+   这时s变成"olleh"
+1. 写一个函数invert(x,p,n)，这个函数将整数x从右数第p位开始的n位反转（0变1，1变0），并将这个值返回。比如：invert(0x72, 4, 3)将返回0x6E.
+1. 请写一个程序分别统计输入当中空格、水平制表符(tab)和换行符(newline)的个数，即程序运行后输入任意一些字符，以Ctrl+Z结束输入，程序输出这些字符中空格的个数、水平制表符的个数以及换行符的个数。

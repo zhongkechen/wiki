@@ -1,0 +1,134 @@
+---
+title: "其他历史页面"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回旧版首页](首页.qmd)
+
+## 编程与软件
+
+* [AJAX综述](<其他历史页面/AJAX综述.qmd>)
+* [Ajax_教程](<其他历史页面/Ajax_教程.qmd>)
+* [C++更多练习](<其他历史页面/C++更多练习.qmd>)
+* [C语言期中试卷](<其他历史页面/C语言期中试卷.qmd>)
+* [HTML](<其他历史页面/HTML.qmd>)
+* [Latex](<其他历史页面/Latex.qmd>)
+* [Mercurial](<其他历史页面/Mercurial.qmd>)
+* [Postgre数据库](<其他历史页面/Postgre数据库.qmd>)
+* [Python_Advocacy_HOWTO](<其他历史页面/Python_Advocacy_HOWTO.qmd>)
+* [Python与正则表达式](<其他历史页面/Python与正则表达式.qmd>)
+* [Python使用技巧](<其他历史页面/Python使用技巧.qmd>)
+* [Python参考资料](<其他历史页面/Python参考资料.qmd>)
+* [Python相关软件](<其他历史页面/Python相关软件.qmd>)
+* [Python语法](<其他历史页面/Python语法.qmd>)
+* [Rust](<其他历史页面/Rust.qmd>)
+* [Scons](<其他历史页面/Scons.qmd>)
+* [VirtualBox](<其他历史页面/VirtualBox.qmd>)
+* [VirtualBoxChangelog](<其他历史页面/VirtualBoxChangelog.qmd>)
+* [Why_Python](<其他历史页面/Why_Python.qmd>)
+* [Debian Apache2 配置](<其他历史页面/debianapache2.qmd>)
+* [温州第二实验中学学生成绩管理系统](<其他历史页面/score.qmd>)
+* [svn](<其他历史页面/svn.qmd>)
+* [zju_online_judge的常见问题](<其他历史页面/zju_online_judge的常见问题.qmd>)
+* [报表工具](<其他历史页面/报表工具.qmd>)
+* [开发工具](<其他历史页面/开发工具.qmd>)
+* [常见软件价格](<其他历史页面/常见软件价格.qmd>)
+* [用Nikola在github上写博客](<其他历史页面/用Nikola在github上写博客.qmd>)
+* [程序](<其他历史页面/程序.qmd>)
+* [程序设计语言课程设想](<其他历史页面/程序设计语言课程设想.qmd>)
+* [软件架构](<其他历史页面/软件架构.qmd>)
+
+## 系统与设备
+
+* [3DS](<其他历史页面/3DS.qmd>)
+* [Android](<其他历史页面/Android.qmd>)
+* [Linux与Windows兼容性](<其他历史页面/Linux与Windows兼容性.qmd>)
+* [Linux中文支持](<其他历史页面/Linux中文支持.qmd>)
+* [Linux参考资源](<其他历史页面/Linux参考资源.qmd>)
+* [Linux应用程序](<其他历史页面/Linux应用程序.qmd>)
+* [Linux环境编程](<其他历史页面/Linux环境编程.qmd>)
+* [Linux背景知识](<其他历史页面/Linux背景知识.qmd>)
+* [MS-Windows](<其他历史页面/MS-Windows.qmd>)
+* [MacOS](<其他历史页面/MacOS.qmd>)
+* [NDS](<其他历史页面/NDS.qmd>)
+* [NintendoSwitch](<其他历史页面/NintendoSwitch.qmd>)
+* [OpenWRT](<其他历史页面/OpenWRT.qmd>)
+* [WII](<其他历史页面/WII.qmd>)
+* [Wimax](<其他历史页面/Wimax.qmd>)
+* [Windows](<其他历史页面/Windows.qmd>)
+* [WindowsMobile](<其他历史页面/WindowsMobile.qmd>)
+* [gba](<其他历史页面/gba.qmd>)
+* [nds非官方FAQ](<其他历史页面/nds非官方FAQ.qmd>)
+* [ubuntu](<其他历史页面/ubuntu.qmd>)
+
+## 网络与安全
+
+* [Shadowsocks的OpenWrt LuCI图形界面](<其他历史页面/Shadowsocks的OpenWrt LuCI图形界面.qmd>)
+* [Telegram](<其他历史页面/Telegram.qmd>)
+* [ubuntu下安装L2TP VPN服务器](<其他历史页面/ubuntu下安装L2TP VPN服务器.qmd>)
+* [万维网](<其他历史页面/万维网.qmd>)
+* [交换机、集线器、路由器区别和使用浅谈](<其他历史页面/交换机、集线器、路由器区别和使用浅谈.qmd>)
+* [入侵检测系统](<其他历史页面/入侵检测系统.qmd>)
+* [基于OpenWrt路由器的全自动翻墙方案](<其他历史页面/基于OpenWrt路由器的全自动翻墙方案.qmd>)
+* [基于OpenWrt路由器的（不完全）自动翻墙方案](<其他历史页面/基于OpenWrt路由器的（不完全）自动翻墙方案.qmd>)
+* [如何加密邮件](<其他历史页面/如何加密邮件.qmd>)
+* [如何防止DNS污染和劫持](<其他历史页面/如何防止DNS污染和劫持.qmd>)
+* [将squid打造成能自动重试的代理服务](<其他历史页面/将squid打造成能自动重试的代理服务.qmd>)
+* [网桥与路由器的区别](<其他历史页面/网桥与路由器的区别.qmd>)
+* [网络安全](<其他历史页面/网络安全.qmd>)
+* [网络设备](<其他历史页面/网络设备.qmd>)
+* [防毒墙](<其他历史页面/防毒墙.qmd>)
+* [防火墙](<其他历史页面/防火墙.qmd>)
+* [预防病毒的正确姿势](<其他历史页面/预防病毒的正确姿势.qmd>)
+
+## 计算机基础
+
+* [64位CPU](<其他历史页面/64位CPU.qmd>)
+* [CPU演义](<其他历史页面/CPU演义.qmd>)
+* [CPU简史](<其他历史页面/CPU简史.qmd>)
+* [人工智能](<其他历史页面/人工智能.qmd>)
+* [十六进制](<其他历史页面/十六进制.qmd>)
+* [原码、补码和反码](<其他历史页面/原码、补码和反码.qmd>)
+* [图灵奖获得者](<其他历史页面/图灵奖获得者.qmd>)
+* [字符的编码](<其他历史页面/字符的编码.qmd>)
+* [常见操作系统](<其他历史页面/常见操作系统.qmd>)
+* [操作系统历史](<其他历史页面/操作系统历史.qmd>)
+* [数字电子技术](<其他历史页面/数字电子技术.qmd>)
+* [数据库DBA](<其他历史页面/数据库DBA.qmd>)
+* [有关语言的评论](<其他历史页面/有关语言的评论.qmd>)
+* [机器的智能问题](<其他历史页面/机器的智能问题.qmd>)
+* [机器语言](<其他历史页面/机器语言.qmd>)
+* [计算机中二进制](<其他历史页面/计算机中二进制.qmd>)
+* [语言历史](<其他历史页面/语言历史.qmd>)
+
+## 教学与站点历史
+
+* [2007年南京比赛高挺拍的照片](<其他历史页面/2007年南京比赛高挺拍的照片.qmd>)
+* [czk](<其他历史页面/czk.qmd>)
+* [hdu2011](<其他历史页面/hdu2011.qmd>)
+* [hdu2013](<其他历史页面/hdu2013.qmd>)
+* [hdu2015](<其他历史页面/hdu2015.qmd>)
+* [关于本站](<其他历史页面/关于本站.qmd>)
+* [关于温州百科](<其他历史页面/关于温州百科.qmd>)
+* [数字图像处理实验报告格式](<其他历史页面/数字图像处理实验报告格式.qmd>)
+* [温州大学计算机专业教师](<其他历史页面/温州大学计算机专业教师.qmd>)
+* [程序设计竞赛相关网站](<其他历史页面/程序设计竞赛相关网站.qmd>)
+* [计算机协会讲座](<其他历史页面/计算机协会讲座.qmd>)
+
+## 兴趣与个人知识库
+
+* [书单](<其他历史页面/书单.qmd>)
+* [学习方法](<其他历史页面/学习方法.qmd>)
+* [少儿编程](<其他历史页面/少儿编程.qmd>)
+* [影视](<其他历史页面/影视.qmd>)
+* [摄影](<其他历史页面/摄影.qmd>)
+* [播客](<其他历史页面/播客.qmd>)
+* [数码产品](<其他历史页面/数码产品.qmd>)
+* [汽车](<其他历史页面/汽车.qmd>)
+* [音乐](<其他历史页面/音乐.qmd>)
+* [魔方](<其他历史页面/魔方.qmd>)

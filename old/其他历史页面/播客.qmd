@@ -1,0 +1,32 @@
+---
+title: "播客"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000007 在备份中缺失；以下内容来自最新可读取版本 00000006。
+:::
+
+### 收听
+
+* [播客Feed订阅](https://getpodcast.xyz/)
+* [播客應用 Overcast 升級：新增直播功能](https://read01.com/aA6m05.html)
+
+### 制作
+
+* [播客制作入门指南](https://sspai.com/post/56285)
+* [IPN 录音指南](https://blog.yitianshijie.net/2017/10/13/ipn-guide-to-podcast-recording/)
+* [从零开始做播客](https://www.ifanr.com/tags/podcasting-pro-basics)
+
+### 其它
+
+* [他们不是在独乐乐，中文播客的“少数派报告”](http://www.bjnews.com.cn/ent/2020/03/27/709556.html)

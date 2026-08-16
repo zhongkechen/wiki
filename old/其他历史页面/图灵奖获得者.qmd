@@ -1,0 +1,56 @@
+---
+title: "图灵奖获得者"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+下面罗列了从1966年图灵奖设立到2005年期间获得者及其所作的贡献。
+```
+年份	姓名	贡献领域
+1966年	Alan J. Perlis	高级程序设计技巧，编译器构造
+1967年	Maurice V. Wilkes	内部存储程序, 程序库
+1968年	Richard Hamming	数值方法，自动编码系统，错误检测和错误纠正码
+1969年	Marvin Minsky 	人工智能
+1970年	James H. Wilkinson 	数值分析，线性代数，“倒退”错误分析
+1971年	John McCarthy 	人工智能
+1972年 	Edsger Dijkstra	程序设计语言的科学与艺术
+1973年	Charles W. Bachman	数据库技术
+1974年	高德纳（Donald E. Knuth）	算法分析和编程语言的设计
+1975年	Allen Newell和Herbert A. Simon	人工智能，人类认知心理学和列表处理 (list processing)
+1976年	Michael O. Rabin 和 Dana S. Scott 	非确定性自动机
+1977年	John Backus	高级编程系统，程序设计语言规范的形式化定义
+1978年	Robert W. Floyd	设计高效可靠软件的方法学
+1979年	肯尼斯·艾佛森（Kenneth E. Iverson）	程序设计语言和数学符号，互动系统的设计，运用 APL 进行教学，程序设计语言的理论与实践
+1980年	C. Antony R. Hoare	程序设计语言的定义与设计
+1981年	埃德加·科德（Edgar F. Codd）	数据库系统，尤其是关系型数据库
+1982年	史提芬·古克（Stephen A. Cook）	计算复杂度
+1983年	Ken Thompson与Dennis M. Ritchie	通用的操作系统理论，实现UNIX操作系统
+1984年	尼古拉斯·沃斯（Niklaus Wirth）	计算机语言设计
+1985年 	Richard M. Karp	算法理论，尤其是NP-完全性理论
+1986年 	John Hopcroft和Robert Tarjan 	算法和数据结构的设计与分析
+1987年	John Cocke	编译理论，大型系统的体系结构，及精简指令集（RISC）计算机的开发
+1988年	Ivan Sutherland	计算机图形学
+1989年 	William (Velvel) Kahan	数值分析
+1990年	Fernando J. Corbató 	CTSS和 Multics
+1991年	Robin Milner	LCF，ML，CCS
+1992年	Butler W. Lampson 	分布式，个人计算环境
+1993年	Juris Hartmanis和Richard E. Stearns	计算复杂度理论
+1994年	Edward Feigenbaum和Raj Reddy	大规模人工智能系统
+1995年	Manuel Blum	计算复杂度理论，及其在密码学和程序校验上的应用
+1996年	Amir Pnueli	时序逻辑，程序与系统验证
+1997年	Douglas Engelbart 	互动计算
+1998年 	James Gray 	数据库与事务处理
+1999年	Frederick P. Brooks, Jr. 	计算机体系结构，操作系统，软件工程
+2000年	姚期智（Andrew Chi-Chih Yao） 	计算理论，包括伪随机数生成，密码学与通信复杂度
+2001年 	Ole-Johan Dahl和克利斯登·奈加特（Kristen Nygaard）	面向对象编程
+2002年 	Ronald L. Rivest，Adi Shamir和 Leonard M. Adleman 	公钥密码学
+2003年	Alan Kay	面向对象编程Smalltalk
+2004年	Vinton G. Cerf和Robert E. Kahn	TCP/IP协议
+2005 	Peter Naur	Algol60程序设计语言
+```

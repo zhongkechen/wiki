@@ -1,0 +1,33 @@
+---
+title: "hdu2013"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+## 蟠桃记
+
+http://acm.hdu.edu.cn/showproblem.php?pid=2013
+```cpp
+/*这这里用了递归的做法，思路比较简单，不用递归应该也可以做，但递归还是应该了解的*/
+#include "stdio.h"
+int tao(int day)
+{
+	if(day==1) return 1;
+	else
+		return 2*tao(day-1)+2;
+
+}
+void main()
+{
+	int n;
+	while(scanf("%d",&n)!=EOF)
+		printf("%d\n",tao(n));
+
+}.
+```

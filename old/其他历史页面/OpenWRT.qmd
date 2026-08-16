@@ -1,0 +1,65 @@
+---
+title: "OpenWRT"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000017 在备份中缺失；以下内容来自最新可读取版本 00000016。
+:::
+
+OpenWRT是开源的路由器固件，相比[dd-wrt](https://dd-wrt.com/)，OpenWRT有完整的包管理系统，更接近一个完整的操作系统。
+
+### 参考资料
+
+* 官网 https://openwrt.org/
+* TPLink wr703n https://linuxtoy.org/archives/howto-install-openwrt-on-tl-wr703n.html
+* TPLink WR703n 安装 19.07 https://forum.openwrt.org/t/using-release-ath79-19-07-0-kernel-and-packages-on-hardware-modded-tp-link-wr703n-16mb-64mb-without-snapshot-compilation/54310
+* Huawei HG255D 固件 http://downloads.openwrt.org.cn/PandoraBox/HuaWei_HG255D/
+* Huawei HG255d https://www.right.com.cn/forum/thread-140862-1-1.html
+* Huawei Hg255d https://www.right.com.cn/forum/thread-135248-1-1.html
+* [利用老路由器WDR6500刷OpenWrt零成本开启802.11r 快速漫游或者802.11s mesh无线组网](https://post.m.smzdm.com/p/ar07p90z/)
+* [luci-app-v2ray](https://github.com/kuoruan/luci-app-v2ray) v2ray图形界面
+* [openwrt v2ray](https://github.com/kuoruan/openwrt-v2ray)
+* [How to Buy a Wireless Router - 2018 Edition](https://www.smallnetbuilder.com/basics/wireless-basics/33177-how-to-buy-a-wireless-router-2018-edition?start=1)
+* [Germany proposes router security guidelines](https://www.zdnet.com/article/germany-proposes-router-security-guidelines/)
+* [上海电信4K iptv LEDE单路由实现桥接](http://diywm.com/2018/04/27/shang_hai_dian_xin_4k_iptv_lede_dan_lu_you_shi_xian_qiao_jie/)
+* [How To Fix Wi-Fi Roaming](https://www.smallnetbuilder.com/basics/wireless-basics/33180-how-to-fix-wi-fi-roaming)
+* [Turris Omnia](https://www.turris.cz/en/omnia/overview/)
+
+### 在HG255D上安装OpenWRT的全自动翻墙方案
+
+一直在用之前的博文[基于OpenWrt路由器的全自动翻墙方案](http://blog.ch3n2k.com/2013/09/openwrt.html)里描述的方案来翻墙，相当的爽。所以考虑给父母和亲戚朋友家也装上这个方案。遂在淘宝上淘了一个最便宜的支持OpenWrt的路由器HG255D，官方网站openwrt.org上并没有提供它的固件下载，国内一些讨论openwrt的网站提供了它的固件，但是没有提供完整的配套的软件包，只能从其他地方下载软件包。这样会因为kernel版本不匹配导致不能安装kmod包，从而不能实施那个自动翻墙方案。只能开始自己打包自己的固件。
+
+首先是参考了这篇文章[3步定制hg255d的trunk固件](http://www.right.com.cn/forum/thread-135248-1-1.html)，定制一个固件，带需要的kmod。
+
+1. 下载trunk的ramips的ImageBuilder http://downloads.openwrt.org/barrier_breaker/14.07-rc2/ramips/rt305x/OpenWrt-ImageBuilder-ramips_rt305x-for-linux-x86_64.tar.bz2
+2. 解开压缩文件，修改Makefile
+
+   ```
+   tar xjf OpenWrt-ImageBuilder-ramips_rt305x-for-linux-x86_64.tar.bz2
+   cd OpenWrt-ImageBuilder-ramips_rt305x-for-linux-x86_64
+   vi target/linux/ramips/image/Makefile
+   ```
+
+   查找255, 有两行和hg255d相关，去掉这两行前面的“#”
+3. 运行make创建固件，会生成bin/ramips/openwrt-ramips-rt305x-hg255d-squashfs-sysupgrade.bin，就可以用来刷机了。在原文的基础上需要加上kmod-ipt-u32, kmod-ipt-geoip, iptables-mod-u32, iptables-mod-geoip。
+
+   ```
+   make image PROFILE=HG255D  PACKAGES="arptables base-files block-mount busybox chat comgt curl dnsmasq dropbear firewall hostapd hostapd-common hostapd-utils ip ip6tables ipset iptables iptables-mod-conntrack-extra iptables-mod-filter iptables-mod-ipopt iw jshn kernel kmod-8021q kmod-arptables kmod-ath kmod-ath9k-common kmod-ath9k-htc kmod-brcmfmac kmod-brcmutil kmod-bridge kmod-carl9170 kmod-cfg80211 kmod-crypto-aes kmod-crypto-arc4 kmod-crypto-authenc kmod-crypto-cbc kmod-crypto-core kmod-crypto-deflate kmod-crypto-des kmod-crypto-ecb kmod-crypto-hash kmod-crypto-hmac kmod-crypto-iv kmod-crypto-manager kmod-crypto-md5 kmod-crypto-pcompress kmod-crypto-rng kmod-crypto-sha1 kmod-crypto-wq kmod-eeprom-93cx6 kmod-fs-ext4 kmod-fs-vfat kmod-gpio-button-hotplug kmod-gre kmod-gre6 kmod-ifb kmod-input-core kmod-ip6-tunnel kmod-ip6tables kmod-ipip kmod-ipsec kmod-ipsec4 kmod-ipsec6 kmod-ipt-compat-xtables kmod-ipt-conntrack kmod-ipt-conntrack-extra kmod-ipt-core kmod-ipt-filter kmod-ipt-ipopt kmod-ipt-ipsec kmod-ipt-ipset kmod-ipt-nat kmod-ipt-nathelper kmod-ipt-sysrq kmod-iptunnel kmod-iptunnel4 kmod-iptunnel6 kmod-ipv6 kmod-leds-gpio kmod-lib-crc-ccitt kmod-lib-crc-itu-t kmod-lib-crc16 kmod-lib-textsearch kmod-lib-zlib kmod-llc kmod-mac80211 kmod-mmc kmod-mppe kmod-nfnetlink kmod-nls-base kmod-p54-common kmod-p54-usb kmod-ppp kmod-pppoe kmod-pppox kmod-pptp kmod-rt2500-usb kmod-rt2800-lib kmod-rt2800-mmio kmod-rt2800-soc kmod-rt2800-usb kmod-rt2x00-lib kmod-rt2x00-mmio kmod-rt2x00-usb kmod-rt73-usb kmod-rtl8187 kmod-rtl8192c-common kmod-rtl8192cu kmod-rtlwifi kmod-rtlwifi-usb kmod-sched-connmark kmod-sched-core kmod-scsi-core kmod-scsi-generic kmod-slhc kmod-stp kmod-tun kmod-usb-core kmod-usb-rt305x-dwc_otg kmod-usb-serial kmod-usb-serial-ch341 kmod-usb-serial-ftdi kmod-usb-serial-pl2303 kmod-usb-storage kmod-usb-storage-extras libblobmsg-json libc libcurl libcyassl libevent2 libgcc libip4tc libip6tc libiwinfo libiwinfo-lua libjson-c libjson-script liblua liblzo libmnl libncurses libnfnetlink libnl-tiny libopenssl libpcap libpolarssl libpopt libpthread libreadline librt libstdcpp libubox libubus libubus-lua libuci libuci-lua libusb-1.0 libustream-cyassl libxtables lua luci luci-app-commands luci-app-firewall luci-app-qos luci-i18n-english luci-lib-nixio luci-mod-admin-full luci-proto-3g luci-proto-ipv6 luci-proto-ppp luci-ssl luci-theme-bootstrap mtd netifd openvpn-openssl opkg ppp ppp-mod-pppoe ppp-mod-pptp procd px5g qos-scripts resolveip swconfig tc tcpdump-mini terminfo  ubox ubus ubusd uci uclibcxx uhttpd uhttpd-mod-ubus usb-modeswitch wireless-tools wpa-supplicant wpad zlib kmod-ipt-u32 kmod-ipt-geoip iptables-mod-u32 iptables-mod-geoip kmod-ipt-nat-extra iptables-mod-nat-extra kmod-ipt-nathelper-extra kmod-ipt-tproxy kmod-ipt-lua kmod-ipt-ipp2p kmod-ipt-dnetmap iptables-mod-lua iptables-mod-ipp2p iptables-mod-dnetmap luci-i18n-chinese"
+   ```
+
+    然后就是按照各种论坛的帖子把这个固件刷进去，还缺shadowsocks，从这里下载一个：http://shadowsocks.org/en/download/clients.html （后缀是_ramips_24kec.ipk）。把它拷贝到openwrt上安装就完成了。剩下的就和之前的文章一样了。
+
+下载链接
+
+* http://ch3n2k.com/~czk/openwrt-ramips-rt305x-hg255d-squashfs-sysupgrade.bin
+* http://ch3n2k.com/~czk/CNgeoip.tar.gz

@@ -1,0 +1,148 @@
+---
+title: "Latex"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000005 在备份中缺失；以下内容来自最新可读取版本 00000004。
+:::
+
+### 几段Latex的例子
+
+```
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[nocjkgb]{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[C10,T1]{fontenc}
+\newcommand\chinesesimptext[1]{\bgroup\fontencoding{C10}\fontfamily{song}\selectfont\SetUnicodeOption{cjkgb}#1\egroup}
+%opening
+\title{\chinesesimptext{陈忠克的文档}}
+\author{\chinesesimptext{陈忠克}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\chinesesimptext{摘要}
+\end{abstract}
+
+\paragraph{段落}
+\chinesesimptext{中文}
+\chinesesimptext{中文}
+
+\end{document}
+```
+
+```
+\documentclass[a4paper,10pt,twocolumn]{article}
+\usepackage{CJK}
+\usepackage{pinyin}
+
+\begin{document}
+\begin{CJK}{GB}{kai}
+\title{测试文档}
+\author{陈忠克}
+\maketitle
+\tableofcontents
+\begin{abstract}
+本文是为了学习Latex而做的测试文件。
+\end{abstract}
+
+\section{这是一个section}
+第一段内容是这样的。很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长
+
+\[y = \left\{ \begin{array}{ll}
+ a & \textrm{if $d>c$}\\
+ b+x & \textrm{in the morning}\\
+ l & \textrm{all day long}
+  \end{array} \right.
+ \]
+
+再来一段。很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长
+
+\section{这是另一个section}
+第一段内容是这样的。很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长
+
+再来一段。很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长
+
+\end{CJK}
+\end{document}
+```
+
+```
+\documentclass{article}
+\usepackage{CJK}
+
+\begin{document}
+\begin{CJK*}{GBK}{song}
+\title{输入输出}
+\author{czk}
+\maketitle
+\section{C语言}
+\subsection{scanf}
+\subsection{getchar}
+\subsection{gets}
+\subsection{fgets}
+\subsection{printf}
+\subsection{puts}
+\subsection{putchar}
+\section{C++语言}
+\subsection{cin}
+\subsection{cout}
+\section{例子}
+\subsection{遇到特定标志结束输入}
+\begin{verbatim}
+while( 1 ) {
+   scanf("%d", &n);
+   if( n == 0) break;
+   // your algorithm goes here
+}
+\end{verbatim}
+
+\begin{verbatim}
+while(1) {
+   cin >> n;
+   if( n == 0) break;
+}
+\end{verbatim}
+\subsection{遇到EOF结束输入}
+\begin{verbatim}
+while(1) {
+   if( scanf("%d", &n) == EOF ) break;
+   // your algorithm goes here
+}
+\end{verbatim}
+\begin{verbatim}
+while(1) {
+   int c = getchar();
+   if(c==EOF) break;
+}
+\end{verbatim}
+\begin{verbatim}
+while(cin>>n) {
+   // your algorithm goes here
+}
+\end{verbatim}
+\begin{verbatim}
+while(1) {
+   cin >> n >> m;
+   if(cin.eof()) break;
+}
+\end{verbatim}
+\end{CJK*}
+\end{document}
+```
+
+## 附件
+
+* [a.tdraw](<assets/Latex/a.tdraw>)

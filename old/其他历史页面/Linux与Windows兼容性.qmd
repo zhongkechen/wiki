@@ -1,0 +1,151 @@
+---
+title: "Linux与Windows兼容性"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000005 在备份中缺失；以下内容来自最新可读取版本 00000004。
+:::
+
+## ubuntu读写ntfs分区
+
+在source.list上加上
+```
+deb http://flomertens.keo.in/ubuntu/ dapper main
+deb-src http://flomertens.keo.in/ubuntu/ dapper main
+```
+安装ntfs-3g
+```
+apt-get install ntfs-3g ntfs-3g-nautilus-tools
+```
+启动fuse模块
+```
+modprobe fuse
+```
+并在/etc/modules中加入一行
+```
+fuse
+```
+最后修改/etc/fstab，把对应ntfs的分区类型改成ntfs-3g，比如
+```
+/dev/hda1       /mnt/hda1   ntfs-3g defaults,nls=utf8,locale=zh_CN.utf8,umask=007,gid=46  0       1
+```
+
+## 虚拟机安装
+
+* Vmplayer虚拟机：安装vmware-player
+
+  ```
+  sudo apt-get install vmware-player
+  ```
+
+  在http://www.easyvmx.com/ 上创建一个虚拟机，然后用vmware-player运行它。
+* VirtualBox：先添加ubuntu-cn的源，然后安装virtualbox
+
+  ```
+  sudo apt-get install virtualbox
+  ```
+
+## 在linux下运行windows应用程序
+
+安装wine
+```
+apt-get install wine
+```
+对wine进行配置。配置比较麻烦。Sidenet提供了一个脚本自动进行配置：http://sidenet.ddo.jp/winetips/config.html
+
+当前在zh_CN.utf8的字符编码环境下，并启动了scim输入法，再运行wine就会很慢。解决办法在http://huangjiahua.livejournal.com/71157.html
+
+在 [http://www.linuxgame.org/](http://www.linuxgame.org/) 提供了一些脚本可以对wine进行方便的配置。
+
+### 关于 wine 在 zh_CN.UTF-8 , Ubuntu/Debian 下慢
+
+wine 在 zh_CN.UTF-8 , Ubuntu/Debian 下启动个 notepad 都非常慢， 而 SUSE 下的却没问题。
+看了下， 还是 请求 X core 字体的问题，在 zh_CN.UTF-8 下 wine 会请求 gbk-0 字体 ，
+而通常 Ubuntu/Debian 都没 gbk-0 字体的， 即使有的话， 用 \* 来匹配字体也是很慢的。
+
+一个比较容易想到的是添加 GBK 字体
+
+让 WQY 添加 GBK-0 字体
+安装 wqy 后，加个文件/etc/X11/fonts/misc/xfonts-wqy.alias
+写入
+```
+"-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-100-100-p-0-gbk-0" "-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-100-100-p-0-iso10646-1"
+"-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-75-75-p-0-gbk-0" "-wenquanyi-wenquanyi bitmap song-medium-r-normal--0-0-75-75-p-0-iso10646-1"
+```
+
+再执行
+```
+sudo update-fonts-alias misc
+xset fp
+```
+这时候 wine 的反映速度就跟 zh_CN 下一样了 （ 启动个 notepad 或者 ms word 来看看 ）
+
+### wine中文字体
+
+```
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Wine\Fonts\Replacements]
+
+"Arial Baltic,186"="simsun"
+
+"Arial CE,238"="simsun"
+
+"Arial CYR,204"="simsun"
+
+"Arial Greek,161"="simsun"
+
+"Arial TUR,162"="simsun"
+
+"Courier New Baltic,186"="simsun"
+
+"Courier New CE,238"="simsun"
+
+"Courier New CYR,204"="simsun"
+
+"Courier New Greek,161"="simsun"
+
+"Courier New TUR,162"="simsun"
+
+"Helv"="simsun"
+
+"Helvetica"="simsun"
+
+"MS Shell Dlg"="simsun"
+
+"MS Shell Dlg 2"="simsun"
+
+"Tahoma"="simsun"
+
+"Times"="simsun"
+
+"Times New Roman"="simsun"
+
+"Times New Roman Baltic,186"="simsun"
+
+"Times New Roman CE,238"="simsun"
+
+"Times New Roman CYR,204"="simsun"
+
+"Times New Roman Greek,161"="simsun"
+
+"Times New Roman TUR,162"="simsun"
+
+"Tms Rmn"="simsun"
+
+"Verdana"="simsun"
+```
+
+### 参考
+
+* [Mount your widows Partitions and make it read/writable in ubuntu](http://www.debianadmin.com/mount-your-widows-partitions-and-make-it-readwritable-in-ubuntu.html)
