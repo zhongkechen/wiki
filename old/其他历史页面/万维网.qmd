@@ -64,8 +64,8 @@ format:
 
 ### 万维网和其他超文本系统有很多不同之处：
 
-\* 万维网上需要单项连接而不是双向连接，这使得任何人可以在资源拥有者不作任何行动情况下链接该资源。和早期的网络系统相比，这一点对于减少实现网络服务器和网络浏览器的困难至关重要，但它的副作用是产生了坏链的慢性问题。
-\* 万维网不像某些应用软件如HyperCard，它不是私有的，这使得服务器和客户端能够独立地发展和扩展，而不受许可限制。
+* 万维网上需要单项连接而不是双向连接，这使得任何人可以在资源拥有者不作任何行动情况下链接该资源。和早期的网络系统相比，这一点对于减少实现网络服务器和网络浏览器的困难至关重要，但它的副作用是产生了坏链的慢性问题。
+* 万维网不像某些应用软件如HyperCard，它不是私有的，这使得服务器和客户端能够独立地发展和扩展，而不受许可限制。
 
 1993年4月30日，歐洲核子研究組織宣布万维网对任何人免费开放，并不收取任何费用。两个月之后Gopher宣布不再免费，造成大量用户从Gopher转向万维网。
 
@@ -73,9 +73,9 @@ format:
 
 万维网的核心部分是由三个标准构成的：
 
-\* 统一资源标识符（URI），这是一个世界通用的负责给万维网上例如网页这样的资源定位的系统。
-\* 超文本传送协议(HTTP)，它负责规定浏览器和服务器怎样互相交流。
-\* 超文本标记语言（HTML)，作用是定义超文本文档的结构和格式。
+* 统一资源标识符（URI），这是一个世界通用的负责给万维网上例如网页这样的资源定位的系统。
+* 超文本传送协议(HTTP)，它负责规定浏览器和服务器怎样互相交流。
+* 超文本标记语言（HTML)，作用是定义超文本文档的结构和格式。
 
 蒂姆·伯纳斯－李现在是万维网联盟(W3C)的领导人，这个组织的作用是使计算机能够在万维网上不同形式的信息间更有效的储存和通信。
 
@@ -121,14 +121,14 @@ JavaScript是一种处理网页的脚本语言。其标准版本是ECMAScript，
 
 以下是一些有关于万维网的一些标准：
 
-\* 统一资源定位符(URL)
-\*\*RFC 1738, URL Specification (updated by RFC 3986 "Uniform Resource Identifier (URI): Generic Syntax" in January 2005)
-\* 超文本标志语言(HTML)
-\*\*Internet Draft, HTML version 1
-\*\*RFC 1866, HTML version 2.0
-\*\*HTML 3.2 Reference Specification
-\*\*HTML 4.01 Specification
-\*\* Extensible HTML (XHTML) Specification
-\* HyperText Transfer Protocol (HTTP)
-\*\*RFC 2068, HTTP version 1.1
-\*\*RFC 2616, HTTP version 1.1 (updated)
+* 统一资源定位符(URL)
+    * RFC 1738, URL Specification (updated by RFC 3986 "Uniform Resource Identifier (URI): Generic Syntax" in January 2005)
+* 超文本标志语言(HTML)
+    * Internet Draft, HTML version 1
+    * RFC 1866, HTML version 2.0
+    * HTML 3.2 Reference Specification
+    * HTML 4.01 Specification
+    * Extensible HTML (XHTML) Specification
+* HyperText Transfer Protocol (HTTP)
+    * RFC 2068, HTTP version 1.1
+    * RFC 2616, HTTP version 1.1 (updated)

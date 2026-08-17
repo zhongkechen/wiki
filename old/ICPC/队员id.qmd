@@ -17,6 +17,5 @@ format:
 * [卢江林](http://acm.hdu.edu.cn/userstatus.php?user=lujianglin)
 * [徐建波](http://acm.hdu.edu.cn/userstatus.php?user=xujianbo)
 * [郑琳](http://acm.hdu.edu.cn/userstatus.php?user=zlpassion)
-
-\* [大一牛人1](http://acm.hdu.edu.cn/userstatus.php?user=Cheney928)
-\* [大一牛人2](http://acm.hdu.edu.cn/userstatus.php?user=yanghebinyes)
+* [大一牛人1](http://acm.hdu.edu.cn/userstatus.php?user=Cheney928)
+* [大一牛人2](http://acm.hdu.edu.cn/userstatus.php?user=yanghebinyes)

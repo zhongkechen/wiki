@@ -117,7 +117,7 @@ format:
 * [Learn to Program(ruby)](http://pine.fm/LearnToProgram/)
 * [10 Time-saving Tips for Pythonists](https://www.sitepoint.com/community/t/article-10-time-saving-tips-for-pythonists/197722)
 * [Python_Advocacy_HOWTO](https://docs.python.org/3.1/howto/advocacy.html) by A.M. Kuchling
-* Learning to Program: attachment: http://www.freenetpages.co.uk/hp/alan.gauld/
+* [Learning to Program](http://www.freenetpages.co.uk/hp/alan.gauld/)
 * Learn To Program CD: [LearnToProgramCD.zip](<assets/Python/LearnToProgramCD.zip>)
 * Tkinter Life Preserver: http://www.python.org/doc/life-preserver/
 * [Recovery from Addiction](https://archive.org/details/SeanKellyRecoveryfromAddiction)

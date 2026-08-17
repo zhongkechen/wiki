@@ -27,6 +27,30 @@ unless unexpected_html.empty?
   abort "Unexpected rendered pages:\n#{unexpected_html.join("\n")}"
 end
 
+conversion_errors = []
+
+qmd_files.each do |qmd_file|
+  relative_qmd = qmd_file.delete_prefix("#{REPOSITORY_ROOT}/")
+  File.foreach(qmd_file, encoding: "UTF-8").with_index(1) do |line, line_number|
+    if line.match?(/\A\\\*+/)
+      conversion_errors <<
+        "#{relative_qmd}:#{line_number}: unconverted list marker"
+    end
+    if line.include?("attachment:")
+      conversion_errors <<
+        "#{relative_qmd}:#{line_number}: unconverted attachment reference"
+    end
+    if line.match?(/\]\((?:https?|ftp|mailto):[^)\n]*\s+[^)\n]*\)/i)
+      conversion_errors <<
+        "#{relative_qmd}:#{line_number}: external link target contains spaces"
+    end
+  end
+end
+
+unless conversion_errors.empty?
+  abort "Conversion residue:\n#{conversion_errors.join("\n")}"
+end
+
 broken_links = []
 
 html_files.each do |html_file|

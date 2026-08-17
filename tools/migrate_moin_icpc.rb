@@ -33,6 +33,7 @@ IMAGE_EXTENSIONS = %w[.bmp .gif .jpeg .jpg .png .svg .tif .tiff .webp].freeze
 NORMALIZED_TEXT_ATTACHMENT_EXTENSIONS = %w[.py].freeze
 BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
 TABLE_HEADER_FIRST_CELLS = %w[Array 姓名 物品].freeze
+UNINDENTED_BULLET_PAGES = %w[队员id].freeze
 
 def decode_page_name(entry)
   entry.gsub(/\(([0-9a-fA-F]+)\)/) do
@@ -225,6 +226,18 @@ def normalize_source(page_name, source)
   else
     source
   end
+end
+
+def normalize_unindented_bullets(page_name, source)
+  return source unless UNINDENTED_BULLET_PAGES.include?(page_name)
+
+  source.lines.map do |line|
+    match = line.match(/\A(\*+)([^\n]*)(\n?)\z/)
+    next line unless match
+
+    content = match[2].strip
+    "#{' ' * match[1].length}* #{content}#{match[3]}"
+  end.join
 end
 
 def page_link(target, context)
@@ -523,6 +536,7 @@ end
 
 def convert_moin(text, owner:, context:, expand_includes: false)
   source = text.gsub("\r\n", "\n")
+  source = normalize_unindented_bullets(owner, source)
   source = include_unlisted_attachments(source, owner)
 
   source.gsub!(/^.*<<RandomQuote\(([^)]+)\)>>.*$/) do

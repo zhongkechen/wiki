@@ -12,33 +12,38 @@ format:
 
 ## 高强度爬虫程序
 
-\*Baiduspider+(+http://www.baidu.com/search/spider.htm)
+* Baiduspider+(+http://www.baidu.com/search/spider.htm)
+
 百度爬虫
 高强度爬虫，有时会从多个IP地址启动多个爬虫程序！
 由于算法问题，百度爬虫对相同页面会多次发出请求（尤其是首页），令人烦恼。
 推广效果好。
 
-\*Mozilla/5.0 (compatible; Yahoo! Slurp China; http://misc.yahoo.com.cn/help.html)
-\*Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)
+* Mozilla/5.0 (compatible; Yahoo! Slurp China; http://misc.yahoo.com.cn/help.html)
+* Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)
+
 雅虎爬虫，分别是雅虎中国和美国总部的爬虫
 高强度爬虫，有时会从多个IP地址启动多个爬虫程序！
 比较规范的爬虫，看参考其网址，设定爬虫访问间隔。（但需要考虑同时出现多个yahoo爬虫）
 推广效果尚可。
 
-\*iaskspider/2.0(+http://iask.com/help/help_index.html)
+* iaskspider/2.0(+http://iask.com/help/help_index.html)
+
 Mozilla/5.0 (compatible; iaskspider/1.0; MSIE 6.0)
 新浪爱问爬虫
 算法差，大量扫描无实际意义的页面，对动态链接网站负担很大
 推广效果差。
 
-\*sogou spider
+* sogou spider
+
 搜狗爬虫
 算法差，大量扫描无实际意义的页面，对动态链接网站负担很大
 推广效果差。
 
 ## 中等强度爬虫程序
 
-\*Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+* Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+
 Google爬虫
 算法优秀，多为访问有实际内容的页面
 推广效果好。
@@ -46,17 +51,21 @@ Mediapartners-Google/2.1
 google点击广告爬虫
 特点未知
 
-\*OutfoxBot/0.5 (for internet experiments; http://; outfoxbot@gmail.comoutfoxbot@gmail.com )
+* OutfoxBot/0.5 (for internet experiments; http://; outfoxbot@gmail.comoutfoxbot@gmail.com )
+
 网易爬虫
 其搜索算法需要改进
 推广效果差。
-\*ia_archiver
+
+* ia_archiver
+
 Alexa排名爬虫
 作用未知
 
 ## 其他搜索引擎的爬虫
 
-\*msnbot/1.0 (+http://search.msn.com/msnbot.htm)
+* msnbot/1.0 (+http://search.msn.com/msnbot.htm)
+
 MSN爬虫
 特点未知
 msnbot-media/1.0 (+http://search.msn.com/msnbot.htm)
@@ -67,22 +76,29 @@ Mozilla/4.0 (compatible; MSIE 5.0; Windows 98; DigExt)
 Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt; DTS Agent
 Mozilla/4.0 (compatible; MSIE 5.00; Windows 98; DigExt)
 （欢迎补充资料）
-\*Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; QihooBot 1.0)
+
+* Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; QihooBot 1.0)
+
 名字上看来是Qihoo的
 特点未知
 
-\*Gigabot
+* Gigabot
+
 Gigabot/2.0 (http://www.gigablast.com/spider.html)
 Gigabot搜索引擎爬虫。已被google收购？（欢迎补充资料）
-\*eApolloBot/1.0 (eApollo search engine robot; http://www.eapollo.com; eapollo at global-opto dot com)
+
+* eApolloBot/1.0 (eApollo search engine robot; http://www.eapollo.com; eapollo at global-opto dot com)
+
 lanshanbot/1.0
 据说是中搜爬虫。（欢迎补充资料）
 
-\*iearthworm/1.0, iearthworm@yahoo.com.cniearthworm@yahoo.com.cn
+* iearthworm/1.0, iearthworm@yahoo.com.cniearthworm@yahoo.com.cn
+
 TMCrawler
 WebNews http.pl
 
-\*RSS扫描器
+* RSS扫描器
+
 \\rss.asp Mozilla/6.0 (MSIE 6.0; Windows NT 5.1;Foxmail/MILOWU)
 这是用foxmail6.0订阅了你的rss
 \\rss.asp Feedfetcher-Google; (+http://www.google.com/feedfetcher.html)

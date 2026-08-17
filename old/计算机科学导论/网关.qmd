@@ -18,6 +18,6 @@ format:
 
 ## 主要功能：
 
-\*把一种协议变成另一种协议，把一种数据格式变成另一种数据格式，把一种速率变成另一种速率，以求两者的统一。
-\*提供中转中间接口。在Internet中，网关是一台计算机设备，它能根据用户通信用的计算机的IP地址，界定是否将用户发出的信息送出本地网络，同时，它还将外界发送给本地网络计算机的信息接收。
-\*参考站点：[http://www.enet.com.cn/eschool/includes/zhuanti/shuyu/info/4/07/2179.shtml 参考站点](http://www.enet.com.cn/eschool/includes/zhuanti/shuyu/info/4/07/2179.shtml 参考站点)
+* 把一种协议变成另一种协议，把一种数据格式变成另一种数据格式，把一种速率变成另一种速率，以求两者的统一。
+* 提供中转中间接口。在Internet中，网关是一台计算机设备，它能根据用户通信用的计算机的IP地址，界定是否将用户发出的信息送出本地网络，同时，它还将外界发送给本地网络计算机的信息接收。
+* 参考站点：[参考站点](http://www.enet.com.cn/eschool/includes/zhuanti/shuyu/info/4/07/2179.shtml)

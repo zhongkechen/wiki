@@ -111,6 +111,15 @@ SOURCE_TEXT_REPLACEMENTS = {
         "xtables-addons源码]]"
   }
 }.freeze
+UNINDENTED_BULLET_PAGES = %w[
+  HTML
+  万维网
+  入侵检测系统
+  常见操作系统
+  操作系统历史
+  机器语言
+  防毒墙
+].freeze
 SOURCE_CODE_RANGES = {
   "apache2/debianapache2" => [
     ["# a2enmod  userdir", "# /etc/init.d/apache2 force-reload"],
@@ -755,6 +764,18 @@ def convert_moin_emphasis(source)
   end.join
 end
 
+def normalize_unindented_bullets(page_name, source)
+  return source unless UNINDENTED_BULLET_PAGES.include?(page_name)
+
+  source.lines.map do |line|
+    match = line.match(/\A(\*+)([^\n]*)(\n?)\z/)
+    next line unless match
+
+    content = match[2].strip
+    "#{' ' * match[1].length}* #{content}#{match[3]}"
+  end.join
+end
+
 def list_item_match(line)
   line.match(/^(\s+)(\*|\d+\.|[a-z]\.)(?:[ \t]+(.*))?$/i) ||
     line.match(/^(\s+)(\d+、)\s*(.*)$/)
@@ -765,6 +786,7 @@ def convert_moin(text, owner:)
   SOURCE_TEXT_REPLACEMENTS.fetch(owner, {}).each do |before, after|
     source.gsub!(before, after)
   end
+  source = normalize_unindented_bullets(owner, source)
   source = wrap_source_code_ranges(source, owner)
   source.gsub!(/^#pragma section-numbers (?:on|off|\d+)[ \t]*\n?/, "")
   source.gsub!("[[TableOfContents]]", "<<TableOfContents>>")

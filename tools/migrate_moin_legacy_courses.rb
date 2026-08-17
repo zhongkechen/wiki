@@ -51,6 +51,18 @@ SHARED_PAGE_LINKS = {
   "Python语言的基本概念" =>
     "Python游戏开发基础/Python语言的基本概念.qmd"
 }.freeze
+UNINDENTED_BULLET_PAGES = %w[
+  进程的概念
+  集成搜索引擎
+  网关
+  网络爬虫
+  路由和交换概念
+  软件历史
+  计算机导论理论教学大纲
+  网桥
+  路由器
+  集线器
+].freeze
 
 if PAGE_INDEX.empty? && SOURCE_SNAPSHOT.empty?
   raise <<~MESSAGE
@@ -256,6 +268,18 @@ def normalize_source(page_name, source)
   normalized
 end
 
+def normalize_unindented_bullets(page_name, source)
+  return source unless UNINDENTED_BULLET_PAGES.include?(page_name)
+
+  source.lines.map do |line|
+    match = line.match(/\A(\*+)([^\n]*)(\n?)\z/)
+    next line unless match
+
+    content = match[2].strip
+    "#{' ' * match[1].length}* #{content}#{match[3]}"
+  end.join
+end
+
 def page_link(target, course_name, context)
   clean_target = target.sub(/\A\^/, "")
   course_pages = COURSE_PAGES.fetch(course_name)
@@ -292,6 +316,11 @@ def convert_link(raw, owner, course_name, context)
   target, label = raw.split("|", 2)
   target = target.strip
   label = label&.strip
+  if label.nil? &&
+      (external = target.match(/\A((?:https?|ftp|mailto):\S+)\s+(.+)\z/))
+    target = external[1]
+    label = external[2].strip
+  end
   label = target if label.nil? || label.empty?
 
   if target.start_with?("attachment:")
@@ -464,6 +493,7 @@ end
 
 def convert_moin(text, owner:, course_name:, context:)
   source = normalize_source(owner, text).gsub("\r\n", "\n")
+  source = normalize_unindented_bullets(owner, source)
   source.gsub!(/<<PageList\(([^)]+)\)>>/) do
     render_page_list(Regexp.last_match(1))
   end

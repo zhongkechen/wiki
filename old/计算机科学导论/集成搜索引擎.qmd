@@ -25,17 +25,20 @@ format:
 
 ## 《搜索引擎观察》2006年最佳集成搜索引擎
 
-\*1、我来搜（http://www.wolaisou.com/）
+* 1、我来搜（http://www.wolaisou.com/）
+
 调用多种搜索引擎，分类合理,界面友好，简单易用。
-\*2.我要聚合 (http://www.51juhe.com)
+
+* 2.我要聚合 (http://www.51juhe.com)
 
 调用多种搜索引擎, 分类全理.但界面有待进一改善.。　　
 
 ## 常用元搜索引擎
 
-\*1、Dogpile http://www.dogpile.com/）
-\*2、Webcrawler http://www.webcrawler.com/）
-\*3、Search.com http://www.search.com/）
-\*4、1Blink http://www.1blink.com/）
-\*5、第九门 http://www.9om.com)
+* 1、Dogpile http://www.dogpile.com/）
+* 2、Webcrawler http://www.webcrawler.com/）
+* 3、Search.com http://www.search.com/）
+* 4、1Blink http://www.1blink.com/）
+* 5、第九门 http://www.9om.com)
+
 综上所述.集成搜索引擎与无搜索引擎,在搜索引擎领域及对我们搜索质量的提高有很大的帮助.如果喜欢搜索东西的话,还是经常用这些引擎比较好些.

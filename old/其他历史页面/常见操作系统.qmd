@@ -39,13 +39,20 @@ format:
 
 #### FreeBSD的优点
 
-\*1、Unix兼容性强
+* 1、Unix兼容性强
+
 　　FreeBSD的免费并不是说FreeBSD就是个人用户的玩具。由于FreeBSD是Unix的一个分支系统，它具有Unix的特性，可以完成Unix可以完成的工作。由于专业Unix工作站十分昂贵，而FreeBSD就能够利用个人电脑软硬件的廉价，发挥自己的优势，在一定程度上替代 Unix系统。许多Unix系统的应用程序也能在FreeBSD正常运行。
-\*2、极其稳定、可靠
+
+* 2、极其稳定、可靠
+
 　　FreeBSD是真正的32位操作系统，系统核心中不包含任何16位代码，这使得它成为个人电脑操作系统中最为稳定、可靠的系统。 FreeBSD工作站可以正常稳定地持续工作好几年，而不会有问题。它因此被成为“Rock-stable Performance”，就是“坚如磐石”的意思。
-\*3、强大的网络功能
+
+* 3、强大的网络功能
+
 　　FreeBSD不仅被用来作为个人使用的工作站，还被一些ISP(Internet服务提供商)用来作为网络服务器，为广大用户提供网络服务。比如Yahoo主要的服务器都是使用FreeBSD，国内的“网易”也大范围使用的FreeBSD。一方面是由于FreeBSD的廉价，更重要的是因为它具有强大的网络功能和网络工作所必须的良好稳定性。FreeBSD同时也支持着互联网上最大的匿名Ftp服务器：Ftp.cdrom.com。互联网的前身阿帕网就是利用BSD Unix来实现，所以FreeBSD在网络方面显得十分成熟。
-\*4、多用户、多任务
+
+* 4、多用户、多任务
+
 　　这是现代操作系统都具备的。FreeBSD具有能够进行控制、调整的动态优先级抢占式多任务功能。这使得即使在系统繁忙的时候也能够对多个任务进行正常切换，当个别任务没有相应或崩溃时也不会影响其他程序的运行。
 
 #### FreeBSD的不足
@@ -108,7 +115,9 @@ Santa Cruz Operation（SCO） http://www.caldera.com/
 #### 7、支持多种平台
 
 　　Linux可以运行在多种硬件平台上，如具有x86、680x0、SPARC、Alpha等处理器的平台。此外Linux还是一种嵌入式操作系统，可以运行在掌上电脑、机顶盒或游戏机上。2001年1月份发布的Linux 2.4版内核已经能够完全支持Intel 64位芯片架构。同时Linux也支持多处理器技术。多个处理器同时工作，使系统性能大大提高。
-\*Linux的不足
+
+* Linux的不足
+
 　　由于在现在的个人电脑操作系统行业中，微软的Windows系统仍然占有大部分的份额，绝大多数的软件公司都支持Windows。这使得 Windows上的应用软件应有尽有，而其他的操作系统就要少一些。许多用户在换操作系统的时候都会考虑以前的软件能否继续使用，换了操作系统后是否会不方便。虽然Linux具有DOS、Windows模拟器，可以运行一些Windows程序，但Windows系统极其复杂，模拟器所模拟的运行环境不可能完全与真实的Windows环境一模一样，这就使得一些软件无法正常运行。
 　　许多硬件设备面对Linux的驱动程序也不足，不少硬件厂商是在推出Windows版本的驱动程序后才编写Linux版的。但一些大硬件厂商在这方面做得还不错，他们的Linux版驱动程序一般都推出得比较及时。
 
@@ -150,11 +159,13 @@ OS/2 的爱好者们不愿意看到一个如此优秀的操作系统就这样消
 　　BeOS以其出色的多媒体功能而闻名，它在多媒体制作、编辑、播放方面都表现其优越性，因此在多媒体领域，多媒体爱好者们都喜欢使用它。
 　　BeOS的优缺点
 　　看后面关于BEOS的相关阐述，以前说的BEOS在网络方面的特点不完全正确，谢谢TREO的指正。
-\*1、全图形结构BeOS的核心就是图形化，这使得BeOS是真正具有图形界面的操作系统。而Windows等都是以字符界面作为其基础，这样就让结构比较复杂，会在运行过程中存在一些不稳定的因素。具有全图形结构对提高稳定性和运行效率都很有帮助。
-\*2、拥有众多的多媒体软件作为一个面向广大多媒体爱好者的操作系统，BeOS拥有众多功能强大的多媒体软件，从制作到播放是应有尽有，并且许多软件都是内置在系统中的。其中有MediaPlayer、CD Burner、CDPlayer、MIDIPlayer等。当然也有一些专业的多媒体软件能够运行在BeOS环境中。
-\*3、先进的文件系统BeOS使用了64位的文件系统，这是个人电脑上的首次尝试。由于进行多媒体制作时需要进行大规模的数据交换，而64位的文件系统使其运行得更高效。
-\*4、多处理器支持和Linux、Windows NT一样，BeOS也能够支持多处理器。由于多媒体制作对系统的存储设备和处理器能力都是一个较大的考验，采用多处理器无疑能够大幅度提高工作效率，完成多媒体制作的高负荷工作。
-\*5、网络功能除了在多媒体方面出色外，BeOS的网络功能也不容轻视。它的网络功能十分完备，BeOS服务器能够提供WWW、Ftp、E- Mail、Telnet等网络服务。但BEOS的多媒体是特长，但网络则一定不是。原因很简单，BEOS不是unix。tcp/ip,internet都是在unix的基础上发展起来的，可以说unix在网络方面积累了许多年，BEOS正是因为不是unix，无法继承这些年那么多人的智慧和劳动。看看 BEOS的发展，为什么当初在internet booming的时候反应迟钝，半天才能将apache port过去，除了管理层的决策失误以外，更重要的原因就是BEOS NOT UNIX。
+
+* 1、全图形结构BeOS的核心就是图形化，这使得BeOS是真正具有图形界面的操作系统。而Windows等都是以字符界面作为其基础，这样就让结构比较复杂，会在运行过程中存在一些不稳定的因素。具有全图形结构对提高稳定性和运行效率都很有帮助。
+* 2、拥有众多的多媒体软件作为一个面向广大多媒体爱好者的操作系统，BeOS拥有众多功能强大的多媒体软件，从制作到播放是应有尽有，并且许多软件都是内置在系统中的。其中有MediaPlayer、CD Burner、CDPlayer、MIDIPlayer等。当然也有一些专业的多媒体软件能够运行在BeOS环境中。
+* 3、先进的文件系统BeOS使用了64位的文件系统，这是个人电脑上的首次尝试。由于进行多媒体制作时需要进行大规模的数据交换，而64位的文件系统使其运行得更高效。
+* 4、多处理器支持和Linux、Windows NT一样，BeOS也能够支持多处理器。由于多媒体制作对系统的存储设备和处理器能力都是一个较大的考验，采用多处理器无疑能够大幅度提高工作效率，完成多媒体制作的高负荷工作。
+* 5、网络功能除了在多媒体方面出色外，BeOS的网络功能也不容轻视。它的网络功能十分完备，BeOS服务器能够提供WWW、Ftp、E- Mail、Telnet等网络服务。但BEOS的多媒体是特长，但网络则一定不是。原因很简单，BEOS不是unix。tcp/ip,internet都是在unix的基础上发展起来的，可以说unix在网络方面积累了许多年，BEOS正是因为不是unix，无法继承这些年那么多人的智慧和劳动。看看 BEOS的发展，为什么当初在internet booming的时候反应迟钝，半天才能将apache port过去，除了管理层的决策失误以外，更重要的原因就是BEOS NOT UNIX。
+
 　　BeOS的不足和Linux、FreeBSD等非Windows操作系统一样，BeOS的不足同样表现在面向一般用户的应用程序太少。这些操作系统虽然能够运行的程序十分多，但大部分对于一般的家庭、办公用户并不实用，而无法被大众用户所接受。Windows却拥有数量巨大的应用程序，除了面向专业领域的软件外，大部分都能适合一般用户的需要，并且许多软件已深入人心。这就是Windows在普通家庭、办公用户电脑中占有率巨大的主要原因之一。
 　　在BeOS的应用程序中，多媒体方面的软件占了大多数，并且它对某些硬件的支持也不尽人意。
 　　相关链接:
@@ -238,126 +249,198 @@ OS/2 的爱好者们不愿意看到一个如此优秀的操作系统就这样消
 ## 操作系统发展历程中的产品
 
 This article presents a timeline of events in the history of computer operating systems from 1960 to 2003. For a narrative explaining the overall developments, see the related History of computing.
-\*1961
+
+* 1961
+
 　　CTSS
-\*1964
+
+* 1964
+
 　　OS/360 (announced)
-\*1965
+
+* 1965
+
 　　Multics (announced)
 　　OS/360 (shipped)
 　　Tape Operating System (TOS)
-\*1966
+
+* 1966
+
 　　MS/8
-\*1967
+
+* 1967
+
 　　CP/CMS
 　　ITS
 　　WAITS
-\*1969
+
+* 1969
+
 　　ACP (IBM)
 　　TENEX
 　　Unix
-\*1970
+
+* 1970
+
 　　DOS/BATCH 11 (PDP-11)
-\*1971
+
+* 1971
+
 　　/A&gt;
-\*1972
+
+* 1972
+
 　　MFT
 　　MVT
 　　RDOS
 　　SVS
 　　VM/CMS
-\*1973
+
+* 1973
+
 　　Alto OS
 　　RSX-11D
 　　RT-11
 　　VME
-\*1974
+
+* 1974
+
 　　MVS (MVS/XA)
-\*1976
+
+* 1976
+
 　　/A&gt;TOPS-20
-\*1978
+
+* 1978
+
 　　Apple DOS 3.1 (first Apple OS)
 　　TripOS
 　　VMS
-\*1979
+
+* 1979
+
 　　Apple DOS 3.2
-\*1980
+
+* 1980
+
 　　Apple DOS 3.3
 　　OS-9
 　　QDOS
 　　SOS
 　　XDE (Tajo) (Xerox Development Environment)
 　　Xenix
-\*1981
+
+* 1981
+
 　　MS-DOS
-\*1982
+
+* 1982
+
 　　SunOS (1.0)
 　　Ultrix
-\*1983
+
+* 1983
+
 　　Lisa OS
 　　Coherent
 　　ProDOS
-\*1984
+
+* 1984
+
 　　Macintosh OS (System 1.0)
 　　QNX
 　　UniCOS
-\*1985
+
+* 1985
+
 　　AmigaOS
 　　Atari TOS
 　　MIPS OS
 　　Microsoft Windows 1.0
-\*1986
+
+* 1986
+
 　　GS-OS
 　　HP-UX
-\*1987
+
+* 1987
+
 　　Arthur
 　　IRIX (3.0 is first SGI version)
 　　Minix
 　　/A&gt;(1.0) Microsoft Windows 2.0
-\*1988
+
+* 1988
+
 　　A/UX (Apple Computer)
 　　LynxOS
 　　MVS/ESA
 　　OS/400
-\*1989
+
+* 1989
+
 　　AIX
 　　NeXTSTEP (1.0)
 　　RISC OS
 　　SCO Unix (release 3)
-\*1990
+
+* 1990
+
 　　BeOS (v1)
 　　O/A&gt;
-\*1991
+
+* 1991
+
 　　Linux
-\*1992
+
+* 1992
+
 　　Solaris (2.0 is first not called SunOS)
 　　Windows 3.1
-\*1993
+
+* 1993
+
 　　Plan 9
 　　FreeBSD
 　　NetBSD
 　　Windows NT 3.1 (First version of NT)
-\*1995
+
+* 1995
+
 　　Digital Unix (aka Tru64 )
 　　OpenBSD
 　　OS/390
 　　Windows 95
-\*1997
+
+* 1997
+
 　　Mac OS 7.6 (first officially-named Mac OS)
-\*1998
+
+* 1998
+
 　　Windows 98
-\*1999
+
+* 1999
+
 　　Mac OS 8
-\*2000
+
+* 2000
+
 　　AtheOS
 　　Mac OS 9
 　　Windows 2000
 　　Windows ME
-\*2001
+
+* 2001
+
 　　Mac OS X
 　　Windows XP
 　　z/OS
-\*2002
+
+* 2002
+
 　　Syllable
-\*2003
+
+* 2003
+
 　　Windows Server 2003
