@@ -32,6 +32,14 @@ NORMALIZED_TEXT_ATTACHMENT_EXTENSIONS = %w[.cc .htm .py].freeze
 BLOCK_TOKEN_PATTERN = /@@MOIN_BLOCK_(\d+)@@/
 TABLE_HEADER_FIRST_CELLS = %w[Array 姓名 物品].freeze
 SECTION_NUMBER_PRAGMA_PATTERN = /^#pragma section-numbers \d+[ \t]*\r?$/
+SOURCE_TEXT_REPLACEMENTS = {
+  "Python" => {
+    "Learning to Program: attachment: " \
+      "http://www.freenetpages.co.uk/hp/alan.gauld/" =>
+      "[[http://www.freenetpages.co.uk/hp/alan.gauld/|" \
+        "Learning to Program]]"
+  }
+}.freeze
 LEGACY_HTML_PAGE_LINKS = {
   "Vector.html" => "STL编程指南/vector",
   "List.html" => "STL编程指南/list",
@@ -711,6 +719,9 @@ end
 
 def convert_moin(text, owner:, context:, expand_includes: false)
   source = text.gsub("\r\n", "\n")
+  SOURCE_TEXT_REPLACEMENTS.fetch(owner, {}).each do |before, after|
+    source.gsub!(before, after)
+  end
   source.gsub!(/^#pragma section-numbers \d+[ \t]*\n?/, "")
   source.gsub!(/^([ \t]*)'''([^'\n]+)''[ \t]*=+[ \t]*$/) do
     "#{Regexp.last_match(1)}'''#{Regexp.last_match(2).rstrip}'''"

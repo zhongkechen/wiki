@@ -9,6 +9,101 @@ SITE_ROOT = File.expand_path(
   ARGV.fetch(0, File.join(REPOSITORY_ROOT, "_site"))
 )
 
+# Extract Markdown link bodies without truncating URLs that contain parentheses.
+def markdown_link_bodies(line)
+  bodies = []
+  offset = 0
+
+  while (opening = line.index("](", offset))
+    body_start = opening + 2
+    index = body_start
+    depth = 1
+    quote = nil
+
+    while index < line.length
+      character = line[index]
+      if character == "\\"
+        index += 2
+        next
+      elsif quote
+        quote = nil if character == quote
+      elsif depth == 1 &&
+          %w[" '].include?(character) &&
+          index > body_start &&
+          line[index - 1].match?(/[ \t]/)
+        quote = character
+      elsif character == "("
+        depth += 1
+      elsif character == ")"
+        depth -= 1
+        if depth.zero?
+          bodies << line[body_start...index]
+          offset = index + 1
+          break
+        end
+      end
+      index += 1
+    end
+
+    break unless depth.zero?
+  end
+
+  bodies
+end
+
+def external_link_target_contains_spaces?(body)
+  target = body.strip
+  return false unless target.match?(%r{\A(?:https?|ftp|mailto):}i)
+  return false if target.start_with?("<")
+
+  depth = 0
+  split_at = nil
+  index = 0
+  while index < target.length
+    character = target[index]
+    if character == "\\"
+      index += 2
+      next
+    elsif character == "("
+      depth += 1
+    elsif character == ")" && depth.positive?
+      depth -= 1
+    elsif character.match?(/[ \t]/) && depth.zero?
+      split_at = index
+      break
+    end
+    index += 1
+  end
+  return false unless split_at
+
+  title = target[(split_at + 1)..].strip
+  !valid_markdown_link_title?(title)
+end
+
+def valid_markdown_link_title?(title)
+  closing_character =
+    case title[0]
+    when '"', "'" then title[0]
+    when "(" then ")"
+    end
+  return false unless closing_character
+  return false if title.length < 2
+  return false unless title[-1] == closing_character
+
+  last_index = title.length - 1
+  previous_character = title[0]
+  title.each_char.with_index do |character, index|
+    next if index.zero? || index == last_index
+
+    return false if character == closing_character &&
+                    previous_character != "\\"
+
+    previous_character = character
+  end
+
+  true
+end
+
 qmd_files = Dir.glob(File.join(SOURCE_ROOT, "**", "*.qmd")).sort
 html_files = Dir.glob(File.join(SITE_ROOT, "old", "**", "*.html")).sort
 
@@ -25,6 +120,33 @@ end
 unexpected_html = html_files - expected_html
 unless unexpected_html.empty?
   abort "Unexpected rendered pages:\n#{unexpected_html.join("\n")}"
+end
+
+conversion_errors = []
+
+qmd_files.each do |qmd_file|
+  relative_qmd = qmd_file.delete_prefix("#{REPOSITORY_ROOT}/")
+  File.foreach(qmd_file, encoding: "UTF-8").with_index(1) do |line, line_number|
+    if line.match?(/\A\\\*+/)
+      conversion_errors <<
+        "#{relative_qmd}:#{line_number}: unconverted list marker"
+    end
+    if line.include?("attachment:")
+      conversion_errors <<
+        "#{relative_qmd}:#{line_number}: unconverted attachment reference"
+    end
+    has_spaced_target = markdown_link_bodies(line).any? do |body|
+      external_link_target_contains_spaces?(body)
+    end
+    if has_spaced_target
+      conversion_errors <<
+        "#{relative_qmd}:#{line_number}: external link target contains spaces"
+    end
+  end
+end
+
+unless conversion_errors.empty?
+  abort "Conversion residue:\n#{conversion_errors.join("\n")}"
 end
 
 broken_links = []

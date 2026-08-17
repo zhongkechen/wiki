@@ -218,6 +218,16 @@ assert(
   !cpp_exercises.include?("TableOfContents"),
   "Legacy table-of-contents macro leaked into C++ exercises"
 )
+
+common_operating_systems = additional_page("常见操作系统")
+assert(
+  common_operating_systems.include?("#### Linux的不足"),
+  "Linux limitations section was not converted to a heading"
+)
+assert(
+  !common_operating_systems.include?("* Linux的不足"),
+  "Linux limitations section was converted to a list item"
+)
 assert(
   cpp_exercises.scan(/^ {4}\* [A-D]\. /).length == 80,
   "C++ exercise choices were not preserved as nested lists"
