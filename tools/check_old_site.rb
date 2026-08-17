@@ -77,9 +77,31 @@ def external_link_target_contains_spaces?(body)
   return false unless split_at
 
   title = target[(split_at + 1)..].strip
-  !title.match?(
-    /\A(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\((?:\\.|[^)])*\))\z/
-  )
+  !valid_markdown_link_title?(title)
+end
+
+def valid_markdown_link_title?(title)
+  closing_character =
+    case title[0]
+    when '"', "'" then title[0]
+    when "(" then ")"
+    end
+  return false unless closing_character
+  return false if title.length < 2
+  return false unless title[-1] == closing_character
+
+  last_index = title.length - 1
+  previous_character = title[0]
+  title.each_char.with_index do |character, index|
+    next if index.zero? || index == last_index
+
+    return false if character == closing_character &&
+                    previous_character != "\\"
+
+    previous_character = character
+  end
+
+  true
 end
 
 qmd_files = Dir.glob(File.join(SOURCE_ROOT, "**", "*.qmd")).sort
