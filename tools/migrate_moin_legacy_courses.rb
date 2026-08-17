@@ -271,7 +271,21 @@ end
 def normalize_unindented_bullets(page_name, source)
   return source unless UNINDENTED_BULLET_PAGES.include?(page_name)
 
-  source.lines.map do |line|
+  lines = source.lines
+  lines.filter_map.with_index do |line, index|
+    if line.strip.empty?
+      previous_line =
+        lines[0...index].reverse.find { |candidate| !candidate.strip.empty? }
+      following_line =
+        lines[(index + 1)..].find { |candidate| !candidate.strip.empty? }
+      previous_depth =
+        previous_line&.match(/\A\*+/)&.then { |match| match[0].length }
+      following_depth =
+        following_line&.match(/\A\*+/)&.then { |match| match[0].length }
+      next if previous_depth && following_depth &&
+              [previous_depth, following_depth].max > 1
+    end
+
     match = line.match(/\A(\*+)([^\n]*)(\n?)\z/)
     next line unless match
 

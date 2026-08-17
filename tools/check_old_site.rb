@@ -9,6 +9,79 @@ SITE_ROOT = File.expand_path(
   ARGV.fetch(0, File.join(REPOSITORY_ROOT, "_site"))
 )
 
+# Extract Markdown link bodies without truncating URLs that contain parentheses.
+def markdown_link_bodies(line)
+  bodies = []
+  offset = 0
+
+  while (opening = line.index("](", offset))
+    body_start = opening + 2
+    index = body_start
+    depth = 1
+    quote = nil
+
+    while index < line.length
+      character = line[index]
+      if character == "\\"
+        index += 2
+        next
+      elsif quote
+        quote = nil if character == quote
+      elsif depth == 1 &&
+          %w[" '].include?(character) &&
+          index > body_start &&
+          line[index - 1].match?(/[ \t]/)
+        quote = character
+      elsif character == "("
+        depth += 1
+      elsif character == ")"
+        depth -= 1
+        if depth.zero?
+          bodies << line[body_start...index]
+          offset = index + 1
+          break
+        end
+      end
+      index += 1
+    end
+
+    break unless depth.zero?
+  end
+
+  bodies
+end
+
+def external_link_target_contains_spaces?(body)
+  target = body.strip
+  return false unless target.match?(%r{\A(?:https?|ftp|mailto):}i)
+  return false if target.start_with?("<")
+
+  depth = 0
+  split_at = nil
+  index = 0
+  while index < target.length
+    character = target[index]
+    if character == "\\"
+      index += 2
+      next
+    elsif character == "("
+      depth += 1
+    elsif character == ")" && depth.positive?
+      depth -= 1
+    elsif character.match?(/[ \t]/) && depth.zero?
+      split_at = index
+      break
+    end
+    index += 1
+  end
+  return false unless split_at
+
+  title = target[(split_at + 1)..].strip
+  !title.match?(
+    /\A(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\((?:\\.|[^)])*\))\z/
+  )
+end
+
 qmd_files = Dir.glob(File.join(SOURCE_ROOT, "**", "*.qmd")).sort
 html_files = Dir.glob(File.join(SITE_ROOT, "old", "**", "*.html")).sort
 
@@ -40,7 +113,10 @@ qmd_files.each do |qmd_file|
       conversion_errors <<
         "#{relative_qmd}:#{line_number}: unconverted attachment reference"
     end
-    if line.match?(/\]\((?:https?|ftp|mailto):[^)\n]*\s+[^)\n]*\)/i)
+    has_spaced_target = markdown_link_bodies(line).any? do |body|
+      external_link_target_contains_spaces?(body)
+    end
+    if has_spaced_target
       conversion_errors <<
         "#{relative_qmd}:#{line_number}: external link target contains spaces"
     end

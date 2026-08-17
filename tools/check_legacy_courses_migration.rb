@@ -162,6 +162,29 @@ assert(
   "MoinMoin category marker leaked into the concept page"
 )
 
+routing_and_switching = File.read(
+  File.join(
+    REPOSITORY_ROOT,
+    "old",
+    "计算机科学导论",
+    "路由和交换概念.qmd"
+  ),
+  encoding: "UTF-8"
+)
+assert(
+  routing_and_switching.include?(
+    "* 四种最常见路由协议是RIP、IGRP、OSPF和EIGRP。\n" \
+      "    * RIP（Routing Information Protocols"
+  ),
+  "Nested routing-protocol list was flattened"
+)
+%w[IGRP OSPF EIGRP].each do |protocol|
+  assert(
+    routing_and_switching.include?("\n    * #{protocol}"),
+    "Nested routing-protocol list is missing #{protocol}"
+  )
+end
+
 exam_answers = File.read(
   File.join(
     REPOSITORY_ROOT,
