@@ -52,9 +52,18 @@ def digest(path)
   Digest::SHA256.file(path).hexdigest
 end
 
+def additional_output_name(name)
+  MOIN_ADDITIONAL_PAGE_OUTPUT_NAMES.fetch(name, File.basename(name).delete("<>"))
+end
+
 def additional_page(name)
   File.read(
-    File.join(REPOSITORY_ROOT, "old", "其他历史页面", "#{name}.qmd"),
+    File.join(
+      REPOSITORY_ROOT,
+      "old",
+      "其他历史页面",
+      "#{additional_output_name(name)}.qmd"
+    ),
     encoding: "UTF-8"
   )
 end
@@ -76,11 +85,11 @@ expected_files = migrated_files(REPOSITORY_ROOT)
 qmd_files = expected_files.select { |path| path.end_with?(".qmd") }
 asset_files = expected_files - qmd_files
 
-assert(qmd_files.length == 360, "Expected 360 QMD pages, found #{qmd_files.length}")
-assert(asset_files.length == 160, "Expected 160 attachments, found #{asset_files.length}")
+assert(qmd_files.length == 372, "Expected 372 QMD pages, found #{qmd_files.length}")
+assert(asset_files.length == 171, "Expected 171 attachments, found #{asset_files.length}")
 assert(
-  MOIN_ADDITIONAL_PAGE_NAMES.length == 105,
-  "Expected 105 additional source pages"
+  MOIN_ADDITIONAL_PAGE_NAMES.length == 117,
+  "Expected 117 additional source pages"
 )
 assert(
   MOIN_ADDITIONAL_PAGE_NAMES.uniq.length == MOIN_ADDITIONAL_PAGE_NAMES.length,
@@ -97,7 +106,7 @@ MOIN_ADDITIONAL_PAGE_GROUPS.each do |group_name, page_names|
     "Archive index is missing the #{group_name} group"
   )
   page_names.each do |page_name|
-    basename = File.basename(page_name).delete("<>")
+    basename = additional_output_name(page_name)
     relative_path = File.join("old", "其他历史页面", "#{basename}.qmd")
     assert(
       File.file?(File.join(REPOSITORY_ROOT, relative_path)),
@@ -154,9 +163,9 @@ Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
     chdir: temporary_root
   )
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 360 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Converted 372 pages"), "Unexpected page count:\n#{stdout}")
   assert(
-    stdout.include?("Copied 160 attachments"),
+    stdout.include?("Copied 171 attachments"),
     "Unexpected attachment count:\n#{stdout}"
   )
 
@@ -331,6 +340,85 @@ windows_mobile = additional_page("WindowsMobile")
 assert(
   windows_mobile.scan(/\{width=350\}/).length == 2,
   "Windows Mobile image widths were not preserved"
+)
+
+ios = additional_page("iOS")
+assert(
+  ios.include?("[Apple Platform Security Guide]") &&
+    ios.include?("[Carcassonne]"),
+  "iOS reference links were not migrated"
+)
+
+development_efficiency = additional_page("开发效率")
+assert(
+  development_efficiency.include?("### 个人效率") &&
+    development_efficiency.include?("### 团队效率") &&
+    development_efficiency.include?("[What is OKR]"),
+  "Development efficiency sections were not migrated"
+)
+
+course_results = additional_page("课程成绩")
+assert(
+  course_results.include?("学生成绩属于个人隐私"),
+  "Course result privacy notice was not migrated"
+)
+
+career_summary = additional_page("总结")
+assert(
+  career_summary.include?("2004年初为教师") &&
+    career_summary.include?("四、努力方向"),
+  "Career summary content was not migrated"
+)
+
+nds_links = additional_page("nds")
+assert(
+  nds_links.include?("[nds非官方FAQ](<nds非官方FAQ.qmd>)") &&
+    nds_links.include?("[flashme](http://ds.gcdev.com/dsfirmware/)") &&
+    nds_links.scan(%r{^\* \[.+\.jpg\]\(<assets/nds/}).length == 11,
+  "Legacy NDS links were not migrated"
+)
+
+assert(
+  additional_page("健康").include?("[HP Ergonomics]"),
+  "Health reference was not migrated"
+)
+assert(
+  additional_page("动漫").include?("死亡笔记"),
+  "Anime note was not migrated"
+)
+assert(
+  additional_page("热门新技术").include?("Open Document"),
+  "Emerging technology links were not migrated"
+)
+assert(
+  additional_page("相册").include?("picasaweb.google.com/chen.zhongke"),
+  "Photo album links were not migrated"
+)
+
+school_files = additional_page("学校文件")
+assert(
+  school_files.include?(
+    '<iframe src="https://calendar.google.com/calendar/embed?'
+  ) &&
+    !school_files.include?("```html"),
+  "School calendar iframe was not preserved as secure HTML"
+)
+
+operating_system = additional_page("操作系统")
+assert(
+  operating_system.include?("## 概述") &&
+    operating_system.include?("## 进程管理") &&
+    operating_system.include?("### Linux系统"),
+  "Operating system outline was not migrated"
+)
+
+television_streams = additional_page("网络电视地址")
+assert(
+  television_streams.include?("## 中央台") &&
+    television_streams.include?("CCTV-1 综合频道") &&
+    television_streams.include?("### 广播地址") &&
+    television_streams.include?("#### 浙江丶江苏"),
+  "Legacy television stream archive was not migrated"
 )
 
 debian_apache = additional_page("debianapache2")
