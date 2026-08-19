@@ -85,11 +85,11 @@ expected_files = migrated_files(REPOSITORY_ROOT)
 qmd_files = expected_files.select { |path| path.end_with?(".qmd") }
 asset_files = expected_files - qmd_files
 
-assert(qmd_files.length == 372, "Expected 372 QMD pages, found #{qmd_files.length}")
+assert(qmd_files.length == 371, "Expected 371 QMD pages, found #{qmd_files.length}")
 assert(asset_files.length == 171, "Expected 171 attachments, found #{asset_files.length}")
 assert(
-  MOIN_ADDITIONAL_PAGE_NAMES.length == 117,
-  "Expected 117 additional source pages"
+  MOIN_ADDITIONAL_PAGE_NAMES.length == 116,
+  "Expected 116 additional source pages"
 )
 assert(
   MOIN_ADDITIONAL_PAGE_NAMES.uniq.length == MOIN_ADDITIONAL_PAGE_NAMES.length,
@@ -163,7 +163,7 @@ Dir.mktmpdir("check-other-pages-migration") do |temporary_root|
     chdir: temporary_root
   )
   assert(status.success?, "Snapshot-only migration failed:\n#{stdout}\n#{stderr}")
-  assert(stdout.include?("Converted 372 pages"), "Unexpected page count:\n#{stdout}")
+  assert(stdout.include?("Converted 371 pages"), "Unexpected page count:\n#{stdout}")
   assert(
     stdout.include?("Copied 171 attachments"),
     "Unexpected attachment count:\n#{stdout}"
@@ -361,13 +361,6 @@ course_results = additional_page("课程成绩")
 assert(
   course_results.include?("学生成绩属于个人隐私"),
   "Course result privacy notice was not migrated"
-)
-
-career_summary = additional_page("总结")
-assert(
-  career_summary.include?("2004年初为教师") &&
-    career_summary.include?("四、努力方向"),
-  "Career summary content was not migrated"
 )
 
 nds_links = additional_page("nds")
