@@ -1759,11 +1759,6 @@
     "revision": "00000006",
     "current_revision": "00000006"
   },
-  "课程成绩": {
-    "source": "课程的成绩在学校教务处网站上查询。\r\n * 温州大学教务处： [[http://jwc.wzu.edu.cn/]]\r\n * 瓯江学院教学部： [[http://jxb.ojc.zj.cn/]]\r\n\r\n注意：学生成绩属于个人隐私，本网站不予提供。\r\n",
-    "revision": "00000002",
-    "current_revision": "00000002"
-  },
   "温州大学计算机专业教师": {
     "source": "== 计算机专业教师 ==\r\n * [[czk|陈忠克]]\r\n * [[cchuang|黄长城]]\r\n * 吴文国\r\n * [[ymc|虞铭财]]\r\n * [[lzhongyue|李忠月]]\r\n",
     "revision": "00000006",
