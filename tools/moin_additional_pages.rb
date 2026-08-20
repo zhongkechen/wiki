@@ -22,6 +22,7 @@ MOIN_ADDITIONAL_PAGE_GROUPS = {
     "VirtualBoxChangelog",
     "Why_Python",
     "apache2/debianapache2",
+    "开发效率",
     "score",
     "svn",
     "zju_online_judge的常见问题",
@@ -52,7 +53,10 @@ MOIN_ADDITIONAL_PAGE_GROUPS = {
     "Windows",
     "WindowsMobile",
     "gba",
+    "iOS",
+    "nds",
     "nds非官方FAQ",
+    "操作系统",
     "ubuntu"
   ],
   "网络与安全" => [
@@ -91,6 +95,7 @@ MOIN_ADDITIONAL_PAGE_GROUPS = {
     "机器的智能问题",
     "机器语言",
     "计算机中二进制",
+    "热门新技术",
     "语言历史"
   ],
   "教学与站点历史" => [
@@ -101,6 +106,7 @@ MOIN_ADDITIONAL_PAGE_GROUPS = {
     "hdu2015",
     "关于本站",
     "关于温州百科",
+    "学校文件",
     "数字图像处理实验报告格式",
     "温州大学计算机专业教师",
     "程序设计竞赛相关网站",
@@ -108,6 +114,8 @@ MOIN_ADDITIONAL_PAGE_GROUPS = {
   ],
   "兴趣与个人知识库" => [
     "书单",
+    "健康",
+    "动漫",
     "学习方法",
     "少儿编程",
     "影视",
@@ -115,6 +123,8 @@ MOIN_ADDITIONAL_PAGE_GROUPS = {
     "播客",
     "数码产品",
     "汽车",
+    "相册",
+    "网络电视地址",
     "音乐",
     "魔方"
   ]
@@ -125,5 +135,10 @@ MOIN_ADDITIONAL_PAGE_NAMES =
 
 MOIN_ADDITIONAL_PAGE_TITLES = {
   "apache2/debianapache2" => "Debian Apache2 配置",
+  "nds" => "NDS 相关链接",
   "score" => "温州第二实验中学学生成绩管理系统"
+}.freeze
+
+MOIN_ADDITIONAL_PAGE_OUTPUT_NAMES = {
+  "nds" => "NDS相关链接"
 }.freeze

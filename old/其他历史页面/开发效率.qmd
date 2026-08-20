@@ -1,0 +1,63 @@
+---
+title: "开发效率"
+lang: zh
+toc: true
+format:
+  html:
+    code-copy: true
+    html-math-method: mathjax
+---
+
+[返回“其他历史页面”](<../其他历史页面.qmd>)
+
+::: {.callout-warning}
+**已恢复历史版本**
+
+当前版本 00000031 在备份中缺失；以下内容来自最新可读取版本 00000030。
+:::
+
+### 个人效率
+
+* [番茄时间管理法(Pomodoro Technique)：一个番茄是如何让你工作更有效率的](http://www.aqee.net/post/pomodoro-technique.html)
+* [《搞定》最佳实践：如何利用滴答清单（TickTick）实践 GTD 理念？](https://sspai.com/post/39960)
+* [如何提升工作效率? 8個提刺激腦部運作的方式!](https://www.knowledger.info/2016/03/01/8-power-habits-of-the-most-productive-people/)
+* [扬尼斯定律：程序员的开发效率每6年提高一倍](https://www.cnbeta.com/articles/tech/195331.htm)
+* [为什么中国的 996 干不过美国的 955](https://mp.weixin.qq.com/s/2b4-aKQEpDuYYn4txP-l4w)
+* [扎克伯格关于时间管理的26张PPT](https://www.jianshu.com/p/413d09027955)
+* [想提高效率，就别再做这7件事了](https://www.digitaling.com/articles/12668.html)
+* [Table of Keyboard Shortcuts](https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts)
+* [七个高效文本编辑的习惯](https://forum.ubuntu.com.cn/viewtopic.php?t=69375)
+
+### 团队效率
+
+OKR
+
+* [What is OKR](https://felipecastro.com/en/okr/what-is-okr/)
+* [Beginner's guide to writing effective OKRs](https://upraise.io/blog/writing-effective-okrs/)
+* [你真的理解OKR吗？这里有一份完整的实践方法论](https://mp.weixin.qq.com/s/GPmZA2pMQAW_P6AqPep-fA)
+* [20种职位OKR模板案例大全.pdf](https://mp.weixin.qq.com/s/5XYaGv51q2YN2HeDwfpJ1g)
+* [KPI与OKR，我们也曾傻傻分不清](https://mp.weixin.qq.com/s/dMzZLk2lXofSAFVX6_dVwA)
+* [谷歌员工有压力：OKR考评逃不掉](https://www.cnbeta.com/articles/tech/267504.htm)
+* [扔掉KPI，跟Google学习OKR管理方法](https://mp.weixin.qq.com/s/2CXfMv89-BCpOZjncVzbiw)
+* [结合少数派团队运营工作，聊聊我对目标管理的理解](https://sspai.com/post/55805)
+
+Agile
+
+* [Maybe Agile Is the Problem](https://www.infoq.com/articles/agile-agile-blah-blah/)
+* [Spotify Engineering Culture - Part 1](https://www.youtube.com/watch?v=Yvfz4HGtoPc)
+* [Spotify Engineering Culture - Part 2](https://www.youtube.com/watch?v=vOt4BbWLWQw)
+* [SAFe 4.0 in 5 minutes](https://www.youtube.com/watch?v=tmJ_mJw8xec)
+* [敏捷项目管理实战之《孙子兵法》在敏捷项目管理中的应用](https://www.ibm.com/developerworks/cn/rational/r-cn-sunzibingfainagileprojectmanagement/index.html?ca=drs-)
+* [Manifesto for Agile HR Development](https://www.agilehrmanifesto.org/)
+* [A Disciplined Agile Mindset for People Management](https://www.pmi.org/disciplined-agile/process/people-management)
+
+Others
+
+* [Trillion Dollar Coach - The Leadership Playbook of Silicon Valley's Bill Campbell](https://www.trilliondollarcoach.com/)
+* [A Taxonomy of Tech Debt](https://technology.riotgames.com/news/taxonomy-tech-debt)
+* [任正非管理思想](https://www.ruanyifeng.com/blog/2019/08/ren-zhengfei.html)
+* [从程序员通宵帮产品开发求婚APP说起，聊聊技术管理的那些事儿](https://mp.weixin.qq.com/s/TsT56Eu8h06O7huBbSvMqw)
+* [哪些管理类的书籍值得推荐](https://www.zhihu.com/question/20212656)
+* [Why Google Stores Billions of Lines of Code in a Single Repository](https://cacm.acm.org/magazines/2016/7/204032-why-google-stores-billions-of-lines-of-code-in-a-single-repository/fulltext)
+* [Hacker Culture](https://en.wikipedia.org/wiki/Hacker_culture)
+* [What You Should Know About Flexible Paid Time Off](https://www.zenefits.com/workest/what-is-a-flexible-paid-time-off-policy/)

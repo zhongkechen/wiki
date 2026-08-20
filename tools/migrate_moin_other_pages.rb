@@ -107,6 +107,16 @@ SOURCE_TEXT_REPLACEMENTS = {
   "程序" => {
     "[[指令]" => "[[指令]]"
   },
+  "学校文件" => {
+    "{{{#!html" => "{{{#!raw",
+    "http://www.google.com/calendar/embed?" =>
+      "https://calendar.google.com/calendar/embed?",
+    'style=" border-width:0 "' =>
+      'style="border-width:0; max-width:100%;"'
+  },
+  "nds" => {
+    '["nds非官方FAQ"]' => "[[nds非官方FAQ]]"
+  },
   "基于OpenWrt路由器的全自动翻墙方案" => {
     "[[http://sourceforge.net/projects/xtables-addons/files/|" \
       "xtables-addons源码]" =>
@@ -297,7 +307,10 @@ def output_relative_path(page_name)
   if page_name == root_name
     "#{root_name}.qmd"
   else
-    basename = File.basename(page_name).delete("<>")
+    basename = MOIN_ADDITIONAL_PAGE_OUTPUT_NAMES.fetch(
+      page_name,
+      File.basename(page_name).delete("<>")
+    )
     File.join(root_name, "#{basename}.qmd")
   end
 end
@@ -779,6 +792,14 @@ def normalize_unindented_bullets(page_name, source)
   end.join
 end
 
+def normalize_network_tv_headings(page_name, source)
+  return source unless page_name == "网络电视地址"
+
+  source
+    .sub(/^广播地址：$/, "== 广播地址 ==")
+    .gsub(/^\*\*\*(.+?)\*\*\*$/, '=== \1 ===')
+end
+
 def list_item_match(line)
   line.match(/^(\s+)(\*|\d+\.|[a-z]\.)(?:[ \t]+(.*))?$/i) ||
     line.match(/^(\s+)(\d+、)\s*(.*)$/)
@@ -790,6 +811,7 @@ def convert_moin(text, owner:)
     source.gsub!(before, after)
   end
   source = normalize_unindented_bullets(owner, source)
+  source = normalize_network_tv_headings(owner, source)
   source = wrap_source_code_ranges(source, owner)
   source.gsub!(/^#pragma section-numbers (?:on|off|\d+)[ \t]*\n?/, "")
   source.gsub!("[[TableOfContents]]", "<<TableOfContents>>")
