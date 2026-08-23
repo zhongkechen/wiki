@@ -8,13 +8,7 @@ format:
     html-math-method: mathjax
 ---
 
-[返回“其他历史页面”](<../其他历史页面.qmd>)
-
-::: {.callout-warning}
-**已恢复历史版本**
-
-当前版本 00000044 在备份中缺失；以下内容来自最新可读取版本 00000043。
-:::
+[返回首页](<../../index.md>) · [返回“其他历史页面”](<../其他历史页面.qmd>)
 
 ## 书单
 
@@ -115,9 +109,12 @@ format:
 
 ### 其他书
 
+* **《輪迴八十六次的生命覺醒之旅》**，布萊恩・魏斯
+
+  精神科醫師布萊恩・魏斯記錄病人凱瑟琳在催眠治療中回溯多段前世的案例，探討恐懼、創傷、死亡與靈性成長，呈現一場從心理療癒走向生命意義的探索。
 * Trillion Dollar Coach
 * 牛奶可乐经济学 (The Economic Naturalist: In Search of Explanations for Everyday Enigmas) Robert H.Frank
-* 简单的逻辑学 （Being Logical: A Guide to Good Thinking） D·Q·McInerny 赵明燕
+* 简单的逻辑学 （Being Logical: A Guide to Good Thinking） D·Q·[McInerny](https://wiki.ch3n2k.com/McInerny) 赵明燕
 * 萨姆劳埃德的数学趣题
 * 萨姆劳埃德的数学趣题续编
 * Borland传奇
@@ -148,6 +145,8 @@ format:
 
 ### 参考
 
+* [每个程序员都应该阅读的 10 篇论文（至少两遍） - 知乎](https://zhuanlan.zhihu.com/p/25465581)
+* [书单推荐：存在主义也许可以缓解你对生活的焦虑 - 少数派](https://sspai.com/post/60346)
 * [【编程随想】收藏的电子书清单（多个学科，含下载链接）](https://github.com/programthink/books)
 * [哪本书是对程序员最有影响、每个程序员都该阅读的书？](http://www.aqee.net/post/what-is-the-single-most-influential-book-every-programmer-should-read.html)
 * [3 分钟找书指南 v7.0](https://mp.weixin.qq.com/s/JVjokE_iAOnuymi6_onRZQ)
@@ -161,3 +160,4 @@ format:
 * [2018 年值得一看的科技書籍](https://tw.news.yahoo.com/2018-%E5%B9%B4%E5%80%BC%E5%BE%97-%E7%9C%8B%E7%9A%84%E7%A7%91%E6%8A%80%E6%9B%B8%E7%B1%8D-050052827.html)
 * [产品经理必读书单（2018史上最全）](https://zhuanlan.zhihu.com/p/35986350)
 * [这 7 份豆瓣以外的年度书单，想引导你拓宽阅读的边界](https://sspai.com/post/58218)
+* [看书不挑出版社的都是山炮——评天朝各大出版社](<assets/书单/89ad7439jw1ejl4w5tvnhj20c8apohdt.jpg>)
