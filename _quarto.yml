@@ -4,6 +4,8 @@ project:
   render:
     - 404.qmd
     - index.md
+    - health/index.qmd
+    - health/posts/**/*.qmd
     - LICENSE.md
     - wiki/Nostr.md
     - wiki/Raspberry Pi.md
