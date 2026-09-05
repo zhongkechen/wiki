@@ -1,0 +1,13 @@
+---
+title: 健康
+description: 关于饮食、营养与日常健康的文章。
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  feed: true
+page-layout: full
+---
+
+这里收录从小红书项目同步归档的健康文章。文章内容按原文保存；后续修订应在两个项目中同步进行。
