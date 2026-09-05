@@ -81,6 +81,11 @@ website:
   repo-actions: [source]
   google-analytics: G-WNLDZWNFJM
   search: true
+  navbar:
+    right:
+      - text: 订阅
+        icon: rss
+        href: health/index.xml
   page-footer:
     center: |
       Zhongke's shared personal notes<br>
