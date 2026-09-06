@@ -22,8 +22,8 @@
 3. 工作区不干净时，优先从最新 `origin/master` 创建独立 worktree，避免混入用户改动；临时 worktree 必须放在 `$TMPDIR`，禁止使用 `/tmp`。
 4. 不直接提交或推送到 `master`。所有更新必须通过独立分支和 Pull Request。
 5. 分支名应简洁描述任务，不得添加 `codex/` 前缀。
-6. PR 检查通过后，除非用户明确要求，否则不要代替用户合并 PR。
-7. 用户要求“发布”时，合并后还要确认 GitHub Pages 的构建和部署成功，不能只以 PR 合并为完成。
+6. 任务分支推送成功并创建 PR 后即可结束，这是默认交付终点。
+7. 除非用户明确要求，不等待 PR 检查，不代替用户合并 PR，也不确认 GitHub Pages 的构建和部署。
 
 ## 开始任务
 
@@ -115,7 +115,7 @@ git status --short
 XDG_CACHE_HOME="$TMPDIR/quarto-cache" quarto render
 ```
 
-本仓库历史页面较多，全站构建可能需要数分钟。PR 中的 `Build and deploy Quarto site` 检查是最终构建依据；检查失败时，应查看日志并在同一分支修复。
+本仓库历史页面较多，全站构建可能需要数分钟。PR 中的 `Build and deploy Quarto site` 检查是最终构建依据，但默认不等待该检查；只有用户明确要求持续跟进时，才查看日志并在同一分支修复。
 
 ## 提交与 Pull Request
 
@@ -140,14 +140,15 @@ XDG_CACHE_HOME="$TMPDIR/quarto-cache" quarto render
    - 已执行的验证。
    - 未完成或只能由 CI 验证的事项。
 
-6. 监控 PR 检查：
+6. 任务分支推送且 PR 创建成功后即可结束，不需要等待检查、合并或部署。
+7. 只有用户明确要求持续跟进时，才监控 PR 检查：
 
    ```bash
    gh pr checks <PR编号>
    ```
 
-7. 未经用户明确要求，不执行 `gh pr merge`。
-8. PR 合并后，如任务包含发布，继续确认 `master` 上的 Pages 工作流完成且部署成功。
+8. 未经用户明确要求，不执行 `gh pr merge`。
+9. 只有用户明确要求确认发布结果时，才在 PR 合并后检查 `master` 上的 Pages 工作流和线上页面。
 
 ## 完成前检查
 
@@ -158,4 +159,5 @@ XDG_CACHE_HOME="$TMPDIR/quarto-cache" quarto render
 - 归档正文与来源保持一致。
 - 用户要求无图时，文章确实不包含图片。
 - 提交只包含当前任务文件。
-- 分支已推送，PR 已创建，检查状态已报告。
+- 分支已推送，PR 已创建。
+- 用户未明确要求持续跟进时，无需等待检查、合并或部署。
