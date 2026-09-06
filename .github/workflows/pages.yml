@@ -4,9 +4,33 @@ on:
   push:
     branches:
       - master
+    paths:
+      - ".github/scripts/render-changed-quarto.sh"
+      - ".github/workflows/pages.yml"
+      - "_quarto.yml"
+      - "CNAME"
+      - "LICENSE.md"
+      - "*.qmd"
+      - "**/*.qmd"
+      - "index.md"
+      - "health/**"
+      - "old/**"
+      - "wiki/**"
   pull_request:
     branches:
       - master
+    paths:
+      - ".github/scripts/render-changed-quarto.sh"
+      - ".github/workflows/pages.yml"
+      - "_quarto.yml"
+      - "CNAME"
+      - "LICENSE.md"
+      - "*.qmd"
+      - "**/*.qmd"
+      - "index.md"
+      - "health/**"
+      - "old/**"
+      - "wiki/**"
   workflow_dispatch:
 
 permissions:
@@ -14,22 +38,58 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      QUARTO_VERSION: "1.10.18"
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2
         with:
-          version: "1.10.18"
+          version: ${{ env.QUARTO_VERSION }}
 
-      - name: Render site
-        run: quarto render
+      - name: Restore rendered site
+        id: site-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: _site
+          key: quarto-site-${{ runner.os }}-${{ env.QUARTO_VERSION }}-${{ github.sha }}
+          restore-keys: |
+            quarto-site-${{ runner.os }}-${{ env.QUARTO_VERSION }}-
+
+      - name: Render changed documents
+        id: render
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          SITE_CACHE_MATCHED_KEY: ${{ steps.site-cache.outputs.cache-matched-key }}
+        run: .github/scripts/render-changed-quarto.sh
+
+      - name: Verify deployable site
+        if: github.event_name != 'pull_request'
+        run: |
+          test -f _site/index.html
+          test -f _site/search.json
+          test -f _site/health/index.xml
+          test -f "_site/old/首页.html"
+
+      - name: Save rendered site
+        if: >-
+          github.event_name != 'pull_request' &&
+          steps.render.outputs.rendered == 'true' &&
+          steps.site-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: _site
+          key: quarto-site-${{ runner.os }}-${{ env.QUARTO_VERSION }}-${{ github.sha }}
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
