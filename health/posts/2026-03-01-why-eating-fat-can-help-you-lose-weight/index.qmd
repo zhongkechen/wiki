@@ -9,8 +9,6 @@ categories:
 
 #饮食与生活习惯 #脂肪
 
-## 文字版
-
 Dr. Bikman 是著名的胰島素研究專家（《Why We Get Sick》的作者），他強調膽汁作為內分泌信號分子（Endocrine signaling molecules）的作用，而不僅僅是乳化脂肪。
 
 ### 1. 膽汁酸是「代謝信號彈」
