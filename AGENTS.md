@@ -133,22 +133,32 @@ XDG_CACHE_HOME="$TMPDIR/quarto-cache" quarto render
    gh pr create --base master --head <任务分支名>
    ```
 
-5. PR 描述至少包含：
+5. 创建后立即确认 PR 确实存在，并核对 PR 的远端 HEAD：
+
+   ```bash
+   local_commit="$(git rev-parse HEAD)"
+   pr_commit="$(gh pr view --head <任务分支名> --json headRefOid --jq .headRefOid)"
+   test "$local_commit" = "$pr_commit"
+   ```
+
+   `git push` 输出的“Create a pull request”提示仅表示分支已推送，不代表 PR 已创建。必须取得并向用户提供真实的 PR URL。
+
+6. PR 描述至少包含：
 
    - 修改内容。
    - 关键约束，例如“正文与来源保持一致”“不包含图片”。
    - 已执行的验证。
    - 未完成或只能由 CI 验证的事项。
 
-6. 任务分支推送且 PR 创建成功后即可结束，不需要等待检查、合并或部署。
-7. 只有用户明确要求持续跟进时，才监控 PR 检查：
+7. 任务分支推送、PR 创建且远端 HEAD 核对成功后才可结束，不需要等待检查、合并或部署。
+8. 只有用户明确要求持续跟进时，才监控 PR 检查：
 
    ```bash
    gh pr checks <PR编号>
    ```
 
-8. 未经用户明确要求，不执行 `gh pr merge`。
-9. 只有用户明确要求确认发布结果时，才在 PR 合并后检查 `master` 上的 Pages 工作流和线上页面。
+9. 未经用户明确要求，不执行 `gh pr merge`。
+10. 只有用户明确要求确认发布结果时，才在 PR 合并后检查 `master` 上的 Pages 工作流和线上页面。
 
 ### 更新现有 Pull Request
 
@@ -181,6 +191,7 @@ XDG_CACHE_HOME="$TMPDIR/quarto-cache" quarto render
 - 归档正文与来源保持一致。
 - 用户要求无图时，文章确实不包含图片。
 - 提交只包含当前任务文件。
-- 分支已推送，PR 已创建。
+- 分支已推送，PR 已实际创建，并已取得 PR URL。
+- 新 PR 的 `headRefOid` 已与本地 HEAD 核对一致。
 - 若对现有 PR 追加了提交，PR 的 `headRefOid` 已与本地 HEAD 核对一致。
 - 用户未明确要求持续跟进时，无需等待检查、合并或部署。
