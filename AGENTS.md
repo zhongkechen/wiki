@@ -150,6 +150,28 @@ XDG_CACHE_HOME="$TMPDIR/quarto-cache" quarto render
 8. 未经用户明确要求，不执行 `gh pr merge`。
 9. 只有用户明确要求确认发布结果时，才在 PR 合并后检查 `master` 上的 Pages 工作流和线上页面。
 
+### 更新现有 Pull Request
+
+对已有 PR 的分支追加提交时，`git commit` 成功只表示本地提交完成，不代表远端 PR 已更新。必须依次完成：
+
+1. 将新提交推送到该 PR 的远程分支：
+
+   ```bash
+   git push origin <任务分支名>
+   ```
+
+2. 比较本地 HEAD 与 PR 的远端 HEAD：
+
+   ```bash
+   local_commit="$(git rev-parse HEAD)"
+   pr_commit="$(gh pr view <PR编号> --json headRefOid --jq .headRefOid)"
+   test "$local_commit" = "$pr_commit"
+   ```
+
+3. 只有上述比较成功后，才能向用户报告“PR 已更新”或“变更已推送”。
+4. 如果用户要求确认某个具体链接或文件内容，还必须从 PR 远程分支回读该内容，例如使用 `gh api` 或 `gh pr diff`，不得只检查本地文件。
+5. 推送失败、HEAD 不一致或远端内容未更新时，应继续处理并明确报告实际状态，不得将本地提交误报为远端完成。
+
 ## 完成前检查
 
 - 变更来自最新 `origin/master`。
@@ -160,4 +182,5 @@ XDG_CACHE_HOME="$TMPDIR/quarto-cache" quarto render
 - 用户要求无图时，文章确实不包含图片。
 - 提交只包含当前任务文件。
 - 分支已推送，PR 已创建。
+- 若对现有 PR 追加了提交，PR 的 `headRefOid` 已与本地 HEAD 核对一致。
 - 用户未明确要求持续跟进时，无需等待检查、合并或部署。
