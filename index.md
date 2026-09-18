@@ -10,6 +10,10 @@ title: 首页
 
 - [健康专题](health/index.qmd)：饮食、营养与日常健康文章
 
+## 技术
+
+- [技术博客](tech/index.qmd)：软件工程、AI 编程与工程团队协作
+
 ## 系统相关
 
 - [Linux](Linux.html): 桌面、服务器、移动等全能的操作系统
