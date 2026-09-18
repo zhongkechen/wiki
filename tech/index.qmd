@@ -1,0 +1,15 @@
+---
+title: 技术博客
+description: 关于软件工程、AI 编程与工程团队协作的文章。
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  feed: true
+page-layout: full
+---
+
+[订阅技术博客 RSS](index.xml){.btn .btn-primary role="button"}
+
+记录技术实践、行业观察与工程思考。
