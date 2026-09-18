@@ -43,7 +43,7 @@ is_site_input() {
   local file="$1"
 
   case "$file" in
-    _quarto.yml | CNAME | LICENSE.md | index.md | *.qmd | health/* | old/* | wiki/*)
+    _quarto.yml | CNAME | LICENSE.md | index.md | *.qmd | health/* | tech/* | old/* | wiki/*)
       return 0
       ;;
     *)
@@ -95,11 +95,16 @@ for file in "${changed_files[@]}"; do
       ;;
     *.qmd | LICENSE.md | index.md | wiki/*.md)
       add_render_file "$file"
-      if [[ "$file" == health/posts/* ]]; then
-        add_render_file "health/index.qmd"
-      fi
+      case "$file" in
+        health/posts/*)
+          add_render_file "health/index.qmd"
+          ;;
+        tech/posts/*)
+          add_render_file "tech/index.qmd"
+          ;;
+      esac
       ;;
-    health/* | old/* | wiki/*)
+    health/* | tech/* | old/* | wiki/*)
       render_all "a non-document site resource changed: ${file}"
       ;;
   esac

@@ -6,6 +6,8 @@ project:
     - index.md
     - health/index.qmd
     - health/posts/**/*.qmd
+    - tech/index.qmd
+    - tech/posts/**/*.qmd
     - LICENSE.md
     - wiki/Nostr.md
     - wiki/Raspberry Pi.md
@@ -85,7 +87,11 @@ website:
     right:
       - text: 订阅
         icon: rss
-        href: health/index.xml
+        menu:
+          - text: 健康专题
+            href: health/index.xml
+          - text: 技术博客
+            href: tech/index.xml
   page-footer:
     center: |
       Zhongke's shared personal notes<br>
