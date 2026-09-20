@@ -6,7 +6,8 @@ listing:
   sort: "date desc"
   type: default
   categories: true
-  feed: true
+  feed:
+    title: 健康专题
 page-layout: full
 ---
 
