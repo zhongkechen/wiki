@@ -9,6 +9,7 @@ project:
     - tech/index.qmd
     - tech/posts/**/*.qmd
     - LICENSE.md
+    - wiki/burnaby-elections-2026.md
     - wiki/Nostr.md
     - wiki/Raspberry Pi.md
     - wiki/SteamDeck.md
