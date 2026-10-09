@@ -1,7 +1,7 @@
 ---
-title: 运动健身一定要吃高碳吗？
+title: "运动一定要吃高碳吗？"
 description: 整理 Nick Norwitz 与 Andrew Koutnik 关于耐力运动补碳、大脑供能和代谢健康的访谈及中文解说。
-date: 2026-09-24
+date: "2026-09-23T20:55:23+08:00"
 categories:
   - 运动营养
   - 耐力运动

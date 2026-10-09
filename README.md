@@ -23,6 +23,12 @@ quarto render
 
 构建产物保存在 `_site/` 目录。
 
+## 日期与时区
+
+站点通过 `_environment` 将默认渲染时区设为 `Asia/Shanghai`（北京时间，UTC+8），CI 使用相同设置。文章的 `date` 可保存带时区的完整发布时间，例如 `2026-09-05T01:39:38+08:00`；页面和列表显示北京时间，RSS 的 GMT 时间仍指向同一实际时刻。只填写日期的旧文章按站点时区解释。
+
+本机已设置的 `TZ` 环境变量会覆盖 Quarto 的项目默认值。需要与线上结果一致时，使用 `TZ=Asia/Shanghai quarto render` 或先取消其他 `TZ` 设置。修改 `_environment` 会触发完整构建，更新缓存中的页面和订阅源。
+
 ## 评论
 
 文章和 Wiki 内容页通过 [Giscus](https://giscus.app/zh-CN) 提供评论，

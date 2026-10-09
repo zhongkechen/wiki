@@ -1,7 +1,7 @@
 ---
-title: "两位背景不同的人物 一个意义深远的临床试验"
+title: "两位背景不同的人物·一个意义深远的临床试"
 description: 整理老周关于 Nick Norwitz、Dave Feldman、血脂三联与冠脉影像研究的观点。
-date: 2026-10-07
+date: "2026-10-07T22:18:38+08:00"
 categories:
   - 血脂三联
   - LDL

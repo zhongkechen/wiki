@@ -8,6 +8,7 @@ on:
       - ".github/scripts/render-changed-quarto.sh"
       - ".github/workflows/pages.yml"
       - "_quarto.yml"
+      - "_environment*"
       - "_filters/**"
       - "_includes/**"
       - "CNAME"
@@ -26,6 +27,7 @@ on:
       - ".github/scripts/render-changed-quarto.sh"
       - ".github/workflows/pages.yml"
       - "_quarto.yml"
+      - "_environment*"
       - "_filters/**"
       - "_includes/**"
       - "CNAME"
@@ -51,6 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       QUARTO_VERSION: "1.10.18"
+      TZ: Asia/Shanghai
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7

@@ -1,7 +1,7 @@
 ---
-title: "解读生酮实验的第二篇论文 ApoB与心血管疾病有关系吗？"
+title: "解读生酮实验的第二篇论文 ApoB与心血管疾"
 description: 整理老周对 KETO 第二篇论文、ApoB 与冠脉斑块进展的解读，保留一年随访及特殊人群的研究边界。
-date: 2026-10-09
+date: "2026-10-09T10:49:44+08:00"
 categories:
   - ApoB
   - LMHR
