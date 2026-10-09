@@ -1,5 +1,6 @@
 ---
 title: 技术博客
+comments: false
 description: 关于软件工程、AI 编程与工程团队协作的文章。
 listing:
   contents: posts

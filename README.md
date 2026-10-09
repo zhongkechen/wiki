@@ -23,6 +23,17 @@ quarto render
 
 构建产物保存在 `_site/` 目录。
 
+## 评论
+
+文章和 Wiki 内容页通过 [Giscus](https://giscus.app/zh-CN) 提供评论，
+评论保存在本仓库的 `Announcements` Discussions 分类中，发表评论需要登录 GitHub。
+首页、专题目录、许可页和 404 页面不显示评论；其他页面可在 YAML frontmatter 中
+设置 `comments: false` 单独关闭。
+
+评论脚本集中在 `_includes/giscus.html`，由 `_filters/giscus.lua` 加入 HTML 正文末尾。
+直接嵌入脚本是为了保留 Quarto 1.10 内置模板未传递的严格匹配和懒加载参数。
+评论按 `pathname` 关联页面，修改文章路径时需要同步迁移对应的讨论关联。
+
 ## 版权与许可
 
 除另有说明以及引用的第三方内容外，本仓库的原创内容采用

@@ -1,5 +1,6 @@
 ---
 title: 健康
+comments: false
 description: 关于饮食、营养与日常健康的文章。
 listing:
   contents: posts

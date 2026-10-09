@@ -1,5 +1,6 @@
 ---
 title: 首页
+comments: false
 description: Zhongke 的个人 Wiki 旧站首页
 ---
 

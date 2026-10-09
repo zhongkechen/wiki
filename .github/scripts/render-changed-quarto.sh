@@ -43,7 +43,7 @@ is_site_input() {
   local file="$1"
 
   case "$file" in
-    _quarto.yml | CNAME | LICENSE.md | index.md | *.qmd | health/* | tech/* | old/* | wiki/*)
+    _quarto.yml | _filters/* | _includes/* | CNAME | LICENSE.md | index.md | *.qmd | health/* | tech/* | old/* | wiki/*)
       return 0
       ;;
     *)
@@ -90,7 +90,7 @@ done
 
 for file in "${changed_files[@]}"; do
   case "$file" in
-    _quarto.yml | CNAME)
+    _quarto.yml | _filters/* | _includes/* | CNAME)
       render_all "a global site input changed: ${file}"
       ;;
     *.qmd | LICENSE.md | index.md | wiki/*.md)
