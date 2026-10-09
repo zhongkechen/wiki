@@ -76,6 +76,9 @@ project:
 
 lang: zh
 
+filters:
+  - _filters/giscus.lua
+
 website:
   title: "Zhongke's Personal Wiki"
   site-url: https://gw.ch3n2k.com
