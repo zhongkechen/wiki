@@ -1,7 +1,7 @@
 ---
 title: 美国心脏外科名医如何看LDL争议
 description: 整理心脏外科医生Philip Ovadia关于LDL、胰岛素抵抗、他汀与风险评估的访谈观点。
-date: 2026-10-03
+date: "2026-10-02T21:45:31+08:00"
 categories:
   - LDL
   - 胆固醇

@@ -1,7 +1,7 @@
 ---
 title: 血糖正常，也可能有胰岛素抵抗？
 description: 整理 Suneel Dhand 关于胰岛素抵抗、血糖代偿、HOMA-IR 检测及生活方式调整的观点。
-date: 2026-09-21
+date: "2026-09-21T21:24:09+08:00"
 categories:
   - 胰岛素抵抗
   - 代谢健康

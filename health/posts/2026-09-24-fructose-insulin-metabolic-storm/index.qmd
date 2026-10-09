@@ -1,7 +1,7 @@
 ---
 title: 果糖与胰岛素会轻易引起身体的代谢风暴
 description: 整理 Robert Lustig 关于果糖、胰岛素与脂肪肝的观点。
-date: 2026-09-24
+date: "2026-09-24T22:00:45+08:00"
 categories:
   - 果糖
   - 胰岛素
