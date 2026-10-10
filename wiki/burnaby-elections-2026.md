@@ -1,13 +1,15 @@
 ---
 title: "2026 本拿比选举指南：市选与卑诗省选"
-description: "本拿比市长、市议员、学务委员及相关省选选区的候选人名单、党派、政策定位与投票备忘。"
+description: "本拿比市选及卑诗省选候选人名单、党派与政策定位；市选和省选投票地点、地址、开放日期及证件备忘。"
 date: 2026-10-06
-date-modified: 2026-10-06
+date-modified: 2026-10-10
 toc: true
 toc-depth: 3
 ---
 
-本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**，候选人姓名、参选职位和党派已于 **2026-10-06** 对照官方名单核对。省选部分不包含全省其他选区。
+本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**，候选人姓名、参选职位、党派及投票安排已于 **2026-10-10** 对照官方资料核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
+
+本次更新：省选补入本拿比北 **Jenny Yamagata（OneBC）**；最新官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
 
 候选人使用官方英文姓名，便于与选票核对。下文的“中左”“中右”“社会保守”等是依据公开政纲作出的分析性概括，并非选举机构的官方标签。同一档内部没有精确排名；独立候选人的资料不足时保留不确定性。反对社区增密、支持治安或强调财政问责，单独一项都不足以确定完整的左右立场。
 
@@ -22,9 +24,9 @@ toc-depth: 3
   - 最终投票日：**2026-10-24**。
   - 提前投票期：**2026-10-16 至 2026-10-21**；各站开放日期请查官方地点查询。
   - 提前投票时间为当地时间 08:00–20:00；最终投票日为太平洋时间 08:00–20:00。
-  - 本拿比相关 **5 个选区，共 18 名候选人**；候选人提名已于 2026-10-03 截止。
+  - 本拿比相关 **5 个选区，共 18 名候选人**；候选人提名已于 2026-10-03 13:00 截止。
 
-日期、地点及资格以[本拿比市选选民指南][municipal-voters]和[Elections BC 省选指南][provincial-election]为准。省选选区可通过[官方选区查询][district-lookup]核对；省选投票地点见[官方投票方式说明][provincial-voting]。
+日期、地点及资格以[本拿比市选选民指南][municipal-voters]和[Elections BC 省选指南][provincial-election]为准。省选选区可通过[官方选区查询][district-lookup]核对；按住址查省选投票站请使用 [Where to Vote 官方地图][provincial-map]。**2026-10-17 同时是市选一般投票日和省选提前投票日，两场选举须分别投票，并分别核对地点。**
 
 ## 市政党团及大致政策位置 {#municipal-parties}
 
@@ -183,9 +185,11 @@ Joe Keithley 此次代表 BCA，不再以本拿比绿党身份参选。
 - **Jen Jang**：恢复七年级乐队课程、保护辅导与心理健康支持，并试行衔接学校作息的托儿服务。[候选人介绍][jen-jang]。
 - **Jasmine Nicholsfigueiredo**：支持不同学习需要、心理健康、校园环保、恢复七年级乐队及包容校园，也强调公共教育和教育工作者权益。[候选人介绍][jasmine]。
 
-### 独立候选人：2 人
+### 市选独立候选人：2 人 {#独立候选人2-人}
 
-- **Jenny Yamagata**：主张改善心理健康支持、公平获得学习支持、恢复七年级乐队，同时强调财政责任。公共服务政策偏温和进步，但整体左右定位暂定。
+这里的“独立”仅指**学务委员这次市选的参选身份**，不能据此认定候选人没有省级政党关系。
+
+- **Jenny Yamagata — 学务委员市选：独立；本拿比北省选：OneBC**。市府的[学务委员简介][trustee-list]仍将她列为独立候选人，[市选提名文件][jenny-municipal-nomination]的选票党团名称栏为空；Elections BC 则明确确认她[代表 OneBC 参加省选][provincial-candidate-update]。她的学务委员主张包括改善心理健康支持、公平获得学习支持、恢复七年级乐队及财政责任。
 - **Diane Pearce**：官方简介主要介绍校园午餐管理、支持有学习困难学生和社区服务经历，具体课程、经费及治理主张不足，暂不作左右定位。
 
 Burnaby First 此次没有学务委员候选人。
@@ -208,42 +212,246 @@ Burnaby First 此次没有学务委员候选人。
 
 ## 省选：本拿比相关选区候选人 {#provincial-candidates}
 
-以下为提名截止后的正式名单，共 **5 个选区、18 人**，按选区列示姓名及省选党派。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。[Elections BC 官方名单][provincial-list]提供全省候选人；另有[官方 CSV 名册][provincial-csv]。
+以下依据 **2026-10-10** 核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、18 人**。各区按官方名单顺序列出选票姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
 
-### Burnaby Centre｜本拿比中
+相较本页 2026-10-06 版本，本拿比北补入 **Jenny Yamagata — OneBC**，该区由 3 人更正为 4 人。[Elections BC 候选人更新公告][provincial-candidate-update]说明，她的省选提名经复核获接受，并以 OneBC 身份加入正式名单。另据本次复核的官方网页及 CSV，Burnaby-New Westminster 已不再列出 **Greg DePaco**，现列 2 人；本页据此调整名册，不据缺名推断变更原因。
+
+### Burnaby Centre｜本拿比中（BNC，4 人） {#burnaby-centre本拿比中}
 
 - **Joshua Domnich — 卑诗保守党（Conservative Party）**
 - **Vikas Gautam — CentreBC**
 - **Anne Kang — 卑诗新民主党（BC NDP）**
 - **Shila Taheri — 卑诗绿党（BC Green Party）**
 
-### Burnaby East｜本拿比东
+### Burnaby East｜本拿比东（BNE，4 人） {#burnaby-east本拿比东}
 
-- **Peter Si — 卑诗保守党（Conservative Party）**
-- **De Ding — OneBC**
 - **Rohini Reah Arora — 卑诗新民主党（BC NDP）**
+- **De Ding — OneBC**
 - **Javad Shushtarian — 卑诗绿党（BC Green Party）**
+- **Peter Si — 卑诗保守党（Conservative Party）**
 
-### Burnaby North｜本拿比北
+### Burnaby North｜本拿比北（BNO，4 人） {#burnaby-north本拿比北}
 
 - **Simon Chandler — 卑诗保守党（Conservative Party）**
-- **Janet Routledge — 卑诗新民主党（BC NDP）**
 - **Maddy Kennedy-Parrott — 卑诗绿党（BC Green Party）**
+- **Janet Routledge — 卑诗新民主党（BC NDP）**
+- **Jenny Yamagata — OneBC**
 
-### Burnaby South-Metrotown｜本拿比南—Metrotown
+### Burnaby South-Metrotown｜本拿比南—Metrotown（BNS，4 人） {#burnaby-south-metrotown本拿比南metrotown}
 
-- **David Xie — 卑诗保守党（Conservative Party）**
-- **Andrew Rose — OneBC**
 - **Paul Choi — 卑诗新民主党（BC NDP）**
 - **Bryan Fockler — 卑诗绿党（BC Green Party）**
+- **Andrew Rose — OneBC**
+- **David Xie — 卑诗保守党（Conservative Party）**
 
-### Burnaby-New Westminster｜本拿比—新西敏
+### Burnaby-New Westminster｜本拿比—新西敏（BNN，2 人） {#burnaby-new-westminster本拿比新西敏}
 
-- **Joe Latam — 卑诗保守党（Conservative Party）**
 - **Raj Chouhan — 卑诗新民主党（BC NDP）**
-- **Greg DePaco — 卑诗绿党（BC Green Party）**
+- **Joe Latam — 卑诗保守党（Conservative Party）**
 
-David Xie 同时出现在两份官方名册中：市议员参选党团是 **New Burnaby**，省议员参选党派是 **卑诗保守党**。两次选举的职位和党派身份应分别记录。
+两份官方名册中同时出现的姓名包括：**David Xie**（市议员：New Burnaby；省议员：卑诗保守党）和 **Jenny Yamagata**（学务委员：独立；省议员：OneBC）。市选和省选的职位、党派身份应分别记录。
+
+## 市选：投票地点 {#municipal-voting-locations}
+
+市选没有按住址指定的投票站，合资格选民可到**本拿比任一当日开放的市选站点**投票；以下各站开放时间均为 **08:00–20:00（本拿比当地时间）**。地点、入口、无障碍设施及投票日预计等候时间可查[市府互动地图][municipal-map]；另有[可打印地点地图（PDF）][municipal-map-pdf]。[市府选民指南][municipal-voters]。
+
+### 提前投票：6 个地点
+
+**2026-10-03、2026-10-07、2026-10-10** 均可使用下列 6 站；10 月 10 日是最后一个市选提前投票日。
+
+| 投票地点 | 地址（Burnaby） |
+| --- | --- |
+| Bill Copeland Sports Centre | 3676 Kensington Ave |
+| Bonsor Recreation Complex | 6550 Bonsor Ave |
+| Confederation Seniors' Centre | 4585 Albert St |
+| Edmonds Community Centre | 7433 Edmonds St |
+| Temporary Cameron Community Centre | 110-9855 Austin Ave |
+| Willingdon Community Centre | 1491 Carleton Ave |
+
+**Cameron 使用临时社区中心地址 110-9855 Austin Ave。** Edmonds Community Centre 在所有市选投票日提供辅助填票设备；市选各站均可请求路边投票协助。[无障碍安排][municipal-voters]。
+
+### 一般投票日：2026-10-17，共 33 个地点
+
+上述 6 站在一般投票日也开放。以下为完整的 33 站名单，地址依据[市府选民指南][municipal-voters]及[官方地点地图][municipal-map-pdf]。
+
+<details>
+<summary>展开市选一般投票日全部地点与地址</summary>
+
+| 投票地点 | 地址（Burnaby） |
+| --- | --- |
+| Armstrong Elementary School | 8757 Armstrong Ave |
+| BCIT Burnaby Campus（SE02） | 3700 Willingdon Ave |
+| Bill Copeland Sports Centre | 3676 Kensington Ave |
+| Bonsor Recreation Complex | 6550 Bonsor Ave |
+| Burnaby Central Secondary School | 6011 Deer Lake Pkwy |
+| Burnaby North Secondary School | 751 Hammarskjold Dr |
+| Capitol Hill Elementary School | 350 Holdom Ave |
+| Cascade Heights Elementary School | 4343 Smith Ave |
+| Chaffey-Burke Elementary School | 4404 Sardis St |
+| Clinton Elementary School | 5858 Clinton St |
+| Confederation Seniors' Centre | 4585 Albert St |
+| Edmonds Community Centre | 7433 Edmonds St |
+| Forest Grove Elementary School | 8525 Forest Grove Dr |
+| Gilmore Avenue Community School | 50 Gilmore Ave |
+| Lakeview Elementary School | 7777 Mayfield St |
+| Lochdale Community School | 6990 Aubrey St |
+| Marlborough Elementary School | 6060 Marlborough Ave |
+| Metrotown Banquet Hall | 6515 Bonsor Ave |
+| Morley Elementary School | 7355 Morley St |
+| Moscrop Secondary School | 4433 Moscrop St |
+| Nelson Elementary School | 4850 Irmin St |
+| Parkcrest Elementary School | 6055 Halifax St |
+| Seaforth Elementary School | 7881 Government Rd |
+| Second Street Community School | 7502 2nd St |
+| South Slope Elementary School | 4446 Watling St |
+| Sperling Elementary School | 2200 Sperling Ave |
+| Stoney Creek Community School | 2740 Beaverbrook Cres |
+| Taylor Park Elementary School | 7590 Mission Ave |
+| Temporary Cameron Community Centre | 110-9855 Austin Ave |
+| University Highlands Elementary School | 9388 Tower Rd |
+| Westridge Elementary School | 510 Duncan Ave |
+| Willingdon Community Centre | 1491 Carleton Ave |
+| Windsor Elementary School | 6166 Imperial St |
+
+</details>
+
+## 省选：投票地点与选区办公室 {#provincial-voting-locations}
+
+[Where to Vote 官方地图][provincial-map]已可按住址查询选区办公室、提前投票站和最终投票日站点。下表按官方选区归组，**投票仍是选择自己居住选区的候选人**；前往其他选区的投票站不会改变自己的选区。[官方地点说明][provincial-where]。
+
+### 提前投票：2026-10-16 至 2026-10-21
+
+可到**全省任一开放的省选提前投票站**投票，不需要特别理由；开放时间均为 **08:00–20:00（当地时间）**，所有提前投票站均可供轮椅使用者进入。以下为本拿比相关 5 个选区的 **11 站**，依据 **2026-10-08** 版[官方提前投票地点 PDF][provincial-advance-pdf]第 1–2 页；各站开放日期并不完全相同。
+
+| 选区 | 提前投票地点 | 地址及城市 | 开放日期（2026 年） |
+| --- | --- | --- | --- |
+| 本拿比中（BNC） | Deer Lake United Church | 5135 Sperling Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比中（BNC） | Wesburn Comm Centre | 4781 Parkwood Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比东（BNE） | Salvation Army Cariboo Hill Temple | 7195 Cariboo Rd（Burnaby） | 10 月 16–21 日 |
+| 本拿比东（BNE） | Swedish Canadian Manor | 1812 Duthie Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比北（BNO） | Capitol Hill Comm Hall | 361 Howard Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比北（BNO） | Executive Inn | 4201 Lougheed Hwy（Burnaby） | 10 月 16–18 日 |
+| 本拿比北（BNO） | Overlynn Mansion | 401 N Esmond Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比南—Metrotown（BNS） | Poppy Residences - Legion 83 | 5291 Grimmer St（Burnaby） | 10 月 16–21 日 |
+| 本拿比南—Metrotown（BNS） | South Burnaby Lawn Bowls Club | 4000 Kingsway（Burnaby） | 10 月 16–21 日 |
+| 本拿比—新西敏（BNN） | New Westminster Lawn Bowling Club | 710 Eighth St（New Westminster） | 10 月 16 日、18–21 日 |
+| 本拿比—新西敏（BNN） | Royal Palace Banquet Hall | 7845 Edmonds St（Burnaby） | 10 月 17–21 日 |
+
+特别留意：**Executive Inn 只在 10 月 16–18 日开放提前投票；Royal Palace Banquet Hall 从 10 月 17 日开始；New Westminster Lawn Bowling Club 在 10 月 17 日不开放提前投票。** 出发前仍应查看[官方地图][provincial-map]是否有变更。
+
+### 最终投票日：2026-10-24
+
+开放时间为 **08:00–20:00（太平洋时间）**。选民卡和[官方地图][provincial-map]会列出按住址指定的站点；Elections BC 也明确说明，如其他省选投票站更方便，可以在那里投票。[官方地点说明][provincial-where]。
+
+以下依据 **2026-10-09** 版[最终投票日地点 PDF][provincial-final-pdf]第 4–6 页，列出本拿比相关 5 个选区的 **52 站**。提前投票站、最终投票日站点及市选站点须分别核对，不能只凭场馆名称推定开放日期。
+
+<details>
+<summary>Burnaby Centre｜本拿比中（BNC）：10 站</summary>
+
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Buckingham Elem School | 6066 Buckingham Ave（Burnaby） |
+| Chaffey-Burke Elem School | 4404 Sardis St（Burnaby） |
+| Christine Sinclair Comm Centre | 3713 Kensington Ave（Burnaby） |
+| Jubilee United Church | 6000 Sussex Ave（Burnaby） |
+| Moscrop Sec School | 4433 Moscrop St（Burnaby） |
+| Vancouver Korean Full Gospel Church | 3905 Norland Ave（Burnaby） |
+| Windsor Elem School | 6166 Imperial St（Burnaby） |
+| École Brantford Elem School | 6512 Brantford Ave（Burnaby） |
+| École Cascade Heights Elem School | 4343 Smith Ave（Burnaby） |
+| École Marlborough Elem School - West Gym | 6060 Marlborough Ave（Burnaby） |
+
+</details>
+
+<details>
+<summary>Burnaby East｜本拿比东（BNE）：12 站</summary>
+
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Cariboo Hill Sec School | 8580 16th Ave（Burnaby） |
+| Forest Grove Elem School | 8525 Forest Grove Dr（Burnaby） |
+| Lochdale Comm Elem School | 6990 Aubrey St（Burnaby） |
+| Montecito Elem School | 2176 Duthie Ave（Burnaby） |
+| New Life Comm Church | 8765 Government St（Burnaby） |
+| Salvation Army Cariboo Hill Temple | 7195 Cariboo Rd（Burnaby） |
+| Seaforth Elem School | 7881 Government Rd（Burnaby） |
+| Sperling Elem School | 2200 Sperling Ave（Burnaby） |
+| St. Stephen The Martyr Anglican Church | 9887 Cameron St（Burnaby） |
+| Stoney Creek Elem School | 2740 Beaverbrook Cres（Burnaby） |
+| University Highlands Elem School | 9388 Tower Rd（Burnaby） |
+| Westridge Elem School | 510 Duncan Ave（Burnaby） |
+
+</details>
+
+<details>
+<summary>Burnaby North｜本拿比北（BNO）：8 站</summary>
+
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Aubrey Elem School | 1075 Stratford Ave（Burnaby） |
+| Capitol Hill Comm Hall | 361 Howard Ave（Burnaby） |
+| Executive Inn | 4201 Lougheed Hwy（Burnaby） |
+| Gilmore Comm School | 50 Gilmore Ave（Burnaby） |
+| Kitchener Elem School | 1351 Gilmore Ave（Burnaby） |
+| Overlynn Mansion | 401 N Esmond Ave（Burnaby） |
+| Parkcrest Elem School | 6055 Halifax St（Burnaby） |
+| Rosser Elem School | 4375 Pandora St（Burnaby） |
+
+</details>
+
+<details>
+<summary>Burnaby South-Metrotown｜本拿比南—Metrotown（BNS）：12 站</summary>
+
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Alan Emmott Centre | 6650 Southoaks Cres（Burnaby） |
+| Bob Prittie Metrotown Library | 6100 Willingdon Ave（Burnaby） |
+| Bonsor Rec Complex | 6550 Bonsor Ave（Burnaby） |
+| Clinton Elem School | 5858 Clinton St（Burnaby） |
+| Glenwood Elem School | 5787 Marine Dr（Burnaby） |
+| Maywood Elem School | 4567 Imperial St（Burnaby） |
+| Nelson Elem School | 4850 Irmin St（Burnaby） |
+| Poppy Residences - Legion 83 | 5291 Grimmer St（Burnaby） |
+| South Burnaby Lawn Bowls Club | 4000 Kingsway（Burnaby） |
+| South Slope Elem School | 4446 Watling St（Burnaby） |
+| Suncrest Elem School | 3883 Rumble St（Burnaby） |
+| Taylor Park Elem School | 7590 Mission Ave（Burnaby） |
+
+</details>
+
+<details>
+<summary>Burnaby-New Westminster｜本拿比—新西敏（BNN）：10 站</summary>
+
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Byrne Creek Comm School | 7777 18th St（Burnaby） |
+| Edmonds Comm School | 7651 18th Ave（Burnaby） |
+| F.W. Howay Elem School | 91 Courtney Cres（New Westminster） |
+| Lord Kelvin Elem School | 1010 Hamilton St（New Westminster） |
+| New Westminster Lawn Bowling Club | 710 Eighth St（New Westminster） |
+| Royal Palace Banquet Hall | 7845 Edmonds St（Burnaby） |
+| Second St Comm School | 7502 2nd St（Burnaby） |
+| Twelfth Ave Elem School | 7622 12th Ave（Burnaby） |
+| École Herbert Spencer Elem School | 605 Second St（New Westminster） |
+| École Lord Tweedsmuir Elem School | 1714 Eighth Ave（New Westminster） |
+
+</details>
+
+### 选区办公室：已开放，可在提前投票期之前投票
+
+选民可到**任一已开放的省选选区办公室**投票。下列 5 个办公室在[官方名单][provincial-offices-pdf]中均标为 Open；其中 Burnaby-New Westminster 办公室位于新西敏。
+
+| 选区办公室 | 地址及城市 | 电话 |
+| --- | --- | --- |
+| 本拿比中（BNC） | 600-4789 Kingsway（Burnaby） | 778-572-4223 |
+| 本拿比东（BNE） | 8500 Baxter Pl（Burnaby） | 778-572-4230 |
+| 本拿比北（BNO） | 110-2250 Boundary Rd（Burnaby） | 778-572-4244 |
+| 本拿比南—Metrotown（BNS） | 7123 Curragh Ave（Burnaby） | 778-572-4251 |
+| 本拿比—新西敏（BNN） | 500-628 Sixth Ave（New Westminster） | 778-572-4237 |
+
+通常开放时间为周一至周五 **09:00–17:00**、周六 **10:00–16:00**，周日及法定假日关闭；**10 月 12 日感恩节关闭**。省选提前投票期间（10 月 16–21 日）为 **08:00–20:00**。办公室投票服务在 **2026-10-24 16:00（太平洋时间）截止**，早于当天普通投票站的 20:00。[官方投票方式][provincial-voting]、[办公室名单][provincial-offices-pdf]。
+
+若选择省选邮寄投票，网上或电话申请截止日为 **2026-10-18**，填妥的选票包必须在 **2026-10-24 20:00（太平洋时间）前送达** Elections BC；也可交到省选选区办公室或投票站，须留意该地点的开放时间。[官方邮寄投票说明][provincial-voting]。
 
 ## 现场投票与证件备忘 {#voting-id}
 
@@ -270,16 +478,19 @@ David Xie 同时出现在两份官方名册中：市议员参选党团是 **New 
 
 ## 资料来源与更新 {#sources}
 
-- **姓名、党派和职位**：以[本拿比官方候选人目录][municipal-candidates]和[Elections BC 最终候选人名单][provincial-list]为依据；核对日期为 2026-10-06。
+- **姓名、党派和职位**：以[本拿比官方候选人目录][municipal-candidates]和[Elections BC 最终候选人名单][provincial-list]、[CSV 名册][provincial-csv]为依据；核对日期为 **2026-10-10**。市选仍为市长 6 人、市议员 42 人、学务委员 16 人；省选 5 个相关选区现列 18 人。
 - **政策主张**：来自候选人提交的官方简介、党团及个人竞选网站。它们描述的是竞选承诺，不表示已通过或已实现。
 - **左右定位**：本页对公开政策的概括。市政、教育、税收及城市规划存在不同维度；同党成员之间也可能有差别。
-- **投票安排**：以两场选举各自的官方页面为准。候选人退选、资料更正或投票安排变化时，应重新核对并更新本页日期。
+- **投票安排**：于 **2026-10-10** 核对市府选民指南及两场选举官方地图入口；省选提前投票地点采用 **2026-10-08** 版 PDF，最终投票日地点采用 **2026-10-09** 版 PDF。地址及开放日期可能继续调整，出发前应重新查阅对应的官方地图。
 
 [municipal-candidates]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates
 [municipal-voters]: https://www.burnaby.ca/our-city/mayor-and-council/elections/voters
+[municipal-map]: https://gis.burnaby.ca/electionvotinglocations/
+[municipal-map-pdf]: https://burnaby.widen.net/s/mmjlwwrqj2/2026-voting-locations-map
 [mayor-list]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates/office-of-mayor-candidate-profiles
 [council-list]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates/office-of-councillor-candidate-profiles
 [trustee-list]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates/office-of-school-trustees-candidate-profiles
+[jenny-municipal-nomination]: https://burnaby.widen.net/s/xpfzl7895w/2026-election-tru_yamagata-jenny_redacted-web-c2
 [restore-platform]: https://restoreburnaby.ca/?page_id=1282
 [restore-education]: https://restoreburnaby.ca/?page_id=1259
 [first-platform]: https://www.burnabyfirst.ca/platform
@@ -298,9 +509,15 @@ David Xie 同时出现在两份官方名册中：市议员参选党团是 **New 
 [jasmine]: https://burnabygreenparty.com/team-members/jasmine-nicholsfigueiredo/
 [provincial-election]: https://elections.bc.ca/2026-provincial-election/
 [provincial-list]: https://elections.bc.ca/2026-provincial-election/candidate-list/
+[provincial-candidate-update]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update/
 [provincial-csv]: https://elections.bc.ca/2026election/2026-provincial-general-election-candidates.csv
 [district-lookup]: https://elections.bc.ca/resources/maps/find-your-district/
 [provincial-voting]: https://elections.bc.ca/2026-provincial-election/ways-to-vote/
+[provincial-where]: https://elections.bc.ca/2026-provincial-election/where-to-vote/
+[provincial-map]: https://wheretovote.elections.bc.ca/
+[provincial-advance-pdf]: https://elections.bc.ca/2026election/advance-voting-places-2026.pdf
+[provincial-final-pdf]: https://www.elections.bc.ca/2026election/final-voting-places-2026.pdf
+[provincial-offices-pdf]: https://elections.bc.ca/docs/2026-district-electoral-offices.pdf
 [provincial-eligibility]: https://elections.bc.ca/2026-provincial-election/who-can-vote/
 [provincial-id]: https://elections.bc.ca/2026-provincial-election/voter-id/
 [provincial-writs]: https://elections.bc.ca/news/writs-issued-for-british-columbias-44th-provincial-general-election/
