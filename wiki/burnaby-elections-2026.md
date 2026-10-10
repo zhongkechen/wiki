@@ -9,7 +9,7 @@ toc-depth: 3
 
 本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**，候选人姓名、参选职位、党派及投票安排已于 **2026-10-10** 对照官方资料核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
 
-本次更新：省选补入本拿比北 **Jenny Yamagata（OneBC）**，合计 **19 名候选人**；新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
+本次更新：省选补入本拿比北 **Jenny Yamagata（OneBC）**；最新官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
 
 候选人使用官方英文姓名，便于与选票核对。下文的“中左”“中右”“社会保守”等是依据公开政纲作出的分析性概括，并非选举机构的官方标签。同一档内部没有精确排名；独立候选人的资料不足时保留不确定性。反对社区增密、支持治安或强调财政问责，单独一项都不足以确定完整的左右立场。
 
@@ -24,7 +24,7 @@ toc-depth: 3
   - 最终投票日：**2026-10-24**。
   - 提前投票期：**2026-10-16 至 2026-10-21**；各站开放日期请查官方地点查询。
   - 提前投票时间为当地时间 08:00–20:00；最终投票日为太平洋时间 08:00–20:00。
-  - 本拿比相关 **5 个选区，共 19 名候选人**；候选人提名已于 2026-10-03 13:00 截止。
+  - 本拿比相关 **5 个选区，共 18 名候选人**；候选人提名已于 2026-10-03 13:00 截止。
 
 日期、地点及资格以[本拿比市选选民指南][municipal-voters]和[Elections BC 省选指南][provincial-election]为准。省选选区可通过[官方选区查询][district-lookup]核对；按住址查省选投票站请使用 [Where to Vote 官方地图][provincial-map]。**2026-10-17 同时是市选一般投票日和省选提前投票日，两场选举须分别投票，并分别核对地点。**
 
@@ -185,9 +185,11 @@ Joe Keithley 此次代表 BCA，不再以本拿比绿党身份参选。
 - **Jen Jang**：恢复七年级乐队课程、保护辅导与心理健康支持，并试行衔接学校作息的托儿服务。[候选人介绍][jen-jang]。
 - **Jasmine Nicholsfigueiredo**：支持不同学习需要、心理健康、校园环保、恢复七年级乐队及包容校园，也强调公共教育和教育工作者权益。[候选人介绍][jasmine]。
 
-### 独立候选人：2 人
+### 市选独立候选人：2 人 {#独立候选人2-人}
 
-- **Jenny Yamagata**：主张改善心理健康支持、公平获得学习支持、恢复七年级乐队，同时强调财政责任。以上是她以独立身份参选学务委员的主张；她也以 **OneBC** 身份参加本拿比北省选，两次参选身份分别记录。
+这里的“独立”仅指**学务委员这次市选的参选身份**，不能据此认定候选人没有省级政党关系。
+
+- **Jenny Yamagata — 学务委员市选：独立；本拿比北省选：OneBC**。市府的[学务委员简介][trustee-list]仍将她列为独立候选人，[市选提名文件][jenny-municipal-nomination]的选票党团名称栏为空；Elections BC 则明确确认她[代表 OneBC 参加省选][provincial-candidate-update]。她的学务委员主张包括改善心理健康支持、公平获得学习支持、恢复七年级乐队及财政责任。
 - **Diane Pearce**：官方简介主要介绍校园午餐管理、支持有学习困难学生和社区服务经历，具体课程、经费及治理主张不足，暂不作左右定位。
 
 Burnaby First 此次没有学务委员候选人。
@@ -210,9 +212,9 @@ Burnaby First 此次没有学务委员候选人。
 
 ## 省选：本拿比相关选区候选人 {#provincial-candidates}
 
-以下依据 **2026-10-10** 核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、19 人**。各区按官方名单顺序列出选票姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
+以下依据 **2026-10-10** 核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、18 人**。各区按官方名单顺序列出选票姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
 
-相较本页 2026-10-06 版本，本拿比北补入 **Jenny Yamagata — OneBC**，该区由 3 人更正为 4 人。
+相较本页 2026-10-06 版本，本拿比北补入 **Jenny Yamagata — OneBC**，该区由 3 人更正为 4 人。[Elections BC 候选人更新公告][provincial-candidate-update]说明，她的省选提名经复核获接受，并以 OneBC 身份加入正式名单。另据本次复核的官方网页及 CSV，Burnaby-New Westminster 已不再列出 **Greg DePaco**，现列 2 人；本页据此调整名册，不据缺名推断变更原因。
 
 ### Burnaby Centre｜本拿比中（BNC，4 人） {#burnaby-centre本拿比中}
 
@@ -242,10 +244,9 @@ Burnaby First 此次没有学务委员候选人。
 - **Andrew Rose — OneBC**
 - **David Xie — 卑诗保守党（Conservative Party）**
 
-### Burnaby-New Westminster｜本拿比—新西敏（BNN，3 人） {#burnaby-new-westminster本拿比新西敏}
+### Burnaby-New Westminster｜本拿比—新西敏（BNN，2 人） {#burnaby-new-westminster本拿比新西敏}
 
 - **Raj Chouhan — 卑诗新民主党（BC NDP）**
-- **Greg DePaco — 卑诗绿党（BC Green Party）**
 - **Joe Latam — 卑诗保守党（Conservative Party）**
 
 两份官方名册中同时出现的姓名包括：**David Xie**（市议员：New Burnaby；省议员：卑诗保守党）和 **Jenny Yamagata**（学务委员：独立；省议员：OneBC）。市选和省选的职位、党派身份应分别记录。
@@ -477,7 +478,7 @@ Burnaby First 此次没有学务委员候选人。
 
 ## 资料来源与更新 {#sources}
 
-- **姓名、党派和职位**：以[本拿比官方候选人目录][municipal-candidates]和[Elections BC 最终候选人名单][provincial-list]、[CSV 名册][provincial-csv]为依据；核对日期为 **2026-10-10**。市选仍为市长 6 人、市议员 42 人、学务委员 16 人；省选 5 个相关选区共 19 人。
+- **姓名、党派和职位**：以[本拿比官方候选人目录][municipal-candidates]和[Elections BC 最终候选人名单][provincial-list]、[CSV 名册][provincial-csv]为依据；核对日期为 **2026-10-10**。市选仍为市长 6 人、市议员 42 人、学务委员 16 人；省选 5 个相关选区现列 18 人。
 - **政策主张**：来自候选人提交的官方简介、党团及个人竞选网站。它们描述的是竞选承诺，不表示已通过或已实现。
 - **左右定位**：本页对公开政策的概括。市政、教育、税收及城市规划存在不同维度；同党成员之间也可能有差别。
 - **投票安排**：于 **2026-10-10** 核对市府选民指南及两场选举官方地图入口；省选提前投票地点采用 **2026-10-08** 版 PDF，最终投票日地点采用 **2026-10-09** 版 PDF。地址及开放日期可能继续调整，出发前应重新查阅对应的官方地图。
@@ -489,6 +490,7 @@ Burnaby First 此次没有学务委员候选人。
 [mayor-list]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates/office-of-mayor-candidate-profiles
 [council-list]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates/office-of-councillor-candidate-profiles
 [trustee-list]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates/office-of-school-trustees-candidate-profiles
+[jenny-municipal-nomination]: https://burnaby.widen.net/s/xpfzl7895w/2026-election-tru_yamagata-jenny_redacted-web-c2
 [restore-platform]: https://restoreburnaby.ca/?page_id=1282
 [restore-education]: https://restoreburnaby.ca/?page_id=1259
 [first-platform]: https://www.burnabyfirst.ca/platform
@@ -507,6 +509,7 @@ Burnaby First 此次没有学务委员候选人。
 [jasmine]: https://burnabygreenparty.com/team-members/jasmine-nicholsfigueiredo/
 [provincial-election]: https://elections.bc.ca/2026-provincial-election/
 [provincial-list]: https://elections.bc.ca/2026-provincial-election/candidate-list/
+[provincial-candidate-update]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update/
 [provincial-csv]: https://elections.bc.ca/2026election/2026-provincial-general-election-candidates.csv
 [district-lookup]: https://elections.bc.ca/resources/maps/find-your-district/
 [provincial-voting]: https://elections.bc.ca/2026-provincial-election/ways-to-vote/
