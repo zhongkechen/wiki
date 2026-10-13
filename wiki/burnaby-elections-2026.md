@@ -1,6 +1,6 @@
 ---
 title: "2026 本拿比选举指南：市选与卑诗省选"
-description: "本拿比市选及卑诗省选候选人名单、党派与政策定位；省选党领电视辩论、投票地点、开放日期及证件备忘。"
+description: "本拿比市选及卑诗省选候选人名单、党派与政策定位；党领电视辩论、候选人交流活动与访谈录音、投票地点及证件备忘。"
 date: 2026-10-06
 date-modified: 2026-10-13
 toc: true
@@ -9,7 +9,7 @@ toc-depth: 3
 
 本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**，候选人姓名、参选职位、党派及投票安排已于 **2026-10-10** 对照官方资料核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
 
-**2026-10-13 更新**：补充[省选党领电视辩论](#provincial-leaders-debate)的时间、参加者及收看渠道。
+**2026-10-13 更新**：补充[省选党领电视辩论](#provincial-leaders-debate)的时间、参加者及收看渠道，以及[此前的候选人交流活动和 CJSF 访谈录音](#municipal-events-and-audio)。
 
 **2026-10-10 更新**：省选补入本拿比北 **Jenny Yamagata（OneBC）**；当日核对的官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
 
@@ -40,6 +40,46 @@ toc-depth: 3
 - **播出渠道**：CBC BC、Global BC、CTV Vancouver、Citytv、CHEK、CPAC；可通过相关电视台及网络直播收看，亦可查看 [Global BC 的播出说明][provincial-debate-global]。
 
 这是省级党领辩论，讨论全省议题；本拿比各选区的省议员候选人及市选候选人不因此同台参加。以上依据主办方 **2026-10-06** 公告，于 **2026-10-13** 核对。
+
+## 市选：候选人交流活动与访谈录音 {#municipal-events-and-audio}
+
+截至 **2026-10-13**，本页尚未查到本届省选党领或本拿比候选人在 **10 月 13 日之前**举行正式同台辩论的可靠记录。已查证的早期市选活动以候选人介绍、问答和交流为主。
+
+### 此前的候选人交流活动
+
+| 日期（本拿比当地时间） | 活动及地点 | 形式与参加范围 |
+| --- | --- | --- |
+| **2026-09-21** | Burnaby Interagency Council 候选人见面会；Bob Prittie Metrotown 图书馆 | 面向机构成员及公众。六位市长候选人全部出席，另有 23 位市议员及学务委员候选人；每人约两分钟介绍，随后与到场者交流。[现场报道][municipal-interagency-meeting]。 |
+| **2026-09-23，17:00–19:00** | Burnaby Board of Trade 市选候选人见面会；Best Western Plus Burnaby Hotel，5411 Kingsway | 主办方公布的形式为介绍政纲、提问及交流；**仅限商会会员，会员免费**。[主办方活动页][municipal-bbot-meeting]。 |
+
+9 月 21 日活动有事后现场报道；9 月 23 日的信息依据主办方活动页。暂未找到这两场活动的完整录像或现场录音。下列可回听材料为 CJSF 对候选人的逐人访谈。
+
+### CJSF 市议员候选人访谈录音 {#municipal-candidate-audio}
+
+[CJSF 90.1 FM 官方访谈汇总页][cjsf-candidate-interviews]提供内嵌播放器，可直接回听；内容包括参选原因、关注议题及相关经历。该页面发布于 **2026-10-06**，并持续补充访谈。以下为 **2026-10-13** 核对时已列出的 **18 条录音直达链接**，按 CJSF 页面顺序排列；姓名采用录音标题。
+
+| 受访者（录音标题） | 回听链接 |
+| --- | --- |
+| Joe Keithley | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate) |
+| Joel Gibbs | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-1) |
+| Philip Stojanovski | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-2) |
+| Gulam Firdos | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-3) |
+| Rocky Dong | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-4) |
+| Martin Kendell | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-5) |
+| David Xie（历史访谈，见下方说明） | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-6) |
+| Natalia Bember | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-7) |
+| Larry Chin | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-8) |
+| Daniel Tetrault | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-candidate-9) |
+| Akmal Bazarov | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-887880572) |
+| Tara Shushtarian | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/tara-shushtarian-burnaby) |
+| Morgan Nicholsfigueiredo | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-555354431) |
+| Garnet Heidt | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-714988286) |
+| Lynette Hyerin Lee | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-6180594) |
+| Mary Blanca Villa y Battenberg | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-964819057) |
+| Daniel Chen | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-708664889) |
+| Fiorella Ravelli | [收听录音（SoundCloud）](https://soundcloud.com/cjsfradio/burnaby-councillor-374821495) |
+
+CJSF 已将 **David Xie** 的访谈标注为“已不再参选市议员”（No longer running for City Council）；此处保留该录音作为历史材料。访谈反映录制时的观点和身份，不能单凭旧录音判断当前参选状态。
 
 ## 市政党团及大致政策位置 {#municipal-parties}
 
@@ -496,9 +536,13 @@ Burnaby First 此次没有学务委员候选人。
 - **左右定位**：本页对公开政策的概括。市政、教育、税收及城市规划存在不同维度；同党成员之间也可能有差别。
 - **投票安排**：于 **2026-10-10** 核对市府选民指南及两场选举官方地图入口；省选提前投票地点采用 **2026-10-08** 版 PDF，最终投票日地点采用 **2026-10-09** 版 PDF。地址及开放日期可能继续调整，出发前应重新查阅对应的官方地图。
 - **电视辩论**：依据[卑诗广播机构联合体公告][provincial-debate-announcement]，核对日期为 **2026-10-13**；辩论时间使用本拿比当地时间。
+- **交流活动及录音**：依据 [Freshet News 现场报道][municipal-interagency-meeting]、[Burnaby Board of Trade 活动页][municipal-bbot-meeting]及 [CJSF 官方访谈页][cjsf-candidate-interviews]，于 **2026-10-13** 核对；后续新增访谈可在 CJSF 汇总页查阅。
 
 [municipal-candidates]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates
 [municipal-voters]: https://www.burnaby.ca/our-city/mayor-and-council/elections/voters
+[municipal-interagency-meeting]: https://www.freshetnews.ca/burnaby-social-service-organizations-host-all-candidates-meet-and-greet/
+[municipal-bbot-meeting]: https://burnabyboardoftrade.growthzoneapp.com/events/Details/all-candidates-meet-greet-burnaby-2026-municipal-election-1909192?sourceTypeId=Website
+[cjsf-candidate-interviews]: https://www.cjsf.ca/news/meet-burnaby-council-candidates
 [municipal-map]: https://gis.burnaby.ca/electionvotinglocations/
 [municipal-map-pdf]: https://burnaby.widen.net/s/mmjlwwrqj2/2026-voting-locations-map
 [mayor-list]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates/office-of-mayor-candidate-profiles
