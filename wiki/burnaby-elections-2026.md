@@ -1,15 +1,17 @@
 ---
 title: "2026 本拿比选举指南：市选与卑诗省选"
-description: "本拿比市选及卑诗省选候选人名单、党派与政策定位；市选和省选投票地点、地址、开放日期及证件备忘。"
+description: "本拿比市选及卑诗省选候选人名单、党派与政策定位；省选党领电视辩论、投票地点、开放日期及证件备忘。"
 date: 2026-10-06
-date-modified: 2026-10-10
+date-modified: 2026-10-13
 toc: true
 toc-depth: 3
 ---
 
 本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**，候选人姓名、参选职位、党派及投票安排已于 **2026-10-10** 对照官方资料核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
 
-本次更新：省选补入本拿比北 **Jenny Yamagata（OneBC）**；最新官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
+**2026-10-13 更新**：补充[省选党领电视辩论](#provincial-leaders-debate)的时间、参加者及收看渠道。
+
+**2026-10-10 更新**：省选补入本拿比北 **Jenny Yamagata（OneBC）**；当日核对的官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
 
 候选人使用官方英文姓名，便于与选票核对。下文的“中左”“中右”“社会保守”等是依据公开政纲作出的分析性概括，并非选举机构的官方标签。同一档内部没有精确排名；独立候选人的资料不足时保留不确定性。反对社区增密、支持治安或强调财政问责，单独一项都不足以确定完整的左右立场。
 
@@ -27,6 +29,17 @@ toc-depth: 3
   - 本拿比相关 **5 个选区，共 18 名候选人**；候选人提名已于 2026-10-03 13:00 截止。
 
 日期、地点及资格以[本拿比市选选民指南][municipal-voters]和[Elections BC 省选指南][provincial-election]为准。省选选区可通过[官方选区查询][district-lookup]核对；按住址查省选投票站请使用 [Where to Vote 官方地图][provincial-map]。**2026-10-17 同时是市选一般投票日和省选提前投票日，两场选举须分别投票，并分别核对地点。**
+
+## 省选：党领电视辩论 {#provincial-leaders-debate}
+
+卑诗广播机构联合体（BC Broadcast Consortium）已公布省选党领辩论安排，公众可通过电视或网络直播收看。[主办方公告][provincial-debate-announcement]。
+
+- **时间**：**2026-10-14（周三）18:15–20:00**，本拿比当地时间（PDT，UTC−7）。
+- **参加者**：David Eby（BC NDP）、Lorne Doerkson（卑诗保守党）、Emily Lowan（卑诗绿党）。公布的本场参加名单不包括 OneBC 和 CentreBC 党领。
+- **主持人**：Shachi Kurl，Angus Reid Institute 总裁。
+- **播出渠道**：CBC BC、Global BC、CTV Vancouver、Citytv、CHEK、CPAC；可通过相关电视台及网络直播收看，亦可查看 [Global BC 的播出说明][provincial-debate-global]。
+
+这是省级党领辩论，讨论全省议题；本拿比各选区的省议员候选人及市选候选人不因此同台参加。以上依据主办方 **2026-10-06** 公告，于 **2026-10-13** 核对。
 
 ## 市政党团及大致政策位置 {#municipal-parties}
 
@@ -482,6 +495,7 @@ Burnaby First 此次没有学务委员候选人。
 - **政策主张**：来自候选人提交的官方简介、党团及个人竞选网站。它们描述的是竞选承诺，不表示已通过或已实现。
 - **左右定位**：本页对公开政策的概括。市政、教育、税收及城市规划存在不同维度；同党成员之间也可能有差别。
 - **投票安排**：于 **2026-10-10** 核对市府选民指南及两场选举官方地图入口；省选提前投票地点采用 **2026-10-08** 版 PDF，最终投票日地点采用 **2026-10-09** 版 PDF。地址及开放日期可能继续调整，出发前应重新查阅对应的官方地图。
+- **电视辩论**：依据[卑诗广播机构联合体公告][provincial-debate-announcement]，核对日期为 **2026-10-13**；辩论时间使用本拿比当地时间。
 
 [municipal-candidates]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates
 [municipal-voters]: https://www.burnaby.ca/our-city/mayor-and-council/elections/voters
@@ -508,6 +522,8 @@ Burnaby First 此次没有学务委员候选人。
 [jen-jang]: https://burnabygreenparty.com/team-members/jennifer-jang/
 [jasmine]: https://burnabygreenparty.com/team-members/jasmine-nicholsfigueiredo/
 [provincial-election]: https://elections.bc.ca/2026-provincial-election/
+[provincial-debate-announcement]: https://smb.vicnews.com/article/MEDIA-ADVISORY-BC-Broadcast-Consortium-Announces-Media-Advisory-for-BC-Leaders-Debate-2026/6ac4e3a5a74253059c770872
+[provincial-debate-global]: https://globalnews.ca/news/12088589/bc-election-provincial-leaders-debate-2026/
 [provincial-list]: https://elections.bc.ca/2026-provincial-election/candidate-list/
 [provincial-candidate-update]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update/
 [provincial-csv]: https://elections.bc.ca/2026election/2026-provincial-general-election-candidates.csv
