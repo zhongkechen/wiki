@@ -110,6 +110,9 @@ CJSF 已将 **David Xie** 的访谈标注为“已不再参选市议员”（No 
 从较右到较左，可大致理解为 **Restore Burnaby Alliance → Burnaby First／New Burnaby → BCA／Burnaby Green Party**。斜线两边政策重叠，不代表可作精确先后排名。
 
 - **Restore Burnaby Alliance（RBA）**：社会保守倾向较明确。反对容许吸毒的住房和庇护设施，强调家庭价值、信仰组织、家长权利、私人产权和控制税负；同时也支持低收入家庭的可负担住房。[市政政纲][restore-platform]、[教育主张][restore-education]。
+  - 官网：[restoreburnaby.ca][restore-site]；电子邮件：[info@restoreburnaby.ca](mailto:info@restoreburnaby.ca)。
+  - 联系电话：[+1 778 801-9723](tel:+17788019723)；办公室：**4920 Imperial Street, Burnaby**。
+  - Instagram：[@restoreburnaby][restore-instagram]。
 - **Burnaby First**：偏中右，突出财政问责、增聘警察、支持性住房中的禁毒要求和社区对开发的参与；也支持非市场住房、公共文化设施及步行骑行网络。[党团政纲][first-platform]。
 - **New Burnaby Party（NBP）**：偏中右，强调首份预算冻结地税、控制任期内涨幅、改善商业审批、公共安全及地方自主。党团的整体定位不能直接推定每位候选人在性别教育等议题上的立场。[党团政纲][new-platform]、[治理与住房立场][new-about]。
 - **Burnaby Citizens Association（BCA）**：以社会民主为指导原则，偏中左，强调公共服务、住房、教育、劳动者权益和包容政策；财政上也坚持低地税及城市零债务。[指导原则][bca-principles]、[竞选政纲][bca-platform]。
@@ -560,6 +563,7 @@ Burnaby First 此次没有学务委员候选人。
 - **姓名、党派和职位**：以[本拿比官方候选人目录][municipal-candidates]和[Elections BC 最终候选人名单][provincial-list]、[CSV 名册][provincial-csv]为依据；核对日期为 **2026-10-10**。市选仍为市长 6 人、市议员 42 人、学务委员 16 人；省选 5 个相关选区现列 18 人。
 - **政策主张**：来自候选人提交的官方简介、党团及个人竞选网站。它们描述的是竞选承诺，不表示已通过或已实现。
 - **Vincent Tong 联系方式**：据其竞选宣传单转录，包括电子邮件、竞选网站、Facebook 和 Instagram；整理日期为 **2026-10-14**。
+- **Restore Burnaby 联系方式**：官网和邮箱据竞选宣传单转录，并与[官网][restore-site]核对；电话、办公室地址来自官网，Instagram 账号来自[官网的 Instagram 介绍页][restore-instagram-source]。核对日期为 **2026-10-14**。
 - **左右定位**：本页对公开政策的概括。市政、教育、税收及城市规划存在不同维度；同党成员之间也可能有差别。
 - **投票安排**：于 **2026-10-10** 核对市府选民指南及两场选举官方地图入口；省选提前投票地点采用 **2026-10-08** 版 PDF，最终投票日地点采用 **2026-10-09** 版 PDF。地址及开放日期可能继续调整，出发前应重新查阅对应的官方地图。
 - **电视辩论**：依据[卑诗广播机构联合体公告][provincial-debate-announcement]，核对日期为 **2026-10-13**；辩论时间使用本拿比当地时间。
@@ -580,6 +584,9 @@ Burnaby First 此次没有学务委员候选人。
 [jenny-municipal-nomination]: https://burnaby.widen.net/s/xpfzl7895w/2026-election-tru_yamagata-jenny_redacted-web-c2
 [restore-platform]: https://restoreburnaby.ca/?page_id=1282
 [restore-education]: https://restoreburnaby.ca/?page_id=1259
+[restore-site]: https://restoreburnaby.ca/
+[restore-instagram]: https://www.instagram.com/restoreburnaby/
+[restore-instagram-source]: https://restoreburnaby.ca/?p=317
 [first-platform]: https://www.burnabyfirst.ca/platform
 [new-platform]: https://newburnaby.ca/platform/
 [new-about]: https://newburnaby.ca/about/
