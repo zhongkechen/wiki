@@ -2,12 +2,14 @@
 title: "2026 本拿比选举指南：市选与卑诗省选"
 description: "本拿比市选及卑诗省选候选人名单、党派与政策定位；党领电视辩论、候选人交流活动与访谈录音、投票地点及证件备忘。"
 date: 2026-10-06
-date-modified: 2026-10-13
+date-modified: 2026-10-14
 toc: true
 toc-depth: 3
 ---
 
 本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**，候选人姓名、参选职位、党派及投票安排已于 **2026-10-10** 对照官方资料核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
+
+**2026-10-14 更新**：补充 [10 月 14 日 15:30–17:30 省选候选人见面会](#provincial-candidates-meet-greet)的地点、活动形式及会员参加条件。
 
 **2026-10-13 更新**：补充[省选党领电视辩论](#provincial-leaders-debate)的时间、参加者及收看渠道，以及 [10 月 13 日 SFU 市选候选人见面会](#municipal-sfu-mixer)、[此前的候选人交流活动和 CJSF 访谈录音](#municipal-events-and-audio)。
 
@@ -29,6 +31,18 @@ toc-depth: 3
   - 本拿比相关 **5 个选区，共 18 名候选人**；候选人提名已于 2026-10-03 13:00 截止。
 
 日期、地点及资格以[本拿比市选选民指南][municipal-voters]和[Elections BC 省选指南][provincial-election]为准。省选选区可通过[官方选区查询][district-lookup]核对；按住址查省选投票站请使用 [Where to Vote 官方地图][provincial-map]。**2026-10-17 同时是市选一般投票日和省选提前投票日，两场选举须分别投票，并分别核对地点。**
+
+## 省选：10 月 14 日本拿比候选人见面会 {#provincial-candidates-meet-greet}
+
+Burnaby Board of Trade（本拿比商会）举办 **Provincial Edition: All Candidates Meet & Greet**，邀请本拿比相关省选选区的候选人介绍政策重点、回答问题，并与商界交流。[主办方活动页][provincial-bbot-meeting]。
+
+- **时间**：**2026-10-14（周三）15:30–17:30**，本拿比当地时间（PDT）。这是主办方标注的**调整后时间**，以便衔接当晚的党领辩论。
+- **地点**：**Element Vancouver Metrotown**，**5988 Willingdon Ave, Burnaby**。
+- **参加范围及费用**：**仅限 Burnaby Board of Trade 会员，会员免费**。
+- **活动形式**：候选人介绍、问答及见面交流，关注省级政策、经济及本地商业议题。候选人由商会直接邀请，活动页说明出席信息会随确认更新。
+- **活动咨询**：Sarah Rainey，电子邮件 [sarah@bbot.ca](mailto:sarah@bbot.ca)；参加安排请以[主办方活动页][provincial-bbot-meeting]为准。
+
+以上信息于 **2026-10-14** 核对。当晚 **18:15–20:00** 的[省选党领电视辩论](#provincial-leaders-debate)是另一场活动，详情见下节。
 
 ## 省选：党领电视辩论 {#provincial-leaders-debate}
 
@@ -546,6 +560,7 @@ Burnaby First 此次没有学务委员候选人。
 - **左右定位**：本页对公开政策的概括。市政、教育、税收及城市规划存在不同维度；同党成员之间也可能有差别。
 - **投票安排**：于 **2026-10-10** 核对市府选民指南及两场选举官方地图入口；省选提前投票地点采用 **2026-10-08** 版 PDF，最终投票日地点采用 **2026-10-09** 版 PDF。地址及开放日期可能继续调整，出发前应重新查阅对应的官方地图。
 - **电视辩论**：依据[卑诗广播机构联合体公告][provincial-debate-announcement]，核对日期为 **2026-10-13**；辩论时间使用本拿比当地时间。
+- **省选候选人见面会**：依据 [Burnaby Board of Trade 主办方活动页][provincial-bbot-meeting]，于 **2026-10-14** 核对，采用调整后的 **15:30–17:30** 时段，并保留仅限会员的参加条件。
 - **交流活动及录音**：依据 [SFSS 活动报名页][municipal-sfu-mixer-event]、[Freshet News 现场报道][municipal-interagency-meeting]、[Burnaby Board of Trade 活动页][municipal-bbot-meeting]及 [CJSF 官方访谈页][cjsf-candidate-interviews]，于 **2026-10-13** 核对；后续新增访谈可在 CJSF 汇总页查阅。
 
 [municipal-candidates]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates
@@ -577,6 +592,7 @@ Burnaby First 此次没有学务委员候选人。
 [jen-jang]: https://burnabygreenparty.com/team-members/jennifer-jang/
 [jasmine]: https://burnabygreenparty.com/team-members/jasmine-nicholsfigueiredo/
 [provincial-election]: https://elections.bc.ca/2026-provincial-election/
+[provincial-bbot-meeting]: https://members.bbot.ca/calendar/Details/provincial-edition-all-candidates-meet-greet-burnaby-2026-provincial-election-1941063?sourceTypeId=Website
 [provincial-debate-announcement]: https://smb.vicnews.com/article/MEDIA-ADVISORY-BC-Broadcast-Consortium-Announces-Media-Advisory-for-BC-Leaders-Debate-2026/6ac4e3a5a74253059c770872
 [provincial-debate-global]: https://globalnews.ca/news/12088589/bc-election-provincial-leaders-debate-2026/
 [provincial-list]: https://elections.bc.ca/2026-provincial-election/candidate-list/
