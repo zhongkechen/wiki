@@ -9,9 +9,9 @@ toc-depth: 3
 
 本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**，候选人姓名、参选职位、党派及投票安排已于 **2026-10-10** 对照官方资料核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
 
-**2026-10-14 更新**：补充 [10 月 14 日 15:30–17:30 省选候选人见面会](#provincial-candidates-meet-greet)的地点、活动形式及会员参加条件。
+**2026-10-14 更新**：补充 [10 月 14 日 15:30–17:30 省选候选人见面会](#provincial-candidates-meet-greet)的地点、活动形式及会员参加条件，并将 [10 月 13 日 SFU 市选候选人见面会](#municipal-sfu-mixer)标注为已结束。
 
-**2026-10-13 更新**：补充[省选党领电视辩论](#provincial-leaders-debate)的时间、参加者及收看渠道，以及 [10 月 13 日 SFU 市选候选人见面会](#municipal-sfu-mixer)、[此前的候选人交流活动和 CJSF 访谈录音](#municipal-events-and-audio)。
+**2026-10-13 更新**：补充[省选党领电视辩论](#provincial-leaders-debate)的时间、参加者及收看渠道，以及 [10 月 13 日 SFU 市选候选人见面会（已结束）](#municipal-sfu-mixer)、[此前的候选人交流活动和 CJSF 访谈录音](#municipal-events-and-audio)。
 
 **2026-10-10 更新**：省选补入本拿比北 **Jenny Yamagata（OneBC）**；当日核对的官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
 
@@ -59,14 +59,14 @@ Burnaby Board of Trade（本拿比商会）举办 **Provincial Edition: All Cand
 
 截至 **2026-10-13**，本页尚未查到本届省选党领或本拿比候选人在 **10 月 13 日之前**举行正式同台辩论的可靠记录。已查证的早期市选活动以候选人介绍、问答和交流为主。
 
-### 2026-10-13：SFU 市长、市议员候选人见面会 {#municipal-sfu-mixer}
+### 2026-10-13：SFU 市长、市议员候选人见面会（已结束） {#municipal-sfu-mixer}
 
-**Burnaby Candidates Mixer** 由 Simon Fraser Student Society（SFSS）及本地社区组织者联合举办，安排本拿比市长、市议员候选人介绍政纲，并与选民面对面交流。活动信息于 **2026-10-13** 对照[官方活动及报名页][municipal-sfu-mixer-event]核对。
+**活动已结束。** **Burnaby Candidates Mixer** 由 Simon Fraser Student Society（SFSS）及本地社区组织者联合举办，安排本拿比市长、市议员候选人介绍政纲，并与选民面对面交流。以下保留于 **2026-10-13** 对照[主办方历史活动页][municipal-sfu-mixer-event]核对的资料，供回顾查阅。
 
 - **时间**：**2026-10-13（周二）17:00–20:00**，本拿比当地时间（PDT，UTC−7）。
 - **地点**：SFU Burnaby Campus，Student Union Building（SUB）Ballroom；地址为 **8888 University Dr, Burnaby**。
-- **参加方式**：**免费，须在 Eventbrite 提前报名**；活动页标明不限年龄（all ages）。[报名入口][municipal-sfu-mixer-event]。
-- **活动流程**：17:00 开始，17:30 候选人发言，18:00 见面交流，19:45 结束致辞，20:00 结束。
+- **当时的参加条件**：免费、须在 Eventbrite 提前报名、不限年龄（all ages）。[历史活动页][municipal-sfu-mixer-event]。
+- **原公布流程**：17:00 开始，17:30 候选人发言，18:00 见面交流，19:45 结束致辞，20:00 结束。
 - **场地设施**：提供轮椅无障碍出入口及电梯；校内访客停车收费。
 
 ### 此前的候选人交流活动
@@ -561,7 +561,7 @@ Burnaby First 此次没有学务委员候选人。
 - **投票安排**：于 **2026-10-10** 核对市府选民指南及两场选举官方地图入口；省选提前投票地点采用 **2026-10-08** 版 PDF，最终投票日地点采用 **2026-10-09** 版 PDF。地址及开放日期可能继续调整，出发前应重新查阅对应的官方地图。
 - **电视辩论**：依据[卑诗广播机构联合体公告][provincial-debate-announcement]，核对日期为 **2026-10-13**；辩论时间使用本拿比当地时间。
 - **省选候选人见面会**：依据 [Burnaby Board of Trade 主办方活动页][provincial-bbot-meeting]，于 **2026-10-14** 核对，采用调整后的 **15:30–17:30** 时段，并保留仅限会员的参加条件。
-- **交流活动及录音**：依据 [SFSS 活动报名页][municipal-sfu-mixer-event]、[Freshet News 现场报道][municipal-interagency-meeting]、[Burnaby Board of Trade 活动页][municipal-bbot-meeting]及 [CJSF 官方访谈页][cjsf-candidate-interviews]，于 **2026-10-13** 核对；后续新增访谈可在 CJSF 汇总页查阅。
+- **交流活动及录音**：依据 [SFSS 历史活动页][municipal-sfu-mixer-event]、[Freshet News 现场报道][municipal-interagency-meeting]、[Burnaby Board of Trade 活动页][municipal-bbot-meeting]及 [CJSF 官方访谈页][cjsf-candidate-interviews]，于 **2026-10-13** 核对；后续新增访谈可在 CJSF 汇总页查阅。
 
 [municipal-candidates]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates
 [municipal-voters]: https://www.burnaby.ca/our-city/mayor-and-council/elections/voters
