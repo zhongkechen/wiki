@@ -2,12 +2,14 @@
 title: "2026 本拿比选举指南：市选与卑诗省选"
 description: "本拿比市选及卑诗省选候选人名单、党派与政策定位；党领电视辩论、候选人交流活动与访谈录音、投票地点及证件备忘。"
 date: 2026-10-06
-date-modified: 2026-10-14
+date-modified: 2026-10-15
 toc: true
 toc-depth: 3
 ---
 
-本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**，候选人姓名、参选职位、党派及投票安排已于 **2026-10-10** 对照官方资料核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
+本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**。市选候选人及投票安排于 **2026-10-10** 对照官方资料核对；省选候选人名单及退选公告于 **2026-10-15** 重新核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
+
+**2026-10-15 更新**：本拿比相关五区的官方现行名单仍为 **18 人**，姓名、选区及党派与上一版一致。补充 **Greg DePaco 已正式退选，但姓名仍会印在选票上**的官方说明，详见[本拿比—新西敏选区](#burnaby-new-westminster本拿比新西敏)。
 
 **2026-10-14 更新**：补充 [10 月 14 日 15:30–17:30 省选候选人见面会](#provincial-candidates-meet-greet)的地点、活动形式及会员参加条件，并将 [10 月 13 日 SFU 市选候选人见面会](#municipal-sfu-mixer)标注为已结束。
 
@@ -294,9 +296,13 @@ Burnaby First 此次没有学务委员候选人。
 
 ## 省选：本拿比相关选区候选人 {#provincial-candidates}
 
-以下依据 **2026-10-10** 核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、18 人**。各区按官方名单顺序列出选票姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
+以下依据 **2026-10-15** 核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、18 名仍参选的候选人**，不计已退选者。各区按官方名单顺序列出姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
 
-相较本页 2026-10-06 版本，本拿比北补入 **Jenny Yamagata — OneBC**，该区由 3 人更正为 4 人。[Elections BC 候选人更新公告][provincial-candidate-update]说明，她的省选提名经复核获接受，并以 OneBC 身份加入正式名单。另据本次复核的官方网页及 CSV，Burnaby-New Westminster 已不再列出 **Greg DePaco**，现列 2 人；本页据此调整名册，不据缺名推断变更原因。
+与本页上一版相比，这 18 人的姓名、所属选区和党派均无新增变更。本次补充 [Greg DePaco 的正式退选说明][provincial-depaco-withdrawal]及选票上仍有其姓名的提醒，见下方 Burnaby-New Westminster 一节。
+
+此前相较本页 2026-10-06 版本的变化仍保留：本拿比北补入 **Jenny Yamagata — OneBC**，该区由 3 人更正为 4 人。[Elections BC 候选人更新公告][provincial-candidate-update]说明，她的省选提名经复核获接受，并以 OneBC 身份加入正式名单。
+
+最新的 [2026-10-14 全省候选人变更公告][provincial-candidate-update-oct14]另确认 **Gerry Lenoski（New Westminster-Coquitlam）**及 **Frederick Thiele（North Vancouver-Seymour）**退选，两人的退选通知均于 10 月 13 日被接受。这两个选区不属于本页覆盖的五区，不改变本页的 18 人总数。
 
 ### Burnaby Centre｜本拿比中（BNC，4 人） {#burnaby-centre本拿比中}
 
@@ -330,6 +336,10 @@ Burnaby First 此次没有学务委员候选人。
 
 - **Raj Chouhan — 卑诗新民主党（BC NDP）**
 - **Joe Latam — 卑诗保守党（Conservative Party）**
+
+**已退选：Greg DePaco（卑诗绿党）。** Elections BC 于 **2026-10-10** 发布公告，确认其退选通知已于 **2026-10-09** 被接受。本页将他单独记为已退选，不计入该区上列 2 人及五区合计 18 人。
+
+**Greg DePaco 的姓名仍会出现在选票上。** 官方说明，选票自 10 月 4 日开始印制，公告时已接近完成；投票站工作人员会向选民说明他已退选，并张贴退选告示。[Elections BC 退选公告][provincial-depaco-withdrawal]。
 
 两份官方名册中同时出现的姓名包括：**David Xie**（市议员：New Burnaby；省议员：卑诗保守党）和 **Jenny Yamagata**（学务委员：独立；省议员：OneBC）。市选和省选的职位、党派身份应分别记录。
 
@@ -560,7 +570,8 @@ Burnaby First 此次没有学务委员候选人。
 
 ## 资料来源与更新 {#sources}
 
-- **姓名、党派和职位**：以[本拿比官方候选人目录][municipal-candidates]和[Elections BC 最终候选人名单][provincial-list]、[CSV 名册][provincial-csv]为依据；核对日期为 **2026-10-10**。市选仍为市长 6 人、市议员 42 人、学务委员 16 人；省选 5 个相关选区现列 18 人。
+- **姓名、党派和职位**：市选依据[本拿比官方候选人目录][municipal-candidates]，核对日期为 **2026-10-10**，列有市长 6 人、市议员 42 人、学务委员 16 人。省选依据[Elections BC 最终候选人名单][provincial-list]及 [CSV 名册][provincial-csv]，于 **2026-10-15** 重新核对，5 个相关选区现列 18 名仍参选的候选人。
+- **省选退选状态**：于 **2026-10-15** 核对 [Greg DePaco 退选公告][provincial-depaco-withdrawal]及 [10 月 14 日全省候选人变更公告][provincial-candidate-update-oct14]；退选者的姓名可能仍留在已印制的选票上，须留意官方退选说明。
 - **政策主张**：来自候选人提交的官方简介、党团及个人竞选网站。它们描述的是竞选承诺，不表示已通过或已实现。
 - **Vincent Tong 联系方式**：据其竞选宣传单转录，包括电子邮件、竞选网站、Facebook 和 Instagram；整理日期为 **2026-10-14**。
 - **Restore Burnaby 联系方式**：官网和邮箱据竞选宣传单转录，并与[官网][restore-site]核对；电话、办公室地址来自官网，Instagram 账号来自[官网的 Instagram 介绍页][restore-instagram-source]。核对日期为 **2026-10-14**。
@@ -610,6 +621,8 @@ Burnaby First 此次没有学务委员候选人。
 [provincial-debate-global]: https://globalnews.ca/news/12088589/bc-election-provincial-leaders-debate-2026/
 [provincial-list]: https://elections.bc.ca/2026-provincial-election/candidate-list/
 [provincial-candidate-update]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update/
+[provincial-depaco-withdrawal]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update-3/
+[provincial-candidate-update-oct14]: https://elections.bc.ca/news/2026-provincial-general-election-candidates/
 [provincial-csv]: https://elections.bc.ca/2026election/2026-provincial-general-election-candidates.csv
 [district-lookup]: https://elections.bc.ca/resources/maps/find-your-district/
 [provincial-voting]: https://elections.bc.ca/2026-provincial-election/ways-to-vote/
