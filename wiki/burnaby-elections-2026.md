@@ -1,13 +1,15 @@
 ---
 title: "2026 本拿比选举指南：市选与卑诗省选"
-description: "本拿比市选及卑诗省选候选人名单、党派与政策定位；党领电视辩论、候选人交流活动与访谈录音、投票地点及证件备忘。"
+description: "本拿比市选结果查询与开票报道、市选及卑诗省选候选人名单、党派与政策定位；辩论、交流活动与访谈录音、投票地点及证件备忘。"
 date: 2026-10-06
-date-modified: 2026-10-15
+date-modified: 2026-10-17
 toc: true
 toc-depth: 3
 ---
 
 本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**。市选候选人及投票安排于 **2026-10-10** 对照官方资料核对；省选候选人名单及退选公告于 **2026-10-15** 重新核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
+
+**2026-10-17 更新**：新增[市选结果查询与开票报道](#municipal-results)，包括市府官方结果、CivicInfo BC 开票汇总及 Freshet News 报道入口。
 
 **2026-10-15 更新**：本拿比相关五区的官方现行名单仍为 **18 人**，姓名、选区及党派与上一版一致。补充 **Greg DePaco 已正式退选，但姓名仍会印在选票上**的官方说明，详见[本拿比—新西敏选区](#burnaby-new-westminster本拿比新西敏)。
 
@@ -33,6 +35,16 @@ toc-depth: 3
   - 本拿比相关 **5 个选区，共 18 名候选人**；候选人提名已于 2026-10-03 13:00 截止。
 
 日期、地点及资格以[本拿比市选选民指南][municipal-voters]和[Elections BC 省选指南][provincial-election]为准。省选选区可通过[官方选区查询][district-lookup]核对；按住址查省选投票站请使用 [Where to Vote 官方地图][provincial-map]。**2026-10-17 同时是市选一般投票日和省选提前投票日，两场选举须分别投票，并分别核对地点。**
+
+## 市选：结果查询与开票报道 {#municipal-results}
+
+本拿比市府安排在 **2026-10-17 20:00（本拿比当地时间，PDT）投票结束后**逐步公布初步结果，正式结果最迟于 **2026-10-21** 公布。[官方公布安排][municipal-results-official]。
+
+- **[本拿比市府官方选举结果页][municipal-results-official]**：优先查看本次市选的初步开票进度及最终正式结果。开票前页面可能仍主要显示往届结果，请核对选举年份为 **2026**。
+- **[CivicInfo BC／LocalElections.ca 2026 开票汇总][municipal-results-civicinfo]**：在 **Lower Mainland** 栏目下查找 **Burnaby（City）**。该站汇集各地首席选务官上报的非正式结果，适合集中查看选举夜进展；更新速度取决于上报进度。
+- **[Freshet News 选举日报道及开票安排][municipal-results-freshet]**：媒体在 10 月 17 日的报道中确认，记者将在选举夜现场报道当地结果。后续开票消息及候选人反应可继续关注 [Freshet News 首页][freshet-home]。
+
+开票汇总及媒体报道可作为补充入口，目前没有确认它们会比市府更快。初步票数及媒体报道应与正式结果区分；出现差异时，以市府公布的结果为准。
 
 ## 省选：10 月 14 日本拿比候选人见面会 {#provincial-candidates-meet-greet}
 
@@ -570,6 +582,7 @@ Burnaby First 此次没有学务委员候选人。
 
 ## 资料来源与更新 {#sources}
 
+- **市选结果查询**：依据[市府官方结果页][municipal-results-official]、[CivicInfo BC 开票汇总][municipal-results-civicinfo]及 [Freshet News 选举日报道][municipal-results-freshet]，于 **2026-10-17** 核对。本页提供查询入口，最新票数及结果以对应发布页面为准。
 - **姓名、党派和职位**：市选依据[本拿比官方候选人目录][municipal-candidates]，核对日期为 **2026-10-10**，列有市长 6 人、市议员 42 人、学务委员 16 人。省选依据[Elections BC 最终候选人名单][provincial-list]及 [CSV 名册][provincial-csv]，于 **2026-10-15** 重新核对，5 个相关选区现列 18 名仍参选的候选人。
 - **省选退选状态**：于 **2026-10-15** 核对 [Greg DePaco 退选公告][provincial-depaco-withdrawal]及 [10 月 14 日全省候选人变更公告][provincial-candidate-update-oct14]；退选者的姓名可能仍留在已印制的选票上，须留意官方退选说明。
 - **政策主张**：来自候选人提交的官方简介、党团及个人竞选网站。它们描述的是竞选承诺，不表示已通过或已实现。
@@ -583,6 +596,10 @@ Burnaby First 此次没有学务委员候选人。
 
 [municipal-candidates]: https://www.burnaby.ca/our-city/mayor-and-council/elections/candidates
 [municipal-voters]: https://www.burnaby.ca/our-city/mayor-and-council/elections/voters
+[municipal-results-official]: https://www.burnaby.ca/our-city/mayor-and-council/elections/results
+[municipal-results-civicinfo]: https://localelections.ca/Results/index_m.html
+[municipal-results-freshet]: https://www.freshetnews.ca/advance-voting-jumps-as-voters-in-burnaby-new-westminster-and-the-tri-cities-head-to-the-polls/
+[freshet-home]: https://www.freshetnews.ca/
 [municipal-sfu-mixer-event]: https://www.eventbrite.ca/e/burnaby-candidates-mixer-tickets-2003197365244
 [municipal-interagency-meeting]: https://www.freshetnews.ca/burnaby-social-service-organizations-host-all-candidates-meet-and-greet/
 [municipal-bbot-meeting]: https://burnabyboardoftrade.growthzoneapp.com/events/Details/all-candidates-meet-greet-burnaby-2026-municipal-election-1909192?sourceTypeId=Website
