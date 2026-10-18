@@ -18,6 +18,7 @@ comments: false
 ## 加拿大生活
 
 - [2026 本拿比选举指南](wiki/burnaby-elections-2026.md)：市选与卑诗省选候选人、党派、政策定位及投票备忘
+- [2026 卑诗市选结果与政策倾向](wiki/bc-municipal-election-results-2026.md)：大温及主要城市的新旧市长、议会与学区对照，选民支持变化及分票分析
 
 ## 系统相关
 
