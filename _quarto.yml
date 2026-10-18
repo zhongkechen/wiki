@@ -10,6 +10,7 @@ project:
     - tech/posts/**/*.qmd
     - LICENSE.md
     - wiki/burnaby-elections-2026.md
+    - wiki/bc-municipal-election-results-2026.md
     - wiki/Nostr.md
     - wiki/Raspberry Pi.md
     - wiki/SteamDeck.md
