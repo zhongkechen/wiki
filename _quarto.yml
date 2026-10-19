@@ -93,7 +93,7 @@ website:
       - text: 订阅
         icon: rss
         menu:
-          - text: 健康专题
+          - text: Vool健康博客
             href: health/index.xml
           - text: 技术博客
             href: tech/index.xml

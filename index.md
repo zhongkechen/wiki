@@ -9,7 +9,7 @@ comments: false
 
 ## 健康
 
-- [健康专题](health/index.qmd)：饮食、营养与日常健康文章
+- [Vool健康博客](health/index.qmd)：饮食、营养与日常健康文章
 
 ## 技术
 
