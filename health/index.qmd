@@ -12,6 +12,8 @@ listing:
 page-layout: full
 ---
 
+<img src="assets/avatar-whole-health.png" alt="Vool健康博客头像：放大镜中的绿色人形与健康十字" width="120" height="120" class="rounded-circle mb-3">
+
 Vool 是 **Vision of Our Lives** 的缩写。
 
 [订阅 Vool健康博客 RSS](index.xml){.btn .btn-primary role="button"}
