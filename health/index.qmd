@@ -2,6 +2,13 @@
 title: Vool健康博客
 comments: false
 description: Vool 是 Vision of Our Lives 的缩写，分享关于饮食、营养与日常健康的文章。
+format:
+  html:
+    css: styles.css
+    template-partials:
+      - title-block.html
+resources:
+  - assets/avatar-whole-health.png
 listing:
   contents: posts
   sort: "date desc"
@@ -11,10 +18,6 @@ listing:
     title: Vool健康博客
 page-layout: full
 ---
-
-<img src="assets/avatar-whole-health.png" alt="Vool健康博客头像：放大镜中的绿色人形与健康十字" width="120" height="120" class="rounded-circle mb-3">
-
-Vool 是 **Vision of Our Lives** 的缩写。
 
 [订阅 Vool健康博客 RSS](index.xml){.btn .btn-primary role="button"}
 

@@ -1,0 +1,34 @@
+.vool-header .vool-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.vool-header .vool-avatar {
+  display: block;
+  flex: 0 0 auto;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+}
+
+.vool-header .title {
+  margin: 0;
+}
+
+.vool-header .description {
+  max-width: 42rem;
+  color: var(--bs-secondary-color);
+}
+
+.vool-header .description > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 575.98px) {
+  .vool-header .vool-avatar {
+    width: 3rem;
+    height: 3rem;
+  }
+}
