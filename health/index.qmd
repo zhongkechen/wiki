@@ -21,7 +21,7 @@ page-layout: full
 
 [订阅 Vool健康博客 RSS](index.xml){.btn .btn-primary role="button"}
 
-这里收录从小红书项目同步归档的健康文章。文章内容按原文保存；后续修订应在两个项目中同步进行。
+这里收录从小红书账号 Vool 同步的健康文章。
 
 ## 健康提醒
 
