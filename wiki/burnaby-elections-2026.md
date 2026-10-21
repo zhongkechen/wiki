@@ -1,13 +1,15 @@
 ---
 title: "2026 本拿比选举指南：市选与卑诗省选"
-description: "本拿比市选结果查询与开票报道、市选及卑诗省选候选人名单、党派与政策定位；辩论、交流活动与访谈录音、投票地点及证件备忘。"
+description: "本拿比市选结果与卑诗省选指南：最后投票期限、候选人和地点复核、党领辩论回放、政纲财政测算及近期民调。"
 date: 2026-10-06
-date-modified: 2026-10-18
+date-modified: 2026-10-21
 toc: true
 toc-depth: 3
 ---
 
-本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**。市选候选人及投票安排于 **2026-10-10** 对照官方资料核对；省选候选人名单及退选公告于 **2026-10-15** 重新核对。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。
+本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**。市选候选人及投票安排保留 **2026-10-10** 核对的历史资料；本次省选资料核对至 **2026-10-20 晚（本拿比当地时间 PDT；UTC 为 2026-10-21）**。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。投票日期及时间均以卑诗当地／太平洋时间为准。
+
+**2026-10-21 更新**：**10 月 21 日是省选最后一天提前投票，10 月 24 日为最终投票日；邮寄选票的网上及电话申请已截止。** 新增[最后投票安排](#provincial-final-week)、[党领辩论完整回放](#provincial-leaders-debate)、[政纲财政测算](#provincial-platform-costings)及[近期民调](#provincial-polls)。本拿比五区仍为 **18 名候选人**；按 **10 月 19 日版**官方 PDF 复核，原列 **11 个提前投票地点、52 个最终投票日地点**的名称及地址均未变。
 
 **2026-10-18 更新**：新增独立专题[卑诗市选结果与政策倾向](bc-municipal-election-results-2026.md)，逐市比较选前与本届当选市长、议会及学区，并分析选民支持变化和分票可能；[本拿比结果与倾向](bc-municipal-election-results-2026.md#burnaby)可直接查看。该专题使用初步结果，每个城市附数据来源。
 
@@ -22,6 +24,15 @@ toc-depth: 3
 **2026-10-10 更新**：省选补入本拿比北 **Jenny Yamagata（OneBC）**；当日核对的官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
 
 候选人使用官方英文姓名，便于与选票核对。下文的“中左”“中右”“社会保守”等是依据公开政纲作出的分析性概括，并非选举机构的官方标签。同一档内部没有精确排名；独立候选人的资料不足时保留不确定性。反对社区增密、支持治安或强调财政问责，单独一项都不足以确定完整的左右立场。
+
+## 省选：最后投票安排（10 月 21–24 日） {#provincial-final-week}
+
+- **10 月 21 日（周三）08:00–20:00**：最后一天提前投票，可使用全省任一当日开放的省选提前投票站。下列本拿比相关地点中，**Executive Inn 的提前投票已于 10 月 18 日结束**，其余 10 站列有 10 月 21 日开放安排。[提前投票地点](#provincial-voting-locations)、[官方地图][provincial-map]。
+- **10 月 22–23 日（周四、周五）**：仍可到选区办公室投票，通常开放时间为 **09:00–17:00**。这两天不在普通提前投票期内。[办公室地址](#provincial-district-offices)、[官方投票方式][provincial-voting]。
+- **10 月 24 日（周六）08:00–20:00**：最终投票日。普通省选投票站开放至 **20:00**，但**选区办公室投票服务在 16:00 截止**。两种地点的截止时间不同。[最终投票日地点][provincial-final-pdf]、[官方投票方式][provincial-voting]。
+- **邮寄选票**：网上及电话申请已于 **10 月 18 日截止**。已领取的选票包必须在 **10 月 24 日 20:00 前送达** Elections BC；可以交到开放的省选选区办公室或投票站。截止要求是收到选票包，不是仅在截止日前寄出。[官方邮寄投票说明][provincial-voting]。
+
+没有选民卡也可以投票；符合资格但未登记者可现场登记，须携带[合适证件](#voting-id)。出发前按住址查询[Where to Vote 官方地图][provincial-map]的最新地点与开放安排。
 
 ## 两场选举与关键日期 {#election-dates}
 
@@ -48,9 +59,9 @@ toc-depth: 3
 
 开票汇总及媒体报道可作为补充入口，目前没有确认它们会比市府更快。初步票数及媒体报道应与正式结果区分；出现差异时，以市府公布的结果为准。
 
-## 省选：10 月 14 日本拿比候选人见面会 {#provincial-candidates-meet-greet}
+## 省选：10 月 14 日本拿比候选人见面会（历史活动） {#provincial-candidates-meet-greet}
 
-Burnaby Board of Trade（本拿比商会）举办 **Provincial Edition: All Candidates Meet & Greet**，邀请本拿比相关省选选区的候选人介绍政策重点、回答问题，并与商界交流。[主办方活动页][provincial-bbot-meeting]。
+以下保留 Burnaby Board of Trade（本拿比商会）公布的 **2026-10-14 Provincial Edition: All Candidates Meet & Greet** 历史活动安排。活动邀请本拿比相关省选选区的候选人介绍政策重点、回答问题，并与商界交流。[主办方活动页][provincial-bbot-meeting]。
 
 - **时间**：**2026-10-14（周三）15:30–17:30**，本拿比当地时间（PDT）。这是主办方标注的**调整后时间**，以便衔接当晚的党领辩论。
 - **地点**：**Element Vancouver Metrotown**，**5988 Willingdon Ave, Burnaby**。
@@ -60,16 +71,35 @@ Burnaby Board of Trade（本拿比商会）举办 **Provincial Edition: All Cand
 
 以上信息于 **2026-10-14** 核对。当晚 **18:15–20:00** 的[省选党领电视辩论](#provincial-leaders-debate)是另一场活动，详情见下节。
 
-## 省选：党领电视辩论 {#provincial-leaders-debate}
+## 省选：党领电视辩论（已结束，可回放） {#provincial-leaders-debate}
 
-卑诗广播机构联合体（BC Broadcast Consortium）已公布省选党领辩论安排，公众可通过电视或网络直播收看。[主办方公告][provincial-debate-announcement]。
+**10 月 14 日的辩论已结束，可观看 [Global 提供的完整录像][provincial-debate-replay]。** 以下保留卑诗广播机构联合体（BC Broadcast Consortium）公布的该场安排。[主办方公告][provincial-debate-announcement]。
 
 - **时间**：**2026-10-14（周三）18:15–20:00**，本拿比当地时间（PDT，UTC−7）。
 - **参加者**：David Eby（BC NDP）、Lorne Doerkson（卑诗保守党）、Emily Lowan（卑诗绿党）。公布的本场参加名单不包括 OneBC 和 CentreBC 党领。
 - **主持人**：Shachi Kurl，Angus Reid Institute 总裁。
-- **播出渠道**：CBC BC、Global BC、CTV Vancouver、Citytv、CHEK、CPAC；可通过相关电视台及网络直播收看，亦可查看 [Global BC 的播出说明][provincial-debate-global]。
+- **原播出渠道**：CBC BC、Global BC、CTV Vancouver、Citytv、CHEK、CPAC；历史播出安排见 [Global BC 的说明][provincial-debate-global]。现在收看请使用[完整回放入口][provincial-debate-replay]。
 
-这是省级党领辩论，讨论全省议题；本拿比各选区的省议员候选人及市选候选人不因此同台参加。以上依据主办方 **2026-10-06** 公告，于 **2026-10-13** 核对。
+这是省级党领辩论，讨论全省议题；本拿比各选区的省议员候选人及市选候选人不因此同台参加。安排依据主办方 **2026-10-06** 公告；完整回放于 **2026-10-20（本拿比时间）** 核对。
+
+## 省选：政纲与财政测算 {#provincial-platform-costings}
+
+本次补入两大党的财政文件，便于从具体支出、收入和项目额度比较承诺。这些是**政党的竞选测算**，不等于立法机关已经通过的预算，也不表示项目资金已经到账。
+
+### 卑诗保守党：已发布含成本测算的完整政纲
+
+[Lorne Doerkson’s Plan for a Stronger BC][provincial-conservative-plan]已包含财政附录。附录 B 的表 B4 预计 **2029–30 财年仍有约 108 亿加元赤字**（10,799 million，约 $10.8 billion）：其模型预计逐步缩减赤字，但到该财年仍未收支平衡。数值为该党模型的预测，依赖其收入、支出约束和经济假设。[完整文件，第 64–71 页][provincial-conservative-plan]。
+
+### BC NDP：本拿比医院第二期的资本额度
+
+[BC Strong Fiscal & Costing Plan][provincial-ndp-costing]第 2 页为 **Burnaby Hospital Phase 2** 列出 **13.1 亿加元新增资本投入**（1,310 million）。备注说明，连同已有预算及外部投入，项目总额约 **18 亿加元**；新增额度与项目总额不是同一个数字。文件也列有收入、医疗、住房、托儿及交通等测算，可与[完整竞选计划][provincial-ndp-plan]一起阅读。
+
+## 省选：近期民调（全省支持度） {#provincial-polls}
+
+- **Innovative Research，2026-10-20 发布**：调查日期 **10 月 15–19 日**，网上调查实际样本 **1,154 人**，加权至 1,000 人。在已决定投票者中，**卑诗保守党43%、BC NDP 38%**。这是党领辩论之后的调查。[原始发布及方法说明][provincial-poll-innovative]。
+- **Léger，2026-10-14 发布**：调查日期 **10 月 9–12 日**，网上调查 **1,000 名卑诗成年居民**。在已决定投票者中，**卑诗保守党42%、BC NDP 40%**。这是辩论之前的调查，作为较早参照保留。[原始发布及方法说明][provincial-poll-leger]。
+
+两项调查来自不同机构、不同时间，不能直接把差距相减当成选情变化幅度，也不能单凭前后差异断言辩论造成了变化。**这些是全省支持度，不是本拿比北或其他单一选区的预测，也不等于席位或胜选概率。**
 
 ## 市选：候选人交流活动与访谈录音 {#municipal-events-and-audio}
 
@@ -310,13 +340,13 @@ Burnaby First 此次没有学务委员候选人。
 
 ## 省选：本拿比相关选区候选人 {#provincial-candidates}
 
-以下依据 **2026-10-15** 核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、18 名仍参选的候选人**，不计已退选者。各区按官方名单顺序列出姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
+以下依据 **2026-10-20 晚（本拿比时间）** 重新核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、18 名仍参选的候选人**，不计已退选者。各区按官方名单顺序列出姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
 
-与本页上一版相比，这 18 人的姓名、所属选区和党派均无新增变更。本次补充 [Greg DePaco 的正式退选说明][provincial-depaco-withdrawal]及选票上仍有其姓名的提醒，见下方 Burnaby-New Westminster 一节。
+与本页 **2026-10-15** 核对的版本相比，这 18 人的姓名、所属选区和党派均无新增变更。**Simon Chandler 仍代表卑诗保守党，Jenny Yamagata 仍代表 OneBC**。继续保留 [Greg DePaco 的正式退选说明][provincial-depaco-withdrawal]及选票上仍有其姓名的提醒，见下方 Burnaby-New Westminster 一节。
 
 此前相较本页 2026-10-06 版本的变化仍保留：本拿比北补入 **Jenny Yamagata — OneBC**，该区由 3 人更正为 4 人。[Elections BC 候选人更新公告][provincial-candidate-update]说明，她的省选提名经复核获接受，并以 OneBC 身份加入正式名单。
 
-最新的 [2026-10-14 全省候选人变更公告][provincial-candidate-update-oct14]另确认 **Gerry Lenoski（New Westminster-Coquitlam）**及 **Frederick Thiele（North Vancouver-Seymour）**退选，两人的退选通知均于 10 月 13 日被接受。这两个选区不属于本页覆盖的五区，不改变本页的 18 人总数。
+[2026-10-14 全省候选人变更公告][provincial-candidate-update-oct14]另确认 **Gerry Lenoski（New Westminster-Coquitlam）**及 **Frederick Thiele（North Vancouver-Seymour）**退选，两人的退选通知均于 10 月 13 日被接受。这两个选区不属于本页覆盖的五区，不改变本页的 18 人总数。
 
 ### Burnaby Centre｜本拿比中（BNC，4 人） {#burnaby-centre本拿比中}
 
@@ -355,7 +385,7 @@ Burnaby First 此次没有学务委员候选人。
 
 **Greg DePaco 的姓名仍会出现在选票上。** 官方说明，选票自 10 月 4 日开始印制，公告时已接近完成；投票站工作人员会向选民说明他已退选，并张贴退选告示。[Elections BC 退选公告][provincial-depaco-withdrawal]。
 
-两份官方名册中同时出现的姓名包括：**David Xie**（市议员：New Burnaby；省议员：卑诗保守党）和 **Jenny Yamagata**（学务委员：独立；省议员：OneBC）。市选和省选的职位、党派身份应分别记录。
+此前市选及省选两份候选人名册中同时出现的姓名包括：**David Xie**（市议员候选人：New Burnaby；省议员候选人：卑诗保守党）和 **Jenny Yamagata**（学务委员候选人：独立；省议员候选人：OneBC）。这里记录的是各场选举的参选身份，不表示当选或在任；市选和省选的职位、党派应分别记录。
 
 ## 市选：投票地点 {#municipal-voting-locations}
 
@@ -427,7 +457,7 @@ Burnaby First 此次没有学务委员候选人。
 
 ### 提前投票：2026-10-16 至 2026-10-21
 
-可到**全省任一开放的省选提前投票站**投票，不需要特别理由；开放时间均为 **08:00–20:00（当地时间）**，所有提前投票站均可供轮椅使用者进入。以下为本拿比相关 5 个选区的 **11 站**，依据 **2026-10-08** 版[官方提前投票地点 PDF][provincial-advance-pdf]第 1–2 页；各站开放日期并不完全相同。
+可到**全省任一开放的省选提前投票站**投票，不需要特别理由；开放时间均为 **08:00–20:00（当地时间）**，所有提前投票站均可供轮椅使用者进入。以下为本拿比相关 5 个选区在整个提前投票期的 **11 站**，本次已按 **2026-10-19** 版[官方提前投票地点 PDF][provincial-advance-pdf]第 1–2 页逐项复核，名称、地址及开放日期与原表一致。**10 月 21 日是最后一天提前投票**，各站并非每天均开放。
 
 | 选区 | 提前投票地点 | 地址及城市 | 开放日期（2026 年） |
 | --- | --- | --- | --- |
@@ -443,13 +473,13 @@ Burnaby First 此次没有学务委员候选人。
 | 本拿比—新西敏（BNN） | New Westminster Lawn Bowling Club | 710 Eighth St（New Westminster） | 10 月 16 日、18–21 日 |
 | 本拿比—新西敏（BNN） | Royal Palace Banquet Hall | 7845 Edmonds St（Burnaby） | 10 月 17–21 日 |
 
-特别留意：**Executive Inn 只在 10 月 16–18 日开放提前投票；Royal Palace Banquet Hall 从 10 月 17 日开始；New Westminster Lawn Bowling Club 在 10 月 17 日不开放提前投票。** 出发前仍应查看[官方地图][provincial-map]是否有变更。
+特别留意：**Executive Inn 的提前投票已于 10 月 18 日结束，10 月 21 日不开放提前投票；它仍列为 10 月 24 日最终投票日站点。** 原提前投票安排中，Royal Palace Banquet Hall 从 10 月 17 日开始，New Westminster Lawn Bowling Club 在 10 月 17 日不开放；这两站均列有 10 月 21 日开放安排。出发前仍应查看[官方地图][provincial-map]是否有变更。
 
 ### 最终投票日：2026-10-24
 
 开放时间为 **08:00–20:00（太平洋时间）**。选民卡和[官方地图][provincial-map]会列出按住址指定的站点；Elections BC 也明确说明，如其他省选投票站更方便，可以在那里投票。[官方地点说明][provincial-where]。
 
-以下依据 **2026-10-09** 版[最终投票日地点 PDF][provincial-final-pdf]第 4–6 页，列出本拿比相关 5 个选区的 **52 站**。提前投票站、最终投票日站点及市选站点须分别核对，不能只凭场馆名称推定开放日期。
+以下列出本拿比相关 5 个选区的 **52 站**，本次已按 **2026-10-19** 版[最终投票日地点 PDF][provincial-final-pdf]第 4–6 页复核，名称及地址与原表一致。提前投票站、最终投票日站点及市选站点须分别核对，不能只凭场馆名称推定开放日期。
 
 <details>
 <summary>Burnaby Centre｜本拿比中（BNC）：10 站</summary>
@@ -543,7 +573,7 @@ Burnaby First 此次没有学务委员候选人。
 
 </details>
 
-### 选区办公室：已开放，可在提前投票期之前投票
+### 选区办公室：投票服务至 10 月 24 日 16:00 {#provincial-district-offices}
 
 选民可到**任一已开放的省选选区办公室**投票。下列 5 个办公室在[官方名单][provincial-offices-pdf]中均标为 Open；其中 Burnaby-New Westminster 办公室位于新西敏。
 
@@ -555,9 +585,9 @@ Burnaby First 此次没有学务委员候选人。
 | 本拿比南—Metrotown（BNS） | 7123 Curragh Ave（Burnaby） | 778-572-4251 |
 | 本拿比—新西敏（BNN） | 500-628 Sixth Ave（New Westminster） | 778-572-4237 |
 
-通常开放时间为周一至周五 **09:00–17:00**、周六 **10:00–16:00**，周日及法定假日关闭；**10 月 12 日感恩节关闭**。省选提前投票期间（10 月 16–21 日）为 **08:00–20:00**。办公室投票服务在 **2026-10-24 16:00（太平洋时间）截止**，早于当天普通投票站的 20:00。[官方投票方式][provincial-voting]、[办公室名单][provincial-offices-pdf]。
+通常开放时间为周一至周五 **09:00–17:00**、周六 **10:00–16:00**，周日及法定假日关闭。省选提前投票期间（10 月 16–21 日）为 **08:00–20:00**；**10 月 22–23 日仍可在通常的 09:00–17:00 办公时间投票**。办公室投票服务在 **2026-10-24 16:00（太平洋时间）截止**，早于当天普通投票站的 20:00。[官方投票方式][provincial-voting]、[办公室名单][provincial-offices-pdf]。
 
-若选择省选邮寄投票，网上或电话申请截止日为 **2026-10-18**，填妥的选票包必须在 **2026-10-24 20:00（太平洋时间）前送达** Elections BC；也可交到省选选区办公室或投票站，须留意该地点的开放时间。[官方邮寄投票说明][provincial-voting]。
+**省选邮寄选票的网上及电话申请已截止，最后申请日为 2026-10-18。** 已领取的选票包须在 **2026-10-24 20:00（太平洋时间）前送达** Elections BC；可交到开放的省选选区办公室或投票站，须留意各地点开放时间。这是收件期限，不是寄件期限。[官方邮寄投票说明][provincial-voting]。
 
 ## 现场投票与证件备忘 {#voting-id}
 
@@ -585,14 +615,16 @@ Burnaby First 此次没有学务委员候选人。
 ## 资料来源与更新 {#sources}
 
 - **市选结果查询**：依据[市府官方结果页][municipal-results-official]、[CivicInfo BC 开票汇总][municipal-results-civicinfo]及 [Freshet News 选举日报道][municipal-results-freshet]，于 **2026-10-17** 核对。本页提供查询入口，最新票数及结果以对应发布页面为准。
-- **姓名、党派和职位**：市选依据[本拿比官方候选人目录][municipal-candidates]，核对日期为 **2026-10-10**，列有市长 6 人、市议员 42 人、学务委员 16 人。省选依据[Elections BC 最终候选人名单][provincial-list]及 [CSV 名册][provincial-csv]，于 **2026-10-15** 重新核对，5 个相关选区现列 18 名仍参选的候选人。
+- **姓名、党派和职位**：市选依据[本拿比官方候选人目录][municipal-candidates]，核对日期为 **2026-10-10**，列有市长 6 人、市议员 42 人、学务委员 16 人。省选依据[Elections BC 最终候选人名单][provincial-list]及 [CSV 名册][provincial-csv]，于 **2026-10-20 晚（本拿比时间）**重新核对，5 个相关选区现列18人，与10月15日版本姓名及党派一致。
 - **省选退选状态**：于 **2026-10-15** 核对 [Greg DePaco 退选公告][provincial-depaco-withdrawal]及 [10 月 14 日全省候选人变更公告][provincial-candidate-update-oct14]；退选者的姓名可能仍留在已印制的选票上，须留意官方退选说明。
 - **政策主张**：来自候选人提交的官方简介、党团及个人竞选网站。它们描述的是竞选承诺，不表示已通过或已实现。
 - **Vincent Tong 联系方式**：据其竞选宣传单转录，包括电子邮件、竞选网站、Facebook 和 Instagram；整理日期为 **2026-10-14**。
 - **Restore Burnaby 联系方式**：官网和邮箱据竞选宣传单转录，并与[官网][restore-site]核对；电话、办公室地址来自官网，Instagram 账号来自[官网的 Instagram 介绍页][restore-instagram-source]。核对日期为 **2026-10-14**。
 - **左右定位**：本页对公开政策的概括。市政、教育、税收及城市规划存在不同维度；同党成员之间也可能有差别。
-- **投票安排**：于 **2026-10-10** 核对市府选民指南及两场选举官方地图入口；省选提前投票地点采用 **2026-10-08** 版 PDF，最终投票日地点采用 **2026-10-09** 版 PDF。地址及开放日期可能继续调整，出发前应重新查阅对应的官方地图。
-- **电视辩论**：依据[卑诗广播机构联合体公告][provincial-debate-announcement]，核对日期为 **2026-10-13**；辩论时间使用本拿比当地时间。
+- **投票安排**：市选保留 **2026-10-10** 核对的资料。省选本次按 **2026-10-19** 版[提前投票地点 PDF][provincial-advance-pdf]及[最终投票日地点 PDF][provincial-final-pdf]重新比对，11站、52站的名称及地址均与原表一致，提前投票开放日期也无变更；按[官方投票方式][provincial-voting]补充最后投票期限及邮寄申请已截止的状态。出发前仍应查询[官方地图][provincial-map]。
+- **电视辩论**：时间及参加者依据[卑诗广播机构联合体公告][provincial-debate-announcement]；于 **2026-10-20（本拿比时间）**核对[完整录像入口][provincial-debate-replay]，标注辩论已结束。
+- **省选政纲与财政测算**：依据[保守党完整政纲财政附录][provincial-conservative-plan]、[NDP财政测算表][provincial-ndp-costing]及[竞选计划][provincial-ndp-plan]；预测赤字与项目新增额度分别注明单位，不把竞选承诺写成已获批预算。
+- **省选民调**：依据 [Innovative Research 10月20日原始发布][provincial-poll-innovative]和 [Léger 10月14日原始发布][provincial-poll-leger]，分别列出调查日期、样本和全省支持度；不把跨机构差异解释为本拿比单一选区的趋势。
 - **省选候选人见面会**：依据 [Burnaby Board of Trade 主办方活动页][provincial-bbot-meeting]，于 **2026-10-14** 核对，采用调整后的 **15:30–17:30** 时段，并保留仅限会员的参加条件。
 - **交流活动及录音**：依据 [SFSS 历史活动页][municipal-sfu-mixer-event]、[Freshet News 现场报道][municipal-interagency-meeting]、[Burnaby Board of Trade 活动页][municipal-bbot-meeting]及 [CJSF 官方访谈页][cjsf-candidate-interviews]，于 **2026-10-13** 核对；后续新增访谈可在 CJSF 汇总页查阅。
 
@@ -638,6 +670,12 @@ Burnaby First 此次没有学务委员候选人。
 [provincial-bbot-meeting]: https://members.bbot.ca/calendar/Details/provincial-edition-all-candidates-meet-greet-burnaby-2026-provincial-election-1941063?sourceTypeId=Website
 [provincial-debate-announcement]: https://smb.vicnews.com/article/MEDIA-ADVISORY-BC-Broadcast-Consortium-Announces-Media-Advisory-for-BC-Leaders-Debate-2026/6ac4e3a5a74253059c770872
 [provincial-debate-global]: https://globalnews.ca/news/12088589/bc-election-provincial-leaders-debate-2026/
+[provincial-debate-replay]: https://globalnews.ca/news/12101213/watch-bc-election-provincial-leaders-debate-live/
+[provincial-conservative-plan]: https://conservativebc.ca/wp-content/uploads/2026/10/20261016_BCC_Platform2026_8-5x11-Draft-17_compressed.pdf
+[provincial-ndp-costing]: https://www.bcndp.ca/sites/default/files/bc_strong_fiscal_and_costing_plan_0.pdf
+[provincial-ndp-plan]: https://www.bcndp.ca/plan
+[provincial-poll-innovative]: https://innovativeresearch.ca/bc-conservatives-lead-as-election-enters-final-week/
+[provincial-poll-leger]: https://leger360.com/bc-election-2026-poll-october/
 [provincial-list]: https://elections.bc.ca/2026-provincial-election/candidate-list/
 [provincial-candidate-update]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update/
 [provincial-depaco-withdrawal]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update-3/
