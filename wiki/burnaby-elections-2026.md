@@ -1,86 +1,261 @@
 ---
 title: "2026 本拿比选举指南：市选与卑诗省选"
-description: "本拿比市选结果与卑诗省选指南：最后投票期限、候选人和地点复核、党领辩论回放、政纲财政测算及近期民调。"
+description: "本拿比10月24日卑诗省选投票日指南：投票地点与证件、办公室投票及邮寄选票递交期限、官方开票入口、最终计票安排和最新民调；附市选历史资料。"
 date: 2026-10-06
-date-modified: 2026-10-21
+date-modified: 2026-10-24
 toc: true
 toc-depth: 3
 ---
 
-本页汇总 **2026 年本拿比市选**及**卑诗省选中覆盖本拿比的选区**。市选候选人及投票安排保留 **2026-10-10** 核对的历史资料；本次省选资料核对至 **2026-10-20 晚（本拿比当地时间 PDT；UTC 为 2026-10-21）**。省选名单覆盖本拿比相关的 5 个选区；地点表也包含跨市选区内的新西敏站点。投票日期及时间均以卑诗当地／太平洋时间为准。
+本页提供 **2026 年10月24日卑诗省选**的本拿比投票指南，资料核对至 **2026-10-23 晚（本拿比当地时间 PDT；UTC 为2026-10-24）**。本拿比相关五区仍为 **18 名候选人**；最终投票地点按 **10月22日版**官方名单复核，52站的名称及地址未变。市选已于10月17日结束，其候选人和活动资料在后文作为历史记录保留。投票日期及时间均以卑诗当地／太平洋时间为准。
 
-**2026-10-21 更新**：**10 月 21 日是省选最后一天提前投票，10 月 24 日为最终投票日；邮寄选票的网上及电话申请已截止。** 新增[最后投票安排](#provincial-final-week)、[党领辩论完整回放](#provincial-leaders-debate)、[政纲财政测算](#provincial-platform-costings)及[近期民调](#provincial-polls)。本拿比五区仍为 **18 名候选人**；按 **10 月 19 日版**官方 PDF 复核，原列 **11 个提前投票地点、52 个最终投票日地点**的名称及地址均未变。
+**投票日重点：10月24日普通投票站08:00–20:00；选区办公室现场投票10:00–16:00，但办公室接收已填好的邮寄选票包可到20:00。** [查看投票地点](#provincial-voting-locations)、[证件要求](#voting-id)、[省选开票入口及计票安排](#provincial-results)。
 
-**2026-10-18 更新**：新增独立专题[卑诗市选结果与政策倾向](bc-municipal-election-results-2026.md)，逐市比较选前与本届当选市长、议会及学区，并分析选民支持变化和分票可能；[本拿比结果与倾向](bc-municipal-election-results-2026.md#burnaby)可直接查看。该专题使用初步结果，每个城市附数据来源。
+## 省选：10月24日投票日指南 {#provincial-final-week}
 
-**2026-10-17 更新**：新增[市选结果查询与开票报道](#municipal-results)，包括市府官方结果、CivicInfo BC 开票汇总及 Freshet News 报道入口。
-
-**2026-10-15 更新**：本拿比相关五区的官方现行名单仍为 **18 人**，姓名、选区及党派与上一版一致。补充 **Greg DePaco 已正式退选，但姓名仍会印在选票上**的官方说明，详见[本拿比—新西敏选区](#burnaby-new-westminster本拿比新西敏)。
-
-**2026-10-14 更新**：补充 [10 月 14 日 15:30–17:30 省选候选人见面会](#provincial-candidates-meet-greet)的地点、活动形式及会员参加条件，并将 [10 月 13 日 SFU 市选候选人见面会](#municipal-sfu-mixer)标注为已结束。
-
-**2026-10-13 更新**：补充[省选党领电视辩论](#provincial-leaders-debate)的时间、参加者及收看渠道，以及 [10 月 13 日 SFU 市选候选人见面会（已结束）](#municipal-sfu-mixer)、[此前的候选人交流活动和 CJSF 访谈录音](#municipal-events-and-audio)。
-
-**2026-10-10 更新**：省选补入本拿比北 **Jenny Yamagata（OneBC）**；当日核对的官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
-
-候选人使用官方英文姓名，便于与选票核对。下文的“中左”“中右”“社会保守”等是依据公开政纲作出的分析性概括，并非选举机构的官方标签。同一档内部没有精确排名；独立候选人的资料不足时保留不确定性。反对社区增密、支持治安或强调财政问责，单独一项都不足以确定完整的左右立场。
-
-## 省选：最后投票安排（10 月 21–24 日） {#provincial-final-week}
-
-- **10 月 21 日（周三）08:00–20:00**：最后一天提前投票，可使用全省任一当日开放的省选提前投票站。下列本拿比相关地点中，**Executive Inn 的提前投票已于 10 月 18 日结束**，其余 10 站列有 10 月 21 日开放安排。[提前投票地点](#provincial-voting-locations)、[官方地图][provincial-map]。
-- **10 月 22–23 日（周四、周五）**：仍可到选区办公室投票，通常开放时间为 **09:00–17:00**。这两天不在普通提前投票期内。[办公室地址](#provincial-district-offices)、[官方投票方式][provincial-voting]。
-- **10 月 24 日（周六）08:00–20:00**：最终投票日。普通省选投票站开放至 **20:00**，但**选区办公室投票服务在 16:00 截止**。两种地点的截止时间不同。[最终投票日地点][provincial-final-pdf]、[官方投票方式][provincial-voting]。
-- **邮寄选票**：网上及电话申请已于 **10 月 18 日截止**。已领取的选票包必须在 **10 月 24 日 20:00 前送达** Elections BC；可以交到开放的省选选区办公室或投票站。截止要求是收到选票包，不是仅在截止日前寄出。[官方邮寄投票说明][provincial-voting]。
+- **普通省选投票站：10月24日（周六）08:00–20:00。** 选民卡和[官方地图][provincial-map]列有按住址指定的站点；其他省选站点更方便时也可前往，仍投自己居住选区的候选人。具体地点与特别开放安排以[官方地点名单][provincial-final-pdf]及[临时变更公告][provincial-place-updates]为准。
+- **选区办公室现场投票：10月24日10:00–16:00，16:00截止。** 本拿比相关五个办公室的地址及电话见[办公室名单](#provincial-district-offices)。[官方投票方式][provincial-voting]。
+- **递交已填好的邮寄选票包：10月24日20:00截止。** Elections BC 的10月23日公告明确：可交到当日开放的省选投票站，也可交到**选区办公室，办公室接收选票包可到20:00**。这与办公室现场投票的16:00截止时间不同；收件期限不等于寄件期限。[官方最新公告][provincial-final-day-notice]。
+- **提前投票已结束。** 本拿比相关提前投票期为10月16–21日，10月22–23日的办公室白天投票时段也已过去。提前投票地点保留在[历史资料](#provincial-advance-history)中；邮寄选票的网上及电话申请已于10月18日截止。
 
 没有选民卡也可以投票；符合资格但未登记者可现场登记，须携带[合适证件](#voting-id)。出发前按住址查询[Where to Vote 官方地图][provincial-map]的最新地点与开放安排。
 
-## 两场选举与关键日期 {#election-dates}
+## 省选：投票地点与选区办公室 {#provincial-voting-locations}
 
-- **本拿比市选**：选出 1 名市长、8 名市议员、7 名学务委员。各职位最多分别选择 1、8、7 人，可跨党派选择。
-  - 一般投票日：**2026-10-17**。
-  - 提前投票日：**2026-10-03、2026-10-07、2026-10-10**。
-  - 现场投票时间：当地时间 08:00–20:00；可使用本拿比任一开放的市选投票站。
-  - 候选人数：市长 **6 人**、市议员 **42 人**、学务委员 **16 人**。
-- **卑诗省选**：每名选民选择自己所属省选选区的 1 名省议员候选人。
-  - 最终投票日：**2026-10-24**。
-  - 提前投票期：**2026-10-16 至 2026-10-21**；各站开放日期请查官方地点查询。
-  - 提前投票时间为当地时间 08:00–20:00；最终投票日为太平洋时间 08:00–20:00。
-  - 本拿比相关 **5 个选区，共 18 名候选人**；候选人提名已于 2026-10-03 13:00 截止。
+[Where to Vote 官方地图][provincial-map]已可按住址查询选区办公室、提前投票站和最终投票日站点。下表按官方选区归组，**投票仍是选择自己居住选区的候选人**；前往其他选区的投票站不会改变自己的选区。[官方地点说明][provincial-where]。
 
-日期、地点及资格以[本拿比市选选民指南][municipal-voters]和[Elections BC 省选指南][provincial-election]为准。省选选区可通过[官方选区查询][district-lookup]核对；按住址查省选投票站请使用 [Where to Vote 官方地图][provincial-map]。**2026-10-17 同时是市选一般投票日和省选提前投票日，两场选举须分别投票，并分别核对地点。**
+本次还核对了[官方投票地点临时变更公告][provincial-place-updates]，其中未列本拿比相关站点变更。省内其他地区部分站点有特别时段或场馆调整，出发前应查地图及最新公告。
 
-## 市选：结果查询与开票报道 {#municipal-results}
+### 最终投票日：2026-10-24
 
-本拿比市府安排在 **2026-10-17 20:00（本拿比当地时间，PDT）投票结束后**逐步公布初步结果，正式结果最迟于 **2026-10-21** 公布。[官方公布安排][municipal-results-official]。
+开放时间为 **08:00–20:00（太平洋时间）**。选民卡和[官方地图][provincial-map]会列出按住址指定的站点；Elections BC 也明确说明，如其他省选投票站更方便，可以在那里投票。[官方地点说明][provincial-where]。
 
-- **[本拿比市府官方选举结果页][municipal-results-official]**：优先查看本次市选的初步开票进度及最终正式结果。开票前页面可能仍主要显示往届结果，请核对选举年份为 **2026**。
-- **[CivicInfo BC／LocalElections.ca 2026 开票汇总][municipal-results-civicinfo]**：在 **Lower Mainland** 栏目下查找 **Burnaby（City）**。该站汇集各地首席选务官上报的非正式结果，适合集中查看选举夜进展；更新速度取决于上报进度。
-- **[Freshet News 选举日报道及开票安排][municipal-results-freshet]**：媒体在 10 月 17 日的报道中确认，记者将在选举夜现场报道当地结果。后续开票消息及候选人反应可继续关注 [Freshet News 首页][freshet-home]。
+以下列出本拿比相关5个选区的 **52 站**，本次已按 **2026-10-22** 版[最终投票日地点 PDF][provincial-final-pdf]第4–6页复核，名称及地址与原表一致。提前投票站、最终投票日站点及市选站点须分别核对，不能只凭场馆名称推定开放日期。
 
-开票汇总及媒体报道可作为补充入口，目前没有确认它们会比市府更快。初步票数及媒体报道应与正式结果区分；出现差异时，以市府公布的结果为准。
+<details>
+<summary>Burnaby Centre｜本拿比中（BNC）：10 站</summary>
 
-## 省选：10 月 14 日本拿比候选人见面会（历史活动） {#provincial-candidates-meet-greet}
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Buckingham Elem School | 6066 Buckingham Ave（Burnaby） |
+| Chaffey-Burke Elem School | 4404 Sardis St（Burnaby） |
+| Christine Sinclair Comm Centre | 3713 Kensington Ave（Burnaby） |
+| Jubilee United Church | 6000 Sussex Ave（Burnaby） |
+| Moscrop Sec School | 4433 Moscrop St（Burnaby） |
+| Vancouver Korean Full Gospel Church | 3905 Norland Ave（Burnaby） |
+| Windsor Elem School | 6166 Imperial St（Burnaby） |
+| École Brantford Elem School | 6512 Brantford Ave（Burnaby） |
+| École Cascade Heights Elem School | 4343 Smith Ave（Burnaby） |
+| École Marlborough Elem School - West Gym | 6060 Marlborough Ave（Burnaby） |
 
-以下保留 Burnaby Board of Trade（本拿比商会）公布的 **2026-10-14 Provincial Edition: All Candidates Meet & Greet** 历史活动安排。活动邀请本拿比相关省选选区的候选人介绍政策重点、回答问题，并与商界交流。[主办方活动页][provincial-bbot-meeting]。
+</details>
 
-- **时间**：**2026-10-14（周三）15:30–17:30**，本拿比当地时间（PDT）。这是主办方标注的**调整后时间**，以便衔接当晚的党领辩论。
-- **地点**：**Element Vancouver Metrotown**，**5988 Willingdon Ave, Burnaby**。
-- **参加范围及费用**：**仅限 Burnaby Board of Trade 会员，会员免费**。
-- **活动形式**：候选人介绍、问答及见面交流，关注省级政策、经济及本地商业议题。候选人由商会直接邀请，活动页说明出席信息会随确认更新。
-- **活动咨询**：Sarah Rainey，电子邮件 [sarah@bbot.ca](mailto:sarah@bbot.ca)；参加安排请以[主办方活动页][provincial-bbot-meeting]为准。
+<details>
+<summary>Burnaby East｜本拿比东（BNE）：12 站</summary>
 
-以上信息于 **2026-10-14** 核对。当晚 **18:15–20:00** 的[省选党领电视辩论](#provincial-leaders-debate)是另一场活动，详情见下节。
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Cariboo Hill Sec School | 8580 16th Ave（Burnaby） |
+| Forest Grove Elem School | 8525 Forest Grove Dr（Burnaby） |
+| Lochdale Comm Elem School | 6990 Aubrey St（Burnaby） |
+| Montecito Elem School | 2176 Duthie Ave（Burnaby） |
+| New Life Comm Church | 8765 Government St（Burnaby） |
+| Salvation Army Cariboo Hill Temple | 7195 Cariboo Rd（Burnaby） |
+| Seaforth Elem School | 7881 Government Rd（Burnaby） |
+| Sperling Elem School | 2200 Sperling Ave（Burnaby） |
+| St. Stephen The Martyr Anglican Church | 9887 Cameron St（Burnaby） |
+| Stoney Creek Elem School | 2740 Beaverbrook Cres（Burnaby） |
+| University Highlands Elem School | 9388 Tower Rd（Burnaby） |
+| Westridge Elem School | 510 Duncan Ave（Burnaby） |
 
-## 省选：党领电视辩论（已结束，可回放） {#provincial-leaders-debate}
+</details>
 
-**10 月 14 日的辩论已结束，可观看 [Global 提供的完整录像][provincial-debate-replay]。** 以下保留卑诗广播机构联合体（BC Broadcast Consortium）公布的该场安排。[主办方公告][provincial-debate-announcement]。
+<details>
+<summary>Burnaby North｜本拿比北（BNO）：8 站</summary>
 
-- **时间**：**2026-10-14（周三）18:15–20:00**，本拿比当地时间（PDT，UTC−7）。
-- **参加者**：David Eby（BC NDP）、Lorne Doerkson（卑诗保守党）、Emily Lowan（卑诗绿党）。公布的本场参加名单不包括 OneBC 和 CentreBC 党领。
-- **主持人**：Shachi Kurl，Angus Reid Institute 总裁。
-- **原播出渠道**：CBC BC、Global BC、CTV Vancouver、Citytv、CHEK、CPAC；历史播出安排见 [Global BC 的说明][provincial-debate-global]。现在收看请使用[完整回放入口][provincial-debate-replay]。
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Aubrey Elem School | 1075 Stratford Ave（Burnaby） |
+| Capitol Hill Comm Hall | 361 Howard Ave（Burnaby） |
+| Executive Inn | 4201 Lougheed Hwy（Burnaby） |
+| Gilmore Comm School | 50 Gilmore Ave（Burnaby） |
+| Kitchener Elem School | 1351 Gilmore Ave（Burnaby） |
+| Overlynn Mansion | 401 N Esmond Ave（Burnaby） |
+| Parkcrest Elem School | 6055 Halifax St（Burnaby） |
+| Rosser Elem School | 4375 Pandora St（Burnaby） |
 
-这是省级党领辩论，讨论全省议题；本拿比各选区的省议员候选人及市选候选人不因此同台参加。安排依据主办方 **2026-10-06** 公告；完整回放于 **2026-10-20（本拿比时间）** 核对。
+</details>
+
+<details>
+<summary>Burnaby South-Metrotown｜本拿比南—Metrotown（BNS）：12 站</summary>
+
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Alan Emmott Centre | 6650 Southoaks Cres（Burnaby） |
+| Bob Prittie Metrotown Library | 6100 Willingdon Ave（Burnaby） |
+| Bonsor Rec Complex | 6550 Bonsor Ave（Burnaby） |
+| Clinton Elem School | 5858 Clinton St（Burnaby） |
+| Glenwood Elem School | 5787 Marine Dr（Burnaby） |
+| Maywood Elem School | 4567 Imperial St（Burnaby） |
+| Nelson Elem School | 4850 Irmin St（Burnaby） |
+| Poppy Residences - Legion 83 | 5291 Grimmer St（Burnaby） |
+| South Burnaby Lawn Bowls Club | 4000 Kingsway（Burnaby） |
+| South Slope Elem School | 4446 Watling St（Burnaby） |
+| Suncrest Elem School | 3883 Rumble St（Burnaby） |
+| Taylor Park Elem School | 7590 Mission Ave（Burnaby） |
+
+</details>
+
+<details>
+<summary>Burnaby-New Westminster｜本拿比—新西敏（BNN）：10 站</summary>
+
+| 最终投票日地点 | 地址及城市 |
+| --- | --- |
+| Byrne Creek Comm School | 7777 18th St（Burnaby） |
+| Edmonds Comm School | 7651 18th Ave（Burnaby） |
+| F.W. Howay Elem School | 91 Courtney Cres（New Westminster） |
+| Lord Kelvin Elem School | 1010 Hamilton St（New Westminster） |
+| New Westminster Lawn Bowling Club | 710 Eighth St（New Westminster） |
+| Royal Palace Banquet Hall | 7845 Edmonds St（Burnaby） |
+| Second St Comm School | 7502 2nd St（Burnaby） |
+| Twelfth Ave Elem School | 7622 12th Ave（Burnaby） |
+| École Herbert Spencer Elem School | 605 Second St（New Westminster） |
+| École Lord Tweedsmuir Elem School | 1714 Eighth Ave（New Westminster） |
+
+</details>
+
+### 选区办公室：现场投票至16:00，交邮寄选票至20:00 {#provincial-district-offices}
+
+下列5个办公室在最新[官方名单][provincial-offices-pdf]中均标为 Open；其中 Burnaby-New Westminster 办公室位于新西敏。**Burnaby South-Metrotown 办公室联系电话已更新为604-830-5423**，地址不变。
+
+| 选区办公室 | 地址及城市 | 电话 |
+| --- | --- | --- |
+| 本拿比中（BNC） | 600-4789 Kingsway（Burnaby） | 778-572-4223 |
+| 本拿比东（BNE） | 8500 Baxter Pl（Burnaby） | 778-572-4230 |
+| 本拿比北（BNO） | 110-2250 Boundary Rd（Burnaby） | 778-572-4244 |
+| 本拿比南—Metrotown（BNS） | 7123 Curragh Ave（Burnaby） | 604-830-5423 |
+| 本拿比—新西敏（BNN） | 500-628 Sixth Ave（New Westminster） | 778-572-4237 |
+
+- **现场投票：10月24日10:00–16:00，16:00截止。** [官方投票方式][provincial-voting]、[办公室名单][provincial-offices-pdf]。
+- **递交已填好的邮寄选票包：10月24日可到20:00。** 这是 Elections BC 在10月23日公告中明确的收件安排；办公室现场投票16:00截止，并不表示此后不能交邮寄选票。[官方最新公告][provincial-final-day-notice]。
+
+**省选邮寄选票的网上及电话申请已截止，最后申请日为2026-10-18。** 已领取的选票包须在 **10月24日20:00（太平洋时间）前送达**；也可于当天08:00–20:00交到开放的省选投票站。这是收件期限，不是寄件期限。[官方最新公告][provincial-final-day-notice]、[邮寄投票说明][provincial-voting]。
+
+### 提前投票（已结束，历史资料） {#provincial-advance-history}
+
+<details>
+<summary>展开10月16–21日的省选提前投票安排</summary>
+
+**以下提前投票安排已结束，仅作历史记录。** 本拿比相关五区在整个提前投票期共11站，依据 **2026-10-19** 版[官方提前投票地点 PDF][provincial-advance-pdf]第1–2页。原开放时间为各表列日期的08:00–20:00；不能用这份提前投票表代替10月24日的最终投票地点名单。
+
+| 选区 | 提前投票地点 | 地址及城市 | 开放日期（2026 年） |
+| --- | --- | --- | --- |
+| 本拿比中（BNC） | Deer Lake United Church | 5135 Sperling Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比中（BNC） | Wesburn Comm Centre | 4781 Parkwood Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比东（BNE） | Salvation Army Cariboo Hill Temple | 7195 Cariboo Rd（Burnaby） | 10 月 16–21 日 |
+| 本拿比东（BNE） | Swedish Canadian Manor | 1812 Duthie Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比北（BNO） | Capitol Hill Comm Hall | 361 Howard Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比北（BNO） | Executive Inn | 4201 Lougheed Hwy（Burnaby） | 10 月 16–18 日 |
+| 本拿比北（BNO） | Overlynn Mansion | 401 N Esmond Ave（Burnaby） | 10 月 16–21 日 |
+| 本拿比南—Metrotown（BNS） | Poppy Residences - Legion 83 | 5291 Grimmer St（Burnaby） | 10 月 16–21 日 |
+| 本拿比南—Metrotown（BNS） | South Burnaby Lawn Bowls Club | 4000 Kingsway（Burnaby） | 10 月 16–21 日 |
+| 本拿比—新西敏（BNN） | New Westminster Lawn Bowling Club | 710 Eighth St（New Westminster） | 10 月 16 日、18–21 日 |
+| 本拿比—新西敏（BNN） | Royal Palace Banquet Hall | 7845 Edmonds St（Burnaby） | 10 月 17–21 日 |
+
+**Executive Inn 的提前投票已于10月18日结束，但仍列为10月24日最终投票日站点。** Royal Palace Banquet Hall 与 New Westminster Lawn Bowling Club 的提前投票日期差异见原表，相关提前投票均已结束。
+
+</details>
+
+## 省选：现场登记与证件 {#voting-id}
+
+护照和选民卡都不是必需文件。符合资格但尚未登记者，可以在投票现场办理登记；以下为常见省选证件组合，完整规则以官方规定为准。
+
+### 卑诗省选
+
+- 本次省选要求加拿大公民身份、在 2026-10-24 年满 18 岁，并自 2026-04-23 起居住在卑诗省。[官方资格说明][provincial-eligibility]。
+- 一张符合要求、载有姓名和现住址的 **BC 驾照、BCID 或带照片的 BC Services Card** 即可。
+- 或带 **两份均载有本人姓名的证件或文件，至少一份有现住址**，例如公民纸（Citizenship Certificate）加银行对账单，或信用卡加水电账单。
+- 省选接受电子账单和纸质文件的电子扫描件；没有合适证件时另有符合条件的担保人程序。
+
+详细规则见[省选证件规定][provincial-id]；现场登记说明见[Elections BC 选举公告][provincial-writs]。
+
+## 省选：开票入口与最终计票安排 {#provincial-results}
+
+**[Elections BC 官方省选结果入口][provincial-results-official]**：官方安排在 **10月24日20:00投票结束后**逐步公布初步结果。本次核对时，该入口仍显示往届结果；查看时须确认届次为2026，不把历史记录当成本届票数。[官方公布安排][provincial-final-day-notice]。
+
+Elections BC 说明，选举夜计入的是选区办公室及提前投票站的选票、最终投票日在本人指定站点投下的选票，以及特别投票安排中的本区选票。以下选票**不计入选举夜初步结果**，须在后续核验后计入：
+
+- 邮寄选票（vote-by-mail）。
+- 辅助电话投票（assisted telephone voting）的选票。
+- 特别投票安排中的缺席选票，以及最终投票日的缺席选票（absentee ballots）。
+
+**最终计票计划为2026年11月6–10日**，以官方后续公告为准。初步领先、媒体预测当选和最终确认结果应分别记录；接近的选区尤其需要等待未计入的选票及后续程序。[计票范围说明][provincial-final-day-notice]、[官方日程][provincial-election]。
+
+## 省选：本拿比相关选区候选人 {#provincial-candidates}
+
+以下依据 **2026-10-23 晚（本拿比时间）** 重新核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、18 名仍参选的候选人**，不计已退选者。各区按官方名单顺序列出姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
+
+与本页 **2026-10-20** 核对的版本相比，这18人的姓名、所属选区和党派均无新增变更。**Simon Chandler 仍代表卑诗保守党，Jenny Yamagata 仍代表 OneBC**。继续保留 [Greg DePaco 的正式退选说明][provincial-depaco-withdrawal]及选票上仍有其姓名的提醒，见下方 Burnaby-New Westminster 一节。
+
+此前相较本页 2026-10-06 版本的变化仍保留：本拿比北补入 **Jenny Yamagata — OneBC**，该区由 3 人更正为 4 人。[Elections BC 候选人更新公告][provincial-candidate-update]说明，她的省选提名经复核获接受，并以 OneBC 身份加入正式名单。
+
+[2026-10-14 全省候选人变更公告][provincial-candidate-update-oct14]另确认 **Gerry Lenoski（New Westminster-Coquitlam）**及 **Frederick Thiele（North Vancouver-Seymour）**退选，两人的退选通知均于 10 月 13 日被接受。这两个选区不属于本页覆盖的五区，不改变本页的 18 人总数。
+
+### Burnaby Centre｜本拿比中（BNC，4 人） {#burnaby-centre本拿比中}
+
+- **Joshua Domnich — 卑诗保守党（Conservative Party）**
+- **Vikas Gautam — CentreBC**
+- **Anne Kang — 卑诗新民主党（BC NDP）**
+- **Shila Taheri — 卑诗绿党（BC Green Party）**
+
+### Burnaby East｜本拿比东（BNE，4 人） {#burnaby-east本拿比东}
+
+- **Rohini Reah Arora — 卑诗新民主党（BC NDP）**
+- **De Ding — OneBC**
+- **Javad Shushtarian — 卑诗绿党（BC Green Party）**
+- **Peter Si — 卑诗保守党（Conservative Party）**
+
+### Burnaby North｜本拿比北（BNO，4 人） {#burnaby-north本拿比北}
+
+- **Simon Chandler — 卑诗保守党（Conservative Party）**
+- **Maddy Kennedy-Parrott — 卑诗绿党（BC Green Party）**
+- **Janet Routledge — 卑诗新民主党（BC NDP）**
+- **Jenny Yamagata — OneBC**
+
+### Burnaby South-Metrotown｜本拿比南—Metrotown（BNS，4 人） {#burnaby-south-metrotown本拿比南metrotown}
+
+- **Paul Choi — 卑诗新民主党（BC NDP）**
+- **Bryan Fockler — 卑诗绿党（BC Green Party）**
+- **Andrew Rose — OneBC**
+- **David Xie — 卑诗保守党（Conservative Party）**
+
+### Burnaby-New Westminster｜本拿比—新西敏（BNN，2 人） {#burnaby-new-westminster本拿比新西敏}
+
+- **Raj Chouhan — 卑诗新民主党（BC NDP）**
+- **Joe Latam — 卑诗保守党（Conservative Party）**
+
+**已退选：Greg DePaco（卑诗绿党）。** Elections BC 于 **2026-10-10** 发布公告，确认其退选通知已于 **2026-10-09** 被接受。本页将他单独记为已退选，不计入该区上列 2 人及五区合计 18 人。
+
+**Greg DePaco 的姓名仍会出现在选票上。** 官方说明，选票自 10 月 4 日开始印制，公告时已接近完成；投票站工作人员会向选民说明他已退选，并张贴退选告示。[Elections BC 退选公告][provincial-depaco-withdrawal]。
+
+此前市选及省选两份候选人名册中同时出现的姓名包括：**David Xie**（市议员候选人：New Burnaby；省议员候选人：卑诗保守党）和 **Jenny Yamagata**（学务委员候选人：独立；省议员候选人：OneBC）。这里记录的是各场选举的参选身份，不表示当选或在任；市选和省选的职位、党派应分别记录。
+
+## 省选：近期民调（全省支持度） {#provincial-polls}
+
+### 10月23日发布的选前民调
+
+- **Ipsos／Global BC**：调查日期 **10月20–22日**，样本 **1,260 名卑诗成年人**，采用网上及真人电话访问。在已决定投票者中，**卑诗保守党44%、BC NDP 39%、卑诗绿党13%**。[原始发布及方法说明][provincial-poll-ipsos-final]。
+- **Research Co.**：调查日期 **10月21–23日**，网上调查 **802 名可能投票者**，其中722人已决定投票选择。在已决定选择的可能投票者中，**卑诗保守党44%、BC NDP 40%、卑诗绿党10%**。[原始发布及方法说明][provincial-poll-researchco-final]。
+
+<details>
+<summary>较早民调：10月20日及10月14日发布（历史参照）</summary>
+
+- **Innovative Research，2026-10-20 发布**：调查日期 **10 月 15–19 日**，网上调查实际样本 **1,154 人**，加权至 1,000 人。在已决定投票者中，**卑诗保守党43%、BC NDP 38%**。这是党领辩论之后的调查。[原始发布及方法说明][provincial-poll-innovative]。
+- **Léger，2026-10-14 发布**：调查日期 **10 月 9–12 日**，网上调查 **1,000 名卑诗成年居民**。在已决定投票者中，**卑诗保守党42%、BC NDP 40%**。这是辩论之前的调查，作为较早参照保留。[原始发布及方法说明][provincial-poll-leger]。
+
+</details>
+
+这些调查来自不同机构、不同时间，样本范围和访问方式也不同，不能直接把差距相减当成选情变化幅度，也不能单凭前后差异断言辩论造成了变化。**这些是全省支持度，不是本拿比北或其他单一选区的预测，也不等于席位或胜选概率。**
 
 ## 省选：政纲与财政测算 {#provincial-platform-costings}
 
@@ -94,12 +269,53 @@ toc-depth: 3
 
 [BC Strong Fiscal & Costing Plan][provincial-ndp-costing]第 2 页为 **Burnaby Hospital Phase 2** 列出 **13.1 亿加元新增资本投入**（1,310 million）。备注说明，连同已有预算及外部投入，项目总额约 **18 亿加元**；新增额度与项目总额不是同一个数字。文件也列有收入、医疗、住房、托儿及交通等测算，可与[完整竞选计划][provincial-ndp-plan]一起阅读。
 
-## 省选：近期民调（全省支持度） {#provincial-polls}
+## 省选：党领电视辩论（已结束，可回放） {#provincial-leaders-debate}
 
-- **Innovative Research，2026-10-20 发布**：调查日期 **10 月 15–19 日**，网上调查实际样本 **1,154 人**，加权至 1,000 人。在已决定投票者中，**卑诗保守党43%、BC NDP 38%**。这是党领辩论之后的调查。[原始发布及方法说明][provincial-poll-innovative]。
-- **Léger，2026-10-14 发布**：调查日期 **10 月 9–12 日**，网上调查 **1,000 名卑诗成年居民**。在已决定投票者中，**卑诗保守党42%、BC NDP 40%**。这是辩论之前的调查，作为较早参照保留。[原始发布及方法说明][provincial-poll-leger]。
+**10 月 14 日的辩论已结束，可观看 [Global 提供的完整录像][provincial-debate-replay]。** 以下保留卑诗广播机构联合体（BC Broadcast Consortium）公布的该场安排。[主办方公告][provincial-debate-announcement]。
 
-两项调查来自不同机构、不同时间，不能直接把差距相减当成选情变化幅度，也不能单凭前后差异断言辩论造成了变化。**这些是全省支持度，不是本拿比北或其他单一选区的预测，也不等于席位或胜选概率。**
+- **时间**：**2026-10-14（周三）18:15–20:00**，本拿比当地时间（PDT，UTC−7）。
+- **参加者**：David Eby（BC NDP）、Lorne Doerkson（卑诗保守党）、Emily Lowan（卑诗绿党）。公布的本场参加名单不包括 OneBC 和 CentreBC 党领。
+- **主持人**：Shachi Kurl，Angus Reid Institute 总裁。
+- **原播出渠道**：CBC BC、Global BC、CTV Vancouver、Citytv、CHEK、CPAC；历史播出安排见 [Global BC 的说明][provincial-debate-global]。现在收看请使用[完整回放入口][provincial-debate-replay]。
+
+这是省级党领辩论，讨论全省议题；本拿比各选区的省议员候选人及市选候选人不因此同台参加。安排依据主办方 **2026-10-06** 公告；完整回放于 **2026-10-20（本拿比时间）** 核对。
+
+## 省选：10 月 14 日本拿比候选人见面会（历史活动） {#provincial-candidates-meet-greet}
+
+以下保留 Burnaby Board of Trade（本拿比商会）公布的 **2026-10-14 Provincial Edition: All Candidates Meet & Greet** 历史活动安排。活动邀请本拿比相关省选选区的候选人介绍政策重点、回答问题，并与商界交流。[主办方活动页][provincial-bbot-meeting]。
+
+- **时间**：**2026-10-14（周三）15:30–17:30**，本拿比当地时间（PDT）。这是主办方标注的**调整后时间**，以便衔接当晚的党领辩论。
+- **地点**：**Element Vancouver Metrotown**，**5988 Willingdon Ave, Burnaby**。
+- **参加范围及费用**：**仅限 Burnaby Board of Trade 会员，会员免费**。
+- **活动形式**：候选人介绍、问答及见面交流，关注省级政策、经济及本地商业议题。候选人由商会直接邀请，活动页说明出席信息会随确认更新。
+- **活动咨询**：Sarah Rainey，电子邮件 [sarah@bbot.ca](mailto:sarah@bbot.ca)；参加安排请以[主办方活动页][provincial-bbot-meeting]为准。
+
+以上信息于 **2026-10-14** 核对。当晚 **18:15–20:00** 的[省选党领电视辩论](#provincial-leaders-debate)是另一场活动，可由该链接查看安排及完整回放。
+
+## 两场选举与关键日期 {#election-dates}
+
+- **本拿比市选（已结束）**：选出 1 名市长、8 名市议员、7 名学务委员。下列为当时安排，各职位最多分别选择 1、8、7 人，可跨党派选择。
+  - 一般投票日：**2026-10-17**。
+  - 提前投票日：**2026-10-03、2026-10-07、2026-10-10**。
+  - 现场投票时间：当地时间 08:00–20:00；可使用本拿比任一开放的市选投票站。
+  - 候选人数：市长 **6 人**、市议员 **42 人**、学务委员 **16 人**。
+- **卑诗省选**：每名选民选择自己所属省选选区的 1 名省议员候选人。
+  - 最终投票日：**2026-10-24**。
+  - 提前投票期：**2026-10-16 至2026-10-21，已结束**。
+  - 提前投票时间为当地时间 08:00–20:00；最终投票日为太平洋时间 08:00–20:00。
+  - 本拿比相关 **5 个选区，共 18 名候选人**；候选人提名已于 2026-10-03 13:00 截止。
+
+日期、地点及资格以[本拿比市选选民指南][municipal-voters]和[Elections BC 省选指南][provincial-election]为准。省选选区可通过[官方选区查询][district-lookup]核对；按住址查省选投票站请使用 [Where to Vote 官方地图][provincial-map]。**10月17日的市选已结束；10月24日是省选最终投票日，须使用省选地点，不能沿用市选站点名单。**
+
+## 市选：结果查询与开票报道（历史资料） {#municipal-results}
+
+本拿比市选已于10月17日结束。以下及后续市选候选人、活动与投票地点内容作为历史资料保留；最新结果请看[市府官方结果页][municipal-results-official]，跨市分析另见[卑诗市选结果与政策倾向](bc-municipal-election-results-2026.md)。市府当时公布的安排是在 **10月17日20:00后**逐步公布初步结果，正式结果最迟于10月21日公布。
+
+- **[本拿比市府官方选举结果页][municipal-results-official]**：优先查看本次市选的初步开票进度及最终正式结果。开票前页面可能仍主要显示往届结果，请核对选举年份为 **2026**。
+- **[CivicInfo BC／LocalElections.ca 2026 开票汇总][municipal-results-civicinfo]**：在 **Lower Mainland** 栏目下查找 **Burnaby（City）**。该站汇集各地首席选务官上报的非正式结果，适合集中查看选举夜进展；更新速度取决于上报进度。
+- **[Freshet News 选举日报道及开票安排][municipal-results-freshet]**：媒体在 10 月 17 日的报道中确认，记者将在选举夜现场报道当地结果。后续开票消息及候选人反应可继续关注 [Freshet News 首页][freshet-home]。
+
+开票汇总及媒体报道可作为补充入口，目前没有确认它们会比市府更快。初步票数及媒体报道应与正式结果区分；出现差异时，以市府公布的结果为准。
 
 ## 市选：候选人交流活动与访谈录音 {#municipal-events-and-audio}
 
@@ -152,6 +368,8 @@ toc-depth: 3
 CJSF 已将 **David Xie** 的访谈标注为“已不再参选市议员”（No longer running for City Council）；此处保留该录音作为历史材料。访谈反映录制时的观点和身份，不能单凭旧录音判断当前参选状态。
 
 ## 市政党团及大致政策位置 {#municipal-parties}
+
+候选人使用官方英文姓名，便于与选票核对。下文的“中左”“中右”“社会保守”等是依据公开政纲作出的分析性概括，并非选举机构的官方标签。同一档内部没有精确排名；独立候选人的资料不足时保留不确定性。反对社区增密、支持治安或强调财政问责，单独一项都不足以确定完整的左右立场。
 
 从较右到较左，可大致理解为 **Restore Burnaby Alliance → Burnaby First／New Burnaby → BCA／Burnaby Green Party**。斜线两边政策重叠，不代表可作精确先后排名。
 
@@ -338,56 +556,7 @@ Burnaby First 此次没有学务委员候选人。
 - **独立候选人**
   - **市长**：Sabina Hsu。
 
-## 省选：本拿比相关选区候选人 {#provincial-candidates}
-
-以下依据 **2026-10-20 晚（本拿比时间）** 重新核对的 [Elections BC 最终候选人名单][provincial-list]和[官方 CSV 名册][provincial-csv]，共 **5 个选区、18 名仍参选的候选人**，不计已退选者。各区按官方名单顺序列出姓名及党派；排序不代表政策位置。此处没有逐一评估个人省选政纲，不沿用市政党团的左右分类。
-
-与本页 **2026-10-15** 核对的版本相比，这 18 人的姓名、所属选区和党派均无新增变更。**Simon Chandler 仍代表卑诗保守党，Jenny Yamagata 仍代表 OneBC**。继续保留 [Greg DePaco 的正式退选说明][provincial-depaco-withdrawal]及选票上仍有其姓名的提醒，见下方 Burnaby-New Westminster 一节。
-
-此前相较本页 2026-10-06 版本的变化仍保留：本拿比北补入 **Jenny Yamagata — OneBC**，该区由 3 人更正为 4 人。[Elections BC 候选人更新公告][provincial-candidate-update]说明，她的省选提名经复核获接受，并以 OneBC 身份加入正式名单。
-
-[2026-10-14 全省候选人变更公告][provincial-candidate-update-oct14]另确认 **Gerry Lenoski（New Westminster-Coquitlam）**及 **Frederick Thiele（North Vancouver-Seymour）**退选，两人的退选通知均于 10 月 13 日被接受。这两个选区不属于本页覆盖的五区，不改变本页的 18 人总数。
-
-### Burnaby Centre｜本拿比中（BNC，4 人） {#burnaby-centre本拿比中}
-
-- **Joshua Domnich — 卑诗保守党（Conservative Party）**
-- **Vikas Gautam — CentreBC**
-- **Anne Kang — 卑诗新民主党（BC NDP）**
-- **Shila Taheri — 卑诗绿党（BC Green Party）**
-
-### Burnaby East｜本拿比东（BNE，4 人） {#burnaby-east本拿比东}
-
-- **Rohini Reah Arora — 卑诗新民主党（BC NDP）**
-- **De Ding — OneBC**
-- **Javad Shushtarian — 卑诗绿党（BC Green Party）**
-- **Peter Si — 卑诗保守党（Conservative Party）**
-
-### Burnaby North｜本拿比北（BNO，4 人） {#burnaby-north本拿比北}
-
-- **Simon Chandler — 卑诗保守党（Conservative Party）**
-- **Maddy Kennedy-Parrott — 卑诗绿党（BC Green Party）**
-- **Janet Routledge — 卑诗新民主党（BC NDP）**
-- **Jenny Yamagata — OneBC**
-
-### Burnaby South-Metrotown｜本拿比南—Metrotown（BNS，4 人） {#burnaby-south-metrotown本拿比南metrotown}
-
-- **Paul Choi — 卑诗新民主党（BC NDP）**
-- **Bryan Fockler — 卑诗绿党（BC Green Party）**
-- **Andrew Rose — OneBC**
-- **David Xie — 卑诗保守党（Conservative Party）**
-
-### Burnaby-New Westminster｜本拿比—新西敏（BNN，2 人） {#burnaby-new-westminster本拿比新西敏}
-
-- **Raj Chouhan — 卑诗新民主党（BC NDP）**
-- **Joe Latam — 卑诗保守党（Conservative Party）**
-
-**已退选：Greg DePaco（卑诗绿党）。** Elections BC 于 **2026-10-10** 发布公告，确认其退选通知已于 **2026-10-09** 被接受。本页将他单独记为已退选，不计入该区上列 2 人及五区合计 18 人。
-
-**Greg DePaco 的姓名仍会出现在选票上。** 官方说明，选票自 10 月 4 日开始印制，公告时已接近完成；投票站工作人员会向选民说明他已退选，并张贴退选告示。[Elections BC 退选公告][provincial-depaco-withdrawal]。
-
-此前市选及省选两份候选人名册中同时出现的姓名包括：**David Xie**（市议员候选人：New Burnaby；省议员候选人：卑诗保守党）和 **Jenny Yamagata**（学务委员候选人：独立；省议员候选人：OneBC）。这里记录的是各场选举的参选身份，不表示当选或在任；市选和省选的职位、党派应分别记录。
-
-## 市选：投票地点 {#municipal-voting-locations}
+## 市选：投票地点与证件（历史资料） {#municipal-voting-locations}
 
 市选没有按住址指定的投票站，合资格选民可到**本拿比任一当日开放的市选站点**投票；以下各站开放时间均为 **08:00–20:00（本拿比当地时间）**。地点、入口、无障碍设施及投票日预计等候时间可查[市府互动地图][municipal-map]；另有[可打印地点地图（PDF）][municipal-map-pdf]。[市府选民指南][municipal-voters]。
 
@@ -451,148 +620,6 @@ Burnaby First 此次没有学务委员候选人。
 
 </details>
 
-## 省选：投票地点与选区办公室 {#provincial-voting-locations}
-
-[Where to Vote 官方地图][provincial-map]已可按住址查询选区办公室、提前投票站和最终投票日站点。下表按官方选区归组，**投票仍是选择自己居住选区的候选人**；前往其他选区的投票站不会改变自己的选区。[官方地点说明][provincial-where]。
-
-### 提前投票：2026-10-16 至 2026-10-21
-
-可到**全省任一开放的省选提前投票站**投票，不需要特别理由；开放时间均为 **08:00–20:00（当地时间）**，所有提前投票站均可供轮椅使用者进入。以下为本拿比相关 5 个选区在整个提前投票期的 **11 站**，本次已按 **2026-10-19** 版[官方提前投票地点 PDF][provincial-advance-pdf]第 1–2 页逐项复核，名称、地址及开放日期与原表一致。**10 月 21 日是最后一天提前投票**，各站并非每天均开放。
-
-| 选区 | 提前投票地点 | 地址及城市 | 开放日期（2026 年） |
-| --- | --- | --- | --- |
-| 本拿比中（BNC） | Deer Lake United Church | 5135 Sperling Ave（Burnaby） | 10 月 16–21 日 |
-| 本拿比中（BNC） | Wesburn Comm Centre | 4781 Parkwood Ave（Burnaby） | 10 月 16–21 日 |
-| 本拿比东（BNE） | Salvation Army Cariboo Hill Temple | 7195 Cariboo Rd（Burnaby） | 10 月 16–21 日 |
-| 本拿比东（BNE） | Swedish Canadian Manor | 1812 Duthie Ave（Burnaby） | 10 月 16–21 日 |
-| 本拿比北（BNO） | Capitol Hill Comm Hall | 361 Howard Ave（Burnaby） | 10 月 16–21 日 |
-| 本拿比北（BNO） | Executive Inn | 4201 Lougheed Hwy（Burnaby） | 10 月 16–18 日 |
-| 本拿比北（BNO） | Overlynn Mansion | 401 N Esmond Ave（Burnaby） | 10 月 16–21 日 |
-| 本拿比南—Metrotown（BNS） | Poppy Residences - Legion 83 | 5291 Grimmer St（Burnaby） | 10 月 16–21 日 |
-| 本拿比南—Metrotown（BNS） | South Burnaby Lawn Bowls Club | 4000 Kingsway（Burnaby） | 10 月 16–21 日 |
-| 本拿比—新西敏（BNN） | New Westminster Lawn Bowling Club | 710 Eighth St（New Westminster） | 10 月 16 日、18–21 日 |
-| 本拿比—新西敏（BNN） | Royal Palace Banquet Hall | 7845 Edmonds St（Burnaby） | 10 月 17–21 日 |
-
-特别留意：**Executive Inn 的提前投票已于 10 月 18 日结束，10 月 21 日不开放提前投票；它仍列为 10 月 24 日最终投票日站点。** 原提前投票安排中，Royal Palace Banquet Hall 从 10 月 17 日开始，New Westminster Lawn Bowling Club 在 10 月 17 日不开放；这两站均列有 10 月 21 日开放安排。出发前仍应查看[官方地图][provincial-map]是否有变更。
-
-### 最终投票日：2026-10-24
-
-开放时间为 **08:00–20:00（太平洋时间）**。选民卡和[官方地图][provincial-map]会列出按住址指定的站点；Elections BC 也明确说明，如其他省选投票站更方便，可以在那里投票。[官方地点说明][provincial-where]。
-
-以下列出本拿比相关 5 个选区的 **52 站**，本次已按 **2026-10-19** 版[最终投票日地点 PDF][provincial-final-pdf]第 4–6 页复核，名称及地址与原表一致。提前投票站、最终投票日站点及市选站点须分别核对，不能只凭场馆名称推定开放日期。
-
-<details>
-<summary>Burnaby Centre｜本拿比中（BNC）：10 站</summary>
-
-| 最终投票日地点 | 地址及城市 |
-| --- | --- |
-| Buckingham Elem School | 6066 Buckingham Ave（Burnaby） |
-| Chaffey-Burke Elem School | 4404 Sardis St（Burnaby） |
-| Christine Sinclair Comm Centre | 3713 Kensington Ave（Burnaby） |
-| Jubilee United Church | 6000 Sussex Ave（Burnaby） |
-| Moscrop Sec School | 4433 Moscrop St（Burnaby） |
-| Vancouver Korean Full Gospel Church | 3905 Norland Ave（Burnaby） |
-| Windsor Elem School | 6166 Imperial St（Burnaby） |
-| École Brantford Elem School | 6512 Brantford Ave（Burnaby） |
-| École Cascade Heights Elem School | 4343 Smith Ave（Burnaby） |
-| École Marlborough Elem School - West Gym | 6060 Marlborough Ave（Burnaby） |
-
-</details>
-
-<details>
-<summary>Burnaby East｜本拿比东（BNE）：12 站</summary>
-
-| 最终投票日地点 | 地址及城市 |
-| --- | --- |
-| Cariboo Hill Sec School | 8580 16th Ave（Burnaby） |
-| Forest Grove Elem School | 8525 Forest Grove Dr（Burnaby） |
-| Lochdale Comm Elem School | 6990 Aubrey St（Burnaby） |
-| Montecito Elem School | 2176 Duthie Ave（Burnaby） |
-| New Life Comm Church | 8765 Government St（Burnaby） |
-| Salvation Army Cariboo Hill Temple | 7195 Cariboo Rd（Burnaby） |
-| Seaforth Elem School | 7881 Government Rd（Burnaby） |
-| Sperling Elem School | 2200 Sperling Ave（Burnaby） |
-| St. Stephen The Martyr Anglican Church | 9887 Cameron St（Burnaby） |
-| Stoney Creek Elem School | 2740 Beaverbrook Cres（Burnaby） |
-| University Highlands Elem School | 9388 Tower Rd（Burnaby） |
-| Westridge Elem School | 510 Duncan Ave（Burnaby） |
-
-</details>
-
-<details>
-<summary>Burnaby North｜本拿比北（BNO）：8 站</summary>
-
-| 最终投票日地点 | 地址及城市 |
-| --- | --- |
-| Aubrey Elem School | 1075 Stratford Ave（Burnaby） |
-| Capitol Hill Comm Hall | 361 Howard Ave（Burnaby） |
-| Executive Inn | 4201 Lougheed Hwy（Burnaby） |
-| Gilmore Comm School | 50 Gilmore Ave（Burnaby） |
-| Kitchener Elem School | 1351 Gilmore Ave（Burnaby） |
-| Overlynn Mansion | 401 N Esmond Ave（Burnaby） |
-| Parkcrest Elem School | 6055 Halifax St（Burnaby） |
-| Rosser Elem School | 4375 Pandora St（Burnaby） |
-
-</details>
-
-<details>
-<summary>Burnaby South-Metrotown｜本拿比南—Metrotown（BNS）：12 站</summary>
-
-| 最终投票日地点 | 地址及城市 |
-| --- | --- |
-| Alan Emmott Centre | 6650 Southoaks Cres（Burnaby） |
-| Bob Prittie Metrotown Library | 6100 Willingdon Ave（Burnaby） |
-| Bonsor Rec Complex | 6550 Bonsor Ave（Burnaby） |
-| Clinton Elem School | 5858 Clinton St（Burnaby） |
-| Glenwood Elem School | 5787 Marine Dr（Burnaby） |
-| Maywood Elem School | 4567 Imperial St（Burnaby） |
-| Nelson Elem School | 4850 Irmin St（Burnaby） |
-| Poppy Residences - Legion 83 | 5291 Grimmer St（Burnaby） |
-| South Burnaby Lawn Bowls Club | 4000 Kingsway（Burnaby） |
-| South Slope Elem School | 4446 Watling St（Burnaby） |
-| Suncrest Elem School | 3883 Rumble St（Burnaby） |
-| Taylor Park Elem School | 7590 Mission Ave（Burnaby） |
-
-</details>
-
-<details>
-<summary>Burnaby-New Westminster｜本拿比—新西敏（BNN）：10 站</summary>
-
-| 最终投票日地点 | 地址及城市 |
-| --- | --- |
-| Byrne Creek Comm School | 7777 18th St（Burnaby） |
-| Edmonds Comm School | 7651 18th Ave（Burnaby） |
-| F.W. Howay Elem School | 91 Courtney Cres（New Westminster） |
-| Lord Kelvin Elem School | 1010 Hamilton St（New Westminster） |
-| New Westminster Lawn Bowling Club | 710 Eighth St（New Westminster） |
-| Royal Palace Banquet Hall | 7845 Edmonds St（Burnaby） |
-| Second St Comm School | 7502 2nd St（Burnaby） |
-| Twelfth Ave Elem School | 7622 12th Ave（Burnaby） |
-| École Herbert Spencer Elem School | 605 Second St（New Westminster） |
-| École Lord Tweedsmuir Elem School | 1714 Eighth Ave（New Westminster） |
-
-</details>
-
-### 选区办公室：投票服务至 10 月 24 日 16:00 {#provincial-district-offices}
-
-选民可到**任一已开放的省选选区办公室**投票。下列 5 个办公室在[官方名单][provincial-offices-pdf]中均标为 Open；其中 Burnaby-New Westminster 办公室位于新西敏。
-
-| 选区办公室 | 地址及城市 | 电话 |
-| --- | --- | --- |
-| 本拿比中（BNC） | 600-4789 Kingsway（Burnaby） | 778-572-4223 |
-| 本拿比东（BNE） | 8500 Baxter Pl（Burnaby） | 778-572-4230 |
-| 本拿比北（BNO） | 110-2250 Boundary Rd（Burnaby） | 778-572-4244 |
-| 本拿比南—Metrotown（BNS） | 7123 Curragh Ave（Burnaby） | 778-572-4251 |
-| 本拿比—新西敏（BNN） | 500-628 Sixth Ave（New Westminster） | 778-572-4237 |
-
-通常开放时间为周一至周五 **09:00–17:00**、周六 **10:00–16:00**，周日及法定假日关闭。省选提前投票期间（10 月 16–21 日）为 **08:00–20:00**；**10 月 22–23 日仍可在通常的 09:00–17:00 办公时间投票**。办公室投票服务在 **2026-10-24 16:00（太平洋时间）截止**，早于当天普通投票站的 20:00。[官方投票方式][provincial-voting]、[办公室名单][provincial-offices-pdf]。
-
-**省选邮寄选票的网上及电话申请已截止，最后申请日为 2026-10-18。** 已领取的选票包须在 **2026-10-24 20:00（太平洋时间）前送达** Elections BC；可交到开放的省选选区办公室或投票站，须留意各地点开放时间。这是收件期限，不是寄件期限。[官方邮寄投票说明][provincial-voting]。
-
-## 现场投票与证件备忘 {#voting-id}
-
-护照和选民卡都不是必需文件。符合资格但尚未登记的选民，可以在投票现场办理登记。省选和市选的证件要求不同；以下是常见组合，并非所有可接受文件的完整清单。
-
 ### 本拿比市选
 
 - 居民选民须为加拿大公民，在一般投票日年满 18 岁、登记前已连续在卑诗省居住至少六个月，并居住在本拿比，且没有法律规定的投票资格限制。
@@ -603,28 +630,44 @@ Burnaby First 此次没有学务委员候选人。
 
 接受的证件、资格与登记步骤见[本拿比官方选民指南][municipal-voters]。
 
-### 卑诗省选
+## 历次更新记录 {#update-history}
 
-- 本次省选要求加拿大公民身份、在 2026-10-24 年满 18 岁，并自 2026-04-23 起居住在卑诗省。[官方资格说明][provincial-eligibility]。
-- 一张符合要求、载有姓名和现住址的 **BC 驾照、BCID 或带照片的 BC Services Card** 即可。
-- 或带 **两份均载有本人姓名的证件或文件，至少一份有现住址**，例如公民纸（Citizenship Certificate）加银行对账单，或信用卡加水电账单。
-- 省选接受电子账单和纸质文件的电子扫描件；没有合适证件时另有符合条件的担保人程序。
+<details>
+<summary>展开历次更新记录</summary>
 
-详细规则见[省选证件规定][provincial-id]；现场登记说明见[Elections BC 选举公告][provincial-writs]。
+**2026-10-24 更新**：核对至本拿比10月23日晚，优先展示10月24日投票与计票指南；补清办公室16:00投票截止、20:00邮寄选票收件截止，更新南—Metrotown办公室电话，并补入10月23日民调及11月6–10日计划最终计票安排。
+
+**2026-10-21 更新**：**10 月 21 日是省选最后一天提前投票，10 月 24 日为最终投票日；邮寄选票的网上及电话申请已截止。** 新增[最后投票安排](#provincial-final-week)、[党领辩论完整回放](#provincial-leaders-debate)、[政纲财政测算](#provincial-platform-costings)及[近期民调](#provincial-polls)。本拿比五区仍为 **18 名候选人**；按 **10 月 19 日版**官方 PDF 复核，原列 **11 个提前投票地点、52 个最终投票日地点**的名称及地址均未变。
+
+**2026-10-18 更新**：新增独立专题[卑诗市选结果与政策倾向](bc-municipal-election-results-2026.md)，逐市比较选前与本届当选市长、议会及学区，并分析选民支持变化和分票可能；[本拿比结果与倾向](bc-municipal-election-results-2026.md#burnaby)可直接查看。该专题使用初步结果，每个城市附数据来源。
+
+**2026-10-17 更新**：新增[市选结果查询与开票报道](#municipal-results)，包括市府官方结果、CivicInfo BC 开票汇总及 Freshet News 报道入口。
+
+**2026-10-15 更新**：本拿比相关五区的官方现行名单仍为 **18 人**，姓名、选区及党派与上一版一致。补充 **Greg DePaco 已正式退选，但姓名仍会印在选票上**的官方说明，详见[本拿比—新西敏选区](#burnaby-new-westminster本拿比新西敏)。
+
+**2026-10-14 更新**：补充 [10 月 14 日 15:30–17:30 省选候选人见面会](#provincial-candidates-meet-greet)的地点、活动形式及会员参加条件，并将 [10 月 13 日 SFU 市选候选人见面会](#municipal-sfu-mixer)标注为已结束。
+
+**2026-10-13 更新**：补充[省选党领电视辩论](#provincial-leaders-debate)的时间、参加者及收看渠道，以及 [10 月 13 日 SFU 市选候选人见面会（已结束）](#municipal-sfu-mixer)、[此前的候选人交流活动和 CJSF 访谈录音](#municipal-events-and-audio)。
+
+**2026-10-10 更新**：省选补入本拿比北 **Jenny Yamagata（OneBC）**；当日核对的官方网页及 CSV 已不再列出 Greg DePaco，五区现列 **18 名候选人**。新增[市选投票地点](#municipal-voting-locations)、[省选投票地点及选区办公室](#provincial-voting-locations)，包括地址、开放日期和官方地图。
+
+</details>
 
 ## 资料来源与更新 {#sources}
 
 - **市选结果查询**：依据[市府官方结果页][municipal-results-official]、[CivicInfo BC 开票汇总][municipal-results-civicinfo]及 [Freshet News 选举日报道][municipal-results-freshet]，于 **2026-10-17** 核对。本页提供查询入口，最新票数及结果以对应发布页面为准。
-- **姓名、党派和职位**：市选依据[本拿比官方候选人目录][municipal-candidates]，核对日期为 **2026-10-10**，列有市长 6 人、市议员 42 人、学务委员 16 人。省选依据[Elections BC 最终候选人名单][provincial-list]及 [CSV 名册][provincial-csv]，于 **2026-10-20 晚（本拿比时间）**重新核对，5 个相关选区现列18人，与10月15日版本姓名及党派一致。
+- **姓名、党派和职位**：市选依据[本拿比官方候选人目录][municipal-candidates]，保留 **2026-10-10** 核对的历史资料。省选依据[Elections BC 最终候选人名单][provincial-list]及[CSV 名册][provincial-csv]，于 **2026-10-23 晚（本拿比时间）**重新核对，5个相关选区仍为18人，与10月20日版本姓名及党派一致。
 - **省选退选状态**：于 **2026-10-15** 核对 [Greg DePaco 退选公告][provincial-depaco-withdrawal]及 [10 月 14 日全省候选人变更公告][provincial-candidate-update-oct14]；退选者的姓名可能仍留在已印制的选票上，须留意官方退选说明。
 - **政策主张**：来自候选人提交的官方简介、党团及个人竞选网站。它们描述的是竞选承诺，不表示已通过或已实现。
 - **Vincent Tong 联系方式**：据其竞选宣传单转录，包括电子邮件、竞选网站、Facebook 和 Instagram；整理日期为 **2026-10-14**。
 - **Restore Burnaby 联系方式**：官网和邮箱据竞选宣传单转录，并与[官网][restore-site]核对；电话、办公室地址来自官网，Instagram 账号来自[官网的 Instagram 介绍页][restore-instagram-source]。核对日期为 **2026-10-14**。
 - **左右定位**：本页对公开政策的概括。市政、教育、税收及城市规划存在不同维度；同党成员之间也可能有差别。
-- **投票安排**：市选保留 **2026-10-10** 核对的资料。省选本次按 **2026-10-19** 版[提前投票地点 PDF][provincial-advance-pdf]及[最终投票日地点 PDF][provincial-final-pdf]重新比对，11站、52站的名称及地址均与原表一致，提前投票开放日期也无变更；按[官方投票方式][provincial-voting]补充最后投票期限及邮寄申请已截止的状态。出发前仍应查询[官方地图][provincial-map]。
+- **投票地点及电话**：省选最终投票地点按 **2026-10-22** 版[官方 PDF][provincial-final-pdf]重新比对，52站的名称及地址与原表一致；本次[临时变更公告][provincial-place-updates]未列本拿比站点变更。五个选区办公室地址未变，南—Metrotown电话按[最新办公室名单][provincial-offices-pdf]更新为604-830-5423。提前投票表保留10月19日版PDF的历史安排，市选地点保留10月10日核对的历史资料。
+- **投票及收件期限**：依据[官方投票方式][provincial-voting]与[10月23日最新公告][provincial-final-day-notice]，区分办公室现场投票16:00截止与已填邮寄选票包20:00收件截止。
+- **省选计票**：依据[官方10月23日公告][provincial-final-day-notice]补入选举夜计票范围及[官方省选结果入口][provincial-results-official]；最终计票计划11月6–10日来自[官方日程][provincial-election]。
 - **电视辩论**：时间及参加者依据[卑诗广播机构联合体公告][provincial-debate-announcement]；于 **2026-10-20（本拿比时间）**核对[完整录像入口][provincial-debate-replay]，标注辩论已结束。
 - **省选政纲与财政测算**：依据[保守党完整政纲财政附录][provincial-conservative-plan]、[NDP财政测算表][provincial-ndp-costing]及[竞选计划][provincial-ndp-plan]；预测赤字与项目新增额度分别注明单位，不把竞选承诺写成已获批预算。
-- **省选民调**：依据 [Innovative Research 10月20日原始发布][provincial-poll-innovative]和 [Léger 10月14日原始发布][provincial-poll-leger]，分别列出调查日期、样本和全省支持度；不把跨机构差异解释为本拿比单一选区的趋势。
+- **省选民调**：新增 [Ipsos][provincial-poll-ipsos-final]及 [Research Co.][provincial-poll-researchco-final]在10月23日发布的调查；保留 [Innovative Research 10月20日发布][provincial-poll-innovative]及 [Léger 10月14日发布][provincial-poll-leger]作历史参照。分别注明样本和调查日期，不把全省数据当作本拿比单一选区预测。
 - **省选候选人见面会**：依据 [Burnaby Board of Trade 主办方活动页][provincial-bbot-meeting]，于 **2026-10-14** 核对，采用调整后的 **15:30–17:30** 时段，并保留仅限会员的参加条件。
 - **交流活动及录音**：依据 [SFSS 历史活动页][municipal-sfu-mixer-event]、[Freshet News 现场报道][municipal-interagency-meeting]、[Burnaby Board of Trade 活动页][municipal-bbot-meeting]及 [CJSF 官方访谈页][cjsf-candidate-interviews]，于 **2026-10-13** 核对；后续新增访谈可在 CJSF 汇总页查阅。
 
@@ -676,6 +719,11 @@ Burnaby First 此次没有学务委员候选人。
 [provincial-ndp-plan]: https://www.bcndp.ca/plan
 [provincial-poll-innovative]: https://innovativeresearch.ca/bc-conservatives-lead-as-election-enters-final-week/
 [provincial-poll-leger]: https://leger360.com/bc-election-2026-poll-october/
+[provincial-poll-ipsos-final]: https://www.ipsos.com/en-ca/bc-conservatives-knocking-door-majority-government
+[provincial-poll-researchco-final]: https://researchco.ca/2026/10/23/bcpoli-oct23/
+[provincial-final-day-notice]: https://elections.bc.ca/news/final-voting-day-is-saturday-october-24/
+[provincial-results-official]: https://results.elections.bc.ca
+[provincial-place-updates]: https://elections.bc.ca/2026-provincial-election/where-to-vote/voting-place-updates/
 [provincial-list]: https://elections.bc.ca/2026-provincial-election/candidate-list/
 [provincial-candidate-update]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update/
 [provincial-depaco-withdrawal]: https://elections.bc.ca/news/2026-provincial-general-election-candidates-update-3/
