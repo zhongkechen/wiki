@@ -19,6 +19,7 @@ comments: false
 
 - [2026 本拿比选举指南](wiki/burnaby-elections-2026.md)：市选与卑诗省选候选人、党派、政策定位及投票备忘
 - [2026 卑诗市选结果与政策倾向](wiki/bc-municipal-election-results-2026.md)：大温及主要城市的新旧市长、议会与学区对照，选民支持变化及分票分析
+- [2026 卑诗省选结果与选情趋势](wiki/bc-provincial-election-results-2026.md)：全省93区初步结果、2024年对照、本拿比五区及地区、参与率和分票趋势
 
 ## 系统相关
 
