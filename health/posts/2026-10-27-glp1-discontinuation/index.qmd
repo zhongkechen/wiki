@@ -1,8 +1,8 @@
 ---
-title: "为什么将近80%的患者在悄悄停用GLP-1药物"
+title: "减重药为什么吃不长"
 description: 整理 Jason Fung 关于患者停用这类药物、食欲变化和体重平台期的讲解。
 date: "2026-10-27T12:51:50+08:00"
-date-modified: "2026-10-30T09:40:02+08:00"
+date-modified: "2026-10-30T09:50:27+08:00"
 categories:
   - GLP1
   - 减重
@@ -88,6 +88,6 @@ Jason Fung是加拿大肾脏科医生，在多伦多大学完成医学院教育�
 ## 参考信息
 
 - [小红书原文](https://xhslink.com/o/6dcceUVKYCH)。
-- [英文原片](https://www.youtube.com/watch?v=XhrZcZZ3BQM)，Jason Fung，2026-08-19，14分14秒。
+- [英文原片：Why almost 80% of my patients are quietly quitting Ozempic](https://www.youtube.com/watch?v=XhrZcZZ3BQM)，Jason Fung，2026-08-19，14分14秒。
 - [Jason Fung官网履历](https://www.doctorjasonfung.com/about)，用于核实医学教育、肾脏科培训与行医经历。
 - [来源范围、核对记录与时间索引](https://github.com/zhongkechen/obsidian-notes/blob/main/projects/health-blog/notes/2026-10-22%20Ozempic%E5%81%9C%E8%8D%AF%E7%9A%84%E4%B8%89%E4%B8%AA%E9%97%AE%E9%A2%98/index.md)。
