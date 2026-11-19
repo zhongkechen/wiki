@@ -9,6 +9,8 @@ categories:
   - 团队协作
 ---
 
+[技术博客](../../index.qmd) · [English](../../en/posts/2026-09-18-ai-code-review-intent/index.qmd){lang="en" hreflang="en" rel="alternate"}
+
 代码生成得越快，关于“为什么要这样改”的讨论，就越应该提前。
 
 Codex 联合创建者 Tibo Sottiaux 在 The Pragmatic Engineer 的访谈中，提出了一个值得思考的观点：Code Review 同时承担着检查正确性、交换知识和对齐意图的职责。AI 正在改变这些职责的分工。

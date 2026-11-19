@@ -9,6 +9,8 @@ categories:
   - 开发者体验
 ---
 
+[技术博客](../../index.qmd) · [English](../../en/posts/2026-09-19-ai-coding-skills-atrophy/index.qmd){lang="en" hreflang="en" rel="alternate"}
+
 一位开发者向 Syntax 播客提问：项目里 80%–90% 的代码都由 AI 生成，现在连一个 HTTP 请求都很难独立写出来了，该重新补基本功吗？
 
 这个问题，把 AI 编程带来的效率提升和能力焦虑放在了一起。

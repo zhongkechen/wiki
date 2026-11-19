@@ -1,0 +1,36 @@
+---
+title: Code Review in the AI Era Starts With Intent
+description: Reflections on automated review and how teams agree on the intent of a change, based on an interview with Codex co-creator Tibo Sottiaux.
+date: 2026-09-18
+categories:
+  - Software Engineering
+  - AI-Assisted Development
+  - Code Review
+  - Team Collaboration
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-09-18-ai-code-review-intent/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+The faster we can generate code, the earlier we should discuss why we want to make a change the way we do.
+
+In an interview with The Pragmatic Engineer, Codex co-creator Tibo Sottiaux described code review as a way to check correctness, share knowledge, and agree on intent. AI is changing how teams carry out those responsibilities.
+
+Sottiaux said OpenAI had added AI-powered security checks to its PR process and would block a merge if the checks flagged a security issue. Models can also follow dependencies to find discrepancies between documentation and implementation. Those discrepancies can take a person a long time to track down.
+
+He expects more correctness and security checks to become automated. Teams still need to work through a few questions.
+
+- What problem are we trying to solve?
+- Is this change worth making?
+- What should the system guarantee, and what trade-offs can we accept?
+
+Ideally, those discussions happen before anyone writes the code.
+
+PRs have often been the last checkpoint for requirements and design. The code is already written by the time people start asking whether the goal makes sense. With AI speeding up implementation, teams that wait until code review to agree on intent may find themselves cycling through rework faster too.
+
+Engineering teams can strengthen automated review and get clear about requirements, interface contracts, and acceptance criteria earlier.
+
+As code review evolves, the way teams collaborate needs to evolve with it.
+
+#CodeReview #SoftwareEngineering #AI #EngineeringLeadership
+
+[Building Codex with Tibo Sottiaux on The Pragmatic Engineer](https://newsletter.pragmaticengineer.com/p/building-codex-with-tibo-sottiaux)
