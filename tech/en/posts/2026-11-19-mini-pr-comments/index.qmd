@@ -1,0 +1,29 @@
+---
+title: "What If a PR Comment Were a Mini PR?"
+description: "A code review workflow where comments carry commits, run their own CI, and let teammates build on each other's changes."
+date: 2026-11-19
+categories:
+  - Software Engineering
+  - AI-Assisted Development
+  - Code Review
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-11-19-mini-pr-comments/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+Once a pull request is open, one person often keeps writing code while everyone else leaves comments. Someone spots a problem. Someone else knows how to fix it. Another reviewer wants to add a test. Turning all that feedback into code still falls to the PR author.
+
+Reviewers with permission to push can update the PR branch directly. As soon as they do, the version under review changes for everyone. The author might already be editing the same code, and other reviewers might still be looking at the previous version.
+
+What if a review comment that includes code were itself a mini PR? Reviewers could branch from the version they're reviewing and attach a set of commits to their comment, along with an explanation. **Each mini PR could run its own CI and accept other mini PRs targeting its branch.**
+
+Suppose I add an `--output-dir` option to a command-line tool. While reviewing my PR, Alice notices that a failed write can leave behind a partially written file. She fixes the problem on her own branch, adds a regression test, and posts the change as a mini PR in a comment on the original PR.
+
+Bob reviews Alice's proposal and spots a missing case. If the destination file already exists, a failed write should leave it intact. He opens a mini PR against Alice's proposal with a test for that case, and CI can check his change separately. If Alice accepts it, she can rerun CI on the combined changes. I can then merge Alice's proposal into the original PR branch, bringing in the fix and both reviewers' tests.
+
+If you already use AI to review code, this is close to what you do today. When you spot an issue worth raising, ask AI to draft a fix and a regression test on your branch. The main extra step is checking the generated diff and test. Once you're happy with the changes, post the commits with the explanation you would have written anyway. **Posting the comment creates a mini PR and kicks off its own CI run.**
+
+As the author of the original PR, you'd get a change you can try out as part of the feedback. You could keep working on your implementation while reviewers prepare their proposals, then merge the changes that fit the PR's goal and test them together.
+
+Within the same PR, the line between author and reviewer would blur, and the two could even trade roles. Working from the proposed changes and test results would help them refine an approach together and get from feedback to a verified change faster. The team could move implementation, tests, and documentation forward in parallel as part of the review. **One person can open a PR and the team can finish it together.**
+
+If GitHub or your code review tool supported this workflow, would you consider adopting it on your team?

@@ -1,0 +1,16 @@
+---
+title: Tech Blog
+comments: false
+description: Articles on software engineering, AI-assisted development, and team collaboration.
+listing:
+  contents: "/posts/**/*.qmd"
+  sort: "date desc"
+  type: default
+  categories: true
+  feed:
+    title: Tech Blog
+    language: en
+page-layout: full
+---
+
+[Subscribe via RSS](index.xml){.btn .btn-primary role="button"} [简体中文](../index.qmd){.btn .btn-outline-secondary lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
