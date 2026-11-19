@@ -9,6 +9,8 @@ categories:
   - 性能优化
 ---
 
+[技术博客](../../index.qmd) · [English](../../en/posts/2026-11-01-ai-hardware-efficiency/index.qmd){lang="en" hreflang="en" rel="alternate"}
+
 AI 时代，我们可能需要重新重视一项老本领：把硬件用好。
 
 几十年前，硬件资源紧张，程序员习惯了精打细算。

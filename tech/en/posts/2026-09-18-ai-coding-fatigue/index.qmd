@@ -1,0 +1,40 @@
+---
+title: AI Makes Coding Faster. Is the Work Any Easier?
+description: Reflections on the review and decision-making load of AI-assisted coding and how teams can adjust their workflow, based on a discussion on Syntax.
+date: 2026-09-18
+categories:
+  - Software Engineering
+  - AI-Assisted Development
+  - Code Review
+  - Developer Experience
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-09-18-ai-coding-fatigue/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+In episode 1039 of Syntax, a listener said he and his colleagues were producing more code with AI. His work increasingly felt like back-to-back PR reviews, and he found it exhausting.
+
+It reminded me that generating code is one part of delivering a change.
+
+When you implement a feature step by step, you build an understanding of the requirements, the data flow, and the boundaries of the change. When you receive AI-generated code, you may need to build that understanding afterward.
+
+For example, an export feature might come together quickly. Someone still has to check that it exports the right data, handles failures correctly, and follows existing interface contracts.
+
+Between answering questions, checking progress, and switching among several agents, the time saved during implementation can turn into more concentrated review and decision-making.
+
+Teams face the same problem. If changes come in for review faster than the team can get through them, the backlog keeps growing.
+
+The measure I care most about is how much time the team spends implementing, understanding, reviewing, and reworking a change from the initial request through delivery.
+
+A few adjustments are worth trying.
+
+- Give each change a clear purpose and a way to verify it. This makes it easier to review unfamiliar code in manageable pieces.
+- Agree up front on how to handle routine decisions. That leaves more attention for important trade-offs and cuts down on repeated confirmations.
+- Limit work in progress to what the team can review. Leave enough room to finish work that's already underway.
+
+For a small, familiar change, implementing it directly can be efficient. How much AI contributes can vary by task.
+
+What changes have made AI-assisted coding easier on your team?
+
+The discussion starts at 26:19 in [Syntax #1039](https://syntax.fm/1039).
+
+#AICoding #SoftwareEngineering #DeveloperExperience

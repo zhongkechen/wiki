@@ -9,6 +9,8 @@ categories:
   - 开发者体验
 ---
 
+[技术博客](../../index.qmd) · [English](../../en/posts/2026-09-21-remote-development-revisited/index.qmd){lang="en" hreflang="en" rel="alternate"}
+
 听 Syntax #1023 之前，我已经用 Codex 远程编程一段时间了。这期播客让我想起了十几年前在爱立信的远程开发经历。
 
 那时，那种方式曾被认为极其低效。如今，我自己又在使用类似的方式。这种熟悉感，让我想重新审视当年的判断。

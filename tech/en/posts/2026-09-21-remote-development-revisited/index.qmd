@@ -1,0 +1,44 @@
+---
+title: Rethinking Remote Development From Ericsson to Codex
+description: Revisiting the benefits, interaction costs, and rhythm of remote development, drawing on my experience at Ericsson, my work with Codex, and Syntax episode 1023.
+date: 2026-09-21
+categories:
+  - Software Engineering
+  - AI-Assisted Development
+  - Remote Development
+  - Developer Experience
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-09-21-remote-development-revisited/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+By the time I listened to Syntax #1023, I'd already been using Codex for remote development for a while. The episode reminded me of developing remotely at Ericsson more than a decade ago.
+
+Back then, the setup was considered extremely inefficient. Here I am using a similar setup again, and the familiarity made me want to revisit that judgment.
+
+The basic idea behind remote development is simple. Put the development environment and its workloads on another machine, then connect to it. That machine could be a cloud server or a Mac mini at home.
+
+The episode covered some practical benefits.
+
+- Close the laptop and remote tasks keep running.
+- Move background processes to another machine to reduce load and save battery on the laptop.
+- Switch devices and pick up with the same tasks.
+
+For me, the interesting change is the rhythm of working with the machine.
+
+When development depends on a steady stream of actions and immediate responses, latency and friction in a remote connection keep interrupting your train of thought. A tiny wait adds up when it happens hundreds of times.
+
+Coding tools like Codex add another rhythm. Describe a task, let the tool work, and come back to check the result and adjust course. For tasks that can run independently for a while, it becomes more valuable to have a development environment that stays online and is ready whenever you reconnect.
+
+Long builds and background jobs already existed more than a decade ago, and today's development still involves plenty of immediate interaction. The latency and friction of remote development still matter in the AI era.
+
+**How efficient an architecture is depends on how you actually work.**
+
+The episode made me look at my remote setup across the whole workflow. From assigning a task through checking, correcting, and accepting the result, how much time does it save, and what does it cost to maintain?
+
+That earlier experience is worth remembering, and today's setup is worth evaluating on its own terms.
+
+Do you remember what early remote development was like? Have AI coding tools changed how you think about it?
+
+[Listen to Syntax #1023](https://syntax.fm/1023)
+
+#RemoteDevelopment #Codex #DeveloperExperience

@@ -9,6 +9,8 @@ categories:
   - 开发者体验
 ---
 
+[技术博客](../../index.qmd) · [English](../../en/posts/2026-09-18-ai-coding-fatigue/index.qmd){lang="en" hreflang="en" rel="alternate"}
+
 Syntax 第 1039 期里，一位听众提到：使用 AI 后，自己和同事的代码产出都增加了，工作却越来越像连续审查 PR，让他感到疲惫。
 
 这个例子提醒我，生成代码只是交付过程中的一个环节。

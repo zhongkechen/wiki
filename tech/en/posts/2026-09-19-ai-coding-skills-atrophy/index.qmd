@@ -1,0 +1,56 @@
+---
+title: How Do You Keep Your Coding Skills Sharp When AI Writes the Code?
+description: Reflections on skill atrophy, active participation, and the understanding and judgment that developers need to keep practicing, based on Syntax episode 1031.
+date: 2026-09-19
+categories:
+  - Software Engineering
+  - AI-Assisted Development
+  - Developer Growth
+  - Developer Experience
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-09-19-ai-coding-skills-atrophy/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+A developer asked the Syntax hosts a question. AI was generating 80–90% of the code in his project, and he was finding it hard to write even an HTTP request on his own. Should he go back and practice the basics?
+
+That question captures both the productivity gains of AI-assisted coding and the anxiety about losing skills that can come with them.
+
+Scott Tolinski and Wes Bos raised several points in Syntax #1031 that got me thinking.
+
+**Scott's point was that skills need regular practice.**
+
+Those skills can fade when we stop practicing them ourselves and stop working through how an implementation fits together. Scott kept coming back to the idea of being an active participant.
+
+Even when AI writes the code, we still need to take part in the reasoning, understand how the solution came together, and judge the result.
+
+**Wes distinguished two kinds of skill loss that are easy to confuse.**
+
+One is forgetting syntax details, such as the order of the arguments to a `reduce` callback.
+
+The other is losing track of how a program works. How does a request move through the application? Where are APIs called? How do the modules work together? Where might performance problems arise?
+
+Tools can help us look up syntax. Understanding how the program works is central to solving problems.
+
+Wes is particularly concerned that AI makes it easy to move a project forward while skipping the code. Over time, we may lose the habit of asking why it works the way it does. Accepting the first result can take the place of researching, weighing options, and learning along the way.
+
+**The way we divide our attention can make the problem worse.**
+
+Scott said that while waiting for AI to respond, he easily switches to something else. At one point he had 13 projects open at once. They all seemed to be moving forward, and it was getting harder for him to go deep on any one of them.
+
+Wes also finds it harder to get into the flow of writing code. He still feels that focus and excitement when researching a problem, designing an architecture, choosing technologies, or using AI to explore unfamiliar territory.
+
+My takeaway is that growth shows up both in what I deliver and in how well I understand it.
+
+When working with AI-generated code, I can ask myself three questions.
+
+- Can I explain why it works this way?
+- If it breaks, do I know where to start looking?
+- Can I explain the trade-offs and how I'd verify the approach?
+
+**AI can generate code. Understanding it and exercising judgment still take practice.**
+
+When you code with AI, which parts do you deliberately do yourself or work through on your own?
+
+[Listen to Syntax #1031](https://syntax.fm/1031)
+
+#AICoding #SoftwareEngineering #DeveloperGrowth

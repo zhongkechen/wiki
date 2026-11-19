@@ -1,0 +1,42 @@
+---
+title: Revisiting Hardware Efficiency in the AI Era
+subtitle: Originally published on LinkedIn around November 1, 2026
+description: How software teams traded hardware resources for developer productivity, and how AI may change the economics of optimizing CPU, memory, storage, and bandwidth.
+date: 2026-11-01
+categories:
+  - Software Engineering
+  - AI-Assisted Development
+  - Performance Optimization
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-11-01-ai-hardware-efficiency/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+In the AI era, making good use of hardware may be a skill worth revisiting.
+
+Decades ago, hardware resources were scarce, and programmers had to budget them carefully.
+
+Developers on the Famicom and Game Boy built entire game worlds with very little graphics memory by reusing tiles and limiting their color palettes. The Doom engine relied heavily on fixed-point arithmetic and precomputed lookup tables to reduce work at runtime. By the PS2 era, developers had to coordinate computation on the vector units with data transfers to keep the hardware from sitting idle.
+
+CPU cycles, memory, storage capacity, and bandwidth all had to be budgeted.
+
+Over time, processors got faster, memory and storage became more plentiful, and the cost per unit of hardware generally fell as developer time became more expensive. The industry put more emphasis on developer productivity. Teams accepted more compute, memory, storage, and communication overhead in exchange for faster development and lower maintenance costs.
+
+Automatic memory management meant less manual work freeing memory, with garbage collection taking on some of the work at runtime. Electron lets teams build cross-platform desktop apps quickly with web technology, with the memory overhead of a browser runtime. An ORM reduces the need to write SQL by hand, and a simple call can hide extra queries, unneeded data, and many temporary objects. Microservices let teams develop and deploy independently, with costs from serialization, data copying, and network traffic.
+
+Those trade-offs made economic sense. Using a little more CPU time or memory, or storing extra copies of data, often cost less than several weeks of engineering time. Over time, many of those costs became routine.
+
+That calculation may be changing again.
+
+AI can help developers read code, analyze performance data, refactor implementations, and write benchmarks. That makes it cheaper to try an optimization. Recent price increases for some hardware also make more efficient resource use more valuable.
+
+Batching per-item database queries cuts down on round trips. Avoiding repeated JSON parsing and unnecessary copies saves CPU time and memory. More compact representations use less storage and bandwidth. Changing the data layout in hot paths can improve cache utilization and cut the time processors spend waiting for data.
+
+In AI applications, choosing a smaller model that fits the task, quantizing it, or batching inference can also reduce compute and GPU memory requirements so the same hardware can serve more requests.
+
+These optimizations have always had value. AI can make more of them worth the engineering time and let teams verify the gains sooner with real workloads.
+
+Alongside implementing business logic, developers can spend more time on resource efficiency along the critical path. That means looking at how objects are allocated, how data is laid out, what causes cache misses, how parallel tasks are scheduled, and what it costs to store and move data.
+
+Those low-level details that have faded behind layers of abstraction deserve our attention again.
+
+As AI makes code easier to write, understanding how that code can use hardware efficiently will become an increasingly valuable engineering skill.
