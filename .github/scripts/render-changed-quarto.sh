@@ -11,6 +11,7 @@ declare -a changed_files=()
 declare -a diff_commits=()
 declare -a removed_or_renamed_files=()
 declare -a render_files=()
+declare -a render_listings=()
 declare -A render_file_seen=()
 
 set_rendered_output() {
@@ -93,14 +94,20 @@ for file in "${changed_files[@]}"; do
     _quarto.yml | _environment* | _filters/* | _includes/* | CNAME)
       render_all "a global site input changed: ${file}"
       ;;
+    health/index.qmd | tech/index.qmd | tech/en/index.qmd)
+      render_listings+=("$file")
+      ;;
     *.qmd | LICENSE.md | index.md | wiki/*.md)
       add_render_file "$file"
       case "$file" in
         health/posts/*)
-          add_render_file "health/index.qmd"
+          render_listings+=("health/index.qmd")
           ;;
         tech/posts/*)
-          add_render_file "tech/index.qmd"
+          render_listings+=("tech/index.qmd")
+          ;;
+        tech/en/posts/*)
+          render_listings+=("tech/en/index.qmd")
           ;;
       esac
       ;;
@@ -108,6 +115,11 @@ for file in "${changed_files[@]}"; do
       render_all "a non-document site resource changed: ${file}"
       ;;
   esac
+done
+
+# Feed generation reads the rendered articles, so render listings after posts.
+for listing in "${render_listings[@]}"; do
+  add_render_file "$listing"
 done
 
 if ((${#render_files[@]} == 0)); then

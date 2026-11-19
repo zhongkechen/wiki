@@ -90,6 +90,8 @@ jobs:
           test -f _site/health/index.xml
           test -f _site/tech/index.html
           test -f _site/tech/index.xml
+          test -f _site/tech/en/index.html
+          test -f _site/tech/en/index.xml
           test -f "_site/old/首页.html"
 
       - name: Save rendered site

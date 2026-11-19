@@ -3,15 +3,16 @@ title: 技术博客
 comments: false
 description: 关于软件工程、AI 编程与工程团队协作的文章。
 listing:
-  contents: posts
+  contents: "/posts/**/*.qmd"
   sort: "date desc"
   type: default
   categories: true
   feed:
     title: 技术博客
+    language: zh-cn
 page-layout: full
 ---
 
-[订阅技术博客 RSS](index.xml){.btn .btn-primary role="button"}
+[订阅技术博客 RSS](index.xml){.btn .btn-primary role="button"} [English](en/index.qmd){.btn .btn-outline-secondary lang="en" hreflang="en" rel="alternate"}
 
 记录技术实践、行业观察与工程思考。
