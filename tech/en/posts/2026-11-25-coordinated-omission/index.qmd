@@ -1,0 +1,97 @@
+---
+title: "Your P99 latency looks great. But what if your load test is lying to you?"
+description: "How coordinated omission can hide tail latency and when to use open-loop load generation."
+date: 2026-11-25
+categories:
+  - Performance Engineering
+  - Load Testing
+  - Software Engineering
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-11-25-coordinated-omission/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+Imagine you’re load testing a service at 100 requests per second.
+
+Under normal conditions, the service responds in 5ms.
+
+Then, suddenly, it stalls for 1 second.
+
+Your monitoring shows a latency spike, but the overall P99 still looks surprisingly healthy.
+
+How is that possible?
+
+The answer might be Coordinated Omission — one of the most subtle pitfalls in performance benchmarking.
+
+The problem: Your load generator stops generating load when the system slows down.
+
+Consider a typical closed-loop load test:
+
+```python
+while True:
+    send_request()
+    wait_for_response()
+    sleep(0.01)
+```
+
+When the server stalls for 1 second, the client waits for that response before sending the next request.
+
+During the stall, it generates no new requests.
+
+But in a real production system with an independent arrival rate, requests would continue arriving.
+
+At 100 RPS, a 1-second stall could affect roughly 100 incoming requests, causing them to accumulate in a queue.
+
+Instead, the closed-loop benchmark may record only one slow request.
+
+The result? Your latency distribution systematically underrepresents the impact of the stall.
+
+And your P99 — or even P99.9 — can look much better than what users would experience under a fixed arrival rate.
+
+The solution: Open-loop load generation.
+
+Instead of waiting for each request to complete, schedule requests at a predefined arrival rate.
+
+Tools like k6 support this through `constant-arrival-rate`:
+
+```javascript
+export const options = {
+  scenarios: {
+    load: {
+      executor: 'constant-arrival-rate',
+      rate: 100,
+      timeUnit: '1s',
+      duration: '5m',
+      preAllocatedVUs: 200,
+    },
+  },
+};
+```
+
+A few important engineering considerations:
+
+- ✅ Use an arrival model that matches your production workload. Closed-loop tests are still useful when modeling fixed populations of users.
+- ✅ Make sure the load generator has enough capacity. Otherwise, dropped iterations can introduce another form of measurement bias.
+- ✅ Measure end-to-end latency, including queueing and timeouts — not just successful service execution time.
+- ✅ Tools like HdrHistogram support Coordinated Omission correction, but statistical correction is no substitute for generating the intended workload.
+
+The bigger lesson:
+
+Performance measurement isn’t just about what you record.
+
+It’s also about what your measurement process fails to observe.
+
+A system can appear healthy at P99 precisely because the benchmark stopped applying pressure when the system was struggling the most.
+
+Question for fellow engineers:
+
+When you run performance tests, do you explicitly distinguish between closed-loop concurrency tests and open-loop arrival-rate tests?
+
+And have you ever discovered that your latency numbers were hiding a much worse production reality?
+
+#PerformanceEngineering #DistributedSystems #SRE #LoadTesting #Latency #SoftwareEngineering
+
+## Notes on the examples
+
+With a 5 ms response and a 10 ms sleep, each pass through the single-client closed loop takes about 15 ms, yielding roughly 67 requests per second before other overhead. The 100 RPS in the stall example is the independent arrival rate.
+
+In k6, `rate: 100` with `timeUnit: '1s'` schedules 100 iterations per second. That corresponds to 100 requests per second when each iteration sends one request and k6 starts every scheduled iteration. [k6 documentation for `constant-arrival-rate`](https://grafana.com/docs/k6/latest/using-k6/scenarios/executors/constant-arrival-rate/)
