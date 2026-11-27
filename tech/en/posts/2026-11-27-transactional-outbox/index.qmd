@@ -1,0 +1,114 @@
+---
+title: "Your database transaction succeeded. But your Kafka event was lost."
+description: "How Transactional Outbox solves the dual write problem, and what it means for duplicate delivery, event ordering, and recovery."
+date: 2026-11-27
+categories:
+  - Distributed Systems
+  - Event-Driven Architecture
+  - System Design
+  - Kafka
+  - PostgreSQL
+  - Software Engineering
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-11-27-transactional-outbox/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+This is one of the most common reliability problems in event-driven architectures.
+
+Imagine an order service needs to:
+
+1. Save an order to PostgreSQL.
+2. Publish an `OrderCreated` event to Kafka.
+
+Simple enough?
+
+```text
+db.save(order)
+db.commit()
+kafka.publish("OrderCreated", order)
+```
+
+But what if the application crashes right after the database commit?
+
+The order exists. The event is gone.
+
+Reverse the operations, and you get the opposite problem: Kafka receives an event for an order that never commits.
+
+This is the **Dual Write Problem**.
+
+## 1. Transactional Outbox: Make the write atomic.
+
+Instead of writing to two systems independently, write both the business data and an event record in the same database transaction.
+
+```sql
+BEGIN;
+
+INSERT INTO orders (id, status)
+VALUES (123, 'CREATED');
+
+INSERT INTO outbox (event_id, event_type, payload)
+VALUES ('evt-001', 'OrderCreated', '{"id":123}');
+
+COMMIT;
+```
+
+Now either both records are committed, or neither is.
+
+A separate Outbox Relay publishes events to Kafka using database polling or Change Data Capture (CDC).
+
+If the application crashes after committing, the event is still safely stored and can be published later.
+
+No distributed transaction or two-phase commit required.
+
+## 2. But Outbox does NOT guarantee exactly-once delivery.
+
+Consider this failure:
+
+1. The relay publishes `OrderCreated` to Kafka.
+2. Kafka acknowledges the message.
+3. The relay crashes before marking the event as published.
+4. After restarting, the relay publishes it again.
+
+Now Kafka has received the same event twice.
+
+Transactional Outbox typically provides **at-least-once publication**, not exactly-once delivery.
+
+Consumers must be designed for duplicate events.
+
+A common approach is to assign each event a unique `event_id` and record processed IDs atomically with the consumer's business changes.
+
+## 3. Ordering is another hidden challenge.
+
+Suppose an order generates two events:
+
+`OrderCreated → OrderPaid`
+
+If multiple relay workers publish concurrently, Kafka might receive them in the opposite order.
+
+Using the same Kafka partition key preserves the order in which messages arrive within that partition, but it doesn't fix ordering violations introduced by the relay.
+
+Preserving per-aggregate order requires deliberate relay coordination or an ordered CDC pipeline.
+
+## 4. The real engineering tradeoff
+
+Transactional Outbox offers:
+
+- ✅ Atomic business data and event recording
+- ✅ Crash recovery without distributed transactions
+- ✅ Reliable asynchronous event publication
+
+But introduces:
+
+- ⚠️ Relay/CDC infrastructure and operational complexity
+- ⚠️ Duplicate delivery and consumer idempotency requirements
+- ⚠️ Event ordering, backlog monitoring, and cleanup challenges
+
+**The key takeaway:**
+
+Transactional Outbox solves the atomicity of recording business changes and publication intent.
+
+It does NOT automatically guarantee exactly-once processing, global event ordering, or atomic side effects across downstream systems.
+
+**Reliable event-driven architecture isn't about eliminating failures. It's about making failures recoverable.**
+
+Have you implemented Transactional Outbox using polling or CDC? Which approach worked better in production?
