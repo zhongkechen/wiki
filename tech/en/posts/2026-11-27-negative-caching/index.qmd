@@ -1,0 +1,75 @@
+---
+title: 'Caching "NOT FOUND" can save your database. But it can also become a problem.'
+description: "How negative caching shields your database from repeated misses, and the cache penetration, Bloom filter consistency, and stale-fill pitfalls it introduces."
+date: 2026-11-27
+categories:
+  - Distributed Systems
+  - System Design
+  - Caching
+  - Performance Engineering
+---
+
+[Tech Blog](../../index.qmd) · [简体中文](../../../posts/2026-11-27-negative-caching/index.qmd){lang="zh-Hans" hreflang="zh-Hans" rel="alternate"}
+
+Imagine your API receives 100,000 requests per second. 99% are looking for user IDs that don't exist. You have Redis in front of your database. You should be fine, right? Not necessarily. This is where **Negative Caching** gets interesting.
+
+## 1. Cache what doesn't exist.
+
+Most caches store data that exists. But what about queries returning nothing? Without negative caching:
+
+```text
+Request → Cache Miss → Database → 404
+```
+
+With negative caching:
+
+```text
+Request → Cache → NOT_FOUND → 404
+```
+
+After the first lookup, repeated requests avoid the database. Simple. Effective. But there's a catch.
+
+## 2. What if every request uses a different key?
+
+Suppose an attacker sends 100,000 requests per second, each targeting a random user ID. Almost every request is a cache miss. Even if you cache every `NOT_FOUND`:
+
+- Your database still handles nearly every request.
+- Redis fills with millions of useless entries.
+- Valuable cached data may get evicted.
+
+This is **cache penetration combined with cache pollution**. Negative caching helps with repeated misses, not high-cardinality random queries.
+
+## 3. Bloom Filters help — but introduce consistency challenges.
+
+A Bloom Filter is a space-efficient probabilistic structure that answers:
+
+- Definitely not present.
+- Possibly present.
+
+With a 1% false-positive rate, it can filter approximately 99% of nonexistent-key queries, assuming the filter accurately represents valid keys. For 10 million user IDs, it needs only about 11.4 MiB of bit storage. Impressive.
+
+But what happens when a new user is created? If the database contains the user but the Bloom Filter hasn't been updated, the API may incorrectly return 404. Bloom Filters guarantee no false negatives only for elements actually inserted into the filter. Keeping the filter synchronized becomes a distributed consistency challenge.
+
+## 4. Cache invalidation has a race condition too.
+
+Consider this sequence:
+
+- Thread A queries the DB: user 123 doesn't exist.
+- Thread B creates user 123 and commits.
+- Thread B invalidates the Redis cache.
+- Thread A writes `NOT_FOUND` based on its earlier query.
+
+Now the user exists, but Redis says otherwise. Even though the cache was invalidated correctly! This is a classic **stale cache fill** problem. A short TTL limits the damage but doesn't eliminate the race. Stronger guarantees may require version-aware updates or coordinated reads and writes.
+
+## 5. The takeaway
+
+A robust design combines:
+
+- ✅ Negative Caching for repeated misses
+- ✅ Bloom Filters for membership pre-checks
+- ✅ Cache admission policies to prevent pollution
+- ✅ Rate limiting and consistency controls
+
+Caching isn't just about hit rates. It's about protecting resources without sacrificing correctness. Have you encountered cache penetration or stale negative caches in production?
+
+#DistributedSystems #SystemDesign #Caching #Redis #PerformanceEngineering
